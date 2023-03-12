@@ -31,23 +31,25 @@ export default function Home() {
                     <RecentMetrics />
                 </div>
 
-                <div className="flex flex-col py-6 px-4">
-                    <h1 className="text-xl font-semibold pb-4">
-                        Latest Bundles
-                    </h1>
-                    <LatestBundles />
-                    <div className="py-4">
-                        <ViewAllBundlesButton />
+                <div className="flex flex-col sm:flex-row overflow-auto">
+                    <div className="flex flex-col py-6 px-4">
+                        <h1 className="text-xl font-semibold pb-4">
+                            Latest Bundles
+                        </h1>
+                        <LatestBundles />
+                        <div className="py-4">
+                            <ViewAllBundlesButton />
+                        </div>
                     </div>
-                </div>
 
-                <div className="flex flex-col py-6 px-4">
-                    <h1 className="text-xl font-semibold pb-4">
-                        Latest User Operations
-                    </h1>
-                    <LatestUserOps />
-                    <div className="py-4">
-                        <ViewAllUserOpsButton />
+                    <div className="flex flex-col py-6 px-4">
+                        <h1 className="text-xl font-semibold pb-4">
+                            Latest User Operations
+                        </h1>
+                        <LatestUserOps />
+                        <div className="py-4">
+                            <ViewAllUserOpsButton />
+                        </div>
                     </div>
                 </div>
             </Layout>
