@@ -4,6 +4,8 @@ const navigation = {
         { name: 'Contact Us', href: '#' },
         { name: 'Careers', href: '#' },
         { name: 'Brand Assets', href: '#' },
+        { name: 'Privacy', href: '#' },
+        { name: 'Terms', href: '#' },
     ],
     support: [
         { name: 'API Plans', href: '#' },
