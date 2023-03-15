@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const navigation = {
     solutions: [
         { name: 'About Us', href: '#' },
@@ -79,7 +81,7 @@ export default function Example() {
 
                 <div className="xl:grid xl:grid-cols-3 xl:gap-8">
                     <div className="space-y-8">
-                        <img
+                        <Image
                             className="h-7"
                             src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                             alt="Company name"

@@ -6,6 +6,7 @@ function NetworkFilter({ network, handleNetworkChange }) {
             {SUPPORTED_NETWORKS.map((supNetwork) => {
                 return (
                     <button
+                        key={supNetwork.id}
                         className={
                             network == supNetwork.id ? "rounded-xl border-2 px-4 bg-black text-gray-100" : "rounded-xl border-2 px-4"
                         }

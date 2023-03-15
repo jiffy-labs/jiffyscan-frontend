@@ -2,7 +2,7 @@ import Image from 'next/image';
 import React from 'react';
 
 const UserOpTable = ({ columns, rows }) => {
-    if (rows == []) return () => <div>no data</div>;
+    if (rows == []) return () => 'no data';
     return (
         <div>
             <table className=" shadow-xl border-collapse border-b-2 w-full">
@@ -60,5 +60,7 @@ const UserOpTable = ({ columns, rows }) => {
         </div>
     );
 };
+
+UserOpTable.displayName = 'UserOpTable';
 
 export default UserOpTable;
