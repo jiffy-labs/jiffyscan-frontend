@@ -49,7 +49,7 @@ const getRowsFromBundleResponse = (bundles) => {
             hash: (
                 <CopyButtonDiv>
                     <a href={'https://www.google.com'}>
-                        {bundle.transactionHash.slice(0, 5) + '...'}
+                        {bundle.transactionHash.slice(0, 3) + '...' + bundle.transactionHash.slice(-3)}
                     </a>
                     <IconButton
                         onClick={() => handleCopy(bundle.transactionHash)}
@@ -66,13 +66,13 @@ const getRowsFromBundleResponse = (bundles) => {
     return rows;
 };
 
-export default function LatestBundles() {
+export default function LatestBundles({network}) {
     const [rows, setRows] = useState([]);
 
     useEffect(() => {
         const fetchUserOps = async () => {
             const response = await fetch(
-                'https://api.jiffyscan.xyz/v0/getLatestBundles'
+                'https://api.jiffyscan.xyz/v0/getLatestBundles?network=' + network + '&first='+ 5
             );
             const BundlesFromResponse = await response.json();
             if ('bundles' in BundlesFromResponse) {
@@ -83,7 +83,7 @@ export default function LatestBundles() {
             }
         };
         fetchUserOps();
-    }, []);
+    }, [network]);
 
     return (
         <div className="flex flex-col py-6 lg:px-4 lg:w-1/2">

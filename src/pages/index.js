@@ -1,3 +1,4 @@
+import { useState } from 'react'; 
 import Head from 'next/head';
 import Image from 'next/image';
 import { Inter } from 'next/font/google';
@@ -10,10 +11,22 @@ import RecentMetrics from '@/components/homepage/RecentMetrics';
 import ViewAllBundlesButton from '@/components/homepage/ViewAllBundlesButton';
 import ViewAllUserOpsButton from '@/components/homepage/ViewAllUserOpsButton';
 import LatestBundles from '@/components/homepage/LatestBundles';
+import NetworkFilter from '@/components/homepage/NetworkFilter';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
+    const [network, setNetwork] = useState('');
+
+    const handleNetworkChange = (newNetwork) => {
+        if (network === newNetwork) {
+            setNetwork('');
+        } else {
+            setNetwork(newNetwork);
+
+        }
+    };
+
     return (
         <>
             <Layout>
@@ -29,20 +42,8 @@ export default function Home() {
                         <h1 className="text-xl font-semibold pb-4 w-1/3">
                             Recent Metrics
                         </h1>
-                        <div className="flex justify-end w-2/3 space-x-4 hidden lg:block">
-                            <button className="rounded-xl border-2 px-4">
-                                Goerli
-                            </button>
-                            <button className="rounded-xl border-2 px-4">
-                                Mumbai
-                            </button>
-                            <button className="rounded-xl border-2 px-4">
-                                Optimism Goerli
-                            </button>
-                            <button className="rounded-xl border-2 px-4">
-                                More
-                            </button>
-                        </div>
+                        
+                        <NetworkFilter network={network} handleNetworkChange={handleNetworkChange}/>
                     </div>
                     <div className="items-center justify-center mx-auto overflow-auto">
                         <RecentMetrics />
@@ -50,8 +51,8 @@ export default function Home() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row overflow-auto mx-auto lg:w-full">
-                    <LatestBundles />
-                    <LatestUserOps />
+                    <LatestBundles network={network}/>
+                    <LatestUserOps network={network}/>
                 </div>
             </Layout>
         </>

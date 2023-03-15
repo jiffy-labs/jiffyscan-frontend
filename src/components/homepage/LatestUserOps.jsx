@@ -52,7 +52,7 @@ const getRowsFromUserOpResponse = (userOps) => {
             hash: (
                 <CopyButtonDiv>
                     <a href={'https://www.google.com'}>
-                        {userOp.userOpHash.slice(0, 5) + '...'}
+                        {userOp.userOpHash.slice(0, 5) + '...' + userOp.userOpHash.slice(-3)}
                     </a>
                     <IconButton onClick={() => handleCopy(userOp.userOpHash)}>
                         <ContentCopyIcon size="small" />
@@ -85,13 +85,13 @@ const getRowsFromUserOpResponse = (userOps) => {
     return rows;
 };
 
-export default function LatestUserOps() {
+export default function LatestUserOps({network}) {
     const [rows, setRows] = useState([]);
 
     useEffect(() => {
         const fetchUserOps = async () => {
             const response = await fetch(
-                'https://api.jiffyscan.xyz/v0/getLatestUserOps'
+                'https://api.jiffyscan.xyz/v0/getLatestUserOps?network=' + network + '&first='+ 5
             );
             const userOpsFromResponse = await response.json();
             if ('userOps' in userOpsFromResponse) {
@@ -102,7 +102,7 @@ export default function LatestUserOps() {
             }
         };
         fetchUserOps();
-    }, []);
+    }, [network]);
 
     return (
         <div className="flex flex-col py-6 px-4 lg:w-1/2">
