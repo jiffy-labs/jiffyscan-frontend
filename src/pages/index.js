@@ -4,12 +4,12 @@ import { Inter } from 'next/font/google';
 import Header from '@/components/shared/Header';
 import SearchBar from '@/components/homepage/SearchBar';
 import LatestData from '@/components/homepage/LatestData';
-import LatestBundles from '@/components/homepage/LatestBundles';
 import LatestUserOps from '@/components/homepage/LatestUserOps';
 import Layout from '@/components/shared/Layout';
 import RecentMetrics from '@/components/homepage/RecentMetrics';
 import ViewAllBundlesButton from '@/components/homepage/ViewAllBundlesButton';
 import ViewAllUserOpsButton from '@/components/homepage/ViewAllUserOpsButton';
+import LatestBundles from '@/components/homepage/LatestBundles';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -50,25 +50,8 @@ export default function Home() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row overflow-auto justify-center">
-                    <div className="flex flex-col py-6 px-4 ">
-                        <h1 className="text-xl font-semibold pb-4">
-                            Latest Bundles
-                        </h1>
-                        <LatestBundles />
-                        <div className="py-4">
-                            <ViewAllBundlesButton />
-                        </div>
-                    </div>
-
-                    <div className="flex flex-col py-6 px-4">
-                        <h1 className="text-xl font-semibold pb-4">
-                            Latest User Operations
-                        </h1>
-                        <LatestUserOps />
-                        <div className="py-4">
-                            <ViewAllUserOpsButton />
-                        </div>
-                    </div>
+                    <LatestBundles />
+                    <LatestUserOps />
                 </div>
             </Layout>
         </>
