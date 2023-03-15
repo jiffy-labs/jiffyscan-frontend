@@ -81,11 +81,7 @@ export default function Example() {
 
                 <div className="xl:grid xl:grid-cols-3 xl:gap-8">
                     <div className="space-y-8">
-                        <Image
-                            className="h-7"
-                            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                            alt="Company name"
-                        />
+                        
                         <p className="text-sm leading-6 text-white">
                             We provide a user-friendly block explorer, with an
                             easy-to-use interface for users to view, confirm,

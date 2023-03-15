@@ -11,19 +11,15 @@ import ViewAllBundlesButton from '@/components/homepage/ViewAllBundlesButton';
 import ViewAllUserOpsButton from '@/components/homepage/ViewAllUserOpsButton';
 import LatestBundles from '@/components/homepage/LatestBundles';
 import NetworkFilter from '@/components/homepage/NetworkFilter';
+import { SUPPORTED_NETWORKS } from "@/utils/constants";
 
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
-    const [network, setNetwork] = useState('');
+    const [network, setNetwork] = useState(SUPPORTED_NETWORKS[0].id);
 
     const handleNetworkChange = (newNetwork) => {
-        if (network === newNetwork) {
-            setNetwork('');
-        } else {
             setNetwork(newNetwork);
-
-        }
     };
 
     return (
