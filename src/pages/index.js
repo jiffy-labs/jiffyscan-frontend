@@ -49,7 +49,7 @@ export default function Home() {
                     </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row overflow-auto justify-center">
+                <div className="flex flex-col sm:flex-row overflow-auto mx-auto lg:w-full">
                     <LatestBundles />
                     <LatestUserOps />
                 </div>
