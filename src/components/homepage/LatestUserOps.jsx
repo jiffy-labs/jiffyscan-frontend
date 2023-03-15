@@ -105,7 +105,7 @@ export default function LatestUserOps({network}) {
     }, [network]);
 
     return (
-        <div className="flex flex-col py-6 px-4 lg:w-1/2">
+        <div className="flex flex-col py-6 lg:w-1/2">
             <h1 className="text-xl font-semibold pb-4">
                 Latest User Operations
             </h1>

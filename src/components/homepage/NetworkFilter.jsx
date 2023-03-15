@@ -1,9 +1,8 @@
-import React from "react";
 import { SUPPORTED_NETWORKS } from "@/utils/constants";
 
 function NetworkFilter({ network, handleNetworkChange }) {
     return (
-        <div className="flex justify-end w-2/3 space-x-4 hidden lg:block">
+        <div className="absolute flex flex-row right-0 space-x-4 hidden lg:block">
             {SUPPORTED_NETWORKS.map((supNetwork) => {
                 return (
                     <button

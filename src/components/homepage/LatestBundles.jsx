@@ -5,7 +5,6 @@ import { styled } from '@mui/material/styles';
 import moment from 'moment';
 import { IconButton } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import DataTable from '../shared/DataTable';
 import { getIcon } from '@/utils';
 
 const cols = [
@@ -42,7 +41,6 @@ const getRowsFromBundleResponse = (bundles) => {
 
     for (let idx in sortedBundles) {
         let bundle = sortedBundles[idx];
-        console.log('BUNDD', bundle);
         let timePassedInEpoch = new Date().getTime() - bundle.timestamp * 1000;
         let timePassed = moment.duration(timePassedInEpoch);
         rows.push({
@@ -86,11 +84,10 @@ export default function LatestBundles({network}) {
     }, [network]);
 
     return (
-        <div className="flex flex-col py-6 lg:px-4 lg:w-1/2">
+        <div className="flex flex-col py-6 lg:w-1/2">
             <h1 className="text-xl font-semibold pb-4">Latest Bundles</h1>
             <div className="overflow-scroll border-1 shadow-lg rounded">
                 <UserOpTable columns={cols} rows={rows} />
-                {/* <DataTable /> */}
             </div>
             <div className="py-4">
                 <ViewAllBundlesButton />
