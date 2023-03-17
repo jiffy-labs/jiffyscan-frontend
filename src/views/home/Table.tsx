@@ -358,13 +358,13 @@ function SortingButton({text, sort = true}: {text: string; sort?: boolean}) {
   );
 }
 
-function Token({icon, text}: {icon?: string; text: string}) {
+export function Token({icon, text, copyIcon}: {icon?: string; text: string; copyIcon?: string}) {
   return (
     <div className="flex items-center gap-2.5">
-      <img src={icon} alt="" />
+      {icon && <img src={icon} alt="" />}
       <span className="text-blue-200">{shortenString(text)}</span>
       <button type="button">
-        <img src="/images/Button.svg" alt="" />
+        <img src={copyIcon || "/images/Button.svg"} alt="" />
       </button>
     </div>
   );
