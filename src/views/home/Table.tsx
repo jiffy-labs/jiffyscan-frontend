@@ -349,7 +349,7 @@ function Table() {
           </div>
         </div>
         <p>1–20 of 10000</p>
-        <div>
+        <div className="flex items-center gap-1">
           {[
             "icon-container (18).svg",
             "icon-container (19).svg",
