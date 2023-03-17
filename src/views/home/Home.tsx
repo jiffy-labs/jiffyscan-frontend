@@ -150,7 +150,7 @@ function Home() {
           </div>
         </div>
       </main>
-      <section>
+      <section className="mb-10">
         <div className="container">
           <div>
             <div className="flex items-center gap-2 py-2 mb-2">
