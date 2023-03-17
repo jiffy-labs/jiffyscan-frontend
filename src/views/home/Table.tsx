@@ -362,7 +362,7 @@ function Token({icon, text}: {icon?: string; text: string}) {
   return (
     <div className="flex items-center gap-2.5">
       <img src={icon} alt="" />
-      <span>{shortenString(text)}</span>
+      <span className="text-blue-200">{shortenString(text)}</span>
       <button type="button">
         <img src="/images/Button.svg" alt="" />
       </button>

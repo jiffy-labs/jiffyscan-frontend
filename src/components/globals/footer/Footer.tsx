@@ -22,14 +22,20 @@ const socials = [
 
 function Footer() {
   return (
-    <footer className="bg-dark-600 py-12">
-      <div className="container">
+    <footer className="bg-dark-600 py-12 text-white">
+      <div className="container flex flex-col gap-12">
         <div className="flex items-center gap-1">
           {socials.map(({icon, id, url}) => (
             <Link className="w-14 h-14 grid place-content-center" href={url} key={id}>
               <img src={icon} alt="" />
             </Link>
           ))}
+        </div>
+        <hr className="border-dark-300" />
+        <hr className="border-dark-300" />
+        <div className="flex  gap-10 justify-between ">
+          <p className="text-sm">jiffyscan.xyz &copy; {new Date().getFullYear()}</p>
+          <p></p>
         </div>
       </div>
     </footer>
