@@ -1,6 +1,7 @@
 import Chip from "@/components/common/chip/Chip";
 import IconButton from "@/components/common/icon_button/IconButton";
 import InfoButton from "@/components/common/InfoButton";
+import Footer from "@/components/globals/footer/Footer";
 import Link from "next/link";
 import {useRouter} from "next/router";
 import React from "react";
@@ -164,6 +165,8 @@ function Home() {
           </div>
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 }
