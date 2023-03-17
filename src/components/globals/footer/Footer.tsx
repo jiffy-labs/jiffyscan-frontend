@@ -85,9 +85,13 @@ function Footer() {
               <b className="font-normal text-sm text-dark-200 block mb-6">{name}</b>
               <div className="flex flex-col gap-5">
                 {lists.map(([name, url], index) => (
-                  <Link className="flex items-center gap-2 font-bold text-white" key={index} href={url}>
+                  <Link className="flex items-center gap-2 font-bold group text-white" key={index} href={url}>
                     <span>{name}</span>
-                    <img src="/images/icon-container (17).svg" alt="" />
+                    <img
+                      className="group-hover:translate-x-1 duration-100"
+                      src="/images/icon-container (17).svg"
+                      alt=""
+                    />
                   </Link>
                 ))}
               </div>
