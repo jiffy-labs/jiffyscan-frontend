@@ -1,0 +1,18 @@
+.wrapper 
+  @apply flex gap-1.5 items-center border px-3 py-[1px] rounded-full cursor-pointer
+
+  & span 
+    @apply text-sm
+
+.contained
+  &.dark-700 
+    @apply bg-dark-700 text-white border-dark-700
+  &.white
+    @apply border-dark-100 bg-white text-dark-600
+
+.outlined
+  &.info
+    @apply border-[#2196F3] bg-white
+  &.success
+    @apply border-[#4CAF50] bg-white
+
