@@ -302,8 +302,8 @@ function Table() {
                 {name: "Sender", sort: false},
                 {name: "Target", sort: false},
                 {name: "Fee", sort: true},
-              ].map(({name, sort}) => (
-                <th className="py-3.5 px-4 border-b border-dark-100">
+              ].map(({name, sort}, key) => (
+                <th key={key} className="py-3.5 px-4 border-b border-dark-100">
                   <SortingButton sort={sort} text={name} />
                 </th>
               ))}
