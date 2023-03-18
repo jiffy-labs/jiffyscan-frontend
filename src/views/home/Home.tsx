@@ -6,7 +6,7 @@ import RecentMetrics from "@/components/globals/recent_metrics/RecentMetrics";
 import React from "react";
 import BundlesTable from "./bundles_table.json";
 import OperationsTable from "./operations_table.json";
-import Searchblock from "./Searchblock";
+import Searchblock from "../../components/globals/searchblock/Searchblock";
 
 function Home() {
   return (
