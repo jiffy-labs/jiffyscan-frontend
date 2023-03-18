@@ -1,26 +1,30 @@
 [
   {
-    "id": 5678,
+    "id": "userOpMetric",
     "title": "Total number of UserOps",
-    "value": "760.34k",
-    "status": "20.5"
+    "value": "N/A",
+    "status": "N/A",
+    "data": [0,0,0,0,0,0,0]
   },
   {
-    "id": 3246,
+    "id": "totalFeeCollectedMetric",
     "title": "Total Daily Gas Fee Paid",
-    "value": "760.34k",
-    "status": "20.5"
+    "value": "N/A",
+    "status": "N/A",
+    "data": [0,0,0,0,0,0,0]
   },
   {
-    "id": 8675,
-    "title": "Unique Transacting Wallets",
-    "value": "760.34k",
-    "status": "20.5"
+    "id": "bundleMetric",
+    "title": "Bundles Created",
+    "value": "N/A",
+    "status": "N/A",
+    "data": [0,0,0,0,0,0,0]
   },
   {
-    "id": 2345,
+    "id": "walletsCreatedMetric",
     "title": "New Wallets Created",
-    "value": "760.34k",
-    "status": "20.5"
+    "value": "N/A",
+    "status": "N/A",
+    "data": [0,0,0,0,0,0,0]
   }
 ]

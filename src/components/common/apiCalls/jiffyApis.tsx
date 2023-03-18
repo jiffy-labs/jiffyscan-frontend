@@ -33,11 +33,11 @@ export interface Bundle {
 } 
 
 export interface DailyMetric {
-    userOpCounter: number
-    walletsCreated: number
-    bundleCounter: number
-    totalFeeCollected: number
-    daySinceEpoch: number
+    userOpCounter: string
+    walletsCreated: string
+    bundleCounter: string
+    totalFeeCollected: string
+    daySinceEpoch: string
 }
 
 export interface GlobalCounts {
@@ -69,9 +69,9 @@ export const getLatestBundles = async (selectedNetwork: string, pageSize: number
     return [] as Bundle[];
 }
 
-export const getDailyMetrics = async (selectedNetwork: string, noOfDays: number): Promise<any> => {
+export const getDailyMetrics = async (selectedNetwork: string, noOfDays: number): Promise<DailyMetric[]> => {
     const response = await fetch(
-        'https://api.jiffyscan.xyz/v0/GetDailyMetrics?network=' + selectedNetwork + '&noOfDays=4'
+        'https://api.jiffyscan.xyz/v0/GetDailyMetrics?network=' + selectedNetwork + '&noOfDays=' + noOfDays
       );
       const data = await response.json();
       if ('metrics' in data) {
