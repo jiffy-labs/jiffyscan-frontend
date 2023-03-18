@@ -7,6 +7,7 @@ import Pagination from "@/components/common/table/Pagination";
 import table_data from "./table_data.json";
 
 function UserOperations() {
+  const [selectedNetwork, setSelectedNetwork] = useState('mainnet');
   const availableTable = {
     ...table_data,
     rows: table_data.rows.slice(1 - 1, parseInt("10")),
@@ -21,7 +22,7 @@ function UserOperations() {
           <h1 className="font-bold text-3xl">User Operations</h1>
         </div>
       </section>
-      <RecentMetrics />
+      <RecentMetrics selectedNetwork={selectedNetwork}/>
       <section className="mb-10">
         <div className="container">
           <div>

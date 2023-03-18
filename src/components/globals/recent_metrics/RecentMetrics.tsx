@@ -3,6 +3,7 @@ import InfoButton from "@/components/common/InfoButton";
 import React, {useState} from "react";
 import recentMetrics from "./recent_metrics.json";
 import ScrollContainer from "react-indiana-drag-scroll";
+import NetworkSelector from "./NetworkSelector";
 
 const metrics = [
   {
@@ -42,7 +43,6 @@ const metrics = [
 
 function RecentMetrics() {
   const [metric, setMetris] = useState<number>(0);
-
   return (
     <main className="mb-10">
       <div className="container">
@@ -52,6 +52,7 @@ function RecentMetrics() {
             <b className="font-bold text-lg">Recent Metrics</b>
             <InfoButton />
           </div>
+
           <div className="flex flex-wrap items-center gap-1">
             {metrics.map(({id, value, endIcon, startIcon}, index) => (
               <Chip
