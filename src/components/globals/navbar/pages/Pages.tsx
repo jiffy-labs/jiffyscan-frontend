@@ -1,14 +1,14 @@
 import Link from "next/link";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 import React from "react";
 import pages from "./pages.json";
 
 export default function Pages() {
-  const {pathname} = useRouter();
+  const { pathname } = useRouter();
 
   return (
-    <div className="flex items-center gap-6">
-      {pages.map(({id, name, url, dropdown}) => {
+    <div className="flex md:flex-row flex-col md:items-center gap-4 md:gap-6">
+      {pages.map(({ id, name, url, dropdown }) => {
         const current = url === pathname;
         return (
           <Link

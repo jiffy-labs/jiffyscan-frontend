@@ -1,6 +1,6 @@
 import React from "react";
 
-function Token({icon, text, copyIcon}: {icon?: string; text: string; copyIcon?: string}) {
+function Token({ icon, text, copyIcon }: { icon?: string; text: string; copyIcon?: string }) {
   return (
     <div className="flex items-center gap-2.5">
       {icon && <img src={icon} alt="" />}

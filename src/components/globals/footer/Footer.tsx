@@ -3,6 +3,8 @@ import Token from "@/components/common/Token";
 import Link from "next/link";
 import React from "react";
 import BacktoTop from "./BacktoTop";
+import Copyright from "./Copyright";
+import Donations from "./Donations";
 import pages from "./pages.json";
 import socials from "./social.json";
 
@@ -59,15 +61,9 @@ function Footer() {
           ))}
         </div>
         <hr className="border-dark-300" />
-        <div className="flex flex-wrap gap-3 md:gap-10  justify-between ">
-          <p className="text-sm">jiffyscan.xyz &copy; {new Date().getFullYear()}</p>
-          <div className="text-sm text-[#CFD8DC] flex items-center gap-2">
-            <img src="/images/icon-container (15).svg" alt="" />
-            <span>Donations:</span>
-            <div className="[&_span]:text-white">
-              <Token copyIcon="/images/content-copy.svg" text="0x37b415...C8329f" />
-            </div>
-          </div>
+        <div className="flex flex-wrap gap-3 md:gap-10 justify-between ">
+          <Copyright />
+          <Donations />
         </div>
       </div>
     </footer>
