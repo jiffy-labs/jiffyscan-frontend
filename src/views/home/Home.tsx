@@ -1,5 +1,5 @@
 import Button from "@/components/common/Button";
-import Table, {tableDataT} from "@/components/common/table/Table";
+import Table, { tableDataT } from "@/components/common/table/Table";
 import Footer from "@/components/globals/footer/Footer";
 import Navbar from "@/components/globals/navbar/Navbar";
 import RecentMetrics from "@/components/globals/recent_metrics/RecentMetrics";
@@ -24,7 +24,7 @@ function Home() {
       </section>
       <RecentMetrics />
       <section className="mb-12">
-        <div className="container grid-cols-2 grid gap-10">
+        <div className="container grid-cols-1 md:grid-cols-2 grid gap-10">
           <div>
             <Table {...(BundlesTable as tableDataT)} />
             <div className="mt-4">

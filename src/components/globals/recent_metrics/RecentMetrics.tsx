@@ -2,7 +2,7 @@ import Chip from "@/components/common/chip/Chip";
 import InfoButton from "@/components/common/InfoButton";
 import React from "react";
 import recentMetrics from "./recent_metrics.json";
-// import ScrollContainer from "react-indiana-drag-scroll";
+import ScrollContainer from "react-indiana-drag-scroll";
 
 function RecentMetrics() {
   return (
@@ -29,31 +29,33 @@ function RecentMetrics() {
             </Chip>
           </div>
         </div>
-        <div className="">
-          <div className="grid grid-cols-4 gap-2">
-            {recentMetrics.map(({id, status, title, value}) => (
-              <div
-                className="p-4 rounded border border-dark-200 bg-white shadow-200"
-                key={id}
-              >
-                <div className="flex items-center gap-1">
-                  <span className="text-sm">{title}</span>
-                  <InfoButton />
+        <div className="w-full">
+          <ScrollContainer>
+            <div className="grid grid-cols-4 gap-2 min-w-[700px]">
+              {recentMetrics.map(({ id, status, title, value }) => (
+                <div
+                  className="p-4 rounded border border-dark-200 bg-white shadow-200"
+                  key={id}
+                >
+                  <div className="flex items-center gap-1">
+                    <span className="text-sm leading-[1.3]">{title}</span>
+                    <InfoButton />
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <img src="/images/icon-container (8).svg" alt="" />
+                    <span className="font-bold">{value}</span>
+                  </div>
+                  <div className="flex items-center gap-1 mb-4">
+                    <span className="text-sm text-dark-500">{status}%</span>
+                    <img src="/images/icon-container (9).svg" alt="" />
+                  </div>
+                  <div>
+                    <img className="w-full" src="/images/graphs.svg" alt="" />
+                  </div>
                 </div>
-                <div className="flex items-center gap-1">
-                  <img src="/images/icon-container (8).svg" alt="" />
-                  <span className="font-bold">{value}</span>
-                </div>
-                <div className="flex items-center gap-1 mb-4">
-                  <span className="text-sm text-dark-500">{status}%</span>
-                  <img src="/images/icon-container (9).svg" alt="" />
-                </div>
-                <div>
-                  <img className="w-full" src="/images/graphs.svg" alt="" />
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </ScrollContainer>
         </div>
       </div>
     </main>

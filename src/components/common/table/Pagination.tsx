@@ -2,13 +2,14 @@ import React from "react";
 
 function Pagination() {
   return (
-    <div className="flex justify-end items-center gap-6 text-sm mt-2">
-      <div className="flex items-center gap-3">
+    <div className="flex flex-wrap justify-end items-center gap-2 md:gap-4 text-sm mt-2">
+      <div className="flex items-center">
         <p>Rows per page:</p>
-        <div className="flex items-center">
-          <span>20</span>
-          <img src="/images/menu-down.svg" alt="" />
-        </div>
+        <select name="" id="" className="pl-3 pr-1">
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="30">30</option>
+        </select>
       </div>
       <p>1–20 of 10000</p>
       <div className="flex items-center gap-1">

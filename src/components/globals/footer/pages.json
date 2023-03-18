@@ -1,0 +1,33 @@
+[
+  {
+    "id": 984,
+    "name": "Company",
+    "lists": [
+      ["About Us", "/"],
+      ["Contact Us", "/"],
+      ["Careers", "/"],
+      ["Brand Assets", "/"],
+      ["Privacy", "/"],
+      ["Terms", "/"]
+    ]
+  },
+  {
+    "id": 456,
+    "name": "Community",
+    "lists": [
+      ["Blog", "/"],
+      ["API Documentation", "/"],
+      ["FAQ", "/"],
+      ["Submit an Issue", "/"]
+    ]
+  },
+  {
+    "id": 567,
+    "name": "Products & Services",
+    "lists": [
+      ["API Plans", "/"],
+      ["Explorer-as-a-service", "/"],
+      ["GasFee Infrastructure", "/"]
+    ]
+  }
+]
