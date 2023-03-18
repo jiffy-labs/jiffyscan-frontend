@@ -5,44 +5,8 @@ import recentMetrics from "./recent_metrics.json";
 import ScrollContainer from "react-indiana-drag-scroll";
 import NetworkSelector from "./NetworkSelector";
 
-const metrics = [
-  {
-    id: 49,
-    startIcon: [
-      "/images/icon-container45.svg",
-      "/images/icon-container (4).svg",
-    ],
-    value: "Goerli",
-  },
-  {
-    id: 50,
-    startIcon: [
-      "/images/icon-container (5).svg",
-      "/images/icon-container (5).svg",
-    ],
-    value: "Mumbai",
-  },
-  {
-    id: 51,
-    startIcon: [
-      "/images/icon-container (6).svg",
-      "/images/icon-container (6).svg",
-    ],
-    value: "Optimism Goerli",
-  },
-  {
-    id: 52,
-    value: "More",
-    endIcon: [
-      "/images/icon-container (7).svg",
-      "/images/icon-container (28).svg",
-    ],
-    iconHandle: true,
-  },
-];
+function RecentMetrics({ selectedNetwork, handleNetworkChange }: { selectedNetwork: string, handleNetworkChange: (network: string) => void }) {
 
-function RecentMetrics() {
-  const [metric, setMetris] = useState<number>(0);
   return (
     <main className="mb-10">
       <div className="container">
@@ -52,20 +16,7 @@ function RecentMetrics() {
             <b className="font-bold text-lg">Recent Metrics</b>
             <InfoButton />
           </div>
-
-          <div className="flex flex-wrap items-center gap-1">
-            {metrics.map(({id, value, endIcon, startIcon}, index) => (
-              <Chip
-                key={index}
-                onClick={() => setMetris(index)}
-                endIcon={metric === index ? endIcon?.[1] : endIcon?.[0]}
-                startIcon={metric === index ? startIcon?.[1] : startIcon?.[0]}
-                color={`${metric === index ? "dark-700" : "white"}`}
-              >
-                {value}
-              </Chip>
-            ))}
-          </div>
+          <NetworkSelector selectedNetwork={selectedNetwork} handleNetworkChange={handleNetworkChange}/>
         </div>
         <div className="w-full">
           <ScrollContainer>

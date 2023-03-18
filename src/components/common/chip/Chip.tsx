@@ -28,9 +28,9 @@ function Chip(props: ChipProps) {
       role="button"
       onClick={onClick}
     >
-      {startIcon && <img src={startIcon} alt="" />}
+      {startIcon && <img src={startIcon} alt="" style={{height:"12px", width:"12px"}}/>}
       <span className="flex-1">{children}</span>
-      {endIcon && <img src={endIcon} alt="" />}
+      {endIcon && <img src={endIcon} alt=""/>}
     </div>
   );
 }

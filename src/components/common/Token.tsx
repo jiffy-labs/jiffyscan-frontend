@@ -4,7 +4,7 @@ import React from "react";
 function Token({ icon, text, copyIcon }: { icon?: string; text: string; copyIcon?: string }) {
   return (
     <div className="flex items-center gap-2.5">
-      {icon && <img src={icon} alt="" />}
+      {icon && <img src={icon} alt="" style={{width: "20px", height: "20px"}} />}
       <Link href="/" className="text-blue-200">
         {shortenString(text)}
       </Link>

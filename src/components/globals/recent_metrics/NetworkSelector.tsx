@@ -1,23 +1,22 @@
 import React from 'react'
 import Chip from "@/components/common/chip/Chip";
+import { NETWORK_LIST } from '@/components/common/constants';
 
-function NetworkSelector({ selectedNetwork }: { selectedNetwork: string }) {
-  return (
-    <div className="flex items-center gap-1">
-            <Chip startIcon="/images/icon-container (4).svg">Goerli</Chip>
-            <div className="hidden md:flex items-center gap-1 ">
-              <Chip color="white" startIcon="/images/icon-container (5).svg">
-                Mumbai
-              </Chip>
-              <Chip color="white" startIcon="/images/icon-container (6).svg">
-                Optimism Goerli
-              </Chip>
-            </div>
-            <Chip color="white" endIcon="/images/icon-container (7).svg">
-              More
-            </Chip>
-          </div>
-  )
+function NetworkSelector({ selectedNetwork, handleNetworkChange }: { selectedNetwork: string, handleNetworkChange: (network: string) => void }) {
+    return (
+        <div className="flex flex-wrap items-center gap-1">
+            {NETWORK_LIST.map(({ name, key, iconPath, iconPathInverted }, index) => (
+                <Chip
+                    key={index}
+                    onClick={() => handleNetworkChange(key)}
+                    startIcon={selectedNetwork === key ? iconPath : iconPathInverted}
+                    color={`${selectedNetwork === key ? "dark-700" : "white"}`}
+                >
+                    {name}
+                </Chip>
+            ))}
+        </div>
+    )
 }
 
 export default NetworkSelector

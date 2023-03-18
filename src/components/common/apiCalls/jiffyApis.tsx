@@ -52,21 +52,21 @@ export const getLatestUserOps = async (selectedNetwork: string, pageSize: number
         'https://api.jiffyscan.xyz/v0/getLatestUserOps?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize
     );
     const data = await response.json();
-    if ('userOp' in data) {
+    if ('userOps' in data) {
         return data.userOps as UserOp[];
     }
     return [] as UserOp[];
 }
 
-export const getLatestBundles = async (selectedNetwork: string, pageSize: number, pageNo: number): Promise<UserOp[]>  => {
+export const getLatestBundles = async (selectedNetwork: string, pageSize: number, pageNo: number): Promise<Bundle[]>  => {
     const response = await fetch(
         'https://api.jiffyscan.xyz/v0/getLatestBundles?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize
     );
     const data = await response.json();
-    if ('userOp' in data) {
-        return data.userOps as UserOp[];
+    if ('bundles' in data) {
+        return data.bundles as Bundle[];
     }
-    return [] as UserOp[];
+    return [] as Bundle[];
 }
 
 export const getDailyMetrics = async (selectedNetwork: string, noOfDays: number): Promise<any> => {
