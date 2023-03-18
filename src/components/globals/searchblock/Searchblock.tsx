@@ -1,17 +1,11 @@
 import React from "react";
+import Options from "./Options";
 
 function Searchblock() {
   return (
     <div className="shadow-300 bg-white rounded border-dark-200 flex-grow max-w-[812px]">
       <label className="flex justify-center">
-        <div
-          className="py-3 px-4 border-r border-dark-200 flex items-center gap-1 text-md"
-          role="button"
-        >
-          <img src="/images/ethereum.svg" alt="" />
-          <span>Goerli</span>
-          <img src="/images/chevron-down.svg" alt="" />
-        </div>
+        <Options />
         <div className="flex items-center gap-2.5 pr-4 flex-grow">
           <input
             type="text"
