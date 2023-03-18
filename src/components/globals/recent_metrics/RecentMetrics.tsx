@@ -1,10 +1,10 @@
-import Chip from "@/components/common/chip/Chip";
 import InfoButton from "@/components/common/InfoButton";
 import React from "react";
 import recentMetrics from "./recent_metrics.json";
 import ScrollContainer from "react-indiana-drag-scroll";
+import NetworkSelector from "./NetworkSelector";
 
-function RecentMetrics() {
+function RecentMetrics({ selectedNetwork }: { selectedNetwork: string }) {
   return (
     <main className="mb-10">
       <div className="container">
@@ -14,20 +14,8 @@ function RecentMetrics() {
             <b className="font-bold text-lg">Recent Metrics</b>
             <InfoButton />
           </div>
-          <div className="flex items-center gap-1">
-            <Chip startIcon="/images/icon-container (4).svg">Goerli</Chip>
-            <div className="hidden md:flex items-center gap-1 ">
-              <Chip color="white" startIcon="/images/icon-container (5).svg">
-                Mumbai
-              </Chip>
-              <Chip color="white" startIcon="/images/icon-container (6).svg">
-                Optimism Goerli
-              </Chip>
-            </div>
-            <Chip color="white" endIcon="/images/icon-container (7).svg">
-              More
-            </Chip>
-          </div>
+          <NetworkSelector selectedNetwork={selectedNetwork}/>
+          
         </div>
         <div className="w-full">
           <ScrollContainer>
