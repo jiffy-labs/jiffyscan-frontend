@@ -90,7 +90,7 @@ function Table(props: tableDataT) {
                 >
                   {token && (
                     <td className="">
-                      <Token {...token} />
+                      <Token {...token} type="hash"/>
                     </td>
                   )}
 
@@ -107,13 +107,13 @@ function Table(props: tableDataT) {
 
                   {sender && (
                     <td className="">
-                      <Token text={sender} />
+                      <Token text={sender} type="address"/>
                     </td>
                   )}
 
                   {target && (
                     <td className="">
-                      <Token text={target} />
+                      <Token text={target} type="address"/>
                     </td>
                   )}
 
