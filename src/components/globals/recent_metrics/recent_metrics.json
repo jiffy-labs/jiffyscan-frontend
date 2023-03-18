@@ -1,0 +1,26 @@
+[
+  {
+    "id": 5678,
+    "title": "Total number of UserOps",
+    "value": "760.34k",
+    "status": "20.5"
+  },
+  {
+    "id": 3246,
+    "title": "Total Daily Gas Fee Paid",
+    "value": "760.34k",
+    "status": "20.5"
+  },
+  {
+    "id": 8675,
+    "title": "Unique Transacting Wallets",
+    "value": "760.34k",
+    "status": "20.5"
+  },
+  {
+    "id": 2345,
+    "title": "New Wallets Created",
+    "value": "760.34k",
+    "status": "20.5"
+  }
+]
