@@ -986,6 +986,38 @@
           "color": "info"
         }
       }
+    },
+    {
+      "token": {
+        "text": "0x2824r6o923dqe3d7f",
+        "icon": "/images/icon-container (12).svg"
+      },
+      "ago": "62 min ago",
+      "sender": "0x2824r6o923dqe3d7f",
+      "target": "0x2824r6o923dqe3d7f",
+      "fee": {
+        "value": "20513",
+        "gas": {
+          "children": "ETH",
+          "color": "info"
+        }
+      }
+    },
+    {
+      "token": {
+        "text": "0x2824r6o923dqe3d7f",
+        "icon": "/images/icon-container (12).svg"
+      },
+      "ago": "63 min ago",
+      "sender": "0x2824r6o923dqe3d7f",
+      "target": "0x2824r6o923dqe3d7f",
+      "fee": {
+        "value": "20513",
+        "gas": {
+          "children": "ETH",
+          "color": "info"
+        }
+      }
     }
   ]
 }

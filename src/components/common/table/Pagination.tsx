@@ -5,28 +5,51 @@ import { tableDataT } from "./Table";
 interface PaginationProps {
   table: tableDataT;
   setTable: React.Dispatch<React.SetStateAction<tableDataT>>;
-  show: string;
-  setShow: React.Dispatch<React.SetStateAction<string>>;
-  handleShow: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-  handlePage: (value: number) => void;
-  page: number;
-  totalRows: number;
 }
 
 function Pagination(props: PaginationProps) {
-  const { setTable, table, setShow, show, handleShow, handlePage, page, totalRows } = props;
+  const { setTable, table } = props;
+  const [show, setShow] = useState<string>("10");
+  const [page, setPage] = useState(1);
+
+  const totalRows = table.rows.length;
+
+  const isMaxPage = page * parseInt(show) >= totalRows;
+  const isMinPage = page <= 1;
+
+  const fromPage = (page - 1) * parseInt(show) + 1;
+  const toPage = isMaxPage ? totalRows : page * parseInt(show);
+
+  const updateTable = (start: number, end: number) => {
+    const availableTable = {
+      ...table,
+      rows: table.rows.slice(start, end),
+    } as tableDataT;
+    setTable(availableTable);
+  };
+
+  const handlePage = (value: number) => {
+    updateTable((value - 1) * parseInt(show), value * parseInt(show));
+    setPage(value);
+  };
+  const handleShow = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = event.currentTarget.value;
+    setShow(value);
+    handlePage(1);
+    updateTable(0, parseInt(value) > totalRows ? totalRows : parseInt(value));
+  };
 
   const hanlePrevBackward = () => {
     handlePage(1);
   };
   const hanlePrev = () => {
-    handlePage(page <= 1 ? 1 : page - 1);
+    handlePage(isMinPage ? 1 : page - 1);
   };
   const hanleNext = () => {
-    handlePage(page * parseInt(show) >= totalRows ? totalRows / parseInt(show) : page + 1);
+    handlePage(isMaxPage ? totalRows / parseInt(show) : page + 1);
   };
   const hanleNextForward = () => {
-    handlePage(Math.ceil(totalRows / parseInt(show)));
+    handlePage(Math.max(0, Math.ceil(totalRows / parseInt(show))));
   };
 
   return (
@@ -38,42 +61,41 @@ function Pagination(props: PaginationProps) {
           <option value="10">10</option>
           <option value="20">20</option>
           <option value="30">30</option>
+          <option value="70">70</option>
         </select>
       </div>
       <p>
-        {(page - 1) * parseInt(show) + 1}–
-        {page * parseInt(show) >= totalRows ? totalRows : page * parseInt(show)} of{" "}
-        {table?.rows?.length}
+        {fromPage}–{toPage} of {totalRows}
       </p>
       <div className="flex items-center gap-1">
         <button
           onClick={hanlePrevBackward}
-          disabled={page <= 1}
-          className={`${page <= 1 ? "opacity-40" : ""}`}
+          disabled={isMinPage}
+          className={`${isMinPage ? "opacity-40" : ""}`}
           type="button"
         >
           <img src="/images/icon-container (27).svg" alt="" />
         </button>
         <button
           onClick={hanlePrev}
-          disabled={page <= 1}
-          className={`${page <= 1 ? "opacity-40" : ""}`}
+          disabled={isMinPage}
+          className={`${isMinPage ? "opacity-40" : ""}`}
           type="button"
         >
           <img src="/images/icon-container (26).svg" alt="" />
         </button>
         <button
           onClick={hanleNext}
-          disabled={page * parseInt(show) >= totalRows}
-          className={`${page * parseInt(show) >= totalRows ? "opacity-40" : ""}`}
+          disabled={isMaxPage}
+          className={`${isMaxPage ? "opacity-40" : ""}`}
           type="button"
         >
           <img src="/images/icon-container (20).svg" alt="" />
         </button>
         <button
           onClick={hanleNextForward}
-          disabled={page * parseInt(show) >= totalRows}
-          className={`${page * parseInt(show) >= totalRows ? "opacity-40" : ""}`}
+          disabled={isMaxPage}
+          className={`${isMaxPage ? "opacity-40" : ""}`}
           type="button"
         >
           <img src="/images/icon-container (21).svg" alt="" />
