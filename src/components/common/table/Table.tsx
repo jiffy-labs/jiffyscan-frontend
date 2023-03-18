@@ -4,6 +4,7 @@ import Token from "@/components/common/Token";
 import Caption, { CaptionProps } from "./Caption";
 import ScrollContainer from "react-indiana-drag-scroll";
 import useWidth from "@/hooks/useWidth";
+import { getCurrencySymbol } from "../utils";
 
 export interface tableDataT {
   caption: CaptionProps;
@@ -19,12 +20,34 @@ export interface tableDataT {
     ago?: string;
     sender?: string;
     target?: string;
-    fee?: {
-      value: string;
-      gas: ChipProps;
-    };
+    fee?: fee;
     userOps?: string;
   }[];
+}
+
+export interface fee 
+  {
+    value: string;
+    gas: ChipProps;
+  }
+
+export const getFee = (amount: number, network: string): fee => {
+  let gasFee:number = amount
+  let fee: fee= {
+      value: '0',
+      gas: {
+          children: getCurrencySymbol(gasFee, network),
+          color: "success"
+      }
+  }
+  if (gasFee > 10**13) {
+      fee.value = (gasFee / 10**18).toFixed(4).toString()
+  } else if (gasFee > 10**9) {
+      fee.value = (gasFee / 10**9).toFixed(4).toString()
+  } else {
+      fee.value = gasFee.toString()
+  }
+  return fee;
 }
 
 function Table(props: tableDataT) {
