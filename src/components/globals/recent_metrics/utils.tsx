@@ -1,5 +1,6 @@
 import { DailyMetric } from "@/components/common/apiCalls/jiffyApis";
 
+// Please consult @lazycoder1  / Gautam Sabhahit as to what is happening here XD 
 export interface ChartData {
     userOpMetric: number[]
     bundleMetric: number[]
