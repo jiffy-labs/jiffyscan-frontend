@@ -90,13 +90,6 @@ function ChipDropdown(props: ChipProps) {
                                             >
                                                 {name}
                                             </a>
-                                            // 	<img
-                                            // 		src={startIcon}
-                                            // 		alt=""
-                                            // 		style={{ height: '12px', width: '12px' }}
-                                            // 	/>
-                                            // <span className="flex-1">{children}</span>
-                                            // {endIcon && <img src={endIcon} alt="" />}
                                         )}
                                     </Menu.Item>
                                 )
