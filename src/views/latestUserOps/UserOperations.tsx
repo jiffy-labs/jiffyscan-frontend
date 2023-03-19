@@ -25,7 +25,8 @@ function UserOperations() {
       newRows.push({
         "token": {
           "text": userOp.userOpHash,
-          "icon": NETWORK_ICON_MAP[network]
+          "icon": NETWORK_ICON_MAP[network],
+          "type": "userOp"
         },
         "ago": getTimePassed(userOp.blockTime),
         "sender": userOp.sender,

@@ -16,6 +16,7 @@ export interface tableDataT {
     token?: {
       text: string;
       icon: string;
+      type: string;
     };
     ago?: string;
     sender?: string;
@@ -90,7 +91,7 @@ function Table(props: tableDataT) {
                 >
                   {token && (
                     <td className="">
-                      <Token {...token} type="hash"/>
+                      <Token {...token}/>
                     </td>
                   )}
 

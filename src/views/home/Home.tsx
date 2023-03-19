@@ -29,7 +29,8 @@ function Home() {
       newRows.push({
         "token": {
           "text": bundle.transactionHash,
-          "icon": NETWORK_ICON_MAP[network]
+          "icon": NETWORK_ICON_MAP[network],
+          "type": "bundle"
         },
         "ago": getTimePassed(bundle.timestamp),
         "userOps": bundle.userOpsLength+" ops"
@@ -45,7 +46,8 @@ function Home() {
       newRows.push({
         "token": {
           "text": userOp.userOpHash,
-          "icon": NETWORK_ICON_MAP[network]
+          "icon": NETWORK_ICON_MAP[network],
+          "type": "userOp"
         },
         "ago": getTimePassed(userOp.blockTime),
         "sender": userOp.sender,
