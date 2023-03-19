@@ -17,6 +17,8 @@ function NetworkSelector({
     const width = useWindowDimensions().width;
 
     useEffect(() => {
+        // If width more than 768px, display 3 chips, else display 1 chip
+        // and everything else in dropdown
         if ((width as number) > 768) {
             setEndIndex(3);
         } else {
