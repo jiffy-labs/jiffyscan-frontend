@@ -10,7 +10,7 @@ export interface ChipProps {
     isMoreSelected: boolean;
     setIsMoreSelected: (isMoreSelected: boolean) => void;
     onClickFcn: (network: string) => void;
-    moreNetworkList: {
+    dropdownNetworkList: {
         name: string;
         key: string;
         iconPath: string;
@@ -25,7 +25,7 @@ function ChipDropdown(props: ChipProps) {
         className,
         setIsMoreSelected,
         onClickFcn,
-        moreNetworkList,
+        dropdownNetworkList,
     } = props;
 
     const color = isMoreSelected ? 'dark-700' : 'white';
@@ -71,7 +71,7 @@ function ChipDropdown(props: ChipProps) {
                 >
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-24 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <div className="py-1 flex flex-col">
-                            {moreNetworkList.map(
+                            {dropdownNetworkList.map(
                                 ({ name, key, iconPath }, index) => (
                                     <Menu.Item>
                                         {({ active }) => (

@@ -12,14 +12,27 @@ function NetworkSelector({
     handleNetworkChange: (network: string) => void;
 }) {
     const [isMoreSelected, setIsMoreSelected] = useState(false);
+    const [endIndex, setEndIndex] = useState(3);
 
-    const endIndex = (useWindowDimensions().width as number) > 768 ? 3 : 1;
-    const networkList = NETWORK_LIST.slice(0, endIndex);
-    const moreNetworkList = NETWORK_LIST.slice(endIndex, NETWORK_LIST.length);
+    const width = useWindowDimensions().width;
+
+    useEffect(() => {
+        if ((width as number) > 768) {
+            setEndIndex(3);
+        } else {
+            setEndIndex(1);
+        }
+    }, [width]);
+
+    const displayNetworkList = NETWORK_LIST.slice(0, endIndex);
+    const dropdownNetworkList = NETWORK_LIST.slice(
+        endIndex,
+        NETWORK_LIST.length
+    );
 
     return (
         <div className="flex flex-wrap items-center gap-1">
-            {networkList.map(
+            {displayNetworkList.map(
                 ({ name, key, iconPath, iconPathInverted }, index) => (
                     <Chip
                         key={index}
@@ -44,7 +57,7 @@ function NetworkSelector({
                 onClickFcn={handleNetworkChange}
                 isMoreSelected={isMoreSelected}
                 setIsMoreSelected={setIsMoreSelected}
-                moreNetworkList={moreNetworkList}
+                dropdownNetworkList={dropdownNetworkList}
             />
         </div>
     );
