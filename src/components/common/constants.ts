@@ -17,9 +17,6 @@ export const NETWORK_LIST = [
         iconPath: '/images/icon-container (6).svg',
         iconPathInverted: '/images/icon-container (6).svg',
     },
-];
-
-export const MORE_NETWORK_LIST = [
     {
         name: 'Arbitrum',
         key: 'arbitrum',

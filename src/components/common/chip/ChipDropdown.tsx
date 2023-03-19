@@ -2,7 +2,6 @@ import React, { ReactNode, Fragment, useState } from 'react';
 import sx from './chip.module.sass';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import { MORE_NETWORK_LIST } from '@/components/common/constants';
 
 export interface ChipProps {
     variant?: 'contained' | 'outlined';
@@ -11,6 +10,12 @@ export interface ChipProps {
     isMoreSelected: boolean;
     setIsMoreSelected: (isMoreSelected: boolean) => void;
     onClickFcn: (network: string) => void;
+    moreNetworkList: {
+        name: string;
+        key: string;
+        iconPath: string;
+        iconPathInverted: string;
+    }[];
 }
 
 function ChipDropdown(props: ChipProps) {
@@ -20,11 +25,11 @@ function ChipDropdown(props: ChipProps) {
         className,
         setIsMoreSelected,
         onClickFcn,
+        moreNetworkList,
     } = props;
 
     const color = isMoreSelected ? 'dark-700' : 'white';
     const [selectedNetwork, setSelectedNetwork] = useState('');
-
     const [icon, setIcon] = useState<string | null>(null);
 
     return (
@@ -66,7 +71,7 @@ function ChipDropdown(props: ChipProps) {
                 >
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-24 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <div className="py-1 flex flex-col">
-                            {MORE_NETWORK_LIST.map(
+                            {moreNetworkList.map(
                                 ({ name, key, iconPath }, index) => (
                                     <Menu.Item>
                                         {({ active }) => (
