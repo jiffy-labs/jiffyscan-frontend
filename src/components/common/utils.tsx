@@ -6,45 +6,20 @@ export const getTimePassed = (timestamp: number): string => {
   return timePassedMoment.humanize().replace('minutes', 'min') + ' ago';
 }
 
+export const getDate = (daySinceEpoch: number): string => {
+    const epochTime = daySinceEpoch * 24 * 60 * 60 * 1000;
+    const date = new Date(epochTime);
+    return date.toLocaleDateString()
+}
+
 export function getSymbol(network: string): string { 
     if (network == "goerli") return "ETH"
     else if (network == "mainnet") return "ETH"
     else if (network == "mumbai") return "MATIC"
-    else if (network == "optimism-goerli") return "OPT"
-    else if (network == "optimism-goerli") return "OPT"
+    else if (network == "optimism-goerli") return "ETH"
     else if (network == "matic") return "MATIC"
     else return "ETH";
 }
-
-// fee structure 
-// "fee": {
-//     "value": userOp.actualGasCost.toString(),
-//     "gas": {
-//       "children": getCurrencySymbol(userOp.actualGasCost, userOp.network as string),
-//       "color": "success"
-//     }
-//   }
-
-export const getFee = (amount: number, network: string) => {
-    let gasFee:number = amount
-    let fee = {
-        value: '0',
-        gas: {
-            children: getCurrencySymbol(gasFee, network),
-            color: "success"
-        }
-    }
-    if (gasFee > 10**13) {
-        fee.value = (gasFee / 10**18).toFixed(4).toString()
-    } else if (gasFee > 10**9) {
-        fee.value = (gasFee / 10**9).toFixed(4).toString()
-    } else {
-        fee.value = gasFee.toString()
-    }
-    return fee;
-}
-
-
 
 export const getCurrencySymbol = (amount: number, network: string): string => {
     let gasFee:number = amount

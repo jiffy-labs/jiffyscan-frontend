@@ -8,7 +8,7 @@ function Token({ icon, text, copyIcon, type }: { icon?: string; text: string; co
       <Link href={(type=="hash") ? "https://jiffyscan.xyz/userOpHash/"+text : "https://jiffyscan.xyz/address/"+text} target="_blank" className="text-blue-200">
         {shortenString(text)}
       </Link>
-      <button type="button">
+      <button onClick={() => copyToClipboard(text)} type="button">
         <img src={copyIcon || "/images/Button.svg"} alt="" />
       </button>
     </div>
@@ -16,6 +16,10 @@ function Token({ icon, text, copyIcon, type }: { icon?: string; text: string; co
 }
 
 export default Token;
+
+function copyToClipboard(text: string): void {
+  navigator.clipboard.writeText(text);
+}
 
 function shortenString(str: string) {
   if (str.length <= 10) {

@@ -1,6 +1,7 @@
 import type {ReactElement, ReactNode} from "react";
 import type {NextPage} from "next";
 import type {AppProps} from "next/app";
+import { ConfigProvider } from "../context/config";
 import "../styles/main.sass";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -15,5 +16,5 @@ export default function MyApp({Component, pageProps}: AppPropsWithLayout) {
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page);
 
-  return <div>{getLayout(<Component {...pageProps} />)}</div>;
+  return <div><ConfigProvider>{getLayout(<Component {...pageProps} />)}</ConfigProvider></div>;
 }

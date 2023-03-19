@@ -10,9 +10,10 @@ import Searchblock from "../../components/globals/searchblock/Searchblock";
 import { NETWORK_LIST, NETWORK_ICON_MAP } from "@/components/common/constants";
 import { getLatestBundles, getLatestUserOps, Bundle, UserOp } from "@/components/common/apiCalls/jiffyApis";
 import { getTimePassed } from "@/components/common/utils";
+import { useConfig } from "../../context/config";
 
 function Home() {
-  const [selectedNetwork, setSelectedNetwork] = useState<string>(NETWORK_LIST[0].key);
+  const {selectedNetwork, setSelectedNetwork} = useConfig()
   const [bundlesTable, setBundlesTable] = useState<tableDataT>(BundlesTable as tableDataT);
   const [operationsTable, setOperationsTable] = useState<tableDataT>(OperationsTable as tableDataT);
 

@@ -9,7 +9,6 @@ import {
     Tooltip,
     Legend
 } from "chart.js";
-import { ChartData } from "./utils";
 import { Line } from "react-chartjs-2";
 
 ChartJS.register(
@@ -48,15 +47,15 @@ const labels = ["January", "February", "March", "April", "January", "January", "
 
 interface ChartProps{
     chartValues: number[];
+    labels: string[];
  }
 
 export function Chart(props : ChartProps) {
-    console.log('here',props.chartValues)
     const data = {
-        labels,
+        labels: props.labels,
         datasets: [
             {
-                label: "Dataset 1",
+                label: "#",
                 data: props.chartValues,
                 borderColor: "#263238",
                 backgroundColor: "#263238"
