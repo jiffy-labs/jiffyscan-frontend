@@ -23,7 +23,7 @@ function ChipDropdown(props: ChipProps) {
     } = props;
 
     const color = isMoreSelected ? 'dark-700' : 'white';
-    const [selectedNetwork, setSelectedNetwork] = useState('ETH');
+    const [selectedNetwork, setSelectedNetwork] = useState('');
 
     const [icon, setIcon] = useState<string | null>(null);
 
