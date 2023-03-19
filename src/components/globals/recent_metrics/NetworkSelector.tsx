@@ -3,10 +3,6 @@ import Chip from '@/components/common/chip/Chip';
 import { NETWORK_LIST } from '@/components/common/constants';
 import ChipDropdown from '@/components/common/chip/ChipDropdown';
 
-function classNames(...classes) {
-    return classes.filter(Boolean).join(' ');
-}
-
 function NetworkSelector({
     selectedNetwork,
     handleNetworkChange,

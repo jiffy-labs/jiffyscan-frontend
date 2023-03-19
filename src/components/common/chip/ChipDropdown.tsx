@@ -4,10 +4,6 @@ import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { MORE_NETWORK_LIST } from '@/components/common/constants';
 
-function classNames(...classes) {
-    return classes.filter(Boolean).join(' ');
-}
-
 export interface ChipProps {
     variant?: 'contained' | 'outlined';
     color?: 'dark-700' | 'white' | 'info' | 'success' | 'dark-400';
@@ -81,12 +77,10 @@ function ChipDropdown(props: ChipProps) {
                                                     onClickFcn(key);
                                                     setIcon(iconPath);
                                                 }}
-                                                className={classNames(
-                                                    active
-                                                        ? 'bg-gray-100 text-gray-900'
-                                                        : 'text-gray-700',
-                                                    'block px-4 py-2 text-sm'
-                                                )}
+                                                className={`
+												${active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'} + 
+												'block px-4 py-2 text-sm'
+												`}
                                             >
                                                 {name}
                                             </a>
