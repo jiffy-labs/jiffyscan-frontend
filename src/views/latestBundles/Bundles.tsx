@@ -25,7 +25,8 @@ function UserOperations() {
       newRows.push({
         "token": {
           "text": bundle.transactionHash,
-          "icon": NETWORK_ICON_MAP[network]
+          "icon": NETWORK_ICON_MAP[network],
+          "type": "bundle"
         },
         "ago": getTimePassed(bundle.timestamp),
         "userOps": bundle.userOpsLength+" ops"
