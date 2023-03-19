@@ -8,9 +8,10 @@ import table_data from "./table_data.json";
 import { NETWORK_LIST, NETWORK_ICON_MAP } from "@/components/common/constants";
 import { getCurrencySymbol, getTimePassed } from "@/components/common/utils";
 import { getLatestBundles } from "@/components/common/apiCalls/jiffyApis";
+import { useConfig } from "@/context/config";
 
 function UserOperations() {
-  const [selectedNetwork, setSelectedNetwork] = useState(NETWORK_LIST[0].key);
+  const {selectedNetwork, setSelectedNetwork} = useConfig();
   const [latestBundlesTable, setLatestBundlesTable] = useState<tableDataT>(table_data as tableDataT);
 
   useEffect (() => {
@@ -24,7 +25,8 @@ function UserOperations() {
       newRows.push({
         "token": {
           "text": bundle.transactionHash,
-          "icon": NETWORK_ICON_MAP[network]
+          "icon": NETWORK_ICON_MAP[network],
+          "type": "bundle"
         },
         "ago": getTimePassed(bundle.timestamp),
         "userOps": bundle.userOpsLength+" ops"

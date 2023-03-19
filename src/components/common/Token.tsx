@@ -1,14 +1,14 @@
 import Link from "next/link";
 import React from "react";
 
-function Token({ icon, text, copyIcon }: { icon?: string; text: string; copyIcon?: string }) {
+function Token({ icon, text, copyIcon, type }: { icon?: string; text: string; copyIcon?: string; type?: string }) {
   return (
     <div className="flex items-center gap-2.5">
       {icon && <img src={icon} alt="" style={{width: "20px", height: "20px"}} />}
-      <Link href="/" className="text-blue-200">
+      <Link href={getHrefLink(type, text)} target={getTarget(type)} className="text-blue-200">
         {shortenString(text)}
       </Link>
-      <button type="button">
+      <button onClick={() => copyToClipboard(text)} type="button">
         <img src={copyIcon || "/images/Button.svg"} alt="" />
       </button>
     </div>
@@ -16,6 +16,33 @@ function Token({ icon, text, copyIcon }: { icon?: string; text: string; copyIcon
 }
 
 export default Token;
+
+function getHrefLink(type: string | undefined, text: string) {
+  if (type == undefined) return "#";
+  if (type == "userOp") {
+    return "https://jiffyscan.xyz/userOpHash/"+text;
+  } else if (type == "address") {
+    return "https://jiffyscan.xyz/address/"+text;
+  } else {
+    return "#";
+  }
+}
+
+function getTarget(type: string | undefined) {
+  console.log(type)
+  if (type == undefined) return "_self";
+  if (type == "userOp") {
+    return "_blank";
+  } else if (type == "address") {
+    return "_blank";
+  } else {
+    return "_self";
+  }
+}
+
+function copyToClipboard(text: string): void {
+  navigator.clipboard.writeText(text);
+}
 
 function shortenString(str: string) {
   if (str.length <= 10) {

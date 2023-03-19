@@ -1,30 +1,35 @@
-[
-  {
+{
+  "userOpMetric": {
     "id": "userOpMetric",
-    "title": "Total number of UserOps",
+    "title": "Daily Number of UserOps",
     "value": "N/A",
     "status": "N/A",
-    "data": [0,0,0,0,0,0,0]
+    "data": [0,0,0,0,0,0,0],
+    "labels": ["1/1/2020","1/2/2020","1/3/2020","1/4/2020","1/5/2020","1/6/2020","1/7/2020"]
   },
-  {
+  "totalFeeCollectedMetric": {
     "id": "totalFeeCollectedMetric",
-    "title": "Total Daily Gas Fee Paid",
+    "title": "Daily Gas Fee Paid",
     "value": "N/A",
     "status": "N/A",
-    "data": [0,0,0,0,0,0,0]
+    "data": [0,0,0,0,0,0,0],
+    "labels": ["1/1/2020","1/2/2020","1/3/2020","1/4/2020","1/5/2020","1/6/2020","1/7/2020"]
   },
-  {
+  "bundleMetric": {
     "id": "bundleMetric",
-    "title": "Bundles Created",
+    "title": "Bundles created per day",
     "value": "N/A",
     "status": "N/A",
-    "data": [0,0,0,0,0,0,0]
+    "data": [0,0,0,0,0,0,0],
+    "labels": ["1/1/2020","1/2/2020","1/3/2020","1/4/2020","1/5/2020","1/6/2020","1/7/2020"]
   },
-  {
+  "walletsCreatedMetric": {
     "id": "walletsCreatedMetric",
-    "title": "New Wallets Created",
+    "title": "New Wallets Created per day",
     "value": "N/A",
     "status": "N/A",
-    "data": [0,0,0,0,0,0,0]
+    "data": [0,0,0,0,0,0,0],
+    "labels": ["1/1/2020","1/2/2020","1/3/2020","1/4/2020","1/5/2020","1/6/2020","1/7/2020"]
   }
-]
+}
+

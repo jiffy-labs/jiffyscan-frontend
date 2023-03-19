@@ -3,13 +3,7 @@ export const NETWORK_LIST = [
         name: 'Mainnet',
         key: 'mainnet',
         iconPath: '/images/ethereum-logo-rainbow.svg',
-        iconPathInverted: '/images/icon-container45.svg',
-    },
-    {
-        name: 'Goerli',
-        key: 'goerli',
-        iconPath: '/images/eth-diamond-purple.svg',
-        iconPathInverted: '/images/icon-container45.svg',
+        iconPathInverted: '/images/ethereum-logo-rainbow.svg',
     },
     {
         name: 'Matic',

@@ -10,9 +10,10 @@ import Searchblock from "../../components/globals/searchblock/Searchblock";
 import { NETWORK_LIST, NETWORK_ICON_MAP } from "@/components/common/constants";
 import { getLatestBundles, getLatestUserOps, Bundle, UserOp } from "@/components/common/apiCalls/jiffyApis";
 import { getTimePassed } from "@/components/common/utils";
+import { useConfig } from "../../context/config";
 
 function Home() {
-  const [selectedNetwork, setSelectedNetwork] = useState<string>(NETWORK_LIST[0].key);
+  const {selectedNetwork, setSelectedNetwork} = useConfig()
   const [bundlesTable, setBundlesTable] = useState<tableDataT>(BundlesTable as tableDataT);
   const [operationsTable, setOperationsTable] = useState<tableDataT>(OperationsTable as tableDataT);
 
@@ -28,7 +29,8 @@ function Home() {
       newRows.push({
         "token": {
           "text": bundle.transactionHash,
-          "icon": NETWORK_ICON_MAP[network]
+          "icon": NETWORK_ICON_MAP[network],
+          "type": "bundle"
         },
         "ago": getTimePassed(bundle.timestamp),
         "userOps": bundle.userOpsLength+" ops"
@@ -44,7 +46,8 @@ function Home() {
       newRows.push({
         "token": {
           "text": userOp.userOpHash,
-          "icon": NETWORK_ICON_MAP[network]
+          "icon": NETWORK_ICON_MAP[network],
+          "type": "userOp"
         },
         "ago": getTimePassed(userOp.blockTime),
         "sender": userOp.sender,

@@ -16,6 +16,7 @@ export interface tableDataT {
     token?: {
       text: string;
       icon: string;
+      type: string;
     };
     ago?: string;
     sender?: string;
@@ -90,7 +91,7 @@ function Table(props: tableDataT) {
                 >
                   {token && (
                     <td className="">
-                      <Token {...token} />
+                      <Token {...token}/>
                     </td>
                   )}
 
@@ -107,13 +108,13 @@ function Table(props: tableDataT) {
 
                   {sender && (
                     <td className="">
-                      <Token text={sender} />
+                      <Token text={sender} type="address"/>
                     </td>
                   )}
 
                   {target && (
                     <td className="">
-                      <Token text={target} />
+                      <Token text={target} type="address"/>
                     </td>
                   )}
 
