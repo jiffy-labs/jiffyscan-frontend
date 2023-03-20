@@ -22,7 +22,7 @@ function RecentMetrics({ selectedNetwork, handleNetworkChange }: { selectedNetwo
   const refreshMetricsChart = async (network: string,) => {
     const dailyMetrics: DailyMetric[] = await getDailyMetrics(network, METRIC_DATA_POINT_SIZE);
     let metrics: any;
-    const chartDataAndMetrics = prepareChartDataAndMetrics(dailyMetrics, recentMetrics, METRIC_DATA_POINT_SIZE);
+    const chartDataAndMetrics = prepareChartDataAndMetrics(dailyMetrics, recentMetrics, METRIC_DATA_POINT_SIZE, network);
     let newChartData: ChartData = chartDataAndMetrics.chartData;
     metrics = chartDataAndMetrics.metrics;
     setChartData(newChartData);

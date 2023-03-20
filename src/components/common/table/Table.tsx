@@ -26,11 +26,13 @@ export interface tableDataT {
   }[];
 }
 
-export interface fee 
-  {
-    value: string;
-    gas: ChipProps;
-  }
+export interface fee {
+  value: string;
+  gas: {
+    children: string;
+    color: string;
+  };
+}
 
 export const getFee = (amount: number, network: string): fee => {
   let gasFee:number = amount
@@ -43,7 +45,7 @@ export const getFee = (amount: number, network: string): fee => {
   }
   if (gasFee > 10**13) {
       fee.value = (gasFee / 10**18).toFixed(4).toString()
-  } else if (gasFee > 10**9) {
+  } else if (gasFee > 10**6) {
       fee.value = (gasFee / 10**9).toFixed(4).toString()
   } else {
       fee.value = gasFee.toString()
