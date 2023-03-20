@@ -77,15 +77,15 @@ const getPercentageChange = (numberArray: number[]) => {
     metrics.bundleMetric.status = getPercentageChange(chartData.bundleMetric);
     metrics.walletsCreatedMetric.status = getPercentageChange(chartData.walletsCreatedMetric);
 
-    metrics.userOpMetric.data = chartData.userOpMetric.slice(-dataSize/2);
-    metrics.totalFeeCollectedMetric.data = chartData.totalFeeCollectedMetric.slice(-dataSize/2);
-    metrics.bundleMetric.data = chartData.bundleMetric.slice(-dataSize/2);
-    metrics.walletsCreatedMetric.data = chartData.walletsCreatedMetric.slice(-dataSize/2);
+    metrics.userOpMetric.data = chartData.userOpMetric.slice(-dataSize);
+    metrics.totalFeeCollectedMetric.data = chartData.totalFeeCollectedMetric.slice(-dataSize);
+    metrics.bundleMetric.data = chartData.bundleMetric.slice(-dataSize);
+    metrics.walletsCreatedMetric.data = chartData.walletsCreatedMetric.slice(-dataSize);
 
-    metrics.userOpMetric.labels = chartData.daySinceEpoch.slice(-dataSize/2).map((daySinceEpoch) => getDate(daySinceEpoch));
-    metrics.totalFeeCollectedMetric.labels = chartData.daySinceEpoch.slice(-dataSize/2).map((daySinceEpoch) => getDate(daySinceEpoch));
-    metrics.bundleMetric.labels = chartData.daySinceEpoch.slice(-dataSize/2).map((daySinceEpoch) => getDate(daySinceEpoch));
-    metrics.walletsCreatedMetric.labels = chartData.daySinceEpoch.slice(-dataSize/2).map((daySinceEpoch) => getDate(daySinceEpoch));
+    metrics.userOpMetric.labels = chartData.daySinceEpoch.slice(-dataSize).map((daySinceEpoch) => getDate(daySinceEpoch));
+    metrics.totalFeeCollectedMetric.labels = chartData.daySinceEpoch.slice(-dataSize).map((daySinceEpoch) => getDate(daySinceEpoch));
+    metrics.bundleMetric.labels = chartData.daySinceEpoch.slice(-dataSize).map((daySinceEpoch) => getDate(daySinceEpoch));
+    metrics.walletsCreatedMetric.labels = chartData.daySinceEpoch.slice(-dataSize).map((daySinceEpoch) => getDate(daySinceEpoch));
 
     return { chartData, metrics };
   }
