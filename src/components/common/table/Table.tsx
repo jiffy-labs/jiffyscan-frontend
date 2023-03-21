@@ -48,7 +48,7 @@ export const getFee = (amount: number, network: string): fee => {
   } else if (gasFee > 10**6) {
       fee.value = (gasFee / 10**9).toFixed(4).toString()
   } else {
-      fee.value = gasFee.toString()
+      fee.value = gasFee?.toString()
   }
   return fee;
 }
@@ -79,7 +79,7 @@ function Table(props: tableDataT) {
                       }`}
                     >
                       <span>{name}</span>
-                      {sort && <img src="/images/span.svg" alt="" />}
+                      {name === "Age" ?sort && <img src="/images/span.svg" alt="" />:null}
                     </div>
                   </th>
                 ))}

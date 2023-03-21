@@ -8,7 +8,7 @@ function Token({ icon, text, copyIcon, type }: { icon?: string; text: string; co
       <Link href={getHrefLink(type, text)} target={getTarget(type)} className="text-blue-200">
         {shortenString(text)}
       </Link>
-      <button onClick={() => copyToClipboard(text)} type="button">
+      <button onClick={() => {copyToClipboard(text);}} className="active:shadow-300" type="button">
         <img src={copyIcon || "/images/Button.svg"} alt="" />
       </button>
     </div>

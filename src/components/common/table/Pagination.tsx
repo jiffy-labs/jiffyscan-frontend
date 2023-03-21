@@ -34,7 +34,9 @@ function Pagination(props: PaginationProps) {
   };
   const handleShow = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.currentTarget.value;
-    setShow(value);
+    
+    setShow(event.target.value);
+    
     handlePage(1);
     updateTable(0, parseInt(value) > totalRows ? totalRows : parseInt(value));
   };

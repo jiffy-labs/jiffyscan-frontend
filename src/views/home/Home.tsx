@@ -56,7 +56,8 @@ function Home() {
     });
     setOperationsTable({...operationsTable, rows: newRows.slice(0,5)});
   }
-
+ 
+  
   return (
     <div>
       <Navbar />

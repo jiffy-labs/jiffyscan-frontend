@@ -13,7 +13,7 @@ import { useConfig } from "@/context/config";
 function UserOperations() {
   const {selectedNetwork, setSelectedNetwork} = useConfig();
   const [latestBundlesTable, setLatestBundlesTable] = useState<tableDataT>(table_data as tableDataT);
-
+  
   useEffect (() => {
     refreshUserOpsTable(selectedNetwork);
   }, [selectedNetwork]);
@@ -34,6 +34,7 @@ function UserOperations() {
     });
     setLatestBundlesTable({...latestBundlesTable, rows: newRows.slice(0,10)});
   }
+  
 
   return (
     <div className="">
@@ -48,7 +49,9 @@ function UserOperations() {
         <div className="container">
           <div>
             <Table {...latestBundlesTable} />
-            {/* <Pagination setTable={setTable} table={table_data as tableDataT} /> */}
+            <Pagination 
+            setTable={setLatestBundlesTable} 
+            table={table_data as tableDataT} />
           </div>
         </div>
       </section>

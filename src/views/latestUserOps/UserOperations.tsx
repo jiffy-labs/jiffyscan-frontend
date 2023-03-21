@@ -14,6 +14,7 @@ function UserOperations() {
   const {selectedNetwork, setSelectedNetwork} = useConfig()
   const [latestUserOpsTable, setLatestUserOpsTable] = useState<tableDataT>(table_data as tableDataT);
   
+  
   useEffect (() => {
     refreshUserOpsTable(selectedNetwork);
   }, [selectedNetwork]);
@@ -34,7 +35,10 @@ function UserOperations() {
         "fee": getFee(userOp.actualGasCost, userOp.network as string)
       })
     });
-    setLatestUserOpsTable({...latestUserOpsTable, rows: newRows.slice(0,10)});
+    setLatestUserOpsTable({
+      ...latestUserOpsTable, 
+      rows: newRows.slice(0,10)
+    });
   }
 
   return (
@@ -50,7 +54,10 @@ function UserOperations() {
         <div className="container">
           <div>
             <Table {...latestUserOpsTable} />
-            {/* <Pagination setTable={setLatestUserOpsTable} table={latestUserOpsTable as tableDataT} /> */}
+            <Pagination 
+            setTable={setLatestUserOpsTable} 
+            table={table_data as tableDataT}
+            />
           </div>
         </div>
       </section>
