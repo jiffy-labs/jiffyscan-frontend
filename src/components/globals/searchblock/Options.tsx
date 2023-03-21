@@ -42,7 +42,7 @@ function Options() {
         <div className="">
           <div
             onClick={toggler}
-            className="fixed inset-0 -z-20 bg-transparent backdrop-blur-[1px]"
+            className="fixed inset-0 -z-20 bg-transparent"
           />
           <div className="absolute left-0 bg-white min-w-full py-1 border-dark-200 shadow-200">
             <div className="flex flex-col">
