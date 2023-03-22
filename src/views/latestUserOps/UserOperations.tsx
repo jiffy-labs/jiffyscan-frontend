@@ -12,7 +12,10 @@ import { useConfig } from "@/context/config";
 
 function UserOperations() {
   const {selectedNetwork, setSelectedNetwork} = useConfig()
-  const [latestUserOpsTable, setLatestUserOpsTable] = useState<tableDataT>(table_data as tableDataT);
+  const [latestUserOpsTable, setLatestUserOpsTable] = useState<tableDataT>({
+    rows:[]
+  });
+  
   
   useEffect (() => {
     refreshUserOpsTable(selectedNetwork);
@@ -25,8 +28,8 @@ function UserOperations() {
       newRows.push({
         "token": {
           "text": userOp.userOpHash,
-          "icon": NETWORK_ICON_MAP[network],
-          "type": "userOp"
+          // "icon": NETWORK_ICON_MAP[network],
+          // "type": "userOp"
         },
         "ago": getTimePassed(userOp.blockTime),
         "sender": userOp.sender,
@@ -34,7 +37,10 @@ function UserOperations() {
         "fee": getFee(userOp.actualGasCost, userOp.network as string)
       })
     });
-    setLatestUserOpsTable({...latestUserOpsTable, rows: newRows.slice(0,10)});
+    setLatestUserOpsTable({
+      ...latestUserOpsTable, 
+      rows: newRows.slice(0,10)
+    });
   }
 
   return (
@@ -49,8 +55,11 @@ function UserOperations() {
       <section className="mb-10">
         <div className="container">
           <div>
-            <Table {...latestUserOpsTable} />
-            {/* <Pagination setTable={setLatestUserOpsTable} table={latestUserOpsTable as tableDataT} /> */}
+          <Table {...latestUserOpsTable} />
+            <Pagination 
+            setTable={setLatestUserOpsTable} 
+            table={latestUserOpsTable as tableDataT}
+            />
           </div>
         </div>
       </section>
