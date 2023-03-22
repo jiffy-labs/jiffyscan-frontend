@@ -1,17 +1,5 @@
 import React, { useState } from "react";
-
-interface optionsItem {
-  id: number;
-  name: string;
-  img: string;
-}
-
-const options: optionsItem[] = [
-  { id: 79, name: "Goerli", img: "/images/ethereum.svg" },
-  { id: 34, name: "Optimism", img: "/images/vector (1).svg" },
-  { id: 75, name: "Ethereum", img: "/images/ethereum.svg" },
-  { id: 56, name: "Matic", img: "/images/icon-container (22).svg" },
-];
+ import { NETWORK_LIST } from '@/components/common/constants';
 
 function Options() {
   const [open, setOpen] = useState<boolean>(false);
@@ -30,8 +18,9 @@ function Options() {
         role="button"
         onClick={toggler}
       >
-        <img src={options[value].img} alt="" />
-        <span>{options[value].name}</span>
+        {/* {/* <img src={NETWORK_LIST[value].img} alt="" /> */}
+        <span>{NETWORK_LIST[value].name}</span> 
+        <img src={NETWORK_LIST[value].iconPathInverted} alt="" style={{width: "20px", height: "auto"}}/>
         <img
           className={`duration-100 ${open ? "rotate-180" : ""}`}
           src="/images/chevron-down.svg"
@@ -42,18 +31,18 @@ function Options() {
         <div className="">
           <div
             onClick={toggler}
-            className="fixed inset-0 -z-20 bg-transparent backdrop-blur-[1px]"
+            className="fixed inset-0 -z-20 bg-transparent"
           />
           <div className="absolute left-0 bg-white min-w-full py-1 border-dark-200 shadow-200">
             <div className="flex flex-col">
-              {options.map(({ id, img, name }, index) => (
+            {NETWORK_LIST.map(({ name, key, iconPath, iconPathInverted }, index) => (
                 <div
                   onClick={() => handleValue(index)}
                   className="flex items-center whitespace-no-wrap gap-2 py-2 px-3 hover:bg-dark-600/10 text-md"
                   role="button"
-                  key={id}
+                  key={index}
                 >
-                  <img src={img} alt="" />
+                  <img src={iconPath} alt="" style={{width: "20px", height: "auto"}}/>
                   <span>{name}</span>
                 </div>
               ))}

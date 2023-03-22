@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import CopyButton from "./copy_button/CopyButton";
 
 function Token({ icon, text, copyIcon, type }: { icon?: string; text: string; copyIcon?: string; type?: string }) {
   return (
@@ -8,9 +9,13 @@ function Token({ icon, text, copyIcon, type }: { icon?: string; text: string; co
       <Link href={getHrefLink(type, text)} target={getTarget(type)} className="text-blue-200">
         {shortenString(text)}
       </Link>
-      <button onClick={() => copyToClipboard(text)} type="button">
+      <CopyButton
+      text={text}
+      copyIcon={copyIcon} 
+      />
+      {/* <button onClick={() => {copyToClipboard(text);}} className="active:shadow-300" type="button">
         <img src={copyIcon || "/images/Button.svg"} alt="" />
-      </button>
+      </button> */}
     </div>
   );
 }
@@ -29,7 +34,7 @@ function getHrefLink(type: string | undefined, text: string) {
 }
 
 function getTarget(type: string | undefined) {
-  console.log(type)
+  // console.log(type)
   if (type == undefined) return "_self";
   if (type == "userOp") {
     return "_blank";
@@ -40,9 +45,9 @@ function getTarget(type: string | undefined) {
   }
 }
 
-function copyToClipboard(text: string): void {
-  navigator.clipboard.writeText(text);
-}
+// function copyToClipboard(text: string): void {
+//   navigator.clipboard.writeText(text);
+// }
 
 function shortenString(str: string) {
   if (str.length <= 10) {
