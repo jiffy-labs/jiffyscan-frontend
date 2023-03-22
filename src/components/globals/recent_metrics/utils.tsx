@@ -1,5 +1,6 @@
 import { DailyMetric } from "@/components/common/apiCalls/jiffyApis";
 import { getDate, getFee } from "@/components/common/utils";
+import { useEffect, useState } from 'react';
 // Please consult @lazycoder1  / Gautam Sabhahit as to what is happening here XD 
 export interface ChartData {
   userOpMetric: number[]
@@ -69,7 +70,6 @@ export const prepareChartDataAndMetrics = (dailyMetrics: DailyMetric[], metrics:
   // This is the problem, the daily metric chart will not be consistent. For the days that there are no 
   // user operations, the data point for that day will not exist. So we are creating an empty dailyData object will all the days.
   // and later populating it with the daily metric. Then creating a list out of it. 
-  let dataPointSizeIdx = 0;
   let chartData: ChartData = prepareDayWiseData(dailyMetrics, dataSize);
   let feeString: string = getFee(getSum(chartData.totalFeeCollectedMetric.slice(-dataSize / 2)), network);
 
@@ -94,4 +94,34 @@ export const prepareChartDataAndMetrics = (dailyMetrics: DailyMetric[], metrics:
   metrics.walletsCreatedMetric.labels = chartData.daySinceEpoch.slice(-dataSize).map((daySinceEpoch) => getDate(daySinceEpoch));
 
   return { chartData, metrics };
+}
+
+export default function useWindowDimensions() {
+  const hasWindow = typeof window !== 'undefined';
+
+  function getWindowDimensions() {
+      const width = hasWindow ? window.innerWidth : null;
+      const height = hasWindow ? window.innerHeight : null;
+      return {
+          width,
+          height,
+      };
+  }
+
+  const [windowDimensions, setWindowDimensions] = useState(
+      getWindowDimensions()
+  );
+
+  useEffect(() => {
+      if (hasWindow) {
+          const handleResize = () => {
+              setWindowDimensions(getWindowDimensions());
+          };
+
+          window.addEventListener('resize', handleResize);
+          return () => window.removeEventListener('resize', handleResize);
+      }
+  }, [hasWindow]);
+
+  return windowDimensions;
 }

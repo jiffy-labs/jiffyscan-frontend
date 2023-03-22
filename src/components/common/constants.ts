@@ -18,17 +18,11 @@ export const NETWORK_LIST = [
         iconPathInverted: '/images/icon-container (6).svg',
     },
     {
-        name: 'Arbitrum',
-        key: 'arbitrum',
-        iconPath: '/images/icon-container (6).svg',
-        iconPathInverted: '/images/icon-container (6).svg',
-    },
-    {
-        name: 'zkSync',
-        key: 'zksync',
-        iconPath: '/images/ethereum-logo-rainbow.svg',
-        iconPathInverted: '/images/icon-container45.svg',
-    },
+        name: 'Goerli',
+        key: 'goerli',
+        iconPath: '/images/eth-diamond-purple.svg',
+        iconPathInverted: '/images/eth-diamond-purple.svg',
+    }
 ];
 
 interface NETWORK_ICON_MAP {

@@ -7,7 +7,7 @@ function Donations() {
       <img src="/images/icon-container (15).svg" alt="" />
       <span>Donations:</span>
       <div className="[&_span]:text-white">
-        <Token copyIcon="/images/content-copy.svg" text="0x37b415...C8329f" />
+        <Token copyIcon="/images/content-copy.svg" text="0x9d43282Bd85dED61Ca57e455a5359427a6Dc0cbc" />
       </div>
     </div>
   );
