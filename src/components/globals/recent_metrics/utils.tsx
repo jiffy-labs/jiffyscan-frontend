@@ -73,8 +73,6 @@ export const prepareChartDataAndMetrics = (dailyMetrics: DailyMetric[], metrics:
   let chartData: ChartData = prepareDayWiseData(dailyMetrics, dataSize);
   let feeString: string = getFee(getSum(chartData.totalFeeCollectedMetric.slice(-dataSize / 2)), network);
 
-  console.log('fee string', feeString)
-
   metrics.userOpMetric.value = getSum(chartData.userOpMetric.slice(-dataSize / 2));
   metrics.totalFeeCollectedMetric.value = feeString
   metrics.bundleMetric.value = getSum(chartData.bundleMetric.slice(-dataSize / 2));
