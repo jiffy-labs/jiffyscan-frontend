@@ -44,21 +44,31 @@ export const options = {
 };
 
 const labels = ["January", "February", "March", "April", "January", "January", "January"];
-
+var colors = ["rgba(255,0,0,1)", "rgba(0,255,0,1)", "rgba(0,0,255,1)", "rgba(255,0,0,1)", "rgba(0,255,0,1)"];
 interface ChartProps{
     chartValues: number[];
     labels: string[];
  }
 
 export function Chart(props : ChartProps) {
+    // get highest number
+const highest = Math.max(...props.chartValues);
+
+// get lowest number
+const lowest = Math.min(...props.chartValues);
     const data = {
         labels: props.labels,
         datasets: [
             {
-                label: "#",
+                label: " ",
                 data: props.chartValues,
                 borderColor: "#263238",
-                backgroundColor: "#263238"
+                backgroundColor: "#263238",
+                pointBackgroundColor: function(context:any) {
+                    var index = context.dataIndex
+                    var value = context.dataset.data[index]
+                    return value === highest ? 'green' : value === lowest ? "red" : ""
+                }
             }
         ]
     };

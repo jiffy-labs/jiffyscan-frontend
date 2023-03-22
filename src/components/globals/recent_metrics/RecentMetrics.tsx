@@ -28,8 +28,6 @@ function RecentMetrics({ selectedNetwork, handleNetworkChange }: { selectedNetwo
     setChartData(newChartData);
     setMetrics(metrics);
   }
-
-
   return (
     <main className="mb-10">
       <div className="container">
