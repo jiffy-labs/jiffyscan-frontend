@@ -1,0 +1,53 @@
+{
+  "caption": {
+    "children": "Latest Bundles",
+    "icon": "/images/swap-vertical-bold (1).svg"
+  },
+  "columns": [
+    {"name": "Hash", "sort": true},
+    {"name": "Age", "sort": true},
+    {"name": "#UserOps", "sort": true}
+  ],
+  "rows": [
+    {
+      "token": {
+        "text": "0x2824r6o923dqe3d7f",
+        "icon": "/images/icon-container (10).svg"
+      },
+      "ago": "13 min ago",
+      "userOps": "10 ops"
+    },
+    {
+      "token": {
+        "text": "0x2824r6o923dqe3d7f",
+        "icon": "/images/Vector (1).svg"
+      },
+      "ago": "46 mins ago",
+      "userOps": "10 ops"
+    },
+    {
+      "token": {
+        "text": "0x2824r6o923dqe3d7f",
+        "icon": "/images/icon-container (22).svg"
+      },
+      "ago": "1 hours ago",
+      "userOps": "10 ops"
+    },
+    {
+      "token": {
+        "text": "0x2824r6o923dqe3d7f",
+        "icon": "/images/icon-container (10).svg"
+      },
+      "ago": "13 min ago",
+      "userOps": "10 ops"
+    },
+    {
+      "token": {
+        "text": "0x2824r6o923dqe3d7f",
+        "icon": "/images/icon-container (10).svg"
+      },
+      "ago": "13 min ago",
+      "userOps": "10 ops"
+    }
+  ]
+}
