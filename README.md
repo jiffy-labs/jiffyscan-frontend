@@ -1,5 +1,26 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+
+
+# Contributing to Jiffyscan
+
+Welcome to Jiffyscan! We are excited to have you contribute to our open-source project. We welcome all types of contributions, from bug fixes to new features. This document will guide you through the process of contributing to our project.
+Getting Started
+
+Before you start contributing, make sure you have the latest version of the code from our repository. You can clone our repository using the following command:
+
+bash
+
+`git clone https://github.com/jiffy-labs/jiffyscan-frontend.git`
+
+and switch to the branch `ui-work`
+
+`git switch ui-work && git pull`
+
+Once you have the code, you can install the dependencies by running:
+
+`npm install`
+
 ## Getting Started
 
 First, run the development server:
@@ -22,17 +43,27 @@ The `pages/api` directory is mapped to `/api/*`. Files in this directory are tre
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+## Bug Reports and Feature Requests
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+If you find a bug or have a feature request, please open an issue on our issue tracker. Before opening a new issue, please search for existing issues to make sure your bug or feature request has not already been reported. When opening an issue, please include as much detail as possible, including steps to reproduce the bug or a detailed description of the feature request.
+Pull Requests
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+If you want to contribute to the project by fixing a bug or adding a new feature, please submit a pull request. Here's how:
 
-## Deploy on Vercel
+- Fork the repository.
+- Create a new branch from the `ui-work` branch.
+- Make your changes and commit them.
+- Push your branch to your forked repository.
+- Open a pull request from your branch to the main branch of the original repository.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+When submitting a pull request, please include a clear description of your changes and why you made them. Please make sure your code follows our coding standards and is well-documented.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Code of Conduct
+
+We expect all contributors to follow our code of conduct, which can be found in the CODE_OF_CONDUCT.md file in the repository. If you encounter any behavior that violates our code of conduct, please report it to the project maintainers.
+License
+
+This project is licensed under the [License Name] license. By contributing to this project, you agree to license your contributions under this license.
+
+Thank you for contributing to [Project Name]! We appreciate your help in making our project better.
