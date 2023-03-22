@@ -1,17 +1,5 @@
 import React, { useState } from "react";
  import { NETWORK_LIST } from '@/components/common/constants';
-// interface optionsItem {
-//   id: number;
-//   name: string;
-//   img: string;
-// }
-
-// const options: optionsItem[] = [
-//   { id: 79, name: "Goerli", img: "/images/ethereum.svg" },
-//   { id: 34, name: "Optimism", img: "/images/vector (1).svg" },
-//   { id: 75, name: "Ethereum", img: "/images/ethereum.svg" },
-//   { id: 56, name: "Matic", img: "/images/icon-container (22).svg" },
-// ];
 
 function Options() {
   const [open, setOpen] = useState<boolean>(false);
@@ -32,7 +20,7 @@ function Options() {
       >
         {/* {/* <img src={NETWORK_LIST[value].img} alt="" /> */}
         <span>{NETWORK_LIST[value].name}</span> 
-        <img src={NETWORK_LIST[value].iconPathInverted} alt="" />
+        <img src={NETWORK_LIST[value].iconPathInverted} alt="" style={{width: "20px", height: "auto"}}/>
         <img
           className={`duration-100 ${open ? "rotate-180" : ""}`}
           src="/images/chevron-down.svg"
@@ -54,7 +42,7 @@ function Options() {
                   role="button"
                   key={index}
                 >
-                  <img src={iconPath} alt="" />
+                  <img src={iconPath} alt="" style={{width: "20px", height: "auto"}}/>
                   <span>{name}</span>
                 </div>
               ))}

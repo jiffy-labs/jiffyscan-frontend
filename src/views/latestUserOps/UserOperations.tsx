@@ -12,7 +12,9 @@ import { useConfig } from "@/context/config";
 
 function UserOperations() {
   const {selectedNetwork, setSelectedNetwork} = useConfig()
-  const [latestUserOpsTable, setLatestUserOpsTable] = useState<tableDataT>(table_data as tableDataT);
+  const [latestUserOpsTable, setLatestUserOpsTable] = useState<tableDataT>({
+    rows:[]
+  });
   
   
   useEffect (() => {
@@ -26,8 +28,8 @@ function UserOperations() {
       newRows.push({
         "token": {
           "text": userOp.userOpHash,
-          "icon": NETWORK_ICON_MAP[network],
-          "type": "userOp"
+          // "icon": NETWORK_ICON_MAP[network],
+          // "type": "userOp"
         },
         "ago": getTimePassed(userOp.blockTime),
         "sender": userOp.sender,
@@ -53,10 +55,10 @@ function UserOperations() {
       <section className="mb-10">
         <div className="container">
           <div>
-            <Table {...latestUserOpsTable} />
+          <Table {...latestUserOpsTable} />
             <Pagination 
             setTable={setLatestUserOpsTable} 
-            table={table_data as tableDataT}
+            table={latestUserOpsTable as tableDataT}
             />
           </div>
         </div>

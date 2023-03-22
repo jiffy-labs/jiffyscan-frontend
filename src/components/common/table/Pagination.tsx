@@ -8,6 +8,7 @@ interface PaginationProps {
 }
 
 function Pagination(props: PaginationProps) {
+
   const { setTable, table } = props;
   const [show, setShow] = useState<string>("10");
   const [page, setPage] = useState(1);
@@ -33,10 +34,8 @@ function Pagination(props: PaginationProps) {
     setPage(value);
   };
   const handleShow = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = event.currentTarget.value;
-    
-    setShow(event.target.value);
-    
+    const value = event.target.value;
+    setShow(value);
     handlePage(1);
     updateTable(0, parseInt(value) > totalRows ? totalRows : parseInt(value));
   };
