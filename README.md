@@ -67,6 +67,6 @@ When submitting a pull request, please include a clear description of your chang
 We expect all contributors to follow our code of conduct, which can be found in the CODE_OF_CONDUCT.md file in the repository. If you encounter any behavior that violates our code of conduct, please report it to the project maintainers.
 License
 
-This project is licensed under the [License Name] license. By contributing to this project, you agree to license your contributions under this license.
+This project is licensed under the `MIT license`. By contributing to this project, you agree to license your contributions under this license.
 
-Thank you for contributing to [Project Name]! We appreciate your help in making our project better.
+Thank you for contributing to Jiffyscan! We appreciate your help in making our project better.
