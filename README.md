@@ -43,8 +43,14 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 ## Bug Reports and Feature Requests
 
-If you find a bug or have a feature request, please open an issue on our issue tracker. Before opening a new issue, please search for existing issues to make sure your bug or feature request has not already been reported. When opening an issue, please include as much detail as possible, including steps to reproduce the bug or a detailed description of the feature request.
-Pull Requests
+If you've found a bug in Jiffyscan, please open a new issue on GitHub. Be sure to include as much detail as possible, including:
+
+- Steps to reproduce the bug
+- Expected behavior
+- Actual behavior
+- Screenshots or error messages (if applicable)
+
+## Pull Requests
 
 If you want to contribute to the project by fixing a bug or adding a new feature, please submit a pull request. Here's how:
 
