@@ -68,7 +68,7 @@ function Home() {
             <Navbar />
             <section className="py-6">
                 <div className="container">
-                    <h1 className="font-bold text-xl leading-8 md:text-3xl mb-2 md:mb-4">UserOp Explorer for <a href="https://eips.ethereum.org/EIPS/eip-4337" target="_blank">4337</a></h1>
+                    <h1 className="font-bold text-xl leading-8 md:text-3xl mb-2 md:mb-4">UserOp Explorer for <a href="https://eips.ethereum.org/EIPS/eip-4337" target="_blank" style={{textDecoration: "underline"}}>4337</a></h1>
                     <div>
                         <Searchblock />
                     </div>

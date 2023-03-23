@@ -6,10 +6,10 @@ export const NETWORK_LIST = [
         iconPathInverted: '/images/ethereum-logo-rainbow.svg',
     },
     {
-        name: 'Matic',
-        key: 'matic',
-        iconPath: '/images/icon-container (5).svg',
-        iconPathInverted: '/images/icon-container (5).svg',
+        name: 'Goerli',
+        key: 'goerli',
+        iconPath: '/images/eth-diamond-purple.svg',
+        iconPathInverted: '/images/eth-diamond-purple.svg',
     },
     {
         name: 'Optimism Goerli',
@@ -18,10 +18,10 @@ export const NETWORK_LIST = [
         iconPathInverted: '/images/icon-container (6).svg',
     },
     {
-        name: 'Goerli',
-        key: 'goerli',
-        iconPath: '/images/eth-diamond-purple.svg',
-        iconPathInverted: '/images/eth-diamond-purple.svg',
+        name: 'Matic',
+        key: 'matic',
+        iconPath: '/images/icon-container (5).svg',
+        iconPathInverted: '/images/icon-container (5).svg',
     },
 ];
 

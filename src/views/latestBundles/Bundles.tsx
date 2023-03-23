@@ -72,7 +72,7 @@ function UserOperations() {
             <Navbar searchbar />
             <section className="py-10">
                 <div className="container">
-                    <h1 className="font-bold text-3xl">User Operations</h1>
+                    <h1 className="font-bold text-3xl">Bundles</h1>
                 </div>
             </section>
             <RecentMetrics selectedNetwork={selectedNetwork} handleNetworkChange={setSelectedNetwork} />
