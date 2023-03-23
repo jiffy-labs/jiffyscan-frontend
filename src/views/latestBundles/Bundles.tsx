@@ -19,6 +19,7 @@ function UserOperations() {
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE);
     const [totalRows, setTotalRows] = useState(0);
+    const [tableLoading, setTableLoading] = useState(true);
 
     const setPageSize = (size: number) => {
         _setPageSize(size);
@@ -26,12 +27,14 @@ function UserOperations() {
     };
 
     useEffect(() => {
-        fetchTotalRows();
-    });
+        refreshUserOpsTable(selectedNetwork, pageSize, pageNo);
+    }, [pageNo, pageSize]);
 
     useEffect(() => {
+        setPageNo(0);
+        fetchTotalRows();
         refreshUserOpsTable(selectedNetwork, pageSize, pageNo);
-    }, [selectedNetwork, pageNo]);
+    }, [selectedNetwork]);
 
     const fetchTotalRows = async () => {
         const oneDayMetrics = await getDailyMetrics(selectedNetwork, 1);
@@ -43,6 +46,7 @@ function UserOperations() {
     };
 
     const refreshUserOpsTable = async (network: string, pageSize: number, pageNo: number) => {
+        setTableLoading(true);
         const bundles = await getLatestBundles(network, pageSize, pageNo);
         let newRows = [] as tableDataT['rows'];
         bundles.forEach((bundle) => {
@@ -57,6 +61,7 @@ function UserOperations() {
             });
         });
         setLatestBundlesTable({ ...latestBundlesTable, rows: newRows.slice(0, 10) });
+        setTableLoading(false);
     };
 
     return (
@@ -71,7 +76,7 @@ function UserOperations() {
             <section className="mb-10">
                 <div className="container">
                     <div>
-                        <Table {...latestBundlesTable} />
+                        <Table {...latestBundlesTable} loading={tableLoading}/>
                         <Pagination
                             table={latestBundlesTable as tableDataT}
                             pageDetails={{

@@ -19,7 +19,6 @@ function RecentMetrics({
     selectedNetwork: string;
     handleNetworkChange: (network: string) => void;
 }) {
-    const [chartData, setChartData] = useState({} as ChartData);
     const [metrics, setMetrics] = useState(recentMetrics as any);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
@@ -38,7 +37,6 @@ function RecentMetrics({
         const chartDataAndMetrics = prepareChartDataAndMetrics(dailyMetrics, recentMetrics, METRIC_DATA_POINT_SIZE, network);
         let newChartData: ChartData = chartDataAndMetrics.chartData;
         metrics = chartDataAndMetrics.metrics;
-        setChartData(newChartData);
         setMetrics(metrics);
         setTimeout(() => {
             setLoading(false);

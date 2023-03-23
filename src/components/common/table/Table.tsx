@@ -25,6 +25,7 @@ export interface tableDataT {
         fee?: fee;
         userOps?: string;
     }[];
+    loading: boolean;
 }
 
 export interface fee {
@@ -57,14 +58,7 @@ export const getFee = (amount: number, network: string): fee => {
 function Table(props: tableDataT) {
     const { rows, columns, caption } = props;
     const width = useWidth();
-    const [loading, setLoading] = useState(true);
-    useEffect(() => {
-        if (rows) {
-            setTimeout(() => {
-                setLoading(false);
-            }, 2000);
-        }
-    }, [rows]);
+    
     let skeletonCards = Array(5).fill(0);
     return (
         <div className="">
@@ -92,7 +86,7 @@ function Table(props: tableDataT) {
                                 ))}
                             </tr>
                         </thead>
-                        {loading ? (
+                        {props.loading ? (
                             skeletonCards.map((index: number) => <Skeleton />)
                         ) : (
                             <tbody>

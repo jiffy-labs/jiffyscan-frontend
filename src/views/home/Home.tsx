@@ -16,6 +16,8 @@ function Home() {
     const { selectedNetwork, setSelectedNetwork } = useConfig();
     const [bundlesTable, setBundlesTable] = useState<tableDataT>(BundlesTable as tableDataT);
     const [operationsTable, setOperationsTable] = useState<tableDataT>(OperationsTable as tableDataT);
+    const [userOpTableLoading, setUserOpTableLoading] = useState(true);
+    const [bundleTableLoading, setBundleTableLoading] = useState(true);
 
     useEffect(() => {
         refreshBundlesTable(selectedNetwork);
@@ -23,6 +25,7 @@ function Home() {
     }, [selectedNetwork]);
 
     const refreshBundlesTable = async (network: string) => {
+        setBundleTableLoading(true);
         const bundles = await getLatestBundles(network, 5, 0);
         let newRows = [] as tableDataT['rows'];
         bundles.forEach((bundle) => {
@@ -37,9 +40,11 @@ function Home() {
             });
         });
         setBundlesTable({ ...bundlesTable, rows: newRows.slice(0, 5) });
+        setBundleTableLoading(false);
     };
 
     const refreshUserOpsTable = async (network: string) => {
+        setUserOpTableLoading(true);
         const userOps = await getLatestUserOps(network, 5, 0);
         let newRows = [] as tableDataT['rows'];
         userOps.forEach((userOp) => {
@@ -55,6 +60,7 @@ function Home() {
             });
         });
         setOperationsTable({ ...operationsTable, rows: newRows.slice(0, 5) });
+        setUserOpTableLoading(false);
     };
 
     return (
@@ -72,13 +78,13 @@ function Home() {
             <section className="mb-12">
                 <div className="container grid-cols-1 md:grid-cols-2 grid gap-10">
                     <div>
-                        <Table {...(bundlesTable as tableDataT)} />
+                        <Table {...(bundlesTable as tableDataT)} loading={bundleTableLoading}/>
                         <div className="mt-4">
                             <Button href="/latestBundles">View all bundles</Button>
                         </div>
                     </div>
                     <div>
-                        <Table {...(operationsTable as tableDataT)} />
+                        <Table {...(operationsTable as tableDataT)} loading={userOpTableLoading}/>
                         <div className="mt-4">
                             <Button href="/latestUserOps">View all User operations</Button>
                         </div>
