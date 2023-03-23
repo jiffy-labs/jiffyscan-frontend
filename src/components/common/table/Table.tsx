@@ -56,7 +56,6 @@ export const getFee = (amount: number, network: string): fee => {
 
 function Table(props: tableDataT) {
   const { rows,columns,caption } = props;
-  console.log("🚀 ~ file: Table.tsx:59 ~ Table ~ caption:", caption)
   const width = useWidth();
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -71,7 +70,6 @@ function Table(props: tableDataT) {
     <div className="">
       <Caption icon={caption.icon}>{caption.children}</Caption>
       <ScrollContainer>
-         
           <div style={width < 768 ? { minWidth: columns?.length * 160 } : {}}>
             <table className="w-full text-md bg-white shadow-200 border border-dark-100">
                 <thead>
@@ -126,8 +124,7 @@ function Table(props: tableDataT) {
                           <Token text={sender} type="address"/>
                         </td>
                       )}
-    
-                        <td className="">
+                      <td className="">
                       {target && (
                           <Token text={target} type="address"/>
                           )}
@@ -148,8 +145,6 @@ function Table(props: tableDataT) {
                 </tbody>)}
               </table>
           </div>
-        
-
       </ScrollContainer>
     </div>
   );

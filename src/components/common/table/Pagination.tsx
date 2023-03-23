@@ -5,7 +5,6 @@ import { tableDataT } from "./Table";
 interface PaginationProps {
   table: tableDataT;
   setTable: React.Dispatch<React.SetStateAction<tableDataT>>;
-  
 }
 
 function Pagination(props: PaginationProps) {

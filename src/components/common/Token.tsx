@@ -13,9 +13,6 @@ function Token({ icon, text, copyIcon, type }: { icon?: string; text: string; co
       text={text}
       copyIcon={copyIcon} 
       />
-      {/* <button onClick={() => {copyToClipboard(text);}} className="active:shadow-300" type="button">
-        <img src={copyIcon || "/images/Button.svg"} alt="" />
-      </button> */}
     </div>
   );
 }
@@ -23,7 +20,7 @@ function Token({ icon, text, copyIcon, type }: { icon?: string; text: string; co
 export default Token;
 
 function getHrefLink(type: string | undefined, text: string) {
-  // if (type == undefined) return "#";
+  if (type == undefined) return "#";
   if (type == "userOp") {
     return "https://jiffyscan.xyz/userOpHash/"+text;
   } else if (type == "address") {

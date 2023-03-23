@@ -62,9 +62,7 @@ function UserOperations() {
             <Table {...latestBundlesTable} />
             <Pagination 
             setTable={setLatestBundlesTable} 
-            table={latestBundlesTable as tableDataT}
-            
-            />
+            table={latestBundlesTable as tableDataT}/>
           </div>
         </div>
       </section>
