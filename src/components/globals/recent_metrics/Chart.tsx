@@ -64,11 +64,11 @@ const lowest = Math.min(...props.chartValues);
                 data: props.chartValues,
                 borderColor: "#263238",
                 backgroundColor: "#263238",
-                pointBackgroundColor: function(context:any) {
-                    var index = context.dataIndex
-                    var value = context.dataset.data[index]
-                    return value === highest ? 'green' : value === lowest ? "red" : ""
-                }
+                // pointBackgroundColor: function(context:any) {
+                //     var index = context.dataIndex
+                //     var value = context.dataset.data[index]
+                //     return value === highest ? 'green' : value === lowest ? "red" : ""
+                // }
             }
         ]
     };

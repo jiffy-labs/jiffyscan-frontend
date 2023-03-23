@@ -9,13 +9,12 @@ import { NETWORK_LIST, NETWORK_ICON_MAP } from "@/components/common/constants";
 import { getCurrencySymbol, getTimePassed } from "@/components/common/utils";
 import { getLatestBundles, getDailyMetrics,DailyMetric } from "@/components/common/apiCalls/jiffyApis";
 import { useConfig } from "@/context/config";
+import { table } from "console";
 const METRIC_DATA_POINT_SIZE = 14;
 
 function UserOperations() {
   const {selectedNetwork, setSelectedNetwork} = useConfig();
-  const [latestBundlesTable, setLatestBundlesTable] = useState<tableDataT>({
-    rows: []
-  });
+  const [latestBundlesTable, setLatestBundlesTable] = useState<tableDataT>(table_data as tableDataT);
  
   const [responseBundles, setresponseBundles] = useState<DailyMetric[]>();
   useEffect (() => {
@@ -26,7 +25,7 @@ function UserOperations() {
   useEffect(()=>{
     refreshList()
   },[responseBundles])
-  console.log("🚀 ~ file: Bundles.tsx:21 ~ UserOperations ~ responseBundles:", responseBundles)
+ 
   const refreshList = async () => {
     const dailyMetrics: DailyMetric[] = await getDailyMetrics(selectedNetwork, METRIC_DATA_POINT_SIZE);
     setresponseBundles(dailyMetrics)
@@ -38,15 +37,14 @@ function UserOperations() {
       newRows.push({
         "token": {
           "text": bundle.transactionHash,
-          // "icon": NETWORK_ICON_MAP[network],
-          // "type": "bundle"
+          "icon": NETWORK_ICON_MAP[network],
+          "type": "bundle"
         },
         "ago": getTimePassed(bundle.timestamp),
         "userOps": bundle.userOpsLength+" ops"
       })
     });
     setLatestBundlesTable({...latestBundlesTable, rows: newRows.slice(0,10)});
-    
   }
  
   
@@ -66,7 +64,9 @@ function UserOperations() {
             <Table {...latestBundlesTable} />
             <Pagination 
             setTable={setLatestBundlesTable} 
-            table={latestBundlesTable as tableDataT} />
+            table={latestBundlesTable as tableDataT}
+            
+            />
           </div>
         </div>
       </section>

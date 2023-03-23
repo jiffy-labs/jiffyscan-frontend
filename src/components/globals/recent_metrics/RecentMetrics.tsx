@@ -8,16 +8,22 @@ import { getDailyMetrics, DailyMetric } from "@/components/common/apiCalls/jiffy
 import { NETWORK_ICON_MAP } from "@/components/common/constants";
 import { prepareChartDataAndMetrics, ChartData } from "./utils";
 import { Chart } from "./Chart";
+import Spinner from "@/components/common/Spinner";
 
 const METRIC_DATA_POINT_SIZE = 14;
 
 function RecentMetrics({ selectedNetwork, handleNetworkChange }: { selectedNetwork: string, handleNetworkChange: (network: string) => void }) {
   const [chartData, setChartData] = useState({} as ChartData);
   const [metrics, setMetrics] = useState(recentMetrics as any);
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     refreshMetricsChart(selectedNetwork)
-  }, [selectedNetwork])
+    if(metrics){
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000);
+    }
+  }, [selectedNetwork,metrics])
 
   const refreshMetricsChart = async (network: string,) => {
     const dailyMetrics: DailyMetric[] = await getDailyMetrics(network, METRIC_DATA_POINT_SIZE);
@@ -49,6 +55,11 @@ function RecentMetrics({ selectedNetwork, handleNetworkChange }: { selectedNetwo
                     className="p-4 rounded border border-dark-200 bg-white shadow-200"
                     key={id}
                   >
+                      {
+                      loading ?(<Spinner />):(
+
+                        <>
+                        
                     <div className="flex items-center gap-1">
                       <span className="text-sm leading-[1.3]">{title}</span>
                       <InfoButton />
@@ -64,10 +75,13 @@ function RecentMetrics({ selectedNetwork, handleNetworkChange }: { selectedNetwo
                     <div>
                       <Chart chartValues={data} labels={labels}/>
                     </div>
+                        </>
+                      )}
                   </div>
                 )
               }
               )}
+
             </div>
           </ScrollContainer>
         </div>

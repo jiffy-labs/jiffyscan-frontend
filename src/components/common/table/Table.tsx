@@ -8,16 +8,16 @@ import { getCurrencySymbol } from "../utils";
 import Skeleton from "@/components/Skeleton";
 
 export interface tableDataT {
-  // caption: CaptionProps;
-  // columns: {
-  //   name: string;
-  //   sort: boolean;
-  // }[];
+  caption: CaptionProps;
+  columns: {
+    name: string;
+    sort: boolean;
+  }[];
   rows: {
     token?: {
       text: string;
-      // icon: string;
-      // type: string;
+      icon: string;
+      type: string;
     };
     ago?: string;
     sender?: string;
@@ -55,11 +55,10 @@ export const getFee = (amount: number, network: string): fee => {
 }
 
 function Table(props: tableDataT) {
-  const {  rows } = props;
- 
+  const { rows,columns,caption } = props;
+  console.log("🚀 ~ file: Table.tsx:59 ~ Table ~ caption:", caption)
   const width = useWidth();
   const [loading, setLoading] = useState(true);
-  let columns=[];
   useEffect(() => {
     if (rows) {
       setTimeout(() => {
@@ -70,47 +69,14 @@ function Table(props: tableDataT) {
   let skeletonCards = Array(5).fill(0);
   return (
     <div className="">
-      <Caption icon="/images/cube.svg">More than {">"} 1,892,547,662 transactions found</Caption>
+      <Caption icon={caption.icon}>{caption.children}</Caption>
       <ScrollContainer>
-          {loading ?( skeletonCards.map((index: number) => <Skeleton />)):( 
+         
           <div style={width < 768 ? { minWidth: columns?.length * 160 } : {}}>
             <table className="w-full text-md bg-white shadow-200 border border-dark-100">
                 <thead>
                   <tr>
-                  <th
-                  
-                    className={'py-3.5 px-4 border-b border-dark-100 group min-w-[100px]'}
-                      >
-                        <div
-                          // role={sort ? "button" : undefined}
-                          className={'flex items-center gap-2.5 group-last:justify-end'}
-                        >
-                          <span>Hash</span>
-                        </div>
-                      </th>
-                      <th
-                  
-                    className={'py-3.5 px-4 border-b border-dark-100 group min-w-[100px]'}
-                      >
-                        <div
-                          // role={sort ? "button" : undefined}
-                          className={'flex items-center gap-2.5 group-last:justify-end'}
-                        >
-                          <span>Age</span>
-                        </div>
-                      </th>
-                      <th
-                  
-                    className={'py-3.5 px-4 border-b border-dark-100 group min-w-[100px]'}
-                      >
-                        <div
-                          // role={sort ? "button" : undefined}
-                          className={'flex items-center gap-2.5 group-last:justify-end'}
-                        >
-                          <span>UserOps</span>
-                        </div>
-                      </th>
-                    {/* {columns.map(({ name, sort }, key) => (
+                    {columns.map(({ name, sort }, key) => (
                       <th
                         key={key}
                         className={`py-3.5 px-4 border-b border-dark-100 group ${
@@ -127,10 +93,11 @@ function Table(props: tableDataT) {
                           {name === "Age" ?sort && <img src="/images/span.svg" alt="" />:null}
                         </div>
                       </th>
-                    ))} */}
+                    ))}
                   </tr>
                   
                 </thead>
+                {loading ?( skeletonCards.map((index: number) => <Skeleton />)):( 
                 <tbody>
                 {rows.map(({ ago, fee, sender, target, token, userOps }, index) => (
                     <tr
@@ -160,11 +127,11 @@ function Table(props: tableDataT) {
                         </td>
                       )}
     
-                      {target && (
                         <td className="">
+                      {target && (
                           <Token text={target} type="address"/>
+                          )}
                         </td>
-                      )}
     
                       {fee && (
                         <td className="">
@@ -178,10 +145,10 @@ function Table(props: tableDataT) {
                       )}
                     </tr>
                   ))}  
-                </tbody>
+                </tbody>)}
               </table>
           </div>
-          )}
+        
 
       </ScrollContainer>
     </div>

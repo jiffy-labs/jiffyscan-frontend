@@ -23,7 +23,7 @@ function Token({ icon, text, copyIcon, type }: { icon?: string; text: string; co
 export default Token;
 
 function getHrefLink(type: string | undefined, text: string) {
-  if (type == undefined) return "#";
+  // if (type == undefined) return "#";
   if (type == "userOp") {
     return "https://jiffyscan.xyz/userOpHash/"+text;
   } else if (type == "address") {
