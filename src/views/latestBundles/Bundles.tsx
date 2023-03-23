@@ -47,8 +47,6 @@ function UserOperations() {
     setLatestBundlesTable({...latestBundlesTable, rows: newRows.slice(0,10)});
   }
  
-  
-
   return (
     <div className="">
       <Navbar searchbar />

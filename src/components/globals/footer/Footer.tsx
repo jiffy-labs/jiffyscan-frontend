@@ -33,9 +33,7 @@ function Footer() {
               </Link>
             </div>
             <p className="text-sm">
-              We provide a user-friendly block explorer, with an easy-to-use interface for
-              users to view, confirm, and inspect transactions on EVM (Ethereum Virtual
-              Machine) blockchains, specialised for EIP-4337 confirming transactions.
+              A block explorer and analytics platform for Account Abstraction on EVM chains using EIP-4337.
             </p>
           </div>
           {pages.map(({ id, lists, name }) => (
