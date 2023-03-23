@@ -1,12 +1,14 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { useContext } from 'react';
 import CopyButton from './copy_button/CopyButton';
+import { useConfig } from '@/context/config';
 
 function Token({ icon, text, copyIcon, type }: { icon?: string; text: string; copyIcon?: string; type?: string }) {
+    const { selectedNetwork } = useConfig();
     return (
         <div className="flex items-center gap-2.5">
             {icon && <img src={icon} alt="" style={{ width: '20px', height: '20px' }} />}
-            <Link href={getHrefLink(type, text)} target={getTarget(type)} className="text-blue-200">
+            <Link href={getHrefLink(type, text, selectedNetwork)} target={getTarget(type)} className="text-blue-200">
                 {shortenString(text)}
             </Link>
             <CopyButton text={text} copyIcon={copyIcon} />
@@ -16,7 +18,7 @@ function Token({ icon, text, copyIcon, type }: { icon?: string; text: string; co
 
 export default Token;
 
-function getHrefLink(type: string | undefined, text: string) {
+function getHrefLink(type: string | undefined, text: string, network: string) {
     if (type == undefined) return '#';
 
     if (type == 'userOp') {
@@ -24,11 +26,19 @@ function getHrefLink(type: string | undefined, text: string) {
     } else if (type == 'address') {
         return 'https://jiffyscan.xyz/address/' + text;
     } else if (type == 'bundle') {
-        return 'https://etherscan.io/tx/' + text;
+        return NETWORK_SCANNER_MAP[network] + text;
     } else {
         return '#';
     }
 }
+
+const NETWORK_SCANNER_MAP = {
+    mainnet: 'https://etherscan.io/tx/',
+    goerli: 'https://goerli.etherscan.io/tx/',
+    mumbai: 'https://mumbai.polygonscan.com/tx/',
+    matic: 'https://polygonscan.com/tx/',
+    'optimism-goerli': 'https://goerli-optimism.etherscan.io/tx/',
+};
 
 function getTarget(type: string | undefined) {
     // console.log(type)
