@@ -21,6 +21,7 @@ function UserOperations() {
     const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE);
     const [totalRows, setTotalRows] = useState(0);
     const [tableLoading, setTableLoading] = useState(true);
+    const [captionText, setCaptionText] = useState('');
 
     const setPageSize = (size: number) => {
         _setPageSize(size);
@@ -44,7 +45,7 @@ function UserOperations() {
             presentDayMetrics = oneDayMetrics[0];
         }
         setTotalRows(parseInt(presentDayMetrics?.bundlesTotal || '0'));
-        setLatestBundlesTable({ ...latestBundlesTable, caption: { ...latestBundlesTable.caption, children: ' '+parseInt(presentDayMetrics?.bundlesTotal || '0') + ' bundles found' } })
+        setCaptionText(' ' + parseInt(presentDayMetrics?.bundlesTotal || '0') + ' bundles found');
     };
 
     const refreshUserOpsTable = async (network: string, pageSize: number, pageNo: number) => {
@@ -78,7 +79,14 @@ function UserOperations() {
             <section className="mb-10">
                 <div className="container">
                     <div>
-                        <Table {...latestBundlesTable} loading={tableLoading}/>
+                        <Table
+                            {...latestBundlesTable}
+                            loading={tableLoading}
+                            caption={{
+                                children: captionText,
+                                icon: '/images/cube.svg',
+                            }}
+                        />
                         <Pagination
                             table={latestBundlesTable as tableDataT}
                             pageDetails={{

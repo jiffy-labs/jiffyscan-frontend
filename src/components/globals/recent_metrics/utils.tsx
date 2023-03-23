@@ -78,12 +78,12 @@ export const prepareChartDataAndMetrics = (dailyMetrics: DailyMetric[], metrics:
     // user operations, the data point for that day will not exist. So we are creating an empty dailyData object will all the days.
     // and later populating it with the daily metric. Then creating a list out of it.
     let chartData: ChartData = prepareDayWiseData(dailyMetrics, dataSize);
-    let feeString: string = getFee(chartData.totalFeeCollectedMetric.slice(-2)[0], network);
+    let feeString: string = getFee(chartData.totalFeeCollectedMetric.slice(-1)[0], network);
 
-    metrics.userOpMetric.value = chartData.userOpMetric.slice(-2)[0];
+    metrics.userOpMetric.value = chartData.userOpMetric.slice(-1)[0];
     metrics.totalFeeCollectedMetric.value = feeString;
-    metrics.totalwalletsCreatedMetric.value = chartData.totalwalletsCreatedMetric.slice(-2)[0];
-    metrics.walletsCreatedDailyMetric.value = chartData.walletsCreatedMetric.slice(-2)[0];
+    metrics.totalwalletsCreatedMetric.value = chartData.totalwalletsCreatedMetric.slice(-1)[0];
+    metrics.walletsCreatedDailyMetric.value = chartData.walletsCreatedMetric.slice(-1)[0];
 
     metrics.userOpMetric.status = getPercentageChange(chartData.userOpMetric);
     metrics.totalFeeCollectedMetric.status = getPercentageChange(chartData.totalFeeCollectedMetric);

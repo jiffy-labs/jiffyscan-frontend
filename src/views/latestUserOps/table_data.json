@@ -1,8 +1,4 @@
 {
-    "caption": {
-        "children": "",
-        "icon": "/images/cube.svg"
-    },
     "columns": [
         { "name": "Hash", "sort": true },
         { "name": "Age", "sort": true },

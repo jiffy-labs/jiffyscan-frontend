@@ -78,13 +78,19 @@ function Home() {
             <section className="mb-12">
                 <div className="container grid-cols-1 md:grid-cols-2 grid gap-10">
                     <div>
-                        <Table {...(bundlesTable as tableDataT)} loading={bundleTableLoading}/>
+                        <Table {...(bundlesTable as tableDataT)} loading={bundleTableLoading} caption={{
+                                "children": "Latest Bundles",
+                                "icon": "/images/swap-vertical-bold (1).svg"
+                            }}/>
                         <div className="mt-4">
                             <Button href="/latestBundles">View all bundles</Button>
                         </div>
                     </div>
                     <div>
-                        <Table {...(operationsTable as tableDataT)} loading={userOpTableLoading}/>
+                        <Table {...(operationsTable as tableDataT)} loading={userOpTableLoading} caption={{
+                                "children": "Latest User Operations",
+                                "icon": "/images/swap-vertical-bold (1).svg"
+                            }}/>
                         <div className="mt-4">
                             <Button href="/latestUserOps">View all User operations</Button>
                         </div>
