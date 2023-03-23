@@ -1,5 +1,5 @@
-import React from "react";
-import Options from "./Options";
+import React from 'react'
+import Options from './Options'
 
 function Searchblock() {
   return (
@@ -25,7 +25,7 @@ function Searchblock() {
         </div>
       </label>
     </div>
-  );
+  )
 }
 
-export default Searchblock;
+export default Searchblock

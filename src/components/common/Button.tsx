@@ -1,13 +1,13 @@
-import Link from "next/link";
-import React, {ReactNode} from "react";
+import Link from 'next/link'
+import React, { ReactNode } from 'react'
 
 interface ButtonProps {
-  href: string;
-  children?: ReactNode;
+  href: string
+  children?: ReactNode
 }
 
 function Button(props: ButtonProps) {
-  const {href, children} = props;
+  const { href, children } = props
 
   return (
     <Link
@@ -21,7 +21,7 @@ function Button(props: ButtonProps) {
         alt=""
       />
     </Link>
-  );
+  )
 }
 
-export default Button;
+export default Button

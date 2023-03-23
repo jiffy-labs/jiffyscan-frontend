@@ -9,23 +9,23 @@
     "name": "Blockchain",
     "url": "/blockchain",
     "dropdown": [
-      ["Transactions","/"],
-      ["Bundles","/"],
-      ["Factories","/"],
-      ["Paymasters","/"],
-      ["Terms","/"]
-  ]
+      ["Transactions", "/"],
+      ["Bundles", "/"],
+      ["Factories", "/"],
+      ["Paymasters", "/"],
+      ["Terms", "/"]
+    ]
   },
   {
     "id": 3456,
     "name": "Developers",
     "url": "/bevelopers",
     "dropdown": [
-      ["Knowledge Base","/"],
-      ["GitHub","/"],
-      ["API Reference","/"],
-      ["API Plans","/"],
-      ["Submit An Issue","/"]
+      ["Knowledge Base", "/"],
+      ["GitHub", "/"],
+      ["API Reference", "/"],
+      ["API Plans", "/"],
+      ["Submit An Issue", "/"]
     ]
   },
   {
@@ -33,9 +33,9 @@
     "name": "More",
     "url": "/more",
     "dropdown": [
-      ["About","/"],
-      ["Company Docs","/"],
-      ["Tools","/"]
+      ["About", "/"],
+      ["Company Docs", "/"],
+      ["Tools", "/"]
     ]
   }
 ]

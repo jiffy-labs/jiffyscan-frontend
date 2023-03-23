@@ -1,28 +1,28 @@
-import React, { Fragment } from "react";
-import Link from "next/link";
-import IconButton from "@/components/common/icon_button/IconButton";
-import Search from "./search/Search";
-import Pages from "./pages/Pages";
-import Logo from "@/components/common/Logo";
-import Drawer from "react-modern-drawer";
+import React, { Fragment } from 'react'
+import Link from 'next/link'
+import IconButton from '@/components/common/icon_button/IconButton'
+import Search from './search/Search'
+import Pages from './pages/Pages'
+import Logo from '@/components/common/Logo'
+import Drawer from 'react-modern-drawer'
 
-import "react-modern-drawer/dist/index.css";
-import User from "./User";
-import Token from "@/components/common/Token";
-import Copyright from "../footer/Copyright";
-import Donations from "../footer/Donations";
+import 'react-modern-drawer/dist/index.css'
+import User from './User'
+import Token from '@/components/common/Token'
+import Copyright from '../footer/Copyright'
+import Donations from '../footer/Donations'
 
 interface NavbarProps {
-  searchbar?: boolean;
+  searchbar?: boolean
 }
 
 function Navbar(props: NavbarProps) {
-  const { searchbar } = props;
+  const { searchbar } = props
 
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(false)
   const toggleDrawer = () => {
-    setIsOpen((prevState) => !prevState);
-  };
+    setIsOpen((prevState) => !prevState)
+  }
 
   return (
     <Fragment>
@@ -47,7 +47,12 @@ function Navbar(props: NavbarProps) {
           </div>
         </div>
       </nav>
-      <Drawer open={isOpen} onClose={toggleDrawer} direction="left" className="bla bla bla">
+      <Drawer
+        open={isOpen}
+        onClose={toggleDrawer}
+        direction="left"
+        className="bla bla bla"
+      >
         <div className="min-h-screen flex justify-between flex-col gap-10 p-4 pb-6">
           <div>
             <div className="flex justify-between gap-3 items-center mb-12">
@@ -75,7 +80,7 @@ function Navbar(props: NavbarProps) {
         </div>
       </Drawer>
     </Fragment>
-  );
+  )
 }
 
-export default Navbar;
+export default Navbar
