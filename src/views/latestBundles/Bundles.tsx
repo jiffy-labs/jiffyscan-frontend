@@ -49,8 +49,6 @@ function UserOperations() {
     
   }
  
-  
-
   return (
     <div className="">
       <Navbar searchbar />
