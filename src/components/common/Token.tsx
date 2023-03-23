@@ -18,10 +18,13 @@ export default Token;
 
 function getHrefLink(type: string | undefined, text: string) {
     if (type == undefined) return '#';
+
     if (type == 'userOp') {
         return 'https://jiffyscan.xyz/userOpHash/' + text;
     } else if (type == 'address') {
         return 'https://jiffyscan.xyz/address/' + text;
+    } else if (type == 'bundle') {
+        return 'https://etherscan.io/tx/' + text;
     } else {
         return '#';
     }
@@ -33,6 +36,8 @@ function getTarget(type: string | undefined) {
     if (type == 'userOp') {
         return '_blank';
     } else if (type == 'address') {
+        return '_blank';
+    } else if (type == 'bundle') {
         return '_blank';
     } else {
         return '_self';
