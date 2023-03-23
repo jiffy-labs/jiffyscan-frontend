@@ -4,9 +4,9 @@
     "icon": "/images/swap-vertical-bold (1).svg"
   },
   "columns": [
-    {"name": "Hash", "sort": true},
-    {"name": "Age", "sort": true},
-    {"name": "#UserOps", "sort": true}
+    { "name": "Hash", "sort": true },
+    { "name": "Age", "sort": true },
+    { "name": "#UserOps", "sort": true }
   ],
   "rows": [
     {

@@ -4,10 +4,10 @@
     "icon": "/images/swap-vertical-bold (1).svg"
   },
   "columns": [
-    {"name": "Hash", "sort": true},
-    {"name": "Age", "sort": true},
-    {"name": "Sender", "sort": false},
-    {"name": "Target", "sort": false}
+    { "name": "Hash", "sort": true },
+    { "name": "Age", "sort": true },
+    { "name": "Sender", "sort": false },
+    { "name": "Target", "sort": false }
   ],
   "rows": [
     {
