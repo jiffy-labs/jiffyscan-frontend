@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 // Please consult @lazycoder1  / Gautam Sabhahit as to what is happening here XD 
 export interface ChartData {
   userOpMetric: number[]
-  bundleMetric: number[]
+  totalwalletsCreatedMetric: number[]
   walletsCreatedMetric: number[]
   totalFeeCollectedMetric: number[]
   daySinceEpoch: number[]
@@ -14,7 +14,7 @@ export const prepareDayWiseData = (dailyMetrics: DailyMetric[], dataSize: number
   const todayDaySinceEpoch: number = Math.floor(Date.now() / 86400000);
   let chartData: ChartData = {
     userOpMetric: [],
-    bundleMetric: [],
+    totalwalletsCreatedMetric: [],
     walletsCreatedMetric: [],
     totalFeeCollectedMetric: [],
     daySinceEpoch: []
@@ -36,9 +36,19 @@ export const prepareDayWiseData = (dailyMetrics: DailyMetric[], dataSize: number
   for (let i = 0; i < dailyMetrics.length; i++) {
     dailyData[dailyMetrics[i].daySinceEpoch] = dailyMetrics[i]
   }
+  // fill total wallets created metrics for empty days 
+  let totalWalletsCreatedPointer = 0;
+  for (let i = dataSize - 1; i >= 0; i--) {
+    if (parseInt(dailyData[todayDaySinceEpoch - i].walletsCreatedTotal) == 0) {
+      dailyData[todayDaySinceEpoch - i].walletsCreatedTotal = totalWalletsCreatedPointer.toString()
+    } else {
+      totalWalletsCreatedPointer = parseInt(dailyData[todayDaySinceEpoch - i].walletsCreatedTotal)
+    }
+  }
+
   for (let i = dataSize - 1; i >= 0; i--) {  // The DailyData is ordered from newest to oldest, we want the other way around when displaying the chart
     chartData.userOpMetric.push(parseInt(dailyData[todayDaySinceEpoch - i].userOpsDaily));
-    chartData.bundleMetric.push(parseInt(dailyData[todayDaySinceEpoch - i].bundleDaily));
+    chartData.totalwalletsCreatedMetric.push(parseInt(dailyData[todayDaySinceEpoch - i].walletsCreatedTotal));
     chartData.walletsCreatedMetric.push(parseInt(dailyData[todayDaySinceEpoch - i].walletsCreatedDaily));
     chartData.totalFeeCollectedMetric.push(parseInt(dailyData[todayDaySinceEpoch - i].gasCostCollectedDaily));
     chartData.daySinceEpoch.push(todayDaySinceEpoch - i)
@@ -71,27 +81,28 @@ export const prepareChartDataAndMetrics = (dailyMetrics: DailyMetric[], metrics:
   // user operations, the data point for that day will not exist. So we are creating an empty dailyData object will all the days.
   // and later populating it with the daily metric. Then creating a list out of it. 
   let chartData: ChartData = prepareDayWiseData(dailyMetrics, dataSize);
-  let feeString: string = getFee(getSum(chartData.totalFeeCollectedMetric.slice(-dataSize / 2)), network);
+  console.log('wtf', chartData.totalFeeCollectedMetric)
+  let feeString: string = getFee(chartData.totalFeeCollectedMetric.slice(-2)[0], network);
 
-  metrics.userOpMetric.value = getSum(chartData.userOpMetric.slice(-dataSize / 2));
-  metrics.totalFeeCollectedMetric.value = feeString
-  metrics.bundleMetric.value = getSum(chartData.bundleMetric.slice(-dataSize / 2));
-  metrics.walletsCreatedMetric.value = getSum(chartData.walletsCreatedMetric.slice(-dataSize / 2))
+  metrics.userOpMetric.value = chartData.userOpMetric.slice(-2)[0];
+  metrics.totalFeeCollectedMetric.value = feeString;
+  metrics.totalwalletsCreatedMetric.value = chartData.totalwalletsCreatedMetric.slice(-2)[0];
+  metrics.walletsCreatedDailyMetric.value = chartData.walletsCreatedMetric.slice(-2)[0];
 
   metrics.userOpMetric.status = getPercentageChange(chartData.userOpMetric);
-  metrics.totalFeeCollectedMetric.status = getPercentageChange(chartData.totalFeeCollectedMetric)
-  metrics.bundleMetric.status = getPercentageChange(chartData.bundleMetric);
-  metrics.walletsCreatedMetric.status = getPercentageChange(chartData.walletsCreatedMetric);
+  metrics.totalFeeCollectedMetric.status = getPercentageChange(chartData.totalFeeCollectedMetric);
+  metrics.totalwalletsCreatedMetric.status = getPercentageChange(chartData.totalwalletsCreatedMetric);
+  metrics.walletsCreatedDailyMetric.status = getPercentageChange(chartData.walletsCreatedMetric);
 
   metrics.userOpMetric.data = chartData.userOpMetric.slice(-dataSize);
   metrics.totalFeeCollectedMetric.data = chartData.totalFeeCollectedMetric.slice(-dataSize);
-  metrics.bundleMetric.data = chartData.bundleMetric.slice(-dataSize);
-  metrics.walletsCreatedMetric.data = chartData.walletsCreatedMetric.slice(-dataSize);
+  metrics.totalwalletsCreatedMetric.data = chartData.totalwalletsCreatedMetric.slice(-dataSize);
+  metrics.walletsCreatedDailyMetric.data = chartData.walletsCreatedMetric.slice(-dataSize);
 
   metrics.userOpMetric.labels = chartData.daySinceEpoch.slice(-dataSize).map((daySinceEpoch) => getDate(daySinceEpoch));
   metrics.totalFeeCollectedMetric.labels = chartData.daySinceEpoch.slice(-dataSize).map((daySinceEpoch) => getDate(daySinceEpoch));
-  metrics.bundleMetric.labels = chartData.daySinceEpoch.slice(-dataSize).map((daySinceEpoch) => getDate(daySinceEpoch));
-  metrics.walletsCreatedMetric.labels = chartData.daySinceEpoch.slice(-dataSize).map((daySinceEpoch) => getDate(daySinceEpoch));
+  metrics.totalwalletsCreatedMetric.labels = chartData.daySinceEpoch.slice(-dataSize).map((daySinceEpoch) => getDate(daySinceEpoch));
+  metrics.walletsCreatedDailyMetric.labels = chartData.daySinceEpoch.slice(-dataSize).map((daySinceEpoch) => getDate(daySinceEpoch));
 
   return { chartData, metrics };
 }
@@ -100,27 +111,27 @@ export default function useWindowDimensions() {
   const hasWindow = typeof window !== 'undefined';
 
   function getWindowDimensions() {
-      const width = hasWindow ? window.innerWidth : null;
-      const height = hasWindow ? window.innerHeight : null;
-      return {
-          width,
-          height,
-      };
+    const width = hasWindow ? window.innerWidth : null;
+    const height = hasWindow ? window.innerHeight : null;
+    return {
+      width,
+      height,
+    };
   }
 
   const [windowDimensions, setWindowDimensions] = useState(
-      getWindowDimensions()
+    getWindowDimensions()
   );
 
   useEffect(() => {
-      if (hasWindow) {
-          const handleResize = () => {
-              setWindowDimensions(getWindowDimensions());
-          };
+    if (hasWindow) {
+      const handleResize = () => {
+        setWindowDimensions(getWindowDimensions());
+      };
 
-          window.addEventListener('resize', handleResize);
-          return () => window.removeEventListener('resize', handleResize);
-      }
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+    }
   }, [hasWindow]);
 
   return windowDimensions;
