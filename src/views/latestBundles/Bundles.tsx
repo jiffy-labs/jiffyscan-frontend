@@ -44,7 +44,7 @@ function UserOperations() {
             presentDayMetrics = oneDayMetrics[0];
         }
         setTotalRows(parseInt(presentDayMetrics?.bundlesTotal || '0'));
-        setLatestBundlesTable({ ...latestBundlesTable, caption: { ...latestBundlesTable.caption, children: parseInt(presentDayMetrics?.bundlesTotal || '0') + ' bundles found' } })
+        setLatestBundlesTable({ ...latestBundlesTable, caption: { ...latestBundlesTable.caption, children: ' '+parseInt(presentDayMetrics?.bundlesTotal || '0') + ' bundles found' } })
     };
 
     const refreshUserOpsTable = async (network: string, pageSize: number, pageNo: number) => {
