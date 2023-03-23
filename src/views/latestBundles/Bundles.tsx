@@ -13,34 +13,47 @@ import {
   DailyMetric,
 } from '@/components/common/apiCalls/jiffyApis'
 import { useConfig } from '@/context/config'
-import { table } from 'console'
+
 const METRIC_DATA_POINT_SIZE = 14
+const DEFAULT_PAGE_SIZE = 10
 
 function UserOperations() {
   const { selectedNetwork, setSelectedNetwork } = useConfig()
   const [latestBundlesTable, setLatestBundlesTable] = useState<tableDataT>(
     table_data as tableDataT,
   )
+  const [pageNo, setPageNo] = useState(0)
+  const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE)
+  const [totalRows, setTotalRows] = useState(0)
 
-  const [responseBundles, setresponseBundles] = useState<DailyMetric[]>()
-  useEffect(() => {
-    refreshUserOpsTable(selectedNetwork)
-    // refreshList()
-  }, [selectedNetwork])
-
-  useEffect(() => {
-    refreshList()
-  }, [responseBundles])
-
-  const refreshList = async () => {
-    const dailyMetrics: DailyMetric[] = await getDailyMetrics(
-      selectedNetwork,
-      METRIC_DATA_POINT_SIZE,
-    )
-    setresponseBundles(dailyMetrics)
+  const setPageSize = (size: number) => {
+    _setPageSize(size)
+    setPageNo(0)
   }
-  const refreshUserOpsTable = async (network: string) => {
-    const bundles = await getLatestBundles(network, 10, 0)
+
+  useEffect(() => {
+    fetchTotalRows()
+  })
+
+  useEffect(() => {
+    refreshUserOpsTable(selectedNetwork, pageSize, pageNo)
+  }, [selectedNetwork, pageNo])
+
+  const fetchTotalRows = async () => {
+    const oneDayMetrics = await getDailyMetrics(selectedNetwork, 1)
+    let presentDayMetrics
+    if (oneDayMetrics.length > 0) {
+      presentDayMetrics = oneDayMetrics[0]
+    }
+    setTotalRows(parseInt(presentDayMetrics?.bundlesTotal || '0'))
+  }
+
+  const refreshUserOpsTable = async (
+    network: string,
+    pageSize: number,
+    pageNo: number,
+  ) => {
+    const bundles = await getLatestBundles(network, pageSize, pageNo)
     let newRows = [] as tableDataT['rows']
     bundles.forEach((bundle) => {
       newRows.push({
@@ -73,8 +86,14 @@ function UserOperations() {
           <div>
             <Table {...latestBundlesTable} />
             <Pagination
-              setTable={setLatestBundlesTable}
               table={latestBundlesTable as tableDataT}
+              pageDetails={{
+                pageNo,
+                setPageNo,
+                pageSize,
+                setPageSize,
+                totalRows,
+              }}
             />
           </div>
         </div>

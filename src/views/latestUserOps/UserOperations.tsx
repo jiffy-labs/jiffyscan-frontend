@@ -7,21 +7,52 @@ import Pagination from '@/components/common/table/Pagination'
 import table_data from './table_data.json'
 import { NETWORK_LIST, NETWORK_ICON_MAP } from '@/components/common/constants'
 import { getCurrencySymbol, getTimePassed } from '@/components/common/utils'
-import { getLatestUserOps } from '@/components/common/apiCalls/jiffyApis'
+import {
+  getDailyMetrics,
+  getLatestUserOps,
+} from '@/components/common/apiCalls/jiffyApis'
 import { useConfig } from '@/context/config'
+
+const DEFAULT_PAGE_SIZE = 10
 
 function UserOperations() {
   const { selectedNetwork, setSelectedNetwork } = useConfig()
   const [latestUserOpsTable, setLatestUserOpsTable] = useState<tableDataT>(
     table_data as tableDataT,
   )
+  const [pageNo, setPageNo] = useState(0)
+  const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE)
+  const [totalRows, setTotalRows] = useState(0)
+
+  const setPageSize = (size: number) => {
+    _setPageSize(size)
+    setPageNo(0)
+  }
 
   useEffect(() => {
-    refreshUserOpsTable(selectedNetwork)
-  }, [selectedNetwork])
+    fetchTotalRows()
+  })
 
-  const refreshUserOpsTable = async (network: string) => {
-    const userOps = await getLatestUserOps(network, 10, 0)
+  useEffect(() => {
+    refreshUserOpsTable(selectedNetwork, pageSize, pageNo)
+  }, [selectedNetwork, pageNo])
+
+  const fetchTotalRows = async () => {
+    const oneDayMetrics = await getDailyMetrics(selectedNetwork, 1)
+    let presentDayMetrics
+    if (oneDayMetrics.length > 0) {
+      presentDayMetrics = oneDayMetrics[0]
+    }
+    setTotalRows(parseInt(presentDayMetrics?.userOpsTotal || '0'))
+  }
+
+  const refreshUserOpsTable = async (
+    network: string,
+    pageSize: number,
+    pageNo: number,
+  ) => {
+    console.log('testing refresh', pageSize, pageNo)
+    const userOps = await getLatestUserOps(network, pageSize, pageNo)
     let newRows = [] as tableDataT['rows']
     userOps.forEach((userOp) => {
       newRows.push({
@@ -59,8 +90,14 @@ function UserOperations() {
           <div>
             <Table {...latestUserOpsTable} />
             <Pagination
-              setTable={setLatestUserOpsTable}
               table={latestUserOpsTable as tableDataT}
+              pageDetails={{
+                pageNo: pageNo,
+                setPageNo: setPageNo,
+                pageSize: pageSize,
+                setPageSize: setPageSize,
+                totalRows: totalRows,
+              }}
             />
           </div>
         </div>

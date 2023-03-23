@@ -4,52 +4,55 @@ import { tableDataT } from './Table'
 
 interface PaginationProps {
   table: tableDataT
-  setTable: React.Dispatch<React.SetStateAction<tableDataT>>
+  pageDetails: {
+    pageNo: number
+    setPageNo: React.Dispatch<React.SetStateAction<number>>
+    pageSize: number
+    setPageSize: (size: number) => void
+    totalRows: number
+  }
 }
 
 function Pagination(props: PaginationProps) {
-  const { setTable, table } = props
   const [show, setShow] = useState<string>('10')
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(0)
 
-  const totalRows = table.rows.length
+  const totalRows = props.pageDetails.totalRows
 
-  const isMaxPage = page * parseInt(show) >= totalRows
-  const isMinPage = page <= 1
+  const isMaxPage = (page + 1) * parseInt(show) >= totalRows
+  const isMinPage = page <= 0
 
-  const fromPage = (page - 1) * parseInt(show) + 1
-  const toPage = isMaxPage ? totalRows : page * parseInt(show)
+  const fromPage = page * parseInt(show) + 1
+  const toPage = isMaxPage ? totalRows : (page + 1) * parseInt(show)
 
-  const updateTable = (start: number, end: number) => {
-    const availableTable = {
-      ...table,
-      rows: table.rows.slice(start, end),
-    } as tableDataT
-    setTable(availableTable)
-  }
-
-  const handlePage = (value: number) => {
-    updateTable((value - 1) * parseInt(show), value * parseInt(show))
-    setPage(value)
-  }
   const handleShow = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value
     setShow(value)
-    handlePage(1)
-    updateTable(0, parseInt(value) > totalRows ? totalRows : parseInt(value))
+    props.pageDetails.setPageNo(0)
+    props.pageDetails.setPageSize(parseInt(value))
   }
 
   const hanlePrevBackward = () => {
-    handlePage(1)
+    setPage(0)
+    props.pageDetails.setPageNo(0)
   }
+
   const hanlePrev = () => {
-    handlePage(isMinPage ? 1 : page - 1)
+    const newPageNo = isMinPage ? 1 : page - 1
+    setPage(newPageNo)
+    props.pageDetails.setPageNo(newPageNo)
   }
+
   const hanleNext = () => {
-    handlePage(isMaxPage ? totalRows / parseInt(show) : page + 1)
+    const newPageNo = isMaxPage ? totalRows / parseInt(show) : page + 1
+    setPage(newPageNo)
+    props.pageDetails.setPageNo(newPageNo)
   }
+
   const hanleNextForward = () => {
-    handlePage(Math.max(0, Math.ceil(totalRows / parseInt(show))))
+    const newPageNo = Math.max(1, Math.ceil(totalRows / parseInt(show))) - 1
+    setPage(newPageNo)
+    props.pageDetails.setPageNo(newPageNo)
   }
 
   return (
