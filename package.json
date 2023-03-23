@@ -24,6 +24,7 @@
     "react-indiana-drag-scroll": "^2.2.0",
     "react-modern-drawer": "^1.2.0",
     "react-simple-toasts": "^3.2.5",
+    "react-tooltip": "^5.10.1",
     "typescript": "4.9.5"
   },
   "devDependencies": {

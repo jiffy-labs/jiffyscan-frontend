@@ -37,7 +37,6 @@ function Navbar(props: NavbarProps) {
           </div>
           <div className="hidden md:flex items-center gap-3 flex-grow justify-end">
             {searchbar && <Search />}
-
             <User />
           </div>
           <div className="flex md:hidden items-center">
@@ -51,7 +50,7 @@ function Navbar(props: NavbarProps) {
         open={isOpen}
         onClose={toggleDrawer}
         direction="left"
-        className="bla bla bla"
+        className=" "
       >
         <div className="min-h-screen flex justify-between flex-col gap-10 p-4 pb-6">
           <div>

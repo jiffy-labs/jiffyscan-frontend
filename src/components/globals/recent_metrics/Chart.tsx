@@ -86,5 +86,5 @@ export function Chart(props: ChartProps) {
       },
     ],
   }
-  return <Line className="padding" options={options} data={data} />
+  return <Line className="padding" width={400} options={options} data={data} />
 }
