@@ -19,6 +19,7 @@ function UserOperations() {
     const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE);
     const [totalRows, setTotalRows] = useState(0);
     const [tableLoading, setTableLoading] = useState(true);
+    const [captionText, setCaptionText] = useState('');
 
     const setPageSize = (size: number) => {
         _setPageSize(size);
@@ -42,7 +43,8 @@ function UserOperations() {
             presentDayMetrics = oneDayMetrics[0];
         }
         setTotalRows(parseInt(presentDayMetrics?.userOpsTotal || '0'));
-        setLatestUserOpsTable({...latestUserOpsTable, caption: {...latestUserOpsTable.caption, children: parseInt(presentDayMetrics?.userOpsTotal || '0') + ' user operations found'}})
+        setCaptionText(' ' + parseInt(presentDayMetrics?.userOpsTotal || '0') + ' user operations found');
+
     };
 
     const refreshUserOpsTable = async (network: string, pageSize: number, pageNo: number) => {
@@ -82,7 +84,14 @@ function UserOperations() {
             <section className="mb-10">
                 <div className="container">
                     <div>
-                        <Table {...latestUserOpsTable} loading={tableLoading} />
+                        <Table
+                            {...latestUserOpsTable}
+                            loading={tableLoading}
+                            caption={{
+                                children: captionText,
+                                icon: '/images/cube.svg',
+                            }}
+                        />
                         <Pagination
                             table={latestUserOpsTable as tableDataT}
                             pageDetails={{
