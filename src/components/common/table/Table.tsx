@@ -55,7 +55,7 @@ export const getFee = (amount: number, network: string): fee => {
 }
 
 function Table(props: tableDataT) {
-  const {  rows } = props;
+  const { rows } = props;
  
   const width = useWidth();
   const [loading, setLoading] = useState(true);

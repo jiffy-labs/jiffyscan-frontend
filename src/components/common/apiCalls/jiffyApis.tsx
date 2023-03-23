@@ -75,7 +75,7 @@ export const getLatestBundles = async (selectedNetwork: string, pageSize: number
 
 export const getDailyMetrics = async (selectedNetwork: string, noOfDays: number): Promise<DailyMetric[]> => {
     const response = await fetch(
-        'https://api.jiffyscan.xyz/v0/GetDailyMetrics?network=' + selectedNetwork + '&noOfDays=' + noOfDays
+        'https://api.jiffyscan.xyz/v0/getDailyMetrics?network=' + selectedNetwork + '&noOfDays=' + noOfDays
       );
       const data = await response.json();
       if ('metrics' in data) {
