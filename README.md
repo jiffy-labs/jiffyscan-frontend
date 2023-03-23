@@ -43,20 +43,20 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 If you've found a bug in Jiffyscan, please open a new issue on GitHub. Be sure to include as much detail as possible, including:
 
-- Steps to reproduce the bug
-- Expected behavior
-- Actual behavior
-- Screenshots or error messages (if applicable)
+-   Steps to reproduce the bug
+-   Expected behavior
+-   Actual behavior
+-   Screenshots or error messages (if applicable)
 
 ## Pull Requests
 
 If you want to contribute to the project by fixing a bug or adding a new feature, please submit a pull request. Here's how:
 
-- Fork the repository.
-- Create a new branch from the `ui-work` branch.
-- Make your changes and commit them.
-- Push your branch to your forked repository.
-- Open a pull request from your branch to the main branch of the original repository.
+-   Fork the repository.
+-   Create a new branch from the `ui-work` branch.
+-   Make your changes and commit them.
+-   Push your branch to your forked repository.
+-   Open a pull request from your branch to the main branch of the original repository.
 
 When submitting a pull request, please include a clear description of your changes and why you made them. Please make sure your code follows our coding standards and is well-documented.
 
