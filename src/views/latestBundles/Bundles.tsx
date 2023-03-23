@@ -9,6 +9,7 @@ import { NETWORK_LIST, NETWORK_ICON_MAP } from '@/components/common/constants';
 import { getCurrencySymbol, getTimePassed } from '@/components/common/utils';
 import { getLatestBundles, getDailyMetrics, DailyMetric } from '@/components/common/apiCalls/jiffyApis';
 import { useConfig } from '@/context/config';
+import latestBundles from '@/pages/latestBundles';
 
 const METRIC_DATA_POINT_SIZE = 14;
 const DEFAULT_PAGE_SIZE = 10;
@@ -43,6 +44,7 @@ function UserOperations() {
             presentDayMetrics = oneDayMetrics[0];
         }
         setTotalRows(parseInt(presentDayMetrics?.bundlesTotal || '0'));
+        setLatestBundlesTable({ ...latestBundlesTable, caption: { ...latestBundlesTable.caption, children: parseInt(presentDayMetrics?.bundlesTotal || '0') + ' bundles found' } })
     };
 
     const refreshUserOpsTable = async (network: string, pageSize: number, pageNo: number) => {

@@ -21,6 +21,7 @@ function RecentMetrics({
 }) {
     const [metrics, setMetrics] = useState(recentMetrics as any);
     const [loading, setLoading] = useState(true);
+    
     useEffect(() => {
         refreshMetricsChart(selectedNetwork);
         if (metrics) {
