@@ -1,12 +1,12 @@
-import IconButton from "@/components/common/icon_button/IconButton";
-import Token from "@/components/common/Token";
-import Link from "next/link";
-import React from "react";
-import BacktoTop from "./BacktoTop";
-import Copyright from "./Copyright";
-import Donations from "./Donations";
-import pages from "./pages.json";
-import socials from "./social.json";
+import IconButton from '@/components/common/icon_button/IconButton'
+import Token from '@/components/common/Token'
+import Link from 'next/link'
+import React from 'react'
+import BacktoTop from './BacktoTop'
+import Copyright from './Copyright'
+import Donations from './Donations'
+import pages from './pages.json'
+import socials from './social.json'
 
 function Footer() {
   return (
@@ -15,7 +15,11 @@ function Footer() {
         <div className=" flex md:flex-row flex-col md:justify-between md:items-center">
           <div className="flex items-center gap-1 md:ml-0 -ml-3">
             {socials.map(({ icon, id, url }) => (
-              <Link className="w-14 h-14 grid place-content-center" href={url} key={id}>
+              <Link
+                className="w-14 h-14 grid place-content-center"
+                href={url}
+                key={id}
+              >
                 <img src={icon} alt="" />
               </Link>
             ))}
@@ -33,12 +37,15 @@ function Footer() {
               </Link>
             </div>
             <p className="text-sm">
-              A block explorer and analytics platform for Account Abstraction on EVM chains using EIP-4337.
+              A block explorer and analytics platform for Account Abstraction on
+              EVM chains using EIP-4337.
             </p>
           </div>
           {pages.map(({ id, lists, name }) => (
             <div key={id} className="md:place-self-center md:self-start">
-              <b className="font-normal text-sm text-dark-200 block mb-6">{name}</b>
+              <b className="font-normal text-sm text-dark-200 block mb-6">
+                {name}
+              </b>
               <div className="flex flex-col gap-3 md:gap-5">
                 {lists.map(([name, url], index) => (
                   <Link
@@ -65,7 +72,7 @@ function Footer() {
         </div>
       </div>
     </footer>
-  );
+  )
 }
 
-export default Footer;
+export default Footer

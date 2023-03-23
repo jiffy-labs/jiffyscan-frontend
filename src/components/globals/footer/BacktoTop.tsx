@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react'
 
 function BacktoTop() {
   function handleButtonClick() {
-    window.scrollTo({top: 0, behavior: "smooth"});
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   return (
@@ -14,7 +14,7 @@ function BacktoTop() {
       <img src="/images/icon-container (24).svg" alt="" />
       <span className="font-bold text-white">Back to Top</span>
     </div>
-  );
+  )
 }
 
-export default BacktoTop;
+export default BacktoTop

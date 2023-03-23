@@ -1,7 +1,7 @@
-import { DailyMetric } from "@/components/common/apiCalls/jiffyApis";
-import { getDate, getFee } from "@/components/common/utils";
-import { useEffect, useState } from 'react';
-// Please consult @lazycoder1  / Gautam Sabhahit as to what is happening here XD 
+import { DailyMetric } from '@/components/common/apiCalls/jiffyApis'
+import { getDate, getFee } from '@/components/common/utils'
+import { useEffect, useState } from 'react'
+// Please consult @lazycoder1  / Gautam Sabhahit as to what is happening here XD
 export interface ChartData {
   userOpMetric: number[]
   totalwalletsCreatedMetric: number[]
@@ -10,14 +10,17 @@ export interface ChartData {
   daySinceEpoch: number[]
 }
 
-export const prepareDayWiseData = (dailyMetrics: DailyMetric[], dataSize: number) => {
-  const todayDaySinceEpoch: number = Math.floor(Date.now() / 86400000);
+export const prepareDayWiseData = (
+  dailyMetrics: DailyMetric[],
+  dataSize: number,
+) => {
+  const todayDaySinceEpoch: number = Math.floor(Date.now() / 86400000)
   let chartData: ChartData = {
     userOpMetric: [],
     totalwalletsCreatedMetric: [],
     walletsCreatedMetric: [],
     totalFeeCollectedMetric: [],
-    daySinceEpoch: []
+    daySinceEpoch: [],
   }
   const dailyData: { [key: string]: DailyMetric } = {}
   for (let i = 0; i < dataSize; i++) {
@@ -30,7 +33,7 @@ export const prepareDayWiseData = (dailyMetrics: DailyMetric[], dataSize: number
       bundlesTotal: '0',
       walletsCreatedTotal: '0',
       gasCostCollectedTotal: '0',
-      daySinceEpoch: (todayDaySinceEpoch - i).toString()
+      daySinceEpoch: (todayDaySinceEpoch - i).toString(),
     }
   }
   for (let i = 0; i < dailyMetrics.length; i++) {
@@ -46,38 +49,48 @@ export const prepareDayWiseData = (dailyMetrics: DailyMetric[], dataSize: number
     }
   }
 
-  for (let i = dataSize - 1; i >= 0; i--) {  // The DailyData is ordered from newest to oldest, we want the other way around when displaying the chart
-    chartData.userOpMetric.push(parseInt(dailyData[todayDaySinceEpoch - i].userOpsDaily));
-    chartData.totalwalletsCreatedMetric.push(parseInt(dailyData[todayDaySinceEpoch - i].walletsCreatedTotal));
-    chartData.walletsCreatedMetric.push(parseInt(dailyData[todayDaySinceEpoch - i].walletsCreatedDaily));
-    chartData.totalFeeCollectedMetric.push(parseInt(dailyData[todayDaySinceEpoch - i].gasCostCollectedDaily));
+  for (let i = dataSize - 1; i >= 0; i--) {
+    // The DailyData is ordered from newest to oldest, we want the other way around when displaying the chart
+    chartData.userOpMetric.push(
+      parseInt(dailyData[todayDaySinceEpoch - i].userOpsDaily),
+    )
+    chartData.totalwalletsCreatedMetric.push(
+      parseInt(dailyData[todayDaySinceEpoch - i].walletsCreatedTotal),
+    )
+    chartData.walletsCreatedMetric.push(
+      parseInt(dailyData[todayDaySinceEpoch - i].walletsCreatedDaily),
+    )
+    chartData.totalFeeCollectedMetric.push(
+      parseInt(dailyData[todayDaySinceEpoch - i].gasCostCollectedDaily),
+    )
     chartData.daySinceEpoch.push(todayDaySinceEpoch - i)
   }
   return chartData
 }
 
-
-
 const getPercentageChange = (numberArray: number[]) => {
   // calculate the different between the first half and second half
-  const firstHalf = numberArray.slice(0, numberArray.length / 2);
+  const firstHalf = numberArray.slice(0, numberArray.length / 2)
   const firstHalfSum = getSum(firstHalf)
-  const secondHalf = numberArray.slice(-numberArray.length / 2);
+  const secondHalf = numberArray.slice(-numberArray.length / 2)
   const secondHalfSum = getSum(secondHalf)
   if (firstHalfSum == 0) return 'NaN'
-  const percentageChange = ((secondHalfSum - firstHalfSum) / firstHalfSum) * 100;
-  return percentageChange.toFixed(1).toString();
+  const percentageChange = ((secondHalfSum - firstHalfSum) / firstHalfSum) * 100
+  return percentageChange.toFixed(1).toString()
 }
-
 
 const getSum = (numberArray: number[]) => {
-  ;
-  const sum = numberArray.reduce((a, b) => a + b, 0);
-  return sum;
+  const sum = numberArray.reduce((a, b) => a + b, 0)
+  return sum
 }
 
-export const prepareChartDataAndMetrics = (dailyMetrics: DailyMetric[], metrics: any, dataSize: number, network: string) => {
-  // This is the problem, the daily metric chart will not be consistent. For the days that there are no 
+export const prepareChartDataAndMetrics = (
+  dailyMetrics: DailyMetric[],
+  metrics: any,
+  dataSize: number,
+  network: string,
+) => {
+  // This is the problem, the daily metric chart will not be consistent. For the days that there are no
   // user operations, the data point for that day will not exist. So we are creating an empty dailyData object will all the days.
   // and later populating it with the daily metric. Then creating a list out of it. 
   let chartData: ChartData = prepareDayWiseData(dailyMetrics, dataSize);
@@ -108,31 +121,31 @@ export const prepareChartDataAndMetrics = (dailyMetrics: DailyMetric[], metrics:
 }
 
 export default function useWindowDimensions() {
-  const hasWindow = typeof window !== 'undefined';
+  const hasWindow = typeof window !== 'undefined'
 
   function getWindowDimensions() {
-    const width = hasWindow ? window.innerWidth : null;
-    const height = hasWindow ? window.innerHeight : null;
+    const width = hasWindow ? window.innerWidth : null
+    const height = hasWindow ? window.innerHeight : null
     return {
       width,
       height,
-    };
+    }
   }
 
   const [windowDimensions, setWindowDimensions] = useState(
-    getWindowDimensions()
-  );
+    getWindowDimensions(),
+  )
 
   useEffect(() => {
     if (hasWindow) {
       const handleResize = () => {
-        setWindowDimensions(getWindowDimensions());
-      };
+        setWindowDimensions(getWindowDimensions())
+      }
 
-      window.addEventListener('resize', handleResize);
-      return () => window.removeEventListener('resize', handleResize);
-    }
-  }, [hasWindow]);
+  window.addEventListener('resize', handleResize)
+  return () => window.removeEventListener('resize', handleResize)
+}
+  }, [hasWindow])
 
-  return windowDimensions;
+return windowDimensions
 }
