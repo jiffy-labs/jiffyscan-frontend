@@ -22,7 +22,7 @@ export const NETWORK_LIST = [
         key: 'goerli',
         iconPath: '/images/eth-diamond-purple.svg',
         iconPathInverted: '/images/eth-diamond-purple.svg',
-    }
+    },
 ];
 
 interface NETWORK_ICON_MAP {

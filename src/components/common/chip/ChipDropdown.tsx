@@ -19,14 +19,7 @@ export interface ChipProps {
 }
 
 function ChipDropdown(props: ChipProps) {
-    const {
-        variant = 'contained',
-        isMoreSelected,
-        className,
-        setIsMoreSelected,
-        onClickFcn,
-        dropdownNetworkList,
-    } = props;
+    const { variant = 'contained', isMoreSelected, className, setIsMoreSelected, onClickFcn, dropdownNetworkList } = props;
 
     const color = isMoreSelected ? 'dark-700' : 'white';
     const [selectedNetwork, setSelectedNetwork] = useState('');
@@ -36,11 +29,7 @@ function ChipDropdown(props: ChipProps) {
         <div className="text-sm">
             <Menu as="div" className="relative inline-block text-left ">
                 <span>
-                    <Menu.Button
-                        className={`${sx.wrapper} ${sx[variant]} ${sx[color]} ${
-                            className || ''
-                        }`}
-                    >
+                    <Menu.Button className={`${sx.wrapper} ${sx[variant]} ${sx[color]} ${className || ''}`}>
                         {icon && isMoreSelected && (
                             <img
                                 src={icon}
@@ -53,10 +42,7 @@ function ChipDropdown(props: ChipProps) {
                         )}
 
                         {isMoreSelected ? selectedNetwork : 'More'}
-                        <ChevronDownIcon
-                            className="-mr-1 h-5 w-5 text-gray-400"
-                            aria-hidden="true"
-                        />
+                        <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
                     </Menu.Button>
                 </span>
 
@@ -71,28 +57,26 @@ function ChipDropdown(props: ChipProps) {
                 >
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-24 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <div className="py-1 flex flex-col">
-                            {dropdownNetworkList.map(
-                                ({ name, key, iconPath }, index) => (
-                                    <Menu.Item>
-                                        {({ active }) => (
-                                            <a
-                                                onClick={() => {
-                                                    setSelectedNetwork(name);
-                                                    setIsMoreSelected(true);
-                                                    onClickFcn(key);
-                                                    setIcon(iconPath);
-                                                }}
-                                                className={`
+                            {dropdownNetworkList.map(({ name, key, iconPath }, index) => (
+                                <Menu.Item>
+                                    {({ active }) => (
+                                        <a
+                                            onClick={() => {
+                                                setSelectedNetwork(name);
+                                                setIsMoreSelected(true);
+                                                onClickFcn(key);
+                                                setIcon(iconPath);
+                                            }}
+                                            className={`
 												${active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'} + 
 												'block px-4 py-2 text-sm'
 												`}
-                                            >
-                                                {name}
-                                            </a>
-                                        )}
-                                    </Menu.Item>
-                                )
-                            )}
+                                        >
+                                            {name}
+                                        </a>
+                                    )}
+                                </Menu.Item>
+                            ))}
                         </div>
                     </Menu.Items>
                 </Transition>

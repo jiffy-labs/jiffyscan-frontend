@@ -1,6 +1,5 @@
-import { NETWORK_LIST } from "@/components/common/constants";
-import { createContext, ReactNode, useContext, useState } from "react";
-
+import { NETWORK_LIST } from '@/components/common/constants';
+import { createContext, ReactNode, useContext, useState } from 'react';
 
 type ConfigContextType = {
     selectedNetwork: string;
@@ -8,9 +7,9 @@ type ConfigContextType = {
 };
 
 const configContextDefaultValues: ConfigContextType = {
-    selectedNetwork: "mainnet",
+    selectedNetwork: 'mainnet',
     setSelectedNetwork: () => {},
-}
+};
 
 const ConfigContext = createContext<ConfigContextType>(configContextDefaultValues);
 
@@ -24,7 +23,7 @@ type Props = {
 
 export function ConfigProvider({ children }: Props) {
     const [selectedNetwork, setSelectedNetwork] = useState(NETWORK_LIST[0].key);
-    
+
     const value: ConfigContextType = {
         selectedNetwork,
         setSelectedNetwork,
@@ -32,9 +31,7 @@ export function ConfigProvider({ children }: Props) {
 
     return (
         <>
-            <ConfigContext.Provider value={value}>
-                {children}
-            </ConfigContext.Provider>
+            <ConfigContext.Provider value={value}>{children}</ConfigContext.Provider>
         </>
     );
 }

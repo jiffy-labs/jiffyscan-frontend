@@ -27,34 +27,23 @@ function NetworkSelector({
     }, [width]);
 
     const displayNetworkList = NETWORK_LIST.slice(0, endIndex);
-    const dropdownNetworkList = NETWORK_LIST.slice(
-        endIndex,
-        NETWORK_LIST.length
-    );
+    const dropdownNetworkList = NETWORK_LIST.slice(endIndex, NETWORK_LIST.length);
 
     return (
         <div className="flex flex-wrap items-center gap-1">
-            {displayNetworkList.map(
-                ({ name, key, iconPath, iconPathInverted }, index) => (
-                    <Chip
-                        key={index}
-                        onClick={() => {
-                            handleNetworkChange(key);
-                            setIsMoreSelected(false);
-                        }}
-                        startIcon={
-                            selectedNetwork === key
-                                ? iconPath
-                                : iconPathInverted
-                        }
-                        color={`${
-                            selectedNetwork === key ? 'dark-700' : 'white'
-                        }`}
-                    >
-                        {name}
-                    </Chip>
-                )
-            )}
+            {displayNetworkList.map(({ name, key, iconPath, iconPathInverted }, index) => (
+                <Chip
+                    key={index}
+                    onClick={() => {
+                        handleNetworkChange(key);
+                        setIsMoreSelected(false);
+                    }}
+                    startIcon={selectedNetwork === key ? iconPath : iconPathInverted}
+                    color={`${selectedNetwork === key ? 'dark-700' : 'white'}`}
+                >
+                    {name}
+                </Chip>
+            ))}
             <ChipDropdown
                 onClickFcn={handleNetworkChange}
                 isMoreSelected={isMoreSelected}

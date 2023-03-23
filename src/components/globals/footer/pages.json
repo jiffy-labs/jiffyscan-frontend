@@ -1,34 +1,40 @@
 [
-  {
-    "id": 984,
-    "name": "Company",
-    "lists": [
-      ["About Us", "https://adityaagarwal.notion.site/JiffyLabs-Pages-3d508d91ba414fa590c335b3dc1f64d7#a46942a916f048478c901cbf4c766e42"],
-      ["Contact Us", "https://adityaagarwal.notion.site/JiffyLabs-Pages-3d508d91ba414fa590c335b3dc1f64d7#a46942a916f048478c901cbf4c766e42"],
-      ["Careers", "https://adityaagarwal.notion.site/Careers-cf814bcffd33404484893bc9def75f09"],
-      ["Brand Assets", "https://adityaagarwal.notion.site/Brand-Assets-137d4749fb6b4cc3880475abfc5f7ae2"],
-      ["Privacy", "https://adityaagarwal.notion.site/Privacy-Policy-da10b6723d8b440494ec381a7591d9bd"],
-      ["Terms", "https://adityaagarwal.notion.site/Terms-98a184c7edd648c6a1dd2e044184c09f"]
-    ]
-  },
-  {
-    "id": 456,
-    "name": "Community",
-    "lists": [
-      ["Blog", "https://medium.com/jiffylabs"],
-      ["API Documentation", "https://documenter.getpostman.com/view/21318108/2s8YzZPJsr"],
-      ["Knowledge Base", "https://www.notion.so/Knowledge-Base-c8b7f786de5141a7baaffd30cef8fe30"],
-      ["FAQ", "https://www.notion.so/5b080715834745ff82339c8ca73a76cb"],
-      ["Submit an Issue", "https://github.com/jiffy-labs/jiffyscan-frontend/issues"]
-    ]
-  },
-  {
-    "id": 567,
-    "name": "Products & Services",
-    "lists": [
-      ["API Plans", "https://www.notion.so/c3633ff3f9ea4aeeb1892ae1303439ba"],
-      ["Explorer-as-a-service", "https://www.notion.so/c3633ff3f9ea4aeeb1892ae1303439ba"],
-      ["GasFee Infrastructure", "https://www.notion.so/c3633ff3f9ea4aeeb1892ae1303439ba"]
-    ]
-  }
+    {
+        "id": 984,
+        "name": "Company",
+        "lists": [
+            [
+                "About Us",
+                "https://adityaagarwal.notion.site/JiffyLabs-Pages-3d508d91ba414fa590c335b3dc1f64d7#a46942a916f048478c901cbf4c766e42"
+            ],
+            [
+                "Contact Us",
+                "https://adityaagarwal.notion.site/JiffyLabs-Pages-3d508d91ba414fa590c335b3dc1f64d7#a46942a916f048478c901cbf4c766e42"
+            ],
+            ["Careers", "https://adityaagarwal.notion.site/Careers-cf814bcffd33404484893bc9def75f09"],
+            ["Brand Assets", "https://adityaagarwal.notion.site/Brand-Assets-137d4749fb6b4cc3880475abfc5f7ae2"],
+            ["Privacy", "https://adityaagarwal.notion.site/Privacy-Policy-da10b6723d8b440494ec381a7591d9bd"],
+            ["Terms", "https://adityaagarwal.notion.site/Terms-98a184c7edd648c6a1dd2e044184c09f"]
+        ]
+    },
+    {
+        "id": 456,
+        "name": "Community",
+        "lists": [
+            ["Blog", "https://medium.com/jiffylabs"],
+            ["API Documentation", "https://documenter.getpostman.com/view/21318108/2s8YzZPJsr"],
+            ["Knowledge Base", "https://www.notion.so/Knowledge-Base-c8b7f786de5141a7baaffd30cef8fe30"],
+            ["FAQ", "https://www.notion.so/5b080715834745ff82339c8ca73a76cb"],
+            ["Submit an Issue", "https://github.com/jiffy-labs/jiffyscan-frontend/issues"]
+        ]
+    },
+    {
+        "id": 567,
+        "name": "Products & Services",
+        "lists": [
+            ["API Plans", "https://www.notion.so/c3633ff3f9ea4aeeb1892ae1303439ba"],
+            ["Explorer-as-a-service", "https://www.notion.so/c3633ff3f9ea4aeeb1892ae1303439ba"],
+            ["GasFee Infrastructure", "https://www.notion.so/c3633ff3f9ea4aeeb1892ae1303439ba"]
+        ]
+    }
 ]

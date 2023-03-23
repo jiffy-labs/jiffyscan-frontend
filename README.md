@@ -1,4 +1,3 @@
-
 # Contributing to Jiffyscan
 
 Welcome to Jiffyscan! We are excited to have you contribute to our open-source project. We welcome all types of contributions, from bug fixes to new features. This document will guide you through the process of contributing to our project.
@@ -40,25 +39,24 @@ The `pages/api` directory is mapped to `/api/*`. Files in this directory are tre
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-
 ## Bug Reports and Feature Requests
 
 If you've found a bug in Jiffyscan, please open a new issue on GitHub. Be sure to include as much detail as possible, including:
 
-- Steps to reproduce the bug
-- Expected behavior
-- Actual behavior
-- Screenshots or error messages (if applicable)
+-   Steps to reproduce the bug
+-   Expected behavior
+-   Actual behavior
+-   Screenshots or error messages (if applicable)
 
 ## Pull Requests
 
 If you want to contribute to the project by fixing a bug or adding a new feature, please submit a pull request. Here's how:
 
-- Fork the repository.
-- Create a new branch from the `ui-work` branch.
-- Make your changes and commit them.
-- Push your branch to your forked repository.
-- Open a pull request from your branch to the main branch of the original repository.
+-   Fork the repository.
+-   Create a new branch from the `ui-work` branch.
+-   Make your changes and commit them.
+-   Push your branch to your forked repository.
+-   Open a pull request from your branch to the main branch of the original repository.
 
 When submitting a pull request, please include a clear description of your changes and why you made them. Please make sure your code follows our coding standards and is well-documented.
 
