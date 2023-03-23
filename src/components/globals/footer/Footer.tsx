@@ -15,7 +15,7 @@ function Footer() {
                 <div className=" flex md:flex-row flex-col md:justify-between md:items-center">
                     <div className="flex items-center gap-1 md:ml-0 -ml-3">
                         {socials.map(({ icon, id, url }) => (
-                            <Link className="w-14 h-14 grid place-content-center" href={url} key={id}>
+                            <Link className="w-14 h-14 grid place-content-center" target="_blank" href={url} key={id}>
                                 <img src={icon} alt="" />
                             </Link>
                         ))}
@@ -41,7 +41,7 @@ function Footer() {
                             <b className="font-normal text-sm text-dark-200 block mb-6">{name}</b>
                             <div className="flex flex-col gap-3 md:gap-5">
                                 {lists.map(([name, url], index) => (
-                                    <Link className="flex items-center gap-2 font-bold group text-white" key={index} href={url}>
+                                    <Link className="flex items-center gap-2 font-bold group text-white" key={index} target="_blank" href={url}>
                                         <span>{name}</span>
                                         <img
                                             className="group-hover:translate-x-1 duration-100"
