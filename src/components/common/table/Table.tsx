@@ -62,7 +62,7 @@ function Table(props: tableDataT) {
     let skeletonCards = Array(5).fill(0);
     return (
         <div className="">
-            <Caption icon={caption.icon}>{caption.children}</Caption>
+            <Caption icon={caption.icon} text={caption.text}>{caption.children}</Caption>
             <ScrollContainer>
                 <div style={width < 768 ? { minWidth: columns?.length * 160 } : {}}>
                     <table className="w-full text-md bg-white shadow-200 border border-dark-100">
