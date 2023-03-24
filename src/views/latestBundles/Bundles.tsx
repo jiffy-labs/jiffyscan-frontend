@@ -10,6 +10,8 @@ import { getCurrencySymbol, getTimePassed } from '@/components/common/utils';
 import { getLatestBundles, getDailyMetrics, DailyMetric } from '@/components/common/apiCalls/jiffyApis';
 import { useConfig } from '@/context/config';
 import latestBundles from '@/pages/latestBundles';
+import { ChevronRightIcon, HomeIcon } from '@heroicons/react/20/solid';
+import Link from 'next/link';
 
 const METRIC_DATA_POINT_SIZE = 14;
 const DEFAULT_PAGE_SIZE = 10;
@@ -85,6 +87,7 @@ function UserOperations() {
                             caption={{
                                 children: captionText,
                                 icon: '/images/cube.svg',
+                                text: 'Approx Number of Bundles Processed in the selected chain',
                             }}
                         />
                         <Pagination

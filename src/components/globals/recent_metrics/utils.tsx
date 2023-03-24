@@ -85,10 +85,10 @@ export const prepareChartDataAndMetrics = (dailyMetrics: DailyMetric[], metrics:
     metrics.totalwalletsCreatedMetric.value = chartData.totalwalletsCreatedMetric.slice(-1)[0];
     metrics.walletsCreatedDailyMetric.value = chartData.walletsCreatedMetric.slice(-1)[0];
 
-    metrics.userOpMetric.status = getPercentageChange(chartData.userOpMetric) + " WoW";
-    metrics.totalFeeCollectedMetric.status = getPercentageChange(chartData.totalFeeCollectedMetric) + " WoW";
-    metrics.totalwalletsCreatedMetric.status = getPercentageChange(chartData.totalwalletsCreatedMetric) + " WoW";
-    metrics.walletsCreatedDailyMetric.status = getPercentageChange(chartData.walletsCreatedMetric)+ " WoW";
+    metrics.userOpMetric.status = getPercentageChange(chartData.userOpMetric) + ' WoW';
+    metrics.totalFeeCollectedMetric.status = getPercentageChange(chartData.totalFeeCollectedMetric) + ' WoW';
+    metrics.totalwalletsCreatedMetric.status = getPercentageChange(chartData.totalwalletsCreatedMetric) + ' WoW';
+    metrics.walletsCreatedDailyMetric.status = getPercentageChange(chartData.walletsCreatedMetric) + ' WoW';
 
     metrics.userOpMetric.data = chartData.userOpMetric.slice(-dataSize);
     metrics.totalFeeCollectedMetric.data = chartData.totalFeeCollectedMetric.slice(-dataSize);
@@ -104,29 +104,30 @@ export const prepareChartDataAndMetrics = (dailyMetrics: DailyMetric[], metrics:
 };
 
 export default function useWindowDimensions() {
+    const [windowDimensions, setWindowDimensions] = useState<{ width: number | null; height: number | null }>({
+        width: null,
+        height: null,
+    });
     const hasWindow = typeof window !== 'undefined';
 
-    function getWindowDimensions() {
-        const width = hasWindow ? window.innerWidth : null;
-        const height = hasWindow ? window.innerHeight : null;
-        return {
-            width,
-            height,
-        };
-    }
-
-    const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
-
     useEffect(() => {
-        if (hasWindow) {
-            const handleResize = () => {
-                setWindowDimensions(getWindowDimensions());
+        function getWindowDimensions() {
+            const { innerWidth: width, innerHeight: height } = window;
+            return {
+                width,
+                height,
             };
+        }
 
+        function handleResize() {
+            setWindowDimensions(getWindowDimensions());
+        }
+
+        if (typeof window !== 'undefined') {
+            setWindowDimensions(getWindowDimensions());
             window.addEventListener('resize', handleResize);
             return () => window.removeEventListener('resize', handleResize);
         }
-    }, [hasWindow]);
-
+    }, []);
     return windowDimensions;
 }

@@ -1,12 +1,16 @@
 import React from 'react';
+import Tooltip from '@mui/material/Tooltip';
 
-function InfoButton() {
+function InfoButton({ data }: { data?: string }) {
     return (
-        <div className="flex">
-            <button type="button">
-                <img src="/images/icon-container (3).svg" alt="" />
-            </button>
-        </div>
+        <>
+            {/* <Tooltip id="my-tooltip" style={{ borderRadius: '0.35rem' }} /> */}
+            <Tooltip title={data} placement="top">
+                <button type="button">
+                    <img src="/images/icon-container (3).svg" alt="" />
+                </button>
+            </Tooltip>
+        </>
     );
 }
 

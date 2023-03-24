@@ -44,7 +44,6 @@ function UserOperations() {
         }
         setTotalRows(parseInt(presentDayMetrics?.userOpsTotal || '0'));
         setCaptionText(' ' + parseInt(presentDayMetrics?.userOpsTotal || '0') + ' user operations found');
-
     };
 
     const refreshUserOpsTable = async (network: string, pageSize: number, pageNo: number) => {
@@ -90,6 +89,7 @@ function UserOperations() {
                             caption={{
                                 children: captionText,
                                 icon: '/images/cube.svg',
+                                text: 'Approx Number of Operations Processed in the selected chain',
                             }}
                         />
                         <Pagination

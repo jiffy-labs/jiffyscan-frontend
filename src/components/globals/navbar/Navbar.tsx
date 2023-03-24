@@ -4,13 +4,15 @@ import IconButton from '@/components/common/icon_button/IconButton';
 import Search from './search/Search';
 import Pages from './pages/Pages';
 import Logo from '@/components/common/Logo';
-import Drawer from 'react-modern-drawer';
+import dynamic from 'next/dynamic'
+const Drawer = dynamic(import('react-modern-drawer').then(mod => mod.default), { ssr: false })
 
 import 'react-modern-drawer/dist/index.css';
 import User from './User';
 import Token from '@/components/common/Token';
 import Copyright from '../footer/Copyright';
 import Donations from '../footer/Donations';
+import { ChevronRightIcon, HomeIcon } from '@heroicons/react/20/solid';
 
 interface NavbarProps {
     searchbar?: boolean;
@@ -37,7 +39,6 @@ function Navbar(props: NavbarProps) {
                     </div>
                     <div className="hidden md:flex items-center gap-3 flex-grow justify-end">
                         {searchbar && <Search />}
-
                         <User />
                     </div>
                     <div className="flex md:hidden items-center">
@@ -47,7 +48,19 @@ function Navbar(props: NavbarProps) {
                     </div>
                 </div>
             </nav>
-            <Drawer open={isOpen} onClose={toggleDrawer} direction="left" className="bla bla bla">
+            <Drawer open={isOpen} onClose={toggleDrawer} direction="left" className=" ">
+                <nav className="flex" aria-label="Breadcrumb">
+                    <ol role="list" className="flex items-center space-x-4">
+                        <li>
+                            <div>
+                                <Link href="/" className="text-gray-400 hover:text-gray-500">
+                                    <HomeIcon className="h-5 w-5 flex-shrink-0" aria-hidden="true" />
+                                    <span className="sr-only">Home</span>
+                                </Link>
+                            </div>
+                        </li>
+                    </ol>
+                </nav>
                 <div className="min-h-screen flex justify-between flex-col gap-10 p-4 pb-6">
                     <div>
                         <div className="flex justify-between gap-3 items-center mb-12">
