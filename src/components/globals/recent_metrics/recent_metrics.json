@@ -6,7 +6,7 @@
         "status": "N/A",
         "data": [0, 0, 0, 0, 0, 0, 0],
         "labels": ["1/1/2020", "1/2/2020", "1/3/2020", "1/4/2020", "1/5/2020", "1/6/2020", "1/7/2020"],
-        "tooltipvalue": "Total number Of UserOperations created each day"
+        "toolTipValue": "Total number Of UserOperations created each day"
     },
     "totalFeeCollectedMetric": {
         "id": "totalFeeCollectedMetric",
@@ -15,7 +15,7 @@
         "status": "N/A",
         "data": [0, 0, 0, 0, 0, 0, 0],
         "labels": ["1/1/2020", "1/2/2020", "1/3/2020", "1/4/2020", "1/5/2020", "1/6/2020", "1/7/2020"],
-        "tooltipvalue": "Total amount of Fee paid by user operations each day"
+        "toolTipValue": "Total amount of Fee paid by user operations each day"
     },
     "walletsCreatedDailyMetric": {
         "id": "walletsCreatedDailyMetric",
@@ -24,7 +24,7 @@
         "status": "N/A",
         "data": [0, 0, 0, 0, 0, 0, 0],
         "labels": ["1/1/2020", "1/2/2020", "1/3/2020", "1/4/2020", "1/5/2020", "1/6/2020", "1/7/2020"],
-        "tooltipvalue": "Number of Smart Contract Wallets Created each day"
+        "toolTipValue": "Number of Smart Contract Wallets Created each day"
     },
     "totalwalletsCreatedMetric": {
         "id": "totalwalletsCreatedMetric",
@@ -33,6 +33,6 @@
         "status": "N/A",
         "data": [0, 0, 0, 0, 0, 0, 0],
         "labels": ["1/1/2020", "1/2/2020", "1/3/2020", "1/4/2020", "1/5/2020", "1/6/2020", "1/7/2020"],
-        "tooltipvalue": "Total Number of Wallets created ever till that date"
+        "toolTipValue": "Total Number of Wallets created ever till that date"
     }
 }

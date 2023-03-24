@@ -61,12 +61,12 @@ function RecentMetrics({
                         <ScrollContainer>
                             <div className="grid grid-cols-4 gap-2 min-w-[700px] ">
                                 {Object.keys(metrics).map((key) => {
-                                    const { id, title, value, status, data, labels, tooltipvalue } = metrics[key];
+                                    const { id, title, value, status, data, labels, toolTipValue } = metrics[key];
                                     return (
                                         <div className="p-4 rounded border border-dark-200 bg-white shadow-200" key={id}>
                                             <div className="flex items-center gap-1">
                                                 <span className="text-sm leadsdsdsding-[1.3]">{title} </span>
-                                                <InfoButton data={tooltipvalue} />
+                                                <InfoButton data={toolTipValue} />
                                             </div>
 
                                             <div className="flex items-center gap-1">
