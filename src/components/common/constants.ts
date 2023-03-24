@@ -18,11 +18,17 @@ export const NETWORK_LIST = [
         iconPathInverted: '/images/icon-container (6).svg',
     },
     {
-        name: 'Matic',
+        name: 'Polygon',
         key: 'matic',
         iconPath: '/images/icon-container (5).svg',
         iconPathInverted: '/images/icon-container (5).svg',
     },
+    {
+        name: 'Mumbai',
+        key: 'mumbai',
+        iconPath: '/images/polygon-mumbai-icon.svg',
+        iconPathInverted: '/images/polygon-mumbai-inverted.svg',
+    }
 ];
 
 interface NETWORK_ICON_MAP {
@@ -33,5 +39,6 @@ export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
     mainnet: '/images/ethereum-logo-rainbow.svg',
     goerli: '/images/eth-diamond-purple.svg',
     matic: '/images/icon-container (5).svg',
+    mumbai: '/images/polygon-mumbai-icon.svg',
     'optimism-goerli': '/images/icon-container (6).svg',
 };
