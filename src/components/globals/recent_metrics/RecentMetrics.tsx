@@ -71,7 +71,7 @@ function RecentMetrics({
 
                                             <div className="flex items-center gap-1">
                                                 <img
-                                                    src={NETWORK_ICON_MAP[selectedNetwork]} 
+                                                    src={NETWORK_ICON_MAP[selectedNetwork]}
                                                     style={{ height: '16px', width: '16px' }}
                                                     alt=""
                                                 />

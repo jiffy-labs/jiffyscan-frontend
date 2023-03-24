@@ -80,7 +80,6 @@ function UserOperations() {
             <RecentMetrics selectedNetwork={selectedNetwork} handleNetworkChange={setSelectedNetwork} />
             <section className="mb-10">
                 <div className="container">
-                    
                     <div>
                         <Table
                             {...latestBundlesTable}

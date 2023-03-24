@@ -104,29 +104,30 @@ export const prepareChartDataAndMetrics = (dailyMetrics: DailyMetric[], metrics:
 };
 
 export default function useWindowDimensions() {
+    const [windowDimensions, setWindowDimensions] = useState<{ width: number | null; height: number | null }>({
+        width: null,
+        height: null,
+    });
     const hasWindow = typeof window !== 'undefined';
 
-    function getWindowDimensions() {
-        const width = hasWindow ? window.innerWidth : null;
-        const height = hasWindow ? window.innerHeight : null;
-        return {
-            width,
-            height,
-        };
-    }
-
-    const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
-
     useEffect(() => {
-        if (hasWindow) {
-            const handleResize = () => {
-                setWindowDimensions(getWindowDimensions());
+        function getWindowDimensions() {
+            const { innerWidth: width, innerHeight: height } = window;
+            return {
+                width,
+                height,
             };
+        }
 
+        function handleResize() {
+            setWindowDimensions(getWindowDimensions());
+        }
+
+        if (typeof window !== 'undefined') {
+            setWindowDimensions(getWindowDimensions());
             window.addEventListener('resize', handleResize);
             return () => window.removeEventListener('resize', handleResize);
         }
-    }, [hasWindow]);
-
+    }, []);
     return windowDimensions;
 }

@@ -12,4 +12,4 @@ function latestBundles() {
 
 export default latestBundles;
 
-// latestBundles.getLayout = (page: ReactElement) => <Layout>{page}</Layout>;
+latestBundles.getLayout = (page: ReactElement) => <Layout>{page}</Layout>;

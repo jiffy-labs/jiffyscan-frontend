@@ -15,6 +15,6 @@ function Skeleton() {
             </tr>
         </tbody>
     );
-};
+}
 
 export default Skeleton;

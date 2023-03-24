@@ -37,7 +37,6 @@ interface ChartProps {
 }
 
 export function Chart(props: ChartProps) {
-    console.log('🚀 ~ file: Chart.tsx:83 ~ Chart ~ props:', props);
     // get highest number
     const highest = Math.max(...props.chartValues);
 
