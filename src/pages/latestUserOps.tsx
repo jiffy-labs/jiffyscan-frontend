@@ -12,4 +12,4 @@ function latestUserOps() {
 
 export default latestUserOps;
 
-latestUserOps.getLayout = (page: ReactElement) => <Layout>{page}</Layout>;
+// latestUserOps.getLayout = (page: ReactElement) => <Layout>{page}</Layout>;

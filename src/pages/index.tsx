@@ -12,4 +12,4 @@ function index() {
 
 export default index;
 
-index.getLayout = (page: ReactElement) => <Layout>{page}</Layout>;
+// index.getLayout = (page: ReactElement) => <Layout>{page}</Layout>;
