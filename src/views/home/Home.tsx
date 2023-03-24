@@ -19,7 +19,6 @@ function Home() {
     const [operationsTable, setOperationsTable] = useState<tableDataT>(OperationsTable as tableDataT);
     const [userOpTableLoading, setUserOpTableLoading] = useState(true);
     const [bundleTableLoading, setBundleTableLoading] = useState(true);
-
     useEffect(() => {
         refreshBundlesTable(selectedNetwork);
         refreshUserOpsTable(selectedNetwork);
