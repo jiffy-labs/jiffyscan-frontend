@@ -3,33 +3,6 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 import { Line } from 'react-chartjs-2';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
-
-// export const options = {
-//     responsive: true,
-//     plugins: {
-//         tooltip:{
-//           displayColors:false,
-//           intersect:false,
-//         },
-//         legend: {
-//             display: false,
-//             position: 'top' as const,
-//         },
-//         title: {
-//             display: false,
-//             text: 'Chart.js Line Chart',
-//         },
-//     },
-//     scales: {
-//         x: {
-//             display: false,
-//         },
-//         y: {
-//             display: false,
-//         },
-//     },
-// };
-
 export const options = {
     responsive: true,
     plugins: {
