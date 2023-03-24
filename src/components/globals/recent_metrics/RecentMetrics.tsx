@@ -65,7 +65,7 @@ function RecentMetrics({
                                     return (
                                         <div className="p-4 rounded border border-dark-200 bg-white shadow-200" key={id}>
                                             <div className="flex items-center gap-1">
-                                                <span className="text-sm leading-[1.3]">{title} </span>
+                                                <span className="text-sm leadsdsdsding-[1.3]">{title} </span>
                                                 <InfoButton data={tooltipvalue} />
                                             </div>
 
