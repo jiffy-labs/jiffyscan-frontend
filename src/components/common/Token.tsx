@@ -32,7 +32,7 @@ function getHrefLink(type: string | undefined, text: string, network: string) {
     }
 }
 
-const NETWORK_SCANNER_MAP = {
+const NETWORK_SCANNER_MAP: {[key: string]: string} = {
     mainnet: 'https://etherscan.io/tx/',
     goerli: 'https://goerli.etherscan.io/tx/',
     mumbai: 'https://mumbai.polygonscan.com/tx/',
