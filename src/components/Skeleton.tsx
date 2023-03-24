@@ -1,5 +1,5 @@
 import React from 'react';
-const Skeleton = () => {
+function Skeleton() {
     return (
         <tbody>
             <tr>
