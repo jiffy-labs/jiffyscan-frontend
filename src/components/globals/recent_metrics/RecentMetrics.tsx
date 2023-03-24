@@ -78,7 +78,7 @@ function RecentMetrics({
                                                 <span className="font-bold">{value}</span>
                                             </div>
                                             <div className="flex items-center gap-1 mb-4">
-                                                <span className="text-sm text-dark-500">{status}%</span>
+                                                <span className="text-sm text-dark-500">{status}</span>
                                                 <img src="/images/icon-container (9).svg" alt="" />
                                             </div>
                                             <div>
