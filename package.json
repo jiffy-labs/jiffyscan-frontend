@@ -31,6 +31,8 @@
         "@headlessui/react": "^1.7.13",
         "@heroicons/react": "^2.0.16",
         "autoprefixer": "^10.4.14",
+        "eslint": "8.36.0",
+        "eslint-config-next": "13.2.4",
         "postcss": "^8.4.21",
         "prettier": "^2.8.6",
         "sass": "^1.59.3",

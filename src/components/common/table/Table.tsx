@@ -89,7 +89,7 @@ function Table(props: tableDataT) {
                             </tr>
                         </thead>
                         {props.loading ? (
-                            skeletonCards.map((index: number) => <Skeleton />)
+                            skeletonCards.map((index: number) => <Skeleton key={index} />)
                         ) : (
                             <tbody>
                                 {rows.map(({ ago, fee, sender, target, token, userOps }, index) => (

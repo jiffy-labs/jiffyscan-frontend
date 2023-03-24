@@ -11,6 +11,7 @@ import { getLatestBundles, getDailyMetrics, DailyMetric } from '@/components/com
 import { useConfig } from '@/context/config';
 import latestBundles from '@/pages/latestBundles';
 import { ChevronRightIcon, HomeIcon } from '@heroicons/react/20/solid';
+import Link from 'next/link';
 
 const METRIC_DATA_POINT_SIZE = 14;
 const DEFAULT_PAGE_SIZE = 10;
@@ -86,10 +87,10 @@ function UserOperations() {
                         <ol role="list" className="flex items-center space-x-4">
                             <li>
                                 <div>
-                                    <a href="/" className="text-gray-400 hover:text-gray-500">
+                                    <Link href="/" className="text-gray-400 hover:text-gray-500">
                                         <HomeIcon className="h-5 w-5 flex-shrink-0" aria-hidden="true" />
                                         <span className="sr-only">Home</span>
-                                    </a>
+                                    </Link>
                                 </div>
                             </li>
                             {pages.map((page) => (

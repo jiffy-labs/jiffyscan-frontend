@@ -24,8 +24,8 @@ function Menu(props: { name: string; dropdown: string[][] | undefined; id: strin
             {isOpen && (
                 <div className="sticky md:absolute shadow top-full left-0 bg-white rounded-lg py-2 px-4">
                     <ul>
-                        {props.dropdown?.map((menuItem) => (
-                            <li>
+                        {props.dropdown?.map((menuItem, index) => (
+                            <li key={index}>
                                 <a className="text-gray-700 block px-4 py-2 text-sm" href={menuItem[1]}>
                                     {menuItem[0]}
                                 </a>
