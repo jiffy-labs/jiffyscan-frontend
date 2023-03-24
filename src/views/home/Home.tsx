@@ -11,6 +11,7 @@ import { NETWORK_LIST, NETWORK_ICON_MAP } from '@/components/common/constants';
 import { getLatestBundles, getLatestUserOps, Bundle, UserOp } from '@/components/common/apiCalls/jiffyApis';
 import { getTimePassed } from '@/components/common/utils';
 import { useConfig } from '../../context/config';
+import InfoButton from '@/components/common/InfoButton';
 
 function Home() {
     const { selectedNetwork, setSelectedNetwork } = useConfig();
@@ -18,7 +19,6 @@ function Home() {
     const [operationsTable, setOperationsTable] = useState<tableDataT>(OperationsTable as tableDataT);
     const [userOpTableLoading, setUserOpTableLoading] = useState(true);
     const [bundleTableLoading, setBundleTableLoading] = useState(true);
-
     useEffect(() => {
         refreshBundlesTable(selectedNetwork);
         refreshUserOpsTable(selectedNetwork);
@@ -78,19 +78,30 @@ function Home() {
             <section className="mb-12">
                 <div className="container grid-cols-1 md:grid-cols-2 grid gap-10">
                     <div>
-                        <Table {...(bundlesTable as tableDataT)} loading={bundleTableLoading} caption={{
-                                "children": "Latest Bundles",
-                                "icon": "/images/swap-vertical-bold (1).svg"
-                            }}/>
+                        <Table
+                            {...(bundlesTable as tableDataT)}
+                            loading={bundleTableLoading}
+                            caption={{
+                                children: 'Latest Bundles',
+                                icon: '/images/swap-vertical-bold (1).svg',
+                                text: 'Latest bundles Processed by selected chain',
+                            }}
+                        />
+
                         <div className="mt-4">
                             <Button href="/latestBundles">View all bundles</Button>
                         </div>
                     </div>
                     <div>
-                        <Table {...(operationsTable as tableDataT)} loading={userOpTableLoading} caption={{
-                                "children": "Latest User Operations",
-                                "icon": "/images/swap-vertical-bold (1).svg"
-                            }}/>
+                        <Table
+                            {...(operationsTable as tableDataT)}
+                            loading={userOpTableLoading}
+                            caption={{
+                                children: 'Latest User Operations',
+                                icon: '/images/swap-vertical-bold (1).svg',
+                                text: 'Latest User Operations Processed by selected chain',
+                            }}
+                        />
                         <div className="mt-4">
                             <Button href="/latestUserOps">View all User operations</Button>
                         </div>

@@ -21,7 +21,7 @@ function RecentMetrics({
 }) {
     const [metrics, setMetrics] = useState(recentMetrics as any);
     const [loading, setLoading] = useState(true);
-    
+
     useEffect(() => {
         refreshMetricsChart(selectedNetwork);
         if (metrics) {
@@ -50,7 +50,7 @@ function RecentMetrics({
                     <div className="flex items-center gap-2 flex-grow">
                         <img src="/images/cube-unfolded.svg" alt="" />
                         <b className="font-bold text-lg">Recent Metrics</b>
-                        <InfoButton />
+                        <InfoButton data="Latest Activity from entrypoint, and smart contract wallets" />
                     </div>
                     <NetworkSelector selectedNetwork={selectedNetwork} handleNetworkChange={handleNetworkChange} />
                 </div>
@@ -59,15 +59,16 @@ function RecentMetrics({
                 ) : (
                     <div className="w-full">
                         <ScrollContainer>
-                            <div className="grid grid-cols-4 gap-2 min-w-[700px]">
+                            <div className="grid grid-cols-4 gap-2 min-w-[700px] ">
                                 {Object.keys(metrics).map((key) => {
-                                    const { id, title, value, status, data, labels } = metrics[key];
+                                    const { id, title, value, status, data, labels, toolTipValue } = metrics[key];
                                     return (
                                         <div className="p-4 rounded border border-dark-200 bg-white shadow-200" key={id}>
                                             <div className="flex items-center gap-1">
-                                                <span className="text-sm leading-[1.3]">{title}</span>
-                                                <InfoButton />
+                                                <span className="text-sm leadsdsdsding-[1.3]">{title} </span>
+                                                <InfoButton data={toolTipValue} />
                                             </div>
+
                                             <div className="flex items-center gap-1">
                                                 <img
                                                     src={NETWORK_ICON_MAP[selectedNetwork]}

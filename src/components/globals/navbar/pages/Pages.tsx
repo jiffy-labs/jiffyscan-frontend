@@ -10,7 +10,7 @@ export default function Pages() {
     return (
         <div className="flex md:flex-row flex-col md:items-center gap-4 md:gap-6">
             {pages.map(({ id, name, url, dropdown }) => (
-                <Menu name={name} dropdown={dropdown} id={id.toString()} url={url} />
+                <Menu key={id} name={name} dropdown={dropdown} id={id.toString()} url={url} />
             ))}
         </div>
     );

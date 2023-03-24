@@ -13,9 +13,9 @@ interface PaginationProps {
     };
 }
 
-function Pagination({table, pageDetails: {pageNo, setPageNo, pageSize, setPageSize, totalRows}}: PaginationProps) {
-    const [isMaxPage , setIsMaxPage] = useState(false);
-    const [isMinPage , setIsMinPage] = useState(false);
+function Pagination({ table, pageDetails: { pageNo, setPageNo, pageSize, setPageSize, totalRows } }: PaginationProps) {
+    const [isMaxPage, setIsMaxPage] = useState(false);
+    const [isMinPage, setIsMinPage] = useState(false);
     const [fromPage, setFromPage] = useState(0);
     const [toPage, setToPage] = useState(0);
 
@@ -25,7 +25,7 @@ function Pagination({table, pageDetails: {pageNo, setPageNo, pageSize, setPageSi
         setIsMinPage(pageNo <= 0);
         setFromPage(pageNo * pageSize + 1);
         setToPage(isMaxPage ? totalRows : (pageNo + 1) * pageSize);
-    },[pageNo, totalRows, totalRows]);
+    }, [pageNo, totalRows, totalRows]);
 
     const handleShow = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value = event.target.value;

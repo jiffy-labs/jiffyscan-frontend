@@ -1,5 +1,5 @@
 import React from 'react';
-const Skeleton = () => {
+function Skeleton() {
     return (
         <tbody>
             <tr>
@@ -15,6 +15,6 @@ const Skeleton = () => {
             </tr>
         </tbody>
     );
-};
+}
 
 export default Skeleton;

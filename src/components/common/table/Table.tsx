@@ -62,13 +62,14 @@ function Table(props: tableDataT) {
     let skeletonCards = Array(5).fill(0);
     return (
         <div className="">
-            <Caption icon={caption.icon}>{caption.children}</Caption>
+            <Caption icon={caption.icon} text={caption.text}>{caption.children}</Caption>
             <ScrollContainer>
                 <div style={width < 768 ? { minWidth: columns?.length * 160 } : {}}>
                     <table className="w-full text-md bg-white shadow-200 border border-dark-100">
                         <thead>
                             <tr>
-                                {columns.map(({ name, sort }, key) => (
+                                {columns.map(({ name, sort }, key) => {
+                                    return (    
                                     <th
                                         key={key}
                                         className={`py-3.5 px-4 border-b border-dark-100 group ${
@@ -83,14 +84,16 @@ function Table(props: tableDataT) {
                                             {name === 'Age' ? sort && <img src="/images/span.svg" alt="" /> : null}
                                         </div>
                                     </th>
-                                ))}
+                                )}
+                                )}
                             </tr>
                         </thead>
                         {props.loading ? (
-                            skeletonCards.map((index: number) => <Skeleton />)
+                            skeletonCards.map((index: number) => <Skeleton key={index}/>)
                         ) : (
                             <tbody>
-                                {rows.map(({ ago, fee, sender, target, token, userOps }, index) => (
+                                {rows.map(({ ago, fee, sender, target, token, userOps }, index) => {
+                                    return (
                                     <tr
                                         key={index}
                                         className="[&_td]:border-b [&_td]:border-dark-100 [&_td]:py-3.5 [&_td]:px-4 odd:bg-dark-25 hover:bg-dark-25"
@@ -130,7 +133,7 @@ function Table(props: tableDataT) {
                                             </td>
                                         )}
                                     </tr>
-                                ))}
+                                )})}
                             </tbody>
                         )}
                     </table>
