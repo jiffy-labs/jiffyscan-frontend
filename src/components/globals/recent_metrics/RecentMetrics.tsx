@@ -59,19 +59,19 @@ function RecentMetrics({
                 ) : (
                     <div className="w-full">
                         <ScrollContainer>
-                            <div className="grid grid-cols-4 gap-2 min-w-[700px]">
+                            <div className="grid grid-cols-4 gap-2 min-w-[700px] ">
                                 {Object.keys(metrics).map((key) => {
                                     const { id, title, value, status, data, labels, tooltipvalue } = metrics[key];
                                     return (
                                         <div className="p-4 rounded border border-dark-200 bg-white shadow-200" key={id}>
                                             <div className="flex items-center gap-1">
-                                                <span className="text-sm leading-[1.3]">{title}</span>
+                                                <span className="text-sm leading-[1.3]">{title} </span>
                                                 <InfoButton data={tooltipvalue} />
                                             </div>
 
                                             <div className="flex items-center gap-1">
                                                 <img
-                                                    src={NETWORK_ICON_MAP[selectedNetwork]}
+                                                    src={NETWORK_ICON_MAP[selectedNetwork]} 
                                                     style={{ height: '16px', width: '16px' }}
                                                     alt=""
                                                 />
