@@ -91,7 +91,7 @@ export const prepareChartDataAndMetrics = (dailyMetrics: DailyMetric[], metrics:
     metrics.walletsCreatedDailyMetric.status = getPercentageChange(chartData.walletsCreatedMetric)+ "% WoW%";
 
     metrics.userOpMetric.data = chartData.userOpMetric.slice(-dataSize);
-    metrics.totalFeeCollectedMetric.data = chartData.totalFeeCollectedMetric.slice(-dataSize);
+    metrics.totalFeeCollectedMetric.data = chartData.totalFeeCollectedMetric.slice(-dataSize).map(value => value / 10**18);
     metrics.totalwalletsCreatedMetric.data = chartData.totalwalletsCreatedMetric.slice(-dataSize);
     metrics.walletsCreatedDailyMetric.data = chartData.walletsCreatedMetric.slice(-dataSize);
 
