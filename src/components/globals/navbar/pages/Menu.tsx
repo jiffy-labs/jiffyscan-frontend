@@ -26,7 +26,7 @@ function Menu(props: { name: string; dropdown: string[][] | undefined; id: strin
                     <ul>
                         {props.dropdown?.map((menuItem, index) => (
                             <li key={index}>
-                                <a className="text-gray-700 block px-4 py-2 text-sm" href={menuItem[1]}>
+                                <a className="text-gray-700 block px-4 py-2 text-sm" href={menuItem[1]} target={menuItem[2]}>
                                     {menuItem[0]}
                                 </a>
                             </li>
