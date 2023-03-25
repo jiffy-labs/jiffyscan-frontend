@@ -28,6 +28,12 @@ export const NETWORK_LIST = [
         key: 'mumbai',
         iconPath: '/images/polygon-mumbai-icon.svg',
         iconPathInverted: '/images/polygon-mumbai-inverted.svg',
+    },
+    {
+        name: 'Arbitrum',
+        key: 'arbitrum',
+        iconPath: '/images/arbitrum-logo.svg',
+        iconPathInverted: '/images/arbitrum-logo.svg',
     }
 ];
 
@@ -41,4 +47,5 @@ export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
     matic: '/images/polygon-icon.svg',
     mumbai: '/images/polygon-mumbai-icon.svg',
     'optimism-goerli': '/images/icon-container (6).svg',
+    'arbitrum': '/images/arbitrum-logo.svg',
 };

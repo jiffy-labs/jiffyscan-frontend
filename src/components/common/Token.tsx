@@ -38,6 +38,7 @@ const NETWORK_SCANNER_MAP: {[key: string]: string} = {
     mumbai: 'https://mumbai.polygonscan.com/tx/',
     matic: 'https://polygonscan.com/tx/',
     'optimism-goerli': 'https://goerli-optimism.etherscan.io/tx/',
+    'arbitrum': "https://arbiscan.io/tx/"
 };
 
 function getTarget(type: string | undefined) {
