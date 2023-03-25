@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 export interface ChartData {
     userOpMetric: number[];
     totalwalletsCreatedMetric: number[];
-    walletsCreatedMetric: number[];
+    activeWalletsDaily: number[];
     totalFeeCollectedMetric: number[];
     daySinceEpoch: number[];
 }
@@ -15,7 +15,7 @@ export const prepareDayWiseData = (dailyMetrics: DailyMetric[], dataSize: number
     let chartData: ChartData = {
         userOpMetric: [],
         totalwalletsCreatedMetric: [],
-        walletsCreatedMetric: [],
+        activeWalletsDaily: [],
         totalFeeCollectedMetric: [],
         daySinceEpoch: [],
     };
@@ -30,6 +30,8 @@ export const prepareDayWiseData = (dailyMetrics: DailyMetric[], dataSize: number
             bundlesTotal: '0',
             walletsCreatedTotal: '0',
             gasCostCollectedTotal: '0',
+            activeWalletsDaily: '0',
+            activeWallets: [],
             daySinceEpoch: (todayDaySinceEpoch - i).toString(),
         };
     }
@@ -50,7 +52,7 @@ export const prepareDayWiseData = (dailyMetrics: DailyMetric[], dataSize: number
         // The DailyData is ordered from newest to oldest, we want the other way around when displaying the chart
         chartData.userOpMetric.push(parseInt(dailyData[todayDaySinceEpoch - i].userOpsDaily));
         chartData.totalwalletsCreatedMetric.push(parseInt(dailyData[todayDaySinceEpoch - i].walletsCreatedTotal));
-        chartData.walletsCreatedMetric.push(parseInt(dailyData[todayDaySinceEpoch - i].walletsCreatedDaily));
+        chartData.activeWalletsDaily.push(parseInt(dailyData[todayDaySinceEpoch - i].activeWalletsDaily));
         chartData.totalFeeCollectedMetric.push(parseInt(dailyData[todayDaySinceEpoch - i].gasCostCollectedDaily));
         chartData.daySinceEpoch.push(todayDaySinceEpoch - i);
     }
@@ -83,22 +85,22 @@ export const prepareChartDataAndMetrics = (dailyMetrics: DailyMetric[], metrics:
     metrics.userOpMetric.value = chartData.userOpMetric.slice(-1)[0];
     metrics.totalFeeCollectedMetric.value = feeString;
     metrics.totalwalletsCreatedMetric.value = chartData.totalwalletsCreatedMetric.slice(-1)[0];
-    metrics.walletsCreatedDailyMetric.value = chartData.walletsCreatedMetric.slice(-1)[0];
+    metrics.activeWalletsDailyMetric.value = chartData.activeWalletsDaily.slice(-1)[0];
 
     metrics.userOpMetric.status = getPercentageChange(chartData.userOpMetric) + "% WoW";
     metrics.totalFeeCollectedMetric.status = getPercentageChange(chartData.totalFeeCollectedMetric) + "% WoW";
     metrics.totalwalletsCreatedMetric.status = getPercentageChange(chartData.totalwalletsCreatedMetric) + "% WoW";
-    metrics.walletsCreatedDailyMetric.status = getPercentageChange(chartData.walletsCreatedMetric)+ "% WoW";
+    metrics.activeWalletsDailyMetric.status = getPercentageChange(chartData.activeWalletsDaily)+ "% WoW";
 
     metrics.userOpMetric.data = chartData.userOpMetric.slice(-dataSize);
     metrics.totalFeeCollectedMetric.data = chartData.totalFeeCollectedMetric.slice(-dataSize).map(value => value / 10**18);
     metrics.totalwalletsCreatedMetric.data = chartData.totalwalletsCreatedMetric.slice(-dataSize);
-    metrics.walletsCreatedDailyMetric.data = chartData.walletsCreatedMetric.slice(-dataSize);
+    metrics.activeWalletsDailyMetric.data = chartData.activeWalletsDaily.slice(-dataSize);
 
     metrics.userOpMetric.labels = chartData.daySinceEpoch.slice(-dataSize).map((daySinceEpoch) => getDate(daySinceEpoch));
     metrics.totalFeeCollectedMetric.labels = chartData.daySinceEpoch.slice(-dataSize).map((daySinceEpoch) => getDate(daySinceEpoch));
     metrics.totalwalletsCreatedMetric.labels = chartData.daySinceEpoch.slice(-dataSize).map((daySinceEpoch) => getDate(daySinceEpoch));
-    metrics.walletsCreatedDailyMetric.labels = chartData.daySinceEpoch.slice(-dataSize).map((daySinceEpoch) => getDate(daySinceEpoch));
+    metrics.activeWalletsDailyMetric.labels = chartData.daySinceEpoch.slice(-dataSize).map((daySinceEpoch) => getDate(daySinceEpoch));
 
     return { chartData, metrics };
 };

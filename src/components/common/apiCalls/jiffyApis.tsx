@@ -42,6 +42,8 @@ export interface DailyMetric {
     walletsCreatedTotal: string;
     gasCostCollectedTotal: string;
     daySinceEpoch: string;
+    activeWalletsDaily: string;
+    activeWallets: string[];
 }
 
 export interface GlobalCounts {

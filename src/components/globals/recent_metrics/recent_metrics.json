@@ -17,14 +17,14 @@
         "labels": ["1/1/2020", "1/2/2020", "1/3/2020", "1/4/2020", "1/5/2020", "1/6/2020", "1/7/2020"],
         "toolTipValue": "Total amount of Fee paid by user operations each day"
     },
-    "walletsCreatedDailyMetric": {
-        "id": "walletsCreatedDailyMetric",
-        "title": "New Wallets (# day)",
+    "activeWalletsDailyMetric": {
+        "id": "activeWalletsDailyMetric",
+        "title": "Active Wallets (# day)",
         "value": "N/A",
         "status": "N/A",
         "data": [0, 0, 0, 0, 0, 0, 0],
         "labels": ["1/1/2020", "1/2/2020", "1/3/2020", "1/4/2020", "1/5/2020", "1/6/2020", "1/7/2020"],
-        "toolTipValue": "Number of Smart Contract Wallets Created each day"
+        "toolTipValue": "Number of Active Smart Contract Wallets each day"
     },
     "totalwalletsCreatedMetric": {
         "id": "totalwalletsCreatedMetric",
