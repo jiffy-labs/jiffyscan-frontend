@@ -29,12 +29,12 @@ export const NETWORK_LIST = [
         iconPath: '/images/polygon-mumbai-icon.svg',
         iconPathInverted: '/images/polygon-mumbai-inverted.svg',
     },
-    {
-        name: 'Arbitrum',
-        key: 'arbitrum',
-        iconPath: '/images/arbitrum-logo.svg',
-        iconPathInverted: '/images/arbitrum-logo.svg',
-    }
+    // {
+    //     name: 'Arbitrum',
+    //     key: 'arbitrum',
+    //     iconPath: '/images/arbitrum-logo.svg',
+    //     iconPathInverted: '/images/arbitrum-logo.svg',
+    // }
 ];
 
 interface NETWORK_ICON_MAP {
