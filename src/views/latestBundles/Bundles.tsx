@@ -11,7 +11,8 @@ import { getLatestBundles, getDailyMetrics, DailyMetric } from '@/components/com
 import { useConfig } from '@/context/config';
 import latestBundles from '@/pages/latestBundles';
 import { ChevronRightIcon, HomeIcon } from '@heroicons/react/20/solid';
-import Link from 'next/link';
+import { Breadcrumbs, Link } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const METRIC_DATA_POINT_SIZE = 14;
 const DEFAULT_PAGE_SIZE = 10;
@@ -74,6 +75,22 @@ function UserOperations() {
             <Navbar searchbar />
             <section className="py-10">
                 <div className="container">
+                    <div className="flex flex-row">
+                        <a href="/" className="text-gray-500">
+                            <ArrowBackIcon
+                                style={{ height: '15px', width: '15px', marginRight: '20px', marginLeft: '10px', marginBottom: '3px' }}
+                            />
+                        </a>
+                        <Breadcrumbs aria-label="breadcrumb" className="font-['Roboto']">
+                            <Link underline="hover" color="inherit" href="/">
+                                Home
+                            </Link>
+                            <Link underline="hover" color="text.primary" href="/latestBundles" aria-current="page">
+                                Bundles
+                            </Link>
+                        </Breadcrumbs>
+                    </div>
+
                     <h1 className="font-bold text-3xl">Bundles</h1>
                 </div>
             </section>
