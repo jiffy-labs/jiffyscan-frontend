@@ -23,7 +23,7 @@ function NetworkSelector({
             setEndIndex(3);
         } else {
             setEndIndex(1);
-			setIsMoreSelected(false);
+            setIsMoreSelected(false);
         }
     }, [width]);
 
