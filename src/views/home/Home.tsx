@@ -94,7 +94,7 @@ function Home() {
                         />
 
                         <div className="mt-4">
-                            <Button href="/latestBundles">View all bundles</Button>
+                            <Button href="/recentBundles">View all bundles</Button>
                         </div>
                     </div>
                     <div>
@@ -108,7 +108,7 @@ function Home() {
                             }}
                         />
                         <div className="mt-4">
-                            <Button href="/latestUserOps">View all User operations</Button>
+                            <Button href="/recentUserOps">View all User operations</Button>
                         </div>
                     </div>
                 </div>

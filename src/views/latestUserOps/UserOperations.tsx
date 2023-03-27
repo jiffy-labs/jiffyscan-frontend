@@ -88,7 +88,7 @@ function UserOperations() {
                             <Link underline="hover" color="inherit" href="/">
                                 Home
                             </Link>
-                            <Link underline="hover" color="text.primary" href="/latestUserOps" aria-current="page">
+                            <Link underline="hover" color="text.primary" href="/recentUserOps" aria-current="page">
                                 User Operations
                             </Link>
                         </Breadcrumbs>

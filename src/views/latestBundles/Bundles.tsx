@@ -9,7 +9,7 @@ import { NETWORK_LIST, NETWORK_ICON_MAP } from '@/components/common/constants';
 import { getCurrencySymbol, getTimePassed } from '@/components/common/utils';
 import { getLatestBundles, getDailyMetrics, DailyMetric } from '@/components/common/apiCalls/jiffyApis';
 import { useConfig } from '@/context/config';
-import latestBundles from '@/pages/latestBundles';
+import latestBundles from '@/pages/recentBundles';
 import { ChevronRightIcon, HomeIcon } from '@heroicons/react/20/solid';
 import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -85,7 +85,7 @@ function UserOperations() {
                             <Link underline="hover" color="inherit" href="/">
                                 Home
                             </Link>
-                            <Link underline="hover" color="text.primary" href="/latestBundles" aria-current="page">
+                            <Link underline="hover" color="text.primary" href="/recentBundles" aria-current="page">
                                 Bundles
                             </Link>
                         </Breadcrumbs>
