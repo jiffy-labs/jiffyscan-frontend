@@ -24,8 +24,8 @@ module.exports = {
                     600: '#263238',
                     700: '#212121',
                 },
-                bluegrey:{
-                    300:'#455A64',
+                bluegrey: {
+                    300: '#455A64',
                 },
             },
             boxShadow: {

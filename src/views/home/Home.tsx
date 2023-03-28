@@ -87,9 +87,9 @@ function Home() {
                             {...(bundlesTable as tableDataT)}
                             loading={bundleTableLoading}
                             caption={{
-                                children: 'Latest Bundles',
+                                children: 'Recent Bundles',
                                 icon: '/images/swap-vertical-bold (1).svg',
-                                text: 'Latest bundles Processed by selected chain',
+                                text: 'Recent bundles Processed by selected chain',
                             }}
                         />
 
@@ -102,9 +102,9 @@ function Home() {
                             {...(operationsTable as tableDataT)}
                             loading={userOpTableLoading}
                             caption={{
-                                children: 'Latest User Operations',
+                                children: 'Recent User Operations',
                                 icon: '/images/swap-vertical-bold (1).svg',
-                                text: 'Latest User Operations Processed by selected chain',
+                                text: 'Recent User Operations Processed by selected chain',
                             }}
                         />
                         <div className="mt-4">

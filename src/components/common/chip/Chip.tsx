@@ -6,10 +6,10 @@ export interface ChipProps {
     endIcon?: string;
     children: ReactNode;
     variant?: 'contained' | 'outlined' | 'primary';
-    color?: 'dark-700' | 'white' | 'info' | 'success' | 'dark-400' ;
+    color?: 'dark-700' | 'white' | 'info' | 'success' | 'dark-400';
     className?: string;
     onClick?: () => void;
-    style?:string;
+    style?: string;
 }
 
 function Chip(props: ChipProps) {
