@@ -1,7 +1,7 @@
 import Footer from '@/components/globals/footer/Footer';
 import Navbar from '@/components/globals/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
-import { getUserOp, GetUserOpsHash } from '@/components/common/apiCalls/jiffyApis';
+import { getUserOp, UserOp } from '@/components/common/apiCalls/jiffyApis';
 import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CopyButton from '@/components/common/copy_button/CopyButton';
@@ -10,6 +10,8 @@ import IconText from '@/components/common/IconText';
 import Chip from '@/components/common/chip/Chip';
 import sx from './usertable.module.sass';
 import { useRouter } from 'next/router';
+import { getFee } from '@/components/common/utils';
+import { NETWORK_ICON_MAP } from '@/components/common/constants';
 export const BUTTON_LIST = [
     {
         name: 'Default View',
@@ -28,9 +30,11 @@ export const BUTTON_LIST = [
 function RecentUserOps() {
     const router = useRouter();
     const [open, setOpen] = useState(false);
-    const { hash } = router?.query;
+    const { hash, network } = router?.query;
+
     const [selectedColor, setSelectedColor] = useState('#1976D2');
-    const [useOpsData, setuserOpsData] = useState<GetUserOpsHash[]>();
+    const [useOpsData, setuserOpsData] = useState<UserOp[]>();
+
     function shortenString(str: string) {
         if (str?.length <= 10) {
             return str;
@@ -41,34 +45,15 @@ function RecentUserOps() {
         return `${firstChars}...${lastChars}`;
     }
     useEffect(() => {
-        const refreshUserOpsTable = async (name: string) => {
-            const userops = await getUserOp(name || '0x43fe1ef830cbc6447ca8a740963099fe7fb6b137ac7768aa9c8f5913aaf8f91b');
+        const refreshUserOpsTable = async (name: string, network: string) => {
+            const userops = await getUserOp(
+                name || '0x43fe1ef830cbc6447ca8a740963099fe7fb6b137ac7768aa9c8f5913aaf8f91b',
+                network || 'manniet',
+            );
             setuserOpsData(userops);
         };
-        refreshUserOpsTable(hash as string);
-    }, [hash]);
-
-    function getSymbol(network: string): string {
-        if (network == 'goerli') return 'ETH';
-        else if (network == 'mainnet') return 'ETH';
-        else if (network == 'mumbai') return 'MATIC';
-        else if (network == 'optimism-goerli') return 'ETH';
-        else if (network == 'matic') return 'MATIC';
-        else return 'ETH';
-    }
-    const getFee = (amount: number) => {
-        let fee: string = amount.toString();
-        if (amount > 10 ** 13) {
-            fee = (amount / 10 ** 18).toFixed(4).toString();
-        } else if (amount > 10 ** 6) {
-            fee = (amount / 10 ** 9).toFixed(4).toString();
-            // symbol = 'GWEI';
-        } else {
-            fee = amount.toString();
-            // symbol = 'WEI';
-        }
-        return fee;
-    };
+        refreshUserOpsTable(hash as string, network as string);
+    }, [useOpsData]);
 
     return (
         <div className="">
@@ -85,10 +70,15 @@ function RecentUserOps() {
                             <Link underline="hover" color="inherit" href="/">
                                 Home
                             </Link>
-                            <Link underline="hover" color="text.primary" href="/recentUserOps" aria-current="page">
+                            <Link underline="hover" color="inherit" href="/recentUserOps">
                                 Recent User Ops
                             </Link>
-                            <Link underline="hover" color="text.primary" href={`/userOpHash?text=${hash}`} aria-current="page">
+                            <Link
+                                underline="hover"
+                                color="text.primary"
+                                href={`/userOpHash?text=${hash}&network=${network}`}
+                                aria-current="page"
+                            >
                                 {shortenString((hash as string) || '0x43fe1ef830cbc6447ca8a740963099fe7fb6b137ac7768aa9c8f5913aaf8f91b')}
                             </Link>
                         </Breadcrumbs>
@@ -103,8 +93,8 @@ function RecentUserOps() {
                                 <h3 className="text-[15px]  leading-[28px] font-bold text-dark-600">User Operation Hash</h3>
                                 <div className="md:flex items-center gap-4 pt-[14px] pb-[2px]">
                                     <div className="flex items-center gap-2">
-                                        <img src="/images/ethereum.svg" alt="" />
-                                        <span className="text-sm font-normal leading-5 text-dark-600">{item.network}</span>
+                                        <img src={NETWORK_ICON_MAP[network as string]} alt="" className="h-[20px]" />
+                                        <span className="text-sm font-normal leading-5 text-dark-600">{network}</span>
                                     </div>
                                     <div className="flex items-center break-words gap-2 flex-1">
                                         <span className="text-blue-200 text-sm break-all leading-5">{item.userOpHash}</span>
@@ -212,11 +202,11 @@ function RecentUserOps() {
                                                 </td>
                                                 <td className="py-[14px] px-4 whitespace-pre">
                                                     <span className="text-dark-600 text-sm leading-5 flex items-center">
-                                                        {getFee(item.value)}
+                                                        {getFee(item.value, item.network)}
 
-                                                        <Chip variant="outlined" color={'dark-400'}>
+                                                        {/* <Chip variant="outlined" color={'dark-400'}>
                                                             {getSymbol(item.network as string)}
-                                                        </Chip>
+                                                        </Chip> */}
                                                     </span>
                                                 </td>
                                                 <td></td>
@@ -227,10 +217,7 @@ function RecentUserOps() {
                                                 </td>
                                                 <td className="py-[14px] px-4 whitespace-pre">
                                                     <span className="text-dark-600 text-sm leading-5 flex items-center">
-                                                        {getFee(item.actualGasCost)}
-                                                        <Chip variant="outlined" color={'dark-400'}>
-                                                            {getSymbol(item.network as string)}
-                                                        </Chip>
+                                                        {getFee(item.actualGasCost, item.network)}
                                                     </span>
                                                 </td>
                                             </tr>
@@ -293,7 +280,7 @@ function RecentUserOps() {
                                                 <td className="py-[14px] px-4 whitespace-pre">
                                                     <div className="flex items-center gap-2 flex-1">
                                                         <span className="text-blue-200 text-sm leading-5">{item.blockNumber}</span>
-                                                        <CopyButton text={item.blockNumber} />
+                                                        <CopyButton text={item.blockNumber.toString()} />
                                                         <button className="outline-none focus:outline-none ring-0 focus:ring-0">
                                                             <img src="/images/share.svg" alt="" />
                                                         </button>
@@ -322,8 +309,10 @@ function RecentUserOps() {
                                                 </td>
                                                 <td className="py-[14px] px-4 whitespace-pre">
                                                     <div className="flex items-center gap-2 flex-1">
-                                                        <span className="text-blue-200 text-sm leading-5">{getFee(item.value)}</span>
-                                                        <CopyButton text={getFee(item.value)} />
+                                                        <span className="text-blue-200 text-sm leading-5">
+                                                            {getFee(item.value, item.network)}
+                                                        </span>
+                                                        <CopyButton text={getFee(item.value, item.network)} />
                                                     </div>
                                                 </td>
                                             </tr>
@@ -393,7 +382,7 @@ function RecentUserOps() {
                                                                             address
                                                                         </td>
                                                                         <td className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5">
-                                                                            <span className="text-blue-200 text-sm leading-5">
+                                                                            <span className="text-dark-700 text-sm leading-5">
                                                                                 {item.sender}
                                                                             </span>
                                                                         </td>
@@ -457,7 +446,7 @@ function RecentUserOps() {
                                                                                     bytes
                                                                                 </td>
                                                                                 <td className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5">
-                                                                                    0x4f175d2c5d6e88bc406c294c505bea41fc17b0b2029b406058a8e17c358e530e
+                                                                                    {item.target}
                                                                                 </td>
                                                                                 <td className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5">
                                                                                     <span className="text-blue-200 text-sm leading-5"></span>
@@ -472,7 +461,7 @@ function RecentUserOps() {
                                                                                     unit256
                                                                                 </td>
                                                                                 <td className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5">
-                                                                                    100000
+                                                                                    {getFee(item.value, item.network)}
                                                                                 </td>
                                                                                 <td className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5">
                                                                                     <span className="text-blue-200 text-sm leading-5"></span>
@@ -487,7 +476,7 @@ function RecentUserOps() {
                                                                                     bytes
                                                                                 </td>
                                                                                 <td className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5">
-                                                                                    100000
+                                                                                    {item.callData}
                                                                                 </td>
                                                                                 <td className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5">
                                                                                     <span className="text-blue-200 text-sm leading-5"></span>
@@ -534,7 +523,7 @@ function RecentUserOps() {
                                                                             uint256
                                                                         </td>
                                                                         <td className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5">
-                                                                            {getFee(item.maxFeePerGas)}
+                                                                            {getFee(item.maxFeePerGas, item.network)}
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
@@ -548,7 +537,7 @@ function RecentUserOps() {
                                                                             uint256
                                                                         </td>
                                                                         <td className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5">
-                                                                            {getFee(item.maxPriorityFeePerGas)}
+                                                                            {getFee(item.maxPriorityFeePerGas, item.network)}
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
@@ -562,7 +551,7 @@ function RecentUserOps() {
                                                                             uint256
                                                                         </td>
                                                                         <td className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5">
-                                                                            {shortenString(item.paymasterAndData)}
+                                                                            {item.paymasterAndData}
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
@@ -576,7 +565,7 @@ function RecentUserOps() {
                                                                             uint256
                                                                         </td>
                                                                         <td className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5">
-                                                                            {shortenString(item.signature)}
+                                                                            {item.signature}
                                                                         </td>
                                                                     </tr>
                                                                 </tbody>

@@ -14,13 +14,19 @@ export interface UserOp {
     revertReason: string;
     blockTime: number;
     blockNumber: number;
-    network: String;
+    network: string | 'mainnet';
     input: string;
     target: string;
     callData: string;
     beneficiary: string;
     factory: string;
     value: number;
+    verificationGasLimit: string;
+    preVerificationGas: string;
+    maxFeePerGas: number;
+    maxPriorityFeePerGas: number;
+    paymasterAndData: string;
+    signature: string;
 }
 
 export interface Bundle {
@@ -53,37 +59,6 @@ export interface GlobalCounts {
     bundleCounter: number;
 }
 
-export interface GetUserOpsHash {
-    verificationGasLimit: string;
-    userOpHash: string;
-    transactionHash: string;
-    target: string;
-    success: boolean;
-    signature: string;
-    sender: string;
-    revertReason: string | null;
-    preVerificationGas: string;
-    paymasterAndData: string;
-    paymaster: string;
-    nonce: string;
-    network: string | 'mainnet';
-    maxPriorityFeePerGas: number;
-    maxFeePerGas: number;
-    input: string;
-    gasPrice: string;
-    id: string;
-    gasLimit: string;
-    factory: string;
-    callGasLimit: string;
-    callData: string;
-    blockTime: string;
-    blockNumber: string;
-    beneficiary: string;
-    baseFeePerGas: string;
-    actualGasUsed: string;
-    actualGasCost: number;
-    value: number;
-}
 export const getLatestUserOps = async (selectedNetwork: string, pageSize: number, pageNo: number): Promise<UserOp[]> => {
     const response = await fetch(
         'https://api.jiffyscan.xyz/v0/getLatestUserOps?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
@@ -123,12 +98,12 @@ export const getGlobalMetrics = async (selectedNetwork: string): Promise<GlobalC
     }
     return {} as GlobalCounts;
 };
-export const getUserOp = async (userOpHash: string): Promise<GetUserOpsHash[]> => {
-    const response = await fetch('https://api.jiffyscan.xyz/v0/getUserOp?hash=' + userOpHash);
+export const getUserOp = async (userOpHash: string, selectedNetwork: string): Promise<UserOp[]> => {
+    const response = await fetch('https://api.jiffyscan.xyz/v0/getUserOp?hash=' + userOpHash + '&network=' + selectedNetwork);
     const data = await response.json();
     if ('userOps' in data) {
-        return data.userOps as GetUserOpsHash[];
+        return data.userOps as UserOp[];
     }
 
-    return [] as GetUserOpsHash[];
+    return [] as UserOp[];
 };

@@ -1,7 +1,5 @@
 import Layout from '@/components/globals/Layout';
-import LatestUserOps from '@/views/latestUserOps/UserOperations';
-import RecentUserOps from '@/views/userOp/RecentUserOps';
-import { useRouter } from 'next/router';
+import RecentUserOps from '@/views/userOp/UserOperation';
 import React, { ReactElement } from 'react';
 
 function recentUserOps() {

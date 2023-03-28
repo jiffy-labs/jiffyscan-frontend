@@ -25,7 +25,7 @@ function getHrefLink(type: string | undefined, text: string, network: string) {
     if (type == 'userOp') {
         return {
             pathname: '/userOpHash',
-            query: { hash: text || '0x43fe1ef830cbc6447ca8a740963099fe7fb6b137ac7768aa9c8f5913aaf8f91b' },
+            query: { hash: text || '0x43fe1ef830cbc6447ca8a740963099fe7fb6b137ac7768aa9c8f5913aaf8f91b', network: network || 'mainnet' },
         };
     } else if (type == 'address') {
         return 'https://jiffyscan.xyz/address/' + text;
