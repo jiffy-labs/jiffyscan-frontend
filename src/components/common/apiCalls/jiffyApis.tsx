@@ -1,32 +1,32 @@
 import axios from 'axios';
 
 export interface UserOp {
-    id: string;
-    transactionHash: string;
+    id: string | null;
+    transactionHash: string | null;
     userOpHash: string;
     sender: string;
     paymaster: string;
     nonce: number;
     actualGasCost: number;
     actualGasPrice: number;
-    actualGasUsed: number;
+    actualGasUsed: number | null;
     success: Boolean;
-    revertReason: string;
-    blockTime: number;
-    blockNumber: number;
+    revertReason: string | null;
+    blockTime: number | null;
+    blockNumber: number | null;
     network: string | 'mainnet';
-    input: string;
-    target: string;
-    callData: string;
-    beneficiary: string;
-    factory: string;
-    value: number;
-    verificationGasLimit: string;
-    preVerificationGas: string;
-    maxFeePerGas: number;
-    maxPriorityFeePerGas: number;
-    paymasterAndData: string;
-    signature: string;
+    input: string | null;
+    target: string | null;
+    callData: string | null;
+    beneficiary: string | null;
+    factory: string | null;
+    value: number | null;
+    verificationGasLimit: string | null;
+    preVerificationGas: string | null;
+    maxFeePerGas: number | null;
+    maxPriorityFeePerGas: number | null;
+    paymasterAndData: string | null;
+    signature: string | null;
 }
 
 export interface Bundle {

@@ -3,9 +3,11 @@ import React, { useContext } from 'react';
 import CopyButton from './copy_button/CopyButton';
 import { useConfig } from '@/context/config';
 import { useRouter } from 'next/router';
+import { shortenString } from './utils';
 
 function Token({ icon, text, copyIcon, type }: { icon?: string; text: string; copyIcon?: string; type?: string }) {
     const { selectedNetwork } = useConfig();
+
     return (
         <div className="flex items-center gap-2.5">
             {icon && <img src={icon} alt="" style={{ width: '20px', height: '20px' }} />}
@@ -24,8 +26,7 @@ function getHrefLink(type: string | undefined, text: string, network: string) {
 
     if (type == 'userOp') {
         return {
-            pathname: '/userOpHash',
-            query: { hash: text || '0x43fe1ef830cbc6447ca8a740963099fe7fb6b137ac7768aa9c8f5913aaf8f91b', network: network || 'mainnet' },
+            pathname: `/userOpHash/${text || '0x43fe1ef830cbc6447ca8a740963099fe7fb6b137ac7768aa9c8f5913aaf8f91b'}/${network || 'mainnet'}`,
         };
     } else if (type == 'address') {
         return 'https://jiffyscan.xyz/address/' + text;
@@ -57,15 +58,4 @@ function getTarget(type: string | undefined) {
     } else {
         return '_self';
     }
-}
-
-function shortenString(str: string) {
-    if (str.length <= 10) {
-        return str;
-    }
-
-    const firstChars = str.slice(0, 6);
-    const lastChars = str.slice(-4);
-
-    return `${firstChars}...${lastChars}`;
 }

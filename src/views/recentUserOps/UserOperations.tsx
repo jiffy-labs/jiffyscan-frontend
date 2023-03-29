@@ -60,9 +60,9 @@ function UserOperations() {
                     icon: NETWORK_ICON_MAP[network],
                     type: 'userOp',
                 },
-                ago: getTimePassed(userOp.blockTime),
+                ago: getTimePassed(userOp.blockTime!),
                 sender: userOp.sender,
-                target: userOp.target,
+                target: userOp.target!,
                 fee: getFee(userOp.actualGasCost, userOp.network as string),
             });
         });
