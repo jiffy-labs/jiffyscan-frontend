@@ -46,3 +46,12 @@ export const getCurrencySymbol = (amount: number, network: string): string => {
         return 'WEI';
     }
 };
+export const shortenString = (str: string) => {
+    if (str?.length <= 10) {
+        return str;
+    }
+    const firstChars = str?.slice(0, 6);
+    const lastChars = str?.slice(-4);
+
+    return `${firstChars}...${lastChars}`;
+};

@@ -10,7 +10,7 @@ import IconText from '@/components/common/IconText';
 import Chip from '@/components/common/chip/Chip';
 import sx from './usertable.module.sass';
 import { useRouter } from 'next/router';
-import { getFee } from '@/components/common/utils';
+import { getFee, shortenString } from '@/components/common/utils';
 import { NETWORK_ICON_MAP } from '@/components/common/constants';
 export const BUTTON_LIST = [
     {
@@ -35,15 +35,6 @@ function RecentUserOps() {
     const [selectedColor, setSelectedColor] = useState('#1976D2');
     const [useOpsData, setuserOpsData] = useState<UserOp[]>();
 
-    function shortenString(str: string) {
-        if (str?.length <= 10) {
-            return str;
-        }
-        const firstChars = str?.slice(0, 6);
-        const lastChars = str?.slice(-4);
-
-        return `${firstChars}...${lastChars}`;
-    }
     useEffect(() => {
         const refreshUserOpsTable = async (name: string, network: string) => {
             const userops = await getUserOp(
