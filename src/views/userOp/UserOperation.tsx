@@ -10,10 +10,10 @@ import IconText from '@/components/common/IconText';
 import Chip from '@/components/common/chip/Chip';
 import sx from './usertable.module.sass';
 import { useRouter } from 'next/router';
-import { getFee, shortenString } from '@/components/common/utils';
+import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
 import { NETWORK_ICON_MAP, NETWORK_LIST } from '@/components/common/constants';
-import Table from '@/components/common/table/Table';
 import Token from '@/components/common/Token';
+import Tooltip from '@mui/material/Tooltip';
 export const BUTTON_LIST = [
     {
         name: 'Default View',
@@ -27,7 +27,8 @@ export const BUTTON_LIST = [
 const columns = [
     { name: 'Hash', sort: true },
     { name: 'Age', sort: true },
-    { name: 'UserOps', sort: false },
+    { name: 'Sender', sort: true },
+    { name: 'Target', sort: true },
 ];
 function RecentUserOps(props: any) {
     const router = useRouter();
@@ -78,12 +79,7 @@ function RecentUserOps(props: any) {
                             <Link underline="hover" color="inherit" href="/recentUserOps">
                                 Recent User Ops
                             </Link>
-                            <Link
-                                underline="hover"
-                                color="text.primary"
-                                href={`/userOpHash?text=${hash}&network=${network}`}
-                                aria-current="page"
-                            >
+                            <Link underline="hover" color="text.primary" href={`/userOpHash/${hash}/${network}`} aria-current="page">
                                 {shortenString((hash as string) || '0x43fe1ef830cbc6447ca8a740963099fe7fb6b137ac7768aa9c8f5913aaf8f91b')}
                             </Link>
                         </Breadcrumbs>
@@ -111,7 +107,9 @@ function RecentUserOps(props: any) {
                                                 <div className="md:flex items-center gap-4 pt-[14px] pb-[2px]">
                                                     <div className="flex items-center gap-2">
                                                         <img src={NETWORK_ICON_MAP[network as string]} alt="" className="h-[20px]" />
-                                                        <span className="text-sm font-normal leading-5 text-dark-600">{network}</span>
+                                                        <span className="text-sm font-normal leading-5 text-dark-600">
+                                                            {NETWORK_LIST.find((el) => el.key === item.network)?.name}
+                                                        </span>
                                                     </div>
                                                     <div className="flex items-center break-words gap-2 flex-1">
                                                         <span className="text-blue-200 text-sm break-all leading-5">{item.userOpHash}</span>
@@ -197,12 +195,18 @@ function RecentUserOps(props: any) {
 
                                                                 <td className="py-[14px] px-4 whitespace-pre">
                                                                     <div className="flex">
-                                                                        <span className="flex items-center px-3 py-px  gap-2 rounded-full border border-[#4CAF50]">
-                                                                            <img src="/images/Success.svg" alt="" />
-                                                                            <span className="font-normal text-[12px] leading-5 text-dark-600">
-                                                                                Success
+                                                                        <Tooltip
+                                                                            arrow={true}
+                                                                            placement="top"
+                                                                            title={`A Status code indicating if the top level call is succeeded or failed(applicable for Post BYZANTIUM blocks only)`}
+                                                                        >
+                                                                            <span className="flex items-center px-3 py-px  gap-2 rounded-full border border-[#4CAF50]">
+                                                                                <img src="/images/Success.svg" alt="" />
+                                                                                <span className="font-normal text-[12px] leading-5 text-dark-600">
+                                                                                    Success
+                                                                                </span>
                                                                             </span>
-                                                                        </span>
+                                                                        </Tooltip>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -226,10 +230,6 @@ function RecentUserOps(props: any) {
                                                                 <td className="py-[14px] px-4 whitespace-pre">
                                                                     <span className="text-dark-600 text-sm leading-5 flex items-center">
                                                                         {getFee(item.value!, item.network)}
-
-                                                                        {/* <Chip variant="outlined" color={'dark-400'}>
-                                                            {getSymbol(item.network as string)}
-                                                        </Chip> */}
                                                                     </span>
                                                                 </td>
                                                                 <td></td>
@@ -406,7 +406,7 @@ function RecentUserOps(props: any) {
                                                                                 </thead>
                                                                                 <tbody className="divide-y divide-dark-100">
                                                                                     <tr>
-                                                                                        <td className="text-black[87%] text-end text-sm leading-5  py-[14px] px-4">
+                                                                                        <td className="text-black[87%] text-sm leading-5  py-[14px] px-4">
                                                                                             0
                                                                                         </td>
                                                                                         <td className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5">
@@ -658,49 +658,21 @@ function RecentUserOps(props: any) {
                         </>
                     ) : (
                         <>
-                            <div className="overflow-auto flex-1 max-h-[290px] custom-scroll   bg-white border-dark-200 rounded border">
+                            <div className="overflow-auto flex-1 max-h-[290px] custom-scroll  container mb-5 bg-white border-dark-200 rounded border">
                                 <table className="min-w-full divide-y divide-dark-100">
                                     <thead className="bg-white">
-                                        {/* <tr>
-                                <th
-                                    scope="col"
-                                    className="sticky z-10 top-0 bg-white text-end text-[12px] font-bold leading-5 text-dark-600 py-[14px] px-4"
-                                >
-                                    Hash
-                                </th>
-                                <th
-                                    scope="col"
-                                    className="sticky z-10 top-0 bg-white py-2 text-left text-[12px] font-bold leading-5 text-dark-600"
-                                >
-                                    Ago
-                                </th>
-                                <th
-                                    scope="col"
-                                    className="sticky z-10 top-0 bg-white py-2 text-left text-[12px] font-bold leading-5 text-dark-600"
-                                >
-                                    Sender
-                                </th>
-                                <th
-                                    scope="col"
-                                    className="sticky z-10 top-0 bg-white py-2 text-left text-[12px] font-bold leading-5 text-dark-600"
-                                >
-                                    Target
-                                </th>
-                            </tr> */}
                                         <tr>
                                             {columns.map(({ name, sort }, key) => {
                                                 return (
                                                     <th
                                                         key={key}
-                                                        className={`py-3.5 px-4 border-b border-dark-100 group ${
+                                                        className={`py-3.5 border-b border-dark-100 group ${
                                                             columns.length <= 3 ? 'md:first:wx-[55%]' : ''
                                                         }`}
                                                     >
                                                         <div
                                                             role={sort ? 'button' : undefined}
-                                                            className={`flex items-center gap-2.5 ${
-                                                                columns.length <= 3 ? 'group-last:justify-end' : ''
-                                                            }`}
+                                                            className={`flex items-center gap-2.5 ${columns.length <= 3 ? '' : ''}`}
                                                         >
                                                             <span>{name}</span>
                                                             {name === 'Age' ? sort && <img src="/images/span.svg" alt="" /> : null}
@@ -714,27 +686,24 @@ function RecentUserOps(props: any) {
                                         {useOpsData?.map((item, index) => {
                                             return (
                                                 <tr key={index}>
-                                                    <div
-                                                        onClick={() => {
-                                                            router.push({
-                                                                pathname: '/userOperationHash',
-                                                                query: { data: JSON.stringify(item) },
-                                                            });
-                                                        }}
-                                                    >
-                                                        <td className="text-black[87%] text-end text-sm leading-5  py-[14px] px-4">
-                                                            {item.userOpHash}
-                                                        </td>
-                                                    </div>
-                                                    <td className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5">
-                                                        {item.blockTime!}
+                                                    <td className="text-black[87%] text-sm leading-5  py-[14px] px-4">
+                                                        {shortenString(item.userOpHash)}
                                                     </td>
                                                     <td className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5">
-                                                        <Token text={item.sender} type="address" />
+                                                        {getTimePassed(item.blockTime!)}
+                                                    </td>
+                                                    <td
+                                                        className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5 text-blue-200"
+                                                        onClick={() => {
+                                                            console.log(item);
+                                                            setuserOpsData([item]);
+                                                        }}
+                                                    >
+                                                        {shortenString(item.sender)}
                                                     </td>
                                                     <td className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5">
                                                         <span className="text-dark-700 text-sm leading-5">
-                                                            <Token text={item.target!} type="address" />
+                                                            {shortenString(item.target! ? item.target! : '')}
                                                         </span>
                                                     </td>
                                                 </tr>
