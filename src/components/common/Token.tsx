@@ -29,7 +29,10 @@ function getHrefLink(type: string | undefined, text: string, network: string) {
             pathname: `/userOpHash/${text || '0x43fe1ef830cbc6447ca8a740963099fe7fb6b137ac7768aa9c8f5913aaf8f91b'}/${network || 'mainnet'}`,
         };
     } else if (type == 'address') {
-        return 'https://jiffyscan.xyz/address/' + text;
+        return {
+            pathname: `/address/${text || '0xecf60cb3f5c5090a55d35fae2089581af824a6f5'}/${network || 'mainnet'}`,
+        };
+        // return 'https://jiffyscan.xyz/address/' + text;
     } else if (type == 'bundle') {
         return NETWORK_SCANNER_MAP[network] + text;
     } else {

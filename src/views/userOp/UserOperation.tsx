@@ -14,6 +14,8 @@ import { getFee, getTimePassed, shortenString } from '@/components/common/utils'
 import { NETWORK_ICON_MAP, NETWORK_LIST } from '@/components/common/constants';
 import Token from '@/components/common/Token';
 import Tooltip from '@mui/material/Tooltip';
+import Skeleton from '@/components/Skeleton';
+import Spinner from '@/components/common/Spinner';
 export const BUTTON_LIST = [
     {
         name: 'Default View',
@@ -60,7 +62,8 @@ function RecentUserOps(props: any) {
             refreshTable();
         }
     }, [hash, network]);
-
+    let skeletonCards = Array(13).fill(0);
+    let skeletonCards1 = Array(5).fill(0);
     return (
         <div className="">
             <Navbar searchbar />
@@ -87,16 +90,10 @@ function RecentUserOps(props: any) {
                 </div>
             </section>
             {tableLoading ? (
-                <div
-                    className="animate-spin inline-block w-6 h-6 border-[3px] border-current border-t-transparent text-blue-600 rounded-full"
-                    role="status"
-                    aria-label="loading"
-                >
-                    <span className="sr-only">Loading...</span>
-                </div>
+                <Spinner />
             ) : (
                 <>
-                    {useOpsData?.length === 1 ? (
+                    {useOpsData?.length !== 0 ? (
                         <>
                             {useOpsData?.map((item) => {
                                 return (
@@ -133,193 +130,203 @@ function RecentUserOps(props: any) {
                                                 </div>
                                                 <div className="bg-white overflow-auto rounded shadow-300 ">
                                                     <table className="min-w-full divide-y divide-gray-600">
-                                                        <tbody className="min-w-full divide-y divide-gray-300">
-                                                            <tr>
-                                                                <td className="py-[14px] px-4 min-w-[205px]">
-                                                                    <IconText icon={'/images/sader.svg'}>Sender</IconText>
-                                                                </td>
-                                                                <td className="py-[14px] px-4 whitespace-pre">
-                                                                    <div className="flex items-center gap-2 flex-1">
-                                                                        <span className="text-blue-200 text-sm leading-5">
-                                                                            {item.sender}
-                                                                        </span>
-                                                                        <CopyButton text="" />
-                                                                        <button className="outline-none focus:outline-none ring-0 focus:ring-0">
-                                                                            <img src="/images/share.svg" alt="" />
-                                                                        </button>
-                                                                    </div>
-                                                                </td>
-                                                                <td className="py-[14px] px-4 text-right">
-                                                                    <span className="text-bluegrey-300 text-[10px] leading-5 flex justify-end items-center gap-2 font-normal">
-                                                                        Power by <img src="/images/pimlico.svg" alt="" />
-                                                                    </span>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td className="py-[14px] px-4 min-w-[205px]">
-                                                                    <IconText icon={'/images/Receiver.svg'}>Receiver</IconText>
-                                                                </td>
-                                                                <td className="py-[14px] px-4 whitespace-pre">
-                                                                    <div className="flex items-center gap-2 flex-1">
-                                                                        <span className="text-blue-200 text-sm leading-5">
-                                                                            {item.target}
-                                                                        </span>
-                                                                        <CopyButton text="" />
-                                                                        <button className="outline-none focus:outline-none ring-0 focus:ring-0">
-                                                                            <img src="/images/share.svg" alt="" />
-                                                                        </button>
-                                                                    </div>
-                                                                </td>
-                                                                <td className="py-[14px] px-4 text-right">
-                                                                    <span className="text-bluegrey-300 text-[10px] leading-5 flex justify-end items-center gap-2 font-normal">
-                                                                        Power by <img src="/images/pimlico.svg" alt="" />
-                                                                    </span>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td className="py-[14px] px-4 min-w-[205px]">
-                                                                    <IconText icon={'/images/sader.svg'}>Block Time</IconText>
-                                                                </td>
-                                                                <td className="py-[14px] px-4 whitespace-pre">
-                                                                    <span className="text-dark-600 text-sm leading-5">
-                                                                        {/* {moment(item.blockTime).format('YYYY-MM-DD')} */}
-                                                                        Sat Mar 04 2023 18:20:00 GMT+0200 (Eastern European Standard Time)
-                                                                    </span>
-                                                                </td>
-                                                                <td className="py-[14px] px-4 text-right"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td className="py-[14px] px-4 min-w-[205px]">
-                                                                    <IconText icon={'/images/delete.svg'}>Status</IconText>
-                                                                </td>
-
-                                                                <td className="py-[14px] px-4 whitespace-pre">
-                                                                    <div className="flex">
-                                                                        <Tooltip
-                                                                            arrow={true}
-                                                                            placement="top"
-                                                                            title={`A Status code indicating if the top level call is succeeded or failed(applicable for Post BYZANTIUM blocks only)`}
-                                                                        >
-                                                                            <span className="flex items-center px-3 py-px  gap-2 rounded-full border border-[#4CAF50]">
-                                                                                <img src="/images/Success.svg" alt="" />
-                                                                                <span className="font-normal text-[12px] leading-5 text-dark-600">
-                                                                                    Success
-                                                                                </span>
+                                                        {tableLoading ? (
+                                                            skeletonCards.map((index: number) => <Skeleton key={index} />)
+                                                        ) : (
+                                                            <tbody className="min-w-full divide-y divide-gray-300">
+                                                                <tr>
+                                                                    <td className="py-[14px] px-4 min-w-[205px]">
+                                                                        <IconText icon={'/images/sader.svg'}>Sender</IconText>
+                                                                    </td>
+                                                                    <td className="py-[14px] px-4 whitespace-pre">
+                                                                        <div className="flex items-center gap-2 flex-1">
+                                                                            <span className="text-blue-200 text-sm leading-5">
+                                                                                {item.sender}
                                                                             </span>
-                                                                        </Tooltip>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td className="py-[14px] px-4 min-w-[205px]">
-                                                                    <IconText icon={'/images/delete.svg'}>Operation</IconText>
-                                                                </td>
-                                                                <td className="py-[14px] px-4 whitespace-pre">
-                                                                    <div className="flex items-center gap-2 flex-1">
+                                                                            <CopyButton text="" />
+                                                                            <button className="outline-none focus:outline-none ring-0 focus:ring-0">
+                                                                                <img src="/images/share.svg" alt="" />
+                                                                            </button>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td className="py-[14px] px-4 text-right">
+                                                                        <span className="text-bluegrey-300 text-[10px] leading-5 flex justify-end items-center gap-2 font-normal">
+                                                                            Power by <img src="/images/pimlico.svg" alt="" />
+                                                                        </span>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="py-[14px] px-4 min-w-[205px]">
+                                                                        <IconText icon={'/images/Receiver.svg'}>Receiver</IconText>
+                                                                    </td>
+                                                                    <td className="py-[14px] px-4 whitespace-pre">
+                                                                        <div className="flex items-center gap-2 flex-1">
+                                                                            <span className="text-blue-200 text-sm leading-5">
+                                                                                {item.target}
+                                                                            </span>
+                                                                            <CopyButton text="" />
+                                                                            <button className="outline-none focus:outline-none ring-0 focus:ring-0">
+                                                                                <img src="/images/share.svg" alt="" />
+                                                                            </button>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td className="py-[14px] px-4 text-right">
+                                                                        <span className="text-bluegrey-300 text-[10px] leading-5 flex justify-end items-center gap-2 font-normal">
+                                                                            Power by <img src="/images/pimlico.svg" alt="" />
+                                                                        </span>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="py-[14px] px-4 min-w-[205px]">
+                                                                        <IconText icon={'/images/sader.svg'}>Block Time</IconText>
+                                                                    </td>
+                                                                    <td className="py-[14px] px-4 whitespace-pre">
                                                                         <span className="text-dark-600 text-sm leading-5">
-                                                                            Custom text (Eg: Context on the operation. Transfer of ETH or
-                                                                            ERC20 transfer or Swap on Dex?)
+                                                                            {/* {moment(item.blockTime).format('YYYY-MM-DD')} */}
+                                                                            Sat Mar 04 2023 18:20:00 GMT+0200 (Eastern European Standard
+                                                                            Time)
                                                                         </span>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td className="py-[14px] px-4 min-w-[205px]">
-                                                                    <IconText icon={'/images/star.svg'}>Value</IconText>
-                                                                </td>
-                                                                <td className="py-[14px] px-4 whitespace-pre">
-                                                                    <span className="text-dark-600 text-sm leading-5 flex items-center">
-                                                                        {getFee(item.value!, item.network)}
-                                                                    </span>
-                                                                </td>
-                                                                <td></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td className="py-[14px] px-4 min-w-[205px]">
-                                                                    <IconText icon={'/images/Fee.svg'}>Fee</IconText>
-                                                                </td>
-                                                                <td className="py-[14px] px-4 whitespace-pre">
-                                                                    <span className="text-dark-600 text-sm leading-5 flex items-center">
-                                                                        {getFee(item.actualGasCost, item.network)}
-                                                                    </span>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td className="py-[14px] px-4 min-w-[205px]">
-                                                                    <IconText icon={'/images/building.svg'}>Paymentmaster</IconText>
-                                                                </td>
-                                                                <td className="py-[14px] px-4 whitespace-pre">
-                                                                    <div className="flex items-center gap-2 flex-1">
-                                                                        <span className="text-blue-200 text-sm leading-5">
-                                                                            {item.paymaster}
+                                                                    </td>
+                                                                    <td className="py-[14px] px-4 text-right"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="py-[14px] px-4 min-w-[205px]">
+                                                                        <IconText icon={'/images/delete.svg'}>Status</IconText>
+                                                                    </td>
+
+                                                                    <td className="py-[14px] px-4 whitespace-pre">
+                                                                        <div className="flex">
+                                                                            <Tooltip
+                                                                                arrow={true}
+                                                                                placement="top"
+                                                                                title={`A Status code indicating if the top level call is succeeded or failed(applicable for Post BYZANTIUM blocks only)`}
+                                                                            >
+                                                                                <span className="flex items-center px-3 py-px  gap-2 rounded-full border border-[#4CAF50]">
+                                                                                    <img src="/images/Success.svg" alt="" />
+                                                                                    <span className="font-normal text-[12px] leading-5 text-dark-600">
+                                                                                        Success
+                                                                                    </span>
+                                                                                </span>
+                                                                            </Tooltip>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="py-[14px] px-4 min-w-[205px]">
+                                                                        <IconText icon={'/images/delete.svg'}>Operation</IconText>
+                                                                    </td>
+                                                                    <td className="py-[14px] px-4 whitespace-pre">
+                                                                        <div className="flex items-center gap-2 flex-1">
+                                                                            <span className="text-dark-600 text-sm leading-5">
+                                                                                Custom text (Eg: Context on the operation. Transfer of ETH
+                                                                                or ERC20 transfer or Swap on Dex?)
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="py-[14px] px-4 min-w-[205px]">
+                                                                        <IconText icon={'/images/star.svg'}>Value</IconText>
+                                                                    </td>
+                                                                    <td className="py-[14px] px-4 whitespace-pre">
+                                                                        <span className="text-dark-600 text-sm leading-5 flex items-center">
+                                                                            {getFee(item.value!, item.network)}
                                                                         </span>
-                                                                        <CopyButton text={item.paymaster} />
-                                                                        <button className="outline-none focus:outline-none ring-0 focus:ring-0">
-                                                                            <img src="/images/share.svg" alt="" />
-                                                                        </button>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td className="py-[14px] px-4 min-w-[205px]">
-                                                                    <IconText icon={'/images/Beneficiary.svg'}>Beneficiary</IconText>
-                                                                </td>
-                                                                <td className="py-[14px] px-4 whitespace-pre">
-                                                                    <div className="flex items-center gap-2 flex-1">
-                                                                        <span className="text-blue-200 text-sm leading-5">
-                                                                            {item.beneficiary}
+                                                                    </td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="py-[14px] px-4 min-w-[205px]">
+                                                                        <IconText icon={'/images/Fee.svg'}>Fee</IconText>
+                                                                    </td>
+                                                                    <td className="py-[14px] px-4 whitespace-pre">
+                                                                        <span className="text-dark-600 text-sm leading-5 flex items-center">
+                                                                            {getFee(item.actualGasCost, item.network)}
                                                                         </span>
-                                                                        <CopyButton text={item.beneficiary!} />
-                                                                        <button className="outline-none focus:outline-none ring-0 focus:ring-0">
-                                                                            <img src="/images/share.svg" alt="" />
-                                                                        </button>
-                                                                    </div>
-                                                                </td>
-                                                                <td className="py-[14px] px-4 text-right">
-                                                                    <span className="text-bluegrey-300 text-[10px] leading-5 flex justify-end items-center gap-2 font-normal">
-                                                                        Power by <img src="/images/candide.svg" alt="" />
-                                                                    </span>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td className="py-[14px] px-4 min-w-[205px]">
-                                                                    <IconText icon={'/images/Hash.svg'}>Transaction Hash</IconText>
-                                                                </td>
-                                                                <td className="py-[14px] px-4 whitespace-pre">
-                                                                    <div className="flex items-center gap-2 flex-1">
-                                                                        <span className="text-blue-200 text-sm leading-5">
-                                                                            {item.transactionHash}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="py-[14px] px-4 min-w-[205px]">
+                                                                        <IconText icon={'/images/building.svg'}>Paymentmaster</IconText>
+                                                                    </td>
+                                                                    <td className="py-[14px] px-4 whitespace-pre">
+                                                                        <div className="flex items-center gap-2 flex-1">
+                                                                            <span className="text-blue-200 text-sm leading-5">
+                                                                                {item.paymaster}
+                                                                            </span>
+                                                                            <CopyButton text={item.paymaster} />
+                                                                            <button className="outline-none focus:outline-none ring-0 focus:ring-0">
+                                                                                <img src="/images/share.svg" alt="" />
+                                                                            </button>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="py-[14px] px-4 min-w-[205px]">
+                                                                        <IconText icon={'/images/Beneficiary.svg'}>Beneficiary</IconText>
+                                                                    </td>
+                                                                    <td
+                                                                        className="py-[14px] px-4 whitespace-pre"
+                                                                        onClick={() => {
+                                                                            router.push(`/paymaster/${item.beneficiary!}/${item.network}`);
+                                                                        }}
+                                                                    >
+                                                                        <div className="flex items-center gap-2 flex-1">
+                                                                            <span className="text-blue-200 text-sm leading-5">
+                                                                                {item.beneficiary}
+                                                                            </span>
+                                                                            <CopyButton text={item.beneficiary!} />
+                                                                            <button className="outline-none focus:outline-none ring-0 focus:ring-0">
+                                                                                <img src="/images/share.svg" alt="" />
+                                                                            </button>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td className="py-[14px] px-4 text-right">
+                                                                        <span className="text-bluegrey-300 text-[10px] leading-5 flex justify-end items-center gap-2 font-normal">
+                                                                            Power by <img src="/images/candide.svg" alt="" />
                                                                         </span>
-                                                                        <CopyButton text={item.transactionHash!} />
-                                                                        <button className="outline-none focus:outline-none ring-0 focus:ring-0">
-                                                                            <img src="/images/share.svg" alt="" />
-                                                                        </button>
-                                                                    </div>
-                                                                </td>
-                                                                <td className="py-[14px] px-4 text-right">
-                                                                    <span className="text-bluegrey-300 text-[10px] leading-5 flex justify-end items-center gap-2 font-normal">
-                                                                        Power by <img src="/images/candide.svg" alt="" />
-                                                                    </span>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td className="py-[14px] px-4 min-w-[205px]">
-                                                                    <IconText icon={'/images/cube.svg'}>Block</IconText>
-                                                                </td>
-                                                                <td className="py-[14px] px-4 whitespace-pre">
-                                                                    <div className="flex items-center gap-2 flex-1">
-                                                                        <span className="text-blue-200 text-sm leading-5">
-                                                                            {item.blockNumber}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="py-[14px] px-4 min-w-[205px]">
+                                                                        <IconText icon={'/images/Hash.svg'}>Transaction Hash</IconText>
+                                                                    </td>
+                                                                    <td className="py-[14px] px-4 whitespace-pre">
+                                                                        <div className="flex items-center gap-2 flex-1">
+                                                                            <span className="text-blue-200 text-sm leading-5">
+                                                                                {item.transactionHash}
+                                                                            </span>
+                                                                            <CopyButton text={item.transactionHash!} />
+                                                                            <button className="outline-none focus:outline-none ring-0 focus:ring-0">
+                                                                                <img src="/images/share.svg" alt="" />
+                                                                            </button>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td className="py-[14px] px-4 text-right">
+                                                                        <span className="text-bluegrey-300 text-[10px] leading-5 flex justify-end items-center gap-2 font-normal">
+                                                                            Power by <img src="/images/candide.svg" alt="" />
                                                                         </span>
-                                                                        <CopyButton text={item.blockNumber!.toString()} />
-                                                                        <button className="outline-none focus:outline-none ring-0 focus:ring-0">
-                                                                            <img src="/images/share.svg" alt="" />
-                                                                        </button>
-                                                                    </div>
-                                                                </td>
-                                                                <td className="py-[14px] px-4 text-right"></td>
-                                                            </tr>
-                                                        </tbody>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="py-[14px] px-4 min-w-[205px]">
+                                                                        <IconText icon={'/images/cube.svg'}>Block</IconText>
+                                                                    </td>
+                                                                    <td className="py-[14px] px-4 whitespace-pre">
+                                                                        <div className="flex items-center gap-2 flex-1">
+                                                                            <span className="text-blue-200 text-sm leading-5">
+                                                                                {item.blockNumber}
+                                                                            </span>
+                                                                            <CopyButton text={item.blockNumber!.toString()} />
+                                                                            <button className="outline-none focus:outline-none ring-0 focus:ring-0">
+                                                                                <img src="/images/share.svg" alt="" />
+                                                                            </button>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td className="py-[14px] px-4 text-right"></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        )}
                                                     </table>
                                                 </div>
                                             </div>
@@ -682,7 +689,39 @@ function RecentUserOps(props: any) {
                                             })}
                                         </tr>
                                     </thead>
-                                    <tbody className="divide-y divide-dark-100">
+                                    {tableLoading ? (
+                                        skeletonCards1.map((index: number) => <Skeleton key={index} />)
+                                    ) : (
+                                        <tbody className="divide-y divide-dark-100">
+                                            {useOpsData?.map((item, index) => {
+                                                return (
+                                                    <tr key={index}>
+                                                        <td className="text-black[87%] text-sm leading-5  py-[14px] px-4">
+                                                            {shortenString(item.userOpHash)}
+                                                        </td>
+                                                        <td className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5">
+                                                            {getTimePassed(item.blockTime!)}
+                                                        </td>
+                                                        <td
+                                                            className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5 text-blue-200"
+                                                            onClick={() => {
+                                                                console.log(item);
+                                                                setuserOpsData([item]);
+                                                            }}
+                                                        >
+                                                            {shortenString(item.sender)}
+                                                        </td>
+                                                        <td className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5">
+                                                            <span className="text-dark-700 text-sm leading-5">
+                                                                {shortenString(item.target! ? item.target! : '')}
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })}
+                                        </tbody>
+                                    )}
+                                    {/* <tbody className="divide-y divide-dark-100">
                                         {useOpsData?.map((item, index) => {
                                             return (
                                                 <tr key={index}>
@@ -709,13 +748,14 @@ function RecentUserOps(props: any) {
                                                 </tr>
                                             );
                                         })}
-                                    </tbody>
+                                    </tbody> */}
                                 </table>
                             </div>
                         </>
                     )}
                 </>
             )}
+
             <Footer />
         </div>
     );

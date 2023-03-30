@@ -107,3 +107,21 @@ export const getUserOp = async (userOpHash: string, selectedNetwork: string): Pr
 
     return [] as UserOp[];
 };
+export const getAddressActivity = async (userOpHash: string, selectedNetwork: string): Promise<UserOp[]> => {
+    const response = await fetch('https://api.jiffyscan.xyz/v0/getAddressActivity?address=' + userOpHash + '&network=' + selectedNetwork);
+    const data = await response.json();
+    if ('userOps' in data) {
+        return data.userOps as UserOp[];
+    }
+
+    return [] as UserOp[];
+};
+export const getPaymentMaster = async (userOpHash: string, selectedNetwork: string): Promise<UserOp[]> => {
+    const response = await fetch('https://api.jiffyscan.xyz/v0/getPaymasterActivity?address=' + userOpHash + '&network=' + selectedNetwork);
+    const data = await response.json();
+    if ('userOps' in data) {
+        return data.userOps as UserOp[];
+    }
+
+    return [] as UserOp[];
+};
