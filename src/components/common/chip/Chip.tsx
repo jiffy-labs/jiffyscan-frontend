@@ -5,10 +5,11 @@ export interface ChipProps {
     startIcon?: string;
     endIcon?: string;
     children: ReactNode;
-    variant?: 'contained' | 'outlined';
+    variant?: 'contained' | 'outlined' | 'primary';
     color?: 'dark-700' | 'white' | 'info' | 'success' | 'dark-400';
     className?: string;
     onClick?: () => void;
+    style?: string;
 }
 
 function Chip(props: ChipProps) {

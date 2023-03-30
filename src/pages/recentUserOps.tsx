@@ -1,5 +1,5 @@
 import Layout from '@/components/globals/Layout';
-import LatestUserOps from '@/views/latestUserOps/UserOperations';
+import LatestUserOps from '@/views/recentUserOps/UserOperations';
 import React, { ReactElement } from 'react';
 
 function latestUserOps() {

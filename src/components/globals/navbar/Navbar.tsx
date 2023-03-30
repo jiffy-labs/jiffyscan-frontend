@@ -4,8 +4,11 @@ import IconButton from '@/components/common/icon_button/IconButton';
 import Search from './search/Search';
 import Pages from './pages/Pages';
 import Logo from '@/components/common/Logo';
-import dynamic from 'next/dynamic'
-const Drawer = dynamic(import('react-modern-drawer').then(mod => mod.default), { ssr: false })
+import dynamic from 'next/dynamic';
+const Drawer = dynamic(
+    import('react-modern-drawer').then((mod) => mod.default),
+    { ssr: false },
+);
 
 import 'react-modern-drawer/dist/index.css';
 import User from './User';

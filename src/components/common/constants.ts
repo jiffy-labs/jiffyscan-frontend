@@ -47,5 +47,5 @@ export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
     matic: '/images/polygon-icon.svg',
     mumbai: '/images/polygon-mumbai-icon.svg',
     'optimism-goerli': '/images/icon-container (6).svg',
-    'arbitrum': '/images/arbitrum-logo.svg',
+    arbitrum: '/images/arbitrum-logo.svg',
 };

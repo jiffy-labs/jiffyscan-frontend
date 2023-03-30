@@ -1,26 +1,32 @@
 import axios from 'axios';
 
 export interface UserOp {
-    id: string;
-    transactionHash: string;
+    id: string | null;
+    transactionHash: string | null;
     userOpHash: string;
     sender: string;
     paymaster: string;
     nonce: number;
     actualGasCost: number;
     actualGasPrice: number;
-    actualGasUsed: number;
+    actualGasUsed: number | null;
     success: Boolean;
-    revertReason: string;
-    blockTime: number;
-    blockNumber: number;
-    network: String;
-    input: string;
-    target: string;
-    callData: string;
-    beneficiary: string;
-    factory: string;
-    value: number;
+    revertReason: string | null;
+    blockTime: number | null;
+    blockNumber: number | null;
+    network: string | 'mainnet';
+    input: string | null;
+    target: string | null;
+    callData: string | null;
+    beneficiary: string | null;
+    factory: string | null;
+    value: number | null;
+    verificationGasLimit: string | null;
+    preVerificationGas: string | null;
+    maxFeePerGas: number | null;
+    maxPriorityFeePerGas: number | null;
+    paymasterAndData: string | null;
+    signature: string | null;
 }
 
 export interface Bundle {
@@ -91,4 +97,13 @@ export const getGlobalMetrics = async (selectedNetwork: string): Promise<GlobalC
         return data.metrics as GlobalCounts;
     }
     return {} as GlobalCounts;
+};
+export const getUserOp = async (userOpHash: string, selectedNetwork: string): Promise<UserOp[]> => {
+    const response = await fetch('https://api.jiffyscan.xyz/v0/getUserOp?hash=' + userOpHash + '&network=' + selectedNetwork);
+    const data = await response.json();
+    if ('userOps' in data) {
+        return data.userOps as UserOp[];
+    }
+
+    return [] as UserOp[];
 };

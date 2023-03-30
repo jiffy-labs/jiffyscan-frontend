@@ -22,7 +22,7 @@ export function getSymbol(network: string): string {
 }
 
 export const getFee = (amount: number, network: string) => {
-    let fee: string = amount.toString();
+    let fee: string = amount?.toString();
     let symbol: string = getSymbol(network);
     if (amount > 10 ** 13) {
         fee = (amount / 10 ** 18).toFixed(4).toString();
@@ -30,7 +30,7 @@ export const getFee = (amount: number, network: string) => {
         fee = (amount / 10 ** 9).toFixed(4).toString();
         symbol = 'GWEI';
     } else {
-        fee = amount.toString();
+        fee = amount?.toString();
         symbol = 'WEI';
     }
     return fee + ' ' + symbol;
@@ -45,4 +45,13 @@ export const getCurrencySymbol = (amount: number, network: string): string => {
     } else {
         return 'WEI';
     }
+};
+export const shortenString = (str: string) => {
+    if (str?.length <= 10) {
+        return str;
+    }
+    const firstChars = str?.slice(0, 6);
+    const lastChars = str?.slice(-4);
+
+    return `${firstChars}...${lastChars}`;
 };
