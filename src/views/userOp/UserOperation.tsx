@@ -220,7 +220,7 @@ function RecentUserOps(props: any) {
                                                                 <div className="flex items-center gap-2 flex-1">
                                                                     <Link
                                                                         underline="hover"
-                                                                        color="text.primary"
+                                                                        // color="text.primary"
                                                                         href={`/address/${item.sender}?network=${
                                                                             item.network ? item.network : ''
                                                                         }`}
@@ -251,7 +251,7 @@ function RecentUserOps(props: any) {
                                                                 <div className="flex items-center gap-2 flex-1">
                                                                     <Link
                                                                         underline="hover"
-                                                                        color="text.primary"
+                                                                        // color="text.primary"
                                                                         href={`/address/${item.target!}?network=${
                                                                             item.network ? item.network : ''
                                                                         }`}
@@ -393,7 +393,7 @@ function RecentUserOps(props: any) {
                                                                 <div className="flex items-center gap-2 flex-1">
                                                                     <Link
                                                                         underline="hover"
-                                                                        color="text.primary"
+                                                                        // color="text.primary"
                                                                         href={`/paymaster/${item.beneficiary!}?network=${
                                                                             item.network ? item.network : ''
                                                                         }`}
