@@ -31,7 +31,7 @@ function RecentPaymentMaster(props: any) {
     const router = useRouter();
     const [tableLoading, setTableLoading] = useState(true);
     const hash = props.slug && props.slug[0];
-    const network = props.slug && props.slug[1];
+    const network = router.query && router.query.network;
 
     const [useOpsData, setuserOpsData] = useState<UserOp[]>();
 
@@ -74,7 +74,12 @@ function RecentPaymentMaster(props: any) {
                             <Link underline="hover" color="inherit" href="/recentUserOps">
                                 Recent User Ops
                             </Link>
-                            <Link underline="hover" color="text.primary" href={`/address/${hash}/${network}`} aria-current="page">
+                            <Link
+                                underline="hover"
+                                color="text.primary"
+                                href={`/address/${hash}${network ? network : ''}`}
+                                aria-current="page"
+                            >
                                 {shortenString((hash as string) || '0xecf60cb3f5c5090a55d35fae2089581af824a6f5')}
                             </Link>
                         </Breadcrumbs>

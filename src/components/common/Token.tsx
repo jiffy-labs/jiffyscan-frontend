@@ -31,7 +31,8 @@ function getHrefLink(type: string | undefined, text: string, network: string) {
         };
     } else if (type == 'address') {
         return {
-            pathname: `/address/${text || '0xecf60cb3f5c5090a55d35fae2089581af824a6f5'}/${network || 'mainnet'}`,
+            pathname: `/address/${text || '0xecf60cb3f5c5090a55d35fae2089581af824a6f5'}`,
+            search: network ? `?network=${network}` : '',
         };
         // return 'https://jiffyscan.xyz/address/' + text;
     } else if (type == 'bundle') {

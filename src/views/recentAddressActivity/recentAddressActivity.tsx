@@ -32,14 +32,14 @@ function RecentAddressActivity(props: any) {
     const [open, setOpen] = useState(false);
     const [tableLoading, setTableLoading] = useState(true);
     const hash = props.slug && props.slug[0];
-    const network = props.slug && props.slug[1];
+    const network = router.query && router.query.network;
 
     const [selectedColor, setSelectedColor] = useState('#1976D2');
     const [useOpsData, setuserOpsData] = useState<UserOp[]>();
 
     const refreshUserOpsTable = async (name: string, network: string) => {
         setTableLoading(true);
-        const userops = await getAddressActivity(name || '0xecf60cb3f5c5090a55d35fae2089581af824a6f5', network || 'manniet');
+        const userops = await getAddressActivity(name || '0xecf60cb3f5c5090a55d35fae2089581af824a6f5', network ? network : '');
         setuserOpsData(userops);
         setTableLoading(false);
     };
@@ -76,9 +76,17 @@ function RecentAddressActivity(props: any) {
                             <Link underline="hover" color="inherit" href="/recentUserOps">
                                 Recent User Ops
                             </Link>
-                            <Link underline="hover" color="text.primary" href={`/address/${hash}/${network}`} aria-current="page">
+                            <Link
+                                underline="hover"
+                                color="text.primary"
+                                href={`/address/${hash}?network=${network ? network : ''}`}
+                                aria-current="page"
+                            >
                                 {shortenString((hash as string) || '0xecf60cb3f5c5090a55d35fae2089581af824a6f5')}
                             </Link>
+                            {/* <Link underline="hover" color="text.primary" href={`/address/${hash}/${network}`} aria-current="page">
+                                {shortenString((hash as string) || '0xecf60cb3f5c5090a55d35fae2089581af824a6f5')}
+                            </Link> */}
                         </Breadcrumbs>
                     </div>
                     <h1 className="font-bold text-3xl">Wallet</h1>
