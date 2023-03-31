@@ -26,7 +26,8 @@ function getHrefLink(type: string | undefined, text: string, network: string) {
 
     if (type == 'userOp') {
         return {
-            pathname: `/userOpHash/${text || '0x43fe1ef830cbc6447ca8a740963099fe7fb6b137ac7768aa9c8f5913aaf8f91b'}/${network || 'mainnet'}`,
+            pathname: `/userOpHash/${text || '0x43fe1ef830cbc6447ca8a740963099fe7fb6b137ac7768aa9c8f5913aaf8f91b'}`,
+            search: network ? `?network=${network}` : '',
         };
     } else if (type == 'address') {
         return {
@@ -52,9 +53,10 @@ const NETWORK_SCANNER_MAP: { [key: string]: string } = {
 function getTarget(type: string | undefined) {
     // console.log(type)
     if (type == undefined) return '_self';
-    if (type == 'userOp') {
-        return '_blank';
-    } else if (type == 'address') {
+    // if (type == 'userOp') {
+    // return '_blank';
+    // }
+    if (type == 'address') {
         return '_blank';
     } else if (type == 'bundle') {
         return '_blank';

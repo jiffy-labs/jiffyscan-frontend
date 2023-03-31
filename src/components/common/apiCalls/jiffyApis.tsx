@@ -59,6 +59,13 @@ export interface GlobalCounts {
     bundleCounter: number;
 }
 
+export interface PoweredBy {
+    paymentmaster: string;
+    factory: string;
+    sender: string;
+    beneficiary: string;
+}
+
 export const getLatestUserOps = async (selectedNetwork: string, pageSize: number, pageNo: number): Promise<UserOp[]> => {
     const response = await fetch(
         'https://api.jiffyscan.xyz/v0/getLatestUserOps?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
@@ -124,4 +131,15 @@ export const getPaymentMaster = async (userOpHash: string, selectedNetwork: stri
     }
 
     return [] as UserOp[];
+};
+export const getPoweredBy = async (beneficiary: string, paymaster: string): Promise<PoweredBy> => {
+    const response = await fetch(
+        'https://api.jiffyscan.xyz/v0/getPaymasterActivity?beneficiary=' + beneficiary + '&paymaster=' + paymaster,
+    );
+    const data = await response.json();
+    if ('userOps' in data) {
+        return data as PoweredBy;
+    }
+
+    return {} as PoweredBy;
 };

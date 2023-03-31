@@ -8,7 +8,8 @@ import { useRouter } from 'next/router';
 import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
 import Token from '@/components/common/Token';
 import { NETWORK_ICON_MAP } from '@/components/common/constants';
-import Skeleton from '@/components/Skeleton';
+import Skeleton from 'react-loading-skeleton-2';
+
 export const BUTTON_LIST = [
     {
         name: 'Default View',
@@ -109,7 +110,17 @@ function RecentAddressActivity(props: any) {
                         </tr>
                     </thead>
                     {tableLoading ? (
-                        skeletonCards.map((index: number) => <Skeleton key={index} />)
+                        <tbody>
+                            {skeletonCards.map((index: number) => {
+                                return (
+                                    <tr key={index}>
+                                        <td colSpan={5}>
+                                            <Skeleton height={40} key={index} />
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
                     ) : (
                         <tbody className="divide-y divide-dark-100">
                             {useOpsData?.map((item, index) => {

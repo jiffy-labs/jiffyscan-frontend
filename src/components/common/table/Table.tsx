@@ -5,7 +5,7 @@ import Caption, { CaptionProps } from './Caption';
 import ScrollContainer from 'react-indiana-drag-scroll';
 import useWidth from '@/hooks/useWidth';
 import { getCurrencySymbol } from '../utils';
-import Skeleton from '@/components/Skeleton';
+import Skeleton from 'react-loading-skeleton-2';
 
 export interface tableDataT {
     caption: CaptionProps;
@@ -93,7 +93,17 @@ function Table(props: tableDataT) {
                             </tr>
                         </thead>
                         {props.loading ? (
-                            skeletonCards.map((index: number) => <Skeleton key={index} />)
+                            <tbody>
+                                {skeletonCards.map((index: number) => {
+                                    return (
+                                        <tr key={index}>
+                                            <td colSpan={4}>
+                                                <Skeleton height={40} key={index} />
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
                         ) : (
                             <tbody>
                                 {rows.map(({ ago, fee, sender, target, token, userOps }, index) => {
