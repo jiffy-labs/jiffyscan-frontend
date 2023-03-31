@@ -193,9 +193,9 @@ function RecentUserOps(props: any) {
                                                     <img src="/images/graph.svg" alt="" />
                                                 </button>
                                             </div>
-                                            <span className="text-bluegrey-300 text-[10px] leading-5 flex items-center gap-2 font-normal">
+                                            {/* <span className="text-bluegrey-300 text-[10px] leading-5 flex items-center gap-2 font-normal">
                                                 Power by <img src="/images/pimlico.svg" alt="" />
-                                            </span>
+                                            </span> */}
                                         </div>
                                     </div>
                                 </section>
