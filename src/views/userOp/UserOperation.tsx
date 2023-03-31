@@ -90,7 +90,7 @@ function RecentUserOps(props: any) {
                             <Link
                                 underline="hover"
                                 color="text.primary"
-                                href={`/userOpHash/${hash}${network ? network : ''}`}
+                                href={`/userOpHash/${hash}?network=${network ? network : ''}`}
                                 aria-current="page"
                             >
                                 {shortenString((hash as string) || '0x43fe1ef830cbc6447ca8a740963099fe7fb6b137ac7768aa9c8f5913aaf8f91b')}
@@ -225,7 +225,7 @@ function RecentUserOps(props: any) {
                                                                             item.network ? item.network : ''
                                                                         }`}
                                                                         aria-current="page"
-                                                                        className="text-blue-600"
+                                                                        className="text-blue-200"
                                                                     >
                                                                         <span className="text-blue-200 text-sm leading-5">
                                                                             {item.sender}
@@ -256,7 +256,7 @@ function RecentUserOps(props: any) {
                                                                             item.network ? item.network : ''
                                                                         }`}
                                                                         aria-current="page"
-                                                                        className="text-blue-600"
+                                                                        className="text-blue-200"
                                                                     >
                                                                         <span className="text-blue-200 text-sm leading-5">
                                                                             {item.target}
@@ -398,7 +398,7 @@ function RecentUserOps(props: any) {
                                                                             item.network ? item.network : ''
                                                                         }`}
                                                                         aria-current="page"
-                                                                        className="text-blue-600"
+                                                                        className="text-blue-200"
                                                                     >
                                                                         <span className="text-blue-200 text-sm leading-5">
                                                                             {item.beneficiary}
