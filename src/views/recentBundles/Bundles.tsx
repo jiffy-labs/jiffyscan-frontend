@@ -67,7 +67,10 @@ function UserOperations() {
             });
         });
         setLatestBundlesTable({ ...latestBundlesTable, rows: newRows.slice(0, 10) });
-        setTableLoading(false);
+        setTimeout(() => {
+            setTableLoading(false);
+        }, 2000);
+        // setTableLoading(false);
     };
 
     return (

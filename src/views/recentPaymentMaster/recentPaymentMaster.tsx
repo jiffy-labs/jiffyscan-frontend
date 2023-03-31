@@ -111,11 +111,13 @@ function RecentPaymentMaster(props: any) {
                         <tbody>
                             {skeletonCards.map((index: number) => {
                                 return (
-                                    <tr key={index}>
-                                        <td colSpan={5}>
-                                            <Skeleton height={40} key={index} />
-                                        </td>
-                                    </tr>
+                                    <>
+                                        <tr>
+                                            <td colSpan={5}>
+                                                <Skeleton height={40} key={index} />
+                                            </td>
+                                        </tr>
+                                    </>
                                 );
                             })}
                         </tbody>

@@ -6,6 +6,7 @@ import ScrollContainer from 'react-indiana-drag-scroll';
 import useWidth from '@/hooks/useWidth';
 import { getCurrencySymbol } from '../utils';
 import Skeleton from 'react-loading-skeleton-2';
+// import Skeleton from '@/components/Skeleton';
 
 export interface tableDataT {
     caption: CaptionProps;
@@ -96,11 +97,13 @@ function Table(props: tableDataT) {
                             <tbody>
                                 {skeletonCards.map((index: number) => {
                                     return (
-                                        <tr key={index}>
-                                            <td colSpan={4}>
-                                                <Skeleton height={40} key={index} />
-                                            </td>
-                                        </tr>
+                                        <>
+                                            <tr>
+                                                <td colSpan={4}>
+                                                    <Skeleton height={40} key={index} />
+                                                </td>
+                                            </tr>
+                                        </>
                                     );
                                 })}
                             </tbody>
