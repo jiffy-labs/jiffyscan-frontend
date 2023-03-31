@@ -99,7 +99,7 @@ function Table(props: tableDataT) {
                                     return (
                                         <>
                                             <tr>
-                                                <td colSpan={4}>
+                                                <td colSpan={5}>
                                                     <Skeleton height={40} key={index} />
                                                 </td>
                                             </tr>
