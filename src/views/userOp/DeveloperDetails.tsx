@@ -193,9 +193,6 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                                     target
                                                                                 </td>
                                                                                 <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                    bytes
-                                                                                </td>
-                                                                                <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
                                                                                     {item.target}
                                                                                 </td>
                                                                                 <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
@@ -208,9 +205,6 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                                     value
                                                                                 </td>
                                                                                 <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                    unit256
-                                                                                </td>
-                                                                                <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
                                                                                     {getFee(item.value!, item.network)}
                                                                                 </td>
                                                                                 <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
@@ -221,9 +215,6 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                                 <td className="text-black[87%] text-end text-sm leading-5 py-[14px] px-3 "></td>
                                                                                 <td className="text-black[87%] text-left text-sm leading-5 py-[14px] px-3">
                                                                                     calldata
-                                                                                </td>
-                                                                                <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                    bytes
                                                                                 </td>
                                                                                 <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
                                                                                     {item.callData}
