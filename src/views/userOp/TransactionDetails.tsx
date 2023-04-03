@@ -5,10 +5,12 @@ import Caption from '@/components/common/table/Caption';
 import { getFee } from '@/components/common/utils';
 import { Link, Tooltip } from '@mui/material';
 import moment from 'moment';
+import { useRouter } from 'next/router';
 
 import React from 'react';
 import Skeleton from 'react-loading-skeleton-2';
 export default function TransactionDetails({ tableLoading, skeletonCards, item, responseData }: any) {
+    const router = useRouter();
     return (
         <div>
             <section className="mt-[48px] px-3">
@@ -29,28 +31,36 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                             <IconText icon={'/images/sader.svg'}>Sender</IconText>
                                         </td>
                                         <td className="py-[14px] px-4 whitespace-pre">
-                                            <Link
-                                                underline="hover"
-                                                // color="text.primary"
-                                                href={`/address/${item.sender}?network=${item.network ? item.network : ''}`}
-                                                aria-current="page"
-                                                // className="text-blue-200"
-                                            >
-                                                <div className="flex items-center gap-2 flex-1">
-                                                    <span className="text-dark-600 text-sm leading-5">{item.sender}</span>
-                                                    <CopyButton text={item.paymaster} />
-                                                    <button className="outline-none focus:outline-none ring-0 focus:ring-0">
-                                                        <img src="/images/share.svg" alt="" />
-                                                    </button>
-                                                </div>
-                                            </Link>
+                                            <div className="flex items-center gap-2 flex-1">
+                                                <Link
+                                                    underline="hover"
+                                                    // color="text.primary"
+                                                    href={`/address/${item.sender}?network=${item.network ? item.network : ''}`}
+                                                    aria-current="page"
+                                                    className="text-blue-200"
+                                                >
+                                                    <span className="text-blue-200 text-sm leading-5">{item.sender}</span>
+                                                </Link>
+                                                <CopyButton text={item.sender} />
+                                                <button
+                                                    className="outline-none focus:outline-none ring-0 focus:ring-0"
+                                                    onClick={() => {
+                                                        const url = `/address/${item.sender}?network=${item.network ? item.network : ''}`;
+                                                        window.open(url, '_blank');
+                                                        router.push(url);
+                                                    }}
+                                                >
+                                                    <img src="/images/share.svg" alt="" />
+                                                </button>
+                                            </div>
                                         </td>
-
                                         <td className="py-[14px] px-4 text-right">
                                             <span className="text-bluegrey-300 text-[10px] leading-5 flex justify-end items-center gap-2 font-normal">
                                                 Power by
-                                                {responseData?.sender ? responseData?.sender : <img src="/images/pimlico.svg" alt="" />}
-                                                {/* <img src="/images/pimlico.svg" alt="" /> */}
+                                                {
+                                                    responseData?.sender
+                                                    // ? responseData?.sender : <img src="/images/pimlico.svg" alt="" />
+                                                }
                                             </span>
                                         </td>
                                     </tr>
@@ -59,25 +69,32 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                             <IconText icon={'/images/Receiver.svg'}>Receiver</IconText>
                                         </td>
                                         <td className="py-[14px] px-4 whitespace-pre">
-                                            <Link
-                                                underline="hover"
-                                                // color="text.primary"
-                                                href={`/address/${item.target!}?network=${item.network ? item.network : ''}`}
-                                                aria-current="page"
-                                                className="text-blue-200"
-                                            >
-                                                <div className="flex items-center gap-2 flex-1">
+                                            <div className="flex items-center gap-2 flex-1">
+                                                <Link
+                                                    underline="hover"
+                                                    // color="text.primary"
+                                                    href={`/address/${item.target!}?network=${item.network ? item.network : ''}`}
+                                                    aria-current="page"
+                                                    className="text-blue-200"
+                                                >
                                                     <span className="text-blue-200 text-sm leading-5">{item.target}</span>
-                                                    <CopyButton text={item.target!} />
-                                                    <button className="outline-none focus:outline-none ring-0 focus:ring-0">
-                                                        <img src="/images/share.svg" alt="" />
-                                                    </button>
-                                                </div>
-                                            </Link>
+                                                </Link>
+                                                <CopyButton text={item.target!} />
+                                                <button
+                                                    className="outline-none focus:outline-none ring-0 focus:ring-0"
+                                                    onClick={() => {
+                                                        const url = `/address/${item.target}?network=${item.network ? item.network : ''}`;
+                                                        window.open(url, '_blank');
+                                                        router.push(url);
+                                                    }}
+                                                >
+                                                    <img src="/images/share.svg" alt="" />
+                                                </button>
+                                            </div>
                                         </td>
                                         <td className="py-[14px] px-4 text-right">
                                             <span className="text-bluegrey-300 text-[10px] leading-5 flex justify-end items-center gap-2 font-normal">
-                                                Power by <img src="/images/pimlico.svg" alt="" />
+                                                {/* Power by <img src="/images/pimlico.svg" alt="" /> */}
                                             </span>
                                         </td>
                                     </tr>
@@ -170,14 +187,34 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                 underline="hover"
                                                 href={`/paymaster/${item.paymaster!}?network=${item.network ? item.network : ''}`}
                                                 aria-current="page"
-                                                className="text-blue-200"
+                                                className={`${
+                                                    item.paymaster === '0x0000000000000000000000000000000000000000'
+                                                        ? 'text-dark-700'
+                                                        : 'text-blue-200'
+                                                }`}
                                             >
                                                 <div className="flex items-center gap-2 flex-1">
-                                                    <span className="text-blue-200 text-sm leading-5">{item.paymaster}</span>
-                                                    <CopyButton text={item.paymaster} />
+                                                    <span
+                                                        className={`${
+                                                            item.paymaster === '0x0000000000000000000000000000000000000000'
+                                                                ? 'text-dark-700'
+                                                                : 'text-blue-200'
+                                                        } text-sm leading-5`}
+                                                    >
+                                                        {item.paymaster}
+                                                    </span>
+                                                    {/* <CopyButton text={item.paymaster} />
                                                     <button className="outline-none focus:outline-none ring-0 focus:ring-0">
                                                         <img src="/images/share.svg" alt="" />
-                                                    </button>
+                                                    </button> */}
+                                                    {item.paymaster === '0x0000000000000000000000000000000000000000' ? null : (
+                                                        <>
+                                                            <CopyButton text={item.paymaster} />
+                                                            <button className="outline-none focus:outline-none ring-0 focus:ring-0">
+                                                                <img src="/images/share.svg" alt="" />
+                                                            </button>
+                                                        </>
+                                                    )}
                                                 </div>
                                             </Link>
                                         </td>
@@ -197,12 +234,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                         </td>
                                         <td className="py-[14px] px-4 text-right">
                                             <span className="text-bluegrey-300 text-[10px] leading-5 flex justify-end items-center gap-2 font-normal">
-                                                Power by{' '}
-                                                {responseData?.beneficiary ? (
-                                                    responseData?.beneficiary
-                                                ) : (
-                                                    <img src="/images/candide.svg" alt="" />
-                                                )}
+                                                Power by {responseData?.beneficiary}
                                                 {/* <img src="/images/candide.svg" alt="" /> */}
                                             </span>
                                         </td>

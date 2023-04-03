@@ -146,24 +146,9 @@ function RecentPaymentMaster(props: any) {
                                             <Token text={item.sender} type="address" />
                                             {/* {shortenString(item.sender)} */}
                                         </td>
-                                        <td
-                                            className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5"
-                                            onClick={() => {
-                                                router.push(
-                                                    {
-                                                        pathname: `/address/${item.target}`,
-                                                        query: {
-                                                            target: item.target,
-                                                            network: item.network,
-                                                        },
-                                                    },
-                                                    `/address/${item.target}/${item.network}`,
-                                                    //   { shallow: true }
-                                                );
-                                            }}
-                                        >
+                                        <td className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5">
                                             <span className={`text-blue-200 text-sm leading-5`}>
-                                                <Token text={item.target! ? item.target! : ''} />
+                                                <Token text={item.target! ? item.target! : ''} type="address" />
                                             </span>
                                         </td>
                                         <td className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5">

@@ -27,12 +27,12 @@ function getHrefLink(type: string | undefined, text: string, network: string) {
 
     if (type == 'userOp') {
         return {
-            pathname: `/userOpHash/${text || '0x43fe1ef830cbc6447ca8a740963099fe7fb6b137ac7768aa9c8f5913aaf8f91b'}`,
+            pathname: `/userOpHash/${text}`,
             search: network ? `?network=${network}` : '',
         };
     } else if (type == 'address') {
         return {
-            pathname: `/address/${text || '0xecf60cb3f5c5090a55d35fae2089581af824a6f5'}`,
+            pathname: `/address/${text}`,
             search: network ? `?network=${network}` : '',
         };
     } else if (type == 'bundle') {
@@ -46,9 +46,10 @@ function getTarget(type: string | undefined) {
     // console.log(type)
     if (type == undefined) return '_self';
 
-    if (type == 'address') {
-        return '_blank';
-    } else if (type == 'bundle') {
+    // if (type == 'address') {
+    //     return '_blank';
+    // }
+    if (type == 'bundle') {
         return '_blank';
     } else {
         return '_self';

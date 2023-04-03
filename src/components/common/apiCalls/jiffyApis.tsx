@@ -14,7 +14,7 @@ export interface UserOp {
     revertReason: string | null;
     blockTime: number | null;
     blockNumber: number | null;
-    network: string | 'mainnet';
+    network: string;
     input: string | null;
     target: string | null;
     callData: string | null;

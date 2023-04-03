@@ -70,7 +70,7 @@ function RecentBlockActivity(props: any) {
                                 href={`/address/${hash}?network=${network ? network : ''}`}
                                 aria-current="page"
                             >
-                                {shortenString((hash as string) || '0xecf60cb3f5c5090a55d35fae2089581af824a6f5')}
+                                {shortenString(hash as string)}
                             </Link>
                         </Breadcrumbs>
                     </div>
@@ -136,24 +136,9 @@ function RecentBlockActivity(props: any) {
                                             <Token text={item.sender} type="address" />
                                             {/* {shortenString(item.sender)} */}
                                         </td>
-                                        <td
-                                            className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5"
-                                            onClick={() => {
-                                                router.push(
-                                                    {
-                                                        pathname: `/address/${item.target}`,
-                                                        query: {
-                                                            target: item.target,
-                                                            network: item.network,
-                                                        },
-                                                    },
-                                                    `/address/${item.target}/${item.network}`,
-                                                    //   { shallow: true }
-                                                );
-                                            }}
-                                        >
+                                        <td className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5">
                                             <span className={`text-blue-200 text-sm leading-5`}>
-                                                <Token text={item.target! ? item.target! : ''} />
+                                                <Token text={item.target! ? item.target! : ''} type="address" />
                                             </span>
                                         </td>
                                         <td className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5">
