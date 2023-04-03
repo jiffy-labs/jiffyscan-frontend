@@ -34,7 +34,7 @@ export interface Bundle {
     transactionHash: string;
     network: string;
     blockNumber: number;
-    timestamp: number;
+    blockTime: number;
     userOps: UserOp[];
 }
 
