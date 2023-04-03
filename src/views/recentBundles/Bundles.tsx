@@ -62,7 +62,7 @@ function UserOperations() {
                     icon: NETWORK_ICON_MAP[network],
                     type: 'bundle',
                 },
-                ago: getTimePassed(bundle.timestamp),
+                ago: getTimePassed(bundle.blockTime),
                 userOps: bundle.userOpsLength + ' ops',
             });
         });
