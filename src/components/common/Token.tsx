@@ -4,6 +4,7 @@ import CopyButton from './copy_button/CopyButton';
 import { useConfig } from '@/context/config';
 import { useRouter } from 'next/router';
 import { shortenString } from './utils';
+import { NETWORK_SCANNER_MAP } from './constants';
 
 function Token({ icon, text, copyIcon, type }: { icon?: string; text: string; copyIcon?: string; type?: string }) {
     const { selectedNetwork } = useConfig();
@@ -34,7 +35,6 @@ function getHrefLink(type: string | undefined, text: string, network: string) {
             pathname: `/address/${text || '0xecf60cb3f5c5090a55d35fae2089581af824a6f5'}`,
             search: network ? `?network=${network}` : '',
         };
-        // return 'https://jiffyscan.xyz/address/' + text;
     } else if (type == 'bundle') {
         return NETWORK_SCANNER_MAP[network] + text;
     } else {
@@ -42,21 +42,10 @@ function getHrefLink(type: string | undefined, text: string, network: string) {
     }
 }
 
-const NETWORK_SCANNER_MAP: { [key: string]: string } = {
-    mainnet: 'https://etherscan.io/tx/',
-    goerli: 'https://goerli.etherscan.io/tx/',
-    mumbai: 'https://mumbai.polygonscan.com/tx/',
-    matic: 'https://polygonscan.com/tx/',
-    'optimism-goerli': 'https://goerli-optimism.etherscan.io/tx/',
-    arbitrum: 'https://arbiscan.io/tx/',
-};
-
 function getTarget(type: string | undefined) {
     // console.log(type)
     if (type == undefined) return '_self';
-    // if (type == 'userOp') {
-    // return '_blank';
-    // }
+
     if (type == 'address') {
         return '_blank';
     } else if (type == 'bundle') {

@@ -60,7 +60,7 @@ export interface GlobalCounts {
 }
 
 export interface PoweredBy {
-    paymentmaster: string;
+    paymaster: string;
     factory: string;
     sender: string;
     beneficiary: string;
@@ -134,10 +134,13 @@ export const getPaymentMaster = async (userOpHash: string, selectedNetwork: stri
 };
 export const getPoweredBy = async (beneficiary: string, paymaster: string): Promise<PoweredBy> => {
     const response = await fetch(
-        'https://api.jiffyscan.xyz/v0/getPaymasterActivity?beneficiary=' + beneficiary + '&paymaster=' + paymaster,
+        'https://2wfk6evtcd.execute-api.us-east-2.amazonaws.com/default/getPoweredByValues?beneficiary=' +
+            beneficiary +
+            '&paymaster=' +
+            paymaster,
     );
     const data = await response.json();
-    if ('userOps' in data) {
+    if (data) {
         return data as PoweredBy;
     }
 

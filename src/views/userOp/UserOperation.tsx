@@ -1,7 +1,7 @@
 import Footer from '@/components/globals/footer/Footer';
 import Navbar from '@/components/globals/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
-import { getUserOp, UserOp } from '@/components/common/apiCalls/jiffyApis';
+import { getPoweredBy, getUserOp, PoweredBy, UserOp } from '@/components/common/apiCalls/jiffyApis';
 import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CopyButton from '@/components/common/copy_button/CopyButton';
@@ -11,7 +11,7 @@ import Chip from '@/components/common/chip/Chip';
 import sx from './usertable.module.sass';
 import { useRouter } from 'next/router';
 import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
-import { NETWORK_ICON_MAP, NETWORK_LIST } from '@/components/common/constants';
+import { NETWORK_ICON_MAP, NETWORK_LIST, NETWORK_SCANNER_MAP } from '@/components/common/constants';
 
 import Tooltip from '@mui/material/Tooltip';
 import Skeleton from 'react-loading-skeleton-2';
@@ -36,11 +36,13 @@ function RecentUserOps(props: any) {
     const router = useRouter();
     const [open, setOpen] = useState(false);
     const [tableLoading, setTableLoading] = useState(true);
+
     const hash = props.slug && props.slug[0];
     const network = router.query && router.query.network;
 
     const [selectedColor, setSelectedColor] = useState('#1976D2');
     const [useOpsData, setuserOpsData] = useState<UserOp[]>();
+    const [responseData, setresponseData] = useState<PoweredBy>();
 
     const refreshUserOpsTable = async (name: string, network: string) => {
         setTableLoading(true);
@@ -64,9 +66,24 @@ function RecentUserOps(props: any) {
             const refreshTable = () => {
                 refreshUserOpsTable(hash as string, network as string);
             };
+
             refreshTable();
         }
     }, [hash]);
+    const fetchPoweredBy = async () => {
+        const beneficiary =
+            useOpsData
+                ?.map((item) => item.beneficiary ?? '')
+                .filter((item) => item !== null)
+                .join(',') || '';
+        const paymaster = useOpsData?.map((item) => item.paymaster)?.[0] || '';
+        const sender = useOpsData?.map((item) => item.sender)?.[0] || '';
+        const getReached = await getPoweredBy(beneficiary, paymaster);
+        setresponseData(getReached);
+    };
+    useEffect(() => {
+        fetchPoweredBy();
+    }, [useOpsData]);
     let skeletonCards = Array(13).fill(0);
     let skeletonCards1 = Array(5).fill(0);
     return (
@@ -187,10 +204,19 @@ function RecentUserOps(props: any) {
                                                 </span>
                                             </div>
                                             <div className="flex items-center break-words gap-2 flex-1">
-                                                <span className="text-blue-200 text-sm break-all leading-5">{item.userOpHash}</span>
+                                                <span className="text-dark-600 text-sm break-all leading-5">{item.userOpHash}</span>
                                                 <CopyButton text={item.userOpHash} />
                                                 <button className="outline-none focus:outline-none ring-0 focus:ring-0">
-                                                    <img src="/images/graph.svg" alt="" />
+                                                    <Link
+                                                        underline="hover"
+                                                        // color="text.primary"
+                                                        href={NETWORK_SCANNER_MAP[item.network] + item.transactionHash}
+                                                        aria-current="page"
+                                                        className="text-blue-200"
+                                                        target="_blank"
+                                                    >
+                                                        <img src="/images/graph.svg" alt="" />
+                                                    </Link>
                                                 </button>
                                             </div>
                                             {/* <span className="text-bluegrey-300 text-[10px] leading-5 flex items-center gap-2 font-normal">
@@ -217,29 +243,36 @@ function RecentUserOps(props: any) {
                                                                 <IconText icon={'/images/sader.svg'}>Sender</IconText>
                                                             </td>
                                                             <td className="py-[14px] px-4 whitespace-pre">
-                                                                <div className="flex items-center gap-2 flex-1">
-                                                                    <Link
-                                                                        underline="hover"
-                                                                        // color="text.primary"
-                                                                        href={`/address/${item.sender}?network=${
-                                                                            item.network ? item.network : ''
-                                                                        }`}
-                                                                        aria-current="page"
-                                                                        className="text-blue-200"
-                                                                    >
-                                                                        <span className="text-blue-200 text-sm leading-5">
+                                                                <Link
+                                                                    underline="hover"
+                                                                    // color="text.primary"
+                                                                    href={`/address/${item.sender}?network=${
+                                                                        item.network ? item.network : ''
+                                                                    }`}
+                                                                    aria-current="page"
+                                                                    // className="text-blue-200"
+                                                                >
+                                                                    <div className="flex items-center gap-2 flex-1">
+                                                                        <span className="text-dark-600 text-sm leading-5">
                                                                             {item.sender}
                                                                         </span>
-                                                                        <CopyButton text={item.sender} />
+                                                                        <CopyButton text={item.paymaster} />
                                                                         <button className="outline-none focus:outline-none ring-0 focus:ring-0">
                                                                             <img src="/images/share.svg" alt="" />
                                                                         </button>
-                                                                    </Link>
-                                                                </div>
+                                                                    </div>
+                                                                </Link>
                                                             </td>
+
                                                             <td className="py-[14px] px-4 text-right">
                                                                 <span className="text-bluegrey-300 text-[10px] leading-5 flex justify-end items-center gap-2 font-normal">
-                                                                    Power by <img src="/images/pimlico.svg" alt="" />
+                                                                    Power by
+                                                                    {responseData?.sender ? (
+                                                                        responseData?.sender
+                                                                    ) : (
+                                                                        <img src="/images/pimlico.svg" alt="" />
+                                                                    )}
+                                                                    {/* <img src="/images/pimlico.svg" alt="" /> */}
                                                                 </span>
                                                             </td>
                                                         </tr>
@@ -248,16 +281,16 @@ function RecentUserOps(props: any) {
                                                                 <IconText icon={'/images/Receiver.svg'}>Receiver</IconText>
                                                             </td>
                                                             <td className="py-[14px] px-4 whitespace-pre">
-                                                                <div className="flex items-center gap-2 flex-1">
-                                                                    <Link
-                                                                        underline="hover"
-                                                                        // color="text.primary"
-                                                                        href={`/address/${item.target!}?network=${
-                                                                            item.network ? item.network : ''
-                                                                        }`}
-                                                                        aria-current="page"
-                                                                        className="text-blue-200"
-                                                                    >
+                                                                <Link
+                                                                    underline="hover"
+                                                                    // color="text.primary"
+                                                                    href={`/address/${item.target!}?network=${
+                                                                        item.network ? item.network : ''
+                                                                    }`}
+                                                                    aria-current="page"
+                                                                    className="text-blue-200"
+                                                                >
+                                                                    <div className="flex items-center gap-2 flex-1">
                                                                         <span className="text-blue-200 text-sm leading-5">
                                                                             {item.target}
                                                                         </span>
@@ -265,8 +298,8 @@ function RecentUserOps(props: any) {
                                                                         <button className="outline-none focus:outline-none ring-0 focus:ring-0">
                                                                             <img src="/images/share.svg" alt="" />
                                                                         </button>
-                                                                    </Link>
-                                                                </div>
+                                                                    </div>
+                                                                </Link>
                                                             </td>
                                                             <td className="py-[14px] px-4 text-right">
                                                                 <span className="text-bluegrey-300 text-[10px] leading-5 flex justify-end items-center gap-2 font-normal">
@@ -374,15 +407,24 @@ function RecentUserOps(props: any) {
                                                                 <IconText icon={'/images/building.svg'}>Paymaster</IconText>
                                                             </td>
                                                             <td className="py-[14px] px-4 whitespace-pre">
-                                                                <div className="flex items-center gap-2 flex-1">
-                                                                    <span className="text-dark-600 text-sm leading-5">
-                                                                        {item.paymaster}
-                                                                    </span>
-                                                                    <CopyButton text={item.paymaster} />
-                                                                    <button className="outline-none focus:outline-none ring-0 focus:ring-0">
-                                                                        <img src="/images/share.svg" alt="" />
-                                                                    </button>
-                                                                </div>
+                                                                <Link
+                                                                    underline="hover"
+                                                                    href={`/paymaster/${item.paymaster!}?network=${
+                                                                        item.network ? item.network : ''
+                                                                    }`}
+                                                                    aria-current="page"
+                                                                    className="text-blue-200"
+                                                                >
+                                                                    <div className="flex items-center gap-2 flex-1">
+                                                                        <span className="text-blue-200 text-sm leading-5">
+                                                                            {item.paymaster}
+                                                                        </span>
+                                                                        <CopyButton text={item.paymaster} />
+                                                                        <button className="outline-none focus:outline-none ring-0 focus:ring-0">
+                                                                            <img src="/images/share.svg" alt="" />
+                                                                        </button>
+                                                                    </div>
+                                                                </Link>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -391,28 +433,24 @@ function RecentUserOps(props: any) {
                                                             </td>
                                                             <td className="py-[14px] px-4 whitespace-pre">
                                                                 <div className="flex items-center gap-2 flex-1">
-                                                                    <Link
-                                                                        underline="hover"
-                                                                        // color="text.primary"
-                                                                        href={`/paymaster/${item.beneficiary!}?network=${
-                                                                            item.network ? item.network : ''
-                                                                        }`}
-                                                                        aria-current="page"
-                                                                        className="text-blue-200"
-                                                                    >
-                                                                        <span className="text-blue-200 text-sm leading-5">
-                                                                            {item.beneficiary}
-                                                                        </span>
-                                                                        <CopyButton text={item.beneficiary!} />
-                                                                        <button className="outline-none focus:outline-none ring-0 focus:ring-0">
-                                                                            <img src="/images/share.svg" alt="" />
-                                                                        </button>
-                                                                    </Link>
+                                                                    <span className="text-blue-200 text-sm leading-5">
+                                                                        {item.beneficiary}
+                                                                    </span>
+                                                                    <CopyButton text={item.beneficiary!} />
+                                                                    <button className="outline-none focus:outline-none ring-0 focus:ring-0">
+                                                                        <img src="/images/share.svg" alt="" />
+                                                                    </button>
                                                                 </div>
                                                             </td>
                                                             <td className="py-[14px] px-4 text-right">
                                                                 <span className="text-bluegrey-300 text-[10px] leading-5 flex justify-end items-center gap-2 font-normal">
-                                                                    Power by <img src="/images/candide.svg" alt="" />
+                                                                    Power by{' '}
+                                                                    {responseData?.beneficiary ? (
+                                                                        responseData?.beneficiary
+                                                                    ) : (
+                                                                        <img src="/images/candide.svg" alt="" />
+                                                                    )}
+                                                                    {/* <img src="/images/candide.svg" alt="" /> */}
                                                                 </span>
                                                             </td>
                                                         </tr>
@@ -421,15 +459,24 @@ function RecentUserOps(props: any) {
                                                                 <IconText icon={'/images/Hash.svg'}>Transaction Hash</IconText>
                                                             </td>
                                                             <td className="py-[14px] px-4 whitespace-pre">
-                                                                <div className="flex items-center gap-2 flex-1">
-                                                                    <span className="text-blue-200 text-sm leading-5">
-                                                                        {item.transactionHash}
-                                                                    </span>
-                                                                    <CopyButton text={item.transactionHash!} />
-                                                                    <button className="outline-none focus:outline-none ring-0 focus:ring-0">
-                                                                        <img src="/images/share.svg" alt="" />
-                                                                    </button>
-                                                                </div>
+                                                                <Link
+                                                                    underline="hover"
+                                                                    // color="text.primary"
+                                                                    href={NETWORK_SCANNER_MAP[item.network] + item.transactionHash}
+                                                                    aria-current="page"
+                                                                    className="text-blue-200"
+                                                                    target="_blank"
+                                                                >
+                                                                    <div className="flex items-center gap-2 flex-1">
+                                                                        <span className="text-blue-200 text-sm leading-5">
+                                                                            {item.transactionHash}
+                                                                        </span>
+                                                                        <CopyButton text={item.transactionHash!} />
+                                                                        <button className="outline-none focus:outline-none ring-0 focus:ring-0">
+                                                                            <img src="/images/share.svg" alt="" />
+                                                                        </button>
+                                                                    </div>
+                                                                </Link>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -482,263 +529,289 @@ function RecentUserOps(props: any) {
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td className="py-[14px] px-4 whitespace-pre">
-                                                                <div className="flex my-[16px] mb-2">
-                                                                    {BUTTON_LIST.map(({ name, key }, index) => (
-                                                                        <Chip
-                                                                            className={`
-                                                                        text-white table-tab py-[6px] px-3 ${sx.tab}`}
-                                                                            onClick={() => setSelectedColor(key)}
-                                                                            key={index}
-                                                                            color={`${selectedColor === key ? 'dark-700' : 'white'}`}
-                                                                        >
-                                                                            {name}
-                                                                        </Chip>
-                                                                    ))}
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
                                                             <td className="py-[14px] px-4 xl:min-w-[205px]">
                                                                 <IconText icon={'/images/code-array.svg'}>CallData</IconText>
                                                             </td>
                                                             {selectedColor === 'Original' ? (
                                                                 <>
                                                                     <td className="whitespace-normal break-all text-black[87%] py-[14px] text-sm leading-5">
-                                                                        {item.input}
-                                                                        <CopyButton text={item.input!} />
+                                                                        <td className="py-[14px] px-4 whitespace-pre">
+                                                                            <div className="flex my-[2px] mb-2">
+                                                                                {BUTTON_LIST.map(({ name, key }, index) => (
+                                                                                    <Chip
+                                                                                        className={`
+                                                                    text-white table-tab py-[6px] px-3 ${sx.tab}`}
+                                                                                        onClick={() => setSelectedColor(key)}
+                                                                                        key={index}
+                                                                                        color={`${
+                                                                                            selectedColor === key ? 'blue-700' : 'white'
+                                                                                        }`}
+                                                                                        // variant={"outlined"}
+                                                                                    >
+                                                                                        {name}
+                                                                                    </Chip>
+                                                                                ))}
+                                                                            </div>
+                                                                        </td>
+                                                                        <div
+                                                                            className="overflow-auto flex-1 max-h-[290px] 
+                                                                        custom-scroll bg-white border-dark-200 rounded border
+                                                                        ml-[16px]"
+                                                                        >
+                                                                            {item.input}
+                                                                            <CopyButton text={item.input!} />
+                                                                        </div>
                                                                     </td>
                                                                 </>
                                                             ) : (
-                                                                <td className="py-[14px] px-4 whitespace-pre">
-                                                                    <div className="flex gap-2">
-                                                                        <div className="overflow-auto flex-1 max-h-[290px] custom-scroll   bg-white border-dark-200 rounded border">
-                                                                            <table className="min-w-full divide-y divide-dark-100">
-                                                                                <thead className="bg-white">
-                                                                                    <tr>
-                                                                                        <th
-                                                                                            scope="col"
-                                                                                            className="sticky z-10 top-0 bg-white py-[14px] px-3 text-left text-[12px] font-bold leading-5 text-dark-600"
-                                                                                        >
-                                                                                            Name
-                                                                                        </th>
-                                                                                        <th
-                                                                                            scope="col"
-                                                                                            className="sticky z-10 top-0 bg-white py-[14px] px-3 text-left text-[12px] font-bold leading-5 text-dark-600"
-                                                                                        >
-                                                                                            Type
-                                                                                        </th>
-                                                                                        <th
-                                                                                            scope="col"
-                                                                                            className="sticky z-10 top-0 bg-white py-[14px] px-3 text-left text-[12px] font-bold leading-5 text-dark-600"
-                                                                                        >
-                                                                                            Date
-                                                                                        </th>
+                                                                <>
+                                                                    <td className="py-[14px] px-4 whitespace-pre">
+                                                                        <td className="py-[14px] px-4 whitespace-pre">
+                                                                            <div className="flex my-[2px] mb-2">
+                                                                                {BUTTON_LIST.map(({ name, key }, index) => (
+                                                                                    <Chip
+                                                                                        className={`
+                                                                    text-white table-tab py-[6px] px-3 ${sx.tab}`}
+                                                                                        onClick={() => setSelectedColor(key)}
+                                                                                        key={index}
+                                                                                        color={`${
+                                                                                            selectedColor === key ? 'blue-700' : 'white'
+                                                                                        }`}
+                                                                                    >
+                                                                                        {name}
+                                                                                    </Chip>
+                                                                                ))}
+                                                                            </div>
+                                                                        </td>
+                                                                        <div className="flex gap-2">
+                                                                            <div className="overflow-auto flex-1 max-h-[290px] custom-scroll bg-white border-dark-200 rounded border">
+                                                                                <table className="min-w-full divide-y divide-dark-100">
+                                                                                    <thead className="bg-white">
+                                                                                        <tr>
+                                                                                            <th
+                                                                                                scope="col"
+                                                                                                className="sticky z-10 top-0 bg-white py-[14px] px-3 text-left text-[12px] font-bold leading-5 text-dark-600"
+                                                                                            >
+                                                                                                Name
+                                                                                            </th>
+                                                                                            <th
+                                                                                                scope="col"
+                                                                                                className="sticky z-10 top-0 bg-white py-[14px] px-3 text-left text-[12px] font-bold leading-5 text-dark-600"
+                                                                                            >
+                                                                                                Type
+                                                                                            </th>
+                                                                                            <th
+                                                                                                scope="col"
+                                                                                                className="sticky z-10 top-0 bg-white py-[14px] px-3 text-left text-[12px] font-bold leading-5 text-dark-600"
+                                                                                            >
+                                                                                                Date
+                                                                                            </th>
 
-                                                                                        <th
-                                                                                            scope="col"
-                                                                                            className="relative py-3.5 pl-3 pr-4 sm:pr-0"
-                                                                                        >
-                                                                                            <span className="sr-only">Edit</span>
-                                                                                        </th>
-                                                                                    </tr>
-                                                                                </thead>
-                                                                                <tbody className="divide-y divide-dark-100">
-                                                                                    <tr>
-                                                                                        <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                            sender
-                                                                                        </td>
-                                                                                        <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                            address
-                                                                                        </td>
-                                                                                        <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                            <span className="text-dark-700 text-sm leading-5">
-                                                                                                {item.sender}
-                                                                                            </span>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr className="bg-gray-50">
-                                                                                        <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5 ">
-                                                                                            nonce
-                                                                                        </td>
-                                                                                        <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5 ">
-                                                                                            uint256
-                                                                                        </td>
-                                                                                        <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5 ">
-                                                                                            {item.nonce}
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                            initCode
-                                                                                        </td>
-                                                                                        <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                            bytes
-                                                                                        </td>
-                                                                                        <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                            0x
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    {selectedColor === 'Original' ? (
+                                                                                            <th
+                                                                                                scope="col"
+                                                                                                className="relative py-3.5 pl-3 pr-4 sm:pr-0"
+                                                                                            >
+                                                                                                <span className="sr-only">Edit</span>
+                                                                                            </th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody className="divide-y divide-dark-100">
                                                                                         <tr>
                                                                                             <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                                Input
+                                                                                                sender
                                                                                             </td>
                                                                                             <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                                Bytes
+                                                                                                address
                                                                                             </td>
-                                                                                            <td className="whitespace-normal break-all text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                                {item.input}
+                                                                                            <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                <span className="text-dark-700 text-sm leading-5">
+                                                                                                    {item.sender}
+                                                                                                </span>
                                                                                             </td>
                                                                                         </tr>
-                                                                                    ) : (
-                                                                                        ''
-                                                                                    )}
-                                                                                    <tr>
-                                                                                        <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                            <div className="flex gap-2 items-center">
-                                                                                                calldata
-                                                                                                <button
-                                                                                                    onClick={() => setOpen(!open)}
-                                                                                                    className={`${
-                                                                                                        open ? 'rotate-180' : ''
-                                                                                                    }`}
-                                                                                                >
-                                                                                                    <IconText icon="/images/arrow-drop.svg" />
-                                                                                                </button>
-                                                                                            </div>
-                                                                                        </td>
-                                                                                        <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5"></td>
-                                                                                        <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                            <span className="text-blue-200 text-sm leading-5"></span>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    {open && (
-                                                                                        <>
+                                                                                        <tr className="bg-gray-50">
+                                                                                            <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5 ">
+                                                                                                nonce
+                                                                                            </td>
+                                                                                            <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5 ">
+                                                                                                uint256
+                                                                                            </td>
+                                                                                            <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5 ">
+                                                                                                {item.nonce}
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                initCode
+                                                                                            </td>
+                                                                                            <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                bytes
+                                                                                            </td>
+                                                                                            <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                0x
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        {selectedColor === 'Original' ? (
                                                                                             <tr>
-                                                                                                <td className="text-black[87%] text-end text-sm leading-5 py-[14px] px-3"></td>
-                                                                                                <td className="text-black[87%] text-left text-sm leading-5 py-[14px] px-3">
-                                                                                                    target
+                                                                                                <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                    Input
                                                                                                 </td>
                                                                                                 <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                                    bytes
+                                                                                                    Bytes
                                                                                                 </td>
-                                                                                                <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                                    {item.target}
-                                                                                                </td>
-                                                                                                <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                                    <span className="text-blue-200 text-sm leading-5"></span>
+                                                                                                <td className="whitespace-normal break-all text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                    {item.input}
                                                                                                 </td>
                                                                                             </tr>
-                                                                                            <tr>
-                                                                                                <td className="text-black[87%] text-end text-sm leading-5 py-[14px] px-3"></td>
-                                                                                                <td className="text-black[87%]  text-sm leading-5 py-[14px] px-3">
-                                                                                                    value
-                                                                                                </td>
-                                                                                                <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                                    unit256
-                                                                                                </td>
-                                                                                                <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                                    {getFee(item.value!, item.network)}
-                                                                                                </td>
-                                                                                                <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                                    <span className="text-blue-200 text-sm leading-5"></span>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td className="text-black[87%] text-end text-sm leading-5 py-[14px] px-3 "></td>
-                                                                                                <td className="text-black[87%] text-left text-sm leading-5 py-[14px] px-3">
+                                                                                        ) : (
+                                                                                            ''
+                                                                                        )}
+                                                                                        <tr>
+                                                                                            <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                <div className="flex gap-2 items-center">
                                                                                                     calldata
-                                                                                                </td>
-                                                                                                <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                                    bytes
-                                                                                                </td>
-                                                                                                <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                                    {item.callData}
-                                                                                                </td>
-                                                                                                <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                                    <span className="text-blue-200 text-sm leading-5"></span>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                        </>
-                                                                                    )}
-                                                                                    <tr>
-                                                                                        <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                            verificationGasLimit
-                                                                                        </td>
-                                                                                        <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                            uint256
-                                                                                        </td>
-                                                                                        <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                            {item.verificationGasLimit}
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                            preVerificationGas
-                                                                                        </td>
-                                                                                        <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                            uint256
-                                                                                        </td>
-                                                                                        <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                            {item.preVerificationGas}
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                            maxFeePerGas
-                                                                                        </td>
-                                                                                        <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                            uint256
-                                                                                        </td>
-                                                                                        <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                            {getFee(item.maxFeePerGas!, item.network)}
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                            maxPriorityFeePerGas
-                                                                                        </td>
-                                                                                        <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                            uint256
-                                                                                        </td>
-                                                                                        <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                            {getFee(
-                                                                                                item.maxPriorityFeePerGas!,
-                                                                                                item.network,
-                                                                                            )}
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                            paymasterAndData
-                                                                                        </td>
-                                                                                        <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                            uint256
-                                                                                        </td>
-                                                                                        <td className="whitespace-normal break-all text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                            {item.paymasterAndData}
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                            signature
-                                                                                        </td>
-                                                                                        <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                            uint256
-                                                                                        </td>
-                                                                                        <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                            {item.signature}
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                </tbody>
-                                                                            </table>
+                                                                                                    <button
+                                                                                                        onClick={() => setOpen(!open)}
+                                                                                                        className={`${
+                                                                                                            open ? 'rotate-180' : ''
+                                                                                                        }`}
+                                                                                                    >
+                                                                                                        <IconText icon="/images/arrow-drop.svg" />
+                                                                                                    </button>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5"></td>
+                                                                                            <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                <span className="text-blue-200 text-sm leading-5"></span>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        {open && (
+                                                                                            <>
+                                                                                                <tr>
+                                                                                                    <td className="text-black[87%] text-end text-sm leading-5 py-[14px] px-3"></td>
+                                                                                                    <td className="text-black[87%] text-left text-sm leading-5 py-[14px] px-3">
+                                                                                                        target
+                                                                                                    </td>
+                                                                                                    <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                        bytes
+                                                                                                    </td>
+                                                                                                    <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                        {item.target}
+                                                                                                    </td>
+                                                                                                    <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                        <span className="text-blue-200 text-sm leading-5"></span>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td className="text-black[87%] text-end text-sm leading-5 py-[14px] px-3"></td>
+                                                                                                    <td className="text-black[87%]  text-sm leading-5 py-[14px] px-3">
+                                                                                                        value
+                                                                                                    </td>
+                                                                                                    <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                        unit256
+                                                                                                    </td>
+                                                                                                    <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                        {getFee(item.value!, item.network)}
+                                                                                                    </td>
+                                                                                                    <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                        <span className="text-blue-200 text-sm leading-5"></span>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td className="text-black[87%] text-end text-sm leading-5 py-[14px] px-3 "></td>
+                                                                                                    <td className="text-black[87%] text-left text-sm leading-5 py-[14px] px-3">
+                                                                                                        calldata
+                                                                                                    </td>
+                                                                                                    <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                        bytes
+                                                                                                    </td>
+                                                                                                    <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                        {item.callData}
+                                                                                                    </td>
+                                                                                                    <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                        <span className="text-blue-200 text-sm leading-5"></span>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            </>
+                                                                                        )}
+                                                                                        <tr>
+                                                                                            <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                verificationGasLimit
+                                                                                            </td>
+                                                                                            <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                uint256
+                                                                                            </td>
+                                                                                            <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                {item.verificationGasLimit}
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                preVerificationGas
+                                                                                            </td>
+                                                                                            <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                uint256
+                                                                                            </td>
+                                                                                            <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                {item.preVerificationGas}
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                maxFeePerGas
+                                                                                            </td>
+                                                                                            <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                uint256
+                                                                                            </td>
+                                                                                            <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                {getFee(item.maxFeePerGas!, item.network)}
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                maxPriorityFeePerGas
+                                                                                            </td>
+                                                                                            <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                uint256
+                                                                                            </td>
+                                                                                            <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                {getFee(
+                                                                                                    item.maxPriorityFeePerGas!,
+                                                                                                    item.network,
+                                                                                                )}
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                paymasterAndData
+                                                                                            </td>
+                                                                                            <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                uint256
+                                                                                            </td>
+                                                                                            <td className="whitespace-normal break-all text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                {item.paymasterAndData}
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                signature
+                                                                                            </td>
+                                                                                            <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                uint256
+                                                                                            </td>
+                                                                                            <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                {item.signature}
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                            <div className="w-[20px]">
+                                                                                <CopyButton text="" />
+                                                                            </div>
                                                                         </div>
-                                                                        <div className="w-[20px]">
-                                                                            <CopyButton text="" />
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
+                                                                    </td>
+                                                                </>
                                                             )}
                                                         </tr>
                                                     </tbody>
