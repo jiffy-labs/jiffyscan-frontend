@@ -123,7 +123,7 @@ export const getAddressActivity = async (userOpHash: string, selectedNetwork: st
 
     return [] as UserOp[];
 };
-export const getPaymentMaster = async (userOpHash: string, selectedNetwork: string): Promise<UserOp[]> => {
+export const getPaymentMasterDetails = async (userOpHash: string, selectedNetwork: string): Promise<UserOp[]> => {
     const response = await fetch('https://api.jiffyscan.xyz/v0/getPaymasterActivity?address=' + userOpHash + '&network=' + selectedNetwork);
     const data = await response.json();
     if ('userOps' in data) {

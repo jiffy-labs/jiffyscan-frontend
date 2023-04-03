@@ -1,7 +1,7 @@
 import Footer from '@/components/globals/footer/Footer';
 import Navbar from '@/components/globals/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
-import { getAddressActivity, getPaymentMaster, UserOp } from '@/components/common/apiCalls/jiffyApis';
+import { getPaymentMasterDetails, UserOp } from '@/components/common/apiCalls/jiffyApis';
 import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
@@ -37,7 +37,7 @@ function RecentPaymentMaster(props: any) {
 
     const refreshUserOpsTable = async (name: string, network: string) => {
         setTableLoading(true);
-        const userops = await getPaymentMaster(name || '0xf4419be44d713b62eb344531662d173e20fe584f', network || 'optimism-goerli');
+        const userops = await getPaymentMasterDetails(name, network);
         setuserOpsData(userops);
         setTableLoading(false);
     };
