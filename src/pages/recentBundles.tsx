@@ -1,5 +1,5 @@
 import Layout from '@/components/globals/Layout';
-import LatestBundles from '@/views/latestBundles/Bundles';
+import LatestBundles from '@/views/recentBundles/Bundles';
 import React, { ReactElement } from 'react';
 
 function latestBundles() {

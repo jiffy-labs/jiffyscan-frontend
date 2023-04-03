@@ -2,21 +2,24 @@ import Footer from '@/components/globals/footer/Footer';
 import Navbar from '@/components/globals/navbar/Navbar';
 import RecentMetrics from '@/components/globals/recent_metrics/RecentMetrics';
 import React, { useEffect, useState } from 'react';
-import Table, { tableDataT, getFee } from '@/components/common/table/Table';
+import Table, { tableDataT } from '@/components/common/table/Table';
 import Pagination from '@/components/common/table/Pagination';
 import table_data from './table_data.json';
 import { NETWORK_LIST, NETWORK_ICON_MAP } from '@/components/common/constants';
 import { getCurrencySymbol, getTimePassed } from '@/components/common/utils';
-import { getDailyMetrics, getLatestUserOps } from '@/components/common/apiCalls/jiffyApis';
+import { getLatestBundles, getDailyMetrics, DailyMetric } from '@/components/common/apiCalls/jiffyApis';
 import { useConfig } from '@/context/config';
+import latestBundles from '@/pages/recentBundles';
+import { ChevronRightIcon, HomeIcon } from '@heroicons/react/20/solid';
 import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
+const METRIC_DATA_POINT_SIZE = 14;
 const DEFAULT_PAGE_SIZE = 10;
 
 function UserOperations() {
     const { selectedNetwork, setSelectedNetwork } = useConfig();
-    const [latestUserOpsTable, setLatestUserOpsTable] = useState<tableDataT>(table_data as tableDataT);
+    const [latestBundlesTable, setLatestBundlesTable] = useState<tableDataT>(table_data as tableDataT);
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE);
     const [totalRows, setTotalRows] = useState(0);
@@ -30,7 +33,7 @@ function UserOperations() {
 
     useEffect(() => {
         refreshUserOpsTable(selectedNetwork, pageSize, pageNo);
-    }, [pageNo]);
+    }, [pageNo, pageSize]);
 
     useEffect(() => {
         setPageNo(0);
@@ -44,33 +47,30 @@ function UserOperations() {
         if (oneDayMetrics.length > 0) {
             presentDayMetrics = oneDayMetrics[0];
         }
-        setTotalRows(parseInt(presentDayMetrics?.userOpsTotal || '0'));
-        setCaptionText(' ' + parseInt(presentDayMetrics?.userOpsTotal || '0') + ' user operations found');
+        setTotalRows(parseInt(presentDayMetrics?.bundlesTotal || '0'));
+        setCaptionText(' ' + parseInt(presentDayMetrics?.bundlesTotal || '0') + ' bundles found');
     };
 
     const refreshUserOpsTable = async (network: string, pageSize: number, pageNo: number) => {
         setTableLoading(true);
-        console.log('testing refresh', pageSize, pageNo);
-        const userOps = await getLatestUserOps(network, pageSize, pageNo);
+        const bundles = await getLatestBundles(network, pageSize, pageNo);
         let newRows = [] as tableDataT['rows'];
-        userOps.forEach((userOp) => {
+        bundles.forEach((bundle) => {
             newRows.push({
                 token: {
-                    text: userOp.userOpHash,
+                    text: bundle.transactionHash,
                     icon: NETWORK_ICON_MAP[network],
-                    type: 'userOp',
+                    type: 'bundle',
                 },
-                ago: getTimePassed(userOp.blockTime),
-                sender: userOp.sender,
-                target: userOp.target,
-                fee: getFee(userOp.actualGasCost, userOp.network as string),
+                ago: getTimePassed(bundle.blockTime),
+                userOps: bundle.userOpsLength + ' ops',
             });
         });
-        setLatestUserOpsTable({
-            ...latestUserOpsTable,
-            rows: newRows.slice(0, 10),
-        });
-        setTableLoading(false);
+        setLatestBundlesTable({ ...latestBundlesTable, rows: newRows.slice(0, 10) });
+        setTimeout(() => {
+            setTableLoading(false);
+        }, 2000);
+        // setTableLoading(false);
     };
 
     return (
@@ -88,12 +88,13 @@ function UserOperations() {
                             <Link underline="hover" color="inherit" href="/">
                                 Home
                             </Link>
-                            <Link underline="hover" color="text.primary" href="/latestUserOps" aria-current="page">
-                                User Operations
+                            <Link underline="hover" color="text.primary" href="/recentBundles" aria-current="page">
+                                Bundles
                             </Link>
                         </Breadcrumbs>
                     </div>
-                    <h1 className="font-bold text-3xl">User Operations</h1>
+
+                    <h1 className="font-bold text-3xl">Bundles</h1>
                 </div>
             </section>
             <RecentMetrics selectedNetwork={selectedNetwork} handleNetworkChange={setSelectedNetwork} />
@@ -101,22 +102,22 @@ function UserOperations() {
                 <div className="container">
                     <div>
                         <Table
-                            {...latestUserOpsTable}
+                            {...latestBundlesTable}
                             loading={tableLoading}
                             caption={{
                                 children: captionText,
                                 icon: '/images/cube.svg',
-                                text: 'Approx Number of Operations Processed in the selected chain',
+                                text: 'Approx Number of Bundles Processed in the selected chain',
                             }}
                         />
                         <Pagination
-                            table={latestUserOpsTable as tableDataT}
+                            table={latestBundlesTable as tableDataT}
                             pageDetails={{
-                                pageNo: pageNo,
-                                setPageNo: setPageNo,
-                                pageSize: pageSize,
-                                setPageSize: setPageSize,
-                                totalRows: totalRows,
+                                pageNo,
+                                setPageNo,
+                                pageSize,
+                                setPageSize,
+                                totalRows,
                             }}
                         />
                     </div>

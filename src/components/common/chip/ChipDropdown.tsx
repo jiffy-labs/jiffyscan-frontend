@@ -23,7 +23,7 @@ function ChipDropdown(props: ChipProps) {
 
     const color = isMoreSelected ? 'dark-700' : 'white';
     const [selectedNetwork, setSelectedNetwork] = useState('');
-    const [icon, setIcon] = useState<string | null>(null);
+    const [icon, setIcon] = useState<string | null>();
 
     return (
         <div className="text-sm">
@@ -69,9 +69,17 @@ function ChipDropdown(props: ChipProps) {
                                             }}
                                             className={`
 												${active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'} + 
-												'block px-4 py-2 text-sm'
+												'block flex items-center gap-3 px-4 py-2 text-sm'
 												`}
                                         >
+                                            <img
+                                                src={iconPath}
+                                                alt=""
+                                                style={{
+                                                    height: '12px',
+                                                    width: '12px',
+                                                }}
+                                            />
                                             {name}
                                         </a>
                                     )}

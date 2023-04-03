@@ -1,26 +1,32 @@
 import axios from 'axios';
 
 export interface UserOp {
-    id: string;
-    transactionHash: string;
+    id: string | null;
+    transactionHash: string | null;
     userOpHash: string;
     sender: string;
     paymaster: string;
     nonce: number;
     actualGasCost: number;
     actualGasPrice: number;
-    actualGasUsed: number;
+    actualGasUsed: number | null;
     success: Boolean;
-    revertReason: string;
-    blockTime: number;
-    blockNumber: number;
-    network: String;
-    input: string;
-    target: string;
-    callData: string;
-    beneficiary: string;
-    factory: string;
-    value: number;
+    revertReason: string | null;
+    blockTime: number | null;
+    blockNumber: number | null;
+    network: string;
+    input: string | null;
+    target: string | null;
+    callData: string | null;
+    beneficiary: string | null;
+    factory: string | null;
+    value: number | null;
+    verificationGasLimit: string | null;
+    preVerificationGas: string | null;
+    maxFeePerGas: number | null;
+    maxPriorityFeePerGas: number | null;
+    paymasterAndData: string | null;
+    signature: string | null;
 }
 
 export interface Bundle {
@@ -28,7 +34,7 @@ export interface Bundle {
     transactionHash: string;
     network: string;
     blockNumber: number;
-    timestamp: number;
+    blockTime: number;
     userOps: UserOp[];
 }
 
@@ -51,6 +57,13 @@ export interface GlobalCounts {
     id: number;
     walletsCreated: number;
     bundleCounter: number;
+}
+
+export interface PoweredBy {
+    paymaster: string;
+    factory: string;
+    sender: string;
+    beneficiary: string;
 }
 
 export const getLatestUserOps = async (selectedNetwork: string, pageSize: number, pageNo: number): Promise<UserOp[]> => {
@@ -91,4 +104,57 @@ export const getGlobalMetrics = async (selectedNetwork: string): Promise<GlobalC
         return data.metrics as GlobalCounts;
     }
     return {} as GlobalCounts;
+};
+export const getUserOp = async (userOpHash: string, selectedNetwork: string): Promise<UserOp[]> => {
+    const response = await fetch('https://api.jiffyscan.xyz/v0/getUserOp?hash=' + userOpHash + '&network=' + selectedNetwork);
+    const data = await response.json();
+    if ('userOps' in data) {
+        return data.userOps as UserOp[];
+    }
+
+    return [] as UserOp[];
+};
+export const getAddressActivity = async (userOpHash: string, selectedNetwork: string): Promise<UserOp[]> => {
+    const response = await fetch('https://api.jiffyscan.xyz/v0/getAddressActivity?address=' + userOpHash + '&network=' + selectedNetwork);
+    const data = await response.json();
+    if ('userOps' in data) {
+        return data.userOps as UserOp[];
+    }
+
+    return [] as UserOp[];
+};
+export const getPayMasterDetails = async (userOpHash: string, selectedNetwork: string): Promise<UserOp[]> => {
+    const response = await fetch('https://api.jiffyscan.xyz/v0/getPaymasterActivity?address=' + userOpHash + '&network=' + selectedNetwork);
+    const data = await response.json();
+    if ('userOps' in data) {
+        return data.userOps as UserOp[];
+    }
+
+    return [] as UserOp[];
+};
+export const getPoweredBy = async (beneficiary: string, paymaster: string): Promise<PoweredBy> => {
+    const response = await fetch(
+        'https://2wfk6evtcd.execute-api.us-east-2.amazonaws.com/default/getPoweredByValues?beneficiary=' +
+            beneficiary +
+            '&paymaster=' +
+            paymaster,
+    );
+    const data = await response.json();
+    if (data) {
+        return data as PoweredBy;
+    }
+
+    return {} as PoweredBy;
+};
+
+export const getBlockDetails = async (blockNumber: string, selectedNetwork: string): Promise<UserOp[]> => {
+    const response = await fetch(
+        'https://api.jiffyscan.xyz/v0/getBlockActivity?blockNumber=' + blockNumber + '&network=' + selectedNetwork,
+    );
+    const data = await response.json();
+    if ('userOps' in data) {
+        return data.userOps as UserOp[];
+    }
+
+    return [] as UserOp[];
 };

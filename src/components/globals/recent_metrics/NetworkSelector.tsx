@@ -39,7 +39,7 @@ function NetworkSelector({
                         handleNetworkChange(key);
                         setIsMoreSelected(false);
                     }}
-                    startIcon={selectedNetwork === key ? iconPathInverted : iconPath }
+                    startIcon={selectedNetwork === key ? iconPathInverted : iconPath}
                     color={`${selectedNetwork === key ? 'dark-700' : 'white'}`}
                 >
                     {name}
