@@ -123,7 +123,7 @@ export const getAddressActivity = async (userOpHash: string, selectedNetwork: st
 
     return [] as UserOp[];
 };
-export const getPaymentMasterDetails = async (userOpHash: string, selectedNetwork: string): Promise<UserOp[]> => {
+export const getPayMasterDetails = async (userOpHash: string, selectedNetwork: string): Promise<UserOp[]> => {
     const response = await fetch('https://api.jiffyscan.xyz/v0/getPaymasterActivity?address=' + userOpHash + '&network=' + selectedNetwork);
     const data = await response.json();
     if ('userOps' in data) {
@@ -145,4 +145,16 @@ export const getPoweredBy = async (beneficiary: string, paymaster: string): Prom
     }
 
     return {} as PoweredBy;
+};
+
+export const getBlockDetails = async (blockNumber: string, selectedNetwork: string): Promise<UserOp[]> => {
+    const response = await fetch(
+        'https://api.jiffyscan.xyz/v0/getBlockActivity?blockNumber=' + blockNumber + '&network=' + selectedNetwork,
+    );
+    const data = await response.json();
+    if ('userOps' in data) {
+        return data.userOps as UserOp[];
+    }
+
+    return [] as UserOp[];
 };

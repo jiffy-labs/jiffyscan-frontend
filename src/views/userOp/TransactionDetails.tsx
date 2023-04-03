@@ -235,13 +235,21 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                             <IconText icon={'/images/cube.svg'}>Block</IconText>
                                         </td>
                                         <td className="py-[14px] px-4 whitespace-pre">
-                                            <div className="flex items-center gap-2 flex-1">
-                                                <span className="text-blue-200 text-sm leading-5">{item.blockNumber}</span>
-                                                <CopyButton text={item.blockNumber!.toString()} />
-                                                <button className="outline-none focus:outline-none ring-0 focus:ring-0">
-                                                    <img src="/images/share.svg" alt="" />
-                                                </button>
-                                            </div>
+                                            <Link
+                                                underline="hover"
+                                                // color="text.primary"
+                                                href={`/block/${item.blockNumber}?network=${item.network ? item.network : ''}`}
+                                                aria-current="page"
+                                                // className="text-blue-200"
+                                            >
+                                                <div className="flex items-center gap-2 flex-1">
+                                                    <span className="text-blue-200 text-sm leading-5">{item.blockNumber}</span>
+                                                    <CopyButton text={item.blockNumber!.toString()} />
+                                                    <button className="outline-none focus:outline-none ring-0 focus:ring-0">
+                                                        <img src="/images/share.svg" alt="" />
+                                                    </button>
+                                                </div>
+                                            </Link>
                                         </td>
                                         <td className="py-[14px] px-4 text-right"></td>
                                     </tr>

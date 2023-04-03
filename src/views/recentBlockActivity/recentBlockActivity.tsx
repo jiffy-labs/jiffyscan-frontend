@@ -1,7 +1,7 @@
 import Footer from '@/components/globals/footer/Footer';
 import Navbar from '@/components/globals/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
-import { getPayMasterDetails, UserOp } from '@/components/common/apiCalls/jiffyApis';
+import { getBlockDetails, getPayMasterDetails, UserOp } from '@/components/common/apiCalls/jiffyApis';
 import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
@@ -10,16 +10,6 @@ import Token from '@/components/common/Token';
 import { NETWORK_ICON_MAP } from '@/components/common/constants';
 import Skeleton from 'react-loading-skeleton-2';
 
-export const BUTTON_LIST = [
-    {
-        name: 'Default View',
-        key: 'Default View',
-    },
-    {
-        name: 'Original',
-        key: 'Original',
-    },
-];
 const columns = [
     { name: 'Hash', sort: true },
     { name: 'Age', sort: true },
@@ -27,7 +17,7 @@ const columns = [
     { name: 'Target', sort: true },
     { name: 'Fee', sort: true },
 ];
-function RecentPaymentMaster(props: any) {
+function RecentBlockActivity(props: any) {
     const router = useRouter();
     const [tableLoading, setTableLoading] = useState(true);
     const hash = props.slug && props.slug[0];
@@ -35,9 +25,9 @@ function RecentPaymentMaster(props: any) {
 
     const [useOpsData, setuserOpsData] = useState<UserOp[]>();
 
-    const refreshUserOpsTable = async (name: string, network: string) => {
+    const refreshUserOpsTable = async (blockNumber: string, network: string) => {
         setTableLoading(true);
-        const userops = await getPayMasterDetails(name, network);
+        const userops = await getBlockDetails(blockNumber, network);
         setuserOpsData(userops);
         setTableLoading(false);
     };
@@ -182,4 +172,4 @@ function RecentPaymentMaster(props: any) {
     );
 }
 
-export default RecentPaymentMaster;
+export default RecentBlockActivity;

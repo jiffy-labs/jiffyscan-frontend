@@ -50,10 +50,7 @@ function RecentUserOps(props: any) {
 
     const refreshUserOpsTable = async (name: string, network: string) => {
         setTableLoading(true);
-        const userops = await getUserOp(
-            name || '0x43fe1ef830cbc6447ca8a740963099fe7fb6b137ac7768aa9c8f5913aaf8f91b',
-            network ? network : '',
-        );
+        const userops = await getUserOp(name, network ? network : '');
         setuserOpsData(userops);
         setTimeout(() => {
             setTableLoading(false);
