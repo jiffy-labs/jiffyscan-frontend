@@ -6,7 +6,7 @@ export interface ChipProps {
     endIcon?: string;
     children: ReactNode;
     variant?: 'contained' | 'outlined' | 'primary';
-    color?: 'dark-700' | 'white' | 'info' | 'success' | 'dark-400';
+    color?: 'dark-700' | 'white' | 'info' | 'success' | 'dark-400' | 'blue-700';
     className?: string;
     onClick?: () => void;
     style?: string;

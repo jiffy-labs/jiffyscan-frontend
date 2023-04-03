@@ -62,12 +62,15 @@ function UserOperations() {
                     icon: NETWORK_ICON_MAP[network],
                     type: 'bundle',
                 },
-                ago: getTimePassed(bundle.timestamp),
+                ago: getTimePassed(bundle.blockTime),
                 userOps: bundle.userOpsLength + ' ops',
             });
         });
         setLatestBundlesTable({ ...latestBundlesTable, rows: newRows.slice(0, 10) });
-        setTableLoading(false);
+        setTimeout(() => {
+            setTableLoading(false);
+        }, 2000);
+        // setTableLoading(false);
     };
 
     return (

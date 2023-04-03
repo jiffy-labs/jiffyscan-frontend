@@ -4,6 +4,7 @@ import CopyButton from './copy_button/CopyButton';
 import { useConfig } from '@/context/config';
 import { useRouter } from 'next/router';
 import { shortenString } from './utils';
+import { NETWORK_SCANNER_MAP } from './constants';
 
 function Token({ icon, text, copyIcon, type }: { icon?: string; text: string; copyIcon?: string; type?: string }) {
     const { selectedNetwork } = useConfig();
@@ -26,10 +27,14 @@ function getHrefLink(type: string | undefined, text: string, network: string) {
 
     if (type == 'userOp') {
         return {
-            pathname: `/userOpHash/${text || '0x43fe1ef830cbc6447ca8a740963099fe7fb6b137ac7768aa9c8f5913aaf8f91b'}/${network || 'mainnet'}`,
+            pathname: `/userOpHash/${text}`,
+            search: network ? `?network=${network}` : '',
         };
     } else if (type == 'address') {
-        return 'https://jiffyscan.xyz/address/' + text;
+        return {
+            pathname: `/address/${text}`,
+            search: network ? `?network=${network}` : '',
+        };
     } else if (type == 'bundle') {
         return NETWORK_SCANNER_MAP[network] + text;
     } else {
@@ -37,23 +42,14 @@ function getHrefLink(type: string | undefined, text: string, network: string) {
     }
 }
 
-const NETWORK_SCANNER_MAP: { [key: string]: string } = {
-    mainnet: 'https://etherscan.io/tx/',
-    goerli: 'https://goerli.etherscan.io/tx/',
-    mumbai: 'https://mumbai.polygonscan.com/tx/',
-    matic: 'https://polygonscan.com/tx/',
-    'optimism-goerli': 'https://goerli-optimism.etherscan.io/tx/',
-    arbitrum: 'https://arbiscan.io/tx/',
-};
-
 function getTarget(type: string | undefined) {
     // console.log(type)
     if (type == undefined) return '_self';
-    if (type == 'userOp') {
-        return '_blank';
-    } else if (type == 'address') {
-        return '_blank';
-    } else if (type == 'bundle') {
+
+    // if (type == 'address') {
+    //     return '_blank';
+    // }
+    if (type == 'bundle') {
         return '_blank';
     } else {
         return '_self';

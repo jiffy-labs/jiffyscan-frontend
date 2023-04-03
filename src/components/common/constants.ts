@@ -49,3 +49,12 @@ export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
     'optimism-goerli': '/images/icon-container (6).svg',
     arbitrum: '/images/arbitrum-logo.svg',
 };
+
+export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
+    mainnet: 'https://etherscan.io/tx/',
+    goerli: 'https://goerli.etherscan.io/tx/',
+    mumbai: 'https://mumbai.polygonscan.com/tx/',
+    matic: 'https://polygonscan.com/tx/',
+    'optimism-goerli': 'https://goerli-optimism.etherscan.io/tx/',
+    arbitrum: 'https://arbiscan.io/tx/',
+};
