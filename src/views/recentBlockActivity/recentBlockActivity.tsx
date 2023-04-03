@@ -74,7 +74,7 @@ function RecentBlockActivity(props: any) {
                             </Link>
                         </Breadcrumbs>
                     </div>
-                    <h1 className="font-bold text-3xl">PayMaster</h1>
+                    <h1 className="font-bold text-3xl">Block</h1>
                 </div>
             </section>
 
