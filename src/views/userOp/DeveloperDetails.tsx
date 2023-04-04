@@ -49,7 +49,6 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                     text-white table-tab py-[6px] px-3 ${sx.tab}`}
                                                                     onClick={() => {
                                                                         setSelectedColor(key);
-                                                                        console.log('SELECTEDCOLOR--------------------->', selectedColor);
                                                                     }}
                                                                     key={index}
                                                                     color={`${selectedColor === key ? 'blue-700' : 'white'}`}

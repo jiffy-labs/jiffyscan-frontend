@@ -1,9 +1,10 @@
 import { parse } from 'path';
 import React, { useEffect, useState } from 'react';
+import { UserOp } from '../apiCalls/jiffyApis';
 import { tableDataT } from './Table';
 
 interface PaginationProps {
-    table: tableDataT;
+    // table: tableDataT;
     pageDetails: {
         pageNo: number;
         setPageNo: React.Dispatch<React.SetStateAction<number>>;
@@ -13,7 +14,7 @@ interface PaginationProps {
     };
 }
 
-function Pagination({ table, pageDetails: { pageNo, setPageNo, pageSize, setPageSize, totalRows } }: PaginationProps) {
+function Pagination({ pageDetails: { pageNo, setPageNo, pageSize, setPageSize, totalRows } }: PaginationProps) {
     const [isMaxPage, setIsMaxPage] = useState(false);
     const [isMinPage, setIsMinPage] = useState(false);
     const [fromPage, setFromPage] = useState(0);

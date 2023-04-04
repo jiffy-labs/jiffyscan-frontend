@@ -117,10 +117,9 @@ export const getUserOp = async (userOpHash: string, selectedNetwork: string): Pr
 export const getAddressActivity = async (userOpHash: string, selectedNetwork: string): Promise<UserOp[]> => {
     const response = await fetch('https://api.jiffyscan.xyz/v0/getAddressActivity?address=' + userOpHash + '&network=' + selectedNetwork);
     const data = await response.json();
-    if ('userOps' in data) {
-        return data.userOps as UserOp[];
+    if ('accountDetail' in data) {
+        return data.accountDetail.userOpsSender.concat(data.accountDetail.userOpsTarget) as UserOp[];
     }
-
     return [] as UserOp[];
 };
 export const getPayMasterDetails = async (userOpHash: string, selectedNetwork: string): Promise<UserOp[]> => {
@@ -143,7 +142,6 @@ export const getPoweredBy = async (beneficiary: string, paymaster: string): Prom
     if (data) {
         return data as PoweredBy;
     }
-
     return {} as PoweredBy;
 };
 
@@ -157,4 +155,13 @@ export const getBlockDetails = async (blockNumber: string, selectedNetwork: stri
     }
 
     return [] as UserOp[];
+};
+export const getAccountDetails = async (userOpHash: string, selectedNetwork: string): Promise<UserOp> => {
+    const response = await fetch('https://api.jiffyscan.xyz/v0/getAddressActivity?address=' + userOpHash + '&network=' + selectedNetwork);
+    const data = await response.json();
+    if ('accountDetail' in data) {
+        return data.accountDetail as UserOp;
+    }
+
+    return {} as UserOp;
 };

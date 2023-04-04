@@ -9,6 +9,7 @@ import { getFee, getTimePassed, shortenString } from '@/components/common/utils'
 import Token from '@/components/common/Token';
 import { NETWORK_ICON_MAP } from '@/components/common/constants';
 import Skeleton from 'react-loading-skeleton-2';
+import CopyButton from '@/components/common/copy_button/CopyButton';
 // import Skeleton from '@/components/Skeleton';
 export const BUTTON_LIST = [
     {
@@ -27,21 +28,31 @@ const columns = [
     { name: 'Target', sort: true },
     { name: 'Fee', sort: true },
 ];
+const DEFAULT_PAGE_SIZE = 10;
+
 function RecentAddressActivity(props: any) {
     const router = useRouter();
     const [open, setOpen] = useState(false);
     const [tableLoading, setTableLoading] = useState(true);
     const hash = props.slug && props.slug[0];
     const network = router.query && router.query.network;
+    const [pageNo, setPageNo] = useState(0);
+    const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE);
+    const [totalRows, setTotalRows] = useState(0);
 
-    const [selectedColor, setSelectedColor] = useState('#1976D2');
     const [useOpsData, setuserOpsData] = useState<UserOp[]>();
 
     const refreshUserOpsTable = async (name: string, network: string) => {
         setTableLoading(true);
         const userops = await getAddressActivity(name, network ? network : '');
+        console.log('🚀 ~ file: recentAddressActivity.tsx:47 ~ refreshUserOpsTable ~ userops:', userops);
         setuserOpsData(userops);
         setTableLoading(false);
+    };
+
+    const setPageSize = (size: number) => {
+        _setPageSize(size);
+        setPageNo(0);
     };
 
     let prevHash = hash;
@@ -86,7 +97,7 @@ function RecentAddressActivity(props: any) {
                             </Link>
                         </Breadcrumbs>
                     </div>
-                    <h1 className="font-bold text-3xl">Wallet</h1>
+                    <h1 className="font-bold text-3xl">Account</h1>
                 </div>
             </section>
 
@@ -138,20 +149,49 @@ function RecentAddressActivity(props: any) {
                                             <Token text={item.userOpHash} type="userOp" />
                                         </td>
                                         <td className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5">
-                                            {getTimePassed(item.blockTime!)}
+                                            {item.success === true ? (
+                                                <span className="flex items-center px-3 py-px  gap-2 rounded-full">
+                                                    <img src="/images/Success.svg" alt="" />
+                                                    {getTimePassed(item.blockTime!)}
+                                                </span>
+                                            ) : (
+                                                <>
+                                                    <span className="flex items-center px-3 py-px  gap-2 rounded-full">
+                                                        <img src="/images/failed.svg" alt="" />
+                                                        {getTimePassed(item.blockTime!)}
+                                                    </span>
+                                                </>
+                                            )}
                                         </td>
                                         <td
                                             className={`${
                                                 prevHash === item.sender ? `text-dark-600` : `text-blue-200`
-                                            } whitespace-pre text-black[87%] py-[14px] text-sm leading-5`}
+                                            } whitespace-pre text-black[87%] py-[14px] text-sm leading-5 `}
                                         >
-                                            <Token text={item.sender} type="address" />
-                                            {/* {shortenString(item.sender)} */}
+                                            {/* <Token text={item.sender} type="address" /> */}
+                                            <div className="flex items-center gap-2.5">
+                                                <Link
+                                                    href={`/account/${item.sender}?network=${item.network ? item.network : ''}`}
+                                                    className="text-blue-200"
+                                                >
+                                                    {shortenString(item.sender)}
+                                                </Link>
+                                                <CopyButton text={item.sender} />
+                                            </div>
                                         </td>
                                         <td className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5">
-                                            <span className={`text-blue-200 text-sm leading-5`}>
+                                            <div className="flex items-center gap-2.5">
+                                                <Link
+                                                    href={`/account/${item.target}?network=${item.network ? item.network : ''}`}
+                                                    className="text-blue-200"
+                                                >
+                                                    {shortenString(item.target!)}
+                                                </Link>
+                                                <CopyButton text={item.target!} />
+                                            </div>
+                                            {/* <span className={`text-blue-200 text-sm leading-5`}>
                                                 <Token text={item.target! ? item.target! : ''} type="address" />
-                                            </span>
+                                            </span> */}
                                         </td>
                                         <td className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5">
                                             {getFee(item.actualGasCost, item.network)}
@@ -163,7 +203,16 @@ function RecentAddressActivity(props: any) {
                     )}
                 </table>
             </div>
-
+            {/* <Pagination
+                            table={useOpsData as UserOp[]}
+                            pageDetails={{
+                                pageNo,
+                                setPageNo,
+                                pageSize,
+                                setPageSize,
+                                totalRows,
+                            }}
+                        /> */}
             <Footer />
         </div>
     );
