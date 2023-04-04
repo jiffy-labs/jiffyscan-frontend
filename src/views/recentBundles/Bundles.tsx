@@ -5,12 +5,10 @@ import React, { useEffect, useState } from 'react';
 import Table, { tableDataT } from '@/components/common/table/Table';
 import Pagination from '@/components/common/table/Pagination';
 import table_data from './table_data.json';
-import { NETWORK_LIST, NETWORK_ICON_MAP } from '@/components/common/constants';
-import { getCurrencySymbol, getTimePassed } from '@/components/common/utils';
-import { getLatestBundles, getDailyMetrics, DailyMetric } from '@/components/common/apiCalls/jiffyApis';
+import { NETWORK_ICON_MAP } from '@/components/common/constants';
+import { getTimePassed } from '@/components/common/utils';
+import { getLatestBundles, getDailyMetrics } from '@/components/common/apiCalls/jiffyApis';
 import { useConfig } from '@/context/config';
-import latestBundles from '@/pages/recentBundles';
-import { ChevronRightIcon, HomeIcon } from '@heroicons/react/20/solid';
 import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
@@ -111,7 +109,7 @@ function UserOperations() {
                             }}
                         />
                         <Pagination
-                            table={latestBundlesTable as tableDataT}
+                            // table={latestBundlesTable as tableDataT}
                             pageDetails={{
                                 pageNo,
                                 setPageNo,

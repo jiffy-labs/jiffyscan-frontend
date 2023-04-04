@@ -25,6 +25,7 @@ export interface tableDataT {
         target?: string;
         fee?: fee;
         userOps?: string;
+        status?: Boolean;
     }[];
     loading: boolean;
 }
@@ -71,7 +72,7 @@ function Table(props: tableDataT) {
                     <table className="w-full text-md bg-white shadow-200 border border-dark-100">
                         <thead>
                             <tr>
-                                {columns.map(({ name, sort }, key) => {
+                                {columns?.map(({ name, sort }, key) => {
                                     return (
                                         <th
                                             key={key}
@@ -109,7 +110,7 @@ function Table(props: tableDataT) {
                             </tbody>
                         ) : (
                             <tbody>
-                                {rows.map(({ ago, fee, sender, target, token, userOps }, index) => {
+                                {rows?.map(({ ago, fee, sender, target, token, userOps, status }, index) => {
                                     return (
                                         <tr
                                             key={index}
@@ -123,7 +124,20 @@ function Table(props: tableDataT) {
 
                                             {ago && (
                                                 <td className="">
-                                                    <span className="tracking-normal">{ago}</span>
+                                                    {status === true ? (
+                                                        <span className="flex items-center px-3 py-px  gap-2 rounded-full">
+                                                            <img src="/images/Success.svg" alt="" />{' '}
+                                                            <span className="tracking-normal">{ago}</span>
+                                                        </span>
+                                                    ) : (
+                                                        <>
+                                                            <span className="flex items-center px-3 py-px  gap-2 rounded-full">
+                                                                <img src="/images/failed.svg" alt="" />{' '}
+                                                                <span className="tracking-normal">{ago}</span>
+                                                            </span>
+                                                        </>
+                                                    )}
+                                                    {/* <span className="tracking-normal">{ago}</span> */}
                                                 </td>
                                             )}
                                             {userOps && (

@@ -9,7 +9,9 @@ function Menu(props: { name: string; dropdown: string[][] | undefined; id: strin
     const handleToggleDropdown = () => {
         setIsOpen(!isOpen);
     };
-
+    const onClose = () => {
+        setIsOpen(false);
+    };
     return (
         <div className="relative" id={props.id}>
             <button
@@ -17,6 +19,7 @@ function Menu(props: { name: string; dropdown: string[][] | undefined; id: strin
                     current ? 'underline' : 'hover:no-underline'
                 }`}
                 onClick={handleToggleDropdown}
+                onBlur={onClose}
             >
                 {props.name} {props.dropdown != undefined ? <img src="/images/icon-container.svg" alt="" /> : null}
             </button>
