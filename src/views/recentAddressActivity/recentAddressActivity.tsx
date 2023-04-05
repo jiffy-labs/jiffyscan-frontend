@@ -97,7 +97,7 @@ function RecentAddressActivity(props: any) {
                             </Link>
                         </Breadcrumbs>
                     </div>
-                    <h1 className="font-bold text-3xl">Account</h1>
+                    <h1 className="font-bold text-3xl">Address</h1>
                 </div>
             </section>
 
