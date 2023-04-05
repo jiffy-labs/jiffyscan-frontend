@@ -168,7 +168,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                         </td>
                                         <td className="py-[14px] px-4 whitespace-pre">
                                             <span className="text-dark-600 text-sm leading-5 flex items-center">
-                                                {getFee(item.value!, item.network)}
+                                                {getFee(item.value!, item.network) ? getFee(item.value!, item.value) : 'N/A'}
                                             </span>
                                         </td>
                                         <td></td>

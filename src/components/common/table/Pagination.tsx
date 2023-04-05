@@ -1,7 +1,4 @@
-import { parse } from 'path';
 import React, { useEffect, useState } from 'react';
-import { UserOp } from '../apiCalls/jiffyApis';
-import { tableDataT } from './Table';
 
 interface PaginationProps {
     // table: tableDataT;

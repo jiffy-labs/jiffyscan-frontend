@@ -1,24 +1,17 @@
 import Footer from '@/components/globals/footer/Footer';
 import Navbar from '@/components/globals/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
-import { getAccountDetails, getPoweredBy, getUserOp, PoweredBy, UserOp } from '@/components/common/apiCalls/jiffyApis';
+import { getAccountDetails, PoweredBy, UserOp } from '@/components/common/apiCalls/jiffyApis';
 import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import CopyButton from '@/components/common/copy_button/CopyButton';
-import Caption from '@/components/common/table/Caption';
-import IconText from '@/components/common/IconText';
-import Chip from '@/components/common/chip/Chip';
-import sx from './usertable.module.sass';
 import { useRouter } from 'next/router';
-import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
-import { NETWORK_ICON_MAP, NETWORK_LIST, NETWORK_SCANNER_MAP } from '@/components/common/constants';
+import { getTimePassed, shortenString } from '@/components/common/utils';
+import { NETWORK_ICON_MAP } from '@/components/common/constants';
 
-import Tooltip from '@mui/material/Tooltip';
-import Skeleton from 'react-loading-skeleton-2';
-import moment from 'moment';
 import HeaderSection from './HeaderSection';
 import TransactionDetails from './TransactionDetails';
-import DeveloperDetails from './DeveloperDetails';
+import Table, { getFee, tableDataT } from '@/components/common/table/Table';
+import Pagination from '@/components/common/table/Pagination';
 // import Skeleton from '@/components/Skeleton';
 export const BUTTON_LIST = [
     {
@@ -30,22 +23,62 @@ export const BUTTON_LIST = [
         key: 'Original',
     },
 ];
-
+const columns = [
+    { name: 'Hash', sort: true },
+    { name: 'Age', sort: true },
+    { name: 'Sender', sort: true },
+    { name: 'Target', sort: true },
+    { name: 'Fee', sort: true },
+];
+const DEFAULT_PAGE_SIZE = 10;
 function RecentAccountOps(props: any) {
     const router = useRouter();
     const [open, setOpen] = useState(false);
     const [tableLoading, setTableLoading] = useState(true);
-
+    const [captionText, setCaptionText] = useState('');
     const hash = props.slug && props.slug[0];
     const network = router.query && router.query.network;
-
-    const [selectedColor, setSelectedColor] = useState(BUTTON_LIST[0].key);
     const [useOpsData, setuserOpsData] = useState<UserOp>();
     const [responseData, setresponseData] = useState<PoweredBy>();
+    const [latestUserOpsTable, setLatestUserOpsTable] = useState<tableDataT>({
+        rows: [],
+        caption: undefined,
+        columns: [],
+        loading: false,
+    });
+    const [pageNo, setPageNo] = useState(0);
+    const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE);
+    const [totalRows, setTotalRows] = useState(0);
 
+    const setPageSize = (size: number) => {
+        _setPageSize(size);
+        setPageNo(0);
+    };
     const refreshUserOpsTable = async (name: string, network: string) => {
         setTableLoading(true);
         const userops = await getAccountDetails(name, network ? network : '');
+        let newRows = [] as tableDataT['rows'];
+        userops.userOps.forEach((userOp: UserOp) => {
+            newRows.push({
+                token: {
+                    text: userOp.userOpHash,
+                    icon: NETWORK_ICON_MAP[network],
+                    type: 'userOp',
+                },
+                ago: getTimePassed(userOp.blockTime!),
+                sender: userOp.sender,
+                target: userOp.target!,
+                fee: getFee(userOp.actualGasCost, network as string),
+                status: userOp.success!,
+            });
+        });
+        setLatestUserOpsTable({
+            rows: newRows.slice(0, 10),
+            columns: columns,
+            loading: false,
+        });
+        setCaptionText(' ' + (userops?.userOps?.length || '0') + ' user operations found');
+        setTotalRows(userops?.userOps?.length);
         setuserOpsData(userops);
         setTimeout(() => {
             setTableLoading(false);
@@ -80,7 +113,7 @@ function RecentAccountOps(props: any) {
     // useEffect(() => {
     //     fetchPoweredBy();
     // }, [useOpsData]);
-    let skeletonCards = Array(6).fill(0);
+    let skeletonCards = Array(3).fill(0);
     let skeletonCards1 = Array(5).fill(0);
     return (
         <div className="">
@@ -120,19 +153,30 @@ function RecentAccountOps(props: any) {
                 responseData={responseData}
                 network={network}
             />
-            <DeveloperDetails
-                tableLoading={tableLoading}
-                skeletonCards1={skeletonCards1}
-                item={useOpsData}
-                selectedColor={selectedColor}
-                BUTTON_LIST={BUTTON_LIST}
-                setSelectedColor={setSelectedColor}
-                open={open}
-                setOpen={setOpen}
-                network={network}
-                prevHash={prevHash}
-            />
-
+            <section className="mb-10">
+                <div className="container">
+                    <div>
+                        <Table
+                            {...latestUserOpsTable}
+                            loading={tableLoading}
+                            caption={{
+                                children: captionText,
+                                icon: '/images/cube.svg',
+                                text: 'Approx Number of Operations Processed in the selected chain',
+                            }}
+                        />
+                        <Pagination
+                            pageDetails={{
+                                pageNo,
+                                setPageNo,
+                                pageSize,
+                                setPageSize,
+                                totalRows,
+                            }}
+                        />
+                    </div>
+                </div>
+            </section>
             <Footer />
         </div>
     );

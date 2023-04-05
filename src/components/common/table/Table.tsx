@@ -9,7 +9,7 @@ import Skeleton from 'react-loading-skeleton-2';
 // import Skeleton from '@/components/Skeleton';
 
 export interface tableDataT {
-    caption: CaptionProps;
+    caption?: CaptionProps;
     columns: {
         name: string;
         sort: boolean;
@@ -61,11 +61,11 @@ function Table(props: tableDataT) {
     const { rows, columns, caption } = props;
     const width = useWidth();
 
-    let skeletonCards = Array(5).fill(0);
+    let skeletonCards = Array(10).fill(0);
     return (
         <div className="">
-            <Caption icon={caption.icon} text={caption.text}>
-                {caption.children}
+            <Caption icon={caption?.icon!} text={caption?.text}>
+                {caption?.children}
             </Caption>
             <ScrollContainer>
                 <div style={width < 768 ? { minWidth: columns?.length * 160 } : {}}>
@@ -124,20 +124,23 @@ function Table(props: tableDataT) {
 
                                             {ago && (
                                                 <td className="">
-                                                    {status === true ? (
+                                                    {status && status === true ? (
                                                         <span className="flex items-center px-3 py-px  gap-2 rounded-full">
                                                             <img src="/images/Success.svg" alt="" />{' '}
                                                             <span className="tracking-normal">{ago}</span>
                                                         </span>
                                                     ) : (
                                                         <>
-                                                            <span className="flex items-center px-3 py-px  gap-2 rounded-full">
-                                                                <img src="/images/failed.svg" alt="" />{' '}
+                                                            {status === false ? (
+                                                                <span className="flex items-center px-3 py-px  gap-2 rounded-full">
+                                                                    <img src="/images/failed.svg" alt="" />{' '}
+                                                                    <span className="tracking-normal">{ago}</span>
+                                                                </span>
+                                                            ) : (
                                                                 <span className="tracking-normal">{ago}</span>
-                                                            </span>
+                                                            )}
                                                         </>
                                                     )}
-                                                    {/* <span className="tracking-normal">{ago}</span> */}
                                                 </td>
                                             )}
                                             {userOps && (
