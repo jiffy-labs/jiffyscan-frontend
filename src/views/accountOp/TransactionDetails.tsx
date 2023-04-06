@@ -76,7 +76,7 @@ export default function TransactionDetails({ item, responseData, network }: any)
                                         </td>
                                     </tr>
 
-                                    <tr>
+                                    {/* <tr>
                                         <td className="py-[14px] px-4 min-w-[205px]">
                                             <IconText icon={'/images/sader.svg'}>Deployed at</IconText>
                                         </td>
@@ -86,7 +86,7 @@ export default function TransactionDetails({ item, responseData, network }: any)
                                             </span>
                                         </td>
                                         <td className="py-[14px] px-4 text-right"></td>
-                                    </tr>
+                                    </tr> */}
                                     <tr>
                                         <td className="py-[14px] px-4 min-w-[205px]">
                                             <IconText icon={'/images/sader.svg'}>Deposit Amount</IconText>
