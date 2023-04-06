@@ -32,7 +32,7 @@ function getHrefLink(type: string | undefined, text: string, network: string) {
         };
     } else if (type == 'address') {
         return {
-            pathname: `/address/${text}`,
+            pathname: `/account/${text}`,
             search: network ? `?network=${network}` : '',
         };
     } else if (type == 'bundle') {

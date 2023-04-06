@@ -1,7 +1,7 @@
 import Footer from '@/components/globals/footer/Footer';
 import Navbar from '@/components/globals/navbar/Navbar';
-import React, { useEffect, useState } from 'react';
-import { getAccountDetails, PoweredBy, UserOp } from '@/components/common/apiCalls/jiffyApis';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { getAccountDetails, getDailyMetrics, PoweredBy, UserOp } from '@/components/common/apiCalls/jiffyApis';
 import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
@@ -35,6 +35,7 @@ function RecentAccountOps(props: any) {
     const router = useRouter();
     const [open, setOpen] = useState(false);
     const [tableLoading, setTableLoading] = useState(true);
+
     const [captionText, setCaptionText] = useState('');
     const hash = props.slug && props.slug[0];
     const network = router.query && router.query.network;
@@ -49,72 +50,63 @@ function RecentAccountOps(props: any) {
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE);
     const [totalRows, setTotalRows] = useState(0);
-
     const setPageSize = (size: number) => {
         _setPageSize(size);
         setPageNo(0);
     };
-    const refreshUserOpsTable = async (name: string, network: string) => {
-        setTableLoading(true);
-        const userops = await getAccountDetails(name, network ? network : '');
-        let newRows = [] as tableDataT['rows'];
-        userops.userOps.forEach((userOp: UserOp) => {
-            newRows.push({
-                token: {
-                    text: userOp.userOpHash,
-                    icon: NETWORK_ICON_MAP[network],
-                    type: 'userOp',
-                },
-                ago: getTimePassed(userOp.blockTime!),
-                sender: userOp.sender,
-                target: userOp.target!,
-                fee: getFee(userOp.actualGasCost, network as string),
-                status: userOp.success!,
-            });
-        });
-        setLatestUserOpsTable({
-            rows: newRows.slice(0, 10),
-            columns: columns,
-            loading: false,
-        });
-        setCaptionText(' ' + (userops?.userOps?.length || '0') + ' user operations found');
-        setTotalRows(userops?.userOps?.length);
-        setuserOpsData(userops);
-        setTimeout(() => {
-            setTableLoading(false);
-        }, 2000);
-    };
 
+    const prevPageNoRef = useRef<number>();
+    const refreshUserOpsTable = useCallback(
+        async (name: string, network: string) => {
+            if (prevPageNoRef.current === pageNo) {
+                // Exit early if the page number hasn't changed
+                return;
+            }
+            setTableLoading(true);
+            const userops = await getAccountDetails(name, network ? network : '');
+            let newRows = [] as tableDataT['rows'];
+            userops.userOps.forEach((userOp: UserOp) => {
+                newRows.push({
+                    token: {
+                        text: userOp.userOpHash,
+                        icon: NETWORK_ICON_MAP[network],
+                        type: 'userOp',
+                    },
+                    ago: getTimePassed(userOp.blockTime!),
+                    sender: userOp.sender,
+                    target: userOp.target!,
+                    fee: getFee(userOp.actualGasCost, network as string),
+                    status: userOp.success!,
+                });
+            });
+
+            setLatestUserOpsTable({
+                ...latestUserOpsTable,
+                rows: newRows.slice(pageNo * pageSize, (pageNo + 1) * pageSize),
+                columns: columns,
+                loading: false,
+            });
+            setCaptionText(' ' + (userops?.userOps?.length || '0') + ' user operations found');
+            setTotalRows(userops?.userOpsCount!);
+            setuserOpsData(userops);
+            setTableLoading(false); // Set loading to false after updating the table
+            prevPageNoRef.current = pageNo;
+        },
+        [hash, network, pageNo],
+    );
     let prevHash = hash;
     let prevNetwork = network;
     useEffect(() => {
-        // Check if hash or network have changed
         if (prevHash !== undefined || prevNetwork !== undefined) {
             prevHash = hash;
             prevNetwork = network;
             const refreshTable = () => {
                 refreshUserOpsTable(hash as string, network as string);
             };
-
             refreshTable();
         }
-    }, [hash]);
-    // const fetchPoweredBy = async () => {
-    //     const beneficiary =
-    //         useOpsData
-    //             ?.map((item) => item.beneficiary ?? '')
-    //             .filter((item) => item !== null)
-    //             .join(',') || '';
-    //     const paymaster = useOpsData?.map((item) => item.paymaster)?.[0] || '';
-    //     const sender = useOpsData?.map((item) => item.sender)?.[0] || '';
-    //     const getReached = await getPoweredBy(beneficiary, paymaster);
-    //     setresponseData(getReached);
-    // };
-    // useEffect(() => {
-    //     fetchPoweredBy();
-    // }, [useOpsData]);
-    let skeletonCards = Array(3).fill(0);
-    let skeletonCards1 = Array(5).fill(0);
+    }, [hash, network, pageNo, prevPageNoRef.current]);
+
     return (
         <div className="">
             <Navbar searchbar />
@@ -136,7 +128,7 @@ function RecentAccountOps(props: any) {
                             <Link
                                 underline="hover"
                                 color="text.primary"
-                                href={`/address/${hash}?network=${network ? network : ''}`}
+                                href={`/account/${hash}?network=${network ? network : ''}`}
                                 aria-current="page"
                             >
                                 {shortenString(hash as string)}
@@ -146,13 +138,7 @@ function RecentAccountOps(props: any) {
                 </div>
             </section>
             <HeaderSection item={useOpsData} network={network} />
-            <TransactionDetails
-                tableLoading={tableLoading}
-                skeletonCards={skeletonCards}
-                item={useOpsData}
-                responseData={responseData}
-                network={network}
-            />
+            <TransactionDetails item={useOpsData} responseData={responseData} network={network} />
             <section className="mb-10">
                 <div className="container">
                     <div>

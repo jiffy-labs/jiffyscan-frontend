@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 export interface UserOp {
+    userOpsLength: any;
     userOps: any;
     id: string | null;
     transactionHash: string | null;

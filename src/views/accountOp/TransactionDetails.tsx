@@ -7,9 +7,19 @@ import { Link, Tooltip } from '@mui/material';
 import moment from 'moment';
 import { useRouter } from 'next/router';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton-2';
-export default function TransactionDetails({ tableLoading, skeletonCards, item, responseData, network }: any) {
+export default function TransactionDetails({ item, responseData, network }: any) {
+    const [tableLoading1, setTableLoading1] = useState(true);
+    useEffect(() => {
+        setTableLoading1(true);
+        if (network) {
+            setTimeout(() => {
+                setTableLoading1(false);
+            }, 1000);
+        }
+    }, [network]);
+    let skeletonCards = Array(3).fill(0);
     const router = useRouter();
     return (
         <div>
@@ -21,7 +31,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                         </Caption>
                     </div>
                     <div className="bg-white overflow-auto rounded shadow-300 mb-[20px]">
-                        {tableLoading ? (
+                        {tableLoading1 ? (
                             skeletonCards.map((index: number) => <Skeleton height={55} key={index} />)
                         ) : (
                             <table className="min-w-full divide-y divide-gray-600">
@@ -35,7 +45,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                 <Link
                                                     underline="hover"
                                                     // color="text.primary"
-                                                    href={`/address/${item?.address}?network=${network ? network : ''}`}
+                                                    href={`/account/${item?.address}?network=${network ? network : ''}`}
                                                     aria-current="page"
                                                     className="text-blue-200"
                                                 >
@@ -45,7 +55,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                 <button
                                                     className="outline-none focus:outline-none ring-0 focus:ring-0"
                                                     onClick={() => {
-                                                        const url = `/address/${item?.address}?network=${network ? network : ''}`;
+                                                        const url = `/account/${item?.address}?network=${network ? network : ''}`;
                                                         window.open(url, '_blank');
                                                         router.push(url);
                                                     }}

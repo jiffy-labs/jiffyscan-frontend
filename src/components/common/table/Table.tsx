@@ -61,7 +61,7 @@ function Table(props: tableDataT) {
     const { rows, columns, caption } = props;
     const width = useWidth();
 
-    let skeletonCards = Array(10).fill(0);
+    let skeletonCards = Array(5).fill(0);
     return (
         <div className="">
             <Caption icon={caption?.icon!} text={caption?.text}>
@@ -124,7 +124,7 @@ function Table(props: tableDataT) {
 
                                             {ago && (
                                                 <td className="">
-                                                    {status && status === true ? (
+                                                    {status === true ? (
                                                         <span className="flex items-center px-3 py-px  gap-2 rounded-full">
                                                             <img src="/images/Success.svg" alt="" />{' '}
                                                             <span className="tracking-normal">{ago}</span>
