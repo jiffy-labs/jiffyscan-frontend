@@ -1,5 +1,5 @@
 import Layout from '@/components/globals/Layout';
-import RecentAccountOps from '@/views/accountOp/AccountOperation';
+import RecentAccountOps from '@/views/recentAddressActivity/recentAddressActivity';
 import { useRouter } from 'next/router';
 import React, { ReactElement } from 'react';
 
