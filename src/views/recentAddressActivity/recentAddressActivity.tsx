@@ -83,7 +83,8 @@ function RecentAddressActivity(props: any) {
     const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE);
     const [captionText, setCaptionText] = useState('N/A User Ops found');
 
-    const refreshRowsData = async (network: string, pageNo: number, pageSize: number) => {
+    // handling table page change. Everytime the pageNo change, or pageSize change this function will fetch new data and update it.
+    const updateRowsData = async (network: string, pageNo: number, pageSize: number) => {
         setTableLoading(true);
         if (addressInfo == undefined) {
             return;
@@ -95,6 +96,13 @@ function RecentAddressActivity(props: any) {
         setTableLoading(false);
     };
 
+    // update the page No after changing the pageSize
+    const setPageSize = (size: number) => {
+        _setPageSize(size);
+        setPageNo(0);
+    };
+
+    // load the account details.
     const loadAccountDetails = async (name: string, network: string) => {
         setTableLoading(true);
         const addressDetail = await getAddressActivity(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo);
@@ -104,18 +112,13 @@ function RecentAddressActivity(props: any) {
     };
 
     useEffect(() => {
-        refreshRowsData(network ? network : '', pageSize, pageNo);
+        updateRowsData(network ? network : '', pageSize, pageNo);
     }, [pageNo, addressInfo]);
 
     useEffect(() => {
         const captionText = `${addressInfo?.userOpsCount} User Ops found`;
         setCaptionText(captionText);
     }, [addressInfo]);
-
-    const setPageSize = (size: number) => {
-        _setPageSize(size);
-        setPageNo(0);
-    };
 
     let prevHash = hash;
     let prevNetwork = network;
