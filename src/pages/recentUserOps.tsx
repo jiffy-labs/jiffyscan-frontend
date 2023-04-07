@@ -1,8 +1,23 @@
 import Layout from '@/components/globals/Layout';
+import { useConfig } from '@/context/config';
 import LatestUserOps from '@/views/recentUserOps/UserOperations';
-import React, { ReactElement } from 'react';
+import { useRouter } from 'next/router';
+import React, { ReactElement, useEffect } from 'react';
 
 function latestUserOps() {
+    const router = useRouter();
+    const { selectedNetwork, setSelectedNetwork } = useConfig();
+
+    const getNetworkState = (query:any) => {
+        console.log(query);
+        let network = query['network']?.toString();
+        return network != null ? network : 'mainnet';
+    };
+
+    useEffect(() => {
+        setSelectedNetwork(getNetworkState(router.query));
+    }, [])
+    
     return (
         <div>
             <LatestUserOps />

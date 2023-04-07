@@ -5,32 +5,31 @@ import React, { ReactElement, useEffect } from 'react';
 import Layout from '@/components/globals/Layout';
 
 function Index() {
-    const { selectedNetwork, setSelectedNetwork } = useConfig();
     const router = useRouter();
-
-    // Get the current query parameters
     const { query } = router;
+    
+    const { selectedNetwork, setSelectedNetwork } = useConfig();
+    const getNetworkState = (query:any) => {
+        console.log(query);
+        let network = query['network']?.toString();
+        return network != null ? network : 'mainnet';
+    };
 
     useEffect(() => {
-        const networkParam = query['network'];
-        // If network parameter is present in URL, set it in context
-        if (networkParam && typeof networkParam === 'string') {
-            setSelectedNetwork(networkParam);
-        }
-    }, [query]);
+        setSelectedNetwork(getNetworkState(router.query));
+    }, [])
 
     useEffect(() => {
-        // Update URL with new value of selectedNetwork
-        const newQuery = {
-            ...query,
-            network: selectedNetwork,
-        };
+        if (query?.network == selectedNetwork) return;
         const href = {
-            pathname: '/',
-            query: newQuery,
+            pathname: router.basePath,    
+            query: {...query, network: selectedNetwork},
         };
         router.push(href, undefined, { shallow: true });
     }, [selectedNetwork]);
+
+    
+
     return (
         <Layout>
             <Home />
