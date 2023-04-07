@@ -65,10 +65,9 @@ interface AccountInfo {
 const createAccountInfoObject = (accountDetails: PayMasterActivity): AccountInfo => {
     return {
         address: accountDetails.address,
-        totalDeposits:parseInt(accountDetails.totalDeposits),
+        totalDeposits: parseInt(accountDetails.totalDeposits),
         userOpsLength: accountDetails?.userOpsLength,
         blockTime: parseInt(accountDetails.blockTime),
-
     };
 };
 
@@ -160,10 +159,9 @@ function RecentPaymentMaster(props: any) {
                     <h1 className="font-bold text-3xl">Account</h1>
                 </div>
             </section>
-            <HeaderSection item={addressInfo} network={network}/>
+            <HeaderSection item={addressInfo} network={network} />
             <TransactionDetails item={addressInfo} network={network} />
             <div className="container">
-                
                 <Table
                     rows={rows}
                     columns={columns}

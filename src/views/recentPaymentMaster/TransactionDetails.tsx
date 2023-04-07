@@ -47,7 +47,9 @@ export default function TransactionDetails({ item, network }: any) {
                                                     aria-current="page"
                                                     className="text-blue-200"
                                                 >
-                                                    <span className="text-blue-200 text-sm leading-5">{getTimePassed(item?.blockTime)}</span>
+                                                    <span className="text-blue-200 text-sm leading-5">
+                                                        {getTimePassed(item?.blockTime)}
+                                                    </span>
                                                 </Link>
                                                 <CopyButton text={item?.address} />
                                                 <button
@@ -62,10 +64,8 @@ export default function TransactionDetails({ item, network }: any) {
                                                 </button>
                                             </div>
                                         </td>
-                                        
                                     </tr>
 
-    
                                     <tr>
                                         <td className="py-[14px] px-4 min-w-[205px]">
                                             <IconText icon={'/images/sader.svg'}>Deposit Amount</IconText>
@@ -84,7 +84,6 @@ export default function TransactionDetails({ item, network }: any) {
                                         </td>
                                         <td className="py-[14px] px-4 text-right"></td>
                                     </tr>
-                                    
                                 </tbody>
                             </table>
                         )}

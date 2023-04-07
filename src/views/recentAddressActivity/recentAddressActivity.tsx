@@ -35,7 +35,6 @@ const columns = [
     { name: 'Target', sort: false },
     { name: 'Fee', sort: true },
 ];
-
 const createUserOpsTableRows = (userOps: UserOp[]): tableDataT['rows'] => {
     let newRows = [] as tableDataT['rows'];
     userOps.forEach((userOp) => {
@@ -162,10 +161,9 @@ function RecentAddressActivity(props: any) {
                     <h1 className="font-bold text-3xl">Account</h1>
                 </div>
             </section>
-            <HeaderSection item={addressInfo} network={network}/>
+            <HeaderSection item={addressInfo} network={network} />
             <TransactionDetails item={addressInfo} network={network} />
             <div className="container">
-                
                 <Table
                     rows={rows}
                     columns={columns}
