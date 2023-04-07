@@ -29,6 +29,20 @@ export interface UserOp {
     signature: string | null;
 }
 
+export interface AddressActivity {
+    userOps: UserOp[];
+    userOpsCount: string;
+    id: string;
+    address: string;
+    network: string;
+    blockTime: string;
+    blockNumber: string;
+    factory: string;
+    paymaster: string;
+    userOpHash: string;
+    totalDeposit: string;
+}
+
 export interface Bundle {
     userOpsLength: number;
     transactionHash: string;
@@ -114,13 +128,13 @@ export const getUserOp = async (userOpHash: string, selectedNetwork: string): Pr
 
     return [] as UserOp[];
 };
-export const getAddressActivity = async (userOpHash: string, selectedNetwork: string): Promise<UserOp[]> => {
-    const response = await fetch('https://api.jiffyscan.xyz/v0/getAddressActivity?address=' + userOpHash + '&network=' + selectedNetwork);
+export const getAddressActivity = async (userOpHash: string, selectedNetwork: string, pageSize: number, pageNo: number): Promise<AddressActivity> => {
+    const response = await fetch('https://api.jiffyscan.xyz/v0/getAddressActivity?address=' + userOpHash + '&network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize); 
     const data = await response.json();
     if ('accountDetail' in data) {
-        return data.accountDetail.userOpsSender.concat(data.accountDetail.userOpsTarget) as UserOp[];
+        return data.accountDetail as AddressActivity;
     }
-    return [] as UserOp[];
+    return {} as AddressActivity;
 };
 export const getPayMasterDetails = async (userOpHash: string, selectedNetwork: string): Promise<UserOp[]> => {
     const response = await fetch('https://api.jiffyscan.xyz/v0/getPaymasterActivity?address=' + userOpHash + '&network=' + selectedNetwork);
