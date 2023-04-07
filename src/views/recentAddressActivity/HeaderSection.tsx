@@ -17,7 +17,7 @@ export default function HeaderSection({ item, network }: any) {
                             </span>
                         </div>
                         <div className="flex items-center break-words gap-2 flex-1">
-                            <span className="text-dark-600 text-sm break-all leading-5">{item?.id}</span>
+                            <span className="text-dark-600 text-sm break-all leading-5">{item?.address}</span>
                             <CopyButton text={item?.id} />
                             <button className="outline-none focus:outline-none ring-0 focus:ring-0">
                                 <Link

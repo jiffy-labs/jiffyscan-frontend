@@ -1,15 +1,13 @@
-import { NETWORK_SCANNER_MAP } from '@/components/common/constants';
 import CopyButton from '@/components/common/copy_button/CopyButton';
 import IconText from '@/components/common/IconText';
 import Caption from '@/components/common/table/Caption';
-import { getFee, getTimePassed } from '@/components/common/utils';
-import { Link, Tooltip } from '@mui/material';
-import moment from 'moment';
+import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
+import { Link } from '@mui/material';
 import { useRouter } from 'next/router';
 
 import React, { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton-2';
-export default function TransactionDetails({ item, responseData, network }: any) {
+export default function TransactionDetails({ item, network }: any) {
     const [tableLoading1, setTableLoading1] = useState(true);
     useEffect(() => {
         setTableLoading1(true);
@@ -38,7 +36,7 @@ export default function TransactionDetails({ item, responseData, network }: any)
                                 <tbody className="min-w-full divide-y divide-gray-300">
                                     <tr>
                                         <td className="py-[14px] px-4 min-w-[205px]">
-                                            <IconText icon={'/images/sader.svg'}>Address</IconText>
+                                            <IconText icon={'/images/sader.svg'}>Deployment Date</IconText>
                                         </td>
                                         <td className="py-[14px] px-4 whitespace-pre">
                                             <div className="flex items-center gap-2 flex-1">
@@ -49,7 +47,7 @@ export default function TransactionDetails({ item, responseData, network }: any)
                                                     aria-current="page"
                                                     className="text-blue-200"
                                                 >
-                                                    <span className="text-blue-200 text-sm leading-5">{item?.address}</span>
+                                                    <span className="text-blue-200 text-sm leading-5">{getTimePassed(item?.blockTime)}</span>
                                                 </Link>
                                                 <CopyButton text={item?.address} />
                                                 <button
@@ -64,38 +62,29 @@ export default function TransactionDetails({ item, responseData, network }: any)
                                                 </button>
                                             </div>
                                         </td>
-                                        <td className="py-[14px] px-4 text-right">
-                                            {/* {
-                                                responseData?.sender === '' ? null : (
-                                                    <span className="text-bluegrey-300 text-[10px] leading-5 flex justify-end items-center gap-2 font-normal">
-                                                        Power by{responseData?.sender}
-                                                    </span>
-                                                )
-                                                // ? responseData?.sender : <img src="/images/pimlico.svg" alt="" />
-                                            } */}
-                                        </td>
+                                        
                                     </tr>
 
-                                    {/* <tr>
-                                        <td className="py-[14px] px-4 min-w-[205px]">
-                                            <IconText icon={'/images/sader.svg'}>Deployed at</IconText>
-                                        </td>
-                                        <td className="py-[14px] px-4 whitespace-pre">
-                                            <span className="text-dark-600 text-sm leading-5">
-                                                {getTimePassed(item?.blockTime) + ' from the following hash - ' + item?.userOpHash}
-                                            </span>
-                                        </td>
-                                        <td className="py-[14px] px-4 text-right"></td>
-                                    </tr> */}
+    
                                     <tr>
                                         <td className="py-[14px] px-4 min-w-[205px]">
                                             <IconText icon={'/images/sader.svg'}>Deposit Amount</IconText>
                                         </td>
                                         <td className="py-[14px] px-4 whitespace-pre">
-                                            <span className="text-dark-600 text-sm leading-5">{getFee(item?.depositAmount, network)}</span>
+                                            <span className="text-dark-600 text-sm leading-5">{getFee(item?.totalDeposits, network)}</span>
                                         </td>
                                         <td className="py-[14px] px-4 text-right"></td>
                                     </tr>
+                                    <tr>
+                                        <td className="py-[14px] px-4 min-w-[205px]">
+                                            <IconText icon={'/images/sader.svg'}>Deployed At</IconText>
+                                        </td>
+                                        <td className="py-[14px] px-4 whitespace-pre">
+                                            <span className="text-dark-600 text-sm leading-5">{shortenString(item?.userOpHash)}</span>
+                                        </td>
+                                        <td className="py-[14px] px-4 text-right"></td>
+                                    </tr>
+                                    
                                 </tbody>
                             </table>
                         )}

@@ -1,17 +1,19 @@
 import Footer from '@/components/globals/footer/Footer';
 import Navbar from '@/components/globals/navbar/Navbar';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { getAccountDetails, getPayMasterDetails, PoweredBy, UserOp } from '@/components/common/apiCalls/jiffyApis';
+import React, { useEffect, useState } from 'react';
+import { getPayMasterDetails, PayMasterActivity, UserOp } from '@/components/common/apiCalls/jiffyApis';
 import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
 import { getTimePassed, shortenString } from '@/components/common/utils';
+import Token from '@/components/common/Token';
 import { NETWORK_ICON_MAP } from '@/components/common/constants';
-
-import HeaderSection from './HeaderSection';
-import TransactionDetails from './TransactionDetails';
-import Table, { getFee, tableDataT } from '@/components/common/table/Table';
+import Skeleton from 'react-loading-skeleton-2';
+import CopyButton from '@/components/common/copy_button/CopyButton';
+import Table, { tableDataT, getFee } from '@/components/common/table/Table';
 import Pagination from '@/components/common/table/Pagination';
+import TransactionDetails from './TransactionDetails';
+import HeaderSection from './HeaderSection';
 // import Skeleton from '@/components/Skeleton';
 export const BUTTON_LIST = [
     {
@@ -23,89 +25,110 @@ export const BUTTON_LIST = [
         key: 'Original',
     },
 ];
+
+const DEFAULT_PAGE_SIZE = 10;
+
 const columns = [
     { name: 'Hash', sort: true },
     { name: 'Age', sort: true },
-    { name: 'Sender', sort: true },
-    { name: 'Target', sort: true },
+    { name: 'Sender', sort: false },
+    { name: 'Target', sort: false },
     { name: 'Fee', sort: true },
 ];
-const DEFAULT_PAGE_SIZE = 10;
+
+const createUserOpsTableRows = (userOps: UserOp[]): tableDataT['rows'] => {
+    let newRows = [] as tableDataT['rows'];
+    userOps?.forEach((userOp) => {
+        newRows.push({
+            token: {
+                text: userOp.userOpHash,
+                icon: NETWORK_ICON_MAP[userOp.network],
+                type: 'userOp',
+            },
+            ago: getTimePassed(userOp.blockTime!),
+            sender: userOp.sender,
+            target: userOp.target!,
+            fee: getFee(userOp.actualGasCost, userOp.network as string),
+            status: userOp.success!,
+        });
+    });
+    return newRows;
+};
+
+interface AccountInfo {
+    address: string;
+    totalDeposits: number;
+    userOpsLength: number;
+    blockTime: number;
+}
+
+const createAccountInfoObject = (accountDetails: PayMasterActivity): AccountInfo => {
+    return {
+        address: accountDetails.address,
+        totalDeposits:parseInt(accountDetails.totalDeposits),
+        userOpsLength: accountDetails?.userOpsLength,
+        blockTime: parseInt(accountDetails.blockTime),
+
+    };
+};
+
 function RecentPaymentMaster(props: any) {
     const router = useRouter();
-    const [open, setOpen] = useState(false);
     const [tableLoading, setTableLoading] = useState(true);
-    const [captionText, setCaptionText] = useState('');
     const hash = props.slug && props.slug[0];
-    const network = router.query && router.query.network;
-    const [useOpsData, setuserOpsData] = useState<UserOp>();
-    const [responseData, setresponseData] = useState<PoweredBy>();
-    const [latestUserOpsTable, setLatestUserOpsTable] = useState<tableDataT>({
-        rows: [],
-        caption: undefined,
-        columns: [],
-        loading: false,
-    });
+    const network = router.query && (router.query.network as string);
+    const [rows, setRows] = useState([] as tableDataT['rows']);
+    const [addressInfo, setAddressInfo] = useState<AccountInfo>();
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE);
-    const [totalRows, setTotalRows] = useState(0);
+    const [captionText, setCaptionText] = useState('N/A User Ops found');
+
+    // handling table page change. Everytime the pageNo change, or pageSize change this function will fetch new data and update it.
+    const updateRowsData = async (network: string, pageNo: number, pageSize: number) => {
+        setTableLoading(true);
+        if (addressInfo == undefined) {
+            return;
+        }
+        const addressDetail = await getPayMasterDetails(addressInfo.address, network ? network : '', pageNo, pageSize);
+        const rows = createUserOpsTableRows(addressDetail.userOps);
+        setRows(rows);
+        setTableLoading(false);
+    };
+
+    // update the page No after changing the pageSize
     const setPageSize = (size: number) => {
         _setPageSize(size);
         setPageNo(0);
     };
 
-    const prevPageNoRef = useRef<number>();
-    const refreshUserOpsTable = useCallback(
-        async (name: string, network: string) => {
-            if (prevPageNoRef.current === pageNo) {
-                // Exit early if the page number hasn't changed
-                return;
-            }
-            setTableLoading(true);
-            const userops = await getPayMasterDetails(name, network ? network : '');
-            let newRows = [] as tableDataT['rows'];
-            userops?.userOps?.forEach((userOp: UserOp) => {
-                newRows.push({
-                    token: {
-                        text: userOp.userOpHash,
-                        icon: NETWORK_ICON_MAP[network],
-                        type: 'userOp',
-                    },
-                    ago: getTimePassed(userOp.blockTime!),
-                    sender: userOp.sender,
-                    target: userOp.target!,
-                    fee: getFee(userOp.actualGasCost, network as string),
-                    status: userOp.success!,
-                });
-            });
+    // load the account details.
+    const loadAccountDetails = async (name: string, network: string) => {
+        setTableLoading(true);
+        const addressDetail = await getPayMasterDetails(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo);
+        const accountInfo = createAccountInfoObject(addressDetail);
+        setAddressInfo(accountInfo);
+    };
 
-            setLatestUserOpsTable({
-                ...latestUserOpsTable,
-                rows: newRows.slice(pageNo * pageSize, (pageNo + 1) * pageSize),
-                columns: columns,
-                loading: false,
-            });
-            setCaptionText(' ' + (userops?.userOps?.length || '0') + ' user operations found');
-            setTotalRows(userops?.userOpsLength);
-            setuserOpsData(userops);
-            setTableLoading(false); // Set loading to false after updating the table
-            prevPageNoRef.current = pageNo;
-        },
-        [hash, network, pageNo],
-    );
+    useEffect(() => {
+        updateRowsData(network ? network : '', pageSize, pageNo);
+    }, [pageNo, addressInfo]);
+
+    useEffect(() => {
+        const captionText = `${addressInfo?.userOpsLength} User Ops found`;
+        setCaptionText(captionText);
+    }, [addressInfo]);
+
     let prevHash = hash;
     let prevNetwork = network;
     useEffect(() => {
+        // Check if hash or network have changed
         if (prevHash !== undefined || prevNetwork !== undefined) {
             prevHash = hash;
             prevNetwork = network;
-            const refreshTable = () => {
-                refreshUserOpsTable(hash as string, network as string);
-            };
-            refreshTable();
+            loadAccountDetails(hash as string, network as string);
         }
-    }, [hash, network, pageNo, prevPageNoRef.current]);
-
+    }, [hash, network]);
+    let skeletonCards = Array(5).fill(0);
     return (
         <div className="">
             <Navbar searchbar />
@@ -127,41 +150,40 @@ function RecentPaymentMaster(props: any) {
                             <Link
                                 underline="hover"
                                 color="text.primary"
-                                href={`/account/${hash}?network=${network ? network : ''}`}
+                                href={`/address/${hash}?network=${network ? network : ''}`}
                                 aria-current="page"
                             >
                                 {shortenString(hash as string)}
                             </Link>
                         </Breadcrumbs>
                     </div>
+                    <h1 className="font-bold text-3xl">Account</h1>
                 </div>
             </section>
-            <HeaderSection item={useOpsData} network={network} />
-            <TransactionDetails item={useOpsData} responseData={responseData} network={network} />
-            <section className="mb-10">
-                <div className="container">
-                    <div>
-                        <Table
-                            {...latestUserOpsTable}
-                            loading={tableLoading}
-                            caption={{
-                                children: captionText,
-                                icon: '/images/cube.svg',
-                                text: 'Approx Number of Operations Processed in the selected chain',
-                            }}
-                        />
-                        <Pagination
-                            pageDetails={{
-                                pageNo,
-                                setPageNo,
-                                pageSize,
-                                setPageSize,
-                                totalRows,
-                            }}
-                        />
-                    </div>
-                </div>
-            </section>
+            <HeaderSection item={addressInfo} network={network}/>
+            <TransactionDetails item={addressInfo} network={network} />
+            <div className="container">
+                
+                <Table
+                    rows={rows}
+                    columns={columns}
+                    loading={tableLoading}
+                    caption={{
+                        children: captionText,
+                        icon: '/images/cube.svg',
+                        text: 'Approx Number of Operations Processed in the selected chain',
+                    }}
+                />
+                <Pagination
+                    pageDetails={{
+                        pageNo,
+                        setPageNo,
+                        pageSize,
+                        setPageSize,
+                        totalRows: addressInfo?.userOpsLength != null ? addressInfo.userOpsLength : 0,
+                    }}
+                />
+            </div>
             <Footer />
         </div>
     );

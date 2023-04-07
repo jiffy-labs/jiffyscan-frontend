@@ -45,7 +45,19 @@ export interface AddressActivity {
     userOpHash: string;
     totalDeposit: string;
 }
-
+export interface PayMasterActivity {
+    userOps: UserOp[];
+    userOpsLength: number;
+    id: number;
+    address: string;
+    network: string;
+    blockTime: string;
+    blockNumber: string;
+    factory: string;
+    paymaster: string;
+    userOpHash: string;
+    totalDeposits: string;
+}
 export interface Bundle {
     userOpsLength: number;
     transactionHash: string;
@@ -139,14 +151,14 @@ export const getAddressActivity = async (userOpHash: string, selectedNetwork: st
     }
     return {} as AddressActivity;
 };
-export const getPayMasterDetails = async (userOpHash: string, selectedNetwork: string): Promise<UserOp> => {
-    const response = await fetch('https://api.jiffyscan.xyz/v0/getPaymasterActivity?address=' + userOpHash + '&network=' + selectedNetwork);
+export const getPayMasterDetails = async (userOpHash: string, selectedNetwork: string, pageSize: number, pageNo: number): Promise<PayMasterActivity> => {
+    const response = await fetch('https://api.jiffyscan.xyz/v0/getPaymasterActivity?address=' + userOpHash + '&network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize);
     const data = await response.json();
     if ('paymasterDetail' in data) {
-        return data.paymasterDetail as UserOp;
+        return data.paymasterDetail as PayMasterActivity;
     }
 
-    return {} as UserOp;
+    return {} as PayMasterActivity;
 };
 export const getPoweredBy = async (beneficiary: string, paymaster: string): Promise<PoweredBy> => {
     const response = await fetch(

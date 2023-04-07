@@ -12,6 +12,8 @@ import Skeleton from 'react-loading-skeleton-2';
 import CopyButton from '@/components/common/copy_button/CopyButton';
 import Table, { tableDataT, getFee } from '@/components/common/table/Table';
 import Pagination from '@/components/common/table/Pagination';
+import TransactionDetails from './TransactionDetails';
+import HeaderSection from './HeaderSection';
 // import Skeleton from '@/components/Skeleton';
 export const BUTTON_LIST = [
     {
@@ -90,7 +92,6 @@ function RecentAddressActivity(props: any) {
             return;
         }
         const addressDetail = await getAddressActivity(addressInfo.address, network ? network : '', pageNo, pageSize);
-        console.log('🚀 ~ file: recentAddressActivity.tsx:47 ~ refreshRowsData ~ userops:', addressDetail);
         const rows = createUserOpsTableRows(addressDetail.userOps);
         setRows(rows);
         setTableLoading(false);
@@ -106,7 +107,6 @@ function RecentAddressActivity(props: any) {
     const loadAccountDetails = async (name: string, network: string) => {
         setTableLoading(true);
         const addressDetail = await getAddressActivity(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo);
-        console.log('🚀 ~ file: recentAddressActivity.tsx:47 ~ loadAccountDetails ~ userops:', addressDetail);
         const accountInfo = createAccountInfoObject(addressDetail);
         setAddressInfo(accountInfo);
     };
@@ -162,7 +162,10 @@ function RecentAddressActivity(props: any) {
                     <h1 className="font-bold text-3xl">Account</h1>
                 </div>
             </section>
+            <HeaderSection item={addressInfo} network={network}/>
+            <TransactionDetails item={addressInfo} network={network} />
             <div className="container">
+                
                 <Table
                     rows={rows}
                     columns={columns}
