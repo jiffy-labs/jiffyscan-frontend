@@ -19,6 +19,7 @@ import moment from 'moment';
 import HeaderSection from './HeaderSection';
 import TransactionDetails from './TransactionDetails';
 import DeveloperDetails from './DeveloperDetails';
+import { useConfig } from '@/context/config';
 // import Skeleton from '@/components/Skeleton';
 export const BUTTON_LIST = [
     {
@@ -40,6 +41,7 @@ function RecentUserOps(props: any) {
     const router = useRouter();
     const [open, setOpen] = useState(false);
     const [tableLoading, setTableLoading] = useState(true);
+    const { selectedNetwork } = useConfig();
 
     const hash = props.slug && props.slug[0];
     const network = router.query && router.query.network;
@@ -50,7 +52,7 @@ function RecentUserOps(props: any) {
 
     const refreshUserOpsTable = async (name: string, network: string) => {
         setTableLoading(true);
-        const userops = await getUserOp(name, network ? network : '');
+        const userops = await getUserOp(name, network ? network : null);
 
         setuserOpsData(userops);
         setTimeout(() => {
@@ -59,19 +61,18 @@ function RecentUserOps(props: any) {
     };
 
     let prevHash = hash;
-    let prevNetwork = network;
     useEffect(() => {
         // Check if hash or network have changed
-        if (prevHash !== undefined || prevNetwork !== undefined) {
+        if (prevHash !== undefined) {
             prevHash = hash;
-            prevNetwork = network;
             const refreshTable = () => {
-                refreshUserOpsTable(hash as string, network as string);
+                refreshUserOpsTable(hash as string, selectedNetwork as string);
             };
 
             refreshTable();
         }
-    }, [hash]);
+    }, [hash, selectedNetwork]);
+
     const fetchPoweredBy = async () => {
         const beneficiary =
             useOpsData
