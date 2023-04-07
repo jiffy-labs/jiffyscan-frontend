@@ -46,7 +46,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                             {BUTTON_LIST.map(({ name, key }, index) => (
                                                                 <Chip
                                                                     className={`
-                                                                    text-white table-tab py-[6px] px-3 ${sx.tab}`}
+                                                                text-white table-tab py-[6px] px-3 ${sx.tab}`}
                                                                     onClick={() => {
                                                                         setSelectedColor(key);
                                                                     }}
@@ -57,6 +57,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                     {name}
                                                                 </Chip>
                                                             ))}
+                                                            <CopyButton text={item.input!} />
                                                         </div>
                                                     </td>
                                                     <div
@@ -65,7 +66,6 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                         ml-[16px]"
                                                     >
                                                         {item.input}
-                                                        <CopyButton text={item.input!} />
                                                     </div>
                                                 </td>
                                             </>
@@ -292,9 +292,6 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
-                                                        </div>
-                                                        <div className="w-[20px]">
-                                                            <CopyButton text="" />
                                                         </div>
                                                     </div>
                                                 </td>

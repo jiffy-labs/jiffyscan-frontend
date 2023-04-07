@@ -35,23 +35,25 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                 <Link
                                                     underline="hover"
                                                     // color="text.primary"
-                                                    href={`/address/${item.sender}?network=${item.network ? item.network : ''}`}
+                                                    href={`/account/${item.sender}?network=${item.network ? item.network : ''}`}
                                                     aria-current="page"
                                                     className="text-blue-200"
                                                 >
                                                     <span className="text-blue-200 text-sm leading-5">{item.sender}</span>
                                                 </Link>
                                                 <CopyButton text={item.sender} />
-                                                <button
-                                                    className="outline-none focus:outline-none ring-0 focus:ring-0"
-                                                    onClick={() => {
-                                                        const url = `/address/${item.sender}?network=${item.network ? item.network : ''}`;
-                                                        window.open(url, '_blank');
-                                                        router.push(url);
-                                                    }}
+                                                <Link
+                                                    underline="hover"
+                                                    // color="text.primary"
+                                                    href={`/account/${item.sender}?network=${item.network ? item.network : ''}`}
+                                                    aria-current="page"
+                                                    className="text-blue-200"
+                                                    target={'_blank'}
                                                 >
-                                                    <img src="/images/share.svg" alt="" />
-                                                </button>
+                                                    <button className="outline-none focus:outline-none ring-0 focus:ring-0">
+                                                        <img src="/images/share.svg" alt="" />
+                                                    </button>
+                                                </Link>
                                             </div>
                                         </td>
                                         <td className="py-[14px] px-4 text-right">
@@ -74,23 +76,25 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                 <Link
                                                     underline="hover"
                                                     // color="text.primary"
-                                                    href={`/address/${item.target!}?network=${item.network ? item.network : ''}`}
+                                                    href={`/account/${item.target!}?network=${item.network ? item.network : ''}`}
                                                     aria-current="page"
                                                     className="text-blue-200"
                                                 >
                                                     <span className="text-blue-200 text-sm leading-5">{item.target}</span>
                                                 </Link>
                                                 <CopyButton text={item.target!} />
-                                                <button
-                                                    className="outline-none focus:outline-none ring-0 focus:ring-0"
-                                                    onClick={() => {
-                                                        const url = `/address/${item.target}?network=${item.network ? item.network : ''}`;
-                                                        window.open(url, '_blank');
-                                                        router.push(url);
-                                                    }}
+                                                <Link
+                                                    underline="hover"
+                                                    // color="text.primary"
+                                                    href={`/account/${item.target!}?network=${item.network ? item.network : ''}`}
+                                                    aria-current="page"
+                                                    className="text-blue-200"
+                                                    target={'_blank'}
                                                 >
-                                                    <img src="/images/share.svg" alt="" />
-                                                </button>
+                                                    <button className="outline-none focus:outline-none ring-0 focus:ring-0">
+                                                        <img src="/images/share.svg" alt="" />
+                                                    </button>
+                                                </Link>
                                             </div>
                                         </td>
                                         <td className="py-[14px] px-4 text-right">
@@ -164,7 +168,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                         </td>
                                         <td className="py-[14px] px-4 whitespace-pre">
                                             <span className="text-dark-600 text-sm leading-5 flex items-center">
-                                                {getFee(item.value!, item.network)}
+                                                {getFee(item.value!, item.network) ? getFee(item.value!, item.value) : 'N/A'}
                                             </span>
                                         </td>
                                         <td></td>
@@ -212,9 +216,29 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                 {item.paymaster === '0x0000000000000000000000000000000000000000' ? null : (
                                                     <>
                                                         <CopyButton text={item.paymaster} />
+<<<<<<< HEAD
                                                         <button className="outline-none focus:outline-none ring-0 focus:ring-0">
                                                             <img src="/images/share.svg" alt="" />
                                                         </button>
+=======
+                                                        <Link
+                                                            underline="hover"
+                                                            href={`/paymaster/${item.paymaster!}?network=${
+                                                                item.network ? item.network : ''
+                                                            }`}
+                                                            aria-current="page"
+                                                            className={`${
+                                                                item.paymaster === '0x0000000000000000000000000000000000000000'
+                                                                    ? 'text-dark-700'
+                                                                    : 'text-blue-200'
+                                                            }`}
+                                                            target="_blank"
+                                                        >
+                                                            <button className="outline-none focus:outline-none ring-0 focus:ring-0">
+                                                                <img src="/images/share.svg" alt="" />
+                                                            </button>
+                                                        </Link>
+>>>>>>> feature/account
                                                     </>
                                                 )}
                                             </div>
@@ -273,21 +297,30 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                             <IconText icon={'/images/cube.svg'}>Block</IconText>
                                         </td>
                                         <td className="py-[14px] px-4 whitespace-pre">
-                                            <Link
-                                                underline="hover"
-                                                // color="text.primary"
-                                                href={`/block/${item.blockNumber}?network=${item.network ? item.network : ''}`}
-                                                aria-current="page"
-                                                // className="text-blue-200"
-                                            >
-                                                <div className="flex items-center gap-2 flex-1">
+                                            <div className="flex items-center gap-2 flex-1">
+                                                <Link
+                                                    underline="hover"
+                                                    // color="text.primary"
+                                                    href={`/block/${item.blockNumber}?network=${item.network ? item.network : ''}`}
+                                                    aria-current="page"
+                                                    // className="text-blue-200"
+                                                >
                                                     <span className="text-blue-200 text-sm leading-5">{item.blockNumber}</span>
-                                                    <CopyButton text={item.blockNumber!.toString()} />
+                                                </Link>
+                                                <CopyButton text={item.blockNumber!.toString()} />
+                                                <Link
+                                                    underline="hover"
+                                                    // color="text.primary"
+                                                    href={`/block/${item.blockNumber}?network=${item.network ? item.network : ''}`}
+                                                    aria-current="page"
+                                                    // className="text-blue-200"
+                                                    target={'_target'}
+                                                >
                                                     <button className="outline-none focus:outline-none ring-0 focus:ring-0">
                                                         <img src="/images/share.svg" alt="" />
                                                     </button>
-                                                </div>
-                                            </Link>
+                                                </Link>
+                                            </div>
                                         </td>
                                         <td className="py-[14px] px-4 text-right"></td>
                                     </tr>

@@ -1,6 +1,8 @@
 import axios from 'axios';
 
 export interface UserOp {
+    userOpsLength: any;
+    userOps: any;
     id: string | null;
     transactionHash: string | null;
     userOpHash: string;
@@ -27,6 +29,7 @@ export interface UserOp {
     maxPriorityFeePerGas: number | null;
     paymasterAndData: string | null;
     signature: string | null;
+    userOpsCount?: number | null;
 }
 
 export interface AddressActivity {
@@ -128,22 +131,22 @@ export const getUserOp = async (userOpHash: string, selectedNetwork: string): Pr
 
     return [] as UserOp[];
 };
-export const getAddressActivity = async (userOpHash: string, selectedNetwork: string, pageSize: number, pageNo: number): Promise<AddressActivity> => {
-    const response = await fetch('https://api.jiffyscan.xyz/v0/getAddressActivity?address=' + userOpHash + '&network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize); 
+export const getAddressActivity = async (userOpHash: string, selectedNetwork: string) => {
+    const response = await fetch('https://api.jiffyscan.xyz/v0/getAddressActivity?address=' + userOpHash + '&network=' + selectedNetwork);
     const data = await response.json();
     if ('accountDetail' in data) {
-        return data.accountDetail as AddressActivity;
-    }
-    return {} as AddressActivity;
-};
-export const getPayMasterDetails = async (userOpHash: string, selectedNetwork: string): Promise<UserOp[]> => {
-    const response = await fetch('https://api.jiffyscan.xyz/v0/getPaymasterActivity?address=' + userOpHash + '&network=' + selectedNetwork);
-    const data = await response.json();
-    if ('userOps' in data) {
         return data.userOps as UserOp[];
     }
-
     return [] as UserOp[];
+};
+export const getPayMasterDetails = async (userOpHash: string, selectedNetwork: string): Promise<UserOp> => {
+    const response = await fetch('https://api.jiffyscan.xyz/v0/getPaymasterActivity?address=' + userOpHash + '&network=' + selectedNetwork);
+    const data = await response.json();
+    if ('paymasterDetail' in data) {
+        return data.paymasterDetail as UserOp;
+    }
+
+    return {} as UserOp;
 };
 export const getPoweredBy = async (beneficiary: string, paymaster: string): Promise<PoweredBy> => {
     const response = await fetch(

@@ -1,5 +1,4 @@
 import Layout from '@/components/globals/Layout';
-import RecentAddressActivity from '@/views/recentAddressActivity/recentAddressActivity';
 import RecentBlockActivity from '@/views/recentBlockActivity/recentBlockActivity';
 import { useRouter } from 'next/router';
 import React, { ReactElement } from 'react';

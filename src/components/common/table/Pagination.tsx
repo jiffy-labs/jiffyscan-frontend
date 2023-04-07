@@ -1,7 +1,4 @@
-import { parse } from 'path';
 import React, { useEffect, useState } from 'react';
-import { UserOp } from '../apiCalls/jiffyApis';
-import { tableDataT } from './Table';
 
 interface PaginationProps {
     // table: tableDataT;
@@ -15,18 +12,20 @@ interface PaginationProps {
 }
 
 function Pagination({ pageDetails: { pageNo, setPageNo, pageSize, setPageSize, totalRows } }: PaginationProps) {
+    // console.log("🚀 ~ file: Pagination.tsx:15 ~ Pagination ~ pageNo:", pageNo,pageSize,totalRows)
     const [isMaxPage, setIsMaxPage] = useState(false);
     const [isMinPage, setIsMinPage] = useState(false);
     const [fromPage, setFromPage] = useState(0);
     const [toPage, setToPage] = useState(0);
 
     useEffect(() => {
-        let isMaxPage = (pageNo + 1) * pageSize >= totalRows;
+        let isMaxPage = (pageNo + 1) * pageSize >= totalRows; //
         setIsMaxPage(isMaxPage);
         setIsMinPage(pageNo <= 0);
         setFromPage(pageNo * pageSize + 1);
         setToPage(isMaxPage ? totalRows : (pageNo + 1) * pageSize);
     }, [pageNo, totalRows, totalRows]);
+    // console.log("Pgaesss-------->",isMaxPage,isMinPage,fromPage,toPage)
 
     const handleShow = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value = event.target.value;

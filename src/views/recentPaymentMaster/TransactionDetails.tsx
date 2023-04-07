@@ -10,17 +10,17 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton-2';
 export default function TransactionDetails({ item, responseData, network }: any) {
+    const router = useRouter();
     const [tableLoading1, setTableLoading1] = useState(true);
     useEffect(() => {
         setTableLoading1(true);
         if (network) {
             setTimeout(() => {
                 setTableLoading1(false);
-            }, 1000);
+            }, 2000);
         }
     }, [network]);
     let skeletonCards = Array(3).fill(0);
-    const router = useRouter();
     return (
         <div>
             <section className="mt-[48px] px-3">
@@ -75,18 +75,6 @@ export default function TransactionDetails({ item, responseData, network }: any)
                                             } */}
                                         </td>
                                     </tr>
-
-                                    {/* <tr>
-                                        <td className="py-[14px] px-4 min-w-[205px]">
-                                            <IconText icon={'/images/sader.svg'}>Deployed at</IconText>
-                                        </td>
-                                        <td className="py-[14px] px-4 whitespace-pre">
-                                            <span className="text-dark-600 text-sm leading-5">
-                                                {getTimePassed(item?.blockTime) + ' from the following hash - ' + item?.userOpHash}
-                                            </span>
-                                        </td>
-                                        <td className="py-[14px] px-4 text-right"></td>
-                                    </tr> */}
                                     <tr>
                                         <td className="py-[14px] px-4 min-w-[205px]">
                                             <IconText icon={'/images/sader.svg'}>Deposit Amount</IconText>

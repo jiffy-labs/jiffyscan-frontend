@@ -67,7 +67,7 @@ function RecentBlockActivity(props: any) {
                             <Link
                                 underline="hover"
                                 color="text.primary"
-                                href={`/address/${hash}?network=${network ? network : ''}`}
+                                href={`/account/${hash}?network=${network ? network : ''}`}
                                 aria-current="page"
                             >
                                 {shortenString(hash as string)}
