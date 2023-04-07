@@ -1,6 +1,8 @@
 import axios from 'axios';
 
 export interface UserOp {
+    userOpsLength: any;
+    userOps: any;
     id: string | null;
     transactionHash: string | null;
     userOpHash: string;
@@ -27,8 +29,35 @@ export interface UserOp {
     maxPriorityFeePerGas: number | null;
     paymasterAndData: string | null;
     signature: string | null;
+    userOpsCount?: number | null;
 }
 
+export interface AddressActivity {
+    userOps: UserOp[];
+    userOpsCount: string;
+    id: string;
+    address: string;
+    network: string;
+    blockTime: string;
+    blockNumber: string;
+    factory: string;
+    paymaster: string;
+    userOpHash: string;
+    totalDeposit: string;
+}
+export interface PayMasterActivity {
+    userOps: UserOp[];
+    userOpsLength: number;
+    id: number;
+    address: string;
+    network: string;
+    blockTime: string;
+    blockNumber: string;
+    factory: string;
+    paymaster: string;
+    userOpHash: string;
+    totalDeposits: string;
+}
 export interface Bundle {
     userOpsLength: number;
     transactionHash: string;
@@ -114,23 +143,50 @@ export const getUserOp = async (userOpHash: string, selectedNetwork: string): Pr
 
     return [] as UserOp[];
 };
-export const getAddressActivity = async (userOpHash: string, selectedNetwork: string): Promise<UserOp[]> => {
-    const response = await fetch('https://api.jiffyscan.xyz/v0/getAddressActivity?address=' + userOpHash + '&network=' + selectedNetwork);
+export const getAddressActivity = async (
+    userOpHash: string,
+    selectedNetwork: string,
+    pageSize: number,
+    pageNo: number,
+): Promise<AddressActivity> => {
+    const response = await fetch(
+        'https://api.jiffyscan.xyz/v0/getAddressActivity?address=' +
+            userOpHash +
+            '&network=' +
+            selectedNetwork +
+            '&first=' +
+            pageSize +
+            '&skip=' +
+            pageNo * pageSize,
+    );
     const data = await response.json();
-    if ('userOps' in data) {
-        return data.userOps as UserOp[];
+    if ('accountDetail' in data) {
+        return data.accountDetail as AddressActivity;
     }
-
-    return [] as UserOp[];
+    return {} as AddressActivity;
 };
-export const getPayMasterDetails = async (userOpHash: string, selectedNetwork: string): Promise<UserOp[]> => {
-    const response = await fetch('https://api.jiffyscan.xyz/v0/getPaymasterActivity?address=' + userOpHash + '&network=' + selectedNetwork);
+export const getPayMasterDetails = async (
+    userOpHash: string,
+    selectedNetwork: string,
+    pageSize: number,
+    pageNo: number,
+): Promise<PayMasterActivity> => {
+    const response = await fetch(
+        'https://api.jiffyscan.xyz/v0/getPaymasterActivity?address=' +
+            userOpHash +
+            '&network=' +
+            selectedNetwork +
+            '&first=' +
+            pageSize +
+            '&skip=' +
+            pageNo * pageSize,
+    );
     const data = await response.json();
-    if ('userOps' in data) {
-        return data.userOps as UserOp[];
+    if ('paymasterDetail' in data) {
+        return data.paymasterDetail as PayMasterActivity;
     }
 
-    return [] as UserOp[];
+    return {} as PayMasterActivity;
 };
 export const getPoweredBy = async (beneficiary: string, paymaster: string): Promise<PoweredBy> => {
     const response = await fetch(
@@ -143,7 +199,6 @@ export const getPoweredBy = async (beneficiary: string, paymaster: string): Prom
     if (data) {
         return data as PoweredBy;
     }
-
     return {} as PoweredBy;
 };
 
@@ -157,4 +212,13 @@ export const getBlockDetails = async (blockNumber: string, selectedNetwork: stri
     }
 
     return [] as UserOp[];
+};
+export const getAccountDetails = async (userOpHash: string, selectedNetwork: string): Promise<UserOp> => {
+    const response = await fetch('https://api.jiffyscan.xyz/v0/getAddressActivity?address=' + userOpHash + '&network=' + selectedNetwork);
+    const data = await response.json();
+    if ('accountDetail' in data) {
+        return data.accountDetail as UserOp;
+    }
+
+    return {} as UserOp;
 };

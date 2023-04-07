@@ -1,15 +1,20 @@
 import Footer from '@/components/globals/footer/Footer';
 import Navbar from '@/components/globals/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
-import { getPayMasterDetails, UserOp } from '@/components/common/apiCalls/jiffyApis';
+import { getPayMasterDetails, PayMasterActivity, UserOp } from '@/components/common/apiCalls/jiffyApis';
 import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
-import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
+import { getTimePassed, shortenString } from '@/components/common/utils';
 import Token from '@/components/common/Token';
 import { NETWORK_ICON_MAP } from '@/components/common/constants';
 import Skeleton from 'react-loading-skeleton-2';
-
+import CopyButton from '@/components/common/copy_button/CopyButton';
+import Table, { tableDataT, getFee } from '@/components/common/table/Table';
+import Pagination from '@/components/common/table/Pagination';
+import TransactionDetails from './TransactionDetails';
+import HeaderSection from './HeaderSection';
+// import Skeleton from '@/components/Skeleton';
 export const BUTTON_LIST = [
     {
         name: 'Default View',
@@ -20,27 +25,97 @@ export const BUTTON_LIST = [
         key: 'Original',
     },
 ];
+
+const DEFAULT_PAGE_SIZE = 10;
+
 const columns = [
     { name: 'Hash', sort: true },
     { name: 'Age', sort: true },
-    { name: 'Sender', sort: true },
-    { name: 'Target', sort: true },
+    { name: 'Sender', sort: false },
+    { name: 'Target', sort: false },
     { name: 'Fee', sort: true },
 ];
+
+const createUserOpsTableRows = (userOps: UserOp[]): tableDataT['rows'] => {
+    let newRows = [] as tableDataT['rows'];
+    userOps?.forEach((userOp) => {
+        newRows.push({
+            token: {
+                text: userOp.userOpHash,
+                icon: NETWORK_ICON_MAP[userOp.network],
+                type: 'userOp',
+            },
+            ago: getTimePassed(userOp.blockTime!),
+            sender: userOp.sender,
+            target: userOp.target!,
+            fee: getFee(userOp.actualGasCost, userOp.network as string),
+            status: userOp.success!,
+        });
+    });
+    return newRows;
+};
+
+interface AccountInfo {
+    address: string;
+    totalDeposits: number;
+    userOpsLength: number;
+    blockTime: number;
+}
+
+const createAccountInfoObject = (accountDetails: PayMasterActivity): AccountInfo => {
+    return {
+        address: accountDetails.address,
+        totalDeposits: parseInt(accountDetails.totalDeposits),
+        userOpsLength: accountDetails?.userOpsLength,
+        blockTime: parseInt(accountDetails.blockTime),
+    };
+};
+
 function RecentPaymentMaster(props: any) {
     const router = useRouter();
     const [tableLoading, setTableLoading] = useState(true);
     const hash = props.slug && props.slug[0];
-    const network = router.query && router.query.network;
+    const network = router.query && (router.query.network as string);
+    const [rows, setRows] = useState([] as tableDataT['rows']);
+    const [addressInfo, setAddressInfo] = useState<AccountInfo>();
+    const [pageNo, setPageNo] = useState(0);
+    const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE);
+    const [captionText, setCaptionText] = useState('N/A User Ops found');
 
-    const [useOpsData, setuserOpsData] = useState<UserOp[]>();
-
-    const refreshUserOpsTable = async (name: string, network: string) => {
+    // handling table page change. Everytime the pageNo change, or pageSize change this function will fetch new data and update it.
+    const updateRowsData = async (network: string, pageNo: number, pageSize: number) => {
         setTableLoading(true);
-        const userops = await getPayMasterDetails(name, network);
-        setuserOpsData(userops);
+        if (addressInfo == undefined) {
+            return;
+        }
+        const addressDetail = await getPayMasterDetails(addressInfo.address, network ? network : '', pageNo, pageSize);
+        const rows = createUserOpsTableRows(addressDetail.userOps);
+        setRows(rows);
         setTableLoading(false);
     };
+
+    // update the page No after changing the pageSize
+    const setPageSize = (size: number) => {
+        _setPageSize(size);
+        setPageNo(0);
+    };
+
+    // load the account details.
+    const loadAccountDetails = async (name: string, network: string) => {
+        setTableLoading(true);
+        const addressDetail = await getPayMasterDetails(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo);
+        const accountInfo = createAccountInfoObject(addressDetail);
+        setAddressInfo(accountInfo);
+    };
+
+    useEffect(() => {
+        updateRowsData(network ? network : '', pageSize, pageNo);
+    }, [pageNo, addressInfo]);
+
+    useEffect(() => {
+        const captionText = `${addressInfo?.userOpsLength} User Ops found`;
+        setCaptionText(captionText);
+    }, [addressInfo]);
 
     let prevHash = hash;
     let prevNetwork = network;
@@ -49,10 +124,7 @@ function RecentPaymentMaster(props: any) {
         if (prevHash !== undefined || prevNetwork !== undefined) {
             prevHash = hash;
             prevNetwork = network;
-            const refreshTable = () => {
-                refreshUserOpsTable(hash as string, network as string);
-            };
-            refreshTable();
+            loadAccountDetails(hash as string, network as string);
         }
     }, [hash, network]);
     let skeletonCards = Array(5).fill(0);
@@ -80,88 +152,36 @@ function RecentPaymentMaster(props: any) {
                                 href={`/address/${hash}?network=${network ? network : ''}`}
                                 aria-current="page"
                             >
-                                {shortenString((hash as string) || '0xecf60cb3f5c5090a55d35fae2089581af824a6f5')}
+                                {shortenString(hash as string)}
                             </Link>
                         </Breadcrumbs>
                     </div>
-                    <h1 className="font-bold text-3xl">PayMaster</h1>
+                    <h1 className="font-bold text-3xl">Account</h1>
                 </div>
             </section>
-
-            <div className="overflow-auto flex-1 max-h-[290px] custom-scroll  container mb-5 bg-white border-dark-200 rounded border">
-                <table className="min-w-full divide-y divide-dark-100">
-                    <thead className="bg-white">
-                        <tr>
-                            {columns.map(({ name, sort }, key) => {
-                                return (
-                                    <th
-                                        key={key}
-                                        className={`py-3.5 border-b border-dark-100 group ${
-                                            columns.length <= 3 ? 'md:first:wx-[55%]' : ''
-                                        }`}
-                                    >
-                                        <div
-                                            role={sort ? 'button' : undefined}
-                                            className={`flex items-center gap-2.5 ${columns.length <= 3 ? '' : ''}`}
-                                        >
-                                            <span>{name}</span>
-                                            {name === 'Age' ? sort && <img src="/images/span.svg" alt="" /> : null}
-                                        </div>
-                                    </th>
-                                );
-                            })}
-                        </tr>
-                    </thead>
-                    {tableLoading ? (
-                        <tbody>
-                            {skeletonCards.map((index: number) => {
-                                return (
-                                    <>
-                                        <tr>
-                                            <td colSpan={5}>
-                                                <Skeleton height={40} key={index} />
-                                            </td>
-                                        </tr>
-                                    </>
-                                );
-                            })}
-                        </tbody>
-                    ) : (
-                        <tbody className="divide-y divide-dark-100">
-                            {useOpsData?.map((item, index) => {
-                                return (
-                                    <tr key={index}>
-                                        <td className="text-black[87%] text-sm leading-5  py-[14px] px-4 text-blue-200 flex">
-                                            <img src={NETWORK_ICON_MAP[item.network as string]} alt="" className="h-[20px]" />
-                                            <Token text={item.userOpHash} type="userOp" />
-                                        </td>
-                                        <td className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5">
-                                            {getTimePassed(item.blockTime!)}
-                                        </td>
-                                        <td
-                                            className={`${
-                                                prevHash === item.sender ? `text-dark-600` : `text-blue-200`
-                                            } whitespace-pre text-black[87%] py-[14px] text-sm leading-5`}
-                                        >
-                                            <Token text={item.sender} type="address" />
-                                            {/* {shortenString(item.sender)} */}
-                                        </td>
-                                        <td className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5">
-                                            <span className={`text-blue-200 text-sm leading-5`}>
-                                                <Token text={item.target! ? item.target! : ''} type="address" />
-                                            </span>
-                                        </td>
-                                        <td className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5">
-                                            {getFee(item.actualGasCost, item.network)}
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    )}
-                </table>
+            <HeaderSection item={addressInfo} network={network} />
+            <TransactionDetails item={addressInfo} network={network} />
+            <div className="container">
+                <Table
+                    rows={rows}
+                    columns={columns}
+                    loading={tableLoading}
+                    caption={{
+                        children: captionText,
+                        icon: '/images/cube.svg',
+                        text: 'Approx Number of Operations Processed in the selected chain',
+                    }}
+                />
+                <Pagination
+                    pageDetails={{
+                        pageNo,
+                        setPageNo,
+                        pageSize,
+                        setPageSize,
+                        totalRows: addressInfo?.userOpsLength != null ? addressInfo.userOpsLength : 0,
+                    }}
+                />
             </div>
-
             <Footer />
         </div>
     );

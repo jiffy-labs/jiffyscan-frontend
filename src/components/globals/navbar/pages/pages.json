@@ -10,10 +10,9 @@
         "url": "/blockchain",
         "dropdown": [
             ["Transactions", "/", "_self"],
-            ["Bundles", "/", "_self"],
+            ["Bundles", "/", "/recentBundles"],
             ["Factories", "/", "_self"],
-            ["Paymasters", "/", "_self"],
-            ["Terms", "/", "_self"]
+            ["Paymasters", "/", "_self"]
         ]
     },
     {

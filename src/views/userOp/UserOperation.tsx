@@ -51,7 +51,6 @@ function RecentUserOps(props: any) {
     const refreshUserOpsTable = async (name: string, network: string) => {
         setTableLoading(true);
         const userops = await getUserOp(name, network ? network : '');
-
         setuserOpsData(userops);
         setTimeout(() => {
             setTableLoading(false);
@@ -71,7 +70,7 @@ function RecentUserOps(props: any) {
 
             refreshTable();
         }
-    }, [hash]);
+    }, [hash, network]);
     const fetchPoweredBy = async () => {
         const beneficiary =
             useOpsData
@@ -85,7 +84,7 @@ function RecentUserOps(props: any) {
     };
     useEffect(() => {
         fetchPoweredBy();
-    }, [useOpsData]);
+    }, []);
     let skeletonCards = Array(13).fill(0);
     let skeletonCards1 = Array(5).fill(0);
     return (
@@ -196,14 +195,12 @@ function RecentUserOps(props: any) {
                         return (
                             <>
                                 <HeaderSection item={item} network={network} />
-
                                 <TransactionDetails
                                     tableLoading={tableLoading}
                                     skeletonCards={skeletonCards}
                                     item={item}
                                     responseData={responseData}
                                 />
-
                                 <DeveloperDetails
                                     tableLoading={tableLoading}
                                     skeletonCards1={skeletonCards1}

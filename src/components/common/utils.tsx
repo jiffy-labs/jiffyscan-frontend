@@ -30,7 +30,7 @@ export const getFee = (amount: number, network: string) => {
         fee = (amount / 10 ** 9).toFixed(4).toString();
         symbol = 'GWEI';
     } else {
-        fee = amount?.toString();
+        fee = amount?.toString() ? amount?.toString() : '0';
         symbol = 'WEI';
     }
     return fee + ' ' + symbol;

@@ -64,6 +64,7 @@ function UserOperations() {
                 sender: userOp.sender,
                 target: userOp.target!,
                 fee: getFee(userOp.actualGasCost, userOp.network as string),
+                status: userOp.success!,
             });
         });
         setLatestUserOpsTable({
@@ -110,7 +111,7 @@ function UserOperations() {
                             }}
                         />
                         <Pagination
-                            table={latestUserOpsTable as tableDataT}
+                            // table={latestUserOpsTable as tableDataT}
                             pageDetails={{
                                 pageNo: pageNo,
                                 setPageNo: setPageNo,
