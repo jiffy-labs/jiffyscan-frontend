@@ -216,11 +216,6 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                 {item.paymaster === '0x0000000000000000000000000000000000000000' ? null : (
                                                     <>
                                                         <CopyButton text={item.paymaster} />
-<<<<<<< HEAD
-                                                        <button className="outline-none focus:outline-none ring-0 focus:ring-0">
-                                                            <img src="/images/share.svg" alt="" />
-                                                        </button>
-=======
                                                         <Link
                                                             underline="hover"
                                                             href={`/paymaster/${item.paymaster!}?network=${
@@ -238,7 +233,6 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                                 <img src="/images/share.svg" alt="" />
                                                             </button>
                                                         </Link>
->>>>>>> feature/account
                                                     </>
                                                 )}
                                             </div>
