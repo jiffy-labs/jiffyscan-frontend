@@ -10,6 +10,7 @@ export interface ChipProps {
     isMoreSelected: boolean;
     setIsMoreSelected: (isMoreSelected: boolean) => void;
     onClickFcn: (network: string) => void;
+    disabled?: boolean;
     dropdownNetworkList: {
         name: string;
         key: string;
@@ -19,7 +20,7 @@ export interface ChipProps {
 }
 
 function ChipDropdown(props: ChipProps) {
-    const { variant = 'contained', isMoreSelected, className, setIsMoreSelected, onClickFcn, dropdownNetworkList } = props;
+    const { variant = 'contained', isMoreSelected, className, setIsMoreSelected, onClickFcn, dropdownNetworkList, disabled } = props;
 
     const color = isMoreSelected ? 'dark-700' : 'white';
     const [selectedNetwork, setSelectedNetwork] = useState('');
@@ -29,7 +30,7 @@ function ChipDropdown(props: ChipProps) {
         <div className="text-sm">
             <Menu as="div" className="relative inline-block text-left ">
                 <span>
-                    <Menu.Button className={`${sx.wrapper} ${sx[variant]} ${sx[color]} ${className || ''}`}>
+                    <Menu.Button className={`${sx.wrapper} ${sx[variant]} ${sx[color]} ${className || ''} ${disabled ? sx.disabled : ''}`}>
                         {icon && isMoreSelected && (
                             <img
                                 src={icon}

@@ -31,42 +31,52 @@ export function ConfigProvider({ children }: Props) {
     // Get the current query parameters
     const { query } = router;
 
-
     const getNetworkState = () => {
-        return (localStorage.getItem('selectedNetwork') == null ? NETWORK_LIST[0].key : localStorage.getItem('selectedNetwork'));
-    }
+        return localStorage.getItem('selectedNetwork') == null ? NETWORK_LIST[0].key : localStorage.getItem('selectedNetwork');
+    };
 
     useEffect(() => {
-        setSelectedNetwork(getNetworkState() as string)
-    },[])
+        setSelectedNetwork(getNetworkState() as string);
+    }, []);
 
     useEffect(() => {
         if (selectedNetwork == fallbackValue) {
             return;
         }
-        
-
 
         localStorage.setItem('selectedNetwork', selectedNetwork);
         // Update URL with new value of selectedNetwork
         let newQuery;
-        console.log('network in query ', 'network' in query )
+        console.log('network in query ', 'network' in query);
         if ('network' in query) {
-            newQuery = query
-        } else {
-            newQuery = {
-                ...query,
-                network: selectedNetwork,
-            };
+            newQuery = query;
         }
-        
-        console.log(router.asPath)
+        // else {
+        //     newQuery = {
+        //         ...query,
+        //         network: selectedNetwork,
+        //     };
+        // }
+
+        // console.log(router.asPath)
+        // const href = {
+        //     pathname: '/',    //TODO: not to redirect it back to home page
+        //     query: newQuery,
+        // };
+        // router.push(href, undefined, { shallow: true });
+    }, [query]);
+    useEffect(() => {
+        // Update URL with new value of selectedNetwork
+        const newQuery = {
+            ...query,
+            network: selectedNetwork,
+        };
         const href = {
-            pathname: '/',    //TODO: not to redirect it back to home page
+            pathname: router.pathname,
             query: newQuery,
         };
         router.push(href, undefined, { shallow: true });
-    },[selectedNetwork])
+    }, [selectedNetwork]);
 
     const value: ConfigContextType = {
         selectedNetwork,

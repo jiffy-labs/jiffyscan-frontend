@@ -40,7 +40,7 @@ export const NETWORK_LIST = [
         key: 'arbitrum',
         iconPath: '/images/arbitrum-logo.svg',
         iconPathInverted: '/images/arbitrum-logo.svg',
-    }
+    },
 ];
 
 interface NETWORK_ICON_MAP {
@@ -53,7 +53,7 @@ export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
     matic: '/images/polygon-icon.svg',
     mumbai: '/images/polygon-mumbai-icon.svg',
     'optimism-goerli': '/images/icon-container (6).svg',
-    'optimism': '/images/icon-container (6).svg',
+    optimism: '/images/icon-container (6).svg',
     arbitrum: '/images/arbitrum-logo.svg',
 };
 
@@ -64,5 +64,5 @@ export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
     matic: 'https://polygonscan.com/tx/',
     'optimism-goerli': 'https://goerli-optimism.etherscan.io/tx/',
     arbitrum: 'https://arbiscan.io/tx/',
-    'optimism': 'https://optimistic.etherscan.io/tx/'
+    optimism: 'https://optimistic.etherscan.io/tx/',
 };
