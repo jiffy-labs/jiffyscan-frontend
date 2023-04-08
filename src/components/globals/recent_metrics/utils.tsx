@@ -40,8 +40,12 @@ export const prepareDayWiseData = (dailyMetrics: DailyMetric[], dataSize: number
     for (let i = 0; i < dailyMetrics.length; i++) {
         dailyData[dailyMetrics[i].daySinceEpoch] = dailyMetrics[i];
     }
+
     // fill total wallets created metrics for empty days
     let totalWalletsCreatedPointer = 0;
+    if (dailyMetrics[0] && parseInt(dailyMetrics[0].daySinceEpoch) <= todayDaySinceEpoch - dataSize) 
+        totalWalletsCreatedPointer = parseInt(dailyMetrics[0].walletsCreatedTotal);
+
     for (let i = dataSize - 1; i >= 0; i--) {
         if (parseInt(dailyData[todayDaySinceEpoch - i].walletsCreatedTotal) == 0) {
             dailyData[todayDaySinceEpoch - i].walletsCreatedTotal = totalWalletsCreatedPointer.toString();
@@ -84,8 +88,6 @@ export const prepareChartDataAndMetrics = (dailyMetrics: DailyMetric[], metrics:
     let chartData: ChartData = prepareDayWiseData(dailyMetrics, dataSize);
     let feeString: string = getFee(chartData.totalFeeCollectedMetric.slice(-1)[0], network);
 
-    console.log(dailyMetrics);
-
     metrics.userOpMetric.value = chartData.userOpMetric.slice(-1)[0];
     metrics.totalFeeCollectedMetric.value = feeString;
     metrics.totalwalletsCreatedMetric.value = chartData.totalwalletsCreatedMetric.slice(-1)[0];
@@ -105,9 +107,6 @@ export const prepareChartDataAndMetrics = (dailyMetrics: DailyMetric[], metrics:
     metrics.totalFeeCollectedMetric.labels = chartData.daySinceEpoch.slice(-dataSize).map((daySinceEpoch) => getDate(daySinceEpoch));
     metrics.totalwalletsCreatedMetric.labels = chartData.daySinceEpoch.slice(-dataSize).map((daySinceEpoch) => getDate(daySinceEpoch));
     metrics.activeWalletsDailyMetric.labels = chartData.daySinceEpoch.slice(-dataSize).map((daySinceEpoch) => getDate(daySinceEpoch));
-
-    console.log(metrics);
-    console.log(chartData);
 
     return { chartData, metrics };
 };
