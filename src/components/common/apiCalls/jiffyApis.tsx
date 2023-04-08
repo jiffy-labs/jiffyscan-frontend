@@ -115,7 +115,7 @@ export const getGlobalMetrics = async (selectedNetwork: string): Promise<GlobalC
     }
     return {} as GlobalCounts;
 };
-export const getUserOp = async (userOpHash: string, selectedNetwork: string | null): Promise<UserOp[]> => {
+export const getUserOp = async (userOpHash: string, selectedNetwork: string): Promise<UserOp[]> => {
     if (!performApiCall(selectedNetwork)) return [] as UserOp[];
     const response = await fetch(
         'https://api.jiffyscan.xyz/v0/getUserOp?hash=' + userOpHash + (selectedNetwork ? '&network=' + selectedNetwork : ''),

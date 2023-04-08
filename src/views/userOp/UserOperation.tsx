@@ -11,7 +11,7 @@ import Chip from '@/components/common/chip/Chip';
 import sx from './usertable.module.sass';
 import { useRouter } from 'next/router';
 import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
-import { NETWORK_ICON_MAP, NETWORK_LIST, NETWORK_SCANNER_MAP } from '@/components/common/constants';
+import { fallBack, NETWORK_ICON_MAP, NETWORK_LIST, NETWORK_SCANNER_MAP } from '@/components/common/constants';
 
 import Tooltip from '@mui/material/Tooltip';
 import Skeleton from 'react-loading-skeleton-2';
@@ -52,7 +52,7 @@ function RecentUserOps(props: any) {
 
     const refreshUserOpsTable = async (name: string, network: string) => {
         setTableLoading(true);
-        const userops = await getUserOp(name, network ? network : null);
+        const userops = await getUserOp(name, network ? network : fallBack);
 
         setuserOpsData(userops);
         setTimeout(() => {
