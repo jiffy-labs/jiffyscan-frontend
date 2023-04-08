@@ -11,7 +11,7 @@ import Chip from '@/components/common/chip/Chip';
 import sx from './usertable.module.sass';
 import { useRouter } from 'next/router';
 import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
-import { NETWORK_ICON_MAP, NETWORK_LIST, NETWORK_SCANNER_MAP } from '@/components/common/constants';
+import { fallBack, NETWORK_ICON_MAP, NETWORK_LIST, NETWORK_SCANNER_MAP } from '@/components/common/constants';
 
 import Tooltip from '@mui/material/Tooltip';
 import Skeleton from 'react-loading-skeleton-2';
@@ -19,6 +19,7 @@ import moment from 'moment';
 import HeaderSection from './HeaderSection';
 import TransactionDetails from './TransactionDetails';
 import DeveloperDetails from './DeveloperDetails';
+import { useConfig } from '@/context/config';
 // import Skeleton from '@/components/Skeleton';
 export const BUTTON_LIST = [
     {
@@ -40,6 +41,7 @@ function RecentUserOps(props: any) {
     const router = useRouter();
     const [open, setOpen] = useState(false);
     const [tableLoading, setTableLoading] = useState(true);
+    const { selectedNetwork } = useConfig();
 
     const hash = props.slug && props.slug[0];
     const network = router.query && router.query.network;
@@ -50,7 +52,8 @@ function RecentUserOps(props: any) {
 
     const refreshUserOpsTable = async (name: string, network: string) => {
         setTableLoading(true);
-        const userops = await getUserOp(name, network ? network : '');
+        const userops = await getUserOp(name, network ? network : fallBack);
+
         setuserOpsData(userops);
         setTimeout(() => {
             setTableLoading(false);
@@ -58,19 +61,18 @@ function RecentUserOps(props: any) {
     };
 
     let prevHash = hash;
-    let prevNetwork = network;
     useEffect(() => {
         // Check if hash or network have changed
-        if (prevHash !== undefined || prevNetwork !== undefined) {
+        if (prevHash !== undefined) {
             prevHash = hash;
-            prevNetwork = network;
             const refreshTable = () => {
-                refreshUserOpsTable(hash as string, network as string);
+                refreshUserOpsTable(hash as string, selectedNetwork as string);
             };
 
             refreshTable();
         }
-    }, [hash, network]);
+    }, [hash, selectedNetwork]);
+
     const fetchPoweredBy = async () => {
         const beneficiary =
             useOpsData

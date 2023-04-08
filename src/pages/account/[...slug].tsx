@@ -1,15 +1,23 @@
+import { getNetworkState } from '@/components/common/utils';
 import Layout from '@/components/globals/Layout';
-import RecentAccountOps from '@/views/recentAddressActivity/recentAddressActivity';
+import { useConfig } from '@/context/config';
+import RecentAddressActivity from '@/views/recentAddressActivity/recentAddressActivity';
 import { useRouter } from 'next/router';
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 
 function RecentAccount() {
     const router = useRouter();
     const { slug } = router.query;
+    const { selectedNetwork, setSelectedNetwork } = useConfig();
+
+
+    useEffect(() => {
+        setSelectedNetwork(getNetworkState(router.query));
+    }, [selectedNetwork])
 
     return (
         <div>
-            <RecentAccountOps slug={slug} />
+            <RecentAddressActivity slug={slug} />
         </div>
     );
 }

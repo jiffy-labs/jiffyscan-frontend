@@ -3,32 +3,28 @@ import { useConfig } from '@/context/config';
 import Home from '@/views/home/Home';
 import React, { ReactElement, useEffect } from 'react';
 import Layout from '@/components/globals/Layout';
+import { getNetworkState } from '@/components/common/utils';
 
 function Index() {
-    const { selectedNetwork } = useConfig();
     const router = useRouter();
+    const { query } = router;
+    
+    const { selectedNetwork, setSelectedNetwork } = useConfig();
 
     useEffect(() => {
-        if (selectedNetwork) {
-            // Get the current query parameters
-            const { query } = router;
+        setSelectedNetwork(getNetworkState(router.query));
+    }, [])
 
-            // Append the new parameter
-            const newQuery = {
-                ...query,
-                selectedNetwork,
-            };
-
-            // Construct the new URL with the updated query parameters
-            const href = {
-                pathname: '/',
-                query: newQuery,
-            };
-
-            // Navigate to the new URL without causing a full page refresh
-            router.push(href, undefined, { shallow: true });
-        }
+    useEffect(() => {
+        if (query?.network == selectedNetwork) return;
+        const href = {
+            pathname: router.basePath,    
+            query: {...query, network: selectedNetwork},
+        };
+        router.push(href, undefined, { shallow: true });
     }, [selectedNetwork]);
+
+    
 
     return (
         <Layout>
@@ -38,5 +34,4 @@ function Index() {
 }
 
 export default Index;
-
 Index.getLayout = (page: ReactElement) => <Layout>{page}</Layout>;

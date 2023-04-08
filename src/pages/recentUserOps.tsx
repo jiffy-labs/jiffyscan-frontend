@@ -1,15 +1,26 @@
+import React, { ReactElement, useEffect } from 'react';
 import Layout from '@/components/globals/Layout';
-import LatestUserOps from '@/views/recentUserOps/UserOperations';
-import React, { ReactElement } from 'react';
+import { useConfig } from '@/context/config';
+import LatestUserOpsComponent from '@/views/recentUserOps/UserOperations';
+import { useRouter } from 'next/router';
+import { getNetworkState } from '@/components/common/utils';
 
-function latestUserOps() {
+function LatestUserOps() {
+    const router = useRouter();
+    const { setSelectedNetwork } = useConfig();
+
+
+    useEffect(() => {
+        setSelectedNetwork(getNetworkState(router.query));
+    }, [])
+    
     return (
         <div>
-            <LatestUserOps />
+            <LatestUserOpsComponent />
         </div>
     );
 }
 
-export default latestUserOps;
+export default LatestUserOps;
 
-latestUserOps.getLayout = (page: ReactElement) => <Layout>{page}</Layout>;
+LatestUserOps.getLayout = (page: ReactElement) => <Layout>{page}</Layout>;

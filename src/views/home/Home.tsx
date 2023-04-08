@@ -22,6 +22,12 @@ function Home() {
     useEffect(() => {
         refreshBundlesTable(selectedNetwork);
         refreshUserOpsTable(selectedNetwork);
+        setTimeout(() => {
+            setBundleTableLoading(false);
+        }, 2000);
+        setTimeout(() => {
+            setUserOpTableLoading(false);
+        }, 2000);
     }, [selectedNetwork]);
 
     const refreshBundlesTable = async (network: string) => {
@@ -40,7 +46,9 @@ function Home() {
             });
         });
         setBundlesTable({ ...bundlesTable, rows: newRows.slice(0, 5) });
-        setBundleTableLoading(false);
+        // setTimeout(() => {
+        //     setBundleTableLoading(false);
+        // }, 3000);
     };
 
     const refreshUserOpsTable = async (network: string) => {
@@ -61,7 +69,9 @@ function Home() {
             });
         });
         setOperationsTable({ ...operationsTable, rows: newRows.slice(0, 5) });
-        setUserOpTableLoading(false);
+        // setTimeout(() => {
+        //     setUserOpTableLoading(false);
+        // }, 3000);
     };
 
     return (

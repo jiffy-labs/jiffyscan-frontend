@@ -7,9 +7,11 @@ import useWindowDimensions from './utils';
 function NetworkSelector({
     selectedNetwork,
     handleNetworkChange,
+    disabled,
 }: {
     selectedNetwork: string;
     handleNetworkChange: (network: string) => void;
+    disabled: boolean;
 }) {
     const [isMoreSelected, setIsMoreSelected] = useState(false);
     const [endIndex, setEndIndex] = useState(3);
@@ -36,11 +38,14 @@ function NetworkSelector({
                 <Chip
                     key={index}
                     onClick={() => {
+                        // if (!isLoading) {
                         handleNetworkChange(key);
                         setIsMoreSelected(false);
+                        // }
                     }}
                     startIcon={selectedNetwork === key ? iconPathInverted : iconPath}
                     color={`${selectedNetwork === key ? 'dark-700' : 'white'}`}
+                    disabled={disabled}
                 >
                     {name}
                 </Chip>
@@ -50,6 +55,7 @@ function NetworkSelector({
                 isMoreSelected={isMoreSelected}
                 setIsMoreSelected={setIsMoreSelected}
                 dropdownNetworkList={dropdownNetworkList}
+                disabled={disabled}
             />
         </div>
     );

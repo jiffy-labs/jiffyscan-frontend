@@ -142,7 +142,7 @@ function RecentAddressActivity(props: any) {
                             />
                         </Link>
                         <Breadcrumbs aria-label="breadcrumb" className="font-['Roboto']">
-                            <Link underline="hover" color="inherit" href="/">
+                            <Link underline="hover" color="inherit" href={`/?network=${network ? network : ''}`}>
                                 Home
                             </Link>
                             <Link underline="hover" color="inherit" href="/recentUserOps">

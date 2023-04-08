@@ -1,5 +1,6 @@
-import { NETWORK_LIST } from '@/components/common/constants';
-import { createContext, ReactNode, useContext, useState } from 'react';
+import { fallBack, NETWORK_LIST } from '@/components/common/constants';
+import { useRouter } from 'next/router';
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 
 type ConfigContextType = {
     selectedNetwork: string;
@@ -7,7 +8,7 @@ type ConfigContextType = {
 };
 
 const configContextDefaultValues: ConfigContextType = {
-    selectedNetwork: 'mainnet',
+    selectedNetwork: '',
     setSelectedNetwork: () => {},
 };
 
@@ -21,9 +22,27 @@ type Props = {
     children: ReactNode;
 };
 
-export function ConfigProvider({ children }: Props) {
-    const [selectedNetwork, setSelectedNetwork] = useState(NETWORK_LIST[0].key);
 
+export function ConfigProvider({ children }: Props) {
+    const router = useRouter();
+
+    // Get the current query parameters
+    const { query } = router;
+
+    const [selectedNetwork, setSelectedNetwork] = useState(fallBack);
+
+    useEffect(() => {
+        if (selectedNetwork == fallBack) {
+            const network = localStorage.getItem('network') == null ? 'mainnet' : localStorage.getItem('network') as string;
+            setSelectedNetwork(network);
+        }
+    });
+
+    useEffect(() => {
+        if (selectedNetwork == fallBack) return;
+        localStorage.setItem('network', selectedNetwork);
+    }, [selectedNetwork])
+    
     const value: ConfigContextType = {
         selectedNetwork,
         setSelectedNetwork,
