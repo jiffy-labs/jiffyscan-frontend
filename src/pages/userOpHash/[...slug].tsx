@@ -1,3 +1,4 @@
+import { fallBack } from '@/components/common/constants';
 import { getNetworkState } from '@/components/common/utils';
 import Layout from '@/components/globals/Layout';
 import { useConfig } from '@/context/config';
@@ -10,9 +11,16 @@ function RecentUserOps() {
     const { slug } = router.query;
     const { selectedNetwork, setSelectedNetwork } = useConfig();
 
+    const customGetNetworkParam = (query: any) => {
+        if (query.network) {
+            return query.network;
+        } else {
+            return fallBack;
+        }
+    }
 
     useEffect(() => {
-        setSelectedNetwork(getNetworkState(router.query));
+        setSelectedNetwork(customGetNetworkParam(router.query));
     }, [])
 
     return (

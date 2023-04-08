@@ -37,6 +37,7 @@ const columns = [
 ];
 const createUserOpsTableRows = (userOps: UserOp[]): tableDataT['rows'] => {
     let newRows = [] as tableDataT['rows'];
+    if (!userOps) return newRows;
     userOps.forEach((userOp) => {
         newRows.push({
             token: {

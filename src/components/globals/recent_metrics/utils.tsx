@@ -20,6 +20,7 @@ export const prepareDayWiseData = (dailyMetrics: DailyMetric[], dataSize: number
         daySinceEpoch: [],
     };
     const dailyData: { [key: string]: DailyMetric } = {};
+    // fill days with 0
     for (let i = 0; i < dataSize; i++) {
         dailyData[todayDaySinceEpoch - i] = {
             userOpsDaily: '0',
@@ -35,6 +36,7 @@ export const prepareDayWiseData = (dailyMetrics: DailyMetric[], dataSize: number
             daySinceEpoch: (todayDaySinceEpoch - i).toString(),
         };
     }
+    // for the days , where we have data. Put the data in the object
     for (let i = 0; i < dailyMetrics.length; i++) {
         dailyData[dailyMetrics[i].daySinceEpoch] = dailyMetrics[i];
     }
@@ -82,6 +84,8 @@ export const prepareChartDataAndMetrics = (dailyMetrics: DailyMetric[], metrics:
     let chartData: ChartData = prepareDayWiseData(dailyMetrics, dataSize);
     let feeString: string = getFee(chartData.totalFeeCollectedMetric.slice(-1)[0], network);
 
+    console.log(dailyMetrics);
+
     metrics.userOpMetric.value = chartData.userOpMetric.slice(-1)[0];
     metrics.totalFeeCollectedMetric.value = feeString;
     metrics.totalwalletsCreatedMetric.value = chartData.totalwalletsCreatedMetric.slice(-1)[0];
@@ -101,6 +105,9 @@ export const prepareChartDataAndMetrics = (dailyMetrics: DailyMetric[], metrics:
     metrics.totalFeeCollectedMetric.labels = chartData.daySinceEpoch.slice(-dataSize).map((daySinceEpoch) => getDate(daySinceEpoch));
     metrics.totalwalletsCreatedMetric.labels = chartData.daySinceEpoch.slice(-dataSize).map((daySinceEpoch) => getDate(daySinceEpoch));
     metrics.activeWalletsDailyMetric.labels = chartData.daySinceEpoch.slice(-dataSize).map((daySinceEpoch) => getDate(daySinceEpoch));
+
+    console.log(metrics);
+    console.log(chartData);
 
     return { chartData, metrics };
 };

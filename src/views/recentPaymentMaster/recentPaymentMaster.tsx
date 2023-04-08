@@ -59,15 +59,13 @@ interface AccountInfo {
     address: string;
     totalDeposits: number;
     userOpsLength: number;
-    blockTime: number;
 }
 
-const createAccountInfoObject = (accountDetails: PayMasterActivity): AccountInfo => {
+const createPaymasterInfoObject = (accountDetails: PayMasterActivity): AccountInfo => {
     return {
         address: accountDetails.address,
         totalDeposits: parseInt(accountDetails.totalDeposits),
         userOpsLength: accountDetails?.userOpsLength,
-        blockTime: parseInt(accountDetails.blockTime),
     };
 };
 
@@ -103,8 +101,8 @@ function RecentPaymentMaster(props: any) {
     // load the account details.
     const loadAccountDetails = async (name: string, network: string) => {
         setTableLoading(true);
-        const addressDetail = await getPayMasterDetails(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo);
-        const accountInfo = createAccountInfoObject(addressDetail);
+        const paymasterDetail = await getPayMasterDetails(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo);
+        const accountInfo = createPaymasterInfoObject(paymasterDetail);
         setAddressInfo(accountInfo);
     };
 
@@ -140,7 +138,7 @@ function RecentPaymentMaster(props: any) {
                             />
                         </Link>
                         <Breadcrumbs aria-label="breadcrumb" className="font-['Roboto']">
-                            <Link underline="hover" color="inherit" href="/">
+                            <Link underline="hover" color="inherit" href={'/'+(network ? '?network='+network : '')}>
                                 Home
                             </Link>
                             <Link underline="hover" color="inherit" href="/recentUserOps">
@@ -156,7 +154,7 @@ function RecentPaymentMaster(props: any) {
                             </Link>
                         </Breadcrumbs>
                     </div>
-                    <h1 className="font-bold text-3xl">Account</h1>
+                    <h1 className="font-bold text-3xl">Paymaster</h1>
                 </div>
             </section>
             <HeaderSection item={addressInfo} network={network} />

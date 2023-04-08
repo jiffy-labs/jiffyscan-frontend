@@ -43,7 +43,7 @@ export default function TransactionDetails({ item, network }: any) {
                                                 <Link
                                                     underline="hover"
                                                     // color="text.primary"
-                                                    href={`/account/${item?.address}?network=${network ? network : ''}`}
+                                                    href={'/userOpHash/'+(item?.userOpHash)+(network ? '/?network='+network : '')}
                                                     aria-current="page"
                                                     className="text-blue-200"
                                                 >
@@ -55,7 +55,7 @@ export default function TransactionDetails({ item, network }: any) {
                                                 <button
                                                     className="outline-none focus:outline-none ring-0 focus:ring-0"
                                                     onClick={() => {
-                                                        const url = `/account/${item?.address}?network=${network ? network : ''}`;
+                                                        const url = '/userOpHash/${item?.userOpHash}'+(network ? '/?network='+network : '')
                                                         window.open(url, '_blank');
                                                         router.push(url);
                                                     }}
@@ -68,19 +68,10 @@ export default function TransactionDetails({ item, network }: any) {
 
                                     <tr>
                                         <td className="py-[14px] px-4 min-w-[205px]">
-                                            <IconText icon={'/images/sader.svg'}>Deposit Amount</IconText>
+                                            <IconText icon={'/images/sader.svg'}>Total Deposit</IconText>
                                         </td>
                                         <td className="py-[14px] px-4 whitespace-pre">
                                             <span className="text-dark-600 text-sm leading-5">{getFee(item?.totalDeposits, network)}</span>
-                                        </td>
-                                        <td className="py-[14px] px-4 text-right"></td>
-                                    </tr>
-                                    <tr>
-                                        <td className="py-[14px] px-4 min-w-[205px]">
-                                            <IconText icon={'/images/sader.svg'}>Deployed At</IconText>
-                                        </td>
-                                        <td className="py-[14px] px-4 whitespace-pre">
-                                            <span className="text-dark-600 text-sm leading-5">{shortenString(item?.userOpHash)}</span>
                                         </td>
                                         <td className="py-[14px] px-4 text-right"></td>
                                     </tr>
