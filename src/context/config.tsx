@@ -32,11 +32,6 @@ export function ConfigProvider({ children }: Props) {
     // Get the current query parameters
     const { query } = router;
 
-    // const getLocallyStoredNetwork = () => {
-    //     const storedNetwork = localStorage.getItem('network');
-    //     return storedNetwork ? storedNetwork : '';
-    // }
-
     const [selectedNetwork, setSelectedNetwork] = useState('');
 
     useEffect(() => {
@@ -53,6 +48,7 @@ export function ConfigProvider({ children }: Props) {
         };
 
         console.log(JSON.stringify(href));
+        localStorage.setItem('network', selectedNetwork);
         router.push(href, undefined, { shallow: true });
     }, [selectedNetwork]);
     

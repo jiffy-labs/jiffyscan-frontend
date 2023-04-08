@@ -66,19 +66,23 @@ const getNetworkFromUrl = () => {
     return network;
 }
 
+const getLocallyStoredNetwork = () => {
+    const storedNetwork = localStorage.getItem('network');
+    return storedNetwork ? storedNetwork : '';
+}
+
 export const getNetworkParam = () => {
     // console.log('query', query);
     // console.log(JSON.stringify(query));
     let network = getNetworkFromUrl();
-    network = network ? network : 'mainnet';
+
+    if (!network) {
+        network = getLocallyStoredNetwork();
+    }
 
     if (!(network in NETWORK_ICON_MAP)) {
         network = 'mainnet';
     }
-    // let storedNetwork = localStorage.getItem('network');
-    // if (storedNetwork && storedNetwork != network) {
-    //     network = storedNetwork;
-    // }
-    // console.log('returning network', network);
+
     return network;
 };
