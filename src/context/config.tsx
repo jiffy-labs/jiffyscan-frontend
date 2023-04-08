@@ -24,11 +24,18 @@ type Props = {
 };
 
 
+
+
 export function ConfigProvider({ children }: Props) {
     const router = useRouter();
 
     // Get the current query parameters
     const { query } = router;
+
+    // const getLocallyStoredNetwork = () => {
+    //     const storedNetwork = localStorage.getItem('network');
+    //     return storedNetwork ? storedNetwork : '';
+    // }
 
     const [selectedNetwork, setSelectedNetwork] = useState('');
 
@@ -39,9 +46,6 @@ export function ConfigProvider({ children }: Props) {
     useEffect(() => {
         // if (query?.network == selectedNetwork) return;
         if (!selectedNetwork) return;
-        console.log('selectedNetwork: ', selectedNetwork);
-        console.log(JSON.stringify(router));
-        console.log(window.location)
 
         const href = {
             pathname: window.location.pathname,    

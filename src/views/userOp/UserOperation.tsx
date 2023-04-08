@@ -41,7 +41,7 @@ function RecentUserOps(props: any) {
     const router = useRouter();
     const [open, setOpen] = useState(false);
     const [tableLoading, setTableLoading] = useState(true);
-    const { selectedNetwork } = useConfig();
+    const { selectedNetwork, setSelectedNetwork } = useConfig();
 
     const hash = props.slug && props.slug[0];
     const network = router.query && router.query.network;
@@ -52,9 +52,14 @@ function RecentUserOps(props: any) {
 
     const refreshUserOpsTable = async (name: string, network: string) => {
         setTableLoading(true);
-        const userops = await getUserOp(name);
+        const userOps = await getUserOp(name);
 
-        setuserOpsData(userops);
+        setuserOpsData(userOps);
+
+        if (userOps[0] && userOps[0].network) {
+            setSelectedNetwork(userOps[0].network);
+        }
+
         setTimeout(() => {
             setTableLoading(false);
         }, 2000);
@@ -101,7 +106,7 @@ function RecentUserOps(props: any) {
                             />
                         </Link>
                         <Breadcrumbs aria-label="breadcrumb" className="font-['Roboto']">
-                            <Link underline="hover" color="inherit" href="/">
+                            <Link underline="hover" color="inherit" href={"/"+(selectedNetwork ? '?network='+selectedNetwork : '')}>
                                 Home
                             </Link>
                             <Link underline="hover" color="inherit" href="/recentUserOps">
