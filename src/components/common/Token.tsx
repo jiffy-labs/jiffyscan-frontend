@@ -29,9 +29,9 @@ function Token({
         <div className="flex items-center gap-2.5">
             {icon && <img src={icon} alt="" style={{ width: '20px', height: '20px' }} />}
             {onTokenClicked ? (
-                <div onClick={() => onTokenClicked(value ? value : 0)} className="text-blue-200">
+                <a onClick={() => onTokenClicked(value ? value : 0)} className="text-blue-200 cursor-pointer">
                     {shortenString(text)}
-                </div>
+                </a>
             ) : (
                 <Link href={getHrefLink(type, text, selectedNetwork)} target={getTarget(type)} className="text-blue-200">
                     {shortenString(text)}

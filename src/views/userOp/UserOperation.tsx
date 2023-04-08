@@ -160,7 +160,7 @@ function RecentUserOps(props: any) {
                 </div>
             </section>
             {showUserOpId == -1 ? (
-                <div className="container">
+                <div className="container mb-16">
                     <Table 
                         columns={columns}
                         rows={duplicateUserOpsRows}
