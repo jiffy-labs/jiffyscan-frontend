@@ -24,12 +24,12 @@ function RecentMetrics({
 
     useEffect(() => {
         refreshMetricsChart(selectedNetwork);
-        if (metrics) {
-            setTimeout(() => {
-                setLoading(false);
-            }, 2000);
-        }
-    }, [selectedNetwork, metrics]);
+        // if (metrics) {
+        setTimeout(() => {
+            setLoading(false);
+        }, 2000);
+        // }
+    }, [selectedNetwork]);
 
     const refreshMetricsChart = async (network: string) => {
         setLoading(true);
@@ -39,9 +39,9 @@ function RecentMetrics({
         let newChartData: ChartData = chartDataAndMetrics.chartData;
         metrics = chartDataAndMetrics.metrics;
         setMetrics(metrics);
-        setTimeout(() => {
-            setLoading(false);
-        }, 2000);
+        // setTimeout(() => {
+        //     setLoading(false);
+        // }, 3000);
     };
     return (
         <main className="mb-10">
@@ -52,7 +52,7 @@ function RecentMetrics({
                         <b className="font-bold text-lg">Recent Metrics</b>
                         <InfoButton data="Latest Activity from entrypoint, and smart contract wallets" />
                     </div>
-                    <NetworkSelector selectedNetwork={selectedNetwork} handleNetworkChange={handleNetworkChange} />
+                    <NetworkSelector selectedNetwork={selectedNetwork} handleNetworkChange={handleNetworkChange} disabled={loading} />
                 </div>
                 {loading ? (
                     <Spinner />

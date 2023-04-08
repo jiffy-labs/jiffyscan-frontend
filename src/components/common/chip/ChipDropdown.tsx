@@ -10,6 +10,7 @@ export interface ChipProps {
     isMoreSelected: boolean;
     setIsMoreSelected: (isMoreSelected: boolean) => void;
     onClickFcn: (network: string) => void;
+    disabled?: boolean;
     dropdownNetworkList: {
         name: string;
         key: string;
@@ -19,7 +20,7 @@ export interface ChipProps {
 }
 
 function ChipDropdown(props: ChipProps) {
-    const { variant = 'contained', isMoreSelected, className, setIsMoreSelected, onClickFcn, dropdownNetworkList } = props;
+    const { variant = 'contained', isMoreSelected, className, setIsMoreSelected, onClickFcn, dropdownNetworkList, disabled } = props;
 
     const color = isMoreSelected ? 'dark-700' : 'white';
     const [selectedNetwork, setSelectedNetwork] = useState('');
@@ -29,7 +30,7 @@ function ChipDropdown(props: ChipProps) {
         <div className="text-sm">
             <Menu as="div" className="relative inline-block text-left ">
                 <span>
-                    <Menu.Button className={`${sx.wrapper} ${sx[variant]} ${sx[color]} ${className || ''}`}>
+                    <Menu.Button className={`${sx.wrapper} ${sx[variant]} ${sx[color]} ${className || ''} ${disabled ? sx.disabled : ''}`}>
                         {icon && isMoreSelected && (
                             <img
                                 src={icon}
@@ -55,7 +56,7 @@ function ChipDropdown(props: ChipProps) {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                 >
-                    <Menu.Items className="absolute right-0 z-10 mt-2 w-24 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="absolute right-0 z-10 mt-2 w-36 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <div className="py-1 flex flex-col">
                             {dropdownNetworkList.map(({ name, key, iconPath }, index) => (
                                 <Menu.Item key={key}>

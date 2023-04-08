@@ -28,12 +28,12 @@ function getHrefLink(type: string | undefined, text: string, network: string) {
     if (type == 'userOp') {
         return {
             pathname: `/userOpHash/${text}`,
-            search: network ? `?network=${network}` : '',
+            query: { network: network },
         };
     } else if (type == 'address') {
         return {
-            pathname: `/address/${text}`,
-            search: network ? `?network=${network}` : '',
+            pathname: `/account/${text}`,
+            query: { network: network },
         };
     } else if (type == 'bundle') {
         return NETWORK_SCANNER_MAP[network] + text;

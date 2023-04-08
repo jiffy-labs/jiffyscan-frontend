@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { NETWORK_ICON_MAP } from './constants';
 
 export const getTimePassed = (timestamp: number): string => {
     let timePassedInEpoch = new Date().getTime() - timestamp * 1000;
@@ -30,7 +31,7 @@ export const getFee = (amount: number, network: string) => {
         fee = (amount / 10 ** 9).toFixed(4).toString();
         symbol = 'GWEI';
     } else {
-        fee = amount?.toString();
+        fee = amount?.toString() ? amount?.toString() : '0';
         symbol = 'WEI';
     }
     return fee + ' ' + symbol;
@@ -54,4 +55,30 @@ export const shortenString = (str: string) => {
     const lastChars = str?.slice(-4);
 
     return `${firstChars}...${lastChars}`;
+};
+
+const getNetworkFromUrl = () => {
+    var url_string = window.location.href; 
+    var url = new URL(url_string);
+    var network = url.searchParams.get("network");
+    return network;
+}
+
+const getLocallyStoredNetwork = () => {
+    const storedNetwork = localStorage.getItem('network');
+    return storedNetwork ? storedNetwork : '';
+}
+
+export const getNetworkParam = () => {
+    let network = getNetworkFromUrl();
+
+    if (!network) {
+        network = getLocallyStoredNetwork();
+    }
+
+    if (!(network in NETWORK_ICON_MAP)) {
+        network = 'mainnet';
+    }
+
+    return network;
 };

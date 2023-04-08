@@ -12,14 +12,26 @@ export const NETWORK_LIST = [
         iconPathInverted: '/images/eth-diamond-purple.svg',
     },
     {
-        name: 'Optimism',
-        key: 'optimism',
-        iconPath: '/images/icon-container (6).svg',
-        iconPathInverted: '/images/icon-container (6).svg',
+        name: 'Arbitrum One',
+        key: 'arbitrum-one',
+        iconPath: '/images/arbitrum-logo.svg',
+        iconPathInverted: '/images/arbitrum-logo.svg',
     },
     {
         name: 'Optimism Goerli',
         key: 'optimism-goerli',
+        iconPath: '/images/icon-container (6).svg',
+        iconPathInverted: '/images/icon-container (6).svg',
+    },
+    {
+        name: 'Arbitrum Goerli',
+        key: 'arbitrum-goerli',
+        iconPath: '/images/arbitrum-logo.svg',
+        iconPathInverted: '/images/arbitrum-logo.svg',
+    },
+    {
+        name: 'Optimism',
+        key: 'optimism',
         iconPath: '/images/icon-container (6).svg',
         iconPathInverted: '/images/icon-container (6).svg',
     },
@@ -35,12 +47,6 @@ export const NETWORK_LIST = [
         iconPath: '/images/polygon-mumbai-icon.svg',
         iconPathInverted: '/images/polygon-mumbai-inverted.svg',
     },
-    {
-        name: 'Arbitrum',
-        key: 'arbitrum-one',
-        iconPath: '/images/arbitrum-logo.svg',
-        iconPathInverted: '/images/arbitrum-logo.svg',
-    }
 ];
 
 interface NETWORK_ICON_MAP {
@@ -53,8 +59,9 @@ export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
     matic: '/images/polygon-icon.svg',
     mumbai: '/images/polygon-mumbai-icon.svg',
     'optimism-goerli': '/images/icon-container (6).svg',
-    'optimism': '/images/icon-container (6).svg',
+    optimism: '/images/icon-container (6).svg',
     'arbitrum-one': '/images/arbitrum-logo.svg',
+    'arbitrum-goerli': '/images/arbitrum-logo.svg',
 };
 
 export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
@@ -64,5 +71,8 @@ export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
     matic: 'https://polygonscan.com/tx/',
     'optimism-goerli': 'https://goerli-optimism.etherscan.io/tx/',
     'arbitrum-one': 'https://arbiscan.io/tx/',
-    'optimism': 'https://optimistic.etherscan.io/tx/'
+    'arbitrum-goerli': 'https://goerli.arbiscan.io/tx/',
+    optimism: 'https://optimistic.etherscan.io/tx/',
 };
+
+export const fallBack = "fallback";

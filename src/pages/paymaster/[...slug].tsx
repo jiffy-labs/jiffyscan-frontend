@@ -1,7 +1,9 @@
+import { getNetworkParam } from '@/components/common/utils';
 import Layout from '@/components/globals/Layout';
+import { useConfig } from '@/context/config';
 import RecentPaymentMaster from '@/views/recentPaymentMaster/recentPaymentMaster';
 import { useRouter } from 'next/router';
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 
 function RecentPayment() {
     const router = useRouter();

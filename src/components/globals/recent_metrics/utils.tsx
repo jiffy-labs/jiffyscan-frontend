@@ -20,6 +20,7 @@ export const prepareDayWiseData = (dailyMetrics: DailyMetric[], dataSize: number
         daySinceEpoch: [],
     };
     const dailyData: { [key: string]: DailyMetric } = {};
+    // fill days with 0
     for (let i = 0; i < dataSize; i++) {
         dailyData[todayDaySinceEpoch - i] = {
             userOpsDaily: '0',
@@ -35,11 +36,16 @@ export const prepareDayWiseData = (dailyMetrics: DailyMetric[], dataSize: number
             daySinceEpoch: (todayDaySinceEpoch - i).toString(),
         };
     }
+    // for the days , where we have data. Put the data in the object
     for (let i = 0; i < dailyMetrics.length; i++) {
         dailyData[dailyMetrics[i].daySinceEpoch] = dailyMetrics[i];
     }
+
     // fill total wallets created metrics for empty days
     let totalWalletsCreatedPointer = 0;
+    if (dailyMetrics[0] && parseInt(dailyMetrics[0].daySinceEpoch) <= todayDaySinceEpoch - dataSize) 
+        totalWalletsCreatedPointer = parseInt(dailyMetrics[0].walletsCreatedTotal);
+
     for (let i = dataSize - 1; i >= 0; i--) {
         if (parseInt(dailyData[todayDaySinceEpoch - i].walletsCreatedTotal) == 0) {
             dailyData[todayDaySinceEpoch - i].walletsCreatedTotal = totalWalletsCreatedPointer.toString();
@@ -65,7 +71,7 @@ const getPercentageChange = (numberArray: number[]) => {
     const firstHalfSum = getSum(firstHalf);
     const secondHalf = numberArray.slice(-numberArray.length / 2);
     const secondHalfSum = getSum(secondHalf);
-    if (firstHalfSum == 0) return 'NaN';
+    if (firstHalfSum == 0) return '0';
     const percentageChange = ((secondHalfSum - firstHalfSum) / firstHalfSum) * 100;
     return percentageChange.toFixed(1).toString();
 };
