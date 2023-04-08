@@ -1,4 +1,4 @@
-import { getNetworkState } from '@/components/common/utils';
+import { getNetworkParam } from '@/components/common/utils';
 import Layout from '@/components/globals/Layout';
 import { useConfig } from '@/context/config';
 import RecentAddressActivity from '@/views/recentAddressActivity/recentAddressActivity';
@@ -13,7 +13,7 @@ function RecentBlock() {
 
 
     useEffect(() => {
-        setSelectedNetwork(getNetworkState(router.query));
+        setSelectedNetwork(getNetworkParam());
     }, [])
 
     return (

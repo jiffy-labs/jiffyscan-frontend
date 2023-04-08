@@ -67,7 +67,7 @@ export default function TransactionDetails({ item, network }: any) {
                                         </td>) : (
                                             <td className="py-[14px] px-4 whitespace-pre">
                                                 <span className="text-dark-600 text-sm leading-5">
-                                                    Does not seem like a Smart Contract Wallet, just a normal address.
+                                                    Possibly not a 4337 compliant wallet.
                                                 </span>
                                             </td>
                                         )}

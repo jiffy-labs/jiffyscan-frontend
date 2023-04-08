@@ -4,15 +4,9 @@ import { useConfig } from '@/context/config';
 import router from 'next/router';
 import React, { ReactElement } from 'react';
 import { useEffect } from 'react';
-import { getNetworkState } from '@/components/common/utils';
+import { getNetworkParam } from '@/components/common/utils';
 
 function LatestBundles() {
-    const { selectedNetwork, setSelectedNetwork } = useConfig();
-
-    useEffect(() => {
-        setSelectedNetwork(getNetworkState(router.query));
-    }, [])
-    
     return (
         <div>
             <LatestBundlesComponent />

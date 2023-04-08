@@ -1,4 +1,5 @@
 import { fallBack, NETWORK_LIST } from '@/components/common/constants';
+import { getNetworkParam } from '@/components/common/utils';
 import { useRouter } from 'next/router';
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 
@@ -29,19 +30,21 @@ export function ConfigProvider({ children }: Props) {
     // Get the current query parameters
     const { query } = router;
 
-    const [selectedNetwork, setSelectedNetwork] = useState(fallBack);
+    const [selectedNetwork, setSelectedNetwork] = useState('');
 
     useEffect(() => {
-        if (selectedNetwork == fallBack) {
-            const network = localStorage.getItem('network') == null ? 'mainnet' : localStorage.getItem('network') as string;
-            setSelectedNetwork(network);
-        }
-    });
+        setSelectedNetwork(getNetworkParam());
+    }, [])
 
     useEffect(() => {
-        if (selectedNetwork == fallBack) return;
-        localStorage.setItem('network', selectedNetwork);
-    }, [selectedNetwork])
+        // if (query?.network == selectedNetwork) return;
+        console.log('selectedNetwork: ', selectedNetwork);
+        const href = {
+            pathname: router.basePath,    
+            query: {...query, network: selectedNetwork},
+        };
+        router.push(href, undefined, { shallow: true });
+    }, [selectedNetwork]);
     
     const value: ConfigContextType = {
         selectedNetwork,

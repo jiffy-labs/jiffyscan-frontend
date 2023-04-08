@@ -1,5 +1,5 @@
 import { fallBack } from '@/components/common/constants';
-import { getNetworkState } from '@/components/common/utils';
+import { getNetworkParam } from '@/components/common/utils';
 import Layout from '@/components/globals/Layout';
 import { useConfig } from '@/context/config';
 import UserOperations from '@/views/userOp/UserOperation';

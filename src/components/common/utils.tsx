@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { NETWORK_ICON_MAP } from './constants';
 
 export const getTimePassed = (timestamp: number): string => {
     let timePassedInEpoch = new Date().getTime() - timestamp * 1000;
@@ -56,12 +57,28 @@ export const shortenString = (str: string) => {
     return `${firstChars}...${lastChars}`;
 };
 
-export const getNetworkState = (query:any) => {
-    console.log(query);
-    let network = query['network']?.toString();
-    let storedNetwork = localStorage.getItem('network');
-    if (storedNetwork && storedNetwork != network) {
-        network = storedNetwork;
+const getNetworkFromUrl = () => {
+    // console.log('what is window?' , window.location)
+    var url_string = window.location.href; 
+    var url = new URL(url_string);
+    var network = url.searchParams.get("network");
+    // console.log('network ', network);
+    return network;
+}
+
+export const getNetworkParam = () => {
+    // console.log('query', query);
+    // console.log(JSON.stringify(query));
+    let network = getNetworkFromUrl();
+    network = network ? network : 'mainnet';
+
+    if (!(network in NETWORK_ICON_MAP)) {
+        network = 'mainnet';
     }
-    return network != null ? network : 'mainnet';
+    // let storedNetwork = localStorage.getItem('network');
+    // if (storedNetwork && storedNetwork != network) {
+    //     network = storedNetwork;
+    // }
+    // console.log('returning network', network);
+    return network;
 };
