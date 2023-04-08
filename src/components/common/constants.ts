@@ -18,6 +18,18 @@ export const NETWORK_LIST = [
         iconPathInverted: '/images/icon-container (6).svg',
     },
     {
+        name: 'Arbitrum One',
+        key: 'arbitrum-one',
+        iconPath: '/images/arbitrum-logo.svg',
+        iconPathInverted: '/images/arbitrum-logo.svg',
+    },
+    {
+        name: 'Arbitrum Goerli',
+        key: 'arbitrum-goerli',
+        iconPath: '/images/arbitrum-logo.svg',
+        iconPathInverted: '/images/arbitrum-logo.svg',
+    },
+    {
         name: 'Optimism Goerli',
         key: 'optimism-goerli',
         iconPath: '/images/icon-container (6).svg',
@@ -35,18 +47,6 @@ export const NETWORK_LIST = [
         iconPath: '/images/polygon-mumbai-icon.svg',
         iconPathInverted: '/images/polygon-mumbai-inverted.svg',
     },
-    {
-        name: 'Arbitrum One',
-        key: 'arbitrum-one',
-        iconPath: '/images/arbitrum-logo.svg',
-        iconPathInverted: '/images/arbitrum-logo.svg',
-    },
-    {
-        name: 'Arbitrum Goerli',
-        key: 'arbitrum-goerli',
-        iconPath: '/images/arbitrum-logo.svg',
-        iconPathInverted: '/images/arbitrum-logo.svg',
-    }
 ];
 
 interface NETWORK_ICON_MAP {

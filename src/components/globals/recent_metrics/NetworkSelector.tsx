@@ -4,6 +4,8 @@ import { NETWORK_LIST } from '@/components/common/constants';
 import ChipDropdown from '@/components/common/chip/ChipDropdown';
 import useWindowDimensions from './utils';
 
+const SET_DEFAULT_CHIP_SIZE = 4;
+
 function NetworkSelector({
     selectedNetwork,
     handleNetworkChange,
@@ -14,15 +16,16 @@ function NetworkSelector({
     disabled: boolean;
 }) {
     const [isMoreSelected, setIsMoreSelected] = useState(false);
-    const [endIndex, setEndIndex] = useState(3);
-
+    const [endIndex, setEndIndex] = useState(SET_DEFAULT_CHIP_SIZE);
     const width = useWindowDimensions().width;
+
+    console.log(selectedNetwork);
 
     useEffect(() => {
         // If width more than 768px, display 3 chips, else display 1 chip
         // and everything else in dropdown
         if ((width as number) > 768) {
-            setEndIndex(3);
+            setEndIndex(SET_DEFAULT_CHIP_SIZE);
         } else {
             setEndIndex(1);
             setIsMoreSelected(false);
