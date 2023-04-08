@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { fallBack } from '../constants';
 
 export interface UserOp {
     id: string | null;
@@ -66,8 +67,13 @@ export interface PoweredBy {
     beneficiary: string;
 }
 
+const performApiCall = (network: string): boolean => {
+    if (!network && network != fallBack) return false;
+    return true
+}
+
 export const getLatestUserOps = async (selectedNetwork: string, pageSize: number, pageNo: number): Promise<UserOp[]> => {
-    if (!selectedNetwork) return [] as UserOp[]; 
+    if (!performApiCall(selectedNetwork)) return [] as UserOp[]; 
     const response = await fetch(
         'https://api.jiffyscan.xyz/v0/getLatestUserOps?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
     );
@@ -79,7 +85,7 @@ export const getLatestUserOps = async (selectedNetwork: string, pageSize: number
 };
 
 export const getLatestBundles = async (selectedNetwork: string, pageSize: number, pageNo: number): Promise<Bundle[]> => {
-    if (!selectedNetwork) return [] as Bundle[];
+    if (!performApiCall(selectedNetwork)) return [] as Bundle[];
     const response = await fetch(
         'https://api.jiffyscan.xyz/v0/getLatestBundles?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
     );
@@ -91,7 +97,7 @@ export const getLatestBundles = async (selectedNetwork: string, pageSize: number
 };
 
 export const getDailyMetrics = async (selectedNetwork: string, noOfDays: number): Promise<DailyMetric[]> => {
-    if (!selectedNetwork) return [] as DailyMetric[];
+    if (!performApiCall(selectedNetwork)) return [] as DailyMetric[];
     const response = await fetch('https://api.jiffyscan.xyz/v0/getDailyMetrics?network=' + selectedNetwork + '&noOfDays=' + noOfDays);
     const data = await response.json();
     if ('metrics' in data) {
@@ -101,7 +107,7 @@ export const getDailyMetrics = async (selectedNetwork: string, noOfDays: number)
 };
 
 export const getGlobalMetrics = async (selectedNetwork: string): Promise<GlobalCounts> => {
-    if (!selectedNetwork) return {} as GlobalCounts;
+    if (!performApiCall(selectedNetwork)) return {} as GlobalCounts;
     const response = await fetch('https://api.jiffyscan.xyz/v0/getGlobalCounts?network=' + selectedNetwork);
     const data = await response.json();
     if ('metrics' in data) {
@@ -110,7 +116,7 @@ export const getGlobalMetrics = async (selectedNetwork: string): Promise<GlobalC
     return {} as GlobalCounts;
 };
 export const getUserOp = async (userOpHash: string, selectedNetwork: string | null): Promise<UserOp[]> => {
-    if (!selectedNetwork) return [] as UserOp[];
+    if (!performApiCall(selectedNetwork)) return [] as UserOp[];
     const response = await fetch(
         'https://api.jiffyscan.xyz/v0/getUserOp?hash=' + userOpHash + (selectedNetwork ? '&network=' + selectedNetwork : ''),
     );
@@ -122,7 +128,7 @@ export const getUserOp = async (userOpHash: string, selectedNetwork: string | nu
     return [] as UserOp[];
 };
 export const getAddressActivity = async (userOpHash: string, selectedNetwork: string): Promise<UserOp[]> => {
-    if (!selectedNetwork) return [] as UserOp[];
+    if (!performApiCall(selectedNetwork)) return [] as UserOp[];
     const response = await fetch('https://api.jiffyscan.xyz/v0/getAddressActivity?address=' + userOpHash + '&network=' + selectedNetwork);
     const data = await response.json();
     if ('userOps' in data) {
@@ -132,7 +138,7 @@ export const getAddressActivity = async (userOpHash: string, selectedNetwork: st
     return [] as UserOp[];
 };
 export const getPayMasterDetails = async (userOpHash: string, selectedNetwork: string): Promise<UserOp[]> => {
-    if (!selectedNetwork) return [] as UserOp[];
+    if (!performApiCall(selectedNetwork)) return [] as UserOp[];
     const response = await fetch('https://api.jiffyscan.xyz/v0/getPaymasterActivity?address=' + userOpHash + '&network=' + selectedNetwork);
     const data = await response.json();
     if ('userOps' in data) {
@@ -157,7 +163,7 @@ export const getPoweredBy = async (beneficiary: string, paymaster: string): Prom
 };
 
 export const getBlockDetails = async (blockNumber: string, selectedNetwork: string): Promise<UserOp[]> => {
-    if (!selectedNetwork) return [] as UserOp[];
+    if (!performApiCall(selectedNetwork)) return [] as UserOp[];
     const response = await fetch(
         'https://api.jiffyscan.xyz/v0/getBlockActivity?blockNumber=' + blockNumber + '&network=' + selectedNetwork,
     );

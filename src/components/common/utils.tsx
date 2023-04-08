@@ -55,3 +55,13 @@ export const shortenString = (str: string) => {
 
     return `${firstChars}...${lastChars}`;
 };
+
+export const getNetworkState = (query:any) => {
+    console.log(query);
+    let network = query['network']?.toString();
+    let storedNetwork = localStorage.getItem('network');
+    if (storedNetwork && storedNetwork != network) {
+        network = storedNetwork;
+    }
+    return network != null ? network : 'mainnet';
+};

@@ -3,17 +3,13 @@ import { useConfig } from '@/context/config';
 import Home from '@/views/home/Home';
 import React, { ReactElement, useEffect } from 'react';
 import Layout from '@/components/globals/Layout';
+import { getNetworkState } from '@/components/common/utils';
 
 function Index() {
     const router = useRouter();
     const { query } = router;
     
     const { selectedNetwork, setSelectedNetwork } = useConfig();
-    const getNetworkState = (query:any) => {
-        console.log(query);
-        let network = query['network']?.toString();
-        return network != null ? network : 'mainnet';
-    };
 
     useEffect(() => {
         setSelectedNetwork(getNetworkState(router.query));

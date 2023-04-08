@@ -3,16 +3,12 @@ import Layout from '@/components/globals/Layout';
 import { useConfig } from '@/context/config';
 import LatestUserOpsComponent from '@/views/recentUserOps/UserOperations';
 import { useRouter } from 'next/router';
+import { getNetworkState } from '@/components/common/utils';
 
 function LatestUserOps() {
     const router = useRouter();
     const { setSelectedNetwork } = useConfig();
 
-    const getNetworkState = (query:any) => {
-        console.log(query);
-        let network = query['network']?.toString();
-        return network != null ? network : 'mainnet';
-    };
 
     useEffect(() => {
         setSelectedNetwork(getNetworkState(router.query));

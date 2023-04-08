@@ -66,3 +66,5 @@ export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
     arbitrum: 'https://arbiscan.io/tx/',
     optimism: 'https://optimistic.etherscan.io/tx/',
 };
+
+export const fallBack = "fallback";
