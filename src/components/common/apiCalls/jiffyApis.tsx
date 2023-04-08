@@ -139,9 +139,9 @@ export const getGlobalMetrics = async (selectedNetwork: string): Promise<GlobalC
     }
     return {} as GlobalCounts;
 };
-export const getUserOp = async (userOpHash: string, selectedNetwork: string): Promise<UserOp[]> => {
+export const getUserOp = async (userOpHash: string): Promise<UserOp[]> => {
     const response = await fetch(
-        'https://api.jiffyscan.xyz/v0/getUserOp?hash=' + userOpHash + (selectedNetwork ? '&network=' + selectedNetwork : ''),
+        'https://api.jiffyscan.xyz/v0/getUserOp?hash=' + userOpHash,
     );
     const data = await response.json();
     if ('userOps' in data) {
@@ -166,7 +166,13 @@ export const getAddressActivity = async (
             pageSize +
             '&skip=' +
             pageNo * pageSize,
-    );
+    ).catch((e) => {
+        console.log(e);
+        return null;
+    });
+    
+    if (response == null) return {} as AddressActivity;
+
     const data = await response.json();
     if ('accountDetail' in data) {
         return data.accountDetail as AddressActivity;

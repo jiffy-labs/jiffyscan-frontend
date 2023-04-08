@@ -71,7 +71,7 @@ const getPercentageChange = (numberArray: number[]) => {
     const firstHalfSum = getSum(firstHalf);
     const secondHalf = numberArray.slice(-numberArray.length / 2);
     const secondHalfSum = getSum(secondHalf);
-    if (firstHalfSum == 0) return 'NaN';
+    if (firstHalfSum == 0) return '0';
     const percentageChange = ((secondHalfSum - firstHalfSum) / firstHalfSum) * 100;
     return percentageChange.toFixed(1).toString();
 };

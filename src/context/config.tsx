@@ -38,11 +38,17 @@ export function ConfigProvider({ children }: Props) {
 
     useEffect(() => {
         // if (query?.network == selectedNetwork) return;
+        if (!selectedNetwork) return;
         console.log('selectedNetwork: ', selectedNetwork);
+        console.log(JSON.stringify(router));
+        console.log(window.location)
+
         const href = {
-            pathname: router.basePath,    
-            query: {...query, network: selectedNetwork},
+            pathname: window.location.pathname,    
+            query: {network: selectedNetwork},
         };
+
+        console.log(JSON.stringify(href));
         router.push(href, undefined, { shallow: true });
     }, [selectedNetwork]);
     
