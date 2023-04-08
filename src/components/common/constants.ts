@@ -61,6 +61,7 @@ export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
     'optimism-goerli': '/images/icon-container (6).svg',
     optimism: '/images/icon-container (6).svg',
     'arbitrum-one': '/images/arbitrum-logo.svg',
+    'arbitrum-goerli': '/images/arbitrum-logo.svg',
 };
 
 export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
@@ -70,6 +71,7 @@ export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
     matic: 'https://polygonscan.com/tx/',
     'optimism-goerli': 'https://goerli-optimism.etherscan.io/tx/',
     'arbitrum-one': 'https://arbiscan.io/tx/',
+    'arbitrum-goerli': 'https://goerli.arbiscan.io/tx/',
     optimism: 'https://optimistic.etherscan.io/tx/',
 };
 
