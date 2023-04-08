@@ -12,16 +12,16 @@ export const NETWORK_LIST = [
         iconPathInverted: '/images/eth-diamond-purple.svg',
     },
     {
-        name: 'Optimism',
-        key: 'optimism',
-        iconPath: '/images/icon-container (6).svg',
-        iconPathInverted: '/images/icon-container (6).svg',
-    },
-    {
         name: 'Arbitrum One',
         key: 'arbitrum-one',
         iconPath: '/images/arbitrum-logo.svg',
         iconPathInverted: '/images/arbitrum-logo.svg',
+    },
+    {
+        name: 'Optimism Goerli',
+        key: 'optimism-goerli',
+        iconPath: '/images/icon-container (6).svg',
+        iconPathInverted: '/images/icon-container (6).svg',
     },
     {
         name: 'Arbitrum Goerli',
@@ -30,8 +30,8 @@ export const NETWORK_LIST = [
         iconPathInverted: '/images/arbitrum-logo.svg',
     },
     {
-        name: 'Optimism Goerli',
-        key: 'optimism-goerli',
+        name: 'Optimism',
+        key: 'optimism',
         iconPath: '/images/icon-container (6).svg',
         iconPathInverted: '/images/icon-container (6).svg',
     },
