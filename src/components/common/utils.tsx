@@ -58,11 +58,9 @@ export const shortenString = (str: string) => {
 };
 
 const getNetworkFromUrl = () => {
-    // console.log('what is window?' , window.location)
     var url_string = window.location.href; 
     var url = new URL(url_string);
     var network = url.searchParams.get("network");
-    // console.log('network ', network);
     return network;
 }
 
@@ -72,8 +70,6 @@ const getLocallyStoredNetwork = () => {
 }
 
 export const getNetworkParam = () => {
-    // console.log('query', query);
-    // console.log(JSON.stringify(query));
     let network = getNetworkFromUrl();
 
     if (!network) {

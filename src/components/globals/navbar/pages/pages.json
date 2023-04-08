@@ -9,8 +9,8 @@
         "name": "Blockchain",
         "url": "/blockchain",
         "dropdown": [
-            ["Transactions", "/", "_self"],
-            ["Bundles", "/", "/recentBundles"],
+            ["UserOps", "/recentUserOps", "_self"],
+            ["Bundles", "/recentBundles", "_self"],
             ["Factories", "/", "_self"],
             ["Paymasters", "/", "_self"]
         ]

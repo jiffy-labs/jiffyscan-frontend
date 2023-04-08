@@ -47,7 +47,6 @@ export function ConfigProvider({ children }: Props) {
             query: {network: selectedNetwork},
         };
 
-        console.log(JSON.stringify(href));
         localStorage.setItem('network', selectedNetwork);
         router.push(href, undefined, { shallow: true });
     }, [selectedNetwork]);
