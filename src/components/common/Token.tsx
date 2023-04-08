@@ -6,15 +6,38 @@ import { useRouter } from 'next/router';
 import { shortenString } from './utils';
 import { NETWORK_SCANNER_MAP } from './constants';
 
-function Token({ icon, text, copyIcon, type }: { icon?: string; text: string; copyIcon?: string; type?: string }) {
+export interface TokenType {
+    icon?: string;
+    text: string;
+    copyIcon?: string;
+    type?: string;
+    onTokenClicked?: (value: number) => void;
+    value?: number;
+}
+
+function Token({
+    icon,
+    text,
+    copyIcon,
+    type,
+    onTokenClicked,
+    value
+}: TokenType) {
     const { selectedNetwork } = useConfig();
 
     return (
         <div className="flex items-center gap-2.5">
             {icon && <img src={icon} alt="" style={{ width: '20px', height: '20px' }} />}
-            <Link href={getHrefLink(type, text, selectedNetwork)} target={getTarget(type)} className="text-blue-200">
-                {shortenString(text)}
-            </Link>
+            {onTokenClicked ? (
+                <div onClick={() => onTokenClicked(value ? value : 0)} className="text-blue-200">
+                    {shortenString(text)}
+                </div>
+            ) : (
+                <Link href={getHrefLink(type, text, selectedNetwork)} target={getTarget(type)} className="text-blue-200">
+                    {shortenString(text)}
+                </Link>
+            )}
+
             <CopyButton text={text} copyIcon={copyIcon} />
         </div>
     );

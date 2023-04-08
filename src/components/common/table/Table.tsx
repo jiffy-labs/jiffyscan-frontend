@@ -1,6 +1,6 @@
 import Chip, { ChipProps } from '@/components/common/chip/Chip';
 import React, { useEffect, useState } from 'react';
-import Token from '@/components/common/Token';
+import Token, { TokenType } from '@/components/common/Token';
 import Caption, { CaptionProps } from './Caption';
 import ScrollContainer from 'react-indiana-drag-scroll';
 import useWidth from '@/hooks/useWidth';
@@ -15,11 +15,7 @@ export interface tableDataT {
         sort: boolean;
     }[];
     rows: {
-        token?: {
-            text: string;
-            icon: string;
-            type: string;
-        };
+        token?: TokenType;
         ago?: string;
         sender?: string;
         target?: string;
@@ -28,6 +24,7 @@ export interface tableDataT {
         status?: Boolean;
     }[];
     loading: boolean;
+    onRowClick?: (idx: number) => void;
 }
 
 export interface fee {
@@ -58,7 +55,7 @@ export const getFee = (amount: number, network: string): fee => {
 };
 
 function Table(props: tableDataT) {
-    const { rows, columns, caption } = props;
+    const { rows, columns, caption, onRowClick } = props;
     const width = useWidth();
 
     let skeletonCards = Array(5).fill(0);

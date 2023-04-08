@@ -10,7 +10,7 @@ import IconText from '@/components/common/IconText';
 import Chip from '@/components/common/chip/Chip';
 import sx from './usertable.module.sass';
 import { useRouter } from 'next/router';
-import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
+import { getTimePassed, shortenString } from '@/components/common/utils';
 import { fallBack, NETWORK_ICON_MAP, NETWORK_LIST, NETWORK_SCANNER_MAP } from '@/components/common/constants';
 
 import Tooltip from '@mui/material/Tooltip';
@@ -20,6 +20,8 @@ import HeaderSection from './HeaderSection';
 import TransactionDetails from './TransactionDetails';
 import DeveloperDetails from './DeveloperDetails';
 import { useConfig } from '@/context/config';
+import Table, { tableDataT, getFee } from '@/components/common/table/Table';
+import User from '@/components/globals/navbar/User';
 // import Skeleton from '@/components/Skeleton';
 export const BUTTON_LIST = [
     {
@@ -37,6 +39,29 @@ const columns = [
     { name: 'Sender', sort: true },
     { name: 'Target', sort: true },
 ];
+
+const createDuplicateUserOpsRows = (userOps: UserOp[], handleRowClicked: (id: number) => void): tableDataT['rows'] => {
+    let newRows = [] as tableDataT['rows'];
+    if (!userOps) return newRows;
+    userOps.forEach((userOp, i) => {
+        newRows.push({
+            token: {
+                text: userOp.userOpHash,
+                icon: NETWORK_ICON_MAP[userOp.network],
+                type: 'userOp',
+                onTokenClicked: handleRowClicked,
+                value: i
+            },
+            ago: getTimePassed(userOp.blockTime!),
+            sender: userOp.sender,
+            target: userOp.target!,
+            fee: getFee(userOp.actualGasCost, userOp.network as string),
+            status: userOp.success!,
+        });
+    });
+    return newRows;
+}
+
 function RecentUserOps(props: any) {
     const router = useRouter();
     const [open, setOpen] = useState(false);
@@ -49,12 +74,15 @@ function RecentUserOps(props: any) {
     const [selectedColor, setSelectedColor] = useState(BUTTON_LIST[0].key);
     const [useOpsData, setuserOpsData] = useState<UserOp[]>();
     const [responseData, setresponseData] = useState<PoweredBy>();
+    const [duplicateUserOpsRows, setDuplicateUserOpsRows] = useState<tableDataT['rows']>([] as tableDataT['rows']);
 
     const refreshUserOpsTable = async (name: string, network: string) => {
         setTableLoading(true);
         const userOps = await getUserOp(name);
 
         setuserOpsData(userOps);
+        let rows: tableDataT['rows'] = createDuplicateUserOpsRows(userOps, handleDuplicateRowClick);
+        setDuplicateUserOpsRows(rows);
 
         if (userOps[0] && userOps[0].network) {
             setSelectedNetwork(userOps[0].network);
@@ -64,6 +92,14 @@ function RecentUserOps(props: any) {
             setTableLoading(false);
         }, 2000);
     };
+
+    const handleDuplicateRowClick = (id: number) => {
+        console.log('here')
+        const selectedUserOpsData = useOpsData?.[id]
+        if (selectedUserOpsData) {
+            setuserOpsData([selectedUserOpsData]);
+        }
+    }
 
     let prevHash = hash;
     useEffect(() => {
@@ -125,77 +161,18 @@ function RecentUserOps(props: any) {
                 </div>
             </section>
             {useOpsData && useOpsData.length > 1 ? (
-                <>
-                    <div className="overflow-auto flex-1 max-h-[290px] custom-scroll  container mb-5 bg-white border-dark-200 rounded border">
-                        <table className="min-w-full divide-y divide-dark-100">
-                            <thead className="bg-white">
-                                <tr>
-                                    {columns.map(({ name, sort }, key) => {
-                                        return (
-                                            <th
-                                                key={key}
-                                                className={`py-3.5 border-b border-dark-100 group ${
-                                                    columns.length <= 3 ? 'md:first:wx-[55%]' : ''
-                                                }`}
-                                            >
-                                                <div
-                                                    role={sort ? 'button' : undefined}
-                                                    className={`flex items-center gap-2.5 ${columns.length <= 3 ? '' : ''}`}
-                                                >
-                                                    <span>{name}</span>
-                                                    {name === 'Age' ? sort && <img src="/images/span.svg" alt="" /> : null}
-                                                </div>
-                                            </th>
-                                        );
-                                    })}
-                                </tr>
-                            </thead>
-                            {tableLoading ? (
-                                <tbody>
-                                    {skeletonCards.map((index: number) => {
-                                        return (
-                                            <>
-                                                <tr>
-                                                    <td colSpan={5}>
-                                                        <Skeleton height={40} key={index} />
-                                                    </td>
-                                                </tr>
-                                            </>
-                                        );
-                                    })}
-                                </tbody>
-                            ) : (
-                                <tbody className="divide-y divide-dark-100">
-                                    {useOpsData?.map((item, index) => {
-                                        return (
-                                            <tr key={index}>
-                                                <td className="text-black[87%] text-sm leading-5  py-[14px] px-4">
-                                                    {shortenString(item.userOpHash)}
-                                                </td>
-                                                <td className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5">
-                                                    {getTimePassed(item.blockTime!)}
-                                                </td>
-                                                <td
-                                                    className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5 text-blue-200"
-                                                    onClick={() => {
-                                                        setuserOpsData([item]);
-                                                    }}
-                                                >
-                                                    {shortenString(item.sender)}
-                                                </td>
-                                                <td className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5">
-                                                    <span className="text-dark-700 text-sm leading-5">
-                                                        {shortenString(item.target! ? item.target! : '')}
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        );
-                                    })}
-                                </tbody>
-                            )}
-                        </table>
-                    </div>
-                </>
+                <div className="container">
+                    <Table 
+                        columns={columns}
+                        rows={duplicateUserOpsRows}
+                        loading={tableLoading}
+                        caption={{
+                            children: 'Duplicate User Operations',
+                            icon: '/images/cube.svg',
+                            text: 'Approx Number of Operations Processed in the selected chain',
+                        }}
+                    />
+                </div>
             ) : (
                 <>
                     {useOpsData?.map((item) => {
