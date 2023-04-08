@@ -34,10 +34,11 @@ export default function TransactionDetails({ item, network }: any) {
                         ) : (
                             <table className="min-w-full divide-y divide-gray-600">
                                 <tbody className="min-w-full divide-y divide-gray-300">
-                                    <tr>
+                                     <tr>
                                         <td className="py-[14px] px-4 min-w-[205px]">
                                             <IconText icon={'/images/sader.svg'}>Deployment Date</IconText>
                                         </td>
+                                        { item?.userOpHash ? (
                                         <td className="py-[14px] px-4 whitespace-pre">
                                             <div className="flex items-center gap-2 flex-1">
                                                 <Link
@@ -63,8 +64,15 @@ export default function TransactionDetails({ item, network }: any) {
                                                     <img src="/images/share.svg" alt="" />
                                                 </button>
                                             </div>
-                                        </td>
-                                    </tr>
+                                        </td>) : (
+                                            <td className="py-[14px] px-4 whitespace-pre">
+                                                <span className="text-dark-600 text-sm leading-5">
+                                                    Does not seem like a Smart Contract Wallet, just a normal address.
+                                                </span>
+                                            </td>
+                                        )}
+
+                                    </tr> 
 
                                     <tr>
                                         <td className="py-[14px] px-4 min-w-[205px]">
