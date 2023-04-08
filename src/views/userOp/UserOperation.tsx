@@ -73,6 +73,7 @@ function RecentUserOps(props: any) {
 
     const [selectedColor, setSelectedColor] = useState(BUTTON_LIST[0].key);
     const [useOpsData, setuserOpsData] = useState<UserOp[]>();
+    const [showUserOpId, setShowUserOpId] = useState<number>(-1);
     const [responseData, setresponseData] = useState<PoweredBy>();
     const [duplicateUserOpsRows, setDuplicateUserOpsRows] = useState<tableDataT['rows']>([] as tableDataT['rows']);
 
@@ -83,6 +84,7 @@ function RecentUserOps(props: any) {
         setuserOpsData(userOps);
         let rows: tableDataT['rows'] = createDuplicateUserOpsRows(userOps, handleDuplicateRowClick);
         setDuplicateUserOpsRows(rows);
+        if (userOps.length == 1) setShowUserOpId(0);
 
         if (userOps[0] && userOps[0].network) {
             setSelectedNetwork(userOps[0].network);
@@ -94,11 +96,7 @@ function RecentUserOps(props: any) {
     };
 
     const handleDuplicateRowClick = (id: number) => {
-        console.log('here')
-        const selectedUserOpsData = useOpsData?.[id]
-        if (selectedUserOpsData) {
-            setuserOpsData([selectedUserOpsData]);
-        }
+        setShowUserOpId(id);
     }
 
     let prevHash = hash;
@@ -151,7 +149,8 @@ function RecentUserOps(props: any) {
                             <Link
                                 underline="hover"
                                 color="text.primary"
-                                href={`/userOpHash/${hash}?network=${network ? network : ''}`}
+                                // href={`/userOpHash/${hash}?network=${network ? network : ''}`}
+                                onClick={() => setShowUserOpId(-1)}
                                 aria-current="page"
                             >
                                 {shortenString(hash as string)}
@@ -160,7 +159,7 @@ function RecentUserOps(props: any) {
                     </div>
                 </div>
             </section>
-            {useOpsData && useOpsData.length > 1 ? (
+            {showUserOpId == -1 ? (
                 <div className="container">
                     <Table 
                         columns={columns}
