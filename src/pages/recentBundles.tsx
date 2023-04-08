@@ -1,10 +1,11 @@
 import Layout from '@/components/globals/Layout';
+import LatestBundlesComponent from '@/views/recentBundles/Bundles';
 import { useConfig } from '@/context/config';
-import LatestBundles from '@/views/recentBundles/Bundles';
 import router from 'next/router';
-import React, { ReactElement, useEffect } from 'react';
+import React, { ReactElement } from 'react';
+import { useEffect } from 'react';
 
-function latestBundles() {
+function LatestBundles() {
     const { selectedNetwork, setSelectedNetwork } = useConfig();
 
     const getNetworkState = (query:any) => {
@@ -19,11 +20,11 @@ function latestBundles() {
     
     return (
         <div>
-            <LatestBundles />
+            <LatestBundlesComponent />
         </div>
     );
 }
 
-export default latestBundles;
+export default LatestBundles;
 
-latestBundles.getLayout = (page: ReactElement) => <Layout>{page}</Layout>;
+LatestBundles.getLayout = (page: ReactElement) => <Layout>{page}</Layout>;

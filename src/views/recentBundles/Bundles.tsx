@@ -85,7 +85,7 @@ function UserOperations() {
                             />
                         </Link>
                         <Breadcrumbs aria-label="breadcrumb" className="font-['Roboto']">
-                            <Link underline="hover" color="inherit" href="/">
+                            <Link underline="hover" color="inherit" href={`/?network=${selectedNetwork ? selectedNetwork : ''}`}>
                                 Home
                             </Link>
                             <Link underline="hover" color="text.primary" href="/recentBundles" aria-current="page">

@@ -1,12 +1,12 @@
+import React, { ReactElement, useEffect } from 'react';
 import Layout from '@/components/globals/Layout';
 import { useConfig } from '@/context/config';
-import LatestUserOps from '@/views/recentUserOps/UserOperations';
+import LatestUserOpsComponent from '@/views/recentUserOps/UserOperations';
 import { useRouter } from 'next/router';
-import React, { ReactElement, useEffect } from 'react';
 
-function latestUserOps() {
+function LatestUserOps() {
     const router = useRouter();
-    const { selectedNetwork, setSelectedNetwork } = useConfig();
+    const { setSelectedNetwork } = useConfig();
 
     const getNetworkState = (query:any) => {
         console.log(query);
@@ -20,11 +20,11 @@ function latestUserOps() {
     
     return (
         <div>
-            <LatestUserOps />
+            <LatestUserOpsComponent />
         </div>
     );
 }
 
-export default latestUserOps;
+export default LatestUserOps;
 
-latestUserOps.getLayout = (page: ReactElement) => <Layout>{page}</Layout>;
+LatestUserOps.getLayout = (page: ReactElement) => <Layout>{page}</Layout>;
