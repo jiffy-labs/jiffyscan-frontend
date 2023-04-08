@@ -21,7 +21,8 @@
                     "children": "ETH",
                     "color": "info"
                 }
-            }
+            },
+            "success": "true"
         },
         {
             "token": {
@@ -37,7 +38,8 @@
                     "children": "GWEI",
                     "color": "success"
                 }
-            }
+            },
+            "success": "true"
         },
         {
             "token": {
@@ -53,7 +55,8 @@
                     "children": "ETH",
                     "color": "info"
                 }
-            }
+            },
+            "success": "true"
         },
         {
             "token": {
@@ -69,7 +72,8 @@
                     "children": "GWEI",
                     "color": "success"
                 }
-            }
+            },
+            "success": "true"
         },
         {
             "token": {
@@ -85,7 +89,8 @@
                     "children": "ETH",
                     "color": "info"
                 }
-            }
+            },
+            "success": "true"
         },
         {
             "token": {
@@ -101,7 +106,8 @@
                     "children": "GWEI",
                     "color": "success"
                 }
-            }
+            },
+            "success": "true"
         },
         {
             "token": {
@@ -117,7 +123,8 @@
                     "children": "ETH",
                     "color": "info"
                 }
-            }
+            },
+            "success": "true"
         },
         {
             "token": {
@@ -133,7 +140,8 @@
                     "children": "GWEI",
                     "color": "success"
                 }
-            }
+            },
+            "success": "true"
         },
         {
             "token": {
@@ -149,7 +157,8 @@
                     "children": "ETH",
                     "color": "info"
                 }
-            }
+            },
+            "success": "false"
         },
         {
             "token": {
@@ -165,7 +174,8 @@
                     "children": "GWEI",
                     "color": "success"
                 }
-            }
+            },
+            "success": "false"
         },
         {
             "token": {
@@ -181,7 +191,8 @@
                     "children": "ETH",
                     "color": "info"
                 }
-            }
+            },
+            "success": "false"
         },
         {
             "token": {

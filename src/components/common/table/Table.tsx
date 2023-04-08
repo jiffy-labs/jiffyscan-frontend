@@ -9,7 +9,7 @@ import Skeleton from 'react-loading-skeleton-2';
 // import Skeleton from '@/components/Skeleton';
 
 export interface tableDataT {
-    caption: CaptionProps;
+    caption?: CaptionProps;
     columns: {
         name: string;
         sort: boolean;
@@ -25,6 +25,7 @@ export interface tableDataT {
         target?: string;
         fee?: fee;
         userOps?: string;
+        status?: Boolean;
     }[];
     loading: boolean;
 }
@@ -63,15 +64,15 @@ function Table(props: tableDataT) {
     let skeletonCards = Array(5).fill(0);
     return (
         <div className="">
-            <Caption icon={caption.icon} text={caption.text}>
-                {caption.children}
+            <Caption icon={caption?.icon!} text={caption?.text}>
+                {caption?.children}
             </Caption>
             <ScrollContainer>
                 <div style={width < 768 ? { minWidth: columns?.length * 160 } : {}}>
                     <table className="w-full text-md bg-white shadow-200 border border-dark-100">
                         <thead>
                             <tr>
-                                {columns.map(({ name, sort }, key) => {
+                                {columns?.map(({ name, sort }, key) => {
                                     return (
                                         <th
                                             key={key}
@@ -109,7 +110,7 @@ function Table(props: tableDataT) {
                             </tbody>
                         ) : (
                             <tbody>
-                                {rows.map(({ ago, fee, sender, target, token, userOps }, index) => {
+                                {rows?.map(({ ago, fee, sender, target, token, userOps, status }, index) => {
                                     return (
                                         <tr
                                             key={index}
@@ -123,7 +124,23 @@ function Table(props: tableDataT) {
 
                                             {ago && (
                                                 <td className="">
-                                                    <span className="tracking-normal">{ago}</span>
+                                                    {status === true ? (
+                                                        <span className="flex items-center px-3 py-px  gap-2 rounded-full">
+                                                            <img src="/images/Success.svg" alt="" />{' '}
+                                                            <span className="tracking-normal">{ago}</span>
+                                                        </span>
+                                                    ) : (
+                                                        <>
+                                                            {status === false ? (
+                                                                <span className="flex items-center px-3 py-px  gap-2 rounded-full">
+                                                                    <img src="/images/failed.svg" alt="" />{' '}
+                                                                    <span className="tracking-normal">{ago}</span>
+                                                                </span>
+                                                            ) : (
+                                                                <span className="tracking-normal">{ago}</span>
+                                                            )}
+                                                        </>
+                                                    )}
                                                 </td>
                                             )}
                                             {userOps && (

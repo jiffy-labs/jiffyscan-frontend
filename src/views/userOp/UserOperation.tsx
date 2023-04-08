@@ -86,7 +86,7 @@ function RecentUserOps(props: any) {
     };
     useEffect(() => {
         fetchPoweredBy();
-    }, [useOpsData]);
+    }, []);
     let skeletonCards = Array(13).fill(0);
     let skeletonCards1 = Array(5).fill(0);
     return (
@@ -197,14 +197,12 @@ function RecentUserOps(props: any) {
                         return (
                             <>
                                 <HeaderSection item={item} network={network} />
-
                                 <TransactionDetails
                                     tableLoading={tableLoading}
                                     skeletonCards={skeletonCards}
                                     item={item}
                                     responseData={responseData}
                                 />
-
                                 <DeveloperDetails
                                     tableLoading={tableLoading}
                                     skeletonCards1={skeletonCards1}

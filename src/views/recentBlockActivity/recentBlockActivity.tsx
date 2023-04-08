@@ -67,7 +67,7 @@ function RecentBlockActivity(props: any) {
                             <Link
                                 underline="hover"
                                 color="text.primary"
-                                href={`/address/${hash}?network=${network ? network : ''}`}
+                                href={`/account/${hash}?network=${network ? network : ''}`}
                                 aria-current="page"
                             >
                                 {shortenString(hash as string)}
@@ -126,7 +126,19 @@ function RecentBlockActivity(props: any) {
                                             <Token text={item.userOpHash} type="userOp" />
                                         </td>
                                         <td className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5">
-                                            {getTimePassed(item.blockTime!)}
+                                            {item.success === true ? (
+                                                <span className="flex items-center px-3 py-px  gap-2 rounded-full">
+                                                    <img src="/images/Success.svg" alt="" />
+                                                    {getTimePassed(item.blockTime!)}
+                                                </span>
+                                            ) : (
+                                                <>
+                                                    <span className="flex items-center px-3 py-px  gap-2 rounded-full">
+                                                        <img src="/images/failed.svg" alt="" />
+                                                        {getTimePassed(item.blockTime!)}
+                                                    </span>
+                                                </>
+                                            )}
                                         </td>
                                         <td
                                             className={`${

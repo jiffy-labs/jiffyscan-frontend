@@ -65,6 +65,7 @@ function Home() {
                 ago: getTimePassed(userOp.blockTime!),
                 sender: userOp.sender,
                 target: userOp.target!,
+                status: userOp.success!,
             });
         });
         setOperationsTable({ ...operationsTable, rows: newRows.slice(0, 5) });

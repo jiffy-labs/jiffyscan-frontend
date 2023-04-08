@@ -5,7 +5,7 @@ import RecentAddressActivity from '@/views/recentAddressActivity/recentAddressAc
 import { useRouter } from 'next/router';
 import React, { ReactElement, useEffect } from 'react';
 
-function RecentAddress() {
+function RecentAccount() {
     const router = useRouter();
     const { slug } = router.query;
     const { selectedNetwork, setSelectedNetwork } = useConfig();
@@ -22,6 +22,6 @@ function RecentAddress() {
     );
 }
 
-export default RecentAddress;
+export default RecentAccount;
 
-RecentAddress.getLayout = (page: ReactElement) => <Layout>{page}</Layout>;
+RecentAccount.getLayout = (page: ReactElement) => <Layout>{page}</Layout>;
