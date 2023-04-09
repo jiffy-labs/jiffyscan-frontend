@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { NETWORK_LIST } from '@/components/common/constants';
 
-function Options() {
+function Options({networkValue, setNetworkValue}: {networkValue: number, setNetworkValue: (value: number) => void}) {
     const [open, setOpen] = useState<boolean>(false);
     const toggler = () => setOpen((v) => !v);
 
-    const [value, setValue] = useState<number>(0);
     const handleValue = (index: number) => {
-        setValue(index);
+        setNetworkValue(index);
         toggler();
     };
 
@@ -15,8 +14,8 @@ function Options() {
         <div className="relative z-0">
             <div className="py-3 px-4 border-r border-dark-200 bg-white flex items-center gap-1 text-md" role="button" onClick={toggler}>
                 {/* {/* <img src={NETWORK_LIST[value].img} alt="" /> */}
-                <span>{NETWORK_LIST[value].name}</span>
-                <img src={NETWORK_LIST[value].iconPathInverted} alt="" style={{ width: '20px', height: 'auto' }} />
+                <span>{NETWORK_LIST[networkValue].name}</span>
+                <img src={NETWORK_LIST[networkValue].iconPathInverted} alt="" style={{ width: '20px', height: 'auto' }} />
                 <img className={`duration-100 ${open ? 'rotate-180' : ''}`} src="/images/chevron-down.svg" alt="" />
             </div>
             {open && (

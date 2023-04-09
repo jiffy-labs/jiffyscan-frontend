@@ -82,3 +82,28 @@ export const getNetworkParam = () => {
 
     return network;
 };
+
+export const constructRedirectUrl = (type: string, network: string, term: string) => {
+    console.log('here ',type, network, term)
+    if (type === "userOpHash") {
+        return `/userOpHash/${term}/?network=${network}`;
+    } else if (type === "account") {
+        return `/account/${term}/?network=${network}`;
+    } else if (type === "paymaster") {
+        return `/paymaster/${term}/?network=${network}`;
+    } else if (type === "beneficiarie") {
+        return `/beneficiary/${term}/?network=${network}`;
+    } else if (type === "block") {
+        return `/block/${term}/?network=${network}`;
+    } else if (type === "bundle") {
+        return `/bundle/${term}/?network=${network}`;
+    }
+};
+
+export const checkIfValidTerm = (term: string) => {
+    if (!term) return false;
+    if (term.length === 42 && term.slice(0,2) == "0x") return true;
+    if (term.length === 66 && term.slice(0,2) == "0x") return true;
+    if (term.length < 11 && !isNaN(parseInt(term))) return true;
+    return false;
+}
