@@ -173,21 +173,20 @@ function RecentUserOps(props: any) {
                     />
                 </div>
             ) : (
-                <>
-                    {useOpsData?.map((item) => {
-                        return (
+                (useOpsData && showUserOpId>=0) &&
+                    (
                             <>
-                                <HeaderSection item={item} network={network} />
+                                <HeaderSection item={useOpsData[showUserOpId]} network={network} />
                                 <TransactionDetails
                                     tableLoading={tableLoading}
                                     skeletonCards={skeletonCards}
-                                    item={item}
+                                    item={useOpsData[showUserOpId]}
                                     responseData={responseData}
                                 />
                                 <DeveloperDetails
                                     tableLoading={tableLoading}
                                     skeletonCards1={skeletonCards1}
-                                    item={item}
+                                    item={useOpsData[showUserOpId]}
                                     selectedColor={selectedColor}
                                     BUTTON_LIST={BUTTON_LIST}
                                     setSelectedColor={setSelectedColor}
@@ -195,10 +194,9 @@ function RecentUserOps(props: any) {
                                     setOpen={setOpen}
                                 />
                             </>
-                        );
-                    })}
-                </>
-            )}
+                        )
+                    
+                    )}
 
             <Footer />
         </div>
