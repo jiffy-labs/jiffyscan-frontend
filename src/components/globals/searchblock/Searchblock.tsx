@@ -27,7 +27,6 @@ function Searchblock() {
     };
 
     const handleSubmit = async () => {
-        console.log(checkIfValidTerm(term));
         if (checkIfValidTerm(term)) {
             const res = await fetch(`https://api.jiffyscan.xyz/v0/searchEntry?entry=${term}&network=${NETWORK_LIST[networkValue].key}`);
             if (res.status === 200) {

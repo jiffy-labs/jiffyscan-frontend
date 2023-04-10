@@ -84,7 +84,6 @@ export const getNetworkParam = () => {
 };
 
 export const constructRedirectUrl = (type: string, network: string, term: string) => {
-    console.log('here ',type, network, term)
     if (type === "userOpHash") {
         return `/userOpHash/${term}/?network=${network}`;
     } else if (type === "account") {
