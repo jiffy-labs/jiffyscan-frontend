@@ -15,9 +15,10 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 const METRIC_DATA_POINT_SIZE = 14;
 const DEFAULT_PAGE_SIZE = 10;
 
-function UserOperations() {
+function UserOperations(props: any) {
     const { selectedNetwork, setSelectedNetwork } = useConfig();
     const [latestBundlesTable, setLatestBundlesTable] = useState<tableDataT>(table_data as tableDataT);
+    console.log("🚀 ~ file: Bundles.tsx:21 ~ UserOperations ~ latestBundlesTable:", latestBundlesTable)
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE);
     const [totalRows, setTotalRows] = useState(0);
@@ -53,6 +54,7 @@ function UserOperations() {
         setTableLoading(true);
         const bundles = await getLatestBundles(network, pageSize, pageNo);
         let newRows = [] as tableDataT['rows'];
+        console.log("🚀 ~ file: Bundles.tsx:57 ~ refreshUserOpsTable ~ newRows:", newRows)
         bundles.forEach((bundle) => {
             newRows.push({
                 token: {
@@ -61,7 +63,7 @@ function UserOperations() {
                     type: 'bundle',
                 },
                 ago: getTimePassed(bundle.blockTime),
-                userOps: bundle.userOpsLength + ' ops',
+                userOps: bundle.userOpsCount + ' ops',
             });
         });
         setLatestBundlesTable({ ...latestBundlesTable, rows: newRows.slice(0, 10) });

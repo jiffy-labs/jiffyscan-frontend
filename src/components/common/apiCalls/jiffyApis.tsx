@@ -60,6 +60,9 @@ export interface Bundle {
     network: string;
     blockNumber: number;
     blockTime: number;
+    from : string;
+    status : number;
+    transactionFee : number
     userOps: UserOp[];
 }
 
@@ -237,4 +240,34 @@ export const getAccountDetails = async (userOpHash: string, selectedNetwork: str
     }
 
     return {} as UserOp;
+};
+
+export const getBundleDetails = async (
+    userOpHash: string,
+    selectedNetwork: string,
+    // pageSize: number,
+    // pageNo: number,
+): Promise<Bundle> => {
+    if (!performApiCall(selectedNetwork)) return {} as Bundle;
+    const response = await fetch(
+        'https://api.jiffyscan.xyz/v0/getBundleActivity?bundle=' +
+            userOpHash +
+            '&network=' +
+            selectedNetwork 
+            // '&first=' 
+            // pageSize +
+            // '&skip=' +
+            // pageNo * pageSize,
+    ).catch((e) => {
+        console.log(e);
+        return null;
+    });
+    
+    if (response == null) return {} as Bundle;
+
+    const data = await response.json();
+    if ('bundleDetails' in data) {
+        return data.bundleDetails as Bundle;
+    }
+    return {} as Bundle;
 };

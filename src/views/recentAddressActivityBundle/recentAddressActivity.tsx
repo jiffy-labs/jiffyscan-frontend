@@ -1,7 +1,7 @@
 import Footer from '@/components/globals/footer/Footer';
 import Navbar from '@/components/globals/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
-import { getAddressActivity, UserOp, AddressActivity } from '@/components/common/apiCalls/jiffyApis';
+import { getBundleDetails, UserOp, AddressActivity,Bundle } from '@/components/common/apiCalls/jiffyApis';
 import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
@@ -36,6 +36,7 @@ const columns = [
     { name: 'Fee', sort: true },
 ];
 const createUserOpsTableRows = (userOps: UserOp[]): tableDataT['rows'] => {
+    console.log("🚀 ~ file: recentAddressActivity.tsx:39 ~ createUserOpsTableRows ~ userOps:", userOps)
     let newRows = [] as tableDataT['rows'];
     if (!userOps) return newRows;
     userOps.forEach((userOp) => {
@@ -56,21 +57,27 @@ const createUserOpsTableRows = (userOps: UserOp[]): tableDataT['rows'] => {
 };
 
 interface AccountInfo {
-    address: string;
-    totalDeposit: number;
-    userOpsCount: number;
-    userOpHash: string;
+    userOpsLength: number;
+    blockNumber: number;
     blockTime: number;
+    transactionHash: string;
+    from: string;
+    network : string;
+    status : number;
+    transactionFee : number
 }
 
-const createAccountInfoObject = (accountDetails: AddressActivity): AccountInfo => {
+const createAccountInfoObject = (bundleDetails: Bundle): AccountInfo => {
     return {
-        address: accountDetails.address,
-        totalDeposit: parseInt(accountDetails.totalDeposit),
-        userOpsCount: parseInt(accountDetails.userOpsCount),
-        userOpHash: accountDetails.userOpHash,
-        blockTime: parseInt(accountDetails.blockTime),
-    };
+        userOpsLength:bundleDetails.userOpsLength,
+        blockNumber: bundleDetails.blockNumber,
+        blockTime : bundleDetails.blockTime,
+        transactionHash: bundleDetails.transactionHash ,
+        network : bundleDetails.network,
+        status : bundleDetails.status,
+        transactionFee : bundleDetails.transactionFee,
+        from: bundleDetails.from
+    }
 };
 
 function RecentAddressActivity(props: any) {
@@ -91,7 +98,8 @@ function RecentAddressActivity(props: any) {
         if (addressInfo == undefined) {
             return;
         }
-        const addressDetail = await getAddressActivity(addressInfo.address, network ? network : '', pageNo, pageSize);
+        const addressDetail = await getBundleDetails(addressInfo.transactionHash, network ? network : '');
+        console.log("🚀 ~ file: recentAddressActivity.tsx:102 ~ updateRowsData ~ addressDetail:", addressDetail)
         const rows = createUserOpsTableRows(addressDetail.userOps);
         setRows(rows);
         setTableLoading(false);
@@ -106,8 +114,10 @@ function RecentAddressActivity(props: any) {
     // load the account details.
     const loadAccountDetails = async (name: string, network: string) => {
         setTableLoading(true);
-        const addressDetail = await getAddressActivity(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo);
+        const addressDetail = await getBundleDetails(name, network ? network : '');
+        console.log("🚀 ~ file: recentAddressActivity.tsx:117 ~ loadAccountDetails ~ addressDetail:", addressDetail)
         const accountInfo = createAccountInfoObject(addressDetail);
+        console.log("🚀 ~ file: recentAddressActivity.tsx:119 ~ loadAccountDetails ~ accountInfo:", accountInfo)
         setAddressInfo(accountInfo);
     };
 
@@ -116,7 +126,7 @@ function RecentAddressActivity(props: any) {
     }, [pageNo, addressInfo]);
 
     useEffect(() => {
-        const captionText = `${addressInfo?.userOpsCount} User Ops found`;
+        const captionText = `${addressInfo?.userOpsLength} User Ops found`;
         setCaptionText(captionText);
     }, [addressInfo]);
 
@@ -146,8 +156,8 @@ function RecentAddressActivity(props: any) {
                             <Link underline="hover" color="inherit" href={`/?network=${network ? network : ''}`}>
                                 Home
                             </Link>
-                            <Link underline="hover" color="inherit" href="/recentUserOps">
-                                Recent User Ops
+                            <Link underline="hover" color="inherit" href={`/block/${hash}?network=${network ? network : ''}`} >
+                               Block
                             </Link>
                             <Link
                                 underline="hover"
@@ -159,7 +169,7 @@ function RecentAddressActivity(props: any) {
                             </Link>
                         </Breadcrumbs>
                     </div>
-                    <h1 className="font-bold text-3xl">Account</h1>
+                    <h1 className="font-bold text-3xl">Bundle</h1>
                 </div>
             </section>
             <HeaderSection item={addressInfo} network={network} />
@@ -181,7 +191,7 @@ function RecentAddressActivity(props: any) {
                         setPageNo,
                         pageSize,
                         setPageSize,
-                        totalRows: addressInfo?.userOpsCount != null ? addressInfo.userOpsCount : 0,
+                        totalRows: addressInfo?.userOpsLength != null ? addressInfo.userOpsLength : 0,
                     }}
                 />
             </div>

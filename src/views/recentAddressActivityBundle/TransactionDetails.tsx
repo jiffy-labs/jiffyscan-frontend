@@ -3,12 +3,12 @@ import IconText from '@/components/common/IconText';
 import Caption from '@/components/common/table/Caption';
 import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
 import { Link } from '@mui/material';
+import moment from 'moment';
 import { useRouter } from 'next/router';
 
 import React, { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton-2';
 export default function TransactionDetails({ item, network }: any) {
-    console.log("🚀 ~ file: TransactionDetails.tsx:11 ~ TransactionDetails ~ item:", item)
     const [tableLoading1, setTableLoading1] = useState(true);
     useEffect(() => {
         setTableLoading1(true);
@@ -26,7 +26,7 @@ export default function TransactionDetails({ item, network }: any) {
                 <div className="container px-0">
                     <div>
                         <Caption icon={'/images/cube.svg'} text={''}>
-                            Account Details
+                            Bundle Details
                         </Caption>
                     </div>
                     <div className="bg-white overflow-auto rounded shadow-300 mb-[20px]">
@@ -35,52 +35,55 @@ export default function TransactionDetails({ item, network }: any) {
                         ) : (
                             <table className="min-w-full divide-y divide-gray-600">
                                 <tbody className="min-w-full divide-y divide-gray-300">
-                                     <tr>
+                                    <tr>
                                         <td className="py-[14px] px-4 min-w-[205px]">
-                                            <IconText icon={'/images/sader.svg'}>Deployment Date</IconText>
+                                            <IconText icon={'/images/sader.svg'}>Number</IconText>
                                         </td>
-                                        { item?.userOpHash ? (
-                                            <td className="py-[14px] px-4 whitespace-pre">
+                                        <td className="py-[14px] px-4 whitespace-pre">
                                             <div className="flex items-center gap-2 flex-1">
-                                                <Link
-                                                    underline="hover"
-                                                    // color="text.primary"
-                                                    href={'/userOpHash/'+(item?.userOpHash)+(network ? '/?network='+network : '')}
-                                                    aria-current="page"
-                                                    className="text-blue-200"
-                                                    >
-                                                    <span className="text-blue-200 text-sm leading-5">
-                                                        {getTimePassed(item?.blockTime)}
-                                                    </span>
-                                                </Link>
-                                                <CopyButton text={item?.address} />
+                                                <span className="text-dark-600 text-sm leading-5">{item?.blockNumber}</span>
                                                 <button
                                                     className="outline-none focus:outline-none ring-0 focus:ring-0"
                                                     onClick={() => {
-                                                        const url = '/userOpHash/${item?.userOpHash}'+(network ? '/?network='+network : '')
+                                                        const url = `/block/${item?.blockNumber}`
                                                         window.open(url, '_blank');
-                                                        router.push(url);
                                                     }}
-                                                    >
+                                                >
                                                     <img src="/images/share.svg" alt="" />
                                                 </button>
                                             </div>
-                                        </td>) : (
-                                            <td className="py-[14px] px-4 whitespace-pre">
-                                                <span className="text-dark-600 text-sm leading-5">
-                                                    Possibly not a 4337 compliant wallet.
-                                                </span>
-                                            </td>
-                                        )}
-
-                                    </tr> 
-
-                                    <tr>
-                                        <td className="py-[14px] px-4 min-w-[205px]">
-                                            <IconText icon={'/images/sader.svg'}>Total Deposit</IconText>
                                         </td>
                                         <td className="py-[14px] px-4 whitespace-pre">
-                                            <span className="text-dark-600 text-sm leading-5">{getFee(item?.totalDeposits, network)}</span>
+                                            <div className="flex items-center gap-2 flex-1">
+                                            </div>
+
+                                        </td>
+                                        <td className="py-[14px] px-4 text-right"></td>
+                                    </tr>
+                                    <tr>
+                                        <td className="py-[14px] px-4 min-w-[205px]">
+                                            <IconText icon={'/images/sader.svg'}>Mined at</IconText>
+                                        </td>
+                                        <td className="py-[14px] px-4 whitespace-pre">
+                                            <span className="text-dark-600 text-sm leading-5">{getTimePassed(item?.blockTime)}</span>
+                                        </td>
+                                        <td className="py-[14px] px-4 text-right"></td>
+                                    </tr>
+                                    <tr>
+                                        <td className="py-[14px] px-4 min-w-[205px]">
+                                            <IconText icon={'/images/sader.svg'}>Status</IconText>
+                                        </td>
+                                        <td className="py-[14px] px-4 whitespace-pre">
+                                            <span className="text-dark-600 text-sm leading-5">{item?.status}</span>
+                                        </td>
+                                        <td className="py-[14px] px-4 text-right"></td>
+                                    </tr>
+                                    <tr>
+                                        <td className="py-[14px] px-4 min-w-[205px]">
+                                            <IconText icon={'/images/sader.svg'}>Fee</IconText>
+                                        </td>
+                                        <td className="py-[14px] px-4 whitespace-pre">
+                                            <span className="text-dark-600 text-sm leading-5">{getFee(item?.transactionFee, network)}</span>
                                         </td>
                                         <td className="py-[14px] px-4 text-right"></td>
                                     </tr>
