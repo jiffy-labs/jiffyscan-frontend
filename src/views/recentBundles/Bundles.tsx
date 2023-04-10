@@ -63,7 +63,7 @@ function UserOperations(props: any) {
                     type: 'bundle',
                 },
                 ago: getTimePassed(bundle.blockTime),
-                userOps: bundle.userOpsCount + ' ops',
+                userOps: bundle?.userOpsLength + ' ops',
             });
         });
         setLatestBundlesTable({ ...latestBundlesTable, rows: newRows.slice(0, 10) });
