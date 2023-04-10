@@ -175,11 +175,21 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                     </tr>
                                     <tr>
                                         <td className="py-[14px] px-4 min-w-[205px]">
-                                            <IconText icon={'/images/Fee.svg'}>Fee</IconText>
+                                            <IconText icon={'/images/Fee.svg'}>Gas Fee</IconText>
                                         </td>
                                         <td className="py-[14px] px-4 whitespace-pre">
                                             <span className="text-dark-600 text-sm leading-5 flex items-center">
                                                 {getFee(item.actualGasCost, item.network)}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="py-[14px] px-4 min-w-[205px]">
+                                            <IconText icon={'/images/local_gas_station.svg'}>Gas Cost</IconText>
+                                        </td>
+                                        <td className="py-[14px] px-4 whitespace-pre">
+                                            <span className="text-dark-600 text-sm leading-5 flex items-center">
+                                                {getFee(item.actualGasFee, item.network)}
                                             </span>
                                         </td>
                                     </tr>
