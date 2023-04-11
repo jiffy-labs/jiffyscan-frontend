@@ -8,11 +8,11 @@ export default function DisplayFee({ item, network }: any) {
     return (
         <div>
             <div className="flex items-center text-rgiht gap-2">
-                <span>{fee.value}</span>
-                <Chip variant="outlined" color={fee.gas.color as ChipProps['color']}>
-                    {fee.gas.children}
+                <span>{fee?.value}</span>
+                <Chip variant="outlined" color={fee?.gas?.color as ChipProps['color']}>
+                    {fee?.gas?.children}
                 </Chip>
-                <CopyButton text={fee.value} />
+                <CopyButton text={fee?.value} />
             </div>
         </div>
     );

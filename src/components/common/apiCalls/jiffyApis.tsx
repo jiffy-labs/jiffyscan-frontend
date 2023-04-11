@@ -243,6 +243,7 @@ export const getBlockDetails = async (
 
     return [] as UserOp[];
 };
+
 export const getAccountDetails = async (userOpHash: string, selectedNetwork: string): Promise<UserOp> => {
     const response = await fetch('https://api.jiffyscan.xyz/v0/getAddressActivity?address=' + userOpHash + '&network=' + selectedNetwork);
     const data = await response.json();
@@ -277,6 +278,7 @@ export const getBundleDetails = async (userOpHash: string, selectedNetwork: stri
     }
     return {} as Bundle;
 };
+
 export const getBundlerDetails = async (userOpHash: string, selectedNetwork: string, pageSize: number, pageNo: number): Promise<Bundle> => {
     if (!performApiCall(selectedNetwork)) return {} as Bundle;
     const response = await fetch(

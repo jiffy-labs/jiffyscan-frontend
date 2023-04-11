@@ -4,7 +4,7 @@ import { checkIfValidTerm, constructRedirectUrl } from '@/components/common/util
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import Options from './Options';
-import { Snackbar } from '@mui/material';
+import { LinearProgress, Snackbar } from '@mui/material';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
@@ -15,6 +15,7 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
     const { push } = useRouter();
     const [open, setOpen] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [searching, setSearching] = useState(false);
     const [term, setTerm] = useState('');
     const [networkValue, setNetworkValue] = useState<number>(0);
 
@@ -28,6 +29,7 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
 
     const handleSubmit = async () => {
         if (checkIfValidTerm(term)) {
+            setSearching(true);
             const res = await fetch(`https://api.jiffyscan.xyz/v0/searchEntry?entry=${term}`);
             if (res.status === 200) {
                 const data = await res.json();
@@ -40,7 +42,9 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
                     setOpen(true);
                     setErrorMessage('No results found');
                 }
+                setSearching(false);
             } else {
+                setSearching(false);
                 setOpen(true);
                 setErrorMessage('Invalid search term or network ?');
             }
@@ -75,6 +79,7 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
                         </span>
                     </div>
                 </label>
+                {searching && <LinearProgress />}
                 <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
                     <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
                         {errorMessage}
@@ -109,6 +114,7 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
                         <span className="md:block hidden">Search</span>
                     </div>
                 </label>
+                {searching && <LinearProgress />}
                 <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
                     <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
                         {errorMessage}

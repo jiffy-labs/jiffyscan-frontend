@@ -1,7 +1,7 @@
 import { getNetworkParam } from '@/components/common/utils';
 import Layout from '@/components/globals/Layout';
 import { useConfig } from '@/context/config';
-import Bundler from '@/views/bundle/Bundler';
+import Bundler from '@/views/bundle/Bundle';
 import { useRouter } from 'next/router';
 import React, { ReactElement, useEffect } from 'react';
 

@@ -63,7 +63,7 @@ export default function TransactionDetails({ item, network }: any) {
                                     </tr>
                                     <tr>
                                         <td className="py-[14px] px-4 min-w-[205px]">
-                                            <IconText icon={'/images/sader.svg'}>Mined at</IconText>
+                                            <IconText icon={'/images/sader.svg'}>Mined</IconText>
                                         </td>
                                         <td className="py-[14px] px-4 whitespace-pre">
                                             <span className="text-dark-600 text-sm leading-5">{getTimePassed(item?.blockTime)}</span>

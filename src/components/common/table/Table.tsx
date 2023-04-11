@@ -138,9 +138,9 @@ function Table(props: tableDataT) {
                                                 <td className="">
                                                     <div className="flex items-center justify-end text-rgiht gap-2">
                                                         <span>{fee.value}</span>
-                                                        <Chip variant="outlined" color={fee.gas.color as ChipProps['color']}>
+                                                        {fee.gas && <Chip variant="outlined" color={fee.gas.color as ChipProps['color']}>
                                                             {fee.gas.children}
-                                                        </Chip>
+                                                        </Chip>}
                                                     </div>
                                                 </td>
                                             )}

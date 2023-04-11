@@ -39,13 +39,18 @@ export function ConfigProvider({ children }: Props) {
         // if (query?.network == selectedNetwork) return;
         if (!selectedNetwork) return;
 
-        const href = {
+        const href: {pathname: string, query: {[key:string]: string}} = {
             pathname: window.location.pathname,
             query: { network: selectedNetwork },
         };
 
+        console.log(window.location.href);
+        console.log(window.location);
+        console.log(window.location.origin+window.location.pathname+"?"+Object.keys(href.query).map((key) => key + '=' + href.query[key]).join('&'));
         localStorage.setItem('network', selectedNetwork);
-        router.push(href, undefined, { shallow: true });
+        if (window.location.href != window.location.origin+window.location.pathname+"?"+Object.keys(href.query).map((key) => key + '=' + href.query[key]).join('&')) {
+            router.push(href, undefined, { shallow: true });
+        }
     }, [selectedNetwork]);
 
     const value: ConfigContextType = {

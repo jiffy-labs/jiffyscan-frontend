@@ -113,6 +113,8 @@ function Bundler(props: any) {
     // load the account details.
     const loadAccountDetails = async (name: string, network: string) => {
         setTableLoading(true);
+        console.log('checking for hash ', name, ' and network ', network, ' in useEffect');
+
         const addressDetail = await getBundleDetails(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo);
         const accountInfo = createAccountInfoObject(addressDetail);
         setAddressInfo(accountInfo);
