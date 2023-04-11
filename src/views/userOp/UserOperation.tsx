@@ -73,7 +73,7 @@ function RecentUserOps(props: any) {
 
     const [selectedColor, setSelectedColor] = useState(BUTTON_LIST[0].key);
     const [useOpsData, setuserOpsData] = useState<UserOp[]>();
-    const [showUserOpId, setShowUserOpId] = useState<number>(-1);
+    const [showUserOpId, setShowUserOpId] = useState<number>(0);
     const [responseData, setresponseData] = useState<PoweredBy>();
     const [duplicateUserOpsRows, setDuplicateUserOpsRows] = useState<tableDataT['rows']>([] as tableDataT['rows']);
 
@@ -92,7 +92,7 @@ function RecentUserOps(props: any) {
 
         setTimeout(() => {
             setTableLoading(false);
-        }, 2000);
+        }, 1000);
     };
 
     const handleDuplicateRowClick = (id: number) => {
