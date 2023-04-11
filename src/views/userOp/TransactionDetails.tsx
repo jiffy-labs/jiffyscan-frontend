@@ -194,9 +194,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                             </IconText>
                                         </td>
                                         <td className="py-[14px] px-4 whitespace-pre">
-                                            <span className="text-dark-600 text-sm leading-5 flex items-center">
-                                                {item.actualGasUsed}
-                                            </span>
+                                            <span className="text-dark-600 text-sm leading-5 flex items-center">{item.actualGasUsed}</span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -260,11 +258,28 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                         </td>
                                         <td className="py-[14px] px-4 whitespace-pre">
                                             <div className="flex items-center gap-2 flex-1">
-                                                <span className="text-blue-200 text-sm leading-5">{item.beneficiary}</span>
+                                                <Link
+                                                    underline="hover"
+                                                    // color="text.primary"
+                                                    href={`/bundler/${item.beneficiary!}?network=${item.network ? item.network : ''}`}
+                                                    aria-current="page"
+                                                    className="text-blue-200"
+                                                >
+                                                    <span className="text-blue-200 text-sm leading-5">{item.beneficiary}</span>
+                                                </Link>
                                                 <CopyButton text={item.beneficiary!} />
-                                                <button className="outline-none focus:outline-none ring-0 focus:ring-0">
-                                                    <img src="/images/share.svg" alt="" />
-                                                </button>
+                                                <Link
+                                                    underline="hover"
+                                                    // color="text.primary"
+                                                    href={`/bundler/${item.beneficiary!}?network=${item.network ? item.network : ''}`}
+                                                    aria-current="page"
+                                                    className="text-blue-200"
+                                                    target={'_blank'}
+                                                >
+                                                    <button className="outline-none focus:outline-none ring-0 focus:ring-0">
+                                                        <img src="/images/share.svg" alt="" />
+                                                    </button>
+                                                </Link>
                                             </div>
                                         </td>
                                         <td className="py-[14px] px-4 text-right">
@@ -323,8 +338,8 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                     // color="text.primary"
                                                     href={`/block/${item.blockNumber}?network=${item.network ? item.network : ''}`}
                                                     aria-current="page"
-                                                    // className="text-blue-200"
-                                                    target={'_target'}
+                                                    className="text-blue-200"
+                                                    target={'_blank'}
                                                 >
                                                     <button className="outline-none focus:outline-none ring-0 focus:ring-0">
                                                         <img src="/images/share.svg" alt="" />
