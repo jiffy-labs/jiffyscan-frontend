@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import Link from 'next/link';
 import IconButton from '@/components/common/icon_button/IconButton';
-import Search from './search/Search';
+import Searchblock from '../searchblock/Searchblock';
 import Pages from './pages/Pages';
 import Logo from '@/components/common/Logo';
 import dynamic from 'next/dynamic';
@@ -41,7 +41,7 @@ function Navbar(props: NavbarProps) {
                         <Pages />
                     </div>
                     <div className="hidden md:flex items-center gap-3 flex-grow justify-end">
-                        {searchbar && <Search />}
+                        {searchbar && <Searchblock isNavbar={true} />}
                         <User />
                     </div>
                     <div className="flex md:hidden items-center">
