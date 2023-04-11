@@ -5,12 +5,12 @@ import { getPayMasterDetails, PayMasterActivity, UserOp } from '@/components/com
 import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
-import { getTimePassed, shortenString } from '@/components/common/utils';
+import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
 import Token from '@/components/common/Token';
 import { NETWORK_ICON_MAP } from '@/components/common/constants';
 import Skeleton from 'react-loading-skeleton-2';
 import CopyButton from '@/components/common/copy_button/CopyButton';
-import Table, { tableDataT, getFee } from '@/components/common/table/Table';
+import Table, { tableDataT } from '@/components/common/table/Table';
 import Pagination from '@/components/common/table/Pagination';
 import TransactionDetails from './TransactionDetails';
 import HeaderSection from './HeaderSection';
@@ -138,7 +138,7 @@ function RecentPaymentMaster(props: any) {
                             />
                         </Link>
                         <Breadcrumbs aria-label="breadcrumb" className="font-['Roboto']">
-                            <Link underline="hover" color="inherit" href={'/'+(network ? '?network='+network : '')}>
+                            <Link underline="hover" color="inherit" href={'/' + (network ? '?network=' + network : '')}>
                                 Home
                             </Link>
                             <Link underline="hover" color="inherit" href="/recentUserOps">

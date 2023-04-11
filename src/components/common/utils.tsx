@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { NETWORK_ICON_MAP } from './constants';
+import { fee } from './table/Table';
 
 export const getTimePassed = (timestamp: number): string => {
     let timePassedInEpoch = new Date().getTime() - timestamp * 1000;
@@ -22,19 +23,23 @@ export function getSymbol(network: string): string {
     else return 'ETH';
 }
 
-export const getFee = (amount: number, network: string) => {
-    let fee: string = amount?.toString();
-    let symbol: string = getSymbol(network);
-    if (amount > 10 ** 13) {
-        fee = (amount / 10 ** 18).toFixed(4).toString();
-    } else if (amount > 10 ** 6) {
-        fee = (amount / 10 ** 9).toFixed(4).toString();
-        symbol = 'GWEI';
+export const getFee = (amount: number, network: string): fee => {
+    let gasFee: number = amount;
+    let fee: fee = {
+        value: '0',
+        gas: {
+            children: getCurrencySymbol(gasFee, network),
+            color: 'success',
+        },
+    };
+    if (gasFee > 10 ** 13) {
+        fee.value = (gasFee / 10 ** 18).toFixed(4).toString();
+    } else if (gasFee > 10 ** 6) {
+        fee.value = (gasFee / 10 ** 9).toFixed(4).toString();
     } else {
-        fee = amount?.toString() ? amount?.toString() : '0';
-        symbol = 'WEI';
+        fee.value = gasFee?.toString();
     }
-    return fee + ' ' + symbol;
+    return fee;
 };
 
 export const getCurrencySymbol = (amount: number, network: string): string => {
@@ -47,6 +52,7 @@ export const getCurrencySymbol = (amount: number, network: string): string => {
         return 'WEI';
     }
 };
+
 export const shortenString = (str: string) => {
     if (str?.length <= 10) {
         return str;
@@ -58,16 +64,16 @@ export const shortenString = (str: string) => {
 };
 
 const getNetworkFromUrl = () => {
-    var url_string = window.location.href; 
+    var url_string = window.location.href;
     var url = new URL(url_string);
-    var network = url.searchParams.get("network");
+    var network = url.searchParams.get('network');
     return network;
-}
+};
 
 const getLocallyStoredNetwork = () => {
     const storedNetwork = localStorage.getItem('network');
     return storedNetwork ? storedNetwork : '';
-}
+};
 
 export const getNetworkParam = () => {
     let network = getNetworkFromUrl();
@@ -84,26 +90,26 @@ export const getNetworkParam = () => {
 };
 
 export const constructRedirectUrl = (type: string, network: string, term: string) => {
-    console.log('here ',type, network, term)
-    if (type === "userOpHash") {
+    console.log('here ', type, network, term);
+    if (type === 'userOpHash') {
         return `/userOpHash/${term}/?network=${network}`;
-    } else if (type === "account") {
+    } else if (type === 'account') {
         return `/account/${term}/?network=${network}`;
-    } else if (type === "paymaster") {
+    } else if (type === 'paymaster') {
         return `/paymaster/${term}/?network=${network}`;
-    } else if (type === "beneficiarie") {
+    } else if (type === 'beneficiarie') {
         return `/beneficiary/${term}/?network=${network}`;
-    } else if (type === "block") {
+    } else if (type === 'block') {
         return `/block/${term}/?network=${network}`;
-    } else if (type === "bundle") {
+    } else if (type === 'bundle') {
         return `/bundle/${term}/?network=${network}`;
     }
 };
 
 export const checkIfValidTerm = (term: string) => {
     if (!term) return false;
-    if (term.length === 42 && term.slice(0,2) == "0x") return true;
-    if (term.length === 66 && term.slice(0,2) == "0x") return true;
+    if (term.length === 42 && term.slice(0, 2) == '0x') return true;
+    if (term.length === 66 && term.slice(0, 2) == '0x') return true;
     if (term.length < 11 && !isNaN(parseInt(term))) return true;
     return false;
-}
+};

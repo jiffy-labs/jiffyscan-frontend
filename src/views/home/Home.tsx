@@ -7,11 +7,10 @@ import React, { useState, useEffect } from 'react';
 import BundlesTable from './bundles_table.json';
 import OperationsTable from './operations_table.json';
 import Searchblock from '../../components/globals/searchblock/Searchblock';
-import { NETWORK_LIST, NETWORK_ICON_MAP } from '@/components/common/constants';
-import { getLatestBundles, getLatestUserOps, Bundle, UserOp } from '@/components/common/apiCalls/jiffyApis';
+import { NETWORK_ICON_MAP } from '@/components/common/constants';
+import { getLatestBundles, getLatestUserOps } from '@/components/common/apiCalls/jiffyApis';
 import { getTimePassed } from '@/components/common/utils';
 import { useConfig } from '../../context/config';
-import InfoButton from '@/components/common/InfoButton';
 
 function Home() {
     const { selectedNetwork, setSelectedNetwork } = useConfig();

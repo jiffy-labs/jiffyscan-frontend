@@ -18,7 +18,7 @@ const DEFAULT_PAGE_SIZE = 10;
 function UserOperations(props: any) {
     const { selectedNetwork, setSelectedNetwork } = useConfig();
     const [latestBundlesTable, setLatestBundlesTable] = useState<tableDataT>(table_data as tableDataT);
-    console.log("🚀 ~ file: Bundles.tsx:21 ~ UserOperations ~ latestBundlesTable:", latestBundlesTable)
+    console.log('🚀 ~ file: Bundles.tsx:21 ~ UserOperations ~ latestBundlesTable:', latestBundlesTable);
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE);
     const [totalRows, setTotalRows] = useState(0);
@@ -54,7 +54,7 @@ function UserOperations(props: any) {
         setTableLoading(true);
         const bundles = await getLatestBundles(network, pageSize, pageNo);
         let newRows = [] as tableDataT['rows'];
-        console.log("🚀 ~ file: Bundles.tsx:57 ~ refreshUserOpsTable ~ newRows:", newRows)
+        console.log('🚀 ~ file: Bundles.tsx:57 ~ refreshUserOpsTable ~ newRows:', newRows);
         bundles.forEach((bundle) => {
             newRows.push({
                 token: {

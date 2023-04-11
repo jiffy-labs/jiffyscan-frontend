@@ -15,14 +15,7 @@ export interface TokenType {
     value?: number;
 }
 
-function Token({
-    icon,
-    text,
-    copyIcon,
-    type,
-    onTokenClicked,
-    value
-}: TokenType) {
+function Token({ icon, text, copyIcon, type, onTokenClicked, value }: TokenType) {
     const { selectedNetwork } = useConfig();
 
     return (
@@ -61,7 +54,7 @@ function getHrefLink(type: string | undefined, text: string, network: string) {
         return {
             pathname: `/bundle/${text}`,
             query: { network: network },
-        };;
+        };
     } else {
         return '#';
     }

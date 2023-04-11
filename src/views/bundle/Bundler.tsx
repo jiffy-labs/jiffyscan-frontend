@@ -1,16 +1,16 @@
 import Footer from '@/components/globals/footer/Footer';
 import Navbar from '@/components/globals/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
-import { getBundleDetails, UserOp, AddressActivity,Bundle } from '@/components/common/apiCalls/jiffyApis';
+import { getBundleDetails, UserOp, AddressActivity, Bundle } from '@/components/common/apiCalls/jiffyApis';
 import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
-import { getTimePassed, shortenString } from '@/components/common/utils';
+import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
 import Token from '@/components/common/Token';
 import { NETWORK_ICON_MAP } from '@/components/common/constants';
 import Skeleton from 'react-loading-skeleton-2';
 import CopyButton from '@/components/common/copy_button/CopyButton';
-import Table, { tableDataT, getFee } from '@/components/common/table/Table';
+import Table, { tableDataT } from '@/components/common/table/Table';
 import Pagination from '@/components/common/table/Pagination';
 import TransactionDetails from './TransactionDetails';
 import HeaderSection from './HeaderSection';
@@ -36,7 +36,7 @@ const columns = [
     { name: 'Fee', sort: true },
 ];
 const createUserOpsTableRows = (userOps: UserOp[]): tableDataT['rows'] => {
-    console.log("🚀 ~ file: recentAddressActivity.tsx:39 ~ createUserOpsTableRows ~ userOps:", userOps)
+    console.log('🚀 ~ file: recentAddressActivity.tsx:39 ~ createUserOpsTableRows ~ userOps:', userOps);
     let newRows = [] as tableDataT['rows'];
     if (!userOps) return newRows;
     userOps.forEach((userOp) => {
@@ -62,25 +62,25 @@ interface AccountInfo {
     blockTime: number;
     transactionHash: string;
     from: string;
-    network : string;
-    status : number;
-    transactionFee : number
+    network: string;
+    status: number;
+    transactionFee: number;
 }
 
 const createAccountInfoObject = (bundleDetails: Bundle): AccountInfo => {
     return {
-        userOpsLength:bundleDetails.userOpsLength,
+        userOpsLength: bundleDetails.userOpsLength,
         blockNumber: bundleDetails.blockNumber,
-        blockTime : bundleDetails.blockTime,
-        transactionHash: bundleDetails.transactionHash ,
-        network : bundleDetails.network,
-        status : bundleDetails.status,
-        transactionFee : bundleDetails.transactionFee,
-        from: bundleDetails.from
-    }
+        blockTime: bundleDetails.blockTime,
+        transactionHash: bundleDetails.transactionHash,
+        network: bundleDetails.network,
+        status: bundleDetails.status,
+        transactionFee: bundleDetails.transactionFee,
+        from: bundleDetails.from,
+    };
 };
 
-function RecentAddressActivity(props: any) {
+function Bundler(props: any) {
     const router = useRouter();
     const [tableLoading, setTableLoading] = useState(true);
     const hash = props.slug && props.slug[0];
@@ -98,7 +98,7 @@ function RecentAddressActivity(props: any) {
         if (addressInfo == undefined) {
             return;
         }
-        const addressDetail = await getBundleDetails(addressInfo.transactionHash, network ? network : '');
+        const addressDetail = await getBundleDetails(addressInfo.transactionHash, network ? network : '', pageNo, pageSize);
         const rows = createUserOpsTableRows(addressDetail.userOps);
         setRows(rows);
         setTableLoading(false);
@@ -113,7 +113,7 @@ function RecentAddressActivity(props: any) {
     // load the account details.
     const loadAccountDetails = async (name: string, network: string) => {
         setTableLoading(true);
-        const addressDetail = await getBundleDetails(name, network ? network : '');
+        const addressDetail = await getBundleDetails(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo);
         const accountInfo = createAccountInfoObject(addressDetail);
         setAddressInfo(accountInfo);
     };
@@ -153,8 +153,8 @@ function RecentAddressActivity(props: any) {
                             <Link underline="hover" color="inherit" href={`/?network=${network ? network : ''}`}>
                                 Home
                             </Link>
-                            <Link underline="hover" color="inherit" href={`/block/${hash}?network=${network ? network : ''}`} >
-                               Block
+                            <Link underline="hover" color="inherit" href={`/block/${hash}?network=${network ? network : ''}`}>
+                                Block
                             </Link>
                             <Link
                                 underline="hover"
@@ -197,4 +197,4 @@ function RecentAddressActivity(props: any) {
     );
 }
 
-export default RecentAddressActivity;
+export default Bundler;

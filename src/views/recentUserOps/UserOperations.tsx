@@ -2,11 +2,11 @@ import Footer from '@/components/globals/footer/Footer';
 import Navbar from '@/components/globals/navbar/Navbar';
 import RecentMetrics from '@/components/globals/recent_metrics/RecentMetrics';
 import React, { useEffect, useState } from 'react';
-import Table, { tableDataT, getFee } from '@/components/common/table/Table';
+import Table, { tableDataT } from '@/components/common/table/Table';
 import Pagination from '@/components/common/table/Pagination';
 import table_data from './table_data.json';
 import { NETWORK_LIST, NETWORK_ICON_MAP } from '@/components/common/constants';
-import { getCurrencySymbol, getTimePassed } from '@/components/common/utils';
+import { getCurrencySymbol, getFee, getTimePassed } from '@/components/common/utils';
 import { getDailyMetrics, getLatestUserOps } from '@/components/common/apiCalls/jiffyApis';
 import { useConfig } from '@/context/config';
 import { Breadcrumbs, Link } from '@mui/material';
@@ -17,7 +17,7 @@ const DEFAULT_PAGE_SIZE = 10;
 function UserOperations() {
     const { selectedNetwork, setSelectedNetwork } = useConfig();
     const [latestUserOpsTable, setLatestUserOpsTable] = useState<tableDataT>(table_data as tableDataT);
-    console.log("🚀 ~ file: UserOperations.tsx:20 ~ UserOperations ~ latestUserOpsTable:", latestUserOpsTable)
+    console.log('🚀 ~ file: UserOperations.tsx:20 ~ UserOperations ~ latestUserOpsTable:', latestUserOpsTable);
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE);
     const [totalRows, setTotalRows] = useState(0);

@@ -1,5 +1,6 @@
-import Chip from '@/components/common/chip/Chip';
+import Chip, { ChipProps } from '@/components/common/chip/Chip';
 import CopyButton from '@/components/common/copy_button/CopyButton';
+import DisplayFee from '@/components/common/displayfee/DisplayFee';
 import IconText from '@/components/common/IconText';
 import Caption from '@/components/common/table/Caption';
 import { getFee } from '@/components/common/utils';
@@ -28,10 +29,9 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                             <IconText icon={'/images/code-array.svg'}>Value</IconText>
                                         </td>
                                         <td className="py-[14px] px-4 whitespace-pre">
-                                            <div className="flex items-center gap-2 flex-1">
-                                                <span className="text-dark-600 text-sm leading-5">{getFee(item.value!, item.network)}</span>
-                                                <CopyButton text={getFee(item.value!, item.network)} />
-                                            </div>
+                                            <DisplayFee item={item.value!} network={item.network} />
+
+                                            <div className="flex items-center gap-2 flex-1"></div>
                                         </td>
                                     </tr>
                                     <tr>
@@ -204,7 +204,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                                     value
                                                                                 </td>
                                                                                 <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                    {getFee(item.value!, item.network)}
+                                                                                    <DisplayFee item={item.value!} network={item.network} />
                                                                                 </td>
                                                                                 <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
                                                                                     <span className="text-blue-200 text-sm leading-5"></span>
@@ -254,7 +254,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                             uint256
                                                                         </td>
                                                                         <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                            {getFee(item.maxFeePerGas!, item.network)}
+                                                                            <DisplayFee item={item.maxFeePerGas!} network={item.network} />
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
@@ -265,7 +265,10 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                             uint256
                                                                         </td>
                                                                         <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                            {getFee(item.maxPriorityFeePerGas!, item.network)}
+                                                                            <DisplayFee
+                                                                                item={item.maxPriorityFeePerGas!}
+                                                                                network={item.network}
+                                                                            />
                                                                         </td>
                                                                     </tr>
                                                                     <tr>

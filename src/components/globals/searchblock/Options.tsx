@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NETWORK_LIST } from '@/components/common/constants';
 
-function Options({networkValue, setNetworkValue}: {networkValue: number, setNetworkValue: (value: number) => void}) {
+function Options({ networkValue, setNetworkValue }: { networkValue: number; setNetworkValue: (value: number) => void }) {
     const [open, setOpen] = useState<boolean>(false);
     const toggler = () => setOpen((v) => !v);
 

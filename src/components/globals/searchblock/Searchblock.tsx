@@ -53,7 +53,7 @@ function Searchblock() {
 
     const handleClose = (e: any) => {
         setOpen(false);
-    }
+    };
 
     return (
         <div className="shadow-300 bg-white rounded border-dark-200 flex-grow max-w-[812px]">

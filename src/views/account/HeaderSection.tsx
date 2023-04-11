@@ -4,7 +4,7 @@ import Link from 'next/link';
 import React from 'react';
 
 export default function HeaderSection({ item, network }: any) {
-    console.log("🚀 ~ file: HeaderSection.tsx:7 ~ HeaderSection ~ item:", item)
+    console.log('🚀 ~ file: HeaderSection.tsx:7 ~ HeaderSection ~ item:', item);
     return (
         <div>
             <section className="mt-[48px] px-3">

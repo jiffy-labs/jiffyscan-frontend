@@ -7,7 +7,7 @@ import { getNetworkParam } from '@/components/common/utils';
 
 function LatestUserOps() {
     const router = useRouter();
-    
+
     return (
         <div>
             <LatestUserOpsComponent />

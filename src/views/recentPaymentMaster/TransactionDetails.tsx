@@ -1,8 +1,8 @@
-import CopyButton from '@/components/common/copy_button/CopyButton';
+import Chip, { ChipProps } from '@/components/common/chip/Chip';
+import DisplayFee from '@/components/common/displayfee/DisplayFee';
 import IconText from '@/components/common/IconText';
 import Caption from '@/components/common/table/Caption';
-import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
-import { Link } from '@mui/material';
+import { getFee } from '@/components/common/utils';
 import { useRouter } from 'next/router';
 
 import React, { useEffect, useState } from 'react';
@@ -39,7 +39,7 @@ export default function TransactionDetails({ item, network }: any) {
                                             <IconText icon={'/images/sader.svg'}>Total Deposits</IconText>
                                         </td>
                                         <td className="py-[14px] px-4 whitespace-pre">
-                                            <span className="text-dark-600 text-sm leading-5">{getFee(item?.totalDeposits, network)}</span>
+                                            <DisplayFee item={item?.totalDeposits} network={network} />
                                         </td>
                                         <td className="py-[14px] px-4 text-right"></td>
                                     </tr>
