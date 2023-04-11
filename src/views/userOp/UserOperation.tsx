@@ -10,7 +10,7 @@ import IconText from '@/components/common/IconText';
 import Chip from '@/components/common/chip/Chip';
 import sx from './usertable.module.sass';
 import { useRouter } from 'next/router';
-import { getTimePassed, shortenString } from '@/components/common/utils';
+import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
 import { fallBack, NETWORK_ICON_MAP, NETWORK_LIST, NETWORK_SCANNER_MAP } from '@/components/common/constants';
 
 import Tooltip from '@mui/material/Tooltip';
@@ -20,7 +20,7 @@ import HeaderSection from './HeaderSection';
 import TransactionDetails from './TransactionDetails';
 import DeveloperDetails from './DeveloperDetails';
 import { useConfig } from '@/context/config';
-import Table, { tableDataT, getFee } from '@/components/common/table/Table';
+import Table, { tableDataT } from '@/components/common/table/Table';
 import User from '@/components/globals/navbar/User';
 // import Skeleton from '@/components/Skeleton';
 export const BUTTON_LIST = [
@@ -50,7 +50,7 @@ const createDuplicateUserOpsRows = (userOps: UserOp[], handleRowClicked: (id: nu
                 icon: NETWORK_ICON_MAP[userOp.network],
                 type: 'userOp',
                 onTokenClicked: handleRowClicked,
-                value: i
+                value: i,
             },
             ago: getTimePassed(userOp.blockTime!),
             sender: userOp.sender,
@@ -60,7 +60,7 @@ const createDuplicateUserOpsRows = (userOps: UserOp[], handleRowClicked: (id: nu
         });
     });
     return newRows;
-}
+};
 
 function RecentUserOps(props: any) {
     const router = useRouter();
@@ -97,7 +97,7 @@ function RecentUserOps(props: any) {
 
     const handleDuplicateRowClick = (id: number) => {
         setShowUserOpId(id);
-    }
+    };
 
     let prevHash = hash;
     useEffect(() => {
@@ -140,7 +140,7 @@ function RecentUserOps(props: any) {
                             />
                         </Link>
                         <Breadcrumbs aria-label="breadcrumb" className="font-['Roboto']">
-                            <Link underline="hover" color="inherit" href={"/"+(selectedNetwork ? '?network='+selectedNetwork : '')}>
+                            <Link underline="hover" color="inherit" href={'/' + (selectedNetwork ? '?network=' + selectedNetwork : '')}>
                                 Home
                             </Link>
                             <Link underline="hover" color="inherit" href="/recentUserOps">
@@ -161,7 +161,7 @@ function RecentUserOps(props: any) {
             </section>
             {showUserOpId == -1 ? (
                 <div className="container mb-16">
-                    <Table 
+                    <Table
                         columns={columns}
                         rows={duplicateUserOpsRows}
                         loading={tableLoading}
@@ -173,30 +173,29 @@ function RecentUserOps(props: any) {
                     />
                 </div>
             ) : (
-                (useOpsData && showUserOpId>=0) &&
-                    (
-                            <>
-                                <HeaderSection item={useOpsData[showUserOpId]} network={network} />
-                                <TransactionDetails
-                                    tableLoading={tableLoading}
-                                    skeletonCards={skeletonCards}
-                                    item={useOpsData[showUserOpId]}
-                                    responseData={responseData}
-                                />
-                                <DeveloperDetails
-                                    tableLoading={tableLoading}
-                                    skeletonCards1={skeletonCards1}
-                                    item={useOpsData[showUserOpId]}
-                                    selectedColor={selectedColor}
-                                    BUTTON_LIST={BUTTON_LIST}
-                                    setSelectedColor={setSelectedColor}
-                                    open={open}
-                                    setOpen={setOpen}
-                                />
-                            </>
-                        )
-                    
-                    )}
+                useOpsData &&
+                showUserOpId >= 0 && (
+                    <>
+                        <HeaderSection item={useOpsData[showUserOpId]} network={network} />
+                        <TransactionDetails
+                            tableLoading={tableLoading}
+                            skeletonCards={skeletonCards}
+                            item={useOpsData[showUserOpId]}
+                            responseData={responseData}
+                        />
+                        <DeveloperDetails
+                            tableLoading={tableLoading}
+                            skeletonCards1={skeletonCards1}
+                            item={useOpsData[showUserOpId]}
+                            selectedColor={selectedColor}
+                            BUTTON_LIST={BUTTON_LIST}
+                            setSelectedColor={setSelectedColor}
+                            open={open}
+                            setOpen={setOpen}
+                        />
+                    </>
+                )
+            )}
 
             <Footer />
         </div>

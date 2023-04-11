@@ -1,5 +1,7 @@
+import Chip, { ChipProps } from '@/components/common/chip/Chip';
 import { NETWORK_SCANNER_MAP } from '@/components/common/constants';
 import CopyButton from '@/components/common/copy_button/CopyButton';
+import DisplayFee from '@/components/common/displayfee/DisplayFee';
 import IconText from '@/components/common/IconText';
 import Caption from '@/components/common/table/Caption';
 import { getFee } from '@/components/common/utils';
@@ -168,24 +170,28 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                         </td>
                                         <td className="py-[14px] px-4 whitespace-pre">
                                             <span className="text-dark-600 text-sm leading-5 flex items-center">
-                                                {getFee(item.value!, item.network) ? getFee(item.value!, item.value) : 'N/A'}
+                                                <DisplayFee item={item.value!} network={item.network} />
                                             </span>
                                         </td>
                                         <td></td>
                                     </tr>
                                     <tr>
                                         <td className="py-[14px] px-4 min-w-[205px]">
-                                            <IconText toolTip="actualGasCost by user op" icon={'/images/Fee.svg'}>Gas Fee</IconText>
+                                            <IconText toolTip="actualGasCost by user op" icon={'/images/Fee.svg'}>
+                                                Gas Fee
+                                            </IconText>
                                         </td>
                                         <td className="py-[14px] px-4 whitespace-pre">
                                             <span className="text-dark-600 text-sm leading-5 flex items-center">
-                                                {getFee(item.actualGasCost, item.network)}
+                                                <DisplayFee item={item.actualGasCost!} network={item.network} />
                                             </span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td className="py-[14px] px-4 min-w-[205px]">
-                                            <IconText toolTip="actualGasUsed by user op" icon={'/images/local_gas_station.svg'}>Gas Used</IconText>
+                                            <IconText toolTip="actualGasUsed by user op" icon={'/images/local_gas_station.svg'}>
+                                                Gas Used
+                                            </IconText>
                                         </td>
                                         <td className="py-[14px] px-4 whitespace-pre">
                                             <span className="text-dark-600 text-sm leading-5 flex items-center">

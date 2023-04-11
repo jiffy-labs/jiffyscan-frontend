@@ -1,7 +1,7 @@
 import { getNetworkParam } from '@/components/common/utils';
 import Layout from '@/components/globals/Layout';
 import { useConfig } from '@/context/config';
-import Account from '@/views/account/Account';
+import Bundler from '@/views/bundle/Bundler';
 import { useRouter } from 'next/router';
 import React, { ReactElement, useEffect } from 'react';
 
@@ -11,7 +11,7 @@ function RecentAccount() {
 
     return (
         <div>
-            <Account slug={slug} />
+            <Bundler slug={slug} />
         </div>
     );
 }

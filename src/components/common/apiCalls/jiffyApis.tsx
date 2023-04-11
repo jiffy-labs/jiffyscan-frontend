@@ -60,6 +60,9 @@ export interface Bundle {
     network: string;
     blockNumber: number;
     blockTime: number;
+    from: string;
+    status: number;
+    transactionFee: number;
     userOps: UserOp[];
 }
 
@@ -93,11 +96,11 @@ export interface PoweredBy {
 
 const performApiCall = (network: string): boolean => {
     if (!network && network != fallBack) return false;
-    return true
-}
+    return true;
+};
 
 export const getLatestUserOps = async (selectedNetwork: string, pageSize: number, pageNo: number): Promise<UserOp[]> => {
-    if (!performApiCall(selectedNetwork)) return [] as UserOp[]; 
+    if (!performApiCall(selectedNetwork)) return [] as UserOp[];
     const response = await fetch(
         'https://api.jiffyscan.xyz/v0/getLatestUserOps?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
     );
@@ -140,9 +143,7 @@ export const getGlobalMetrics = async (selectedNetwork: string): Promise<GlobalC
     return {} as GlobalCounts;
 };
 export const getUserOp = async (userOpHash: string): Promise<UserOp[]> => {
-    const response = await fetch(
-        'https://api.jiffyscan.xyz/v0/getUserOp?hash=' + userOpHash,
-    );
+    const response = await fetch('https://api.jiffyscan.xyz/v0/getUserOp?hash=' + userOpHash);
     const data = await response.json();
     if ('userOps' in data) {
         return data.userOps as UserOp[];
@@ -170,7 +171,7 @@ export const getAddressActivity = async (
         console.log(e);
         return null;
     });
-    
+
     if (response == null) return {} as AddressActivity;
 
     const data = await response.json();
@@ -237,4 +238,29 @@ export const getAccountDetails = async (userOpHash: string, selectedNetwork: str
     }
 
     return {} as UserOp;
+};
+
+export const getBundleDetails = async (userOpHash: string, selectedNetwork: string, pageSize: number, pageNo: number): Promise<Bundle> => {
+    if (!performApiCall(selectedNetwork)) return {} as Bundle;
+    const response = await fetch(
+        'https://api.jiffyscan.xyz/v0/getBundleActivity?bundle=' +
+            userOpHash +
+            '&network=' +
+            selectedNetwork +
+            '&first=' +
+            pageSize +
+            '&skip=' +
+            pageNo * pageSize,
+    ).catch((e) => {
+        console.log(e);
+        return null;
+    });
+
+    if (response == null) return {} as Bundle;
+
+    const data = await response.json();
+    if ('bundleDetails' in data) {
+        return data.bundleDetails as Bundle;
+    }
+    return {} as Bundle;
 };

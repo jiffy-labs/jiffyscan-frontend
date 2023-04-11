@@ -1,7 +1,7 @@
 import Footer from '@/components/globals/footer/Footer';
 import Navbar from '@/components/globals/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
-import { getPayMasterDetails, PayMasterActivity, UserOp } from '@/components/common/apiCalls/jiffyApis';
+import { getBundleDetails, UserOp, AddressActivity, Bundle } from '@/components/common/apiCalls/jiffyApis';
 import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
@@ -35,10 +35,11 @@ const columns = [
     { name: 'Target', sort: false },
     { name: 'Fee', sort: true },
 ];
-
 const createUserOpsTableRows = (userOps: UserOp[]): tableDataT['rows'] => {
+    console.log('🚀 ~ file: recentAddressActivity.tsx:39 ~ createUserOpsTableRows ~ userOps:', userOps);
     let newRows = [] as tableDataT['rows'];
-    userOps?.forEach((userOp) => {
+    if (!userOps) return newRows;
+    userOps.forEach((userOp) => {
         newRows.push({
             token: {
                 text: userOp.userOpHash,
@@ -56,26 +57,37 @@ const createUserOpsTableRows = (userOps: UserOp[]): tableDataT['rows'] => {
 };
 
 interface AccountInfo {
-    address: string;
-    totalDeposits: number;
     userOpsLength: number;
+    blockNumber: number;
+    blockTime: number;
+    transactionHash: string;
+    from: string;
+    network: string;
+    status: number;
+    transactionFee: number;
 }
 
-const createPaymasterInfoObject = (accountDetails: PayMasterActivity): AccountInfo => {
+const createAccountInfoObject = (bundleDetails: Bundle): AccountInfo => {
     return {
-        address: accountDetails.address,
-        totalDeposits: parseInt(accountDetails.totalDeposits),
-        userOpsLength: accountDetails?.userOpsLength,
+        userOpsLength: bundleDetails.userOpsLength,
+        blockNumber: bundleDetails.blockNumber,
+        blockTime: bundleDetails.blockTime,
+        transactionHash: bundleDetails.transactionHash,
+        network: bundleDetails.network,
+        status: bundleDetails.status,
+        transactionFee: bundleDetails.transactionFee,
+        from: bundleDetails.from,
     };
 };
 
-function RecentPaymentMaster(props: any) {
+function Bundler(props: any) {
     const router = useRouter();
     const [tableLoading, setTableLoading] = useState(true);
     const hash = props.slug && props.slug[0];
     const network = router.query && (router.query.network as string);
     const [rows, setRows] = useState([] as tableDataT['rows']);
     const [addressInfo, setAddressInfo] = useState<AccountInfo>();
+    const [useOps, setuserOps] = useState<UserOp[]>();
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE);
     const [captionText, setCaptionText] = useState('N/A User Ops found');
@@ -86,7 +98,7 @@ function RecentPaymentMaster(props: any) {
         if (addressInfo == undefined) {
             return;
         }
-        const addressDetail = await getPayMasterDetails(addressInfo.address, network ? network : '', pageNo, pageSize);
+        const addressDetail = await getBundleDetails(addressInfo.transactionHash, network ? network : '', pageNo, pageSize);
         const rows = createUserOpsTableRows(addressDetail.userOps);
         setRows(rows);
         setTableLoading(false);
@@ -101,8 +113,8 @@ function RecentPaymentMaster(props: any) {
     // load the account details.
     const loadAccountDetails = async (name: string, network: string) => {
         setTableLoading(true);
-        const paymasterDetail = await getPayMasterDetails(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo);
-        const accountInfo = createPaymasterInfoObject(paymasterDetail);
+        const addressDetail = await getBundleDetails(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo);
+        const accountInfo = createAccountInfoObject(addressDetail);
         setAddressInfo(accountInfo);
     };
 
@@ -130,7 +142,7 @@ function RecentPaymentMaster(props: any) {
         <div className="">
             <Navbar searchbar />
             <section className="py-10 px-3">
-                <div className="container">
+                <div className="container px-0">
                     <div className="flex flex-row">
                         <Link href="/" className="text-gray-500">
                             <ArrowBackIcon
@@ -138,11 +150,11 @@ function RecentPaymentMaster(props: any) {
                             />
                         </Link>
                         <Breadcrumbs aria-label="breadcrumb" className="font-['Roboto']">
-                            <Link underline="hover" color="inherit" href={'/' + (network ? '?network=' + network : '')}>
+                            <Link underline="hover" color="inherit" href={`/?network=${network ? network : ''}`}>
                                 Home
                             </Link>
-                            <Link underline="hover" color="inherit" href="/recentUserOps">
-                                Recent User Ops
+                            <Link underline="hover" color="inherit" href={`/block/${hash}?network=${network ? network : ''}`}>
+                                Block
                             </Link>
                             <Link
                                 underline="hover"
@@ -154,12 +166,12 @@ function RecentPaymentMaster(props: any) {
                             </Link>
                         </Breadcrumbs>
                     </div>
-                    <h1 className="font-bold text-3xl">Paymaster</h1>
+                    <h1 className="font-bold text-3xl">Bundle</h1>
                 </div>
             </section>
             <HeaderSection item={addressInfo} network={network} />
             <TransactionDetails item={addressInfo} network={network} />
-            <div className="container">
+            <div className="container px-0">
                 <Table
                     rows={rows}
                     columns={columns}
@@ -185,4 +197,4 @@ function RecentPaymentMaster(props: any) {
     );
 }
 
-export default RecentPaymentMaster;
+export default Bundler;
