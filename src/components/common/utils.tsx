@@ -96,9 +96,9 @@ export const constructRedirectUrl = (type: string, network: string, term: string
         return `/account/${term}/?network=${network}`;
     } else if (type === 'paymaster') {
         return `/paymaster/${term}/?network=${network}`;
-    } else if (type === 'beneficiarie') {
-        return `/beneficiary/${term}/?network=${network}`;
-    } else if (type === 'block') {
+    } else if (type === "beneficiarie") {
+        return `/bundler/${term}/?network=${network}`;
+    } else if (type === "block") {
         return `/block/${term}/?network=${network}`;
     } else if (type === 'bundle') {
         return `/bundle/${term}/?network=${network}`;
