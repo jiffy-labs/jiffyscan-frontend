@@ -11,7 +11,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props,
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-function Searchblock({isNavbar}: {isNavbar: boolean}) {
+function Searchblock({ isNavbar }: { isNavbar: boolean }) {
     const { push } = useRouter();
     const [open, setOpen] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
@@ -70,7 +70,7 @@ function Searchblock({isNavbar}: {isNavbar: boolean}) {
                             onChange={handleChange}
                             onKeyDown={handleKeyPress}
                         />
-                        <span className="bg-dark-400 px-3 h-5 flex justify-center items-center rounded-full" >
+                        <span className="bg-dark-400 px-3 h-5 flex justify-center items-center rounded-full">
                             <img className="" src="/images/span (1).svg" alt="" />
                         </span>
                     </div>

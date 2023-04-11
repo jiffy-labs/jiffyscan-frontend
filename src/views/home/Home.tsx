@@ -85,7 +85,7 @@ function Home() {
                         </a>
                     </h1>
                     <div>
-                        <Searchblock isNavbar={false}/>
+                        <Searchblock isNavbar={false} />
                     </div>
                 </div>
             </section>

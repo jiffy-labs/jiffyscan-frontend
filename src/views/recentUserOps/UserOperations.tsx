@@ -17,7 +17,6 @@ const DEFAULT_PAGE_SIZE = 10;
 function UserOperations() {
     const { selectedNetwork, setSelectedNetwork } = useConfig();
     const [latestUserOpsTable, setLatestUserOpsTable] = useState<tableDataT>(table_data as tableDataT);
-    console.log('🚀 ~ file: UserOperations.tsx:20 ~ UserOperations ~ latestUserOpsTable:', latestUserOpsTable);
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE);
     const [totalRows, setTotalRows] = useState(0);

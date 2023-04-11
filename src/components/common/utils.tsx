@@ -90,15 +90,15 @@ export const getNetworkParam = () => {
 };
 
 export const constructRedirectUrl = (type: string, network: string, term: string) => {
-    if (type === "userOpHash") {
+    if (type === 'userOpHash') {
         return `/userOpHash/${term}/?network=${network}`;
     } else if (type === 'account') {
         return `/account/${term}/?network=${network}`;
     } else if (type === 'paymaster') {
         return `/paymaster/${term}/?network=${network}`;
-    } else if (type === "beneficiarie") {
+    } else if (type === 'beneficiarie') {
         return `/bundler/${term}/?network=${network}`;
-    } else if (type === "block") {
+    } else if (type === 'block') {
         return `/block/${term}/?network=${network}`;
     } else if (type === 'bundle') {
         return `/bundle/${term}/?network=${network}`;

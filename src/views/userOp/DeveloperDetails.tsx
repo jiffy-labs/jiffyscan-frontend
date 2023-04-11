@@ -246,7 +246,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                             {item.verificationGasLimit}
                                                                         </td>
                                                                     </tr>
-                                                                    
+
                                                                     <tr>
                                                                         <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
                                                                             preVerificationGas
