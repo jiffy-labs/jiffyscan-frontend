@@ -44,7 +44,7 @@ export interface AddressActivity {
     factory: string;
     paymaster: string;
     userOpHash: string;
-    totalDeposit: string;
+    totalDeposits: string;
 }
 export interface PayMasterActivity {
     userOps: UserOp[];

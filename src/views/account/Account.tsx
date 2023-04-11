@@ -66,7 +66,7 @@ interface AccountInfo {
 const createAccountInfoObject = (accountDetails: AddressActivity): AccountInfo => {
     return {
         address: accountDetails.address,
-        totalDeposit: parseInt(accountDetails.totalDeposit),
+        totalDeposit: parseInt(accountDetails.totalDeposits),
         userOpsCount: parseInt(accountDetails.userOpsCount),
         userOpHash: accountDetails.userOpHash,
         blockTime: parseInt(accountDetails.blockTime),
