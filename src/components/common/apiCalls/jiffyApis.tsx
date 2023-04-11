@@ -64,6 +64,7 @@ export interface Bundle {
     status: number;
     transactionFee: number;
     userOps: UserOp[];
+    address: string;
 }
 
 export interface DailyMetric {
@@ -218,10 +219,22 @@ export const getPoweredBy = async (beneficiary: string, paymaster: string): Prom
     return {} as PoweredBy;
 };
 
-export const getBlockDetails = async (blockNumber: string, selectedNetwork: string): Promise<UserOp[]> => {
+export const getBlockDetails = async (
+    blockNumber: string,
+    selectedNetwork: string,
+    pageSize: number,
+    pageNo: number,
+): Promise<UserOp[]> => {
     if (!performApiCall(selectedNetwork)) return [] as UserOp[];
     const response = await fetch(
-        'https://api.jiffyscan.xyz/v0/getBlockActivity?blockNumber=' + blockNumber + '&network=' + selectedNetwork,
+        'https://api.jiffyscan.xyz/v0/getBlockActivity?blockNumber=' +
+            blockNumber +
+            '&network=' +
+            selectedNetwork +
+            '&first=' +
+            pageSize +
+            '&skip=' +
+            pageNo * pageSize,
     );
     const data = await response.json();
     if ('userOps' in data) {
@@ -261,6 +274,26 @@ export const getBundleDetails = async (userOpHash: string, selectedNetwork: stri
     const data = await response.json();
     if ('bundleDetails' in data) {
         return data.bundleDetails as Bundle;
+    }
+    return {} as Bundle;
+};
+export const getBundlerDetails = async (userOpHash: string, selectedNetwork: string, pageSize: number, pageNo: number): Promise<Bundle> => {
+    if (!performApiCall(selectedNetwork)) return {} as Bundle;
+    const response = await fetch(
+        'https://api.jiffyscan.xyz/v0/getBundlerActivity?address=' +
+            userOpHash +
+            '&network=' +
+            selectedNetwork +
+            '&first=' +
+            pageSize +
+            '&skip=' +
+            pageNo * pageSize,
+    );
+    // if (response == null) return {} as Bundle;
+
+    const data = await response.json();
+    if ('bundlerDetails' in data) {
+        return data.bundlerDetails as Bundle;
     }
     return {} as Bundle;
 };

@@ -110,7 +110,7 @@ export default function TransactionDetails({ item, network }: any) {
                                         </td>
                                         <td className="py-[14px] px-4 whitespace-pre">
                                             <td className="">
-                                                <DisplayFee item={item?.transactionFee} network={item.network} />
+                                                <DisplayFee item={item?.transactionFee} network={item?.network} />
                                             </td>
                                         </td>
                                         <td className="py-[14px] px-4 text-right"></td>

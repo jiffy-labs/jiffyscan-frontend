@@ -22,6 +22,7 @@ import DeveloperDetails from './DeveloperDetails';
 import { useConfig } from '@/context/config';
 import Table, { tableDataT } from '@/components/common/table/Table';
 import User from '@/components/globals/navbar/User';
+import Spinner from '@/components/common/Spinner';
 // import Skeleton from '@/components/Skeleton';
 export const BUTTON_LIST = [
     {
@@ -72,13 +73,16 @@ function RecentUserOps(props: any) {
     const network = router.query && router.query.network;
 
     const [selectedColor, setSelectedColor] = useState(BUTTON_LIST[0].key);
-    const [useOpsData, setuserOpsData] = useState<UserOp[]>();
-    const [showUserOpId, setShowUserOpId] = useState<number>(-1);
+    const [useOpsData, setuserOpsData] = useState<UserOp[] | undefined>();
+    const [showUserOpId, setShowUserOpId] = useState<number>(0);
     const [responseData, setresponseData] = useState<PoweredBy>();
     const [duplicateUserOpsRows, setDuplicateUserOpsRows] = useState<tableDataT['rows']>([] as tableDataT['rows']);
 
-    const refreshUserOpsTable = async (name: string, network: string) => {
-        setTableLoading(true);
+    const refreshUserOpsTable = async (name: string) => {
+        if (useOpsData === undefined) {
+            setTableLoading(true);
+        }
+        // setShowUserOpId(-1)
         const userOps = await getUserOp(name);
 
         setuserOpsData(userOps);
@@ -92,7 +96,7 @@ function RecentUserOps(props: any) {
 
         setTimeout(() => {
             setTableLoading(false);
-        }, 2000);
+        }, 1000);
     };
 
     const handleDuplicateRowClick = (id: number) => {
@@ -105,12 +109,12 @@ function RecentUserOps(props: any) {
         if (prevHash !== undefined) {
             prevHash = hash;
             const refreshTable = () => {
-                refreshUserOpsTable(hash as string, selectedNetwork as string);
+                refreshUserOpsTable(hash as string);
             };
 
             refreshTable();
         }
-    }, [hash, selectedNetwork]);
+    }, [hash]);
 
     const fetchPoweredBy = async () => {
         const beneficiary =
@@ -159,44 +163,52 @@ function RecentUserOps(props: any) {
                     </div>
                 </div>
             </section>
-            {showUserOpId == -1 ? (
-                <div className="container mb-16">
-                    <Table
-                        columns={columns}
-                        rows={duplicateUserOpsRows}
-                        loading={tableLoading}
-                        caption={{
-                            children: 'Duplicate User Operations',
-                            icon: '/images/cube.svg',
-                            text: 'Approx Number of Operations Processed in the selected chain',
-                        }}
-                    />
-                </div>
-            ) : (
-                useOpsData &&
-                showUserOpId >= 0 && (
+            <>
+                {tableLoading ? (
                     <>
-                        <HeaderSection item={useOpsData[showUserOpId]} network={network} />
-                        <TransactionDetails
-                            tableLoading={tableLoading}
-                            skeletonCards={skeletonCards}
-                            item={useOpsData[showUserOpId]}
-                            responseData={responseData}
-                        />
-                        <DeveloperDetails
-                            tableLoading={tableLoading}
-                            skeletonCards1={skeletonCards1}
-                            item={useOpsData[showUserOpId]}
-                            selectedColor={selectedColor}
-                            BUTTON_LIST={BUTTON_LIST}
-                            setSelectedColor={setSelectedColor}
-                            open={open}
-                            setOpen={setOpen}
-                        />
+                        <Spinner />
                     </>
-                )
-            )}
-
+                ) : (
+                    <>
+                        {showUserOpId >= 0
+                            ? useOpsData && (
+                                  <>
+                                      <HeaderSection item={useOpsData[showUserOpId]} network={network} />
+                                      <TransactionDetails
+                                          tableLoading={tableLoading}
+                                          skeletonCards={skeletonCards}
+                                          item={useOpsData[showUserOpId]}
+                                          responseData={responseData}
+                                      />
+                                      <DeveloperDetails
+                                          tableLoading={tableLoading}
+                                          skeletonCards1={skeletonCards1}
+                                          item={useOpsData[showUserOpId]}
+                                          selectedColor={selectedColor}
+                                          BUTTON_LIST={BUTTON_LIST}
+                                          setSelectedColor={setSelectedColor}
+                                          open={open}
+                                          setOpen={setOpen}
+                                      />
+                                  </>
+                              )
+                            : showUserOpId === -1 && (
+                                  <div className="container mb-16">
+                                      <Table
+                                          columns={columns}
+                                          rows={duplicateUserOpsRows}
+                                          loading={tableLoading}
+                                          caption={{
+                                              children: 'Duplicate User Operations',
+                                              icon: '/images/cube.svg',
+                                              text: 'Approx Number of Operations Processed in the selected chain',
+                                          }}
+                                      />
+                                  </div>
+                              )}
+                    </>
+                )}
+            </>
             <Footer />
         </div>
     );
