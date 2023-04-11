@@ -17,11 +17,11 @@ function RecentUserOps() {
         } else {
             return fallBack;
         }
-    }
+    };
 
     useEffect(() => {
         setSelectedNetwork(customGetNetworkParam(router.query));
-    }, [])
+    }, []);
 
     return (
         <div>

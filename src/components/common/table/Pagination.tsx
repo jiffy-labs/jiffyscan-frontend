@@ -53,7 +53,7 @@ function Pagination({ pageDetails: { pageNo, setPageNo, pageSize, setPageSize, t
     };
 
     return (
-        <div className="flex flex-wrap justify-end items-center gap-2 md:gap-4 text-sm mt-2">
+        <div className="flex flex-wrap justify-end items-center gap-2 md:gap-4 text-sm mt-4 mb-6">
             <div className="flex items-center">
                 <p>Rows per page:</p>
                 <select onChange={handleShow} value={pageSize} name="" id="" className="pl-3 pr-1">

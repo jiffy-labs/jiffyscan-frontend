@@ -75,4 +75,4 @@ export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
     optimism: 'https://optimistic.etherscan.io/tx/',
 };
 
-export const fallBack = "fallback";
+export const fallBack = 'fallback';

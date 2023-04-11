@@ -15,14 +15,7 @@ export interface TokenType {
     value?: number;
 }
 
-function Token({
-    icon,
-    text,
-    copyIcon,
-    type,
-    onTokenClicked,
-    value
-}: TokenType) {
+function Token({ icon, text, copyIcon, type, onTokenClicked, value }: TokenType) {
     const { selectedNetwork } = useConfig();
 
     return (
@@ -47,7 +40,6 @@ export default Token;
 
 function getHrefLink(type: string | undefined, text: string, network: string) {
     if (type == undefined) return '#';
-
     if (type == 'userOp') {
         return {
             pathname: `/userOpHash/${text}`,
@@ -59,7 +51,10 @@ function getHrefLink(type: string | undefined, text: string, network: string) {
             query: { network: network },
         };
     } else if (type == 'bundle') {
-        return NETWORK_SCANNER_MAP[network] + text;
+        return {
+            pathname: `/bundle/${text}`,
+            query: { network: network },
+        };
     } else {
         return '#';
     }
@@ -73,7 +68,7 @@ function getTarget(type: string | undefined) {
     //     return '_blank';
     // }
     if (type == 'bundle') {
-        return '_blank';
+        return '_self';
     } else {
         return '_self';
     }

@@ -23,9 +23,6 @@ type Props = {
     children: ReactNode;
 };
 
-
-
-
 export function ConfigProvider({ children }: Props) {
     const router = useRouter();
 
@@ -36,21 +33,21 @@ export function ConfigProvider({ children }: Props) {
 
     useEffect(() => {
         setSelectedNetwork(getNetworkParam());
-    }, [])
+    }, []);
 
     useEffect(() => {
         // if (query?.network == selectedNetwork) return;
         if (!selectedNetwork) return;
 
         const href = {
-            pathname: window.location.pathname,    
-            query: {network: selectedNetwork},
+            pathname: window.location.pathname,
+            query: { network: selectedNetwork },
         };
 
         localStorage.setItem('network', selectedNetwork);
         router.push(href, undefined, { shallow: true });
     }, [selectedNetwork]);
-    
+
     const value: ConfigContextType = {
         selectedNetwork,
         setSelectedNetwork,

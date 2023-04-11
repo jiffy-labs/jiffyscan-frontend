@@ -5,12 +5,12 @@ import { getAddressActivity, UserOp, AddressActivity } from '@/components/common
 import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
-import { getTimePassed, shortenString } from '@/components/common/utils';
+import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
 import Token from '@/components/common/Token';
 import { NETWORK_ICON_MAP } from '@/components/common/constants';
 import Skeleton from 'react-loading-skeleton-2';
 import CopyButton from '@/components/common/copy_button/CopyButton';
-import Table, { tableDataT, getFee } from '@/components/common/table/Table';
+import Table, { tableDataT } from '@/components/common/table/Table';
 import Pagination from '@/components/common/table/Pagination';
 import TransactionDetails from './TransactionDetails';
 import HeaderSection from './HeaderSection';
@@ -73,7 +73,7 @@ const createAccountInfoObject = (accountDetails: AddressActivity): AccountInfo =
     };
 };
 
-function RecentAddressActivity(props: any) {
+function Account(props: any) {
     const router = useRouter();
     const [tableLoading, setTableLoading] = useState(true);
     const hash = props.slug && props.slug[0];
@@ -135,7 +135,7 @@ function RecentAddressActivity(props: any) {
         <div className="">
             <Navbar searchbar />
             <section className="py-10 px-3">
-                <div className="container">
+                <div className="container px-0">
                     <div className="flex flex-row">
                         <Link href="/" className="text-gray-500">
                             <ArrowBackIcon
@@ -164,7 +164,7 @@ function RecentAddressActivity(props: any) {
             </section>
             <HeaderSection item={addressInfo} network={network} />
             <TransactionDetails item={addressInfo} network={network} />
-            <div className="container">
+            <div className="container px-0">
                 <Table
                     rows={rows}
                     columns={columns}
@@ -190,4 +190,4 @@ function RecentAddressActivity(props: any) {
     );
 }
 
-export default RecentAddressActivity;
+export default Account;

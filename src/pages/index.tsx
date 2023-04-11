@@ -8,7 +8,7 @@ import { getNetworkParam } from '@/components/common/utils';
 function Index() {
     const router = useRouter();
     const { query } = router;
-    
+
     return (
         <Layout>
             <Home />

@@ -35,25 +35,6 @@ export interface fee {
     };
 }
 
-export const getFee = (amount: number, network: string): fee => {
-    let gasFee: number = amount;
-    let fee: fee = {
-        value: '0',
-        gas: {
-            children: getCurrencySymbol(gasFee, network),
-            color: 'success',
-        },
-    };
-    if (gasFee > 10 ** 13) {
-        fee.value = (gasFee / 10 ** 18).toFixed(4).toString();
-    } else if (gasFee > 10 ** 6) {
-        fee.value = (gasFee / 10 ** 9).toFixed(4).toString();
-    } else {
-        fee.value = gasFee?.toString();
-    }
-    return fee;
-};
-
 function Table(props: tableDataT) {
     const { rows, columns, caption, onRowClick } = props;
     const width = useWidth();

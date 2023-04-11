@@ -43,7 +43,7 @@ export const prepareDayWiseData = (dailyMetrics: DailyMetric[], dataSize: number
 
     // fill total wallets created metrics for empty days
     let totalWalletsCreatedPointer = 0;
-    if (dailyMetrics[0] && parseInt(dailyMetrics[0].daySinceEpoch) <= todayDaySinceEpoch - dataSize) 
+    if (dailyMetrics[0] && parseInt(dailyMetrics[0].daySinceEpoch) <= todayDaySinceEpoch - dataSize)
         totalWalletsCreatedPointer = parseInt(dailyMetrics[0].walletsCreatedTotal);
 
     for (let i = dataSize - 1; i >= 0; i--) {
@@ -86,10 +86,10 @@ export const prepareChartDataAndMetrics = (dailyMetrics: DailyMetric[], metrics:
     // user operations, the data point for that day will not exist. So we are creating an empty dailyData object will all the days.
     // and later populating it with the daily metric. Then creating a list out of it.
     let chartData: ChartData = prepareDayWiseData(dailyMetrics, dataSize);
-    let feeString: string = getFee(chartData.totalFeeCollectedMetric.slice(-1)[0], network);
+    let feeString = getFee(chartData.totalFeeCollectedMetric.slice(-1)[0], network);
 
     metrics.userOpMetric.value = chartData.userOpMetric.slice(-1)[0];
-    metrics.totalFeeCollectedMetric.value = feeString;
+    metrics.totalFeeCollectedMetric.value = feeString.value; // apply the value and symbol both
     metrics.totalwalletsCreatedMetric.value = chartData.totalwalletsCreatedMetric.slice(-1)[0];
     metrics.activeWalletsDailyMetric.value = chartData.activeWalletsDaily.slice(-1)[0];
 

@@ -9,6 +9,8 @@ import { getFee, getTimePassed, shortenString } from '@/components/common/utils'
 import Token from '@/components/common/Token';
 import { NETWORK_ICON_MAP } from '@/components/common/constants';
 import Skeleton from 'react-loading-skeleton-2';
+import Chip, { ChipProps } from '@/components/common/chip/Chip';
+import DisplayFee from '@/components/common/displayfee/DisplayFee';
 
 const columns = [
     { name: 'Hash', sort: true },
@@ -154,7 +156,7 @@ function RecentBlockActivity(props: any) {
                                             </span>
                                         </td>
                                         <td className="whitespace-pre text-black[87%] py-[14px] text-sm leading-5">
-                                            {getFee(item.actualGasCost, item.network)}
+                                            <DisplayFee item={item?.actualGasCost} network={item.network} />
                                         </td>
                                     </tr>
                                 );
