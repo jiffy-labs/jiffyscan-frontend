@@ -2,7 +2,7 @@ import CopyButton from '@/components/common/copy_button/CopyButton';
 import IconText from '@/components/common/IconText';
 import Caption from '@/components/common/table/Caption';
 import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
-import { Link } from '@mui/material';
+import { Link,Tooltip } from '@mui/material';
 import moment from 'moment';
 import { useRouter } from 'next/router';
 
@@ -74,8 +74,33 @@ export default function TransactionDetails({ item, network }: any) {
                                             <IconText icon={'/images/sader.svg'}>Status</IconText>
                                         </td>
                                         <td className="py-[14px] px-4 whitespace-pre">
-                                            <span className="text-dark-600 text-sm leading-5">{item?.status}</span>
+                                            <div className="flex">
+                                                <Tooltip
+                                                    arrow={true}
+                                                    placement="top"
+                                                    title={`A Status code indicating if the top level call is succeeded or failed(applicable for Post BYZANTIUM blocks only)`}
+                                                >
+                                                    {item.success === true ? (
+                                                        <span className="flex items-center px-3 py-px  gap-2 rounded-full border border-[#4CAF50]">
+                                                            <img src="/images/Success.svg" alt="" />
+                                                            <span className="font-normal text-[12px] leading-5 text-dark-600">Success</span>
+                                                        </span>
+                                                    ) : (
+                                                        <>
+                                                            <span className="flex items-center px-3 py-px  gap-2 rounded-full border border-[#d81a14]">
+                                                                <img src="/images/failed.svg" alt="" />
+                                                                <span className="font-normal text-[12px] leading-5 text-dark-600">
+                                                                    Failed
+                                                                </span>
+                                                            </span>
+                                                        </>
+                                                    )}
+                                                </Tooltip>
+                                            </div>
                                         </td>
+                                        {/* <td className="py-[14px] px-4 whitespace-pre">
+                                            <span className="text-dark-600 text-sm leading-5">{item?.status}</span>
+                                        </td> */}
                                         <td className="py-[14px] px-4 text-right"></td>
                                     </tr>
                                     <tr>

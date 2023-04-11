@@ -99,7 +99,6 @@ function RecentAddressActivity(props: any) {
             return;
         }
         const addressDetail = await getBundleDetails(addressInfo.transactionHash, network ? network : '');
-        console.log("🚀 ~ file: recentAddressActivity.tsx:102 ~ updateRowsData ~ addressDetail:", addressDetail)
         const rows = createUserOpsTableRows(addressDetail.userOps);
         setRows(rows);
         setTableLoading(false);
@@ -115,9 +114,7 @@ function RecentAddressActivity(props: any) {
     const loadAccountDetails = async (name: string, network: string) => {
         setTableLoading(true);
         const addressDetail = await getBundleDetails(name, network ? network : '');
-        console.log("🚀 ~ file: recentAddressActivity.tsx:117 ~ loadAccountDetails ~ addressDetail:", addressDetail)
         const accountInfo = createAccountInfoObject(addressDetail);
-        console.log("🚀 ~ file: recentAddressActivity.tsx:119 ~ loadAccountDetails ~ accountInfo:", accountInfo)
         setAddressInfo(accountInfo);
     };
 
