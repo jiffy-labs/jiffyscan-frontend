@@ -3,6 +3,7 @@ import type { ReactElement, ReactNode } from 'react';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import { ConfigProvider } from '../context/config';
+import { Analytics } from '@vercel/analytics/react';
 import '../styles/main.sass';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -20,6 +21,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     return (
         <div>
             <ConfigProvider>{getLayout(<Component {...pageProps} />)}</ConfigProvider>
+            <Analytics />
         </div>
     );
 }
