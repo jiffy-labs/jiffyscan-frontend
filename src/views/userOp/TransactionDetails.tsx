@@ -37,17 +37,17 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                 <Link
                                                     underline="hover"
                                                     // color="text.primary"
-                                                    href={`/account/${item.sender}?network=${item.network ? item.network : ''}`}
+                                                    href={`/account/${item?.sender}?network=${item?.network ? item?.network : ''}`}
                                                     aria-current="page"
                                                     className="text-blue-200"
                                                 >
-                                                    <span className="text-blue-200 text-sm leading-5">{item.sender}</span>
+                                                    <span className="text-blue-200 text-sm leading-5">{item?.sender}</span>
                                                 </Link>
-                                                <CopyButton text={item.sender} />
+                                                <CopyButton text={item?.sender} />
                                                 <Link
                                                     underline="hover"
                                                     // color="text.primary"
-                                                    href={`/account/${item.sender}?network=${item.network ? item.network : ''}`}
+                                                    href={`/account/${item?.sender}?network=${item?.network ? item.network : ''}`}
                                                     aria-current="page"
                                                     className="text-blue-200"
                                                     target={'_blank'}
@@ -78,17 +78,17 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                 <Link
                                                     underline="hover"
                                                     // color="text.primary"
-                                                    href={`/account/${item.target!}?network=${item.network ? item.network : ''}`}
+                                                    href={`/account/${item?.target!}?network=${item.network ? item.network : ''}`}
                                                     aria-current="page"
                                                     className="text-blue-200"
                                                 >
-                                                    <span className="text-blue-200 text-sm leading-5">{item.target}</span>
+                                                    <span className="text-blue-200 text-sm leading-5">{item?.target}</span>
                                                 </Link>
-                                                <CopyButton text={item.target!} />
+                                                <CopyButton text={item?.target!} />
                                                 <Link
                                                     underline="hover"
                                                     // color="text.primary"
-                                                    href={`/account/${item.target!}?network=${item.network ? item.network : ''}`}
+                                                    href={`/account/${item?.target!}?network=${item?.network ? item.network : ''}`}
                                                     aria-current="page"
                                                     className="text-blue-200"
                                                     target={'_blank'}
@@ -111,7 +111,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                         </td>
                                         <td className="py-[14px] px-4 whitespace-pre">
                                             <span className="text-dark-600 text-sm leading-5">
-                                                {moment.unix(item.blockTime!).utcOffset(120).format()}(Eastern European Standard Time)
+                                                {moment.unix(item?.blockTime!).utcOffset(120).format()}(Eastern European Standard Time)
                                             </span>
                                         </td>
                                         <td className="py-[14px] px-4 text-right"></td>
@@ -128,7 +128,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                     placement="top"
                                                     title={`A Status code indicating if the top level call is succeeded or failed(applicable for Post BYZANTIUM blocks only)`}
                                                 >
-                                                    {item.success === true ? (
+                                                    {item?.success === true ? (
                                                         <span className="flex items-center px-3 py-px  gap-2 rounded-full border border-[#4CAF50]">
                                                             <img src="/images/Success.svg" alt="" />
                                                             <span className="font-normal text-[12px] leading-5 text-dark-600">Success</span>
@@ -147,7 +147,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                             </div>
                                         </td>
                                     </tr>
-                                    {item.success === false ? (
+                                    {item?.success === false ? (
                                         <tr>
                                             <td className="py-[14px] px-4 min-w-[205px]">
                                                 <IconText icon={'/images/delete.svg'}>RevertReason</IconText>
@@ -155,7 +155,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                             <td className="py-[14px] px-4 whitespace-pre">
                                                 <div className="flex items-center gap-2 flex-1">
                                                     <span className="text-dark-600 text-sm leading-5">
-                                                        {item.revertReason ? item.revertReason : 'Failed'}
+                                                        {item?.revertReason ? item.revertReason : 'Failed'}
                                                     </span>
                                                 </div>
                                             </td>
@@ -170,7 +170,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                         </td>
                                         <td className="py-[14px] px-4 whitespace-pre">
                                             <span className="text-dark-600 text-sm leading-5 flex items-center">
-                                                <DisplayFee item={item.value!} network={item.network} />
+                                                <DisplayFee item={item?.value!} network={item?.network} />
                                             </span>
                                         </td>
                                         <td></td>
@@ -183,7 +183,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                         </td>
                                         <td className="py-[14px] px-4 whitespace-pre">
                                             <span className="text-dark-600 text-sm leading-5 flex items-center">
-                                                <DisplayFee item={item.actualGasCost!} network={item.network} />
+                                                <DisplayFee item={item?.actualGasCost!} network={item?.network} />
                                             </span>
                                         </td>
                                     </tr>
@@ -194,7 +194,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                             </IconText>
                                         </td>
                                         <td className="py-[14px] px-4 whitespace-pre">
-                                            <span className="text-dark-600 text-sm leading-5 flex items-center">{item.actualGasUsed}</span>
+                                            <span className="text-dark-600 text-sm leading-5 flex items-center">{item?.actualGasUsed}</span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -205,39 +205,39 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                             <div className="flex items-center gap-2 flex-1">
                                                 <Link
                                                     underline="hover"
-                                                    href={`/paymaster/${item.paymaster!}?network=${item.network ? item.network : ''}`}
+                                                    href={`/paymaster/${item?.paymaster!}?network=${item?.network ? item?.network : ''}`}
                                                     aria-current="page"
                                                     className={`${
-                                                        item.paymaster === '0x0000000000000000000000000000000000000000'
+                                                        item?.paymaster === '0x0000000000000000000000000000000000000000'
                                                             ? 'text-dark-700'
                                                             : 'text-blue-200'
                                                     }`}
                                                 >
                                                     <span
                                                         className={`${
-                                                            item.paymaster === '0x0000000000000000000000000000000000000000'
+                                                            item?.paymaster === '0x0000000000000000000000000000000000000000'
                                                                 ? 'text-dark-700'
                                                                 : 'text-blue-200'
                                                         } text-sm leading-5`}
                                                     >
-                                                        {item.paymaster}
+                                                        {item?.paymaster}
                                                     </span>
                                                 </Link>
-                                                {/* <CopyButton text={item.paymaster} />
+                                                {/* <CopyButton text={item?.paymaster} />
                                                     <button className="outline-none focus:outline-none ring-0 focus:ring-0">
                                                         <img src="/images/share.svg" alt="" />
                                                     </button> */}
-                                                {item.paymaster === '0x0000000000000000000000000000000000000000' ? null : (
+                                                {item?.paymaster === '0x0000000000000000000000000000000000000000' ? null : (
                                                     <>
-                                                        <CopyButton text={item.paymaster} />
+                                                        <CopyButton text={item?.paymaster} />
                                                         <Link
                                                             underline="hover"
-                                                            href={`/paymaster/${item.paymaster!}?network=${
+                                                            href={`/paymaster/${item?.paymaster!}?network=${
                                                                 item.network ? item.network : ''
                                                             }`}
                                                             aria-current="page"
                                                             className={`${
-                                                                item.paymaster === '0x0000000000000000000000000000000000000000'
+                                                                item?.paymaster === '0x0000000000000000000000000000000000000000'
                                                                     ? 'text-dark-700'
                                                                     : 'text-blue-200'
                                                             }`}
@@ -261,17 +261,17 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                 <Link
                                                     underline="hover"
                                                     // color="text.primary"
-                                                    href={`/bundler/${item.beneficiary!}?network=${item.network ? item.network : ''}`}
+                                                    href={`/bundler/${item?.beneficiary!}?network=${item?.network ? item.network : ''}`}
                                                     aria-current="page"
                                                     className="text-blue-200"
                                                 >
-                                                    <span className="text-blue-200 text-sm leading-5">{item.beneficiary}</span>
+                                                    <span className="text-blue-200 text-sm leading-5">{item?.beneficiary}</span>
                                                 </Link>
-                                                <CopyButton text={item.beneficiary!} />
+                                                <CopyButton text={item?.beneficiary!} />
                                                 <Link
                                                     underline="hover"
                                                     // color="text.primary"
-                                                    href={`/bundler/${item.beneficiary!}?network=${item.network ? item.network : ''}`}
+                                                    href={`/bundler/${item?.beneficiary!}?network=${item?.network ? item.network : ''}`}
                                                     aria-current="page"
                                                     className="text-blue-200"
                                                     target={'_blank'}
@@ -302,14 +302,14 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                             <Link
                                                 underline="hover"
                                                 // color="text.primary"
-                                                href={NETWORK_SCANNER_MAP[item.network] + item.transactionHash}
+                                                href={NETWORK_SCANNER_MAP[item?.network] + item?.transactionHash}
                                                 aria-current="page"
                                                 className="text-blue-200"
                                                 target="_blank"
                                             >
                                                 <div className="flex items-center gap-2 flex-1">
-                                                    <span className="text-blue-200 text-sm leading-5">{item.transactionHash}</span>
-                                                    <CopyButton text={item.transactionHash!} />
+                                                    <span className="text-blue-200 text-sm leading-5">{item?.transactionHash}</span>
+                                                    <CopyButton text={item?.transactionHash!} />
                                                     <button className="outline-none focus:outline-none ring-0 focus:ring-0">
                                                         <img src="/images/share.svg" alt="" />
                                                     </button>
@@ -326,17 +326,17 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                 <Link
                                                     underline="hover"
                                                     // color="text.primary"
-                                                    href={`/block/${item.blockNumber}?network=${item.network ? item.network : ''}`}
+                                                    href={`/block/${item?.blockNumber}?network=${item?.network ? item.network : ''}`}
                                                     aria-current="page"
                                                     // className="text-blue-200"
                                                 >
-                                                    <span className="text-blue-200 text-sm leading-5">{item.blockNumber}</span>
+                                                    <span className="text-blue-200 text-sm leading-5">{item?.blockNumber}</span>
                                                 </Link>
-                                                <CopyButton text={item.blockNumber!.toString()} />
+                                                <CopyButton text={item?.blockNumber!.toString()} />
                                                 <Link
                                                     underline="hover"
                                                     // color="text.primary"
-                                                    href={`/block/${item.blockNumber}?network=${item.network ? item.network : ''}`}
+                                                    href={`/block/${item?.blockNumber}?network=${item?.network ? item.network : ''}`}
                                                     aria-current="page"
                                                     className="text-blue-200"
                                                     target={'_blank'}

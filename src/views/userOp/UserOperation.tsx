@@ -73,13 +73,13 @@ function RecentUserOps(props: any) {
     const network = router.query && router.query.network;
 
     const [selectedColor, setSelectedColor] = useState(BUTTON_LIST[0].key);
-    const [useOpsData, setuserOpsData] = useState<UserOp[] | undefined>();
+    const [userOpsData, setuserOpsData] = useState<UserOp[]>([] as UserOp[]);
     const [showUserOpId, setShowUserOpId] = useState<number>(0);
     const [responseData, setresponseData] = useState<PoweredBy>();
     const [duplicateUserOpsRows, setDuplicateUserOpsRows] = useState<tableDataT['rows']>([] as tableDataT['rows']);
 
     const refreshUserOpsTable = async (name: string) => {
-        if (useOpsData === undefined) {
+        if (userOpsData === undefined) {
             setTableLoading(true);
         }
         // setShowUserOpId(-1)
@@ -88,7 +88,7 @@ function RecentUserOps(props: any) {
         setuserOpsData(userOps);
         let rows: tableDataT['rows'] = createDuplicateUserOpsRows(userOps, handleDuplicateRowClick);
         setDuplicateUserOpsRows(rows);
-        if (userOps.length == 1) setShowUserOpId(0);
+        if (userOps.length > 1) setShowUserOpId(-1);
 
         if (userOps[0] && userOps[0].network) {
             setSelectedNetwork(userOps[0].network);
@@ -118,12 +118,12 @@ function RecentUserOps(props: any) {
 
     const fetchPoweredBy = async () => {
         const beneficiary =
-            useOpsData
+            userOpsData
                 ?.map((item) => item.beneficiary ?? '')
                 .filter((item) => item !== null)
                 .join(',') || '';
-        const paymaster = useOpsData?.map((item) => item.paymaster)?.[0] || '';
-        const sender = useOpsData?.map((item) => item.sender)?.[0] || '';
+        const paymaster = userOpsData?.map((item) => item.paymaster)?.[0] || '';
+        const sender = userOpsData?.map((item) => item.sender)?.[0] || '';
         const getReached = await getPoweredBy(beneficiary, paymaster);
         setresponseData(getReached);
     };
@@ -163,27 +163,21 @@ function RecentUserOps(props: any) {
                     </div>
                 </div>
             </section>
-            <>
-                {tableLoading ? (
-                    <>
-                        <Spinner />
-                    </>
-                ) : (
                     <>
                         {showUserOpId >= 0
-                            ? useOpsData && (
+                            ? (
                                   <>
-                                      <HeaderSection item={useOpsData[showUserOpId]} network={network} />
+                                      <HeaderSection item={userOpsData?.[showUserOpId]} network={network} loading={tableLoading} />
                                       <TransactionDetails
                                           tableLoading={tableLoading}
                                           skeletonCards={skeletonCards}
-                                          item={useOpsData[showUserOpId]}
+                                          item={userOpsData?.[showUserOpId]}
                                           responseData={responseData}
                                       />
                                       <DeveloperDetails
                                           tableLoading={tableLoading}
                                           skeletonCards1={skeletonCards1}
-                                          item={useOpsData[showUserOpId]}
+                                          item={userOpsData?.[showUserOpId]}
                                           selectedColor={selectedColor}
                                           BUTTON_LIST={BUTTON_LIST}
                                           setSelectedColor={setSelectedColor}
@@ -207,8 +201,6 @@ function RecentUserOps(props: any) {
                                   </div>
                               )}
                     </>
-                )}
-            </>
             <Footer />
         </div>
     );

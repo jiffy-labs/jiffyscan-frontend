@@ -29,7 +29,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                             <IconText icon={'/images/code-array.svg'}>Value</IconText>
                                         </td>
                                         <td className="py-[14px] px-4 whitespace-pre">
-                                            <DisplayFee item={item.value!} network={item.network} />
+                                            <DisplayFee item={item?.value!} network={item?.network} />
 
                                             <div className="flex items-center gap-2 flex-1"></div>
                                         </td>
@@ -57,7 +57,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                     {name}
                                                                 </Chip>
                                                             ))}
-                                                            <CopyButton text={item.input!} />
+                                                            <CopyButton text={item?.input!} />
                                                         </div>
                                                     </td>
                                                     <div
@@ -65,7 +65,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                         custom-scroll bg-white border-dark-200 rounded border
                                                                         ml-[16px]"
                                                     >
-                                                        {item.input}
+                                                        {item?.input}
                                                     </div>
                                                 </td>
                                             </>
@@ -126,7 +126,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                         </td>
                                                                         <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
                                                                             <span className="text-dark-700 text-sm leading-5">
-                                                                                {item.sender}
+                                                                                {item?.sender}
                                                                             </span>
                                                                         </td>
                                                                     </tr>
@@ -138,7 +138,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                             uint256
                                                                         </td>
                                                                         <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5 ">
-                                                                            {item.nonce}
+                                                                            {item?.nonce}
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
@@ -161,7 +161,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                                 Bytes
                                                                             </td>
                                                                             <td className="whitespace-normal break-all text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                {item.input}
+                                                                                {item?.input}
                                                                             </td>
                                                                         </tr>
                                                                     ) : (
@@ -192,7 +192,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                                     target
                                                                                 </td>
                                                                                 <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                    {item.target}
+                                                                                    {item?.target}
                                                                                 </td>
                                                                                 <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
                                                                                     <span className="text-blue-200 text-sm leading-5"></span>
@@ -204,7 +204,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                                     value
                                                                                 </td>
                                                                                 <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                    <DisplayFee item={item.value!} network={item.network} />
+                                                                                    <DisplayFee item={item?.value!} network={item?.network} />
                                                                                 </td>
                                                                                 <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
                                                                                     <span className="text-blue-200 text-sm leading-5"></span>
@@ -216,7 +216,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                                     calldata
                                                                                 </td>
                                                                                 <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                    {item.callData}
+                                                                                    {item?.callData}
                                                                                 </td>
                                                                                 <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
                                                                                     <span className="text-blue-200 text-sm leading-5"></span>
@@ -232,7 +232,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                             uint256
                                                                         </td>
                                                                         <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                            {item.callGasLimit}
+                                                                            {item?.callGasLimit}
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
@@ -243,7 +243,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                             uint256
                                                                         </td>
                                                                         <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                            {item.verificationGasLimit}
+                                                                            {item?.verificationGasLimit}
                                                                         </td>
                                                                     </tr>
 
@@ -255,7 +255,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                             uint256
                                                                         </td>
                                                                         <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                            {item.preVerificationGas}
+                                                                            {item?.preVerificationGas}
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
@@ -266,7 +266,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                             uint256
                                                                         </td>
                                                                         <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                            <DisplayFee item={item.maxFeePerGas!} network={item.network} />
+                                                                            <DisplayFee item={item?.maxFeePerGas!} network={item?.network} />
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
@@ -278,8 +278,8 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                         </td>
                                                                         <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
                                                                             <DisplayFee
-                                                                                item={item.maxPriorityFeePerGas!}
-                                                                                network={item.network}
+                                                                                item={item?.maxPriorityFeePerGas!}
+                                                                                network={item?.network}
                                                                             />
                                                                         </td>
                                                                     </tr>
@@ -291,7 +291,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                             uint256
                                                                         </td>
                                                                         <td className="whitespace-normal break-all text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                            {item.paymasterAndData}
+                                                                            {item?.paymasterAndData}
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
@@ -302,7 +302,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                             uint256
                                                                         </td>
                                                                         <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                            {item.signature}
+                                                                            {item?.signature}
                                                                         </td>
                                                                     </tr>
                                                                 </tbody>
