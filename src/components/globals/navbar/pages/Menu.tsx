@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 
@@ -5,6 +6,7 @@ function Menu(props: { name: string; dropdown: string[][] | undefined; id: strin
     const { pathname } = useRouter();
     const [isOpen, setIsOpen] = useState(false);
     const current = props.url === pathname;
+    console.log('🚀 ~ file: Menu.tsx:8 ~ Menu ~ current:', current);
     const menuRef = useRef<HTMLDivElement>(null);
 
     const handleToggleDropdown = () => {
@@ -29,6 +31,8 @@ function Menu(props: { name: string; dropdown: string[][] | undefined; id: strin
         };
     }, []);
 
+    console.log(props.name, 'props.dropdown');
+
     return (
         <div className="relative" id={props.id} ref={menuRef}>
             <button
@@ -37,7 +41,10 @@ function Menu(props: { name: string; dropdown: string[][] | undefined; id: strin
                 }`}
                 onClick={handleToggleDropdown}
             >
-                {props.name} {props.dropdown != undefined ? <img src="/images/icon-container.svg" alt="" /> : null}
+                <Link href={props.url} className="hover:no-underline">
+                    {props.name}
+                </Link>
+                {props.dropdown != undefined ? <img src="/images/icon-container.svg" alt="" /> : null}
             </button>
 
             {isOpen && (
