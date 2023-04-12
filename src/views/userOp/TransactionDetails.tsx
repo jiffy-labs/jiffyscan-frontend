@@ -302,7 +302,9 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                             <Link
                                                 underline="hover"
                                                 // color="text.primary"
-                                                href={`/bundle/${item?.transactionHash!}?network=${item?.network ? item.network : 'mainnet'}`}
+                                                href={`/bundle/${item?.transactionHash!}?network=${
+                                                    item?.network ? item.network : 'mainnet'
+                                                }`}
                                                 aria-current="page"
                                                 className="text-blue-200"
                                                 target="_self"
