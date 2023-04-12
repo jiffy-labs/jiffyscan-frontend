@@ -56,7 +56,7 @@ const createUserOpsTableRows = (userOps: UserOp[]): tableDataT['rows'] => {
     return newRows;
 };
 
-interface AccountInfo {
+interface BundleInfo {
     userOpsLength: number;
     blockNumber: number;
     blockTime: number;
@@ -67,7 +67,7 @@ interface AccountInfo {
     transactionFee: number;
 }
 
-const createAccountInfoObject = (bundleDetails: Bundle): AccountInfo => {
+const createBundleInfoObject = (bundleDetails: Bundle): BundleInfo => {
     return {
         userOpsLength: bundleDetails.userOpsLength,
         blockNumber: bundleDetails.blockNumber,
@@ -86,7 +86,7 @@ function Bundler(props: any) {
     const hash = props.slug && props.slug[0];
     const network = router.query && (router.query.network as string);
     const [rows, setRows] = useState([] as tableDataT['rows']);
-    const [addressInfo, setAddressInfo] = useState<AccountInfo>();
+    const [bundleInfo, setBundleInfo] = useState<BundleInfo>();
     const [useOps, setuserOps] = useState<UserOp[]>();
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE);
@@ -95,10 +95,10 @@ function Bundler(props: any) {
     // handling table page change. Everytime the pageNo change, or pageSize change this function will fetch new data and update it.
     const updateRowsData = async (network: string, pageNo: number, pageSize: number) => {
         setTableLoading(true);
-        if (addressInfo == undefined) {
+        if (bundleInfo == undefined) {
             return;
         }
-        const addressDetail = await getBundleDetails(addressInfo.transactionHash, network ? network : '', pageNo, pageSize);
+        const addressDetail = await getBundleDetails(bundleInfo.transactionHash, network ? network : '', pageNo, pageSize);
         const rows = createUserOpsTableRows(addressDetail.userOps);
         setRows(rows);
         setTableLoading(false);
@@ -111,23 +111,23 @@ function Bundler(props: any) {
     };
 
     // load the account details.
-    const loadAccountDetails = async (name: string, network: string) => {
+    const loadBundleDetails = async (name: string, network: string) => {
         setTableLoading(true);
         console.log('checking for hash ', name, ' and network ', network, ' in useEffect');
 
-        const addressDetail = await getBundleDetails(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo);
-        const accountInfo = createAccountInfoObject(addressDetail);
-        setAddressInfo(accountInfo);
+        const bundleDetail = await getBundleDetails(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo);
+        const bundleInfo = createBundleInfoObject(bundleDetail);
+        setBundleInfo(bundleInfo);
     };
 
     useEffect(() => {
         updateRowsData(network ? network : '', pageSize, pageNo);
-    }, [pageNo, addressInfo]);
+    }, [pageNo, bundleInfo]);
 
     useEffect(() => {
-        const captionText = `${addressInfo?.userOpsLength} User Ops found`;
+        const captionText = `${bundleInfo?.userOpsLength} User Ops found`;
         setCaptionText(captionText);
-    }, [addressInfo]);
+    }, [bundleInfo]);
 
     let prevHash = hash;
     let prevNetwork = network;
@@ -136,7 +136,7 @@ function Bundler(props: any) {
         if (prevHash !== undefined || prevNetwork !== undefined) {
             prevHash = hash;
             prevNetwork = network;
-            loadAccountDetails(hash as string, network as string);
+            loadBundleDetails(hash as string, network as string);
         }
     }, [hash, network]);
     let skeletonCards = Array(5).fill(0);
@@ -171,8 +171,8 @@ function Bundler(props: any) {
                     <h1 className="font-bold text-3xl">Bundle</h1>
                 </div>
             </section>
-            <HeaderSection item={addressInfo} network={network} />
-            <TransactionDetails item={addressInfo} network={network} />
+            <HeaderSection item={bundleInfo} network={network} />
+            <TransactionDetails item={bundleInfo} network={network} />
             <div className="container px-0">
                 <Table
                     rows={rows}
@@ -190,7 +190,7 @@ function Bundler(props: any) {
                         setPageNo,
                         pageSize,
                         setPageSize,
-                        totalRows: addressInfo?.userOpsLength != null ? addressInfo.userOpsLength : 0,
+                        totalRows: bundleInfo?.userOpsLength != null ? bundleInfo.userOpsLength : 0,
                     }}
                 />
             </div>

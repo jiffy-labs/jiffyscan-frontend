@@ -302,10 +302,10 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                             <Link
                                                 underline="hover"
                                                 // color="text.primary"
-                                                href={NETWORK_SCANNER_MAP[item?.network] + item?.transactionHash}
+                                                href={`/bundle/${item?.transactionHash!}?network=${item?.network ? item.network : 'mainnet'}`}
                                                 aria-current="page"
                                                 className="text-blue-200"
-                                                target="_blank"
+                                                target="_self"
                                             >
                                                 <div className="flex items-center gap-2 flex-1">
                                                     <span className="text-blue-200 text-sm leading-5">{item?.transactionHash}</span>

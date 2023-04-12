@@ -40,20 +40,31 @@ export default function TransactionDetails({ item, network }: any) {
                                 <tbody className="min-w-full divide-y divide-gray-300">
                                     <tr>
                                         <td className="py-[14px] px-4 min-w-[205px]">
-                                            <IconText icon={'/images/sader.svg'}>Number</IconText>
+                                            <IconText icon={'/images/sader.svg'}>Block Number</IconText>
                                         </td>
                                         <td className="py-[14px] px-4 whitespace-pre">
                                             <div className="flex items-center gap-2 flex-1">
-                                                <span className="text-dark-600 text-sm leading-5">{item?.blockNumber}</span>
-                                                <button
-                                                    className="outline-none focus:outline-none ring-0 focus:ring-0"
-                                                    onClick={() => {
-                                                        const url = `/block/${item?.blockNumber}`;
-                                                        window.open(url, '_blank');
-                                                    }}
+                                                <Link
+                                                    underline="hover"
+                                                    // color="text.primary"
+                                                    href={`/block/${item?.blockNumber!}?network=${item?.network ? item.network : ''}`}
+                                                    aria-current="page"
+                                                    className="text-blue-200"
                                                 >
-                                                    <img src="/images/share.svg" alt="" />
-                                                </button>
+                                                    <span className="text-blue-200 text-sm leading-5">{item?.blockNumber}</span>
+                                                </Link>
+                                                <CopyButton text={item?.blockNumber!} />
+                                                <Link
+                                                    // color="text.primary"
+                                                    href={`/block/${item?.blockNumber!}?network=${item?.network ? item.network : ''}`}
+                                                    aria-current="page"
+                                                    className="text-blue-200"
+                                                    target={'_blank'}
+                                                >
+                                                    <button className="outline-none focus:outline-none ring-0 focus:ring-0">
+                                                        <img src="/images/share.svg" alt="" />
+                                                    </button>
+                                                </Link>
                                             </div>
                                         </td>
                                         <td className="py-[14px] px-4 whitespace-pre">
@@ -69,6 +80,36 @@ export default function TransactionDetails({ item, network }: any) {
                                             <span className="text-dark-600 text-sm leading-5">{getTimePassed(item?.blockTime)}</span>
                                         </td>
                                         <td className="py-[14px] px-4 text-right"></td>
+                                    </tr>
+                                    <tr>
+                                        <td className="py-[14px] px-4 min-w-[205px]">
+                                            <IconText icon={'/images/sader.svg'}>Bundler</IconText>
+                                        </td>
+                                        <td className="py-[14px] px-4 whitespace-pre">
+                                            <div className="flex items-center gap-2 flex-1">
+                                                <Link
+                                                    underline="hover"
+                                                    // color="text.primary"
+                                                    href={`/bundler/${item?.from!}?network=${item?.network ? item.network : ''}`}
+                                                    aria-current="page"
+                                                    className="text-blue-200"
+                                                >
+                                                    <span className="text-blue-200 text-sm leading-5">{item?.from}</span>
+                                                </Link>
+                                                <CopyButton text={item?.from!} />
+                                                <Link
+                                                    // color="text.primary"
+                                                    href={`/bundler/${item?.from!}?network=${item?.network ? item.network : ''}`}
+                                                    aria-current="page"
+                                                    className="text-blue-200"
+                                                    target={'_blank'}
+                                                >
+                                                    <button className="outline-none focus:outline-none ring-0 focus:ring-0">
+                                                        <img src="/images/share.svg" alt="" />
+                                                    </button>
+                                                </Link>
+                                            </div>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td className="py-[14px] px-4 min-w-[205px]">
@@ -106,7 +147,7 @@ export default function TransactionDetails({ item, network }: any) {
                                     </tr>
                                     <tr>
                                         <td className="py-[14px] px-4 min-w-[205px]">
-                                            <IconText icon={'/images/sader.svg'}>Fee</IconText>
+                                            <IconText icon={'/images/sader.svg'}>Transaction Fee</IconText>
                                         </td>
                                         <td className="py-[14px] px-4 whitespace-pre">
                                             <td className="">
