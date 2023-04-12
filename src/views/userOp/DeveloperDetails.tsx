@@ -52,26 +52,30 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                             <>
                                                 <div className="py-[14px] px-4 mt-[-28px]">
                                                     <div className="py-[14px] px-4 mt-[-28px]">
-                                                        <td className="whitespace-normal break-all text-black[87%] py-[14px] text-sm leading-5">
-                                                            <td className="py-[14px] px-4 whitespace-pre">
-                                                                <div className="flex my-[2px] mb-2">
-                                                                    {BUTTON_LIST.map(({ name, key }, index) => (
-                                                                        <Chip
-                                                                            className={`
+                                                        <div className="whitespace-normal  break-all text-black[87%] py-[14px] text-sm leading-5">
+                                                            <div className="py-[14px] flex px-4 whitespace-pre">
+                                                                <div className="flex items-center justify-between w-full my-[2px] mb-2">
+                                                                    <div className="flex gap-1">
+                                                                        {BUTTON_LIST.map(({ name, key }, index) => (
+                                                                            <Chip
+                                                                                className={`
                                     text-white table-tab py-[6px] px-3 ${sx.tab}`}
-                                                                            onClick={() => {
-                                                                                setSelectedColor(key);
-                                                                            }}
-                                                                            key={index}
-                                                                            color={`${selectedColor === key ? 'blue-700' : 'white'}`}
-                                                                            // variant={"outlined"}
-                                                                        >
-                                                                            {name}
-                                                                        </Chip>
-                                                                    ))}
-                                                                    <CopyButton text={item?.input!} />
+                                                                                onClick={() => {
+                                                                                    setSelectedColor(key);
+                                                                                }}
+                                                                                key={index}
+                                                                                color={`${selectedColor === key ? 'blue-700' : 'white'}`}
+                                                                                // variant={"outlined"}
+                                                                            >
+                                                                                {name}
+                                                                            </Chip>
+                                                                        ))}
+                                                                    </div>
+                                                                    <div className="flex-end">
+                                                                        <CopyButton text={item?.input!} />
+                                                                    </div>
                                                                 </div>
-                                                            </td>
+                                                            </div>
                                                             <div
                                                                 className="overflow-auto flex-1 max-h-[290px] 
                                             custom-scroll bg-white border-dark-200 rounded border
@@ -79,7 +83,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                             >
                                                                 {item?.input}
                                                             </div>
-                                                        </td>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </>
@@ -87,18 +91,23 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                             <>
                                                 <div className="py-[14px] px-4 mt-[-28px]">
                                                     <div className="py-[14px] px-4 ">
-                                                        <div className="flex my-[2px] mb-2">
-                                                            {BUTTON_LIST.map(({ name, key }, index) => (
-                                                                <Chip
-                                                                    className={`
+                                                        <div className="flex my-[2px] justify-between mb-2">
+                                                            <div className="flex gap-1">
+                                                                {BUTTON_LIST.map(({ name, key }, index) => (
+                                                                    <Chip
+                                                                        className={`
                                         text-white table-tab py-[6px] px-3 ${sx.tab}`}
-                                                                    onClick={() => setSelectedColor(key)}
-                                                                    key={index}
-                                                                    color={`${selectedColor === key ? 'blue-700' : 'white'}`}
-                                                                >
-                                                                    {name}
-                                                                </Chip>
-                                                            ))}
+                                                                        onClick={() => setSelectedColor(key)}
+                                                                        key={index}
+                                                                        color={`${selectedColor === key ? 'blue-700' : 'white'}`}
+                                                                    >
+                                                                        {name}
+                                                                    </Chip>
+                                                                ))}
+                                                            </div>
+                                                            <div className="flex-end">
+                                                                <CopyButton text={item?.input!} />
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div className="flex gap-2">
@@ -122,7 +131,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                             scope="col"
                                                                             className="sticky whitespace-nowrap z-10 top-0 bg-white py-[14px] px-3 text-left text-[12px] font-bold leading-5 text-dark-600"
                                                                         >
-                                                                            Date
+                                                                            Data
                                                                         </th>
 
                                                                         <th

@@ -131,7 +131,7 @@ function RecentUserOps(props: any) {
         fetchPoweredBy();
     }, []);
     let skeletonCards = Array(13).fill(0);
-    let skeletonCards1 = Array(5).fill(0);
+    let skeletonCards1 = Array(2).fill(0);
     return (
         <div className="">
             <Navbar searchbar />

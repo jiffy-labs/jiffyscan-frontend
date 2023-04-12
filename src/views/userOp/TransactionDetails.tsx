@@ -432,7 +432,8 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                                 {item?.transactionHash}
                                                             </span>
                                                         </Link>
-                                                        <div className="w-[30px] flex">
+
+                                                        <div className="w-[40px] flex">
                                                             <CopyButton text={item?.transactionHash} />
                                                         </div>
                                                         <Link
@@ -478,7 +479,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                                 {item?.transactionHash}
                                                             </span>
                                                         </Link>
-                                                        <div className="w-[30px] flex">
+                                                        <div className="w-[40px] flex">
                                                             <CopyButton text={item?.transactionHash} />
                                                         </div>
                                                         <Link
