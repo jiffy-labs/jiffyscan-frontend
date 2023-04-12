@@ -1,27 +1,50 @@
+import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 function Menu(props: { name: string; dropdown: string[][] | undefined; id: string; url: string }) {
     const { pathname } = useRouter();
     const [isOpen, setIsOpen] = useState(false);
     const current = props.url === pathname;
+    console.log('🚀 ~ file: Menu.tsx:8 ~ Menu ~ current:', current);
+    const menuRef = useRef<HTMLDivElement>(null);
 
     const handleToggleDropdown = () => {
         setIsOpen(!isOpen);
     };
-    const onClose = () => {
+
+    const handleCloseDropdown = () => {
         setIsOpen(false);
     };
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
+            }
+        };
+
+        document.addEventListener('click', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+        };
+    }, []);
+
+    console.log(props.name, 'props.dropdown');
+
     return (
-        <div className="relative" id={props.id}>
+        <div className="relative" id={props.id} ref={menuRef}>
             <button
                 className={`flex items-center gap-1 text-md tracking-[0.25px] underline-offset-[10px] decoration-2 ${
                     current ? 'underline' : 'hover:no-underline'
                 }`}
                 onClick={handleToggleDropdown}
-                onBlur={onClose}
             >
-                {props.name} {props.dropdown != undefined ? <img src="/images/icon-container.svg" alt="" /> : null}
+                <Link href={props.url} className="hover:no-underline">
+                    {props.name}
+                </Link>
+                {props.dropdown != undefined ? <img src="/images/icon-container.svg" alt="" /> : null}
             </button>
 
             {isOpen && (

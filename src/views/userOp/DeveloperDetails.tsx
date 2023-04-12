@@ -229,7 +229,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                                 <td className="text-black [87%]  text-sm leading-5 py-[14px] px-3">
                                                                                     value
                                                                                 </td>
-                                                                                <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
                                                                                     <DisplayFee
                                                                                         item={item?.value!}
                                                                                         network={item?.network}
@@ -294,7 +294,8 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                         <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
                                                                             uint256
                                                                         </td>
-                                                                        <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
+
+                                                                        <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
                                                                             <DisplayFee
                                                                                 item={item?.maxFeePerGas!}
                                                                                 network={item?.network}
