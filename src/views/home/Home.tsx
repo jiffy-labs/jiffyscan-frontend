@@ -42,6 +42,7 @@ function Home() {
                 },
                 ago: getTimePassed(bundle.blockTime),
                 userOps: bundle.userOpsLength + ' ops',
+                status: true,
             });
         });
         setBundlesTable({ ...bundlesTable, rows: newRows.slice(0, 5) });

@@ -65,6 +65,7 @@ export interface Bundle {
     transactionFee: number;
     userOps: UserOp[];
     address: string;
+    success: Boolean | true;
 }
 
 export interface DailyMetric {

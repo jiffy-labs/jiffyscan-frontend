@@ -204,7 +204,10 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                                     value
                                                                                 </td>
                                                                                 <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                    <DisplayFee item={item?.value!} network={item?.network} />
+                                                                                    <DisplayFee
+                                                                                        item={item?.value!}
+                                                                                        network={item?.network}
+                                                                                    />
                                                                                 </td>
                                                                                 <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
                                                                                     <span className="text-blue-200 text-sm leading-5"></span>
@@ -266,7 +269,10 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                             uint256
                                                                         </td>
                                                                         <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                            <DisplayFee item={item?.maxFeePerGas!} network={item?.network} />
+                                                                            <DisplayFee
+                                                                                item={item?.maxFeePerGas!}
+                                                                                network={item?.network}
+                                                                            />
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
