@@ -8,9 +8,7 @@ export default function DisplayFee({ item, network }: any) {
 
     useEffect(() => {
         setFee(getFee(item, network));
-        console.log('fee', fee);
-        console.log(item, fee)
-    }, [item, network])
+    }, [item, network]);
 
     return (
         <div>
