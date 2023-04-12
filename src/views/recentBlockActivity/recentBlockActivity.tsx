@@ -13,6 +13,7 @@ import Chip, { ChipProps } from '@/components/common/chip/Chip';
 import DisplayFee from '@/components/common/displayfee/DisplayFee';
 import Table, { tableDataT } from '@/components/common/table/Table';
 import Pagination from '@/components/common/table/Pagination';
+import { add } from 'lodash';
 
 const DEFAULT_PAGE_SIZE = 10;
 
@@ -76,6 +77,9 @@ function RecentBlockActivity(props: any) {
         setTableLoading(true);
         const addressDetail = await getBlockDetails(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo);
         setAddressInfo(addressDetail);
+        const rows = createUserOpsTableRows(addressDetail.userOps);
+        setRows(rows);
+        setTableLoading(false);
     };
 
     useEffect(() => {

@@ -246,7 +246,7 @@ export const getBlockDetails = async (
     );
     const data = await response.json();
     if ('block' in data) {
-        return data as Block;
+        return data.block as Block;
     }
 
     return {}  as Block;
