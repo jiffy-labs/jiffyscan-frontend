@@ -31,7 +31,7 @@ function Navbar(props: NavbarProps) {
 
     return (
         <Fragment>
-            <nav className="py-3">
+            <nav className="py-3 px-[16px]">
                 <div className="container justify-between flex items-center gap-8 px-0">
                     <div className="">
                         <Logo />

@@ -131,7 +131,7 @@ function RecentUserOps(props: any) {
         fetchPoweredBy();
     }, []);
     let skeletonCards = Array(13).fill(0);
-    let skeletonCards1 = Array(5).fill(0);
+    let skeletonCards1 = Array(2).fill(0);
     return (
         <div className="">
             <Navbar searchbar />
@@ -163,44 +163,44 @@ function RecentUserOps(props: any) {
                     </div>
                 </div>
             </section>
+            <>
+                {showUserOpId >= 0 ? (
                     <>
-                        {showUserOpId >= 0
-                            ? (
-                                  <>
-                                      <HeaderSection item={userOpsData?.[showUserOpId]} network={network} loading={tableLoading} />
-                                      <TransactionDetails
-                                          tableLoading={tableLoading}
-                                          skeletonCards={skeletonCards}
-                                          item={userOpsData?.[showUserOpId]}
-                                          responseData={responseData}
-                                      />
-                                      <DeveloperDetails
-                                          tableLoading={tableLoading}
-                                          skeletonCards1={skeletonCards1}
-                                          item={userOpsData?.[showUserOpId]}
-                                          selectedColor={selectedColor}
-                                          BUTTON_LIST={BUTTON_LIST}
-                                          setSelectedColor={setSelectedColor}
-                                          open={open}
-                                          setOpen={setOpen}
-                                      />
-                                  </>
-                              )
-                            : showUserOpId === -1 && (
-                                  <div className="container mb-16">
-                                      <Table
-                                          columns={columns}
-                                          rows={duplicateUserOpsRows}
-                                          loading={tableLoading}
-                                          caption={{
-                                              children: 'Duplicate User Operations',
-                                              icon: '/images/cube.svg',
-                                              text: 'Approx Number of Operations Processed in the selected chain',
-                                          }}
-                                      />
-                                  </div>
-                              )}
+                        <HeaderSection item={userOpsData?.[showUserOpId]} network={network} loading={tableLoading} />
+                        <TransactionDetails
+                            tableLoading={tableLoading}
+                            skeletonCards={skeletonCards}
+                            item={userOpsData?.[showUserOpId]}
+                            responseData={responseData}
+                        />
+                        <DeveloperDetails
+                            tableLoading={tableLoading}
+                            skeletonCards1={skeletonCards1}
+                            item={userOpsData?.[showUserOpId]}
+                            selectedColor={selectedColor}
+                            BUTTON_LIST={BUTTON_LIST}
+                            setSelectedColor={setSelectedColor}
+                            open={open}
+                            setOpen={setOpen}
+                        />
                     </>
+                ) : (
+                    showUserOpId === -1 && (
+                        <div className="container mb-16">
+                            <Table
+                                columns={columns}
+                                rows={duplicateUserOpsRows}
+                                loading={tableLoading}
+                                caption={{
+                                    children: 'Duplicate User Operations',
+                                    icon: '/images/cube.svg',
+                                    text: 'Approx Number of Operations Processed in the selected chain',
+                                }}
+                            />
+                        </div>
+                    )
+                )}
+            </>
             <Footer />
         </div>
     );
