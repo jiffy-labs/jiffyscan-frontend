@@ -17,7 +17,6 @@ export default function DisplayFee({ item, network }: any) {
                 <Chip variant="outlined" color={fee?.gas?.color as ChipProps['color']}>
                     {fee?.gas?.children}
                 </Chip>
-                <CopyButton text={fee?.value} />
             </div>
         </div>
     );
