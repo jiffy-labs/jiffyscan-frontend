@@ -5,6 +5,7 @@ import { useConfig } from '@/context/config';
 import UserOperations from '@/views/userOp/UserOperation';
 import { useRouter } from 'next/router';
 import React, { ReactElement, useEffect } from 'react';
+import ReactGA from 'react-ga4';
 
 function RecentUserOps() {
     const router = useRouter();
@@ -21,6 +22,7 @@ function RecentUserOps() {
 
     useEffect(() => {
         setSelectedNetwork(customGetNetworkParam(router.query));
+        ReactGA.send({ hitType: "pageview", page: window.location.pathname });
     }, []);
 
     return (

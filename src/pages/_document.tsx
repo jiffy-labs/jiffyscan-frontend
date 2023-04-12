@@ -4,7 +4,7 @@ export default function Document() {
     return (
         <Html lang="en">
             <Head>
-                <link rel="icon" href="./favicon.ico" />
+                <link rel="icon" href='/favicon' />
                 <meta name="description" content="User Operation explorer for Account Abstraction (ERC-4337)" />
                 <meta name="keywords" content="4337, Account Abstraction, Explorer, BlockChain, Paymaster, Bundler, Entrypoint"></meta>
                 <meta name="author" content="Jiffy Labs"></meta>
