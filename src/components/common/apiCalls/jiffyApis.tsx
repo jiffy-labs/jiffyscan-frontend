@@ -46,6 +46,14 @@ export interface AddressActivity {
     userOpHash: string;
     totalDeposits: string;
 }
+
+export interface Block {
+    userOps: UserOp[];
+    userOpsLength: number;
+    network: string;
+    blockNumber: number;
+    blockTime: number;
+}
 export interface PayMasterActivity {
     userOps: UserOp[];
     userOpsLength: number;
@@ -225,8 +233,8 @@ export const getBlockDetails = async (
     selectedNetwork: string,
     pageSize: number,
     pageNo: number,
-): Promise<UserOp[]> => {
-    if (!performApiCall(selectedNetwork)) return [] as UserOp[];
+): Promise<Block> => {
+    if (!performApiCall(selectedNetwork)) return {} as Block;
     const response = await fetch(
         'https://api.jiffyscan.xyz/v0/getBlockActivity?blockNumber=' +
             blockNumber +
@@ -238,11 +246,11 @@ export const getBlockDetails = async (
             pageNo * pageSize,
     );
     const data = await response.json();
-    if ('userOps' in data) {
-        return data.userOps as UserOp[];
+    if ('block' in data) {
+        return data.block as Block;
     }
 
-    return [] as UserOp[];
+    return {}  as Block;
 };
 
 export const getAccountDetails = async (userOpHash: string, selectedNetwork: string): Promise<UserOp> => {

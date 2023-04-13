@@ -4,10 +4,15 @@ import { useConfig } from '@/context/config';
 import Account from '@/views/account/Account';
 import { useRouter } from 'next/router';
 import React, { ReactElement, useEffect } from 'react';
+import ReactGA from 'react-ga4';
 
 function RecentAccount() {
     const router = useRouter();
     const { slug } = router.query;
+
+    useEffect(() => {
+        ReactGA.send({ hitType: "pageview", page: window.location.pathname });
+    }, [])
 
     return (
         <div>

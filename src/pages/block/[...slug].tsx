@@ -4,6 +4,7 @@ import { useConfig } from '@/context/config';
 import RecentBlockActivity from '@/views/recentBlockActivity/recentBlockActivity';
 import { useRouter } from 'next/router';
 import React, { ReactElement, useEffect } from 'react';
+import ReactGA from 'react-ga4';
 
 function RecentBlock() {
     const router = useRouter();
@@ -12,6 +13,8 @@ function RecentBlock() {
 
     useEffect(() => {
         setSelectedNetwork(getNetworkParam());
+        ReactGA.send({ hitType: "pageview", page: window.location.pathname });
+
     }, []);
 
     return (

@@ -1,7 +1,7 @@
 import Footer from '@/components/globals/footer/Footer';
 import Navbar from '@/components/globals/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
-import { getBlockDetails, getPayMasterDetails, UserOp } from '@/components/common/apiCalls/jiffyApis';
+import { Block, getBlockDetails, getPayMasterDetails, UserOp } from '@/components/common/apiCalls/jiffyApis';
 import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
@@ -13,6 +13,7 @@ import Chip, { ChipProps } from '@/components/common/chip/Chip';
 import DisplayFee from '@/components/common/displayfee/DisplayFee';
 import Table, { tableDataT } from '@/components/common/table/Table';
 import Pagination from '@/components/common/table/Pagination';
+import { add } from 'lodash';
 
 const DEFAULT_PAGE_SIZE = 10;
 
@@ -45,10 +46,10 @@ const createUserOpsTableRows = (userOps: UserOp[]): tableDataT['rows'] => {
 function RecentBlockActivity(props: any) {
     const router = useRouter();
     const [tableLoading, setTableLoading] = useState(true);
-    const hash = props.slug && props.slug[0];
+    const block = props.slug && props.slug[0];
     const network = router.query && router.query.network;
     const [rows, setRows] = useState([] as tableDataT['rows']);
-    const [addressInfo, setAddressInfo] = useState<UserOp[]>();
+    const [addressInfo, setAddressInfo] = useState<Block>();
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE);
     const [captionText, setCaptionText] = useState('N/A User Ops found');
@@ -57,8 +58,8 @@ function RecentBlockActivity(props: any) {
         if (addressInfo == undefined) {
             return;
         }
-        const addressDetail = await getBlockDetails(hash, network ? network : '', pageNo, pageSize);
-        const rows = createUserOpsTableRows(addressDetail);
+        const addressDetail = await getBlockDetails(block, network ? network : '', pageNo, pageSize);
+        const rows = createUserOpsTableRows(addressDetail.userOps);
         setRows(rows);
         setTimeout(() => {
             setTableLoading(false);
@@ -76,6 +77,9 @@ function RecentBlockActivity(props: any) {
         setTableLoading(true);
         const addressDetail = await getBlockDetails(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo);
         setAddressInfo(addressDetail);
+        const rows = createUserOpsTableRows(addressDetail.userOps);
+        setRows(rows);
+        setTableLoading(false);
     };
 
     useEffect(() => {
@@ -83,20 +87,20 @@ function RecentBlockActivity(props: any) {
     }, [pageNo]);
 
     useEffect(() => {
-        const captionText = `${addressInfo?.length} User Ops found`;
+        const captionText = `${addressInfo?.userOpsLength} User Ops found`;
         setCaptionText(captionText);
     }, [addressInfo]);
 
-    let prevHash = hash;
+    let prevBlock = block;
     let prevNetwork = network;
     useEffect(() => {
         // Check if hash or network have changed
-        if (prevHash !== undefined || prevNetwork !== undefined) {
-            prevHash = hash;
+        if (prevBlock !== undefined || prevNetwork !== undefined) {
+            prevBlock = block;
             prevNetwork = network;
-            loadAccountDetails(hash as string, network as string);
+            loadAccountDetails(block as string, network as string);
         }
-    }, [hash, network]);
+    }, [block, network]);
     return (
         <div className="">
             <Navbar searchbar />
@@ -118,10 +122,10 @@ function RecentBlockActivity(props: any) {
                             <Link
                                 underline="hover"
                                 color="text.primary"
-                                href={`/block/${hash}?network=${network ? network : ''}`}
+                                href={`/block/${block}?network=${network ? network : ''}`}
                                 aria-current="page"
                             >
-                                {shortenString(hash as string)}
+                                {shortenString(block as string)}
                             </Link>
                         </Breadcrumbs>
                     </div>
@@ -146,7 +150,7 @@ function RecentBlockActivity(props: any) {
                         setPageNo,
                         pageSize,
                         setPageSize,
-                        totalRows: addressInfo?.length != null ? addressInfo.length : 0,
+                        totalRows: addressInfo?.userOpsLength != null ? addressInfo.userOpsLength : 0,
                     }}
                 />
             </div>
