@@ -13,6 +13,7 @@
             "ago": "1 min ago",
             "sender": "0x2824r6o923dqe3d7f",
             "target": "0x2824r6o923dqe3d7f",
+            "sucess": "true",
             "fee": {
                 "value": "20513",
                 "gas": {

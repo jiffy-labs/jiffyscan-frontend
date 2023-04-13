@@ -109,13 +109,11 @@ function Table(props: tableDataT) {
                                                         </span>
                                                     ) : (
                                                         <>
-                                                            {status === false ? (
+                                                            {status === false && (
                                                                 <span className="flex items-center px-3 py-px  gap-2 rounded-full">
                                                                     <img src="/images/failed.svg" alt="" />{' '}
                                                                     <span className="tracking-normal">{ago}</span>
                                                                 </span>
-                                                            ) : (
-                                                                <span className="tracking-normal">{ago}</span>
                                                             )}
                                                         </>
                                                     )}

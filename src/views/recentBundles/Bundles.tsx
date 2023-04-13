@@ -18,7 +18,6 @@ const DEFAULT_PAGE_SIZE = 10;
 function UserOperations(props: any) {
     const { selectedNetwork, setSelectedNetwork } = useConfig();
     const [latestBundlesTable, setLatestBundlesTable] = useState<tableDataT>(table_data as tableDataT);
-    console.log('🚀 ~ file: Bundles.tsx:21 ~ UserOperations ~ latestBundlesTable:', latestBundlesTable);
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE);
     const [totalRows, setTotalRows] = useState(0);
@@ -53,9 +52,9 @@ function UserOperations(props: any) {
     const refreshUserOpsTable = async (network: string, pageSize: number, pageNo: number) => {
         setTableLoading(true);
         const bundles = await getLatestBundles(network, pageSize, pageNo);
-        let newRows = [] as tableDataT['rows'];
-        console.log('🚀 ~ file: Bundles.tsx:57 ~ refreshUserOpsTable ~ newRows:', newRows);
+        let newRows: tableDataT['rows'] = [];
         bundles.forEach((bundle) => {
+            console.log('🚀 ~ file: Bundles.tsx:56 ~ refreshUserOpsTable ~ newRows:', bundle.success);
             newRows.push({
                 token: {
                     text: bundle.transactionHash,
@@ -63,7 +62,8 @@ function UserOperations(props: any) {
                     type: 'bundle',
                 },
                 ago: getTimePassed(bundle.blockTime),
-                userOps: bundle?.userOpsLength + ' ops',
+                userOps: `${bundle.userOpsLength} ops`,
+                status: true,
             });
         });
         setLatestBundlesTable({ ...latestBundlesTable, rows: newRows.slice(0, 10) });
