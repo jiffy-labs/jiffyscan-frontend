@@ -48,7 +48,7 @@ function Table(props: tableDataT) {
             </Caption>
             <ScrollContainer>
                 <div style={width < 768 ? { minWidth: columns?.length * 160 } : {}}>
-                    <table className="w-full text-md bg-white shadow-200 border border-dark-100">
+                    <table className="w-full text-md bg-white shadow-200 border border-dark-100"> 
                         <thead>
                             <tr>
                                 {columns?.map(({ name, sort }, key) => {
@@ -93,11 +93,11 @@ function Table(props: tableDataT) {
                                     return (
                                         <tr
                                             key={index}
-                                            className="[&_td]:border-b [&_td]:border-dark-100 [&_td]:py-3.5 [&_td]:px-4 odd:bg-dark-25 hover:bg-dark-25"
+                                            className="[&_td]:border-b User_Operations_table [&_td]:border-dark-100 [&_td]:py-3.5 [&_td]:px-4 odd:bg-dark-25 hover:bg-dark-25"
                                         >
                                             {token && (
                                                 <td className="">
-                                                    <Token {...token} />
+                                                    <Token {...token} /> 
                                                 </td>
                                             )}
 
@@ -106,6 +106,7 @@ function Table(props: tableDataT) {
                                                     {status === true ? (
                                                         <Status status="success" ago={ago} />
                                                     ) : (
+                                                      
                                                         <>
                                                             {status === false ? (
                                                                 <Status status="failure" ago={ago} />
