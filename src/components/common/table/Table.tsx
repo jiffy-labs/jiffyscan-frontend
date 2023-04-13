@@ -6,6 +6,7 @@ import ScrollContainer from 'react-indiana-drag-scroll';
 import useWidth from '@/hooks/useWidth';
 import { getCurrencySymbol } from '../utils';
 import Skeleton from 'react-loading-skeleton-2';
+import Status from '../status/Status';
 // import Skeleton from '@/components/Skeleton';
 
 export interface tableDataT {
@@ -103,17 +104,17 @@ function Table(props: tableDataT) {
                                             {ago && (
                                                 <td className="">
                                                     {status === true ? (
-                                                        <span className="flex items-center px-3 py-px  gap-2 rounded-full">
-                                                            <img src="/images/Success.svg" alt="" />{' '}
-                                                            <span className="tracking-normal">{ago}</span>
-                                                        </span>
+                                                        <Status status="success" ago={ago} />
                                                     ) : (
+                                                        // <span className="flex items-center px-3 py-px  gap-2 rounded-full">
+                                                        //     <img src="/images/Success.svg" alt="" />{' '}
+                                                        //     <span className="tracking-normal">{ago}</span>
+                                                        // </span>
                                                         <>
-                                                            {status === false && (
-                                                                <span className="flex items-center px-3 py-px  gap-2 rounded-full">
-                                                                    <img src="/images/failed.svg" alt="" />{' '}
-                                                                    <span className="tracking-normal">{ago}</span>
-                                                                </span>
+                                                            {status === false ? (
+                                                                <Status status="failure" ago={ago} />
+                                                            ) : (
+                                                                <span className="tracking-normal">{ago}</span>
                                                             )}
                                                         </>
                                                     )}
