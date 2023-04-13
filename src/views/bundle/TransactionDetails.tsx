@@ -127,9 +127,6 @@ export default function TransactionDetails({ item, network }: any) {
                                                 </Tooltip>
                                             </div>
                                         </td>
-                                        {/* <td className="py-[14px] px-4 whitespace-pre">
-                                            <span className="text-dark-600 text-sm leading-5">{item?.status}</span>
-                                        </td> */}
                                         <td className="py-[14px] px-4 text-right"></td>
                                     </tr>
                                     <tr>

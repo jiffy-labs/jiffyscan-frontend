@@ -106,10 +106,6 @@ function Table(props: tableDataT) {
                                                     {status === true ? (
                                                         <Status status="success" ago={ago} />
                                                     ) : (
-                                                        // <span className="flex items-center px-3 py-px  gap-2 rounded-full">
-                                                        //     <img src="/images/Success.svg" alt="" />{' '}
-                                                        //     <span className="tracking-normal">{ago}</span>
-                                                        // </span>
                                                         <>
                                                             {status === false ? (
                                                                 <Status status="failure" ago={ago} />
