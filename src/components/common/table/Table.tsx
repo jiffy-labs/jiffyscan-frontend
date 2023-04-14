@@ -111,7 +111,7 @@ function Table(props: tableDataT) {
                                                             {status === false ? (
                                                                 <Status status="failure" ago={ago} />
                                                             ) : (
-                                                                <span className="tracking-normal">{ago}</span>
+                                                                <span className="tracking-normal">{ago}</span>)}
                                                         </>
                                                     )}
                                                 </td>
