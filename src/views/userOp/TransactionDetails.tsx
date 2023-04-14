@@ -1,11 +1,9 @@
-import Chip, { ChipProps } from '@/components/common/chip/Chip';
 import { NETWORK_SCANNER_MAP } from '@/components/common/constants';
 import CopyButton from '@/components/common/copy_button/CopyButton';
 import DisplayFee from '@/components/common/displayfee/DisplayFee';
 import IconText from '@/components/common/IconText';
 import Status from '@/components/common/status/Status';
 import Caption from '@/components/common/table/Caption';
-import { getFee } from '@/components/common/utils';
 import { Link, Tooltip } from '@mui/material';
 import moment from 'moment';
 import { useRouter } from 'next/router';
@@ -202,7 +200,11 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                                     placement="top"
                                                                     title={`A Status code indicating if the top level call is succeeded or failed(applicable for Post BYZANTIUM blocks only)`}
                                                                 >
-                                                                {item?.success === true ? <Status type={true} /> :<Status type={false}/>}
+                                                                    {item?.success === true ? (
+                                                                        <Status type={true} />
+                                                                    ) : (
+                                                                        <Status type={false} />
+                                                                    )}
                                                                 </Tooltip>
                                                             </div>
                                                         </span>
@@ -225,7 +227,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                 <div className="md:flex block justify-between">
                                                     <div className="flex items-center gap-[10px]">
                                                         <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
-                                                            <DisplayFee item={item?.value!} network={item?.network} />
+                                                            <DisplayFee item={item?.value! ? item?.value! : '0'} network={item?.network} />
                                                         </span>
                                                     </div>
                                                 </div>

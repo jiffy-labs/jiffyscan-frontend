@@ -22,7 +22,7 @@ function RecentUserOps() {
 
     useEffect(() => {
         setSelectedNetwork(customGetNetworkParam(router.query));
-        ReactGA.send({ hitType: "pageview", page: window.location.pathname });
+        ReactGA.send({ hitType: 'pageview', page: window.location.pathname });
     }, []);
 
     return (

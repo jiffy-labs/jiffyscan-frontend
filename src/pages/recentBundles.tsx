@@ -8,10 +8,9 @@ import { getNetworkParam } from '@/components/common/utils';
 import ReactGA from 'react-ga4';
 
 function LatestBundles() {
-
     useEffect(() => {
-        ReactGA.send({ hitType: "pageview", page: window.location.pathname });
-    }, [])
+        ReactGA.send({ hitType: 'pageview', page: window.location.pathname });
+    }, []);
 
     return (
         <div>
