@@ -112,7 +112,6 @@ function Table(props: tableDataT) {
                                                                 <Status status="failure" ago={ago} />
                                                             ) : (
                                                                 <span className="tracking-normal">{ago}</span>
-                                                            )}
                                                         </>
                                                     )}
                                                 </td>
