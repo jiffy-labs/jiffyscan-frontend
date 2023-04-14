@@ -2,6 +2,7 @@ import Chip, { ChipProps } from '@/components/common/chip/Chip';
 import CopyButton from '@/components/common/copy_button/CopyButton';
 import DisplayFee from '@/components/common/displayfee/DisplayFee';
 import IconText from '@/components/common/IconText';
+import Status from '@/components/common/status/Status';
 import Caption from '@/components/common/table/Caption';
 import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
 import { Link, Tooltip } from '@mui/material';
@@ -122,27 +123,10 @@ export default function TransactionDetails({ item, network }: any) {
                                                     placement="top"
                                                     title={`A Status code indicating if the top level call is succeeded or failed(applicable for Post BYZANTIUM blocks only)`}
                                                 >
-                                                    {item?.status === '1' ? (
-                                                        <span className="flex items-center px-3 py-px  gap-2 rounded-full border border-[#4CAF50]">
-                                                            <img src="/images/Success.svg" alt="" />
-                                                            <span className="font-normal text-[12px] leading-5 text-dark-600">Success</span>
-                                                        </span>
-                                                    ) : (
-                                                        <>
-                                                            <span className="flex items-center px-3 py-px  gap-2 rounded-full border border-[#d81a14]">
-                                                                <img src="/images/failed.svg" alt="" />
-                                                                <span className="font-normal text-[12px] leading-5 text-dark-600">
-                                                                    Failed
-                                                                </span>
-                                                            </span>
-                                                        </>
-                                                    )}
+                                                    {item?.status === '1' ? <Status type={true} /> : <Status type={false} />}
                                                 </Tooltip>
                                             </div>
                                         </td>
-                                        {/* <td className="py-[14px] px-4 whitespace-pre">
-                                            <span className="text-dark-600 text-sm leading-5">{item?.status}</span>
-                                        </td> */}
                                         <td className="py-[14px] px-4 text-right"></td>
                                     </tr>
                                     <tr>
