@@ -13,8 +13,7 @@ function RecentBlock() {
 
     useEffect(() => {
         setSelectedNetwork(getNetworkParam());
-        ReactGA.send({ hitType: "pageview", page: window.location.pathname });
-
+        ReactGA.send({ hitType: 'pageview', page: window.location.pathname });
     }, []);
 
     return (

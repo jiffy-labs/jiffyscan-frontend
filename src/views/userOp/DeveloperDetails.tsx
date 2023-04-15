@@ -33,7 +33,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                         <InfoButton />
                                     </div>
                                     <div className="flex items-center gap-[132px]">
-                                        <DisplayFee item={item?.value!} network={item?.network} />
+                                        <DisplayFee item={item?.value! ? item?.value! : '0'} network={item?.network} />
                                     </div>
                                 </div>
                                 <div className="flex justify-between items-center p-[16px]" onClick={() => SetdropOpen(!dropOpen)}>

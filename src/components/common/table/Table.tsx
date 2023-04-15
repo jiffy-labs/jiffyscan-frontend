@@ -48,7 +48,7 @@ function Table(props: tableDataT) {
             </Caption>
             <ScrollContainer>
                 <div style={width < 768 ? { minWidth: columns?.length * 160 } : {}}>
-                    <table className="w-full text-md bg-white shadow-200 border border-dark-100"> 
+                    <table className="w-full text-md bg-white shadow-200 border border-dark-100">
                         <thead>
                             <tr>
                                 {columns?.map(({ name, sort }, key) => {
@@ -97,7 +97,7 @@ function Table(props: tableDataT) {
                                         >
                                             {token && (
                                                 <td className="">
-                                                    <Token {...token} /> 
+                                                    <Token {...token} />
                                                 </td>
                                             )}
 
@@ -106,12 +106,12 @@ function Table(props: tableDataT) {
                                                     {status === true ? (
                                                         <Status status="success" ago={ago} />
                                                     ) : (
-                                                      
                                                         <>
                                                             {status === false ? (
                                                                 <Status status="failure" ago={ago} />
                                                             ) : (
-                                                                <span className="tracking-normal">{ago}</span>)}
+                                                                <span className="tracking-normal">{ago}</span>
+                                                            )}
                                                         </>
                                                     )}
                                                 </td>

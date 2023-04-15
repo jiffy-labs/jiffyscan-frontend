@@ -14,9 +14,9 @@ type AppPropsWithLayout = AppProps & {
     Component: NextPageWithLayout;
 };
 
-import ReactGA from "react-ga4";
+import ReactGA from 'react-ga4';
 
-const TRACKING_ID = "G-8HQ9S4Z1YF"
+const TRACKING_ID = 'G-8HQ9S4Z1YF';
 ReactGA.initialize(TRACKING_ID);
 
 export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
