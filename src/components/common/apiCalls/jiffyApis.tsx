@@ -228,12 +228,7 @@ export const getPoweredBy = async (beneficiary: string, paymaster: string): Prom
     return {} as PoweredBy;
 };
 
-export const getBlockDetails = async (
-    blockNumber: string,
-    selectedNetwork: string,
-    pageSize: number,
-    pageNo: number,
-): Promise<Block> => {
+export const getBlockDetails = async (blockNumber: string, selectedNetwork: string, pageSize: number, pageNo: number): Promise<Block> => {
     if (!performApiCall(selectedNetwork)) return {} as Block;
     const response = await fetch(
         'https://api.jiffyscan.xyz/v0/getBlockActivity?blockNumber=' +
@@ -250,7 +245,7 @@ export const getBlockDetails = async (
         return data.block as Block;
     }
 
-    return {}  as Block;
+    return {} as Block;
 };
 
 export const getAccountDetails = async (userOpHash: string, selectedNetwork: string): Promise<UserOp> => {

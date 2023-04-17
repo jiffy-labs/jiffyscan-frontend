@@ -10,9 +10,8 @@ function LatestUserOps() {
     const router = useRouter();
 
     useEffect(() => {
-        ReactGA.send({ hitType: "pageview", page: window.location.pathname });
-    }, [])
-
+        ReactGA.send({ hitType: 'pageview', page: window.location.pathname });
+    }, []);
 
     return (
         <div>

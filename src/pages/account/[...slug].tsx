@@ -11,8 +11,8 @@ function RecentAccount() {
     const { slug } = router.query;
 
     useEffect(() => {
-        ReactGA.send({ hitType: "pageview", page: window.location.pathname });
-    }, [])
+        ReactGA.send({ hitType: 'pageview', page: window.location.pathname });
+    }, []);
 
     return (
         <div>
