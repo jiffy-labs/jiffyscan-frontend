@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 
-function Menu(props: { name: string; dropdown: string[][] | undefined; id: string; url: string }) {
+function Menu(props: { name: string; dropdown: string[][] | undefined; id: string; url?: string }) {
     const { pathname } = useRouter();
     const [isOpen, setIsOpen] = useState(false);
     const current = props.url === pathname;
@@ -41,9 +41,14 @@ function Menu(props: { name: string; dropdown: string[][] | undefined; id: strin
                 }`}
                 onClick={handleToggleDropdown}
             >
-                <Link href={props.url} className="hover:no-underline">
-                    {props.name}
-                </Link>
+                {props.url ? (
+                    <Link href={props?.url} className="hover:no-underline">
+                        {props.name}
+                    </Link>
+                ) : (
+                    props.name
+                )}
+
                 {props.dropdown != undefined ? <img src="/images/icon-container.svg" alt="" /> : null}
             </button>
 

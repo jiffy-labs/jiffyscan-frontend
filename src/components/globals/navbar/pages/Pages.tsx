@@ -9,9 +9,13 @@ export default function Pages() {
 
     return (
         <div className="flex md:flex-row flex-col md:items-center gap-4 md:gap-6">
-            {pages.map(({ id, name, url, dropdown }) => (
-                <Menu key={id} name={name} dropdown={dropdown} id={id.toString()} url={url} />
-            ))}
+            {pages.map(({ id, name, url, dropdown }) => {
+                if (name == 'Home') {
+                    return <Menu key={id} name={name} dropdown={dropdown} id={id.toString()} url={url} />;
+                } else {
+                    return <Menu key={id} name={name} dropdown={dropdown} id={id.toString()} />;
+                }
+            })}
         </div>
     );
 }
