@@ -46,6 +46,14 @@ export interface AddressActivity {
     totalDeposits: string;
 }
 
+export interface FactoryDetails {
+    id: string;
+    address: string;
+    network: string;
+    accountsLength: string;
+    accounts: AddressActivity[];
+}
+
 export interface Block {
     userOps: UserOp[];
     userOpsLength: number;
@@ -187,6 +195,7 @@ export const getGlobalMetrics = async (selectedNetwork: string, toast: any): Pro
     }
     return {} as GlobalCounts;
 };
+
 export const getUserOp = async (userOpHash: string, toast: any): Promise<UserOp[]> => {
     const response = await fetch('https://api.jiffyscan.xyz/v0/getUserOp?hash=' + userOpHash);
     if (response.status != 200) {
@@ -202,6 +211,7 @@ export const getUserOp = async (userOpHash: string, toast: any): Promise<UserOp[
 
     return [] as UserOp[];
 };
+
 export const getAddressActivity = async (
     userOpHash: string,
     selectedNetwork: string,
@@ -237,6 +247,39 @@ export const getAddressActivity = async (
     }
     return {} as AddressActivity;
 };
+
+export const getFactoryDetails = async (
+    factory: string,
+    selectedNetwork: string,
+    pageSize: number,
+    pageNo: number,
+    toast: any
+): Promise<FactoryDetails> => {
+    if (!performApiCall(selectedNetwork)) return {} as FactoryDetails;
+    const response = await fetch(
+        'https://api.jiffyscan.xyz/v0/getFactoryDetails?factory=' +
+            factory +
+            '&network=' +
+            selectedNetwork +
+            '&first=' +
+            pageSize +
+            '&skip=' +
+            pageNo * pageSize,
+    );
+    if (response.status != 200) {
+        showToast(toast, "Error fetching data");
+    }
+    const data = await response.json();
+    if ('factoryDetails' in data) {
+        if (Object.keys(data.factoryDetails).length == 0) {
+            showToast(toast, "Error fetching data");
+        }
+        return data.factoryDetails as FactoryDetails;
+    }
+    return {} as FactoryDetails;
+};
+
+
 export const getPayMasterDetails = async (
     userOpHash: string,
     selectedNetwork: string,
