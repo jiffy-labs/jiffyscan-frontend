@@ -11,6 +11,8 @@ import { getLatestBundles, getDailyMetrics } from '@/components/common/apiCalls/
 import { useConfig } from '@/context/config';
 import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const METRIC_DATA_POINT_SIZE = 14;
 const DEFAULT_PAGE_SIZE = 10;
@@ -40,7 +42,7 @@ function UserOperations(props: any) {
     }, [selectedNetwork]);
 
     const fetchTotalRows = async () => {
-        const oneDayMetrics = await getDailyMetrics(selectedNetwork, 1);
+        const oneDayMetrics = await getDailyMetrics(selectedNetwork, 1, toast);
         let presentDayMetrics;
         if (oneDayMetrics.length > 0) {
             presentDayMetrics = oneDayMetrics[0];
@@ -51,7 +53,7 @@ function UserOperations(props: any) {
 
     const refreshUserOpsTable = async (network: string, pageSize: number, pageNo: number) => {
         setTableLoading(true);
-        const bundles = await getLatestBundles(network, pageSize, pageNo);
+        const bundles = await getLatestBundles(network, pageSize, pageNo, toast);
         let newRows: tableDataT['rows'] = [];
         bundles.forEach((bundle) => {
             console.log('🚀 ~ file: Bundles.tsx:56 ~ refreshUserOpsTable ~ newRows:', bundle.success);
@@ -123,6 +125,7 @@ function UserOperations(props: any) {
                     </div>
                 </div>
             </section>
+            <ToastContainer />
             <Footer />
         </div>
     );

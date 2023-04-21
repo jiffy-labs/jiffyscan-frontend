@@ -10,6 +10,9 @@ import { NETWORK_ICON_MAP } from '@/components/common/constants';
 import Table, { tableDataT } from '@/components/common/table/Table';
 import Pagination from '@/components/common/table/Pagination';
 import HeaderSection from './HeaderSection';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 export const BUTTON_LIST = [
     {
         name: 'Default View',
@@ -79,7 +82,7 @@ function Bundler(props: any) {
         if (addressInfo == undefined) {
             return;
         }
-        const addressDetail = await getBundlerDetails(addressInfo.address, network ? network : '', pageNo, pageSize);
+        const addressDetail = await getBundlerDetails(addressInfo.address, network ? network : '', pageNo, pageSize, toast);
         const rows = createUserOpsTableRows(addressDetail.userOps);
         setRows(rows);
         setTableLoading(false);
@@ -94,7 +97,7 @@ function Bundler(props: any) {
     // load the account details.
     const loadAccountDetails = async (name: string, network: string) => {
         setTableLoading(true);
-        const addressDetail = await getBundlerDetails(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo);
+        const addressDetail = await getBundlerDetails(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo, toast);
         const accountInfo = createAccountInfoObject(addressDetail);
         setAddressInfo(accountInfo);
     };
@@ -172,6 +175,7 @@ function Bundler(props: any) {
                     }}
                 />
             </div>
+            <ToastContainer />
             <Footer />
         </div>
     );

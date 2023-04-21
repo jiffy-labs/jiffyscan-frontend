@@ -5,9 +5,11 @@ import React, { ReactElement, useEffect } from 'react';
 import Layout from '@/components/globals/Layout';
 import { getNetworkParam } from '@/components/common/utils';
 import ReactGA from 'react-ga4';
+import { duration } from 'moment';
 
 function Index() {
     const router = useRouter();
+
     const { query } = router;
 
     useEffect(() => {

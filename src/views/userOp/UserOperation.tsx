@@ -23,6 +23,9 @@ import { useConfig } from '@/context/config';
 import Table, { tableDataT } from '@/components/common/table/Table';
 import User from '@/components/globals/navbar/User';
 import Spinner from '@/components/common/Spinner';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // import Skeleton from '@/components/Skeleton';
 export const BUTTON_LIST = [
     {
@@ -83,7 +86,7 @@ function RecentUserOps(props: any) {
             setTableLoading(true);
         }
         // setShowUserOpId(-1)
-        const userOps = await getUserOp(name);
+        const userOps = await getUserOp(name, toast);
 
         setuserOpsData(userOps);
         let rows: tableDataT['rows'] = createDuplicateUserOpsRows(userOps, handleDuplicateRowClick);
@@ -124,7 +127,7 @@ function RecentUserOps(props: any) {
                 .join(',') || '';
         const paymaster = userOpsData?.map((item) => item.paymaster)?.[0] || '';
         const sender = userOpsData?.map((item) => item.sender)?.[0] || '';
-        const getReached = await getPoweredBy(beneficiary, paymaster);
+        const getReached = await getPoweredBy(beneficiary, paymaster, toast);
         setresponseData(getReached);
     };
     useEffect(() => {
@@ -201,6 +204,7 @@ function RecentUserOps(props: any) {
                     )
                 )}
             </>
+            <ToastContainer />
             <Footer />
         </div>
     );

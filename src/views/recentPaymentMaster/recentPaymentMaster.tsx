@@ -14,6 +14,9 @@ import Table, { tableDataT } from '@/components/common/table/Table';
 import Pagination from '@/components/common/table/Pagination';
 import TransactionDetails from './TransactionDetails';
 import HeaderSection from './HeaderSection';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // import Skeleton from '@/components/Skeleton';
 export const BUTTON_LIST = [
     {
@@ -86,7 +89,7 @@ function RecentPaymentMaster(props: any) {
         if (addressInfo == undefined) {
             return;
         }
-        const addressDetail = await getPayMasterDetails(addressInfo.address, network ? network : '', pageNo, pageSize);
+        const addressDetail = await getPayMasterDetails(addressInfo.address, network ? network : '', pageNo, pageSize, toast);
         const rows = createUserOpsTableRows(addressDetail.userOps);
         setRows(rows);
         setTableLoading(false);
@@ -101,7 +104,7 @@ function RecentPaymentMaster(props: any) {
     // load the account details.
     const loadAccountDetails = async (name: string, network: string) => {
         setTableLoading(true);
-        const paymasterDetail = await getPayMasterDetails(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo);
+        const paymasterDetail = await getPayMasterDetails(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo, toast);
         const accountInfo = createPaymasterInfoObject(paymasterDetail);
         setAddressInfo(accountInfo);
     };
@@ -180,6 +183,7 @@ function RecentPaymentMaster(props: any) {
                     }}
                 />
             </div>
+            <ToastContainer />
             <Footer />
         </div>
     );

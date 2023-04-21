@@ -13,7 +13,8 @@ import Chip, { ChipProps } from '@/components/common/chip/Chip';
 import DisplayFee from '@/components/common/displayfee/DisplayFee';
 import Table, { tableDataT } from '@/components/common/table/Table';
 import Pagination from '@/components/common/table/Pagination';
-import { add } from 'lodash';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const DEFAULT_PAGE_SIZE = 10;
 
@@ -53,12 +54,13 @@ function RecentBlockActivity(props: any) {
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE);
     const [captionText, setCaptionText] = useState('N/A User Ops found');
+
     const updateRowsData = async (network: string, pageNo: number, pageSize: number) => {
         setTableLoading(true);
         if (addressInfo == undefined) {
             return;
         }
-        const addressDetail = await getBlockDetails(block, network ? network : '', pageNo, pageSize);
+        const addressDetail = await getBlockDetails(block, network ? network : '', pageNo, pageSize, toast);
         const rows = createUserOpsTableRows(addressDetail.userOps);
         setRows(rows);
         setTimeout(() => {
@@ -75,7 +77,7 @@ function RecentBlockActivity(props: any) {
     // load the account details.
     const loadAccountDetails = async (name: string, network: string) => {
         setTableLoading(true);
-        const addressDetail = await getBlockDetails(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo);
+        const addressDetail = await getBlockDetails(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo, toast);
         setAddressInfo(addressDetail);
         const rows = createUserOpsTableRows(addressDetail.userOps);
         setRows(rows);
@@ -154,7 +156,7 @@ function RecentBlockActivity(props: any) {
                     }}
                 />
             </div>
-
+            <ToastContainer />
             <Footer />
         </div>
     );

@@ -9,6 +9,8 @@ import { NETWORK_ICON_MAP } from '@/components/common/constants';
 import { prepareChartDataAndMetrics, ChartData } from './utils';
 import { Chart } from './Chart';
 import Spinner from '@/components/common/Spinner';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const METRIC_DATA_POINT_SIZE = 14;
 
@@ -33,7 +35,7 @@ function RecentMetrics({
 
     const refreshMetricsChart = async (network: string) => {
         setLoading(true);
-        const dailyMetrics: DailyMetric[] = await getDailyMetrics(network, METRIC_DATA_POINT_SIZE);
+        const dailyMetrics: DailyMetric[] = await getDailyMetrics(network, METRIC_DATA_POINT_SIZE, toast);
         let metrics: any;
         const chartDataAndMetrics = prepareChartDataAndMetrics(dailyMetrics, recentMetrics, METRIC_DATA_POINT_SIZE, network);
         let newChartData: ChartData = chartDataAndMetrics.chartData;
@@ -89,6 +91,7 @@ function RecentMetrics({
                                 })}
                             </div>
                         </ScrollContainer>
+                        <ToastContainer />
                     </div>
                 )}
             </div>

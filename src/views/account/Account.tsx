@@ -14,6 +14,9 @@ import Table, { tableDataT } from '@/components/common/table/Table';
 import Pagination from '@/components/common/table/Pagination';
 import TransactionDetails from './TransactionDetails';
 import HeaderSection from './HeaderSection';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // import Skeleton from '@/components/Skeleton';
 export const BUTTON_LIST = [
     {
@@ -91,7 +94,7 @@ function Account(props: any) {
         if (addressInfo == undefined) {
             return;
         }
-        const addressDetail = await getAddressActivity(addressInfo.address, network ? network : '', pageNo, pageSize);
+        const addressDetail = await getAddressActivity(addressInfo.address, network ? network : '', pageNo, pageSize, toast);
         const rows = createUserOpsTableRows(addressDetail.userOps);
         setRows(rows);
         setTableLoading(false);
@@ -106,7 +109,7 @@ function Account(props: any) {
     // load the account details.
     const loadAccountDetails = async (name: string, network: string) => {
         setTableLoading(true);
-        const addressDetail = await getAddressActivity(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo);
+        const addressDetail = await getAddressActivity(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo, toast);
         const accountInfo = createAccountInfoObject(addressDetail);
         setAddressInfo(accountInfo);
     };
@@ -185,6 +188,7 @@ function Account(props: any) {
                     }}
                 />
             </div>
+            <ToastContainer />
             <Footer />
         </div>
     );

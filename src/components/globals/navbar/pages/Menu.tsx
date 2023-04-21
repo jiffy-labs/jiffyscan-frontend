@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 
 function Menu(props: { name: string; dropdown: string[][] | undefined; id: string; url?: string }) {
-    const { pathname } = useRouter();
+    const { pathname, push } = useRouter();
     const [isOpen, setIsOpen] = useState(false);
     const current = props.url === pathname;
     console.log('🚀 ~ file: Menu.tsx:8 ~ Menu ~ current:', current);
@@ -16,6 +16,10 @@ function Menu(props: { name: string; dropdown: string[][] | undefined; id: strin
     const handleCloseDropdown = () => {
         setIsOpen(false);
     };
+
+    const redirectHome = () => {
+        push('/');
+    }
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -39,7 +43,7 @@ function Menu(props: { name: string; dropdown: string[][] | undefined; id: strin
                 className={`flex items-center gap-1 text-md tracking-[0.25px] underline-offset-[10px] decoration-2 ${
                     current ? 'underline' : 'hover:no-underline'
                 }`}
-                onClick={handleToggleDropdown}
+                onClick={props.url ? handleToggleDropdown: redirectHome}
             >
                 {props.url ? (
                     <Link href={props?.url} className="hover:no-underline">

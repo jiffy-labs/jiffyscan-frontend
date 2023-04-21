@@ -5,19 +5,24 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import Options from './Options';
 import { LinearProgress, Snackbar } from '@mui/material';
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
+const showToast = (toast: any, message: string) => {
+    toast.error(message, {
+        position: "bottom-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        theme: "colored"
+    })
+}
 
 function Searchblock({ isNavbar }: { isNavbar: boolean }) {
     const { push } = useRouter();
-    const [open, setOpen] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
     const [searching, setSearching] = useState(false);
     const [term, setTerm] = useState('');
-    const [networkValue, setNetworkValue] = useState<number>(0);
 
     const handleChange = (e: any) => setTerm(e.target.value.trim());
 
@@ -39,23 +44,16 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
                 if (redirectUrl) {
                     push(redirectUrl);
                 } else {
-                    setOpen(true);
-                    setErrorMessage('No results found');
+                    showToast(toast, "No results found")
                 }
                 setSearching(false);
             } else {
+                showToast(toast, "Invalid search term ?")
                 setSearching(false);
-                setOpen(true);
-                setErrorMessage('Invalid search term or network ?');
             }
         } else {
-            setOpen(true);
-            setErrorMessage('Invalid search term or network ?');
+            showToast(toast, "Invalid search term ?")
         }
-    };
-
-    const handleClose = (e: any) => {
-        setOpen(false);
     };
 
     if (isNavbar) {
@@ -80,11 +78,7 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
                     </div>
                 </label>
                 {searching && <LinearProgress />}
-                <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-                    <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-                        {errorMessage}
-                    </Alert>
-                </Snackbar>
+                <ToastContainer />
             </div>
         );
     } else {
@@ -115,11 +109,7 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
                     </div>
                 </label>
                 {searching && <LinearProgress />}
-                <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-                    <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-                        {errorMessage}
-                    </Alert>
-                </Snackbar>
+                <ToastContainer />
             </div>
         );
     }

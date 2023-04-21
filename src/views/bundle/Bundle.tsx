@@ -14,6 +14,9 @@ import Table, { tableDataT } from '@/components/common/table/Table';
 import Pagination from '@/components/common/table/Pagination';
 import TransactionDetails from './TransactionDetails';
 import HeaderSection from './HeaderSection';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // import Skeleton from '@/components/Skeleton';
 export const BUTTON_LIST = [
     {
@@ -98,7 +101,7 @@ function Bundler(props: any) {
         if (bundleInfo == undefined) {
             return;
         }
-        const addressDetail = await getBundleDetails(bundleInfo.transactionHash, network ? network : '', pageNo, pageSize);
+        const addressDetail = await getBundleDetails(bundleInfo.transactionHash, network ? network : '', pageNo, pageSize, toast);
         const rows = createUserOpsTableRows(addressDetail.userOps);
         setRows(rows);
         setTableLoading(false);
@@ -115,7 +118,7 @@ function Bundler(props: any) {
         setTableLoading(true);
         console.log('checking for hash ', name, ' and network ', network, ' in useEffect');
 
-        const bundleDetail = await getBundleDetails(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo);
+        const bundleDetail = await getBundleDetails(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo, toast);
         const bundleInfo = createBundleInfoObject(bundleDetail);
         setBundleInfo(bundleInfo);
     };
@@ -194,6 +197,7 @@ function Bundler(props: any) {
                     }}
                 />
             </div>
+            <ToastContainer />
             <Footer />
         </div>
     );

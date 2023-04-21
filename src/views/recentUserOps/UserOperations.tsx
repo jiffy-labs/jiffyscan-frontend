@@ -11,6 +11,8 @@ import { getDailyMetrics, getLatestUserOps } from '@/components/common/apiCalls/
 import { useConfig } from '@/context/config';
 import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const DEFAULT_PAGE_SIZE = 10;
 
@@ -39,7 +41,7 @@ function UserOperations() {
     }, [selectedNetwork]);
 
     const fetchTotalRows = async () => {
-        const oneDayMetrics = await getDailyMetrics(selectedNetwork, 1);
+        const oneDayMetrics = await getDailyMetrics(selectedNetwork, 1, toast);
         let presentDayMetrics;
         if (oneDayMetrics.length > 0) {
             presentDayMetrics = oneDayMetrics[0];
@@ -51,7 +53,7 @@ function UserOperations() {
     const refreshUserOpsTable = async (network: string, pageSize: number, pageNo: number) => {
         setTableLoading(true);
         console.log('testing refresh', pageSize, pageNo);
-        const userOps = await getLatestUserOps(network, pageSize, pageNo);
+        const userOps = await getLatestUserOps(network, pageSize, pageNo, toast);
         let newRows = [] as tableDataT['rows'];
         userOps.forEach((userOp) => {
             newRows.push({
@@ -123,6 +125,7 @@ function UserOperations() {
                     </div>
                 </div>
             </section>
+            <ToastContainer />
             <Footer />
         </div>
     );

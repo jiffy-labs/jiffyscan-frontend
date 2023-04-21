@@ -11,6 +11,8 @@ import { NETWORK_ICON_MAP } from '@/components/common/constants';
 import { getLatestBundles, getLatestUserOps } from '@/components/common/apiCalls/jiffyApis';
 import { getTimePassed } from '@/components/common/utils';
 import { useConfig } from '../../context/config';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Home() {
     const { selectedNetwork, setSelectedNetwork } = useConfig();
@@ -31,7 +33,7 @@ function Home() {
 
     const refreshBundlesTable = async (network: string) => {
         setBundleTableLoading(true);
-        const bundles = await getLatestBundles(network, 5, 0);
+        const bundles = await getLatestBundles(network, 5, 0, toast);
         let newRows = [] as tableDataT['rows'];
         bundles.forEach((bundle) => {
             newRows.push({
@@ -53,7 +55,7 @@ function Home() {
 
     const refreshUserOpsTable = async (network: string) => {
         setUserOpTableLoading(true);
-        const userOps = await getLatestUserOps(network, 5, 0);
+        const userOps = await getLatestUserOps(network, 5, 0, toast);
         let newRows = [] as tableDataT['rows'];
         userOps.forEach((userOp) => {
             newRows.push({
@@ -124,6 +126,7 @@ function Home() {
                     </div>
                 </div>
             </section>
+            <ToastContainer />
             <Footer />
         </div>
     );
