@@ -410,7 +410,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                         <Link
                                                             underline="hover"
                                                             // color="text.primary"
-                                                            href={NETWORK_SCANNER_MAP[item?.network] + item?.transactionHash}
+                                                            href={`${NETWORK_SCANNER_MAP[item?.network]}/tx/${item?.transactionHash}`}
                                                             aria-current="page"
                                                             className="text-blue-200"
                                                             target="_blank"
@@ -426,7 +426,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                         <Link
                                                             underline="hover"
                                                             // color="text.primary"
-                                                            href={NETWORK_SCANNER_MAP[item?.network] + item?.transactionHash}
+                                                            href={`${NETWORK_SCANNER_MAP[item?.network]}/tx/${item?.transactionHash}`}
                                                             aria-current="page"
                                                             className="text-blue-200"
                                                             target="_blank"

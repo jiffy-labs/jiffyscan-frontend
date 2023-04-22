@@ -26,7 +26,7 @@ export default function HeaderSection({ item, network, loading }: any) {
                                 <CopyButton text={item?.userOpHash} />
                                 <button className="outline-none focus:outline-none ring-0 focus:ring-0">
                                     <Link
-                                        href={NETWORK_SCANNER_MAP[item?.network] + item?.transactionHash}
+                                        href={`${NETWORK_SCANNER_MAP[network]}/tx/${item?.transactionHash}`}
                                         aria-current="page"
                                         className="text-blue-200"
                                         target="_blank"

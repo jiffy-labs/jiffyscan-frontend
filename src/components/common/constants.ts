@@ -47,6 +47,12 @@ export const NETWORK_LIST = [
         iconPath: '/images/polygon-mumbai-icon.svg',
         iconPathInverted: '/images/polygon-mumbai-inverted.svg',
     },
+    {
+        name: 'Avalanche',
+        key: 'avalanche',
+        iconPath: '/images/avalanche-logo-red.svg',
+        iconPathInverted: '/images/avalanche-logo-red.svg',
+    }
 ];
 
 interface NETWORK_ICON_MAP {
@@ -62,17 +68,19 @@ export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
     optimism: '/images/icon-container (6).svg',
     'arbitrum-one': '/images/arbitrum-logo.svg',
     'arbitrum-goerli': '/images/arbitrum-logo.svg',
+    'avalanche': '/images/avalanche-logo-red.svg',
 };
 
 export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
-    mainnet: 'https://etherscan.io/tx/',
-    goerli: 'https://goerli.etherscan.io/tx/',
-    mumbai: 'https://mumbai.polygonscan.com/tx/',
-    matic: 'https://polygonscan.com/tx/',
-    'optimism-goerli': 'https://goerli-optimism.etherscan.io/tx/',
-    'arbitrum-one': 'https://arbiscan.io/tx/',
-    'arbitrum-goerli': 'https://goerli.arbiscan.io/tx/',
-    optimism: 'https://optimistic.etherscan.io/tx/',
+    mainnet: 'https://etherscan.io',
+    goerli: 'https://goerli.etherscan.io',
+    mumbai: 'https://mumbai.polygonscan.com',
+    matic: 'https://polygonscan.com/tx',
+    'optimism-goerli': 'https://goerli-optimism.etherscan.io',
+    'arbitrum-one': 'https://arbiscan.io',
+    'arbitrum-goerli': 'https://goerli.arbiscan.io',
+    optimism: 'https://optimistic.etherscan.io',
+    avalanche: 'https://avascan.info/blockchain/dfk'
 };
 
 export const fallBack = 'fallback';
