@@ -80,7 +80,7 @@ export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
     'arbitrum-one': 'https://arbiscan.io',
     'arbitrum-goerli': 'https://goerli.arbiscan.io',
     optimism: 'https://optimistic.etherscan.io',
-    avalanche: 'https://avascan.info/blockchain/dfk'
+    avalanche: 'https://snowtrace.io'
 };
 
 export const fallBack = 'fallback';

@@ -43,7 +43,7 @@ function Menu(props: { name: string; dropdown: string[][] | undefined; id: strin
                 className={`flex items-center gap-1 text-md tracking-[0.25px] underline-offset-[10px] decoration-2 ${
                     current ? 'underline' : 'hover:no-underline'
                 }`}
-                onClick={props.url ? handleToggleDropdown: redirectHome}
+                onClick={props.url ? redirectHome: handleToggleDropdown}
             >
                 {props.url ? (
                     <Link href={props?.url} className="hover:no-underline">
