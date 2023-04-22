@@ -45,7 +45,7 @@ const createUserOpsTableRows = (accounts: AddressActivity[], network: string): t
             token: {
                 text: account.address,
                 icon: NETWORK_ICON_MAP[network],
-                type: 'account',
+                type: 'address',
             },
             ago: getTimePassed(parseInt(account.blockTime!)),
             userOps: `${account.userOpsCount} ops`,

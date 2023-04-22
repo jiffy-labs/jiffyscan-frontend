@@ -101,6 +101,69 @@ export default function TransactionDetails({ item, network }: any) {
                                                 )}
                                             </div>
                                         </div>
+                                        <div className="flex items-center md:pt-[0px] pt-[16px]  md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
+                                            <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
+                                                <IconText icon={'/images/sader.svg'}>
+                                                    <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
+                                                        Factory
+                                                    </span>
+                                                </IconText>
+                                            </div>
+                                            <div className=" break-words gap-2 flex-1">
+                                                <div>
+                                                    <p className="text-[14px] text-[#455A64] md:hidden block">Factory</p>
+                                                </div>
+                                                {item?.userOpHash ? (
+                                                    <div className="md:flex block justify-between">
+                                                        <div className="flex items-center gap-[10px]">
+                                                            <Link
+                                                                underline="hover"
+                                                                // color="text.primary"
+                                                                href={
+                                                                    '/factory/' +
+                                                                    item?.factory +
+                                                                    (network ? '/?network=' + network : '')
+                                                                }
+                                                                aria-current="page"
+                                                                className="text-blue-200"
+                                                            >
+                                                                <span className="text-[#1976D2] md:text-[14px] text-[16px] break-all leading-5">
+                                                                    {item.factory}
+                                                                </span>
+                                                            </Link>
+                                                            <div className="w-[30px] flex">
+                                                                <CopyButton text={item?.factory} />
+                                                            </div>
+                                                            <Link
+                                                                underline="hover"
+                                                                // color="text.primary"
+                                                                href={
+                                                                    '/factory/' +
+                                                                    item?.factory +
+                                                                    (network ? '/?network=' + network : '')
+                                                                }
+                                                                aria-current="page"
+                                                                className="text-blue-200 "
+                                                                target={'_blank'}
+                                                            >
+                                                                <button className="outline-none md:block hidden focus:outline-none ring-0 focus:ring-0">
+                                                                    <img src="/images/share.svg" alt="" />
+                                                                    {/* </Link> */}
+                                                                </button>
+                                                            </Link>
+                                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    <div className="md:flex block justify-between">
+                                                        <div className="flex items-center gap-[10px]">
+                                                            <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
+                                                                Possibly not a 4337 compliant wallet.
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
                                         <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
                                             <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
                                                 <IconText icon={'/images/sader.svg'}>

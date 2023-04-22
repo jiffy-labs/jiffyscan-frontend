@@ -64,6 +64,7 @@ interface AccountInfo {
     userOpsCount: number;
     userOpHash: string;
     blockTime: number;
+    factory: string;
 }
 
 const createAccountInfoObject = (accountDetails: AddressActivity): AccountInfo => {
@@ -73,6 +74,7 @@ const createAccountInfoObject = (accountDetails: AddressActivity): AccountInfo =
         userOpsCount: parseInt(accountDetails.userOpsCount),
         userOpHash: accountDetails.userOpHash,
         blockTime: parseInt(accountDetails.blockTime),
+        factory: accountDetails.factory,
     };
 };
 

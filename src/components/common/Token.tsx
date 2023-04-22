@@ -50,6 +50,11 @@ function getHrefLink(type: string | undefined, text: string, network: string) {
             pathname: `/account/${text}`,
             query: { network: network },
         };
+    } else if (type == 'factory') {
+        return {
+            pathname: `/factory/${text}`,
+            query: { network: network },
+        }
     } else if (type == 'bundle') {
         return {
             pathname: `/bundle/${text}`,
