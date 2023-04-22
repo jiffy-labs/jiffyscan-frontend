@@ -426,7 +426,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                         <Link
                                                             underline="hover"
                                                             // color="text.primary"
-                                                            href={`${NETWORK_SCANNER_MAP[item?.network]}/tx/${item?.transactionHash}`}
+                                                            href={`/bundle/${item?.transactionHash}?network=${item?.network}`}
                                                             aria-current="page"
                                                             className="text-blue-200"
                                                             target="_blank"
@@ -463,11 +463,11 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                             // className="text-blue-200"
                                                         >
                                                             <span className="text-blue-200 md:text-[14px] text-[16px] break-all leading-5">
-                                                                {item?.transactionHash}
+                                                                {item?.blockNumber}
                                                             </span>
                                                         </Link>
                                                         <div className="w-[40px] flex">
-                                                            <CopyButton text={item?.transactionHash} />
+                                                            <CopyButton text={item?.blockNumber} />
                                                         </div>
                                                         <Link
                                                             underline="hover"
