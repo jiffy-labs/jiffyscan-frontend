@@ -82,7 +82,6 @@ export interface Bundle {
     address: string;
     success: Boolean | true;
 }
-
 export interface DailyMetric {
     userOpsDaily: string;
     bundleDaily: string;
@@ -94,6 +93,7 @@ export interface DailyMetric {
     gasCostCollectedTotal: string;
     daySinceEpoch: string;
     activeWalletsDaily: string;
+    paymasterTotal: string;
     activeWallets: string[];
 }
 
@@ -125,6 +125,24 @@ const showToast = (toast: any, message: string) => {
         pauseOnHover: true,
         theme: "colored"
     });
+};
+
+export const getTopPaymasters = async (selectedNetwork: string, pageSize: number, pageNo: number, toast: any): Promise<PayMasterActivity[]> => {
+    if (!performApiCall(selectedNetwork)) return [] as PayMasterActivity[];
+    const response = await fetch(
+        'https://api.jiffyscan.xyz/v0/getTopPaymasters?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
+    );
+    if (response.status != 200) {
+        showToast(toast, "Error fetching data");
+    }
+    const data = await response.json();
+    if ('paymasters' in data) {
+        if (data.paymasters.length == 0) {
+            showToast(toast, "No data found");
+        }
+        return data.paymasters as PayMasterActivity[];
+    }
+    return [] as PayMasterActivity[];
 };
 
 
