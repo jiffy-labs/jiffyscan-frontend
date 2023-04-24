@@ -1,0 +1,6 @@
+{
+    "columns": [
+        { "name": "Address", "sort": false },
+        { "name": "#Accounts", "sort": false }
+    ]
+}

@@ -34,6 +34,7 @@ export const prepareDayWiseData = (dailyMetrics: DailyMetric[], dataSize: number
             activeWalletsDaily: '0',
             activeWallets: [],
             daySinceEpoch: (todayDaySinceEpoch - i).toString(),
+            paymasterTotal: '0',
         };
     }
     // for the days , where we have data. Put the data in the object

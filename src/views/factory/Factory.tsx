@@ -111,7 +111,7 @@ function Factory(props: any) {
     }, [pageNo, factoryInfo]);
 
     useEffect(() => {
-        const captionText = `${factoryInfo?.accountsLength} Accounts found`;
+        const captionText = `${factoryInfo?.accountsLength} factories found`;
         setCaptionText(captionText);
     }, [factoryInfo]);
 

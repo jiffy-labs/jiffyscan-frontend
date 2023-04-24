@@ -94,9 +94,19 @@ export interface DailyMetric {
     daySinceEpoch: string;
     activeWalletsDaily: string;
     paymasterTotal: string;
+    bundlerTotal: string;
+    factoryTotal: string;
     activeWallets: string[];
 }
 
+export interface Bundler {
+    bundleLength: string,
+    actualGasCostSum: string,
+    address: string,
+    transactionFeeSum: string,
+    id: string,
+    userOpsLength: string,
+}
 export interface GlobalCounts {
     userOpCounter: number;
     id: number;
@@ -143,6 +153,42 @@ export const getTopPaymasters = async (selectedNetwork: string, pageSize: number
         return data.paymasters as PayMasterActivity[];
     }
     return [] as PayMasterActivity[];
+};
+
+export const getTopBundlers = async (selectedNetwork: string, pageSize: number, pageNo: number, toast: any): Promise<Bundler[]> => {
+    if (!performApiCall(selectedNetwork)) return [] as Bundler[];
+    const response = await fetch(
+        'https://api.jiffyscan.xyz/v0/getTopBundlers?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
+    );
+    if (response.status != 200) {
+        showToast(toast, "Error fetching data");
+    }
+    const data = await response.json();
+    if ('bundlers' in data) {
+        if (data.bundlers.length == 0) {
+            showToast(toast, "No data found");
+        }
+        return data.bundlers as Bundler[];
+    }
+    return [] as Bundler[];
+};
+
+export const getTopFactories = async (selectedNetwork: string, pageSize: number, pageNo: number, toast: any): Promise<FactoryDetails[]> => {
+    if (!performApiCall(selectedNetwork)) return [] as FactoryDetails[];
+    const response = await fetch(
+        'https://api.jiffyscan.xyz/v0/getTopFactories?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
+    );
+    if (response.status != 200) {
+        showToast(toast, "Error fetching data");
+    }
+    const data = await response.json();
+    if ('factories' in data) {
+        if (data.factories.length == 0) {
+            showToast(toast, "No data found");
+        }
+        return data.factories as FactoryDetails[];
+    }
+    return [] as FactoryDetails[];
 };
 
 
