@@ -1,4 +1,4 @@
-import { NETWORK_SCANNER_MAP } from '@/components/common/constants';
+import { NETWORK_SCANNER_MAP, POWERED_BY_LOGO_MAP } from '@/components/common/constants';
 import CopyButton from '@/components/common/copy_button/CopyButton';
 import DisplayFee from '@/components/common/displayfee/DisplayFee';
 import IconText from '@/components/common/IconText';
@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 
 import React from 'react';
 import Skeleton from 'react-loading-skeleton-2';
-export default function TransactionDetails({ tableLoading, skeletonCards, item, responseData }: any) {
+export default function TransactionDetails({ tableLoading, skeletonCards, item, responseData, addressMapping }: any) {
     const router = useRouter();
     return (
         <div>
@@ -129,10 +129,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                     {
                                                         responseData?.sender === '' ? null : (
                                                             <div className="md:px-[16px] px-0 md:py-[8px] py-0">
-                                                                <p className="text-[10px] text-[#455A64]">
-                                                                    {' '}
-                                                                    Power by{responseData?.sender}
-                                                                </p>
+                                                                <p className="text-[10px] text-[#455A64]"></p>
                                                             </div>
                                                         )
                                                         // ? responseData?.sender : <img src="/images/pimlico.svg" alt="" />
@@ -336,6 +333,29 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                             </>
                                                         )}
                                                     </div>
+                                                    {item?.paymaster === '' ? null : (
+                                                        <div className="md:px-[16px] px-0 md:py-[8px] py-0">
+                                                            <p className="text-[10px] text-[#455A64]">
+                                                                {(addressMapping?.[item?.paymaster?.toLowerCase()] && POWERED_BY_LOGO_MAP?.[addressMapping?.[item?.paymaster?.toLowerCase()]?.company.toLowerCase()])
+                                                                 && (
+                                                                    <span className="text-bluegrey-300 text-[10px] leading-5 flex items-center gap-2 font-normal">
+                                                                        Power by{' '}
+                                                                        <img
+                                                                            src={
+                                                                                POWERED_BY_LOGO_MAP?.[
+                                                                                    addressMapping?.[
+                                                                                        item?.paymaster?.toLowerCase()
+                                                                                    ]?.company.toLowerCase()
+                                                                                ]?.small
+                                                                            }
+                                                                            style={{ height: 20, width: 20 }}
+                                                                            alt=""
+                                                                        />
+                                                                    </span>
+                                                                )}
+                                                            </p>
+                                                        </div>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
@@ -366,7 +386,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                             </span>
                                                         </Link>
                                                         <div className="w-[30px] flex">
-                                                            <CopyButton text={item?.paymaster} />
+                                                            <CopyButton text={item?.beneficiary} />
                                                         </div>
                                                         <Link
                                                             underline="hover"
@@ -382,11 +402,25 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                             </button>
                                                         </Link>
                                                     </div>
-                                                    {responseData?.beneficiary === '' ? null : (
+                                                    {item?.beneficiary === '' ? null : (
                                                         <div className="md:px-[16px] px-0 md:py-[8px] py-0">
                                                             <p className="text-[10px] text-[#455A64]">
-                                                                {' '}
-                                                                Power by{responseData?.beneficiary}
+                                                                {(addressMapping?.[item?.beneficiary?.toLowerCase()] && POWERED_BY_LOGO_MAP?.[addressMapping?.[item?.beneficiary?.toLowerCase()]?.company.toLowerCase()]) && (
+                                                                    <span className="text-bluegrey-300 text-[10px] leading-5 flex items-center gap-2 font-normal">
+                                                                        Power by{' '}
+                                                                        <img
+                                                                            src={
+                                                                                POWERED_BY_LOGO_MAP?.[
+                                                                                    addressMapping?.[
+                                                                                        item?.beneficiary.toLowerCase()
+                                                                                    ]?.company.toLowerCase()
+                                                                                ]?.small
+                                                                            }
+                                                                            style={{ height: 20, width: 20 }}
+                                                                            alt=""
+                                                                        />
+                                                                    </span>
+                                                                )}
                                                             </p>
                                                         </div>
                                                     )}

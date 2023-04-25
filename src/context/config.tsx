@@ -1,3 +1,4 @@
+import { AddressMapping, getAddressMapping } from '@/components/common/apiCalls/jiffyApis';
 import { fallBack, NETWORK_LIST } from '@/components/common/constants';
 import { getNetworkParam } from '@/components/common/utils';
 import { useRouter } from 'next/router';
@@ -6,6 +7,7 @@ import { createContext, ReactNode, useContext, useEffect, useState } from 'react
 type ConfigContextType = {
     selectedNetwork: string;
     setSelectedNetwork: (network: string) => void;
+    addressMapping?: AddressMapping;
 };
 
 const configContextDefaultValues: ConfigContextType = {
@@ -30,9 +32,17 @@ export function ConfigProvider({ children }: Props) {
     const { query } = router;
 
     const [selectedNetwork, setSelectedNetwork] = useState('');
+    const [addressMapping, setAddressMapping] = useState({} as AddressMapping);
+
+    const setAddressMaps = async () => {
+        const addressMappings = await getAddressMapping();
+        setAddressMapping(addressMappings);
+        console.log(addressMappings);
+    };
 
     useEffect(() => {
         setSelectedNetwork(getNetworkParam());
+        setAddressMaps();
     }, []);
 
     useEffect(() => {
@@ -71,6 +81,7 @@ export function ConfigProvider({ children }: Props) {
     const value: ConfigContextType = {
         selectedNetwork,
         setSelectedNetwork,
+        addressMapping,
     };
 
     return (

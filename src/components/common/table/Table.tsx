@@ -7,6 +7,7 @@ import useWidth from '@/hooks/useWidth';
 import { getCurrencySymbol } from '../utils';
 import Skeleton from 'react-loading-skeleton-2';
 import Status from '../status/Status';
+import { POWERED_BY_LOGO_MAP } from '../constants';
 // import Skeleton from '@/components/Skeleton';
 
 export interface tableDataT {
@@ -23,6 +24,9 @@ export interface tableDataT {
         fee?: fee;
         userOps?: string;
         status?: Boolean;
+        account?: TokenType;
+        count?: string;
+        poweredBy?: string;
     }[];
     loading: boolean;
     onRowClick?: (idx: number) => void;
@@ -89,7 +93,7 @@ function Table(props: tableDataT) {
                             </tbody>
                         ) : (
                             <tbody>
-                                {rows?.map(({ ago, fee, sender, target, token, userOps, status }, index) => {
+                                {rows?.map(({ ago, fee, sender, target, token, userOps, status, count, poweredBy }, index) => {
                                     return (
                                         <tr
                                             key={index}
@@ -141,6 +145,20 @@ function Table(props: tableDataT) {
                                                     </div>
                                                 </td>
                                             )}
+                                            {poweredBy && (
+                                                <td className="">
+                                                    <div className="flex items-center justify-end text-rgiht gap-2">
+                                                        <span className="text-bluegrey-300 text-[10px] leading-5 flex items-center gap-2 font-normal">
+                                                            {/* Power by{' '} */}
+                                                            <img
+                                                                src={POWERED_BY_LOGO_MAP[poweredBy.toLowerCase()]?.wide}
+                                                                style={{ height: 30, width: 80 }}
+                                                                alt=""
+                                                            />
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                            )}
                                         </tr>
                                     );
                                 })}
@@ -152,5 +170,7 @@ function Table(props: tableDataT) {
         </div>
     );
 }
+
+
 
 export default Table;

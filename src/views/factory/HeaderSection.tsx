@@ -1,9 +1,9 @@
-import { NETWORK_ICON_MAP, NETWORK_LIST, NETWORK_SCANNER_MAP } from '@/components/common/constants';
+import { NETWORK_ICON_MAP, NETWORK_LIST, NETWORK_SCANNER_MAP, POWERED_BY_LOGO_MAP } from '@/components/common/constants';
 import CopyButton from '@/components/common/copy_button/CopyButton';
 import Link from 'next/link';
 import React from 'react';
 
-export default function HeaderSection({ item, network }: any) {
+export default function HeaderSection({ item, network, addressMapping }: any) {
     return (
         <div>
             <section className=" px-3">
@@ -32,9 +32,32 @@ export default function HeaderSection({ item, network }: any) {
                                 </Link>
                             </button>
                         </div>
-                        {/* <span className="text-bluegrey-300 text-[10px] leading-5 flex items-center gap-2 font-normal">
-                                                Power by <img src="/images/pimlico.svg" alt="" />
-                                            </span> */}
+                        {item?.factory === '' ? null : (
+                                                            <div className="md:px-[16px] px-0 md:py-[8px] py-0">
+                                                                <p className="text-[10px] text-[#455A64]">
+                                                                    {POWERED_BY_LOGO_MAP?.[
+                                                                        addressMapping?.[
+                                                                            item?.factory?.toLowerCase()
+                                                                        ]?.company.toLowerCase()
+                                                                    ] && (
+                                                                        <span className="text-bluegrey-300 text-[10px] leading-5 flex items-center gap-2 font-normal">
+                                                                            Power by{' '}
+                                                                            <img
+                                                                                src={
+                                                                                    POWERED_BY_LOGO_MAP?.[
+                                                                                        addressMapping?.[
+                                                                                            item?.factory?.toLowerCase()
+                                                                                        ]?.company.toLowerCase()
+                                                                                    ]?.small
+                                                                                }
+                                                                                style={{ height: 20, width: 20 }}
+                                                                                alt=""
+                                                                            />
+                                                                        </span>
+                                                                    )}
+                                                                </p>
+                                                            </div>
+                                                        )}
                     </div>
                 </div>
             </section>

@@ -99,4 +99,19 @@ export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
     "avalanche-fuji": 'https://testnet.snowtrace.io'
 };
 
+export const POWERED_BY_LOGO_MAP: { [id: string]: {[id: string]: string} } = {
+    pimlico: {
+        small:'/images/pimlico.svg',
+        wide: '',
+    },
+    biconomy: {
+        small:'/images/Biconomy-small.svg',
+        wide: '/images/Biconomy-wide.svg',
+    },
+    candide: {
+        small: '/images/candide.svg',
+        wide: '/images/candide.svg',
+    },
+};
+
 export const fallBack = 'fallback';

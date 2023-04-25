@@ -18,7 +18,7 @@ const METRIC_DATA_POINT_SIZE = 14;
 const DEFAULT_PAGE_SIZE = 10;
 
 function TopBundlers(props: any) {
-    const { selectedNetwork, setSelectedNetwork } = useConfig();
+    const { selectedNetwork, setSelectedNetwork, addressMapping } = useConfig();
     const [topBundlersTable, setTopBundlersTable] = useState<tableDataT>(table_data as tableDataT);
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE);
@@ -40,6 +40,17 @@ function TopBundlers(props: any) {
         fetchTotalRows();
         refreshUserOpsTable(selectedNetwork, pageSize, pageNo);
     }, [selectedNetwork]);
+
+    useEffect(() => {
+        let rows = topBundlersTable.rows;
+        console.log('modifying the address mapping',addressMapping);
+        if (rows)
+            rows.forEach((row) => {
+                if (row?.token?.text) 
+                    row.poweredBy = addressMapping?.[row.token.text]?.company;
+            });
+        setTopBundlersTable({ ...topBundlersTable, rows });
+    }, [addressMapping])
 
     const fetchTotalRows = async () => {
         const oneDayMetrics = await getDailyMetrics(selectedNetwork, 1, toast);
@@ -66,12 +77,15 @@ function TopBundlers(props: any) {
                 fee: getFee(parseInt(bundler.actualGasCostSum), network),
             });
         });
-        setTopBundlersTable({ ...topBundlersTable, rows: newRows.slice(0, 10) });
+        console.log(newRows);
+        setTopBundlersTable({ ...topBundlersTable, rows: newRows });
         setTimeout(() => {
             setTableLoading(false);
         }, 2000);
         // setTableLoading(false);
     };
+
+
 
     return (
         <div className="">

@@ -121,6 +121,21 @@ export interface PoweredBy {
     beneficiary: string;
 }
 
+export enum AddressType {
+    BUNDLERS,
+    PAYMASTERS,
+    FACTORIES,
+}
+
+export interface AddressInfo {
+    company: string;
+    type: AddressType;
+    entryPoints: string[]; 
+}
+export interface AddressMapping {
+    [key: string]: AddressInfo;
+}
+
 const performApiCall = (network: string): boolean => {
     if (!network && network != fallBack) return false;
     return true;
@@ -147,6 +162,16 @@ const showToast = (toast: any, message: string, type?: string) => {
         });
     }
 };
+
+export const getAddressMapping = async (): Promise<AddressMapping> => {
+    const response = await fetch('https://xe2kr8t49e.execute-api.us-east-2.amazonaws.com/default/getAAAddressMapping');
+    if (response.status != 200) {
+        return {} as AddressMapping;
+    }
+    const data = await response.json();
+    return data;
+};
+
 
 export const getTopPaymasters = async (
     selectedNetwork: string,
