@@ -12,7 +12,7 @@ import Spinner from '@/components/common/Spinner';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const METRIC_DATA_POINT_SIZE = 14;
+const METRIC_DATA_POINT_SIZE = 42;
 
 function RecentMetrics({
     selectedNetwork,

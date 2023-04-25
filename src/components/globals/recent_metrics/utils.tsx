@@ -10,6 +10,14 @@ export interface ChartData {
     daySinceEpoch: number[];
 }
 
+export interface ChartDataWeekly {
+    userOpMetric: number[];
+    totalwalletsCreatedMetric: number[];
+    activeWalletsDaily: number[];
+    totalFeeCollectedMetric: number[];
+    tMinusWeekSinceToday: number[];
+}
+
 export const prepareDayWiseData = (dailyMetrics: DailyMetric[], dataSize: number) => {
     const todayDaySinceEpoch: number = Math.floor(Date.now() / 86400000);
     let chartData: ChartData = {
@@ -35,6 +43,8 @@ export const prepareDayWiseData = (dailyMetrics: DailyMetric[], dataSize: number
             activeWallets: [],
             daySinceEpoch: (todayDaySinceEpoch - i).toString(),
             paymasterTotal: '0',
+            bundlerTotal: '0',
+            factoryTotal: '0',
         };
     }
     // for the days , where we have data. Put the data in the object
@@ -68,12 +78,10 @@ export const prepareDayWiseData = (dailyMetrics: DailyMetric[], dataSize: number
 
 const getPercentageChange = (numberArray: number[]) => {
     // calculate the different between the first half and second half
-    const firstHalf = numberArray.slice(0, numberArray.length / 2);
-    const firstHalfSum = getSum(firstHalf);
-    const secondHalf = numberArray.slice(-numberArray.length / 2);
-    const secondHalfSum = getSum(secondHalf);
-    if (firstHalfSum == 0) return '0';
-    const percentageChange = ((secondHalfSum - firstHalfSum) / firstHalfSum) * 100;
+    const first = numberArray.slice(-1)[0];
+    const second = numberArray.slice(-2,-1)[0];
+    if (first == 0) return '0';
+    const percentageChange = ((second - first) / first) * 100;
     return percentageChange.toFixed(1).toString();
 };
 
@@ -82,32 +90,60 @@ const getSum = (numberArray: number[]) => {
     return sum;
 };
 
+const aggregateWeeklyData = (chartData: ChartData): ChartDataWeekly => {
+    let weeklyData = {
+        userOpMetric: [] as number[],
+        totalwalletsCreatedMetric: [] as number[],
+        activeWalletsDaily: [] as number[],
+        totalFeeCollectedMetric: [] as number[],
+        tMinusWeekSinceToday: [] as number[],
+    } as ChartDataWeekly;
+    for (let i = 0; i < chartData.userOpMetric.length; i++) {
+        let weeklyDataPointer = Math.floor(i/7);
+        if (i % 7 == 0) {
+            weeklyData.userOpMetric.push(chartData.userOpMetric[i]);
+            weeklyData.totalwalletsCreatedMetric.push(chartData.totalwalletsCreatedMetric[i]);
+            weeklyData.activeWalletsDaily.push(chartData.activeWalletsDaily[i]);
+            weeklyData.totalFeeCollectedMetric.push(chartData.totalFeeCollectedMetric[i]);
+            weeklyData.tMinusWeekSinceToday.push(weeklyDataPointer);
+        } else {
+            weeklyData.userOpMetric[weeklyDataPointer] += chartData.userOpMetric[i];
+            weeklyData.totalwalletsCreatedMetric[weeklyDataPointer] += chartData.totalwalletsCreatedMetric[i];
+            weeklyData.activeWalletsDaily[weeklyDataPointer] += chartData.activeWalletsDaily[i];
+            weeklyData.totalFeeCollectedMetric[weeklyDataPointer] += chartData.totalFeeCollectedMetric[i];
+        }
+    }
+    return weeklyData;
+}
+
+
 export const prepareChartDataAndMetrics = (dailyMetrics: DailyMetric[], metrics: any, dataSize: number, network: string) => {
     // This is the problem, the daily metric chart will not be consistent. For the days that there are no
     // user operations, the data point for that day will not exist. So we are creating an empty dailyData object will all the days.
     // and later populating it with the daily metric. Then creating a list out of it.
     let chartData: ChartData = prepareDayWiseData(dailyMetrics, dataSize);
-    let feeString = getFee(chartData.totalFeeCollectedMetric.slice(-1)[0], network);
+    let weeklyData: ChartDataWeekly = aggregateWeeklyData(chartData);
+    let feeString = getFee(weeklyData.totalFeeCollectedMetric.slice(-1)[0], network);
 
-    metrics.userOpMetric.value = chartData.userOpMetric.slice(-1)[0];
+    metrics.userOpMetric.value = weeklyData.userOpMetric.slice(-1)[0];
     metrics.totalFeeCollectedMetric.value = feeString.value; // apply the value and symbol both
-    metrics.totalwalletsCreatedMetric.value = chartData.totalwalletsCreatedMetric.slice(-1)[0];
-    metrics.activeWalletsDailyMetric.value = chartData.activeWalletsDaily.slice(-1)[0];
+    metrics.totalwalletsCreatedMetric.value = weeklyData.totalwalletsCreatedMetric.slice(-1)[0];
+    metrics.activeWalletsDailyMetric.value = weeklyData.activeWalletsDaily.slice(-1)[0];
 
-    metrics.userOpMetric.status = getPercentageChange(chartData.userOpMetric) + '% WoW';
-    metrics.totalFeeCollectedMetric.status = getPercentageChange(chartData.totalFeeCollectedMetric) + '% WoW';
-    metrics.totalwalletsCreatedMetric.status = getPercentageChange(chartData.totalwalletsCreatedMetric) + '% WoW';
-    metrics.activeWalletsDailyMetric.status = getPercentageChange(chartData.activeWalletsDaily) + '% WoW';
+    metrics.userOpMetric.status = getPercentageChange(weeklyData.userOpMetric) + '% WoW';
+    metrics.totalFeeCollectedMetric.status = getPercentageChange(weeklyData.totalFeeCollectedMetric) + '% WoW';
+    metrics.totalwalletsCreatedMetric.status = getPercentageChange(weeklyData.totalwalletsCreatedMetric) + '% WoW';
+    metrics.activeWalletsDailyMetric.status = getPercentageChange(weeklyData.activeWalletsDaily) + '% WoW';
 
-    metrics.userOpMetric.data = chartData.userOpMetric.slice(-dataSize);
-    metrics.totalFeeCollectedMetric.data = chartData.totalFeeCollectedMetric.slice(-dataSize).map((value) => value / 10 ** 18);
-    metrics.totalwalletsCreatedMetric.data = chartData.totalwalletsCreatedMetric.slice(-dataSize);
-    metrics.activeWalletsDailyMetric.data = chartData.activeWalletsDaily.slice(-dataSize);
+    metrics.userOpMetric.data = weeklyData.userOpMetric.slice(-dataSize);
+    metrics.totalFeeCollectedMetric.data = weeklyData.totalFeeCollectedMetric.slice(-dataSize).map((value) => value / 10 ** 18);
+    metrics.totalwalletsCreatedMetric.data = weeklyData.totalwalletsCreatedMetric.slice(-dataSize);
+    metrics.activeWalletsDailyMetric.data = weeklyData.activeWalletsDaily.slice(-dataSize);
 
-    metrics.userOpMetric.labels = chartData.daySinceEpoch.slice(-dataSize).map((daySinceEpoch) => getDate(daySinceEpoch));
-    metrics.totalFeeCollectedMetric.labels = chartData.daySinceEpoch.slice(-dataSize).map((daySinceEpoch) => getDate(daySinceEpoch));
-    metrics.totalwalletsCreatedMetric.labels = chartData.daySinceEpoch.slice(-dataSize).map((daySinceEpoch) => getDate(daySinceEpoch));
-    metrics.activeWalletsDailyMetric.labels = chartData.daySinceEpoch.slice(-dataSize).map((daySinceEpoch) => getDate(daySinceEpoch));
+    metrics.userOpMetric.labels = weeklyData.tMinusWeekSinceToday.slice(-dataSize).map((tMinusWeek) => `t-${tMinusWeek} week`);
+    metrics.totalFeeCollectedMetric.labels = weeklyData.tMinusWeekSinceToday.slice(-dataSize).map((tMinusWeek) => `t-${tMinusWeek} week`);
+    metrics.totalwalletsCreatedMetric.labels = weeklyData.tMinusWeekSinceToday.slice(-dataSize).map((tMinusWeek) => `t-${tMinusWeek} week`);
+    metrics.activeWalletsDailyMetric.labels = weeklyData.tMinusWeekSinceToday.slice(-dataSize).map((tMinusWeek) => `t-${tMinusWeek} week`);
 
     return { chartData, metrics };
 };
