@@ -140,10 +140,11 @@ export const prepareChartDataAndMetrics = (dailyMetrics: DailyMetric[], metrics:
     metrics.totalwalletsCreatedMetric.data = weeklyData.totalwalletsCreatedMetric.slice(-dataSize);
     metrics.activeWalletsDailyMetric.data = weeklyData.activeWalletsDaily.slice(-dataSize);
 
-    metrics.userOpMetric.labels = weeklyData.tMinusWeekSinceToday.slice(-dataSize).map((tMinusWeek) => `t-${tMinusWeek} week`);
-    metrics.totalFeeCollectedMetric.labels = weeklyData.tMinusWeekSinceToday.slice(-dataSize).map((tMinusWeek) => `t-${tMinusWeek} week`);
-    metrics.totalwalletsCreatedMetric.labels = weeklyData.tMinusWeekSinceToday.slice(-dataSize).map((tMinusWeek) => `t-${tMinusWeek} week`);
-    metrics.activeWalletsDailyMetric.labels = weeklyData.tMinusWeekSinceToday.slice(-dataSize).map((tMinusWeek) => `t-${tMinusWeek} week`);
+    const totalWeeks = weeklyData.tMinusWeekSinceToday.length;
+    metrics.userOpMetric.labels = weeklyData.tMinusWeekSinceToday.slice(-dataSize).map((tMinusWeek) => `t-${totalWeeks-tMinusWeek} week`);
+    metrics.totalFeeCollectedMetric.labels = weeklyData.tMinusWeekSinceToday.slice(-dataSize).map((tMinusWeek) => `t-${totalWeeks-tMinusWeek} week`);
+    metrics.totalwalletsCreatedMetric.labels = weeklyData.tMinusWeekSinceToday.slice(-dataSize).map((tMinusWeek) => `t-${totalWeeks-tMinusWeek} week`);
+    metrics.activeWalletsDailyMetric.labels = weeklyData.tMinusWeekSinceToday.slice(-dataSize).map((tMinusWeek) => `t-${totalWeeks-tMinusWeek} week`);
 
     return { chartData, metrics };
 };
