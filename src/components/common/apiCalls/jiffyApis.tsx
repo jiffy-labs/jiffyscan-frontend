@@ -100,12 +100,12 @@ export interface DailyMetric {
 }
 
 export interface Bundler {
-    bundleLength: string,
-    actualGasCostSum: string,
-    address: string,
-    transactionFeeSum: string,
-    id: string,
-    userOpsLength: string,
+    bundleLength: string;
+    actualGasCostSum: string;
+    address: string;
+    transactionFeeSum: string;
+    id: string;
+    userOpsLength: string;
 }
 export interface GlobalCounts {
     userOpCounter: number;
@@ -126,29 +126,45 @@ const performApiCall = (network: string): boolean => {
     return true;
 };
 
-const showToast = (toast: any, message: string) => {
-    toast.error(message, {
-        position: "bottom-left",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        theme: "colored"
-    });
+const showToast = (toast: any, message: string, type?: string) => {
+    if (type == 'warning') {
+        toast.warning(message, {
+            position: 'bottom-left',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            theme: 'colored',
+        });
+    } else {
+        toast.error(message, {
+            position: 'bottom-left',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            theme: 'colored',
+        });
+    }
 };
 
-export const getTopPaymasters = async (selectedNetwork: string, pageSize: number, pageNo: number, toast: any): Promise<PayMasterActivity[]> => {
+export const getTopPaymasters = async (
+    selectedNetwork: string,
+    pageSize: number,
+    pageNo: number,
+    toast: any,
+): Promise<PayMasterActivity[]> => {
     if (!performApiCall(selectedNetwork)) return [] as PayMasterActivity[];
     const response = await fetch(
         'https://api.jiffyscan.xyz/v0/getTopPaymasters?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
     );
     if (response.status != 200) {
-        showToast(toast, "Error fetching data");
+        showToast(toast, 'Error fetching data');
     }
     const data = await response.json();
     if ('paymasters' in data) {
         if (data.paymasters.length == 0) {
-            showToast(toast, "No data found");
+            showToast(toast, 'Could not find any paymasters', 'warning');
         }
         return data.paymasters as PayMasterActivity[];
     }
@@ -161,12 +177,12 @@ export const getTopBundlers = async (selectedNetwork: string, pageSize: number, 
         'https://api.jiffyscan.xyz/v0/getTopBundlers?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
     );
     if (response.status != 200) {
-        showToast(toast, "Error fetching data");
+        showToast(toast, 'Error fetching data');
     }
     const data = await response.json();
     if ('bundlers' in data) {
         if (data.bundlers.length == 0) {
-            showToast(toast, "No data found");
+            showToast(toast, 'No data found');
         }
         return data.bundlers as Bundler[];
     }
@@ -179,18 +195,17 @@ export const getTopFactories = async (selectedNetwork: string, pageSize: number,
         'https://api.jiffyscan.xyz/v0/getTopFactories?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
     );
     if (response.status != 200) {
-        showToast(toast, "Error fetching data");
+        showToast(toast, 'Error fetching data');
     }
     const data = await response.json();
     if ('factories' in data) {
         if (data.factories.length == 0) {
-            showToast(toast, "No data found");
+            showToast(toast, 'No data found');
         }
         return data.factories as FactoryDetails[];
     }
     return [] as FactoryDetails[];
 };
-
 
 export const getLatestUserOps = async (selectedNetwork: string, pageSize: number, pageNo: number, toast: any): Promise<UserOp[]> => {
     if (!performApiCall(selectedNetwork)) return [] as UserOp[];
@@ -198,12 +213,12 @@ export const getLatestUserOps = async (selectedNetwork: string, pageSize: number
         'https://api.jiffyscan.xyz/v0/getLatestUserOps?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
     );
     if (response.status != 200) {
-        showToast(toast, "Error fetching data");
+        showToast(toast, 'Error fetching data');
     }
     const data = await response.json();
     if ('userOps' in data) {
-        if(data.userOps.length == 0) {
-            showToast(toast, "No data found");
+        if (data.userOps.length == 0) {
+            showToast(toast, 'No data found');
         }
         return data.userOps as UserOp[];
     }
@@ -216,12 +231,12 @@ export const getLatestBundles = async (selectedNetwork: string, pageSize: number
         'https://api.jiffyscan.xyz/v0/getLatestBundles?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
     );
     if (response.status != 200) {
-        showToast(toast, "Error fetching data");
+        showToast(toast, 'Error fetching data');
     }
     const data = await response.json();
     if ('bundles' in data) {
         if (data.bundles.length == 0) {
-            showToast(toast, "Error fetching data");
+            showToast(toast, 'Error fetching data');
         }
         return data.bundles as Bundle[];
     }
@@ -232,12 +247,12 @@ export const getDailyMetrics = async (selectedNetwork: string, noOfDays: number,
     if (!performApiCall(selectedNetwork)) return [] as DailyMetric[];
     const response = await fetch('https://api.jiffyscan.xyz/v0/getDailyMetrics?network=' + selectedNetwork + '&noOfDays=' + noOfDays);
     if (response.status != 200) {
-        showToast(toast, "Error fetching data");
+        showToast(toast, 'Error fetching data');
     }
     const data = await response.json();
     if ('metrics' in data) {
         if (data.metrics.length == 0) {
-            showToast(toast, "Error fetching data");
+            showToast(toast, 'Error fetching data');
         }
         return data.metrics as DailyMetric[];
     }
@@ -248,12 +263,12 @@ export const getGlobalMetrics = async (selectedNetwork: string, toast: any): Pro
     if (!performApiCall(selectedNetwork)) return {} as GlobalCounts;
     const response = await fetch('https://api.jiffyscan.xyz/v0/getGlobalCounts?network=' + selectedNetwork);
     if (response.status != 200) {
-        showToast(toast, "Error fetching data");
+        showToast(toast, 'Error fetching data');
     }
     const data = await response.json();
     if ('metrics' in data) {
         if (Object.keys(data.metrics).length == 0) {
-            showToast(toast, "Error fetching data");
+            showToast(toast, 'Error fetching data');
         }
         return data.metrics as GlobalCounts;
     }
@@ -263,12 +278,12 @@ export const getGlobalMetrics = async (selectedNetwork: string, toast: any): Pro
 export const getUserOp = async (userOpHash: string, toast: any): Promise<UserOp[]> => {
     const response = await fetch('https://api.jiffyscan.xyz/v0/getUserOp?hash=' + userOpHash);
     if (response.status != 200) {
-        showToast(toast, "Error fetching data");
+        showToast(toast, 'Error fetching data');
     }
     const data = await response.json();
     if ('userOps' in data) {
         if (data.userOps.length == 0) {
-            showToast(toast, "Error fetching data");
+            showToast(toast, 'Error fetching data');
         }
         return data.userOps as UserOp[];
     }
@@ -300,12 +315,12 @@ export const getAddressActivity = async (
 
     if (response == null) return {} as AddressActivity;
     if (response.status != 200) {
-        showToast(toast, "Error fetching data");
+        showToast(toast, 'Error fetching data');
     }
     const data = await response.json();
     if ('accountDetail' in data) {
         if (Object.keys(data.accountDetail).length == 0) {
-            showToast(toast, "Error fetching data");
+            showToast(toast, 'Error fetching data');
         }
         return data.accountDetail as AddressActivity;
     }
@@ -317,7 +332,7 @@ export const getFactoryDetails = async (
     selectedNetwork: string,
     pageSize: number,
     pageNo: number,
-    toast: any
+    toast: any,
 ): Promise<FactoryDetails> => {
     if (!performApiCall(selectedNetwork)) return {} as FactoryDetails;
     const response = await fetch(
@@ -331,18 +346,17 @@ export const getFactoryDetails = async (
             pageNo * pageSize,
     );
     if (response.status != 200) {
-        showToast(toast, "Error fetching data");
+        showToast(toast, 'Error fetching data');
     }
     const data = await response.json();
     if ('factoryDetails' in data) {
         if (Object.keys(data.factoryDetails).length == 0) {
-            showToast(toast, "Error fetching data");
+            showToast(toast, 'Error fetching data');
         }
         return data.factoryDetails as FactoryDetails;
     }
     return {} as FactoryDetails;
 };
-
 
 export const getPayMasterDetails = async (
     userOpHash: string,
@@ -363,12 +377,12 @@ export const getPayMasterDetails = async (
             pageNo * pageSize,
     );
     if (response.status != 200) {
-        showToast(toast, "Error fetching data");
+        showToast(toast, 'Error fetching data');
     }
     const data = await response.json();
     if ('paymasterDetail' in data) {
         if (Object.keys(data.paymasterDetail).length == 0) {
-            showToast(toast, "Error fetching data");
+            showToast(toast, 'Error fetching data');
         }
         return data.paymasterDetail as PayMasterActivity;
     }
@@ -383,12 +397,12 @@ export const getPoweredBy = async (beneficiary: string, paymaster: string, toast
             paymaster,
     );
     if (response.status != 200) {
-        showToast(toast, "Error fetching data");
+        showToast(toast, 'Error fetching data');
     }
     const data = await response.json();
     if (data) {
         if (Object.keys(data).length == 0) {
-            showToast(toast, "Error fetching data");
+            showToast(toast, 'Error fetching data');
         }
         return data as PoweredBy;
     }
@@ -414,12 +428,12 @@ export const getBlockDetails = async (
             pageNo * pageSize,
     );
     if (response.status != 200) {
-        showToast(toast, "Error fetching data");
+        showToast(toast, 'Error fetching data');
     }
     const data = await response.json();
     if ('block' in data) {
         if (Object.keys(data.block).length == 0) {
-            showToast(toast, "Error fetching data");
+            showToast(toast, 'Error fetching data');
         }
         return data.block as Block;
     }
@@ -430,12 +444,12 @@ export const getBlockDetails = async (
 export const getAccountDetails = async (userOpHash: string, selectedNetwork: string, toast: any): Promise<UserOp> => {
     const response = await fetch('https://api.jiffyscan.xyz/v0/getAddressActivity?address=' + userOpHash + '&network=' + selectedNetwork);
     if (response.status != 200) {
-        showToast(toast, "Error fetching data");
+        showToast(toast, 'Error fetching data');
     }
     const data = await response.json();
     if ('accountDetail' in data) {
         if (Object.keys(data.accountDetail).length == 0) {
-            showToast(toast, "Error fetching data");
+            showToast(toast, 'Error fetching data');
         }
         return data.accountDetail as UserOp;
     }
@@ -467,12 +481,12 @@ export const getBundleDetails = async (
 
     if (response == null) return {} as Bundle;
     if (response.status != 200) {
-        showToast(toast, "Error fetching data");
+        showToast(toast, 'Error fetching data');
     }
     const data = await response.json();
     if ('bundleDetails' in data) {
         if (Object.keys(data.bundleDetails).length == 0) {
-            showToast(toast, "Error fetching data");
+            showToast(toast, 'Error fetching data');
         }
 
         return data.bundleDetails as Bundle;
@@ -500,12 +514,12 @@ export const getBundlerDetails = async (
     );
     // if (response == null) return {} as Bundle;
     if (response.status != 200) {
-        showToast(toast, "Error fetching data");
+        showToast(toast, 'Error fetching data');
     }
     const data = await response.json();
     if ('bundlerDetails' in data) {
         if (Object.keys(data.bundlerDetails).length == 0) {
-            showToast(toast, "Error fetching data");
+            showToast(toast, 'Error fetching data');
         }
         return data.bundlerDetails as Bundle;
     }
