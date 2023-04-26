@@ -60,7 +60,7 @@ function TopFactories(props: any) {
                 token: {
                     text: factory.address,
                     icon: NETWORK_ICON_MAP[network],
-                    type: 'factories',
+                    type: 'factory',
                 },
                 userOps: `${factory.accountsLength} accounts`,
             });

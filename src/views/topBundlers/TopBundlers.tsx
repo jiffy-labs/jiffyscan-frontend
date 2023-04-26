@@ -71,7 +71,7 @@ function TopBundlers(props: any) {
                 token: {
                     text: bundler.address,
                     icon: NETWORK_ICON_MAP[network],
-                    type: 'bundlers',
+                    type: 'bundler',
                 },
                 userOps: `${bundler.bundleLength} bundles`,
                 fee: getFee(parseInt(bundler.actualGasCostSum), network),
