@@ -35,9 +35,9 @@ export default function HeaderSection({ item, network, addressMapping }: any) {
                         {item?.address === '' ? null : (
                             <div className="md:px-[16px] px-0 md:py-[8px] py-0">
                                 <p className="text-[10px] text-[#455A64]">
-                                    {POWERED_BY_LOGO_MAP?.[addressMapping?.[item?.address?.toLowerCase()]?.company.toLowerCase()] && (
+                                    {(addressMapping?.[item?.address?.toLowerCase()] && POWERED_BY_LOGO_MAP?.[addressMapping?.[item?.address?.toLowerCase()]?.company.toLowerCase()]) && (
                                         <span className="text-bluegrey-300 text-[10px] leading-5 flex items-center gap-2 font-normal">
-                                            Power by{' '}
+                                            Powered By{' '}
                                             <img
                                                 src={
                                                     POWERED_BY_LOGO_MAP?.[

@@ -30,7 +30,7 @@ export default function TransactionDetails({ item, network }: any) {
                 <div className="container px-0">
                     <div>
                         <Caption icon={'/images/cube.svg'} text={''}>
-                            Bundle Details
+                            Factory Details
                         </Caption>
                     </div>
                     <div className="bg-white overflow-auto rounded shadow-300 mb-[20px]">
@@ -91,7 +91,7 @@ export default function TransactionDetails({ item, network }: any) {
                                                             <div className="md:px-[16px] px-0 md:py-[8px] py-0">
                                                                 <p className="text-[10px] text-[#455A64]">
                                                                     {' '}
-                                                                    Power by{responseData?.sender}
+                                                                    Powered By{responseData?.sender}
                                                                 </p>
                                                             </div>
                                                         )
@@ -123,7 +123,7 @@ export default function TransactionDetails({ item, network }: any) {
                                                             <div className="md:px-[16px] px-0 md:py-[8px] py-0">
                                                                 <p className="text-[10px] text-[#455A64]">
                                                                     {' '}
-                                                                    Power by{responseData?.sender}
+                                                                    Powered By{responseData?.sender}
                                                                 </p>
                                                             </div>
                                                         )

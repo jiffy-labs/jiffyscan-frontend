@@ -75,7 +75,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                             <div className="md:px-[16px] px-0 md:py-[8px] py-0">
                                                                 <p className="text-[10px] text-[#455A64]">
                                                                     {' '}
-                                                                    Power by{responseData?.sender}
+                                                                    Powered By{responseData?.sender}
                                                                 </p>
                                                             </div>
                                                         )
@@ -135,7 +135,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                         // ? responseData?.sender : <img src="/images/pimlico.svg" alt="" />
                                                     }
                                                     {/* <div className='md:px-[16px] px-0 md:py-[8px] py-0'>
-                                                        <p className='text-[10px] text-[#455A64]'>Power by</p>
+                                                        <p className='text-[10px] text-[#455A64]'>Powered By</p>
                                                     </div> */}
                                                 </div>
                                             </div>
@@ -164,14 +164,14 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                             <div className="md:px-[16px] px-0 md:py-[8px] py-0">
                                                                 <p className="text-[10px] text-[#455A64]">
                                                                     {' '}
-                                                                    Power by{responseData?.sender}
+                                                                    Powered By{responseData?.sender}
                                                                 </p>
                                                             </div>
                                                         )
                                                         // ? responseData?.sender : <img src="/images/pimlico.svg" alt="" />
                                                     }
                                                     {/* <div className='md:px-[16px] px-0 md:py-[8px] py-0'>
-                                                        <p className='text-[10px] text-[#455A64]'>Power by</p>
+                                                        <p className='text-[10px] text-[#455A64]'>Powered By</p>
                                                     </div> */}
                                                 </div>
                                             </div>
@@ -339,7 +339,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                                 {(addressMapping?.[item?.paymaster?.toLowerCase()] && POWERED_BY_LOGO_MAP?.[addressMapping?.[item?.paymaster?.toLowerCase()]?.company.toLowerCase()])
                                                                  && (
                                                                     <span className="text-bluegrey-300 text-[10px] leading-5 flex items-center gap-2 font-normal">
-                                                                        Power by{' '}
+                                                                        Powered By{' '}
                                                                         <img
                                                                             src={
                                                                                 POWERED_BY_LOGO_MAP?.[
@@ -407,7 +407,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                             <p className="text-[10px] text-[#455A64]">
                                                                 {(addressMapping?.[item?.beneficiary?.toLowerCase()] && POWERED_BY_LOGO_MAP?.[addressMapping?.[item?.beneficiary?.toLowerCase()]?.company.toLowerCase()]) && (
                                                                     <span className="text-bluegrey-300 text-[10px] leading-5 flex items-center gap-2 font-normal">
-                                                                        Power by{' '}
+                                                                        Powered By{' '}
                                                                         <img
                                                                             src={
                                                                                 POWERED_BY_LOGO_MAP?.[
