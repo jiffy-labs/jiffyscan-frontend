@@ -188,7 +188,7 @@ function Home() {
                             }}
                         />
                         <div className="mt-4">
-                            <Button href="/payamsters">View all Paymasters</Button>
+                            <Button href="/paymasters">View all Paymasters</Button>
                         </div>
                     </div>
                 </div>
