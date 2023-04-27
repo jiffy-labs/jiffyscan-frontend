@@ -91,7 +91,7 @@ export default function TransactionDetails({ item, network }: any) {
                                                             <div className="md:px-[16px] px-0 md:py-[8px] py-0">
                                                                 <p className="text-[10px] text-[#455A64]">
                                                                     {' '}
-                                                                    Power by{responseData?.sender}
+                                                                    Powered By{responseData?.sender}
                                                                 </p>
                                                             </div>
                                                         )
@@ -123,14 +123,14 @@ export default function TransactionDetails({ item, network }: any) {
                                                             <div className="md:px-[16px] px-0 md:py-[8px] py-0">
                                                                 <p className="text-[10px] text-[#455A64]">
                                                                     {' '}
-                                                                    Power by{responseData?.sender}
+                                                                    Powered By{responseData?.sender}
                                                                 </p>
                                                             </div>
                                                         )
                                                         // ? responseData?.sender : <img src="/images/pimlico.svg" alt="" />
                                                     } */}
                                                     {/* <div className='md:px-[16px] px-0 md:py-[8px] py-0'>
-                                                        <p className='text-[10px] text-[#455A64]'>Power by</p>
+                                                        <p className='text-[10px] text-[#455A64]'>Powered By</p>
                                                     </div> */}
                                                 </div>
                                             </div>
@@ -177,7 +177,7 @@ export default function TransactionDetails({ item, network }: any) {
                                                     </div>
 
                                                     {/* <div className='md:px-[16px] px-0 md:py-[8px] py-0'>
-                                                        <p className='text-[10px] text-[#455A64]'>Power by</p>
+                                                        <p className='text-[10px] text-[#455A64]'>Powered By</p>
                                                     </div> */}
                                                 </div>
                                             </div>

@@ -6,7 +6,6 @@ function Menu(props: { name: string; dropdown: string[][] | undefined; id: strin
     const { pathname, push } = useRouter();
     const [isOpen, setIsOpen] = useState(false);
     const current = props.url === pathname;
-    console.log('🚀 ~ file: Menu.tsx:8 ~ Menu ~ current:', current);
     const menuRef = useRef<HTMLDivElement>(null);
 
     const handleToggleDropdown = () => {
@@ -35,7 +34,6 @@ function Menu(props: { name: string; dropdown: string[][] | undefined; id: strin
         };
     }, []);
 
-    console.log(props.name, 'props.dropdown');
 
     return (
         <div className="relative" id={props.id} ref={menuRef}>
@@ -43,7 +41,7 @@ function Menu(props: { name: string; dropdown: string[][] | undefined; id: strin
                 className={`flex items-center gap-1 text-md tracking-[0.25px] underline-offset-[10px] decoration-2 ${
                     current ? 'underline' : 'hover:no-underline'
                 }`}
-                onClick={props.url ? redirectHome: handleToggleDropdown}
+                onClick={props.url ? redirectHome : handleToggleDropdown}
             >
                 {props.url ? (
                     <Link href={props?.url} className="hover:no-underline">

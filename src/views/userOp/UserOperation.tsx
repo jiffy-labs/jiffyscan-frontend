@@ -70,7 +70,7 @@ function RecentUserOps(props: any) {
     const router = useRouter();
     const [open, setOpen] = useState(false);
     const [tableLoading, setTableLoading] = useState(true);
-    const { selectedNetwork, setSelectedNetwork } = useConfig();
+    const { selectedNetwork, setSelectedNetwork, addressMapping } = useConfig();
 
     const hash = props.slug && props.slug[0];
     const network = router.query && router.query.network;
@@ -175,6 +175,7 @@ function RecentUserOps(props: any) {
                             skeletonCards={skeletonCards}
                             item={userOpsData?.[showUserOpId]}
                             responseData={responseData}
+                            addressMapping={addressMapping}
                         />
                         <DeveloperDetails
                             tableLoading={tableLoading}

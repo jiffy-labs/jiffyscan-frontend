@@ -60,6 +60,16 @@ function getHrefLink(type: string | undefined, text: string, network: string) {
             pathname: `/bundle/${text}`,
             query: { network: network },
         };
+    } else if (type == 'bundler') {
+        return {
+            pathname: `/bundler/${text}`,
+            query: { network: network },
+        };
+    } else if (type == 'paymaster') {
+        return {
+            pathname: `/paymaster/${text}`,
+            query: { network: network },
+        };
     } else {
         return '#';
     }

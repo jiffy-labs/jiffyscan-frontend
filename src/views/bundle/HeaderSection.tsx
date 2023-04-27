@@ -33,7 +33,7 @@ export default function HeaderSection({ item, network }: any) {
                             </button>
                         </div>
                         {/* <span className="text-bluegrey-300 text-[10px] leading-5 flex items-center gap-2 font-normal">
-                                                Power by <img src="/images/pimlico.svg" alt="" />
+                                                Powered By <img src="/images/pimlico.svg" alt="" />
                                             </span> */}
                     </div>
                 </div>

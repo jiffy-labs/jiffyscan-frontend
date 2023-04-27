@@ -7,6 +7,7 @@ import useWidth from '@/hooks/useWidth';
 import { getCurrencySymbol } from '../utils';
 import Skeleton from 'react-loading-skeleton-2';
 import Status from '../status/Status';
+import { POWERED_BY_LOGO_MAP } from '../constants';
 // import Skeleton from '@/components/Skeleton';
 
 export interface tableDataT {
@@ -23,6 +24,9 @@ export interface tableDataT {
         fee?: fee;
         userOps?: string;
         status?: Boolean;
+        account?: TokenType;
+        count?: string;
+        poweredBy?: string;
     }[];
     loading: boolean;
     onRowClick?: (idx: number) => void;
@@ -89,7 +93,7 @@ function Table(props: tableDataT) {
                             </tbody>
                         ) : (
                             <tbody>
-                                {rows?.map(({ ago, fee, sender, target, token, userOps, status }, index) => {
+                                {rows?.map(({ ago, fee, sender, target, token, userOps, status, count, poweredBy }, index) => {
                                     return (
                                         <tr
                                             key={index}
@@ -116,9 +120,10 @@ function Table(props: tableDataT) {
                                                     )}
                                                 </td>
                                             )}
+                                            
                                             {userOps && (
                                                 <td className="">
-                                                    <span className="text-blue-200 text-right block">{userOps}</span>
+                                                    <span className="text-center block">{userOps}</span>
                                                 </td>
                                             )}
 
@@ -127,11 +132,16 @@ function Table(props: tableDataT) {
                                                     <Token text={sender} type="address" />
                                                 </td>
                                             )}
-                                            <td className="">{target && <Token text={target} type="address" />}</td>
+
+                                            {target && (
+                                                <td className="">
+                                                    <Token text={target} type="address" />
+                                                </td>
+                                            )}
 
                                             {fee && (
                                                 <td className="">
-                                                    <div className="flex items-center justify-end text-rgiht gap-2">
+                                                    <div className="flex items-center justify-end text-right gap-2">
                                                         <span>{fee.value}</span>
                                                         {fee.gas && (
                                                             <Chip variant="outlined" color={fee.gas.color as ChipProps['color']}>

@@ -16,6 +16,7 @@ import TransactionDetails from './TransactionDetails';
 import HeaderSection from './HeaderSection';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useConfig } from '@/context/config';
 
 // import Skeleton from '@/components/Skeleton';
 export const BUTTON_LIST = [
@@ -81,6 +82,7 @@ const createAccountInfoObject = (accountDetails: AddressActivity): AccountInfo =
 function Account(props: any) {
     const router = useRouter();
     const [tableLoading, setTableLoading] = useState(true);
+    const {addressMapping} = useConfig();
     const hash = props.slug && props.slug[0];
     const network = router.query && (router.query.network as string);
     const [rows, setRows] = useState([] as tableDataT['rows']);
@@ -168,7 +170,7 @@ function Account(props: any) {
                 </div>
             </section>
             <HeaderSection item={addressInfo} network={network} />
-            <TransactionDetails item={addressInfo} network={network} />
+            <TransactionDetails item={addressInfo} network={network} addressMapping={addressMapping}/>
             <div className="container px-0">
                 <Table
                     rows={rows}

@@ -12,6 +12,7 @@ import Pagination from '@/components/common/table/Pagination';
 import HeaderSection from './HeaderSection';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useConfig } from '@/context/config';
 
 export const BUTTON_LIST = [
     {
@@ -68,6 +69,7 @@ const createAccountInfoObject = (bundleDetails: Bundle): AccountInfo => {
 function Bundler(props: any) {
     const router = useRouter();
     const [tableLoading, setTableLoading] = useState(true);
+    const {addressMapping} = useConfig();
     const hash = props.slug && props.slug[0];
     const network = router.query && (router.query.network as string);
     const [rows, setRows] = useState([] as tableDataT['rows']);
@@ -153,7 +155,7 @@ function Bundler(props: any) {
                     <h1 className="font-bold text-3xl">Bundler</h1>
                 </div>
             </section>
-            <HeaderSection item={addressInfo} network={network} />
+            <HeaderSection item={addressInfo} network={network} addressMapping={addressMapping}/>
             <div className="container px-0 mt-[23px]">
                 <Table
                     rows={rows}

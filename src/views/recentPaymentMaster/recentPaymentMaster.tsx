@@ -16,6 +16,7 @@ import TransactionDetails from './TransactionDetails';
 import HeaderSection from './HeaderSection';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useConfig } from '@/context/config';
 
 // import Skeleton from '@/components/Skeleton';
 export const BUTTON_LIST = [
@@ -75,6 +76,7 @@ const createPaymasterInfoObject = (accountDetails: PayMasterActivity): AccountIn
 function RecentPaymentMaster(props: any) {
     const router = useRouter();
     const [tableLoading, setTableLoading] = useState(true);
+    const {addressMapping} = useConfig();
     const hash = props.slug && props.slug[0];
     const network = router.query && (router.query.network as string);
     const [rows, setRows] = useState([] as tableDataT['rows']);
@@ -160,7 +162,7 @@ function RecentPaymentMaster(props: any) {
                     <h1 className="font-bold text-3xl">Paymaster</h1>
                 </div>
             </section>
-            <HeaderSection item={addressInfo} network={network} />
+            <HeaderSection item={addressInfo} network={network} addressMapping={addressMapping}/>
             <TransactionDetails item={addressInfo} network={network} />
             <div className="container">
                 <Table
