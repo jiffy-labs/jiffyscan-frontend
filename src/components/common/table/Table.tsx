@@ -120,9 +120,10 @@ function Table(props: tableDataT) {
                                                     )}
                                                 </td>
                                             )}
+                                            
                                             {userOps && (
                                                 <td className="">
-                                                    <span className="text-blue-200 text-right block">{userOps}</span>
+                                                    <span className="text-center block">{userOps}</span>
                                                 </td>
                                             )}
 
@@ -131,31 +132,22 @@ function Table(props: tableDataT) {
                                                     <Token text={sender} type="address" />
                                                 </td>
                                             )}
-                                            <td className="">{target && <Token text={target} type="address" />}</td>
+
+                                            {target && (
+                                                <td className="">
+                                                    <Token text={target} type="address" />
+                                                </td>
+                                            )}
 
                                             {fee && (
                                                 <td className="">
-                                                    <div className="flex items-center justify-end text-rgiht gap-2">
+                                                    <div className="flex items-center justify-end text-right gap-2">
                                                         <span>{fee.value}</span>
                                                         {fee.gas && (
                                                             <Chip variant="outlined" color={fee.gas.color as ChipProps['color']}>
                                                                 {fee.gas.children}
                                                             </Chip>
                                                         )}
-                                                    </div>
-                                                </td>
-                                            )}
-                                            {poweredBy && (
-                                                <td className="">
-                                                    <div className="flex items-center justify-end text-rgiht gap-2">
-                                                        <span className="text-bluegrey-300 text-[10px] leading-5 flex items-center gap-2 font-normal">
-                                                            {/* Power by{' '} */}
-                                                            <img
-                                                                src={POWERED_BY_LOGO_MAP[poweredBy.toLowerCase()]?.wide}
-                                                                style={{ height: 30, width: 80 }}
-                                                                alt=""
-                                                            />
-                                                        </span>
                                                     </div>
                                                 </td>
                                             )}
@@ -170,7 +162,5 @@ function Table(props: tableDataT) {
         </div>
     );
 }
-
-
 
 export default Table;

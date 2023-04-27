@@ -106,10 +106,8 @@ const aggregateWeeklyData = (chartData: ChartData): ChartDataWeekly => {
         totalFeeCollectedMetric: [] as number[],
         tMinusWeekSinceToday: [] as number[],
     } as ChartDataWeekly;
-    console.log(chartData.userOpMetric.length)
     for (let i = 0; i < chartData.userOpMetric.length; i++) {
         let weeklyDataPointer = Math.floor(i/7);
-        console.log(weeklyDataPointer, i%7)
         if (i % 7 == 0) {
             weeklyData.userOpMetric.push(chartData.userOpMetric[i]);
             weeklyData.totalwalletsCreatedMetric.push(chartData.totalwalletsCreatedMetric[i]);
@@ -134,8 +132,6 @@ export const prepareChartDataAndMetrics = (dailyMetrics: DailyMetric[], metrics:
     let chartData: ChartData = prepareDayWiseData(dailyMetrics, dataSize);
     let weeklyData: ChartDataWeekly = aggregateWeeklyData(chartData);
     
-    console.log(weeklyData)
-
     metrics.userOpMetric.data = weeklyData.userOpMetric;
     metrics.totalFeeCollectedMetric.data = weeklyData.totalFeeCollectedMetric.map((value) => {
         // if (value == 0) return 0;

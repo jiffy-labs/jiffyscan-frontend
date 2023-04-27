@@ -1,6 +1,6 @@
 {
     "columns": [
         { "name": "Address", "sort": true },
-        { "name": "UserOps", "sort": false }
+        { "name": "No. of UserOps", "sort": false }
     ]
 }
