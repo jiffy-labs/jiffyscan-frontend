@@ -51,9 +51,9 @@ const createUserOpsTableRows = (userOps: UserOp[]): tableDataT['rows'] => {
             },
             ago: getTimePassed(userOp.blockTime!),
             sender: userOp.sender,
-            target: userOp.target!,
+            target: userOp.target ? userOp.target : 'N/A',
             fee: getFee(userOp.actualGasCost, userOp.network as string),
-            status: userOp.success!,
+            status: userOp.success ? userOp.success : true,
         });
     });
     return newRows;
