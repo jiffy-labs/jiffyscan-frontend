@@ -54,7 +54,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                             </span>
                                                         </Link>
                                                         <div className="w-[30px] flex">
-                                                            <CopyButton text={item?.userOpHash} />
+                                                            <CopyButton text={item?.sender} />
                                                         </div>
                                                         <Link
                                                             underline="hover"
@@ -70,17 +70,28 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                             </button>
                                                         </Link>
                                                     </div>
-                                                    {
-                                                        responseData?.sender === '' ? null : (
-                                                            <div className="md:px-[16px] px-0 md:py-[8px] py-0">
-                                                                <p className="text-[10px] text-[#455A64]">
-                                                                    {' '}
-                                                                    Powered By{responseData?.sender}
-                                                                </p>
-                                                            </div>
-                                                        )
-                                                        // ? responseData?.sender : <img src="/images/pimlico.svg" alt="" />
-                                                    }
+                                                    {item?.accountSender?.factory === '' ? null : (
+                                                        <div className="md:px-[16px] px-0 md:py-[8px] py-0">
+                                                            <p className="text-[10px] text-[#455A64]">
+                                                                {(addressMapping?.[item?.accountSender?.factory?.toLowerCase()] && POWERED_BY_LOGO_MAP?.[addressMapping?.[item?.accountSender?.factory?.toLowerCase()]?.company.toLowerCase()]) && (
+                                                                    <span className="text-bluegrey-300 text-[10px] leading-5 flex items-center gap-2 font-normal">
+                                                                        Powered By{' '}
+                                                                        <img
+                                                                            src={
+                                                                                POWERED_BY_LOGO_MAP?.[
+                                                                                    addressMapping?.[
+                                                                                        item?.accountSender?.factory?.toLowerCase()
+                                                                                    ]?.company.toLowerCase()
+                                                                                ]?.small
+                                                                            }
+                                                                            style={{ height: 20, width: 20 }}
+                                                                            alt=""
+                                                                        />
+                                                                    </span>
+                                                                )}
+                                                            </p>
+                                                        </div>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
@@ -88,13 +99,13 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                             <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
                                                 <IconText icon={'/images/sader.svg'}>
                                                     <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
-                                                        Receiver
+                                                        Target
                                                     </span>
                                                 </IconText>
                                             </div>
                                             <div className=" break-words gap-2 flex-1">
                                                 <div>
-                                                    <p className="text-[14px] text-[#455A64] md:hidden block">Receiver</p>
+                                                    <p className="text-[14px] text-[#455A64] md:hidden block">Target</p>
                                                 </div>
                                                 <div className="md:flex block justify-between">
                                                     <div className="flex items-center gap-[10px]">
@@ -110,7 +121,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                             </span>
                                                         </Link>
                                                         <div className="w-[30px] flex">
-                                                            <CopyButton text={item?.userOpHash} />
+                                                            <CopyButton text={item?.target} />
                                                         </div>
                                                         <Link
                                                             underline="hover"
@@ -126,17 +137,28 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                             </button>
                                                         </Link>
                                                     </div>
-                                                    {
-                                                        responseData?.sender === '' ? null : (
-                                                            <div className="md:px-[16px] px-0 md:py-[8px] py-0">
-                                                                <p className="text-[10px] text-[#455A64]"></p>
-                                                            </div>
-                                                        )
-                                                        // ? responseData?.sender : <img src="/images/pimlico.svg" alt="" />
-                                                    }
-                                                    {/* <div className='md:px-[16px] px-0 md:py-[8px] py-0'>
-                                                        <p className='text-[10px] text-[#455A64]'>Powered By</p>
-                                                    </div> */}
+                                                    {item?.accountTarget?.factory === '' ? null : (
+                                                        <div className="md:px-[16px] px-0 md:py-[8px] py-0">
+                                                            <p className="text-[10px] text-[#455A64]">
+                                                                {(addressMapping?.[item?.accountTarget?.factory?.toLowerCase()] && POWERED_BY_LOGO_MAP?.[addressMapping?.[item?.accountTarget?.factory?.toLowerCase()]?.company.toLowerCase()]) && (
+                                                                    <span className="text-bluegrey-300 text-[10px] leading-5 flex items-center gap-2 font-normal">
+                                                                        Powered By{' '}
+                                                                        <img
+                                                                            src={
+                                                                                POWERED_BY_LOGO_MAP?.[
+                                                                                    addressMapping?.[
+                                                                                        item?.accountTarget?.factory?.toLowerCase()
+                                                                                    ]?.company.toLowerCase()
+                                                                                ]?.small
+                                                                            }
+                                                                            style={{ height: 20, width: 20 }}
+                                                                            alt=""
+                                                                        />
+                                                                    </span>
+                                                                )}
+                                                            </p>
+                                                        </div>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
@@ -159,20 +181,6 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                             Standard Time)
                                                         </span>
                                                     </div>
-                                                    {
-                                                        responseData?.sender === '' ? null : (
-                                                            <div className="md:px-[16px] px-0 md:py-[8px] py-0">
-                                                                <p className="text-[10px] text-[#455A64]">
-                                                                    {' '}
-                                                                    Powered By{responseData?.sender}
-                                                                </p>
-                                                            </div>
-                                                        )
-                                                        // ? responseData?.sender : <img src="/images/pimlico.svg" alt="" />
-                                                    }
-                                                    {/* <div className='md:px-[16px] px-0 md:py-[8px] py-0'>
-                                                        <p className='text-[10px] text-[#455A64]'>Powered By</p>
-                                                    </div> */}
                                                 </div>
                                             </div>
                                         </div>

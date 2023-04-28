@@ -58,9 +58,9 @@ const createDuplicateUserOpsRows = (userOps: UserOp[], handleRowClicked: (id: nu
             },
             ago: getTimePassed(userOp.blockTime!),
             sender: userOp.sender,
-            target: userOp.target!,
+            target: userOp.target ? userOp.target : '0x',
             fee: getFee(userOp.actualGasCost, userOp.network as string),
-            status: userOp.success!,
+            status: userOp.success ? userOp.success : true,
         });
     });
     return newRows;

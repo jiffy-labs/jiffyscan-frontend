@@ -7,6 +7,7 @@ export interface UserOp {
     transactionHash: string | null;
     userOpHash: string;
     sender: string;
+    accountSender: {factory: string};
     paymaster: string;
     nonce: number;
     actualGasCost: number;
@@ -19,6 +20,7 @@ export interface UserOp {
     network: string;
     input: string | null;
     target: string | null;
+    accountTarget: {factory: string};
     callData: string | null;
     beneficiary: string | null;
     factory: string | null;
