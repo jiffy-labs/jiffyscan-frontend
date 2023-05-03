@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect } from 'react';
-import Layout from '@/components/globals/Layout';
+import Layout from '@/components/global/Layout';
 import { useConfig } from '@/context/config';
 import TopFactories from '@/views/topFactories/TopFactories';
 import { useRouter } from 'next/router';

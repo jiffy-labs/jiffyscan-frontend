@@ -1,5 +1,5 @@
-import Footer from '@/components/globals/footer/Footer';
-import Navbar from '@/components/globals/navbar/Navbar';
+import Footer from '@/components/global/footer/Footer';
+import Navbar from '@/components/global/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
 import { getPoweredBy, getUserOp, PoweredBy, UserOp } from '@/components/common/apiCalls/jiffyApis';
 import { Breadcrumbs, Link } from '@mui/material';
@@ -21,7 +21,7 @@ import TransactionDetails from './TransactionDetails';
 import DeveloperDetails from './DeveloperDetails';
 import { useConfig } from '@/context/config';
 import Table, { tableDataT } from '@/components/common/table/Table';
-import User from '@/components/globals/navbar/User';
+import User from '@/components/global/navbar/User';
 import Spinner from '@/components/common/Spinner';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

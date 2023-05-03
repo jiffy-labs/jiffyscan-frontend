@@ -1,4 +1,4 @@
-import Layout from '@/components/globals/Layout';
+import Layout from '@/components/global/Layout';
 import LatestBundlesComponent from '@/views/recentBundles/Bundles';
 import { useConfig } from '@/context/config';
 import router from 'next/router';

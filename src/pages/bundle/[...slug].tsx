@@ -1,5 +1,5 @@
 import { getNetworkParam } from '@/components/common/utils';
-import Layout from '@/components/globals/Layout';
+import Layout from '@/components/global/Layout';
 import { useConfig } from '@/context/config';
 import Bundler from '@/views/bundle/Bundle';
 import { useRouter } from 'next/router';

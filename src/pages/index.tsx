@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useConfig } from '@/context/config';
 import Home from '@/views/home/Home';
 import React, { ReactElement, useEffect } from 'react';
-import Layout from '@/components/globals/Layout';
+import Layout from '@/components/global/Layout';
 import { getNetworkParam } from '@/components/common/utils';
 import ReactGA from 'react-ga4';
 import { duration } from 'moment';

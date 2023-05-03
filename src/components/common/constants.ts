@@ -65,6 +65,36 @@ export const NETWORK_LIST = [
         iconPath: '/images/avalanche-logo-red.svg',
         iconPathInverted: '/images/avalanche-logo-red.svg',
     },
+    {
+        name: 'Fantom',
+        key: 'fantom',
+        iconPath: '/images/fantom-logo.svg',
+        iconPathInverted: '/images/fantom-logo.svg',
+    },
+    {
+        name: 'Fantom Testnet',
+        key: 'fantom-testnet',
+        iconPath: '/images/fantom-logo.svg',
+        iconPathInverted: '/images/fantom-logo.svg',
+    },
+    {
+        name: 'Gnosis',
+        key: 'gnosis',
+        iconPath: '/images/gnosis-logo.svg',
+        iconPathInverted: '/images/gnosis-logo.svg',
+    },
+    {
+        name: 'Base Testnet',
+        key: 'base-testnet',
+        iconPath: '/images/base-logo.svg',
+        iconPathInverted: '/images/base-logo.svg',
+    },
+    {
+        name: 'Binance Smart Chain',
+        key: 'bsc',
+        iconPath: '/images/bsc-logo.svg',
+        iconPathInverted: '/images/bsc-logo.svg',
+    },
 ];
 
 interface NETWORK_ICON_MAP {
@@ -83,6 +113,11 @@ export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
     'arbitrum-goerli': '/images/arbitrum-logo.svg',
     'avalanche': '/images/avalanche-logo-red.svg',
     'avalanche-fuji': '/images/avalanche-logo-red.svg',
+    'fantom': '/images/fantom-logo.svg',
+    'fantom-testnet': '/images/fantom-logo.svg',
+    'base-testnet': '/images/base-logo.svg',
+    'gnosis': '/images/gnosis-logo.svg',
+    'bsc': '/images/bsc-logo.svg',
 };
 
 export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
@@ -96,6 +131,11 @@ export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
     'arbitrum-goerli': 'https://goerli.arbiscan.io',
     optimism: 'https://optimistic.etherscan.io',
     avalanche: 'https://snowtrace.io',
+    "base-testnet": 'https://goerli.basescan.org',
+    fantom: 'https://ftmscan.com/',
+    "fantom-testnet": 'https://testnet.ftmscan.com',
+    gnosis: 'https://gnosisscan.io',
+    bsc: 'https://bscscan.com',
     "avalanche-fuji": 'https://testnet.snowtrace.io'
 };
 

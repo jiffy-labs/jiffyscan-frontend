@@ -1,12 +1,12 @@
-import Footer from '@/components/globals/footer/Footer';
-import Navbar from '@/components/globals/navbar/Navbar';
-import RecentMetrics from '@/components/globals/recent_metrics/RecentMetrics';
+import Footer from '@/components/global/footer/Footer';
+import Navbar from '@/components/global/navbar/Navbar';
+import RecentMetrics from '@/components/global/recent_metrics/RecentMetrics';
 import React, { useEffect, useState } from 'react';
 import Table, { tableDataT } from '@/components/common/table/Table';
 import Pagination from '@/components/common/table/Pagination';
 import table_data from './table_data.json';
 import { NETWORK_ICON_MAP } from '@/components/common/constants';
-import { getTimePassed } from '@/components/common/utils';
+import { getFee, getTimePassed } from '@/components/common/utils';
 import { getLatestBundles, getDailyMetrics, getTopPaymasters } from '@/components/common/apiCalls/jiffyApis';
 import { useConfig } from '@/context/config';
 import { Breadcrumbs, Link } from '@mui/material';
@@ -32,13 +32,13 @@ function TopPaymasters(props: any) {
     };
 
     useEffect(() => {
-        refreshUserOpsTable(selectedNetwork, pageSize, pageNo);
+        refreshPaymatersTable(selectedNetwork, pageSize, pageNo);
     }, [pageNo, pageSize]);
 
     useEffect(() => {
         setPageNo(0);
         fetchTotalRows();
-        refreshUserOpsTable(selectedNetwork, pageSize, pageNo);
+        refreshPaymatersTable(selectedNetwork, pageSize, pageNo);
     }, [selectedNetwork]);
 
     const fetchTotalRows = async () => {
@@ -51,7 +51,7 @@ function TopPaymasters(props: any) {
         setTotalRows(parseInt(presentDayMetrics?.bundlesTotal || '0'));
     };
 
-    const refreshUserOpsTable = async (network: string, pageSize: number, pageNo: number) => {
+    const refreshPaymatersTable = async (network: string, pageSize: number, pageNo: number) => {
         setTableLoading(true);
         const paymasters = await getTopPaymasters(network, pageSize, pageNo, toast);
         let newRows: tableDataT['rows'] = [];
@@ -63,6 +63,7 @@ function TopPaymasters(props: any) {
                     type: 'paymaster',
                 },
                 userOps: `${paymaster.userOpsLength} ops`,
+                fee: getFee(parseInt(paymaster.gasSponsored), network)
             });
         });
         setTopPaymastersTable({ ...topPaymastersTable, rows: newRows.slice(0, 10) });

@@ -1,5 +1,5 @@
-import Footer from '@/components/globals/footer/Footer';
-import Navbar from '@/components/globals/navbar/Navbar';
+import Footer from '@/components/global/footer/Footer';
+import Navbar from '@/components/global/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
 import { getBundleDetails, UserOp, AddressActivity, Bundle, getFactoryDetails, FactoryDetails } from '@/components/common/apiCalls/jiffyApis';
 import { Breadcrumbs, Link } from '@mui/material';

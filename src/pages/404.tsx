@@ -1,11 +1,11 @@
-import Layout from '@/components/globals/Layout';
+import Layout from '@/components/global/Layout';
 import LatestBundlesComponent from '@/views/recentBundles/Bundles';
 import { useConfig } from '@/context/config';
 import router from 'next/router';
 import React, { ReactElement } from 'react';
 import { useEffect } from 'react';
-import Footer from '@/components/globals/footer/Footer';
-import Navbar from '@/components/globals/navbar/Navbar';
+import Footer from '@/components/global/footer/Footer';
+import Navbar from '@/components/global/navbar/Navbar';
 import ReactGA from 'react-ga4';
 import Link from 'next/link';
 

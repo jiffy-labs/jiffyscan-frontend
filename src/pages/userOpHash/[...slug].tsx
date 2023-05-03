@@ -1,6 +1,6 @@
 import { fallBack } from '@/components/common/constants';
 import { getNetworkParam } from '@/components/common/utils';
-import Layout from '@/components/globals/Layout';
+import Layout from '@/components/global/Layout';
 import { useConfig } from '@/context/config';
 import UserOperations from '@/views/userOp/UserOperation';
 import { useRouter } from 'next/router';

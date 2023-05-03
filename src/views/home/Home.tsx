@@ -1,14 +1,14 @@
 import Button from '@/components/common/Button';
 import Table, { tableDataT } from '@/components/common/table/Table';
-import Footer from '@/components/globals/footer/Footer';
-import Navbar from '@/components/globals/navbar/Navbar';
-import RecentMetrics from '@/components/globals/recent_metrics/RecentMetrics';
+import Footer from '@/components/global/footer/Footer';
+import Navbar from '@/components/global/navbar/Navbar';
+import RecentMetrics from '@/components/global/recent_metrics/RecentMetrics';
 import React, { useState, useEffect } from 'react';
 import BundlesTable from './bundles_table.json';
 import BundlersTable from './bundlers_table.json';
 import PaymastersTable from './paymasters_table.json';
 import OperationsTable from './operations_table.json';
-import Searchblock from '../../components/globals/searchblock/Searchblock';
+import Searchblock from '../../components/global/searchblock/Searchblock';
 import { NETWORK_ICON_MAP } from '@/components/common/constants';
 import { getLatestBundles, getLatestUserOps, getTopBundlers, getTopPaymasters } from '@/components/common/apiCalls/jiffyApis';
 import { getFee, getTimePassed } from '@/components/common/utils';

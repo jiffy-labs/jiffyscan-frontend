@@ -70,6 +70,7 @@ export interface PayMasterActivity {
     address: string;
     network: string;
     totalDeposits: string;
+    gasSponsored: string;
 }
 export interface Bundle {
     userOpsLength: number;

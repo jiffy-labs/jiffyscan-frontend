@@ -1,6 +1,6 @@
-import Footer from '@/components/globals/footer/Footer';
-import Navbar from '@/components/globals/navbar/Navbar';
-import RecentMetrics from '@/components/globals/recent_metrics/RecentMetrics';
+import Footer from '@/components/global/footer/Footer';
+import Navbar from '@/components/global/navbar/Navbar';
+import RecentMetrics from '@/components/global/recent_metrics/RecentMetrics';
 import React, { useEffect, useState } from 'react';
 import Table, { tableDataT } from '@/components/common/table/Table';
 import Pagination from '@/components/common/table/Pagination';
@@ -32,13 +32,13 @@ function TopBundlers(props: any) {
     };
 
     useEffect(() => {
-        refreshUserOpsTable(selectedNetwork, pageSize, pageNo);
+        refreshBundlersTable(selectedNetwork, pageSize, pageNo);
     }, [pageNo, pageSize]);
 
     useEffect(() => {
         setPageNo(0);
         fetchTotalRows();
-        refreshUserOpsTable(selectedNetwork, pageSize, pageNo);
+        refreshBundlersTable(selectedNetwork, pageSize, pageNo);
     }, [selectedNetwork]);
 
     useEffect(() => {
@@ -62,7 +62,7 @@ function TopBundlers(props: any) {
         setTotalRows(parseInt(presentDayMetrics?.bundlesTotal || '0'));
     };
 
-    const refreshUserOpsTable = async (network: string, pageSize: number, pageNo: number) => {
+    const refreshBundlersTable = async (network: string, pageSize: number, pageNo: number) => {
         setTableLoading(true);
         const bundlers = await getTopBundlers(network, pageSize, pageNo, toast);
         let newRows: tableDataT['rows'] = [];
@@ -79,10 +79,7 @@ function TopBundlers(props: any) {
         });
         console.log(newRows);
         setTopBundlersTable({ ...topBundlersTable, rows: newRows });
-        setTimeout(() => {
-            setTableLoading(false);
-        }, 2000);
-        // setTableLoading(false);
+        setTableLoading(false);
     };
 
 

@@ -26,11 +26,7 @@ function RecentMetrics({
 
     useEffect(() => {
         refreshMetricsChart(selectedNetwork);
-        // if (metrics) {
-        setTimeout(() => {
-            setLoading(false);
-        }, 2000);
-        // }
+        
     }, [selectedNetwork]);
 
     const refreshMetricsChart = async (network: string) => {
@@ -41,9 +37,7 @@ function RecentMetrics({
         let newChartData: ChartData = chartDataAndMetrics.chartData;
         metrics = chartDataAndMetrics.metrics;
         setMetrics(metrics);
-        // setTimeout(() => {
-        //     setLoading(false);
-        // }, 3000);
+        setLoading(false);
     };
     return (
         <main className="mb-10">

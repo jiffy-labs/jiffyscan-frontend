@@ -1,6 +1,6 @@
-import Footer from '@/components/globals/footer/Footer';
-import Navbar from '@/components/globals/navbar/Navbar';
-import RecentMetrics from '@/components/globals/recent_metrics/RecentMetrics';
+import Footer from '@/components/global/footer/Footer';
+import Navbar from '@/components/global/navbar/Navbar';
+import RecentMetrics from '@/components/global/recent_metrics/RecentMetrics';
 import React, { useEffect, useState } from 'react';
 import Table, { tableDataT } from '@/components/common/table/Table';
 import Pagination from '@/components/common/table/Pagination';
