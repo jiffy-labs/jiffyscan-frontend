@@ -21,7 +21,7 @@
         "name": "Community",
         "lists": [
             ["Blog", "https://medium.com/jiffylabs"],
-            ["API Documentation", "https://documenter.getpostman.com/view/21318108/2s8YzZPJsr"],
+            ["API Documentation", "https://jiffyscan.readme.io/reference/getting-started-1"],
             ["Knowledge Base", "https://www.notion.so/Knowledge-Base-c8b7f786de5141a7baaffd30cef8fe30"],
             ["FAQ", "https://www.notion.so/5b080715834745ff82339c8ca73a76cb"],
             ["Submit an Issue", "https://github.com/jiffy-labs/jiffyscan-frontend/issues"]
