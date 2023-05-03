@@ -64,6 +64,7 @@ function Home() {
                     type: 'paymaster',
                 },
                 userOps: `${paymaster.userOpsLength} ops`,
+                fee: getFee(parseInt(paymaster.gasSponsored), network)
             });
         });
         setPaymastersTable({ ...paymastersTable, rows: newRows.slice(0, 10) });
