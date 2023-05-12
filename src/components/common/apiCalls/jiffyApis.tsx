@@ -1,8 +1,6 @@
 import axios from 'axios';
 import { fallBack } from '../constants';
 export interface UserOp {
-    userOpsLength: any;
-    userOps: any;
     id: string | null;
     transactionHash: string | null;
     userOpHash: string;
@@ -31,7 +29,47 @@ export interface UserOp {
     maxPriorityFeePerGas: number | null;
     paymasterAndData: string | null;
     signature: string | null;
-    userOpsCount?: number | null;
+}
+
+
+export interface Trace {
+    action: {
+        from: string,
+        callType: string,
+        gas: string,
+        input: string,
+        to: string,
+        value: string,
+    },
+    blockHash: string,
+    blockNumber: number,
+    result: {
+        gasUsed: string,
+        output: string,
+    },
+    subtraces: number,
+    traceAddress: number[], 
+    transactionHash: string,
+    transactionPosition: number,
+    type: string,
+    semantics: {
+        functionName: string
+        params: string[]
+        function: string
+        arguments: string[]
+    }
+}
+
+export interface erc20Transfer {
+    from: string,
+    to: string,
+    value: string
+    invoked: string
+}
+
+export interface metadata {
+    traces: Trace[],
+    erc20Transfers: erc20Transfer[],
 }
 
 export interface AddressActivity {
@@ -82,7 +120,6 @@ export interface Bundle {
     status: number;
     transactionFee: number;
     userOps: UserOp[];
-    address: string;
     success: Boolean | true;
 }
 export interface DailyMetric {
@@ -164,6 +201,17 @@ const showToast = (toast: any, message: string, type?: string) => {
             theme: 'colored',
         });
     }
+};
+
+export const getUserOpMetadata = async (userOpHash: string, network: string, toast: any): Promise<metadata> => {
+    if (!performApiCall(network)) return {} as metadata;
+    const response = await fetch(`https://api.jiffyscan.xyz/v0/getUserOpMetadata?userOpHash=${userOpHash}&network=${network}`);
+    if (response.status != 200) {
+        showToast(toast, 'Error fetching metadata');
+        return {} as metadata;
+    }
+    const data = await response.json();
+    return data;
 };
 
 export const getAddressMapping = async (): Promise<AddressMapping> => {

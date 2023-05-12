@@ -1,17 +1,29 @@
+import { erc20Transfer } from '@/components/common/apiCalls/jiffyApis';
 import { NETWORK_SCANNER_MAP, POWERED_BY_LOGO_MAP } from '@/components/common/constants';
 import CopyButton from '@/components/common/copy_button/CopyButton';
 import DisplayFee from '@/components/common/displayfee/DisplayFee';
 import IconText from '@/components/common/IconText';
+import LinkAndCopy from '@/components/common/LinkAndCopy';
 import Status from '@/components/common/status/Status';
 import Caption from '@/components/common/table/Caption';
-import { Link, Tooltip } from '@mui/material';
+import { shortenString } from '@/components/common/utils';
+import { Link, Tooltip, Box, CircularProgress } from '@mui/material';
 import moment from 'moment';
 import { useRouter } from 'next/router';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton-2';
-export default function TransactionDetails({ tableLoading, skeletonCards, item, responseData, addressMapping }: any) {
+export default function TransactionDetails({ tableLoading, skeletonCards, item, responseData, addressMapping, metaData }: any) {
     const router = useRouter();
+    const [metadataLoading, setMetadataLoading] = useState(true);
+
+    useEffect(() => {
+        if (metaData) {
+            console.log(metaData);
+            setMetadataLoading(false);
+        }
+    }, [metaData]);
+
     return (
         <div>
             <section className="mt-[48px] px-3">
@@ -73,22 +85,27 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                     {item?.accountSender?.factory === '' ? null : (
                                                         <div className="md:px-[16px] px-0 md:py-[8px] py-0">
                                                             <p className="text-[10px] text-[#455A64]">
-                                                                {(addressMapping?.[item?.accountSender?.factory?.toLowerCase()] && POWERED_BY_LOGO_MAP?.[addressMapping?.[item?.accountSender?.factory?.toLowerCase()]?.company.toLowerCase()]) && (
-                                                                    <span className="text-bluegrey-300 text-[10px] leading-5 flex items-center gap-2 font-normal">
-                                                                        Powered By{' '}
-                                                                        <img
-                                                                            src={
-                                                                                POWERED_BY_LOGO_MAP?.[
-                                                                                    addressMapping?.[
-                                                                                        item?.accountSender?.factory?.toLowerCase()
-                                                                                    ]?.company.toLowerCase()
-                                                                                ]?.small
-                                                                            }
-                                                                            style={{ height: 20, width: 20 }}
-                                                                            alt=""
-                                                                        />
-                                                                    </span>
-                                                                )}
+                                                                {addressMapping?.[item?.accountSender?.factory?.toLowerCase()] &&
+                                                                    POWERED_BY_LOGO_MAP?.[
+                                                                        addressMapping?.[
+                                                                            item?.accountSender?.factory?.toLowerCase()
+                                                                        ]?.company.toLowerCase()
+                                                                    ] && (
+                                                                        <span className="text-bluegrey-300 text-[10px] leading-5 flex items-center gap-2 font-normal">
+                                                                            Powered By{' '}
+                                                                            <img
+                                                                                src={
+                                                                                    POWERED_BY_LOGO_MAP?.[
+                                                                                        addressMapping?.[
+                                                                                            item?.accountSender?.factory?.toLowerCase()
+                                                                                        ]?.company.toLowerCase()
+                                                                                    ]?.small
+                                                                                }
+                                                                                style={{ height: 20, width: 20 }}
+                                                                                alt=""
+                                                                            />
+                                                                        </span>
+                                                                    )}
                                                             </p>
                                                         </div>
                                                     )}
@@ -140,22 +157,27 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                     {item?.accountTarget?.factory === '' ? null : (
                                                         <div className="md:px-[16px] px-0 md:py-[8px] py-0">
                                                             <p className="text-[10px] text-[#455A64]">
-                                                                {(addressMapping?.[item?.accountTarget?.factory?.toLowerCase()] && POWERED_BY_LOGO_MAP?.[addressMapping?.[item?.accountTarget?.factory?.toLowerCase()]?.company.toLowerCase()]) && (
-                                                                    <span className="text-bluegrey-300 text-[10px] leading-5 flex items-center gap-2 font-normal">
-                                                                        Powered By{' '}
-                                                                        <img
-                                                                            src={
-                                                                                POWERED_BY_LOGO_MAP?.[
-                                                                                    addressMapping?.[
-                                                                                        item?.accountTarget?.factory?.toLowerCase()
-                                                                                    ]?.company.toLowerCase()
-                                                                                ]?.small
-                                                                            }
-                                                                            style={{ height: 20, width: 20 }}
-                                                                            alt=""
-                                                                        />
-                                                                    </span>
-                                                                )}
+                                                                {addressMapping?.[item?.accountTarget?.factory?.toLowerCase()] &&
+                                                                    POWERED_BY_LOGO_MAP?.[
+                                                                        addressMapping?.[
+                                                                            item?.accountTarget?.factory?.toLowerCase()
+                                                                        ]?.company.toLowerCase()
+                                                                    ] && (
+                                                                        <span className="text-bluegrey-300 text-[10px] leading-5 flex items-center gap-2 font-normal">
+                                                                            Powered By{' '}
+                                                                            <img
+                                                                                src={
+                                                                                    POWERED_BY_LOGO_MAP?.[
+                                                                                        addressMapping?.[
+                                                                                            item?.accountTarget?.factory?.toLowerCase()
+                                                                                        ]?.company.toLowerCase()
+                                                                                    ]?.small
+                                                                                }
+                                                                                style={{ height: 20, width: 20 }}
+                                                                                alt=""
+                                                                            />
+                                                                        </span>
+                                                                    )}
                                                             </p>
                                                         </div>
                                                     )}
@@ -344,23 +366,27 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                     {item?.paymaster === '' ? null : (
                                                         <div className="md:px-[16px] px-0 md:py-[8px] py-0">
                                                             <p className="text-[10px] text-[#455A64]">
-                                                                {(addressMapping?.[item?.paymaster?.toLowerCase()] && POWERED_BY_LOGO_MAP?.[addressMapping?.[item?.paymaster?.toLowerCase()]?.company.toLowerCase()])
-                                                                 && (
-                                                                    <span className="text-bluegrey-300 text-[10px] leading-5 flex items-center gap-2 font-normal">
-                                                                        Powered By{' '}
-                                                                        <img
-                                                                            src={
-                                                                                POWERED_BY_LOGO_MAP?.[
-                                                                                    addressMapping?.[
-                                                                                        item?.paymaster?.toLowerCase()
-                                                                                    ]?.company.toLowerCase()
-                                                                                ]?.small
-                                                                            }
-                                                                            style={{ height: 20, width: 20 }}
-                                                                            alt=""
-                                                                        />
-                                                                    </span>
-                                                                )}
+                                                                {addressMapping?.[item?.paymaster?.toLowerCase()] &&
+                                                                    POWERED_BY_LOGO_MAP?.[
+                                                                        addressMapping?.[
+                                                                            item?.paymaster?.toLowerCase()
+                                                                        ]?.company.toLowerCase()
+                                                                    ] && (
+                                                                        <span className="text-bluegrey-300 text-[10px] leading-5 flex items-center gap-2 font-normal">
+                                                                            Powered By{' '}
+                                                                            <img
+                                                                                src={
+                                                                                    POWERED_BY_LOGO_MAP?.[
+                                                                                        addressMapping?.[
+                                                                                            item?.paymaster?.toLowerCase()
+                                                                                        ]?.company.toLowerCase()
+                                                                                    ]?.small
+                                                                                }
+                                                                                style={{ height: 20, width: 20 }}
+                                                                                alt=""
+                                                                            />
+                                                                        </span>
+                                                                    )}
                                                             </p>
                                                         </div>
                                                     )}
@@ -413,22 +439,27 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                     {item?.beneficiary === '' ? null : (
                                                         <div className="md:px-[16px] px-0 md:py-[8px] py-0">
                                                             <p className="text-[10px] text-[#455A64]">
-                                                                {(addressMapping?.[item?.beneficiary?.toLowerCase()] && POWERED_BY_LOGO_MAP?.[addressMapping?.[item?.beneficiary?.toLowerCase()]?.company.toLowerCase()]) && (
-                                                                    <span className="text-bluegrey-300 text-[10px] leading-5 flex items-center gap-2 font-normal">
-                                                                        Powered By{' '}
-                                                                        <img
-                                                                            src={
-                                                                                POWERED_BY_LOGO_MAP?.[
-                                                                                    addressMapping?.[
-                                                                                        item?.beneficiary.toLowerCase()
-                                                                                    ]?.company.toLowerCase()
-                                                                                ]?.small
-                                                                            }
-                                                                            style={{ height: 20, width: 20 }}
-                                                                            alt=""
-                                                                        />
-                                                                    </span>
-                                                                )}
+                                                                {addressMapping?.[item?.beneficiary?.toLowerCase()] &&
+                                                                    POWERED_BY_LOGO_MAP?.[
+                                                                        addressMapping?.[
+                                                                            item?.beneficiary?.toLowerCase()
+                                                                        ]?.company.toLowerCase()
+                                                                    ] && (
+                                                                        <span className="text-bluegrey-300 text-[10px] leading-5 flex items-center gap-2 font-normal">
+                                                                            Powered By{' '}
+                                                                            <img
+                                                                                src={
+                                                                                    POWERED_BY_LOGO_MAP?.[
+                                                                                        addressMapping?.[
+                                                                                            item?.beneficiary.toLowerCase()
+                                                                                        ]?.company.toLowerCase()
+                                                                                    ]?.small
+                                                                                }
+                                                                                style={{ height: 20, width: 20 }}
+                                                                                alt=""
+                                                                            />
+                                                                        </span>
+                                                                    )}
                                                             </p>
                                                         </div>
                                                     )}
@@ -526,6 +557,51 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                             </button>
                                                         </Link>
                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
+                                            <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
+                                                <IconText icon={'/images/cube.svg'}>
+                                                    <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
+                                                        ERC-20 Tokens Transferred
+                                                    </span>
+                                                </IconText>
+                                            </div>
+                                            <div className=" break-words gap-2 flex-1">
+                                                <div>
+                                                    <p className="text-[14px] text-[#455A64] md:hidden block">ERC-20 Tokens Transferred</p>
+                                                </div>
+                                                <div className="md:flex block justify-between">
+                                                    {metadataLoading ? (
+                                                        <div className="flex items-center gap-[10px]">
+                                                            <Box sx={{ display: 'flex' }}>
+                                                                <CircularProgress size={20} />
+                                                            </Box>
+                                                        </div>
+                                                    ) : (
+                                                        <div className="flex flex-col items-center gap-[10px]">
+                                                            {metaData.erc20Transfers.map(({ invoked, to, from, value }: erc20Transfer) => (
+                                                                <div className="flex">
+                                                                    Invoked:{' '}
+                                                                    <LinkAndCopy link="www.google.com" text={invoked} copyText={invoked} />{' '}
+                                                                    From:{' '}
+                                                                    <LinkAndCopy
+                                                                        link="www.google.com"
+                                                                        text={shortenString(from)}
+                                                                        copyText={shortenString(from)}
+                                                                    />{' '}
+                                                                    To:{' '}
+                                                                    <LinkAndCopy
+                                                                        link="www.google.com"
+                                                                        text={shortenString(to)}
+                                                                        copyText={shortenString(to)}
+                                                                    />{' '}
+                                                                    Amount: {parseInt(value) / 10 ** 18}
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>

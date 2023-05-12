@@ -1,7 +1,7 @@
 import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
-import { getPoweredBy, getUserOp, PoweredBy, UserOp } from '@/components/common/apiCalls/jiffyApis';
+import { getPoweredBy, getUserOp, getUserOpMetadata, PoweredBy, Trace, UserOp } from '@/components/common/apiCalls/jiffyApis';
 import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CopyButton from '@/components/common/copy_button/CopyButton';
@@ -79,6 +79,7 @@ function RecentUserOps(props: any) {
     const [userOpsData, setuserOpsData] = useState<UserOp[]>([] as UserOp[]);
     const [showUserOpId, setShowUserOpId] = useState<number>(0);
     const [responseData, setresponseData] = useState<PoweredBy>();
+    const [metaData, setMetaData] = useState<Trace[]>();
     const [duplicateUserOpsRows, setDuplicateUserOpsRows] = useState<tableDataT['rows']>([] as tableDataT['rows']);
 
     const refreshUserOpsTable = async (name: string) => {
@@ -119,6 +120,11 @@ function RecentUserOps(props: any) {
         }
     }, [hash]);
 
+    const fetchUserOpMetadata = async (hash: string, network: string) => {
+        const metaData = await getUserOpMetadata(hash as string, network, toast);
+        setMetaData(metaData);
+    }
+
     const fetchPoweredBy = async () => {
         const beneficiary =
             userOpsData
@@ -133,6 +139,13 @@ function RecentUserOps(props: any) {
     useEffect(() => {
         fetchPoweredBy();
     }, []);
+
+    useEffect(() => {
+        if (showUserOpId>=0 && userOpsData.length > showUserOpId){
+            fetchUserOpMetadata(userOpsData[showUserOpId].userOpHash, userOpsData[showUserOpId].network);
+        }
+    }, [userOpsData, showUserOpId]);
+
     let skeletonCards = Array(13).fill(0);
     let skeletonCards1 = Array(2).fill(0);
     return (
@@ -176,6 +189,7 @@ function RecentUserOps(props: any) {
                             item={userOpsData?.[showUserOpId]}
                             responseData={responseData}
                             addressMapping={addressMapping}
+                            metaData={metaData}
                         />
                         <DeveloperDetails
                             tableLoading={tableLoading}
