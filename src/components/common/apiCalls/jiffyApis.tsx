@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { fallBack } from '../constants';
+import cache from "memory-cache";
 export interface UserOp {
     id: string | null;
     transactionHash: string | null;
@@ -65,6 +66,9 @@ export interface erc20Transfer {
     to: string,
     value: string
     invoked: string
+    name: string | null
+    decimals: number | null
+    address: number | null
 }
 
 export interface metadata {
@@ -112,6 +116,7 @@ export interface PayMasterActivity {
 }
 export interface Bundle {
     userOpsLength: number;
+    address: string;
     transactionHash: string;
     network: string;
     blockNumber: number;
@@ -203,6 +208,19 @@ const showToast = (toast: any, message: string, type?: string) => {
     }
 };
 
+const cachedFetch = async (url: string) => {
+    const cachedResponse = cache.get(url);
+    if (cachedResponse) {
+      return cachedResponse;
+    } else {
+      const hours = 24;
+      const response = await fetch(url);
+      const data = await response.json();
+      cache.put(url, data, hours * 1000 * 60 * 60);
+      return data;
+    }
+  };
+
 export const getUserOpMetadata = async (userOpHash: string, network: string, toast: any): Promise<metadata> => {
     if (!performApiCall(network)) return {} as metadata;
     const response = await fetch(`https://api.jiffyscan.xyz/v0/getUserOpMetadata?userOpHash=${userOpHash}&network=${network}`);
@@ -213,6 +231,22 @@ export const getUserOpMetadata = async (userOpHash: string, network: string, toa
     const data = await response.json();
     return data;
 };
+
+export const populateERC20TransfersWithTokenInfo = async (metaData: metadata): Promise<metadata> => {
+    let populatedMetaData = metaData;
+    for (let i = 0; i < populatedMetaData.erc20Transfers.length; i++) {
+        const erc20Transfer = populatedMetaData.erc20Transfers[i];
+        if (erc20Transfer.address) {
+            const nameAndDecimal = await cachedFetch('/api/getERC20NameAndDecimals?address=' + erc20Transfer.address);
+            erc20Transfer.name = nameAndDecimal.name;
+            erc20Transfer.decimals = nameAndDecimal.decimals;
+        }
+        populatedMetaData.erc20Transfers[i] = erc20Transfer;
+    }
+    return populatedMetaData;
+};
+
+
 
 export const getAddressMapping = async (): Promise<AddressMapping> => {
     const response = await fetch('https://xe2kr8t49e.execute-api.us-east-2.amazonaws.com/default/getAAAddressMapping');
@@ -318,6 +352,7 @@ export const getLatestBundles = async (selectedNetwork: string, pageSize: number
     }
     return [] as Bundle[];
 };
+
 
 export const getDailyMetrics = async (selectedNetwork: string, noOfDays: number, toast: any): Promise<DailyMetric[]> => {
     if (!performApiCall(selectedNetwork)) return [] as DailyMetric[];

@@ -3,10 +3,10 @@ import React from 'react';
 import { NETWORK_SCANNER_MAP } from './constants';
 import CopyButton from './copy_button/CopyButton';
 
-const LinkAndCopy = ({ link, text, copyText }: { link: string; text: string; copyText: string }) => {
+const LinkAndCopy = ({ link, text, copyText }: { link: string | null; text: string; copyText: string }) => {
     return (
         <div className="flex items-center gap-[10px]">
-            <Link
+            {link ? <Link
                 underline="hover"
                 // color="text.primary"
                 href={link}
@@ -15,7 +15,7 @@ const LinkAndCopy = ({ link, text, copyText }: { link: string; text: string; cop
                 target="_blank"
             >
                 <span className="text-blue-200 md:text-[14px] text-[16px] break-all leading-5">{text}</span>
-            </Link>
+            </Link> : <span className="text-blue-200 md:text-[14px] text-[16px] break-all leading-5">{text}</span>}
 
             <div className="w-[40px] flex">
                 <CopyButton text={copyText} />

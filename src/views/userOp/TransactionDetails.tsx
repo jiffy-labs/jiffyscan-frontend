@@ -1,4 +1,4 @@
-import { erc20Transfer } from '@/components/common/apiCalls/jiffyApis';
+import { erc20Transfer, metadata } from '@/components/common/apiCalls/jiffyApis';
 import { NETWORK_SCANNER_MAP, POWERED_BY_LOGO_MAP } from '@/components/common/constants';
 import CopyButton from '@/components/common/copy_button/CopyButton';
 import DisplayFee from '@/components/common/displayfee/DisplayFee';
@@ -10,17 +10,48 @@ import { shortenString } from '@/components/common/utils';
 import { Link, Tooltip, Box, CircularProgress } from '@mui/material';
 import moment from 'moment';
 import { useRouter } from 'next/router';
+import { populateERC20TransfersWithTokenInfo } from '@/components/common/apiCalls/jiffyApis';
 
 import React, { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton-2';
-export default function TransactionDetails({ tableLoading, skeletonCards, item, responseData, addressMapping, metaData }: any) {
+export default function TransactionDetails({
+    tableLoading,
+    skeletonCards,
+    item,
+    responseData,
+    addressMapping,
+    metaData,
+    setMetadata,
+}: any) {
     const router = useRouter();
-    const [metadataLoading, setMetadataLoading] = useState(true);
+    const [showMetadata, setShowMetadata] = useState(false);
+    const [reload, setReload] = useState(0);
+
+    const showERC20Transfers = (showMetadata: boolean, metadata: metadata, reload: number): boolean => {
+        let showERC20Transfers = false;
+        if (showMetadata && metadata && metadata?.erc20Transfers && metadata?.erc20Transfers.length > 0) {
+            showERC20Transfers = true;
+        }
+        console.log(showMetadata, metadata, metadata?.erc20Transfers, showERC20Transfers);
+        console.log('showERC20Transfers', showERC20Transfers);
+        return showERC20Transfers;
+    };
+
+    const updateMetadata = async (metadata: metadata) => {
+        const updatedMetaData = await populateERC20TransfersWithTokenInfo(metadata);
+        console.log('updatedMetaData', updatedMetaData);
+        setMetadata(updatedMetaData);
+        setReload(1);
+        setShowMetadata(true);
+    };
 
     useEffect(() => {
         if (metaData) {
             console.log(metaData);
-            setMetadataLoading(false);
+            setShowMetadata(true);
+            if (metaData.erc20Transfers && metaData.erc20Transfers.length > 0 && !metaData.erc20Transfers[0].name) {
+                updateMetadata(metaData);
+            }
         }
     }, [metaData]);
 
@@ -560,51 +591,64 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
-                                            <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
-                                                <IconText icon={'/images/cube.svg'}>
-                                                    <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
-                                                        ERC-20 Tokens Transferred
-                                                    </span>
-                                                </IconText>
-                                            </div>
-                                            <div className=" break-words gap-2 flex-1">
-                                                <div>
-                                                    <p className="text-[14px] text-[#455A64] md:hidden block">ERC-20 Tokens Transferred</p>
+                                        {(showMetadata && (metaData && metaData.erc20Transfers && metaData.erc20Transfers.length > 0) && reload>-1) && (
+                                            <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
+                                                <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
+                                                    <IconText icon={'/images/cube.svg'}>
+                                                        <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
+                                                            ERC-20 Tokens Transferred
+                                                        </span>
+                                                    </IconText>
                                                 </div>
-                                                <div className="md:flex block justify-between">
-                                                    {metadataLoading ? (
-                                                        <div className="flex items-center gap-[10px]">
-                                                            <Box sx={{ display: 'flex' }}>
-                                                                <CircularProgress size={20} />
-                                                            </Box>
+                                                <div className=" break-words gap-2 flex-1">
+                                                    <div>
+                                                        <p className="text-[14px] text-[#455A64] md:hidden block">
+                                                            ERC-20 Tokens Transferred
+                                                        </p>
+                                                    </div>
+                                                    <div className="md:flex block justify-between">
+                                                        <div className="flex flex-col items-right gap-[10px]">
+                                                            {metaData.erc20Transfers.map(
+                                                                ({ invoked, to, from, value, name, decimals, address }: erc20Transfer, index: number) => (
+                                                                    <div key={index} className="flex">
+                                                                        Invoked:{' '}
+                                                                        <LinkAndCopy
+                                                                            link={null}
+                                                                            text={invoked}
+                                                                            copyText={invoked}
+                                                                        />{' '}
+                                                                        From:{' '}
+                                                                        <LinkAndCopy
+                                                                            link={null}
+                                                                            text={shortenString(from)}
+                                                                            copyText={shortenString(from)}
+                                                                        />{' '}
+                                                                        To:{' '}
+                                                                        <LinkAndCopy
+                                                                            link={null}
+                                                                            text={shortenString(to)}
+                                                                            copyText={shortenString(to)}
+                                                                        />{' '}
+                                                                        {name || invoked == 'ETH Transfer' ? (
+                                                                            <div>
+                                                                                Amount: 
+                                                                                {(parseInt(value) / 10 ** (decimals ? decimals : 18)).toFixed(4)} {name}{' '}
+                                                                                Token
+                                                                            </div>
+                                                                        ) : (
+                                                                            <div>
+                                                                                Amount: {(parseInt(value) / 10 ** 18).toFixed(4)}{' '}
+                                                                                <CircularProgress size={20} />
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
+                                                                ),
+                                                            )}
                                                         </div>
-                                                    ) : (
-                                                        <div className="flex flex-col items-center gap-[10px]">
-                                                            {metaData.erc20Transfers.map(({ invoked, to, from, value }: erc20Transfer) => (
-                                                                <div className="flex">
-                                                                    Invoked:{' '}
-                                                                    <LinkAndCopy link="www.google.com" text={invoked} copyText={invoked} />{' '}
-                                                                    From:{' '}
-                                                                    <LinkAndCopy
-                                                                        link="www.google.com"
-                                                                        text={shortenString(from)}
-                                                                        copyText={shortenString(from)}
-                                                                    />{' '}
-                                                                    To:{' '}
-                                                                    <LinkAndCopy
-                                                                        link="www.google.com"
-                                                                        text={shortenString(to)}
-                                                                        copyText={shortenString(to)}
-                                                                    />{' '}
-                                                                    Amount: {parseInt(value) / 10 ** 18}
-                                                                </div>
-                                                            ))}
-                                                        </div>
-                                                    )}
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        )}
                                     </div>
                                 </section>
                             </div>

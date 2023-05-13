@@ -1,7 +1,7 @@
 import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
-import { getPoweredBy, getUserOp, getUserOpMetadata, PoweredBy, Trace, UserOp } from '@/components/common/apiCalls/jiffyApis';
+import { getPoweredBy, getUserOp, getUserOpMetadata, metadata, PoweredBy, Trace, UserOp } from '@/components/common/apiCalls/jiffyApis';
 import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CopyButton from '@/components/common/copy_button/CopyButton';
@@ -79,7 +79,7 @@ function RecentUserOps(props: any) {
     const [userOpsData, setuserOpsData] = useState<UserOp[]>([] as UserOp[]);
     const [showUserOpId, setShowUserOpId] = useState<number>(0);
     const [responseData, setresponseData] = useState<PoweredBy>();
-    const [metaData, setMetaData] = useState<Trace[]>();
+    const [metaData, setMetaData] = useState<metadata>();
     const [duplicateUserOpsRows, setDuplicateUserOpsRows] = useState<tableDataT['rows']>([] as tableDataT['rows']);
 
     const refreshUserOpsTable = async (name: string) => {
@@ -190,6 +190,7 @@ function RecentUserOps(props: any) {
                             responseData={responseData}
                             addressMapping={addressMapping}
                             metaData={metaData}
+                            setMetadata={setMetaData}
                         />
                         <DeveloperDetails
                             tableLoading={tableLoading}
