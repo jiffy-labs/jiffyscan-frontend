@@ -234,15 +234,14 @@ export const getUserOpMetadata = async (userOpHash: string, network: string, toa
 
 export const populateERC20TransfersWithTokenInfo = async (metaData: metadata): Promise<metadata> => {
     let populatedMetaData = metaData;
-    for (let i = 0; i < populatedMetaData.erc20Transfers.length; i++) {
-        const erc20Transfer = populatedMetaData.erc20Transfers[i];
+    await Promise.all(populatedMetaData.erc20Transfers.map(async (erc20Transfer, index) => {
         if (erc20Transfer.address) {
             const nameAndDecimal = await cachedFetch('/api/getERC20NameAndDecimals?address=' + erc20Transfer.address);
             erc20Transfer.name = nameAndDecimal.name;
             erc20Transfer.decimals = nameAndDecimal.decimals;
         }
-        populatedMetaData.erc20Transfers[i] = erc20Transfer;
-    }
+        populatedMetaData.erc20Transfers[index] = erc20Transfer;
+    }));
     return populatedMetaData;
 };
 
