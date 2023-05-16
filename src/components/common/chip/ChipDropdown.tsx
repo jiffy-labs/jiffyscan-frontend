@@ -1,7 +1,8 @@
-import React, { ReactNode, Fragment, useState } from 'react';
+import React, { ReactNode, Fragment, useState, useEffect } from 'react';
 import sx from './chip.module.sass';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
+import { NETWORK_ICON_MAP } from '../constants';
 
 export interface ChipProps {
     variant?: 'contained' | 'outlined';
@@ -17,21 +18,25 @@ export interface ChipProps {
         iconPath: string;
         iconPathInverted: string;
     }[];
+    selectedNetwork: string;
 }
 
 function ChipDropdown(props: ChipProps) {
-    const { variant = 'contained', isMoreSelected, className, setIsMoreSelected, onClickFcn, dropdownNetworkList, disabled } = props;
+    const { variant = 'contained', isMoreSelected, className, setIsMoreSelected, onClickFcn, dropdownNetworkList, disabled, selectedNetwork } = props;
 
     const color = isMoreSelected ? 'dark-700' : 'white';
-    const [selectedNetwork, setSelectedNetwork] = useState('');
-    const [icon, setIcon] = useState<string | null>();
+    const [icon, setIcon] = useState<string | null>(NETWORK_ICON_MAP[selectedNetwork]);
+
+    useEffect(() => {
+        setIcon(NETWORK_ICON_MAP[selectedNetwork]);
+    },[selectedNetwork]);
 
     return (
         <div className="text-sm">
             <Menu as="div" className="relative inline-block text-left ">
                 <span>
                     <Menu.Button className={`${sx.wrapper} ${sx[variant]} ${sx[color]} ${className || ''} ${disabled ? sx.disabled : ''}`}>
-                        {icon && isMoreSelected && (
+                        {(icon && isMoreSelected) && (
                             <img
                                 src={icon}
                                 alt=""
@@ -63,7 +68,7 @@ function ChipDropdown(props: ChipProps) {
                                     {({ active }) => (
                                         <a
                                             onClick={() => {
-                                                setSelectedNetwork(name);
+                                                console.log('is this setting it ??')
                                                 setIsMoreSelected(true);
                                                 onClickFcn(key);
                                                 setIcon(iconPath);

@@ -6,6 +6,15 @@ import useWindowDimensions from './utils';
 
 const SET_DEFAULT_CHIP_SIZE = 4;
 
+const isNetworkInDropdown = (network: string, dropdownNetworkList: any) => {
+    for (let i = 0; i < dropdownNetworkList.length; i++) {
+        if (dropdownNetworkList[i].key === network) {
+            return true;
+        }
+    }
+    return false;
+};
+
 function NetworkSelector({
     selectedNetwork,
     handleNetworkChange,
@@ -15,11 +24,11 @@ function NetworkSelector({
     handleNetworkChange: (network: string) => void;
     disabled: boolean;
 }) {
-    const [isMoreSelected, setIsMoreSelected] = useState(false);
     const [endIndex, setEndIndex] = useState(SET_DEFAULT_CHIP_SIZE);
+    const displayNetworkList = NETWORK_LIST.slice(0, endIndex);
+    const dropdownNetworkList = NETWORK_LIST.slice(endIndex, NETWORK_LIST.length);
+    const [isMoreSelected, setIsMoreSelected] = useState(isNetworkInDropdown(selectedNetwork, dropdownNetworkList) ? true : false);
     const width = useWindowDimensions().width;
-
-    console.log(selectedNetwork);
 
     useEffect(() => {
         // If width more than 768px, display 3 chips, else display 1 chip
@@ -28,12 +37,12 @@ function NetworkSelector({
             setEndIndex(SET_DEFAULT_CHIP_SIZE);
         } else {
             setEndIndex(1);
-            setIsMoreSelected(false);
         }
     }, [width]);
 
-    const displayNetworkList = NETWORK_LIST.slice(0, endIndex);
-    const dropdownNetworkList = NETWORK_LIST.slice(endIndex, NETWORK_LIST.length);
+    useEffect(() => {
+        setIsMoreSelected(isNetworkInDropdown(selectedNetwork, dropdownNetworkList) ? true : false);
+    }, [selectedNetwork, endIndex]);
 
     return (
         <div className="flex flex-wrap items-center gap-1">
@@ -55,6 +64,7 @@ function NetworkSelector({
             ))}
             <ChipDropdown
                 onClickFcn={handleNetworkChange}
+                selectedNetwork={selectedNetwork}
                 isMoreSelected={isMoreSelected}
                 setIsMoreSelected={setIsMoreSelected}
                 dropdownNetworkList={dropdownNetworkList}

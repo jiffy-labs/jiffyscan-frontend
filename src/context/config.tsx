@@ -37,7 +37,6 @@ export function ConfigProvider({ children }: Props) {
     const setAddressMaps = async () => {
         const addressMappings = await getAddressMapping();
         setAddressMapping(addressMappings);
-        console.log(addressMappings);
     };
 
     useEffect(() => {
@@ -54,16 +53,6 @@ export function ConfigProvider({ children }: Props) {
             query: { network: selectedNetwork },
         };
 
-        console.log(window.location.href);
-        console.log(window.location);
-        console.log(
-            window.location.origin +
-                window.location.pathname +
-                '?' +
-                Object.keys(href.query)
-                    .map((key) => key + '=' + href.query[key])
-                    .join('&'),
-        );
         localStorage.setItem('network', selectedNetwork);
         if (
             window.location.href !=
