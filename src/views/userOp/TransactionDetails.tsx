@@ -14,6 +14,7 @@ import { populateERC20TransfersWithTokenInfo } from '@/components/common/apiCall
 
 import React, { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton-2';
+import ERC20Transfers from './ERC20Transfers';
 export default function TransactionDetails({
     tableLoading,
     skeletonCards,
@@ -40,7 +41,9 @@ export default function TransactionDetails({
     const updateMetadata = async (metadata: metadata) => {
         const updatedMetaData = await populateERC20TransfersWithTokenInfo(metadata);
         console.log('updatedMetaData', updatedMetaData);
-        setMetadata(updatedMetaData);
+        setMetadata(() => {
+            return updatedMetaData
+        });
         setReload(1);
         setShowMetadata(true);
     };
@@ -49,9 +52,9 @@ export default function TransactionDetails({
         if (metaData) {
             console.log(metaData);
             setShowMetadata(true);
-            if (metaData.erc20Transfers && metaData.erc20Transfers.length > 0 && !metaData.erc20Transfers[0].name) {
-                updateMetadata(metaData);
-            }
+            // if (metaData.erc20Transfers && metaData.erc20Transfers.length > 0 && !metaData.erc20Transfers[0].name) {
+            //     updateMetadata(metaData);
+            // }
         }
     }, [metaData]);
 
@@ -591,64 +594,48 @@ export default function TransactionDetails({
                                                 </div>
                                             </div>
                                         </div>
-                                        {(showMetadata && (metaData && metaData.erc20Transfers && metaData.erc20Transfers.length > 0) && reload>-1) && (
-                                            <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
-                                                <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
-                                                    <IconText icon={'/images/cube.svg'}>
-                                                        <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
-                                                            ERC-20 Tokens Transferred
-                                                        </span>
-                                                    </IconText>
-                                                </div>
-                                                <div className=" break-words gap-2 flex-1">
-                                                    <div>
-                                                        <p className="text-[14px] text-[#455A64] md:hidden block">
-                                                            ERC-20 Tokens Transferred
-                                                        </p>
+                                        {showMetadata &&
+                                            metaData &&
+                                            metaData.erc20Transfers &&
+                                            metaData.erc20Transfers.length > 0 &&
+                                            reload > -1 && (
+                                                <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
+                                                    <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
+                                                        <IconText icon={'/images/cube.svg'}>
+                                                            <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
+                                                                ERC-20 Tokens Transferred
+                                                            </span>
+                                                        </IconText>
                                                     </div>
-                                                    <div className="md:flex block justify-between">
-                                                        <div className="flex flex-col items-right gap-[10px]">
-                                                            {metaData.erc20Transfers.map(
-                                                                ({ invoked, to, from, value, name, decimals, address }: erc20Transfer, index: number) => (
-                                                                    <div key={index} className="flex">
-                                                                        Invoked:{' '}
-                                                                        <LinkAndCopy
-                                                                            link={null}
-                                                                            text={invoked}
-                                                                            copyText={invoked}
-                                                                        />{' '}
-                                                                        From:{' '}
-                                                                        <LinkAndCopy
-                                                                            link={null}
-                                                                            text={shortenString(from)}
-                                                                            copyText={shortenString(from)}
-                                                                        />{' '}
-                                                                        To:{' '}
-                                                                        <LinkAndCopy
-                                                                            link={null}
-                                                                            text={shortenString(to)}
-                                                                            copyText={shortenString(to)}
-                                                                        />{' '}
-                                                                        {name || invoked == 'ETH Transfer' ? (
-                                                                            <div>
-                                                                                Amount: 
-                                                                                {(parseInt(value) / 10 ** (decimals ? decimals : 18)).toFixed(4)} {name}{' '}
-                                                                                Token
-                                                                            </div>
-                                                                        ) : (
-                                                                            <div>
-                                                                                Amount: {(parseInt(value) / 10 ** 18).toFixed(4)}{' '}
-                                                                                <CircularProgress size={20} />
-                                                                            </div>
-                                                                        )}
-                                                                    </div>
-                                                                ),
-                                                            )}
+                                                    <div className=" break-words gap-2 flex-1">
+                                                        <div>
+                                                            <p className="text-[14px] text-[#455A64] md:hidden block">
+                                                                ERC-20 Tokens Transferred
+                                                            </p>
+                                                        </div>
+                                                        <div className="md:flex block justify-between">
+                                                            <div className="flex flex-col gap-[10px] w-full">
+                                                                {metaData.erc20Transfers.map(
+                                                                    (
+                                                                        {
+                                                                            invoked,
+                                                                            to,
+                                                                            from,
+                                                                            value,
+                                                                            name,
+                                                                            decimals,
+                                                                            address,
+                                                                        }: erc20Transfer,
+                                                                        index: number,
+                                                                    ) => (
+                                                                       <ERC20Transfers sender={item?.sender} invoked={invoked} to={to} from={from} value={value} name={name} decimals={decimals} address={address} index={index} />
+                                                                    ),
+                                                                )}
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        )}
+                                            )}
                                     </div>
                                 </section>
                             </div>

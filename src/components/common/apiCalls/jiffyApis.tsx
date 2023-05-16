@@ -68,7 +68,7 @@ export interface erc20Transfer {
     invoked: string
     name: string | null
     decimals: number | null
-    address: number | null
+    address: string | null
 }
 
 export interface metadata {
