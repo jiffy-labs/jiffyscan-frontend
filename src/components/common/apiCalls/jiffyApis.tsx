@@ -223,7 +223,16 @@ const cachedFetch = async (url: string) => {
 
 export const getUserOpMetadata = async (userOpHash: string, network: string, toast: any): Promise<metadata> => {
     if (!performApiCall(network)) return {} as metadata;
-    const response = await fetch(`https://api.jiffyscan.xyz/v0/getUserOpMetadata?userOpHash=${userOpHash}&network=${network}`);
+    if (network != "mainnet") return {} as metadata;
+    
+    let response;
+    try{
+        response = await fetch(`https://api.jiffyscan.xyz/v0/getUserOpMetadata?userOpHash=${userOpHash}&network=${network}`);
+    } catch (e) {
+        // showToast(toast, 'Error fetching metadata');
+        return {} as metadata;
+    }
+
     if (response.status != 200) {
         showToast(toast, 'Error fetching metadata');
         return {} as metadata;
