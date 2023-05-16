@@ -3,7 +3,7 @@ import { shortenString } from '@/components/common/utils';
 import React from 'react';
 
 export interface ERC20Transfer {
-    index: number;
+    key: number;
     address: string | null;
     invoked: string;
     from: string;
@@ -19,10 +19,10 @@ const getValue = (value: string | { type: string; hex: string }) => {
     return parseInt(val);
 };
 
-function ERC20Transfers({ index, address, invoked, from, to, value, decimals, name, sender }: ERC20Transfer) {
+function ERC20Transfers({ key, address, invoked, from, to, value, decimals, name, sender }: ERC20Transfer) {
     if (sender && (sender == to || sender == from))
         return (
-            <div key={index} className="flex">
+            <div key={key} className="flex">
                 From: <LinkAndCopy link={null} text={shortenString(from)} copyText={from} />
                 To: <LinkAndCopy link={null} text={shortenString(to)} copyText={to} />{' '}
                 {name || invoked == 'ETH Transfer' ? (
@@ -49,6 +49,7 @@ function ERC20Transfers({ index, address, invoked, from, to, value, decimals, na
                 Invoked: <LinkAndCopy link={null} text={invoked} copyText={invoked} />
             </div>
         );
+        else return <div></div>;
 }
 
 export default ERC20Transfers;

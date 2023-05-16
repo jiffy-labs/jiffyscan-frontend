@@ -628,7 +628,7 @@ export default function TransactionDetails({
                                                                         }: erc20Transfer,
                                                                         index: number,
                                                                     ) => (
-                                                                       <ERC20Transfers sender={item?.sender} invoked={invoked} to={to} from={from} value={value} name={name} decimals={decimals} address={address} index={index} />
+                                                                       <ERC20Transfers sender={item.sender as string} invoked={invoked} to={to} from={from} value={value} name={name} decimals={decimals} address={address} key={index} />
                                                                     ),
                                                                 )}
                                                             </div>
