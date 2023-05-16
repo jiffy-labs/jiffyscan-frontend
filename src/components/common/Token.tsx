@@ -18,6 +18,9 @@ export interface TokenType {
 function Token({ icon, text, copyIcon, type, onTokenClicked, value }: TokenType) {
     const { selectedNetwork } = useConfig();
 
+    if (text == "Unavailable!") 
+        return <div className="flex items-center gap-2.5">{text}</div>
+
     return (
         <div className="flex items-center gap-2.5">
             {icon && <img src={icon} alt="" style={{ width: '20px', height: '20px' }} />}
