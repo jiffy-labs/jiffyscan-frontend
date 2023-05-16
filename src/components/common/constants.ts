@@ -125,7 +125,7 @@ export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
     goerli: 'https://goerli.etherscan.io',
     sepolia: 'https://sepolia.etherscan.io',
     mumbai: 'https://mumbai.polygonscan.com',
-    matic: 'https://polygonscan.com/tx',
+    matic: 'https://polygonscan.com',
     'optimism-goerli': 'https://goerli-optimism.etherscan.io',
     'arbitrum-one': 'https://arbiscan.io',
     'arbitrum-goerli': 'https://goerli.arbiscan.io',
