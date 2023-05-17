@@ -49,7 +49,7 @@ function ERC20Transfers({ key, address, invoked, from, to, value, decimals, name
                 &nbsp; Invoked: <LinkAndCopy link={null} text={invoked} copyText={invoked} />
             </div>
         );
-    } else return <div></div>;
+    } else return <></>;
 }
 
 export default ERC20Transfers;
