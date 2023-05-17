@@ -27,7 +27,7 @@ function ERC20Transfers({ key, address, invoked, from, to, value, decimals, name
                 To: <LinkAndCopy link={null} text={shortenString(to)} copyText={to} />{' '}
                 {name || invoked == 'ETH Transfer' ? (
                     <div>
-                        Amount:
+                        Amount:&nbsp;
                         {(getValue(value) / 10 ** (decimals ? decimals : 18)).toFixed(4)}{' '}
                         {name ? (
                             <>
@@ -42,7 +42,7 @@ function ERC20Transfers({ key, address, invoked, from, to, value, decimals, name
                     </div>
                 ) : (
                     <>
-                        Amount: &nbsp; {(getValue(value) / 10 ** 18).toFixed(4)}{' '}
+                        Amount: &nbsp; {(getValue(value) / 10 ** 18).toFixed(4)}&nbsp;
                         {address ? <LinkAndCopy link={null} text={shortenString(to)} copyText={to} /> : ''}
                     </>
                 )}
