@@ -20,9 +20,9 @@ const getValue = (value: string | { type: string; hex: string }) => {
 };
 
 function ERC20Transfers({ key, address, invoked, from, to, value, decimals, name, sender }: ERC20Transfer) {
-    if (sender && (sender == to || sender == from))
+    if (sender && (sender.toLowerCase() == to.toLowerCase() || sender.toLowerCase() == from.toLowerCase()) && getValue(value) > 0) {
         return (
-            <div key={key} className="flex">
+            <div key={key} className="flex items-center">
                 From: <LinkAndCopy link={null} text={shortenString(from)} copyText={from} />
                 To: <LinkAndCopy link={null} text={shortenString(to)} copyText={to} />{' '}
                 {name || invoked == 'ETH Transfer' ? (
@@ -41,15 +41,15 @@ function ERC20Transfers({ key, address, invoked, from, to, value, decimals, name
                         )}
                     </div>
                 ) : (
-                    <div>
-                        Amount: {(getValue(value) / 10 ** 18).toFixed(4)}{' '}
+                    <>
+                        Amount: &nbsp; {(getValue(value) / 10 ** 18).toFixed(4)}{' '}
                         {address ? <LinkAndCopy link={null} text={shortenString(to)} copyText={to} /> : ''}
-                    </div>
-                )}&nbsp;
-                Invoked: <LinkAndCopy link={null} text={invoked} copyText={invoked} />
+                    </>
+                )}
+                &nbsp; Invoked: <LinkAndCopy link={null} text={invoked} copyText={invoked} />
             </div>
         );
-        else return <div></div>;
+    } else return <div></div>;
 }
 
 export default ERC20Transfers;
