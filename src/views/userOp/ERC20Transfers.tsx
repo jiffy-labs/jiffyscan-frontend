@@ -42,7 +42,7 @@ function ERC20Transfers({ key, address, invoked, from, to, value, decimals, name
                     </div>
                 ) : (
                     <>
-                        Amount: &nbsp; {(getValue(value) / 10 ** 18).toFixed(4)}&nbsp;
+                        Amount:&nbsp;{(getValue(value) / 10 ** 18).toFixed(4)}&nbsp;
                         {address ? <LinkAndCopy link={null} text={shortenString(to)} copyText={to} /> : ''}
                     </>
                 )}

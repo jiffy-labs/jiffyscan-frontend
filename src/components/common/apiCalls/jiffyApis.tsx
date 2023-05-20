@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { fallBack } from '../constants';
-import cache from "memory-cache";
+import cache from 'memory-cache';
 export interface UserOp {
     id: string | null;
     transactionHash: string | null;
     userOpHash: string;
     sender: string;
-    accountSender: {factory: string};
+    accountSender: { factory: string };
     paymaster: string;
     nonce: number;
     actualGasCost: number;
@@ -19,7 +19,7 @@ export interface UserOp {
     network: string;
     input: string | null;
     target: string | null;
-    accountTarget: {factory: string};
+    accountTarget: { factory: string };
     callData: string | null;
     beneficiary: string | null;
     factory: string | null;
@@ -32,48 +32,47 @@ export interface UserOp {
     signature: string | null;
 }
 
-
 export interface Trace {
     action: {
-        from: string,
-        callType: string,
-        gas: string,
-        input: string,
-        to: string,
-        value: string,
-    },
-    blockHash: string,
-    blockNumber: number,
+        from: string;
+        callType: string;
+        gas: string;
+        input: string;
+        to: string;
+        value: string;
+    };
+    blockHash: string;
+    blockNumber: number;
     result: {
-        gasUsed: string,
-        output: string,
-    },
-    subtraces: number,
-    traceAddress: number[], 
-    transactionHash: string,
-    transactionPosition: number,
-    type: string,
+        gasUsed: string;
+        output: string;
+    };
+    subtraces: number;
+    traceAddress: number[];
+    transactionHash: string;
+    transactionPosition: number;
+    type: string;
     semantics: {
-        functionName: string
-        params: string[]
-        function: string
-        arguments: string[]
-    }
+        functionName: string;
+        params: string[];
+        function: string;
+        arguments: string[];
+    };
 }
 
 export interface erc20Transfer {
-    from: string,
-    to: string,
-    value: string
-    invoked: string
-    name: string | null
-    decimals: number | null
-    address: string | null
+    from: string;
+    to: string;
+    value: string;
+    invoked: string;
+    name: string | null;
+    decimals: number | null;
+    address: string | null;
 }
 
 export interface metadata {
-    traces: Trace[],
-    erc20Transfers: erc20Transfer[],
+    traces: Trace[];
+    erc20Transfers: erc20Transfer[];
 }
 
 export interface AddressActivity {
@@ -175,7 +174,7 @@ export enum AddressType {
 export interface AddressInfo {
     company: string;
     type: AddressType;
-    entryPoints: string[]; 
+    entryPoints: string[];
 }
 export interface AddressMapping {
     [key: string]: AddressInfo;
@@ -211,23 +210,25 @@ const showToast = (toast: any, message: string, type?: string) => {
 const cachedFetch = async (url: string) => {
     const cachedResponse = cache.get(url);
     if (cachedResponse) {
-      return cachedResponse;
+        return cachedResponse;
     } else {
-      const hours = 24;
-      const response = await fetch(url);
-      const data = await response.json();
-      cache.put(url, data, hours * 1000 * 60 * 60);
-      return data;
+        const hours = 24;
+        const response = await fetch(url, { headers: { 'x-api-key': 'dummy' } });
+        const data = await response.json();
+        cache.put(url, data, hours * 1000 * 60 * 60);
+        return data;
     }
-  };
+};
 
 export const getUserOpMetadata = async (userOpHash: string, network: string, toast: any): Promise<metadata> => {
     if (!performApiCall(network)) return {} as metadata;
-    if (network != "mainnet") return {} as metadata;
-    
+    if (network != 'mainnet') return {} as metadata;
+
     let response;
-    try{
-        response = await fetch(`https://api.jiffyscan.xyz/v0/getUserOpMetadata?userOpHash=${userOpHash}&network=${network}`);
+    try {
+        response = await fetch(`https://api.jiffyscan.xyz/v0/getUserOpMetadata?userOpHash=${userOpHash}&network=${network}`, {
+            headers: { 'x-api-key': 'dummy' },
+        });
     } catch (e) {
         // showToast(toast, 'Error fetching metadata');
         return {} as metadata;
@@ -243,28 +244,29 @@ export const getUserOpMetadata = async (userOpHash: string, network: string, toa
 
 export const populateERC20TransfersWithTokenInfo = async (metaData: metadata): Promise<metadata> => {
     let populatedMetaData = metaData;
-    await Promise.all(populatedMetaData.erc20Transfers.map(async (erc20Transfer, index) => {
-        if (erc20Transfer.address) {
-            const nameAndDecimal = await cachedFetch('/api/getERC20NameAndDecimals?address=' + erc20Transfer.address);
-            erc20Transfer.name = nameAndDecimal.name;
-            erc20Transfer.decimals = nameAndDecimal.decimals;
-        }
-        populatedMetaData.erc20Transfers[index] = erc20Transfer;
-    }));
+    await Promise.all(
+        populatedMetaData.erc20Transfers.map(async (erc20Transfer, index) => {
+            if (erc20Transfer.address) {
+                const nameAndDecimal = await cachedFetch('/api/getERC20NameAndDecimals?address=' + erc20Transfer.address);
+                erc20Transfer.name = nameAndDecimal.name;
+                erc20Transfer.decimals = nameAndDecimal.decimals;
+            }
+            populatedMetaData.erc20Transfers[index] = erc20Transfer;
+        }),
+    );
     return populatedMetaData;
 };
 
-
-
 export const getAddressMapping = async (): Promise<AddressMapping> => {
-    const response = await fetch('https://xe2kr8t49e.execute-api.us-east-2.amazonaws.com/default/getAAAddressMapping');
+    const response = await fetch('https://xe2kr8t49e.execute-api.us-east-2.amazonaws.com/default/getAAAddressMapping', {
+        headers: { 'x-api-key': 'dummy' },
+    });
     if (response.status != 200) {
         return {} as AddressMapping;
     }
     const data = await response.json();
     return data;
 };
-
 
 export const getTopPaymasters = async (
     selectedNetwork: string,
@@ -275,6 +277,9 @@ export const getTopPaymasters = async (
     if (!performApiCall(selectedNetwork)) return [] as PayMasterActivity[];
     const response = await fetch(
         'https://api.jiffyscan.xyz/v0/getTopPaymasters?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
+        {
+            headers: { 'x-api-key': 'dummy' },
+        },
     );
     if (response.status != 200) {
         showToast(toast, 'Error fetching data');
@@ -293,6 +298,9 @@ export const getTopBundlers = async (selectedNetwork: string, pageSize: number, 
     if (!performApiCall(selectedNetwork)) return [] as Bundler[];
     const response = await fetch(
         'https://api.jiffyscan.xyz/v0/getTopBundlers?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
+        {
+            headers: { 'x-api-key': 'dummy' },
+        },
     );
     if (response.status != 200) {
         showToast(toast, 'Error fetching data');
@@ -311,6 +319,9 @@ export const getTopFactories = async (selectedNetwork: string, pageSize: number,
     if (!performApiCall(selectedNetwork)) return [] as FactoryDetails[];
     const response = await fetch(
         'https://api.jiffyscan.xyz/v0/getTopFactories?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
+        {
+            headers: { 'x-api-key': 'dummy' },
+        },
     );
     if (response.status != 200) {
         showToast(toast, 'Error fetching data');
@@ -347,6 +358,9 @@ export const getLatestBundles = async (selectedNetwork: string, pageSize: number
     if (!performApiCall(selectedNetwork)) return [] as Bundle[];
     const response = await fetch(
         'https://api.jiffyscan.xyz/v0/getLatestBundles?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
+        {
+            headers: { 'x-api-key': 'dummy' },
+        },
     );
     if (response.status != 200) {
         showToast(toast, 'Error fetching data');
@@ -361,10 +375,11 @@ export const getLatestBundles = async (selectedNetwork: string, pageSize: number
     return [] as Bundle[];
 };
 
-
 export const getDailyMetrics = async (selectedNetwork: string, noOfDays: number, toast: any): Promise<DailyMetric[]> => {
     if (!performApiCall(selectedNetwork)) return [] as DailyMetric[];
-    const response = await fetch('https://api.jiffyscan.xyz/v0/getDailyMetrics?network=' + selectedNetwork + '&noOfDays=' + noOfDays);
+    const response = await fetch('https://api.jiffyscan.xyz/v0/getDailyMetrics?network=' + selectedNetwork + '&noOfDays=' + noOfDays, {
+        headers: { 'x-api-key': 'dummy' },
+    });
     if (response.status != 200) {
         showToast(toast, 'Error fetching data');
     }
@@ -380,7 +395,9 @@ export const getDailyMetrics = async (selectedNetwork: string, noOfDays: number,
 
 export const getGlobalMetrics = async (selectedNetwork: string, toast: any): Promise<GlobalCounts> => {
     if (!performApiCall(selectedNetwork)) return {} as GlobalCounts;
-    const response = await fetch('https://api.jiffyscan.xyz/v0/getGlobalCounts?network=' + selectedNetwork);
+    const response = await fetch('https://api.jiffyscan.xyz/v0/getGlobalCounts?network=' + selectedNetwork, {
+        headers: { 'x-api-key': 'dummy' },
+    });
     if (response.status != 200) {
         showToast(toast, 'Error fetching data');
     }
@@ -395,7 +412,9 @@ export const getGlobalMetrics = async (selectedNetwork: string, toast: any): Pro
 };
 
 export const getUserOp = async (userOpHash: string, toast: any): Promise<UserOp[]> => {
-    const response = await fetch('https://api.jiffyscan.xyz/v0/getUserOp?hash=' + userOpHash);
+    const response = await fetch('https://api.jiffyscan.xyz/v0/getUserOp?hash=' + userOpHash, {
+        headers: { 'x-api-key': 'dummy' },
+    });
     if (response.status != 200) {
         showToast(toast, 'Error fetching data');
     }
@@ -427,6 +446,9 @@ export const getAddressActivity = async (
             pageSize +
             '&skip=' +
             pageNo * pageSize,
+        {
+            headers: { 'x-api-key': 'dummy' },
+        },
     ).catch((e) => {
         console.log(e);
         return null;
@@ -463,6 +485,9 @@ export const getFactoryDetails = async (
             pageSize +
             '&skip=' +
             pageNo * pageSize,
+        {
+            headers: { 'x-api-key': 'dummy' },
+        },
     );
     if (response.status != 200) {
         showToast(toast, 'Error fetching data');
@@ -494,6 +519,9 @@ export const getPayMasterDetails = async (
             pageSize +
             '&skip=' +
             pageNo * pageSize,
+        {
+            headers: { 'x-api-key': 'dummy' },
+        },
     );
     if (response.status != 200) {
         showToast(toast, 'Error fetching data');
@@ -514,6 +542,9 @@ export const getPoweredBy = async (beneficiary: string, paymaster: string, toast
             beneficiary +
             '&paymaster=' +
             paymaster,
+        {
+            headers: { 'x-api-key': 'dummy' },
+        },
     );
     if (response.status != 200) {
         showToast(toast, 'Error fetching data');
@@ -545,6 +576,9 @@ export const getBlockDetails = async (
             pageSize +
             '&skip=' +
             pageNo * pageSize,
+        {
+            headers: { 'x-api-key': 'dummy' },
+        },
     );
     if (response.status != 200) {
         showToast(toast, 'Error fetching data');
@@ -561,7 +595,9 @@ export const getBlockDetails = async (
 };
 
 export const getAccountDetails = async (userOpHash: string, selectedNetwork: string, toast: any): Promise<UserOp> => {
-    const response = await fetch('https://api.jiffyscan.xyz/v0/getAddressActivity?address=' + userOpHash + '&network=' + selectedNetwork);
+    const response = await fetch('https://api.jiffyscan.xyz/v0/getAddressActivity?address=' + userOpHash + '&network=' + selectedNetwork, {
+        headers: { 'x-api-key': 'dummy' },
+    });
     if (response.status != 200) {
         showToast(toast, 'Error fetching data');
     }
@@ -593,6 +629,9 @@ export const getBundleDetails = async (
             pageSize +
             '&skip=' +
             pageNo * pageSize,
+        {
+            headers: { 'x-api-key': 'dummy' },
+        },
     ).catch((e) => {
         console.log(e);
         return null;
@@ -630,6 +669,9 @@ export const getBundlerDetails = async (
             pageSize +
             '&skip=' +
             pageNo * pageSize,
+        {
+            headers: { 'x-api-key': 'dummy' },
+        },
     );
     // if (response == null) return {} as Bundle;
     if (response.status != 200) {
