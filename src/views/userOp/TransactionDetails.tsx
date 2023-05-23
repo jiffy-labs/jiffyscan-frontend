@@ -15,6 +15,7 @@ import { populateERC20TransfersWithTokenInfo } from '@/components/common/apiCall
 import React, { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton-2';
 import ERC20Transfers from './ERC20Transfers';
+import ExecutionTrace from './ExecutionTrace';
 export default function TransactionDetails({
     tableLoading,
     skeletonCards,
@@ -42,8 +43,9 @@ export default function TransactionDetails({
         const updatedMetaData = await populateERC20TransfersWithTokenInfo(metadata);
         console.log('updatedMetaData', updatedMetaData);
         setMetadata(() => {
-            return updatedMetaData
+            return updatedMetaData;
         });
+        console.log('updatedMetaData.erc20Transfers');
         setReload(1);
         setShowMetadata(true);
     };
@@ -52,6 +54,7 @@ export default function TransactionDetails({
         if (metaData) {
             console.log(metaData);
             setShowMetadata(true);
+            console.log('wuthin useEffect');
             // if (metaData.erc20Transfers && metaData.erc20Transfers.length > 0 && !metaData.erc20Transfers[0].name) {
             //     updateMetadata(metaData);
             // }
@@ -628,7 +631,17 @@ export default function TransactionDetails({
                                                                         }: erc20Transfer,
                                                                         index: number,
                                                                     ) => (
-                                                                       <ERC20Transfers sender={item.sender as string} invoked={invoked} to={to} from={from} value={value} name={name} decimals={decimals} address={address} key={index} />
+                                                                        <ERC20Transfers
+                                                                            sender={item.sender as string}
+                                                                            invoked={invoked}
+                                                                            to={to}
+                                                                            from={from}
+                                                                            value={value}
+                                                                            name={name}
+                                                                            decimals={decimals}
+                                                                            address={address}
+                                                                            key={index}
+                                                                        />
                                                                     ),
                                                                 )}
                                                             </div>
@@ -636,6 +649,23 @@ export default function TransactionDetails({
                                                     </div>
                                                 </div>
                                             )}
+                                        {showMetadata && metaData && metaData.executionTrace && reload > -1 && (
+                                            <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
+                                                <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
+                                                    <IconText icon={'/images/cube.svg'}>
+                                                        <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
+                                                            Activity
+                                                        </span>
+                                                    </IconText>
+                                                </div>
+                                                <div className=" break-words gap-2 flex-1">
+                                                    <div>
+                                                        <p className="text-[14px] text-[#455A64] md:hidden block">Activity</p>
+                                                    </div>
+                                                    <ExecutionTrace executionTrace={metaData.executionTrace} />
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 </section>
                             </div>
