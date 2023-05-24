@@ -191,6 +191,7 @@ function RecentUserOps(props: any) {
                             addressMapping={addressMapping}
                             metaData={metaData}
                             setMetadata={setMetaData}
+                            selectedNetwork={selectedNetwork}
                         />
                         <DeveloperDetails
                             tableLoading={tableLoading}
@@ -201,6 +202,7 @@ function RecentUserOps(props: any) {
                             setSelectedColor={setSelectedColor}
                             open={open}
                             setOpen={setOpen}
+                            metaData={metaData}
                         />
                     </>
                 ) : (

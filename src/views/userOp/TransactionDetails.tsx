@@ -24,6 +24,7 @@ export default function TransactionDetails({
     addressMapping,
     metaData,
     setMetadata,
+    selectedNetwork,
 }: any) {
     const router = useRouter();
     const [showMetadata, setShowMetadata] = useState(false);
@@ -666,6 +667,7 @@ export default function TransactionDetails({
                                                 </div>
                                             </div>
                                         )}
+                                        {(!showMetadata && selectedNetwork == "mainnet") && ([0,1]).map((num, index) =><Skeleton height={55} key={index} />)}
                                     </div>
                                 </section>
                             </div>
