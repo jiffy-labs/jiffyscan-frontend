@@ -30,6 +30,7 @@ export interface UserOp {
     maxPriorityFeePerGas: number | null;
     paymasterAndData: string | null;
     signature: string | null;
+    entryPoint: string;
 }
 
 export interface Trace {

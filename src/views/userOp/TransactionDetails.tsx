@@ -12,6 +12,26 @@ import moment from 'moment';
 import { useRouter } from 'next/router';
 import { populateERC20TransfersWithTokenInfo } from '@/components/common/apiCalls/jiffyApis';
 
+export interface ExecutionTraceType {
+    traceData: {
+        from: string;
+        to: string;
+        value: string;
+        input: string;
+        output: string;
+        gasUsed: string;
+        gas: string;
+        type: string;
+        method?: string;
+        decodedInput?: Array<{
+            value: string;
+            type: string;
+            name: string;
+        }>;
+    };
+    next: Array<ExecutionTraceType> | null;
+}
+
 import React, { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton-2';
 import ERC20Transfers from './ERC20Transfers';
@@ -29,6 +49,39 @@ export default function TransactionDetails({
     const router = useRouter();
     const [showMetadata, setShowMetadata] = useState(false);
     const [reload, setReload] = useState(0);
+    const [targets, setTargets] = useState([] as Array<string>);
+    const [values, setValues] = useState([] as Array<number>);
+    const [beneficiary, setBeneficiary] = useState('');
+    const [type, setType] = useState('');
+
+    const setTraceToDisplace = (executionTrace: ExecutionTraceType) => {
+        let executionList;
+        if (
+            executionTrace.next != null &&
+            executionTrace.next.length > 0 &&
+            executionTrace.next[0].traceData.method?.toLowerCase() == 'multisend'
+        ) {
+            setType('Multi Send');
+            executionList = executionTrace.next[0].next;
+        } else {
+            setType('Normal');
+            executionList = executionTrace.next;
+        }
+        if (executionList != null && executionList.length > 0) {
+            setTraceCallToDisplay(executionList);
+            let targetList = [];
+            let valueList = [];
+            for (let i in executionList) {
+                let executionCall = executionList[i];
+                targetList.push(executionCall.traceData.to);
+                valueList.push(parseInt(executionCall.traceData.value, 16));
+            }
+            setTargets(targetList);
+            setValues(valueList);
+        }
+    };
+
+    const [traceCallToDisplay, setTraceCallToDisplay] = React.useState<Array<ExecutionTraceType>>([] as Array<ExecutionTraceType>);
 
     const showERC20Transfers = (showMetadata: boolean, metadata: metadata, reload: number): boolean => {
         let showERC20Transfers = false;
@@ -55,7 +108,7 @@ export default function TransactionDetails({
         if (metaData) {
             console.log(metaData);
             setShowMetadata(true);
-            console.log('wuthin useEffect');
+            setTraceToDisplace(metaData.executionTrace);
             // if (metaData.erc20Transfers && metaData.erc20Transfers.length > 0 && !metaData.erc20Transfers[0].name) {
             //     updateMetadata(metaData);
             // }
@@ -162,61 +215,50 @@ export default function TransactionDetails({
                                                 <div>
                                                     <p className="text-[14px] text-[#455A64] md:hidden block">Target</p>
                                                 </div>
-                                                <div className="md:flex block justify-between">
-                                                    <div className="flex items-center gap-[10px]">
-                                                        <Link
-                                                            underline="hover"
-                                                            // color="text.primary"
-                                                            href={`/account/${item?.target}?network=${item?.network ? item?.network : ''}`}
-                                                            aria-current="page"
-                                                            className="text-blue-200"
-                                                        >
-                                                            <span className="text-[#1976D2] md:text-[14px] text-[16px] break-all leading-5">
-                                                                {item?.target}
-                                                            </span>
-                                                        </Link>
-                                                        <div className="w-[30px] flex">
-                                                            <CopyButton text={item?.target} />
-                                                        </div>
-                                                        <Link
-                                                            underline="hover"
-                                                            // color="text.primary"
-                                                            href={`/account/${item?.target}?network=${item?.network ? item.network : ''}`}
-                                                            aria-current="page"
-                                                            className="text-blue-200 "
-                                                            target={'_blank'}
-                                                        >
-                                                            <button className="outline-none md:block hidden focus:outline-none ring-0 focus:ring-0">
-                                                                <img src="/images/share.svg" alt="" />
-                                                                {/* </Link> */}
-                                                            </button>
-                                                        </Link>
-                                                    </div>
-                                                    {item?.accountTarget?.factory === '' ? null : (
-                                                        <div className="md:px-[16px] px-0 md:py-[8px] py-0">
-                                                            <p className="text-[10px] text-[#455A64]">
-                                                                {addressMapping?.[item?.accountTarget?.factory?.toLowerCase()] &&
-                                                                    POWERED_BY_LOGO_MAP?.[
-                                                                        addressMapping?.[
-                                                                            item?.accountTarget?.factory?.toLowerCase()
-                                                                        ]?.company.toLowerCase()
-                                                                    ] && (
-                                                                        <span className="text-bluegrey-300 text-[10px] leading-5 flex items-center gap-2 font-normal">
-                                                                            Powered By{' '}
-                                                                            <img
-                                                                                src={
-                                                                                    POWERED_BY_LOGO_MAP?.[
-                                                                                        addressMapping?.[
-                                                                                            item?.accountTarget?.factory?.toLowerCase()
-                                                                                        ]?.company.toLowerCase()
-                                                                                    ]?.small
-                                                                                }
-                                                                                style={{ height: 20, width: 20 }}
-                                                                                alt=""
-                                                                            />
-                                                                        </span>
-                                                                    )}
-                                                            </p>
+                                                <div className="block justify-between">
+                                                    {targets && targets.length > 0 ? (
+                                                        targets.map((target: any, index: number) => {
+                                                            return (
+                                                                <div className="flex flex-col gap-[10px]">
+                                                                    <LinkAndCopy
+                                                                        text={target}
+                                                                        link={`/account/${target}?network=${
+                                                                            item?.network ? item?.network : ''
+                                                                        }`}
+                                                                        copyText={target}
+                                                                    />
+                                                                    <Link
+                                                                        underline="hover"
+                                                                        // color="text.primary"
+                                                                        href={`/account/${target}?network=${
+                                                                            item?.network ? item.network : ''
+                                                                        }`}
+                                                                        aria-current="page"
+                                                                        className="text-blue-200 "
+                                                                        target={'_blank'}
+                                                                    ></Link>
+                                                                </div>
+                                                            );
+                                                        })
+                                                    ) : (
+                                                        <div className="flex items-center gap-[10px]">
+                                                            <LinkAndCopy
+                                                                text={item?.target}
+                                                                link={`/account/${item?.target}?network=${
+                                                                    item?.network ? item?.network : ''
+                                                                }`}
+                                                                copyText={item?.target}
+                                                            />
+                                                            <Link
+                                                                underline="hover"
+                                                                // color="text.primary"
+                                                                href={`/account/${item?.target}?network=${
+                                                                    item?.network ? item.network : ''
+                                                                }`}
+                                                                aria-current="page"
+                                                                className="text-blue-200 "
+                                                                target={'_blank'}
+                                                            ></Link>
                                                         </div>
                                                     )}
                                                 </div>
@@ -552,6 +594,29 @@ export default function TransactionDetails({
                                         </div>
                                         <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
                                             <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
+                                                <IconText icon={'/images/Hash.svg'}>
+                                                    <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
+                                                        Entry Point
+                                                    </span>
+                                                </IconText>
+                                            </div>
+                                            <div className=" break-words gap-2 flex-1">
+                                                <div>
+                                                    <p className="text-[14px] text-[#455A64] md:hidden block">Entry Point</p>
+                                                </div>
+                                                <div className="md:flex block justify-between">
+                                                    <div className="flex items-center gap-[10px]">
+                                                        <LinkAndCopy
+                                                            text={item?.entryPoint}
+                                                            link={NETWORK_SCANNER_MAP[selectedNetwork] + '/address/' + item?.entryPoint}
+                                                            copyText={item?.entryPoint}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
+                                            <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
                                                 <IconText icon={'/images/cube.svg'}>
                                                     <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
                                                         Block
@@ -667,7 +732,9 @@ export default function TransactionDetails({
                                                 </div>
                                             </div>
                                         )}
-                                        {(!showMetadata && selectedNetwork == "mainnet") && ([0,1]).map((num, index) =><Skeleton height={55} key={index} />)}
+                                        {!showMetadata &&
+                                            selectedNetwork == 'mainnet' &&
+                                            [0, 1].map((num, index) => <Skeleton height={55} key={index} />)}
                                     </div>
                                 </section>
                             </div>
