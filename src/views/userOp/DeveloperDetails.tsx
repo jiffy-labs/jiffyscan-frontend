@@ -5,12 +5,19 @@ import IconText from '@/components/common/IconText';
 import InfoButton from '@/components/common/InfoButton';
 import Caption from '@/components/common/table/Caption';
 import { getFee } from '@/components/common/utils';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Skeleton from 'react-loading-skeleton-2';
 import { BUTTON_LIST } from './UserOperation';
 import sx from './usertable.module.sass';
 export default function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, setSelectedColor, open, setOpen, metaData }: any) {
     const [dropOpen, SetdropOpen] = useState(false);
+    const [userOpParamsExists, setUserOpParamsExists] = useState(false);
+
+    useEffect(() => {
+        if (metaData && Object.keys(metaData).length > 0 && 'userOpParams' in metaData && metaData.userOpParams.length > 0) 
+            setUserOpParamsExists(true);  
+    },[metaData])
+
     console.log(metaData);
 
     return (
@@ -165,7 +172,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                             uint256
                                                                         </td>
                                                                         <td className="wordbrack  text-black wordbrack  [87%] py-[14px] px-3 text-sm leading-5 ">
-                                                                            { metaData?.userOpParams[1] ? parseInt(metaData?.userOpParams[1].hex) : item?.initCode }
+                                                                            { (userOpParamsExists && metaData?.userOpParams[1]) ? parseInt(metaData?.userOpParams[1].hex) : item?.initCode }
                                                                             
                                                                         </td>
                                                                     </tr>
@@ -177,7 +184,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                             bytes
                                                                         </td>
                                                                         <td className="whitespace-nowrap text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                            { metaData?.userOpParams[2] ? metaData?.userOpParams[2] : item?.initCOde }
+                                                                            { (userOpParamsExists && metaData?.userOpParams[2]) ? metaData?.userOpParams[2] : item?.initCOde }
                                                                         </td>
                                                                     </tr>
                                                                     {selectedColor === 'Original' ? (
@@ -189,7 +196,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                                 Bytes
                                                                             </td>
                                                                             <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                                { metaData?.userOpParams[2] ? metaData?.userOpParams[2] : item?.initCode }
+                                                                                { (userOpParamsExists && metaData?.userOpParams[2]) ? metaData?.userOpParams[2] : item?.initCode }
                                                                             </td>
                                                                         </tr>
                                                                     ) : (
@@ -263,7 +270,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                             uint256
                                                                         </td>
                                                                         <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                        { metaData?.userOpParams[4] ? parseInt(metaData?.userOpParams[4].hex) : item?.callGasLimit }
+                                                                        { (userOpParamsExists && metaData?.userOpParams[4]) ? parseInt(metaData?.userOpParams[4].hex) : item?.callGasLimit }
                                                                             
                                                                         </td>
                                                                     </tr>
@@ -275,7 +282,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                             uint256
                                                                         </td>
                                                                         <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                        { metaData?.userOpParams[5] ? parseInt(metaData?.userOpParams[5].hex) : item?.verificationGasLimit }
+                                                                        { (userOpParamsExists && metaData?.userOpParams[5]) ? parseInt(metaData?.userOpParams[5].hex) : item?.verificationGasLimit }
                                                                             
                                                                         </td>
                                                                     </tr>
@@ -288,7 +295,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                             uint256
                                                                         </td>
                                                                         <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                        { metaData?.userOpParams[6] ? parseInt(metaData?.userOpParams[6].hex) : item?.preVerificationGas }
+                                                                        { (userOpParamsExists && metaData?.userOpParams[6]) ? parseInt(metaData?.userOpParams[6].hex) : item?.preVerificationGas }
                                                                             
                                                                         </td>
                                                                     </tr>
@@ -302,7 +309,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
 
                                                                         <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
                                                                             <DisplayFee
-                                                                                item={metaData?.userOpParams[7] ? parseInt(metaData?.userOpParams[7].hex) : item?.maxFeePerGas!}
+                                                                                item={(userOpParamsExists && metaData?.userOpParams[7]) ? parseInt(metaData?.userOpParams[7].hex) : item?.maxFeePerGas!}
                                                                                 network={item?.network}
                                                                             />
                                                                         </td>
@@ -316,7 +323,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                         </td>
                                                                         <td className="wordbrack text-black [87%] py-[14px] px-3 text-sm leading-5">
                                                                             <DisplayFee
-                                                                                item={metaData?.userOpParams[8] ? parseInt(metaData?.userOpParams[8].hex) : item?.maxPriorityFeePerGas!}
+                                                                                item={(userOpParamsExists && metaData?.userOpParams[8]) ? parseInt(metaData?.userOpParams[8].hex) : item?.maxPriorityFeePerGas!}
                                                                                 network={item?.network}
                                                                             />
                                                                         </td>
@@ -329,7 +336,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                             uint256
                                                                         </td>
                                                                         <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                            {metaData?.userOpParams[9] ? metaData?.userOpParams[9] : item?.paymasterAndData}
+                                                                            {(userOpParamsExists && metaData?.userOpParams[9]) ? metaData?.userOpParams[9] : item?.paymasterAndData}
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
@@ -340,7 +347,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                             uint256
                                                                         </td>
                                                                         <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                            {metaData?.userOpParams[10] ? metaData?.userOpParams[10] : item?.signature}
+                                                                            {(userOpParamsExists && metaData?.userOpParams[10]) ? metaData?.userOpParams[10] : item?.signature}
                                                                         </td>
                                                                     </tr>
                                                                 </tbody>

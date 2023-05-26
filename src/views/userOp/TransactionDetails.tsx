@@ -119,8 +119,7 @@ export default function TransactionDetails({
     };
 
     useEffect(() => {
-        if (metaData) {
-            console.log(metaData);
+        if (metaData && Object.keys(metaData).length != 0 && 'executionTrace' in metaData) {
             setShowMetadata(true);
             setTraceToDisplace(metaData.executionTrace);
             // if (metaData.erc20Transfers && metaData.erc20Transfers.length > 0 && !metaData.erc20Transfers[0].name) {
