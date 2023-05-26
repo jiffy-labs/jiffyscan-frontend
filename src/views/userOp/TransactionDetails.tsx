@@ -50,6 +50,7 @@ export default function TransactionDetails({
     const [showMetadata, setShowMetadata] = useState(false);
     const [reload, setReload] = useState(0);
     const [targets, setTargets] = useState([] as Array<string>);
+    const [invokes, setInvokes] = useState([] as Array<string>);
     const [values, setValues] = useState([] as Array<number>);
     const [beneficiary, setBeneficiary] = useState('');
     const [type, setType] = useState('');
@@ -71,17 +72,30 @@ export default function TransactionDetails({
             setTraceCallToDisplay(executionList);
             let targetList = [];
             let valueList = [];
+            let invokesList = [];
             for (let i in executionList) {
                 let executionCall = executionList[i];
                 targetList.push(executionCall.traceData.to);
+                invokesList.push(executionCall.traceData.method ? executionCall.traceData.method : executionCall.traceData.input.slice(0,10))
                 valueList.push(parseInt(executionCall.traceData.value, 16));
             }
             setTargets(targetList);
             setValues(valueList);
+            setInvokes(invokesList);
         }
     };
 
     const [traceCallToDisplay, setTraceCallToDisplay] = React.useState<Array<ExecutionTraceType>>([] as Array<ExecutionTraceType>);
+
+    const getNumberOfERC20Transfers = (erc20Transfers: Array<{to:string, from: string}>) => {
+        let num = 0;
+        for (let i in erc20Transfers) {
+            if (item?.sender.toLowerCase() == erc20Transfers[0].from.toLowerCase() && item?.to.toLowerCase() == erc20Transfers[0].to.toLowerCase()) {
+                num++
+            }
+        }
+        return num;
+    }
 
     const showERC20Transfers = (showMetadata: boolean, metadata: metadata, reload: number): boolean => {
         let showERC20Transfers = false;
@@ -219,7 +233,7 @@ export default function TransactionDetails({
                                                     {targets && targets.length > 0 ? (
                                                         targets.map((target: any, index: number) => {
                                                             return (
-                                                                <div className="flex flex-col gap-[10px]">
+                                                                <div key={index} className="flex flex-col gap-[10px] display-ruby">
                                                                     <LinkAndCopy
                                                                         text={target}
                                                                         link={`/account/${target}?network=${
@@ -234,9 +248,10 @@ export default function TransactionDetails({
                                                                             item?.network ? item.network : ''
                                                                         }`}
                                                                         aria-current="page"
-                                                                        className="text-blue-200 "
+                                                                        className="text-blue-200"
                                                                         target={'_blank'}
                                                                     ></Link>
+                                                                    {" "} Invoked: {invokes[index]}
                                                                 </div>
                                                             );
                                                         })
@@ -319,6 +334,27 @@ export default function TransactionDetails({
                                                 </div>
                                             </div>
                                         </div>
+                                        {type && <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
+                                            <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
+                                                <IconText toolTip="actualGasCost by user op" icon={'/images/Fee.svg'}>
+                                                    <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
+                                                        Transaction Type
+                                                    </span>
+                                                </IconText>
+                                            </div>
+                                            <div className=" break-words gap-2 flex-1">
+                                                <div>
+                                                    <p className="text-[14px] text-[#455A64] md:hidden block">Value</p>
+                                                </div>
+                                                <div className="md:flex block justify-between">
+                                                    <div className="flex items-center gap-[10px]">
+                                                        <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
+                                                            {type}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>}
                                         <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
                                             <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
                                                 <IconText icon={'/images/star.svg'}>
@@ -332,11 +368,22 @@ export default function TransactionDetails({
                                                     <p className="text-[14px] text-[#455A64] md:hidden block">Value</p>
                                                 </div>
                                                 <div className="md:flex block justify-between">
-                                                    <div className="flex items-center gap-[10px]">
+                                                    {values && values.length > 0 ? (
+                                                        values.map((value: any, index: number) => {
+                                                            return (
+                                                                <span key={index} className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
+                                                                    {type == "Multi Send" && (index+1)+": "}<DisplayFee
+                                                                        item={value! ? value! : '0'}
+                                                                        network={item?.network}
+                                                                    />
+                                                                </span>
+                                                            );
+                                                        })
+                                                    ) : (
                                                         <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
                                                             <DisplayFee item={item?.value! ? item?.value! : '0'} network={item?.network} />
                                                         </span>
-                                                    </div>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
@@ -667,6 +714,7 @@ export default function TransactionDetails({
                                             metaData &&
                                             metaData.erc20Transfers &&
                                             metaData.erc20Transfers.length > 0 &&
+                                            getNumberOfERC20Transfers(metaData.erc20Transfers) > 0 &&
                                             reload > -1 && (
                                                 <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
                                                     <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
@@ -715,7 +763,7 @@ export default function TransactionDetails({
                                                     </div>
                                                 </div>
                                             )}
-                                        {showMetadata && metaData && metaData.executionTrace && reload > -1 && (
+                                        {/* {showMetadata && metaData && metaData.executionTrace && reload > -1 && (
                                             <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
                                                 <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
                                                     <IconText icon={'/images/cube.svg'}>
@@ -731,7 +779,7 @@ export default function TransactionDetails({
                                                     <ExecutionTrace executionTrace={metaData.executionTrace} />
                                                 </div>
                                             </div>
-                                        )}
+                                        )} */}
                                         {!showMetadata &&
                                             selectedNetwork == 'mainnet' &&
                                             [0, 1].map((num, index) => <Skeleton height={55} key={index} />)}

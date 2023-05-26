@@ -19,8 +19,10 @@ const getValue = (value: string | { type: string; hex: string }) => {
     return parseInt(val);
 };
 
+
+
 function ERC20Transfers({ key, address, invoked, from, to, value, decimals, name, sender }: ERC20Transfer) {
-    if (sender && (sender.toLowerCase() == to.toLowerCase() || sender.toLowerCase() == from.toLowerCase()) && getValue(value) > 0) {
+    if (sender && (sender.toLowerCase() == to.toLowerCase() || sender.toLowerCase() == from.toLowerCase())) {
         return (
             <div key={key} className="flex items-center">
                 From: <LinkAndCopy link={null} text={shortenString(from)} copyText={from} />
