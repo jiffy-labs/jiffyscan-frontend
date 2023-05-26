@@ -90,7 +90,7 @@ export default function TransactionDetails({
     const getNumberOfERC20Transfers = (erc20Transfers: Array<{to:string, from: string}>) => {
         let num = 0;
         for (let i in erc20Transfers) {
-            if (item?.sender.toLowerCase() == erc20Transfers[0].from.toLowerCase() && item?.to.toLowerCase() == erc20Transfers[0].to.toLowerCase()) {
+            if (item?.sender.toLowerCase() == erc20Transfers[0].from.toLowerCase() && item?.sender.toLowerCase() == erc20Transfers[0].to.toLowerCase()) {
                 num++
             }
         }
