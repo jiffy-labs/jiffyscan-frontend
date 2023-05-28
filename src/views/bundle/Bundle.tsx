@@ -1,7 +1,7 @@
 import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
-import { getBundleDetails, UserOp, AddressActivity, Bundle } from '@/components/common/apiCalls/jiffyApis';
+import { getBundleDetails, UserOp, AccountDetail, Bundle } from '@/components/common/apiCalls/jiffyApis';
 import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';

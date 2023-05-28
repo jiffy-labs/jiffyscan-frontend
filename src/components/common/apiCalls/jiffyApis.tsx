@@ -77,6 +77,14 @@ export interface metadata {
 }
 
 export interface AddressActivity {
+    accountDetail: AccountDetail;
+    ethBalance: string;
+    tokenBalance: tokenBalance[];
+    erc20Transfers: erc20Transfer[];
+    erc721Transfers: erc721Transfer[];
+}
+
+export interface AccountDetail {
     userOps: UserOp[];
     userOpsCount: string;
     id: string;
@@ -90,12 +98,36 @@ export interface AddressActivity {
     totalDeposits: string;
 }
 
+export interface tokenBalance {
+    contractAddress: string
+    tokenBalance: string
+}
+
+export interface erc20Transfer {
+    to: string
+    from: string
+    asset: string;
+    rawContract: {
+        address: string
+        value: string
+    }
+}
+
+export interface erc721Transfer {
+    to: string
+    from: string
+    rawContract: {
+        address: string
+    }
+    asset: string;
+}
+
 export interface FactoryDetails {
     id: string;
     address: string;
     network: string;
     accountsLength: string;
-    accounts: AddressActivity[];
+    accounts: AccountDetail[];
 }
 
 export interface Block {
@@ -460,13 +492,8 @@ export const getAddressActivity = async (
         showToast(toast, 'Error fetching data');
     }
     const data = await response.json();
-    if ('accountDetail' in data) {
-        if (Object.keys(data.accountDetail).length == 0) {
-            showToast(toast, 'Error fetching data');
-        }
-        return data.accountDetail as AddressActivity;
-    }
-    return {} as AddressActivity;
+    
+    return data as AddressActivity;
 };
 
 export const getFactoryDetails = async (

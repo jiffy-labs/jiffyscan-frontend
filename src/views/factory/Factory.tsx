@@ -1,7 +1,7 @@
 import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
-import { getBundleDetails, UserOp, AddressActivity, Bundle, getFactoryDetails, FactoryDetails } from '@/components/common/apiCalls/jiffyApis';
+import { getBundleDetails, UserOp, AccountDetail, Bundle, getFactoryDetails, FactoryDetails } from '@/components/common/apiCalls/jiffyApis';
 import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
@@ -37,7 +37,7 @@ const columns = [
     { name: 'Age', sort: true },
     { name: '#User Ops', sort: false }
 ];
-const createUserOpsTableRows = (accounts: AddressActivity[], network: string): tableDataT['rows'] => {
+const createUserOpsTableRows = (accounts: AccountDetail[], network: string): tableDataT['rows'] => {
     console.log('🚀 ~ file: recentAddressActivity.tsx:39 ~ createUserOpsTableRows ~ userOps:', accounts);
     let newRows = [] as tableDataT['rows'];
     if (!accounts) return newRows;

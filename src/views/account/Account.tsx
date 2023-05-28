@@ -1,7 +1,7 @@
 import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
-import { getAddressActivity, UserOp, AddressActivity } from '@/components/common/apiCalls/jiffyApis';
+import { getAddressActivity, UserOp, AccountDetail } from '@/components/common/apiCalls/jiffyApis';
 import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
@@ -66,9 +66,10 @@ interface AccountInfo {
     userOpHash: string;
     blockTime: number;
     factory: string;
+    ethBalance: string;
 }
 
-const createAccountInfoObject = (accountDetails: AddressActivity): AccountInfo => {
+const createAccountInfoObject = (accountDetails: AccountDetail, ethBalance: string): AccountInfo => {
     return {
         address: accountDetails.address,
         totalDeposit: parseInt(accountDetails.totalDeposits),
@@ -76,6 +77,7 @@ const createAccountInfoObject = (accountDetails: AddressActivity): AccountInfo =
         userOpHash: accountDetails.userOpHash,
         blockTime: parseInt(accountDetails.blockTime),
         factory: accountDetails.factory,
+        ethBalance: parseInt(ethBalance,16).toString(),
     };
 };
 
@@ -98,8 +100,8 @@ function Account(props: any) {
         if (addressInfo == undefined) {
             return;
         }
-        const addressDetail = await getAddressActivity(addressInfo.address, network ? network : '', pageNo, pageSize, toast);
-        const rows = createUserOpsTableRows(addressDetail.userOps);
+        const addressActivity = await getAddressActivity(addressInfo.address, network ? network : '', pageNo, pageSize, toast);
+        const rows = createUserOpsTableRows(addressActivity.accountDetail.userOps);
         setRows(rows);
         setTableLoading(false);
     };
@@ -113,8 +115,8 @@ function Account(props: any) {
     // load the account details.
     const loadAccountDetails = async (name: string, network: string) => {
         setTableLoading(true);
-        const addressDetail = await getAddressActivity(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo, toast);
-        const accountInfo = createAccountInfoObject(addressDetail);
+        const addressActivity = await getAddressActivity(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo, toast);
+        const accountInfo = createAccountInfoObject(addressActivity.accountDetail, addressActivity.ethBalance);
         setAddressInfo(accountInfo);
     };
 
