@@ -258,7 +258,7 @@ export default function TransactionDetails({ item, network, addressMapping }: an
                                                             >
                                                                 {
                                                                     item?.tokenBalances?.map((item: tokenBalance, index: number) => (
-                                                                        <MenuItem value={index}>{shortenString(item.contractAddress)+"  "+parseInt(item.tokenBalance, 16)}</MenuItem>
+                                                                        <MenuItem key={index} value={index}>{shortenString(item.contractAddress)+"  "+parseInt(item.tokenBalance, 16)}</MenuItem>
                                                                     ))
                                                                 }
                                                             </Select>
