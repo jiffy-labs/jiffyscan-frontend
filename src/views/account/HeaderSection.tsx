@@ -24,7 +24,7 @@ export default function HeaderSection({ item, network }: any) {
                                 <Link
                                     // underline="hover"
                                     // color="text.primary"
-                                    href={`${NETWORK_SCANNER_MAP[network]}/tx/${item?.transactionHash}`}
+                                    href={`${NETWORK_SCANNER_MAP[network]}/address/${item?.transactionHash}`}
                                     aria-current="page"
                                     className="text-blue-200"
                                     target="_blank"
