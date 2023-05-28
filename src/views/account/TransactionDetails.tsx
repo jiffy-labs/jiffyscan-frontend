@@ -241,13 +241,13 @@ export default function TransactionDetails({ item, network, addressMapping }: an
                                                 <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
                                                     <IconText icon={'/images/sader.svg'}>
                                                         <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
-                                                            Token Balances
+                                                            ERC20 Balances
                                                         </span>
                                                     </IconText>
                                                 </div>
                                                 <div className=" break-words gap-2 flex-1">
                                                     <div>
-                                                        <p className="text-[14px] text-[#455A64] md:hidden block">Total Deposit</p>
+                                                        <p className="text-[14px] text-[#455A64] md:hidden block">ERC20 Balances</p>
                                                     </div>
                                                     <div className="md:flex block justify-between">
                                                         <div className="flex items-center gap-[10px]">
