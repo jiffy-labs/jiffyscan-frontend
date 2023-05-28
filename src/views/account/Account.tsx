@@ -1,7 +1,7 @@
 import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
-import { getAddressActivity, UserOp, AccountDetail } from '@/components/common/apiCalls/jiffyApis';
+import { getAddressActivity, UserOp, AccountDetail, AddressActivity, tokenBalance } from '@/components/common/apiCalls/jiffyApis';
 import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
@@ -67,17 +67,19 @@ interface AccountInfo {
     blockTime: number;
     factory: string;
     ethBalance: string;
+    tokenBalances: tokenBalance[];
 }
 
-const createAccountInfoObject = (accountDetails: AccountDetail, ethBalance: string): AccountInfo => {
+const createAccountInfoObject = (addressActivity: AddressActivity): AccountInfo => {
     return {
-        address: accountDetails.address,
-        totalDeposit: parseInt(accountDetails.totalDeposits),
-        userOpsCount: parseInt(accountDetails.userOpsCount),
-        userOpHash: accountDetails.userOpHash,
-        blockTime: parseInt(accountDetails.blockTime),
-        factory: accountDetails.factory,
-        ethBalance: parseInt(ethBalance,16).toString(),
+        address: addressActivity.accountDetail.address,
+        totalDeposit: parseInt(addressActivity.accountDetail.totalDeposits),
+        userOpsCount: parseInt(addressActivity.accountDetail.userOpsCount),
+        userOpHash: addressActivity.accountDetail.userOpHash,
+        blockTime: parseInt(addressActivity.accountDetail.blockTime),
+        factory: addressActivity.accountDetail.factory,
+        ethBalance: parseInt(addressActivity.ethBalance,16).toString(),
+        tokenBalances: addressActivity.tokenBalances,
     };
 };
 
@@ -116,7 +118,7 @@ function Account(props: any) {
     const loadAccountDetails = async (name: string, network: string) => {
         setTableLoading(true);
         const addressActivity = await getAddressActivity(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo, toast);
-        const accountInfo = createAccountInfoObject(addressActivity.accountDetail, addressActivity.ethBalance);
+        const accountInfo = createAccountInfoObject(addressActivity);
         setAddressInfo(accountInfo);
     };
 

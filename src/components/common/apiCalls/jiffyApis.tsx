@@ -79,7 +79,7 @@ export interface metadata {
 export interface AddressActivity {
     accountDetail: AccountDetail;
     ethBalance: string;
-    tokenBalance: tokenBalance[];
+    tokenBalances: tokenBalance[];
     erc20Transfers: erc20Transfer[];
     erc721Transfers: erc721Transfer[];
 }

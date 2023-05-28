@@ -1,3 +1,4 @@
+import { tokenBalance } from '@/components/common/apiCalls/jiffyApis';
 import Chip, { ChipProps } from '@/components/common/chip/Chip';
 import { POWERED_BY_LOGO_MAP } from '@/components/common/constants';
 import CopyButton from '@/components/common/copy_button/CopyButton';
@@ -5,7 +6,7 @@ import DisplayFee from '@/components/common/displayfee/DisplayFee';
 import IconText from '@/components/common/IconText';
 import Caption from '@/components/common/table/Caption';
 import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
-import { Link } from '@mui/material';
+import { Link, MenuItem, Select } from '@mui/material';
 import { useRouter } from 'next/router';
 
 import React, { useEffect, useState } from 'react';
@@ -13,6 +14,7 @@ import Skeleton from 'react-loading-skeleton-2';
 export default function TransactionDetails({ item, network, addressMapping }: any) {
     console.log('🚀 ~ file: TransactionDetails.tsx:11 ~ TransactionDetails ~ item:', item);
     const [tableLoading1, setTableLoading1] = useState(true);
+    const [selectValue, setSelectValue] = useState(0 as number);
     useEffect(() => {
         setTableLoading1(true);
         if (network) {
@@ -148,22 +150,27 @@ export default function TransactionDetails({ item, network, addressMapping }: an
                                                         {item?.factory === '' ? null : (
                                                             <div className="md:px-[16px] px-0 md:py-[8px] py-0">
                                                                 <p className="text-[10px] text-[#455A64]">
-                                                                    {(addressMapping?.[item?.factory?.toLowerCase()] && POWERED_BY_LOGO_MAP?.[addressMapping?.[item?.factory?.toLowerCase()]?.company.toLowerCase()]) && (
-                                                                        <span className="text-bluegrey-300 text-[10px] leading-5 flex items-center gap-2 font-normal">
-                                                                            Power by{' '}
-                                                                            <img
-                                                                                src={
-                                                                                    POWERED_BY_LOGO_MAP?.[
-                                                                                        addressMapping?.[
-                                                                                            item?.factory?.toLowerCase()
-                                                                                        ]?.company.toLowerCase()
-                                                                                    ]?.small
-                                                                                }
-                                                                                style={{ height: 20, width: 20 }}
-                                                                                alt=""
-                                                                            />
-                                                                        </span>
-                                                                    )}
+                                                                    {addressMapping?.[item?.factory?.toLowerCase()] &&
+                                                                        POWERED_BY_LOGO_MAP?.[
+                                                                            addressMapping?.[
+                                                                                item?.factory?.toLowerCase()
+                                                                            ]?.company.toLowerCase()
+                                                                        ] && (
+                                                                            <span className="text-bluegrey-300 text-[10px] leading-5 flex items-center gap-2 font-normal">
+                                                                                Power by{' '}
+                                                                                <img
+                                                                                    src={
+                                                                                        POWERED_BY_LOGO_MAP?.[
+                                                                                            addressMapping?.[
+                                                                                                item?.factory?.toLowerCase()
+                                                                                            ]?.company.toLowerCase()
+                                                                                        ]?.small
+                                                                                    }
+                                                                                    style={{ height: 20, width: 20 }}
+                                                                                    alt=""
+                                                                                />
+                                                                            </span>
+                                                                        )}
                                                                 </p>
                                                             </div>
                                                         )}
@@ -213,7 +220,7 @@ export default function TransactionDetails({ item, network, addressMapping }: an
                                             </div>
                                             <div className=" break-words gap-2 flex-1">
                                                 <div>
-                                                    <p className="text-[14px] text-[#455A64] md:hidden block">Total Deposit</p>
+                                                    <p className="text-[14px] text-[#455A64] md:hidden block">Eth Balance</p>
                                                 </div>
                                                 <div className="md:flex block justify-between">
                                                     <div className="flex items-center gap-[10px]">
@@ -222,6 +229,39 @@ export default function TransactionDetails({ item, network, addressMapping }: an
                                                                 item={item?.ethBalance ? item?.ethBalance : '0'}
                                                                 network={network}
                                                             />
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
+                                            <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
+                                                <IconText icon={'/images/sader.svg'}>
+                                                    <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
+                                                        Token Balances
+                                                    </span>
+                                                </IconText>
+                                            </div>
+                                            <div className=" break-words gap-2 flex-1">
+                                                <div>
+                                                    <p className="text-[14px] text-[#455A64] md:hidden block">Total Deposit</p>
+                                                </div>
+                                                <div className="md:flex block justify-between">
+                                                    <div className="flex items-center gap-[10px]">
+                                                        <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
+                                                            <Select
+                                                                labelId="demo-simple-select-label"
+                                                                id="demo-simple-select"
+                                                                value={selectValue}
+                                                                label="Age"
+                                                                onChange={(e) => setSelectValue(e.target.value as number)}
+                                                            >
+                                                                {
+                                                                    item?.tokenBalances?.map((item: tokenBalance, index: number) => (
+                                                                        <MenuItem value={index}>{shortenString(item.contractAddress)+"  "+parseInt(item.tokenBalance, 16)}</MenuItem>
+                                                                    ))
+                                                                }
+                                                            </Select>
                                                         </span>
                                                     </div>
                                                 </div>
