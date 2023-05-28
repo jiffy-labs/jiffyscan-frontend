@@ -78,7 +78,7 @@ const createAccountInfoObject = (addressActivity: AddressActivity): AccountInfo 
         userOpHash: addressActivity.accountDetail.userOpHash,
         blockTime: parseInt(addressActivity.accountDetail.blockTime),
         factory: addressActivity.accountDetail.factory,
-        ethBalance: 'ethBalance' in addressActivity  ? parseInt(addressActivity.ethBalance as string,16).toString() : "Undefined",
+        ethBalance: 'ethBalance' in addressActivity  ? parseInt(addressActivity.ethBalance as string,16).toString() : "",
         tokenBalances: 'tokenBalances' in addressActivity ? addressActivity.tokenBalances as tokenBalance[] : [],
     };
 };

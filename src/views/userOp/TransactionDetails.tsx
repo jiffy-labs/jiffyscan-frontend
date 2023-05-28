@@ -232,7 +232,7 @@ export default function TransactionDetails({
                                                     {targets && targets.length > 0 ? (
                                                         targets.map((target: any, index: number) => {
                                                             return (
-                                                                <div key={index} className="flex flex-col gap-[10px] display-ruby">
+                                                                <div key={index} className="flex gap-[10px] display-ruby">
                                                                     <LinkAndCopy
                                                                         text={target}
                                                                         link={`/account/${target}?network=${
