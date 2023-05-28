@@ -260,8 +260,8 @@ export default function TransactionDetails({ item, network, addressMapping }: an
                                                                     className="w-[300px]"
                                                                     onChange={(e) => setSelectValue(e.target.value as number)}
                                                                 >
-                                                                    {item?.tokenBalances?.map((item: tokenBalance, index: number) => {
-                                                                        if (item.tokenSymbol && item.tokenDecimals) {
+                                                                    {item?.tokenBalances?.map((token: tokenBalance, index: number) => {
+                                                                        if (token.tokenSymbol && token.tokenDecimals) {
                                                                             return (
                                                                                 <MenuItem key={index} value={index}>
                                                                                     <div className="flex flow-root gap-2 w-full">
@@ -269,17 +269,19 @@ export default function TransactionDetails({ item, network, addressMapping }: an
                                                                                             <Link
                                                                                                 href={
                                                                                                     NETWORK_SCANNER_MAP[network] +
-                                                                                                    '/address/' +
-                                                                                                    item.contractAddress
+                                                                                                    '/token/' +
+                                                                                                    token.contractAddress +
+                                                                                                    '?a=' +
+                                                                                                    item.address
                                                                                                 }
                                                                                                 target="_blank"
                                                                                             >
-                                                                                                {item.tokenSymbol}
+                                                                                                {token.tokenSymbol}
                                                                                             </Link>
                                                                                         </div>
                                                                                         <div className="float-right">
-                                                                                            {parseInt(item.tokenBalance, 16) /
-                                                                                                10 ** parseInt(item.tokenDecimals)}
+                                                                                            {parseInt(token.tokenBalance, 16) /
+                                                                                                10 ** parseInt(token.tokenDecimals)}
                                                                                         </div>
                                                                                     </div>
                                                                                 </MenuItem>
@@ -293,15 +295,17 @@ export default function TransactionDetails({ item, network, addressMapping }: an
                                                                                             href={
                                                                                                 NETWORK_SCANNER_MAP[network] +
                                                                                                 '/address/' +
-                                                                                                item.contractAddress
+                                                                                                token.contractAddress +
+                                                                                                '?a=' +
+                                                                                                item.address
                                                                                             }
                                                                                             target="_blank"
                                                                                         >
-                                                                                            {shortenString(item.contractAddress)}
+                                                                                            {shortenString(token.contractAddress)}
                                                                                         </Link>
                                                                                     </div>
                                                                                     <div className="float-right">
-                                                                                        {parseInt(item.tokenBalance, 16)}
+                                                                                        {parseInt(token.tokenBalance, 16)}
                                                                                     </div>
                                                                                 </div>
                                                                             </MenuItem>
