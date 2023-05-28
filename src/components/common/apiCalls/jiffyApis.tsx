@@ -101,6 +101,8 @@ export interface AccountDetail {
 export interface tokenBalance {
     contractAddress: string
     tokenBalance: string
+    tokenSymbol?: string
+    tokenDecimals?: string
 }
 
 export interface erc20Transfer {

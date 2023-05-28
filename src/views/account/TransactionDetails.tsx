@@ -1,6 +1,6 @@
 import { tokenBalance } from '@/components/common/apiCalls/jiffyApis';
 import Chip, { ChipProps } from '@/components/common/chip/Chip';
-import { POWERED_BY_LOGO_MAP } from '@/components/common/constants';
+import { NETWORK_SCANNER_MAP, POWERED_BY_LOGO_MAP } from '@/components/common/constants';
 import CopyButton from '@/components/common/copy_button/CopyButton';
 import DisplayFee from '@/components/common/displayfee/DisplayFee';
 import IconText from '@/components/common/IconText';
@@ -210,63 +210,110 @@ export default function TransactionDetails({ item, network, addressMapping }: an
                                                 </div>
                                             </div>
                                         </div>
-                                        {item?.ethBalance != null && item?.ethBalance && <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
-                                            <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
-                                                <IconText icon={'/images/sader.svg'}>
-                                                    <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
-                                                        Eth Balance
-                                                    </span>
-                                                </IconText>
-                                            </div>
-                                            <div className=" break-words gap-2 flex-1">
-                                                <div>
-                                                    <p className="text-[14px] text-[#455A64] md:hidden block">Eth Balance</p>
-                                                </div>
-                                                <div className="md:flex block justify-between">
-                                                    <div className="flex items-center gap-[10px]">
-                                                        <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
-                                                            <DisplayFee
-                                                                item={item?.ethBalance ? item?.ethBalance : '0'}
-                                                                network={network}
-                                                            />
+                                        {item?.ethBalance != null && item?.ethBalance && (
+                                            <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
+                                                <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
+                                                    <IconText icon={'/images/sader.svg'}>
+                                                        <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
+                                                            Eth Balance
                                                         </span>
+                                                    </IconText>
+                                                </div>
+                                                <div className=" break-words gap-2 flex-1">
+                                                    <div>
+                                                        <p className="text-[14px] text-[#455A64] md:hidden block">Eth Balance</p>
+                                                    </div>
+                                                    <div className="md:flex block justify-between">
+                                                        <div className="flex items-center gap-[10px]">
+                                                            <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
+                                                                <DisplayFee
+                                                                    item={item?.ethBalance ? item?.ethBalance : '0'}
+                                                                    network={network}
+                                                                />
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>}
-                                        {item?.tokenBalances?.length > 0 && <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
-                                            <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
-                                                <IconText icon={'/images/sader.svg'}>
-                                                    <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
-                                                        Token Balances
-                                                    </span>
-                                                </IconText>
-                                            </div>
-                                            <div className=" break-words gap-2 flex-1">
-                                                <div>
-                                                    <p className="text-[14px] text-[#455A64] md:hidden block">Total Deposit</p>
-                                                </div>
-                                                <div className="md:flex block justify-between">
-                                                    <div className="flex items-center gap-[10px]">
-                                                        <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
-                                                            <Select
-                                                                labelId="demo-simple-select-label"
-                                                                id="demo-simple-select"
-                                                                value={selectValue}
-                                                                label="Age"
-                                                                onChange={(e) => setSelectValue(e.target.value as number)}
-                                                            >
-                                                                {
-                                                                    item?.tokenBalances?.map((item: tokenBalance, index: number) => (
-                                                                        <MenuItem key={index} value={index}>{shortenString(item.contractAddress)+"  "+parseInt(item.tokenBalance, 16)}</MenuItem>
-                                                                    ))
-                                                                }
-                                                            </Select>
+                                        )}
+                                        {item?.tokenBalances?.length > 0 && (
+                                            <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
+                                                <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
+                                                    <IconText icon={'/images/sader.svg'}>
+                                                        <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
+                                                            Token Balances
                                                         </span>
+                                                    </IconText>
+                                                </div>
+                                                <div className=" break-words gap-2 flex-1">
+                                                    <div>
+                                                        <p className="text-[14px] text-[#455A64] md:hidden block">Total Deposit</p>
+                                                    </div>
+                                                    <div className="md:flex block justify-between">
+                                                        <div className="flex items-center gap-[10px]">
+                                                            <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
+                                                                <Select
+                                                                    labelId="demo-simple-select-label"
+                                                                    id="demo-simple-select"
+                                                                    value={selectValue}
+                                                                    label="Age"
+                                                                    className="w-[300px]"
+                                                                    onChange={(e) => setSelectValue(e.target.value as number)}
+                                                                >
+                                                                    {item?.tokenBalances?.map((item: tokenBalance, index: number) => {
+                                                                        if (item.tokenSymbol && item.tokenDecimals) {
+                                                                            return (
+                                                                                <MenuItem key={index} value={index}>
+                                                                                    <div className="flex flow-root gap-2 w-full">
+                                                                                        <div className="float-left">
+                                                                                            <Link
+                                                                                                href={
+                                                                                                    NETWORK_SCANNER_MAP[network] +
+                                                                                                    '/address/' +
+                                                                                                    item.contractAddress
+                                                                                                }
+                                                                                                target="_blank"
+                                                                                            >
+                                                                                                {item.tokenSymbol}
+                                                                                            </Link>
+                                                                                        </div>
+                                                                                        <div className="float-right">
+                                                                                            {parseInt(item.tokenBalance, 16) /
+                                                                                                10 ** parseInt(item.tokenDecimals)}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </MenuItem>
+                                                                            );
+                                                                        }
+                                                                        return (
+                                                                            <MenuItem key={index} value={index}>
+                                                                                <div className="flex flow-root gap-2 w-full">
+                                                                                    <div className="float-left">
+                                                                                        <Link
+                                                                                            href={
+                                                                                                NETWORK_SCANNER_MAP[network] +
+                                                                                                '/address/' +
+                                                                                                item.contractAddress
+                                                                                            }
+                                                                                            target="_blank"
+                                                                                        >
+                                                                                            {shortenString(item.contractAddress)}
+                                                                                        </Link>
+                                                                                    </div>
+                                                                                    <div className="float-right">
+                                                                                        {parseInt(item.tokenBalance, 16)}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </MenuItem>
+                                                                        );
+                                                                    })}
+                                                                </Select>
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>}
+                                        )}
                                     </div>
                                 </section>
                             </div>
