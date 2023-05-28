@@ -66,8 +66,8 @@ interface AccountInfo {
     userOpHash: string;
     blockTime: number;
     factory: string;
-    ethBalance: string;
-    tokenBalances: tokenBalance[];
+    ethBalance?: string;
+    tokenBalances?: tokenBalance[];
 }
 
 const createAccountInfoObject = (addressActivity: AddressActivity): AccountInfo => {
@@ -78,8 +78,8 @@ const createAccountInfoObject = (addressActivity: AddressActivity): AccountInfo 
         userOpHash: addressActivity.accountDetail.userOpHash,
         blockTime: parseInt(addressActivity.accountDetail.blockTime),
         factory: addressActivity.accountDetail.factory,
-        ethBalance: parseInt(addressActivity.ethBalance,16).toString(),
-        tokenBalances: addressActivity.tokenBalances,
+        ethBalance: 'ethBalance' in addressActivity  ? parseInt(addressActivity.ethBalance as string,16).toString() : "Undefined",
+        tokenBalances: 'tokenBalances' in addressActivity ? addressActivity.tokenBalances as tokenBalance[] : [],
     };
 };
 

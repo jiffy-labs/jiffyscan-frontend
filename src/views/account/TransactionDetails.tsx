@@ -210,7 +210,7 @@ export default function TransactionDetails({ item, network, addressMapping }: an
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
+                                        {item?.ethBalance != null && <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
                                             <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
                                                 <IconText icon={'/images/sader.svg'}>
                                                     <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
@@ -233,8 +233,8 @@ export default function TransactionDetails({ item, network, addressMapping }: an
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
+                                        </div>}
+                                        {item?.tokenBalances?.length > 0 && <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
                                             <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
                                                 <IconText icon={'/images/sader.svg'}>
                                                     <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
@@ -266,7 +266,7 @@ export default function TransactionDetails({ item, network, addressMapping }: an
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>}
                                     </div>
                                 </section>
                             </div>
