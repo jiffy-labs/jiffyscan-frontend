@@ -99,10 +99,25 @@ export interface AccountDetail {
 }
 
 export interface tokenBalance {
-    contractAddress: string
-    tokenBalance: string
-    tokenSymbol?: string
-    tokenDecimals?: string
+    "contract_decimals": number
+    "contract_name": string
+    "contract_ticker_symbol": string
+    "contract_address":	string
+    "supports_erc":	null
+    "logo_url":	string
+    "last_transferred_at":	string
+    "native_token":	boolean
+    "type":	string
+    "balance":	string
+    "balance_24h":	string
+    "quote_rate": number
+    "quote_rate_24h": number
+    "quote": number
+    "pretty_quote":	string
+    "quote_24h": string
+    "pretty_quote_24h":	string
+    "nft_data":	null
+    "is_spam":	null
 }
 
 export interface erc20Transfer {

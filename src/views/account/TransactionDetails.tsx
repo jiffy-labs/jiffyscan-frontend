@@ -261,55 +261,20 @@ export default function TransactionDetails({ item, network, addressMapping }: an
                                                                     onChange={(e) => setSelectValue(e.target.value as number)}
                                                                 >
                                                                     {item?.tokenBalances?.map((token: tokenBalance, index: number) => {
-                                                                        if (token.tokenSymbol && token.tokenDecimals) {
+                                                                        
                                                                             return (
                                                                                 <MenuItem key={index} value={index}>
                                                                                     <div className="flex flow-root gap-2 w-full">
                                                                                         <div className="float-left">
-                                                                                            <Link
-                                                                                                href={
-                                                                                                    NETWORK_SCANNER_MAP[network] +
-                                                                                                    '/token/' +
-                                                                                                    token.contractAddress +
-                                                                                                    '?a=' +
-                                                                                                    item.address
-                                                                                                }
-                                                                                                target="_blank"
-                                                                                            >
-                                                                                                {token.tokenSymbol}
-                                                                                            </Link>
+                                                                                            {token.contract_name}  
                                                                                         </div>
                                                                                         <div className="float-right">
-                                                                                            {parseInt(token.tokenBalance, 16) /
-                                                                                                10 ** parseInt(token.tokenDecimals)}
+                                                                                            {(parseInt(token.balance)/10**token.contract_decimals).toFixed(4)} (${(token.quote_rate*parseInt(token.balance)/10**token.contract_decimals).toFixed()}) 
                                                                                         </div>
                                                                                     </div>
                                                                                 </MenuItem>
                                                                             );
-                                                                        }
-                                                                        return (
-                                                                            <MenuItem key={index} value={index}>
-                                                                                <div className="flex flow-root gap-2 w-full">
-                                                                                    <div className="float-left">
-                                                                                        <Link
-                                                                                            href={
-                                                                                                NETWORK_SCANNER_MAP[network] +
-                                                                                                '/address/' +
-                                                                                                token.contractAddress +
-                                                                                                '?a=' +
-                                                                                                item.address
-                                                                                            }
-                                                                                            target="_blank"
-                                                                                        >
-                                                                                            {shortenString(token.contractAddress)}
-                                                                                        </Link>
-                                                                                    </div>
-                                                                                    <div className="float-right">
-                                                                                        {parseInt(token.tokenBalance, 16)}
-                                                                                    </div>
-                                                                                </div>
-                                                                            </MenuItem>
-                                                                        );
+                                                                        
                                                                     })}
                                                                 </Select>
                                                             </span>
