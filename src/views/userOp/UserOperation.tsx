@@ -200,6 +200,7 @@ function RecentUserOps(props: any) {
                             selectedColor={selectedColor}
                             BUTTON_LIST={BUTTON_LIST}
                             setSelectedColor={setSelectedColor}
+                            selectedNetwork={selectedNetwork}
                             open={open}
                             setOpen={setOpen}
                             metaData={metaData}

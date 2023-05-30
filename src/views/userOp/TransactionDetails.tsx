@@ -234,36 +234,15 @@ export default function TransactionDetails({
                                                     {targets && targets.length > 0 ? (
                                                         targets.map((target: any, index: number) => {
                                                             return (
-                                                                <div key={index} className="flex gap-[10px] display-ruby">
+                                                                <div key={index} className="flex gap-[10px] item-center display-ruby">
                                                                     <LinkAndCopy
                                                                         text={target}
                                                                         link={`/account/${target}?network=${
                                                                             item?.network ? item?.network : ''
                                                                         }`}
                                                                         copyText={target}
+                                                                        secondaryTargetLink={NETWORK_SCANNER_MAP[selectedNetwork] + '/address/' + target}
                                                                     />
-                                                                    <Link
-                                                                        underline="hover"
-                                                                        // color="text.primary"
-                                                                        href={`/account/${target}?network=${
-                                                                            item?.network ? item.network : ''
-                                                                        }`}
-                                                                        aria-current="page"
-                                                                        className="text-blue-200"
-                                                                        target={'_blank'}
-                                                                    ></Link>
-                                                                    <Link
-                                                                        underline="hover"
-                                                                        // color="text.primary"
-                                                                        href={NETWORK_SCANNER_MAP[selectedNetwork] + '/address/' + target}
-                                                                        aria-current="page"
-                                                                        className="text-blue-200 "
-                                                                        target={'_blank'}
-                                                                    >
-                                                                        <button className="outline-none md:block hidden focus:outline-none ring-0 focus:ring-0">
-                                                                            <img src="/images/share.svg" alt="" />
-                                                                        </button>
-                                                                    </Link>
                                                                     {" "} Invoked: {invokes[index]}
                                                                 </div>
                                                             );
@@ -380,7 +359,7 @@ export default function TransactionDetails({
                                                 <div>
                                                     <p className="text-[14px] text-[#455A64] md:hidden block">Value</p>
                                                 </div>
-                                                <div className="md:flex block justify-between">
+                                                <div className="md:flex block justify-between" style={{display: 'ruby'}}>
                                                     {values && values.length > 0 ? (
                                                         values.map((value: any, index: number) => {
                                                             return (
@@ -652,29 +631,7 @@ export default function TransactionDetails({
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
-                                            <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
-                                                <IconText icon={'/images/Hash.svg'}>
-                                                    <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
-                                                        Entry Point
-                                                    </span>
-                                                </IconText>
-                                            </div>
-                                            <div className=" break-words gap-2 flex-1">
-                                                <div>
-                                                    <p className="text-[14px] text-[#455A64] md:hidden block">Entry Point</p>
-                                                </div>
-                                                <div className="md:flex block justify-between">
-                                                    <div className="flex items-center gap-[10px]">
-                                                        <LinkAndCopy
-                                                            text={item?.entryPoint}
-                                                            link={NETWORK_SCANNER_MAP[selectedNetwork] + '/address/' + item?.entryPoint}
-                                                            copyText={item?.entryPoint}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        
                                         <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
                                             <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
                                                 <IconText icon={'/images/cube.svg'}>

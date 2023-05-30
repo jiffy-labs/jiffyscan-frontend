@@ -9,7 +9,9 @@ import React, { useState, useEffect } from 'react';
 import Skeleton from 'react-loading-skeleton-2';
 import { BUTTON_LIST } from './UserOperation';
 import sx from './usertable.module.sass';
-export default function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, setSelectedColor, open, setOpen, metaData }: any) {
+import LinkAndCopy from '@/components/common/LinkAndCopy';
+import { NETWORK_SCANNER_MAP } from '@/components/common/constants';
+export default function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, setSelectedColor, open, setOpen, metaData, selectedNetwork }: any) {
     const [dropOpen, SetdropOpen] = useState(false);
     const [userOpParamsExists, setUserOpParamsExists] = useState(false);
 
@@ -44,6 +46,29 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                         <DisplayFee item={item?.value! ? item?.value! : '0'} network={item?.network} />
                                     </div>
                                 </div>
+                                <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
+                                            <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
+                                                <IconText icon={'/images/Hash.svg'}>
+                                                    <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
+                                                        Entry Point
+                                                    </span>
+                                                </IconText>
+                                            </div>
+                                            <div className=" break-words gap-2 flex-1">
+                                                <div>
+                                                    <p className="text-[14px] text-[#455A64] md:hidden block">Entry Point</p>
+                                                </div>
+                                                <div className="md:flex block justify-between">
+                                                    <div className="flex items-center gap-[10px]">
+                                                        <LinkAndCopy
+                                                            text={item?.entryPoint}
+                                                            link={NETWORK_SCANNER_MAP[selectedNetwork] + '/address/' + item?.entryPoint}
+                                                            copyText={item?.entryPoint}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                 <div className="flex justify-between items-center p-[16px]" onClick={() => SetdropOpen(!dropOpen)}>
                                     <div className="flex gap-[12px] w-[400px]">
                                         <img src="/images/code-array.svg" alt="" />
