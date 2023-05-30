@@ -15,7 +15,7 @@ const ExecutionTrace = ({ traceCallToDisplay }: any) => {
                             {traceData.method ? (
                                 <LinkAndCopy link={null} text={traceData.method} copyText={traceData.method} />
                             ) : (
-                                traceData.input.slice(0, 10) + '...' + traceData.method
+                                traceData.input.slice(0, 10)
                             )}{" "}
                             Value: {parseInt(traceData.value, 16)}
                         </div>
