@@ -252,6 +252,18 @@ export default function TransactionDetails({
                                                                         className="text-blue-200"
                                                                         target={'_blank'}
                                                                     ></Link>
+                                                                    <Link
+                                                                        underline="hover"
+                                                                        // color="text.primary"
+                                                                        href={NETWORK_SCANNER_MAP[selectedNetwork] + '/address/' + target}
+                                                                        aria-current="page"
+                                                                        className="text-blue-200 "
+                                                                        target={'_blank'}
+                                                                    >
+                                                                        <button className="outline-none md:block hidden focus:outline-none ring-0 focus:ring-0">
+                                                                            <img src="/images/share.svg" alt="" />
+                                                                        </button>
+                                                                    </Link>
                                                                     {" "} Invoked: {invokes[index]}
                                                                 </div>
                                                             );
@@ -783,7 +795,7 @@ export default function TransactionDetails({
                                         )} */}
                                         {!showMetadata &&
                                             selectedNetwork == 'mainnet' &&
-                                            [0, 1].map((num, index) => <Skeleton height={55} key={index} />)}
+                                            [0].map((num, index) => <Skeleton height={55} key={index} />)}
                                     </div>
                                 </section>
                             </div>
