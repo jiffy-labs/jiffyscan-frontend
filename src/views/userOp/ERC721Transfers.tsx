@@ -5,16 +5,16 @@ import React from 'react';
 export interface ERC20Transfer {
     key: number;
     address: string | null;
-    symbol: string;
     from: string;
     to: string;
-    value: string;
+    tokenId: string;
+    symbol: string;
     decimals: number | null;
     name: string | null;
     sender: string;
 }
 
-function ERC20Transfers({ key, address, symbol, from, to, value, decimals, name, sender }: ERC20Transfer) {
+function ERC20Transfers({ key, address, symbol, from, to, tokenId, decimals, name, sender }: ERC20Transfer) {
     if (sender && (sender.toLowerCase() == to.toLowerCase() || sender.toLowerCase() == from.toLowerCase())) {
         return (
             <div key={key} className="flex items-center">
@@ -22,8 +22,8 @@ function ERC20Transfers({ key, address, symbol, from, to, value, decimals, name,
                 To: <LinkAndCopy link={null} text={shortenString(to)} copyText={to} />{' '}
                 
                     <div>
-                        Amount:&nbsp;
-                        {(parseInt(value) / 10 ** (decimals ? decimals : 18)).toFixed(4)}{' '}
+                        TokenId:&nbsp;
+                        {parseInt(tokenId) }{' '}
                         {symbol ? symbol : ""}{' '}
                         ({name ? name: ""})
                     </div>

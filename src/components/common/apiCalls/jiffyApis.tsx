@@ -31,6 +31,24 @@ export interface UserOp {
     paymasterAndData: string | null;
     signature: string | null;
     entryPoint: string;
+    erc20Transfers: {
+        contractAddress: string;
+        from: string;
+        to: string;
+        value: string;
+        decimals: string;
+        name: string;
+        symbol: string;
+    };
+    erc721Transfers: {
+        contractAddress: string;
+        from: string;
+        to: string;
+        tokenId: string;
+        decimals: string;
+        name: string;
+        symbol: string;
+    }
 }
 
 export interface Trace {

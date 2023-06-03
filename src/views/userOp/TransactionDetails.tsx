@@ -1,4 +1,4 @@
-import { erc20Transfer, metadata } from '@/components/common/apiCalls/jiffyApis';
+import { UserOp, erc20Transfer, metadata } from '@/components/common/apiCalls/jiffyApis';
 import { NETWORK_SCANNER_MAP, POWERED_BY_LOGO_MAP } from '@/components/common/constants';
 import CopyButton from '@/components/common/copy_button/CopyButton';
 import DisplayFee from '@/components/common/displayfee/DisplayFee';
@@ -36,6 +36,7 @@ import React, { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton-2';
 import ERC20Transfers from './ERC20Transfers';
 import ExecutionTrace from './ExecutionTrace';
+import ERC721Transfers from './ERC721Transfers';
 export default function TransactionDetails({
     tableLoading,
     skeletonCards,
@@ -680,13 +681,8 @@ export default function TransactionDetails({
                                                 </div>
                                             </div>
                                         </div>
-                                        {showMetadata &&
-                                            metaData &&
-                                            metaData.erc20Transfers &&
-                                            metaData.erc20Transfers.length > 0 &&
-                                            getNumberOfERC20Transfers(metaData.erc20Transfers) > 0 &&
-                                            reload > -1 && (
-                                                <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
+                                        {item.erc20Transfers?.length > 0 && (
+                                            <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
                                                     <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
                                                         <IconText icon={'/images/cube.svg'}>
                                                             <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
@@ -702,28 +698,28 @@ export default function TransactionDetails({
                                                         </div>
                                                         <div className="md:flex block justify-between">
                                                             <div className="flex flex-col gap-[10px] w-full">
-                                                                {metaData.erc20Transfers.map(
+                                                                {item.erc20Transfers.map(
                                                                     (
                                                                         {
-                                                                            invoked,
                                                                             to,
                                                                             from,
                                                                             value,
                                                                             name,
                                                                             decimals,
-                                                                            address,
-                                                                        }: erc20Transfer,
+                                                                            contractAddress,
+                                                                            symbol
+                                                                        }: UserOp['erc20Transfers'],
                                                                         index: number,
                                                                     ) => (
                                                                         <ERC20Transfers
                                                                             sender={item.sender as string}
-                                                                            invoked={invoked}
                                                                             to={to}
                                                                             from={from}
                                                                             value={value}
                                                                             name={name}
-                                                                            decimals={decimals}
-                                                                            address={address}
+                                                                            symbol={symbol}
+                                                                            decimals={parseInt(decimals)}
+                                                                            address={contractAddress}
                                                                             key={index}
                                                                         />
                                                                     ),
@@ -733,26 +729,55 @@ export default function TransactionDetails({
                                                     </div>
                                                 </div>
                                             )}
-                                        {/* {showMetadata && metaData && metaData.executionTrace && reload > -1 && (
+                                        {item.erc721Transfers?.length > 0 && (
                                             <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
-                                                <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
-                                                    <IconText icon={'/images/cube.svg'}>
-                                                        <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
-                                                            Activity
-                                                        </span>
-                                                    </IconText>
+                                            <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
+                                                <IconText icon={'/images/cube.svg'}>
+                                                    <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
+                                                        ERC-721 Tokens Transferred
+                                                    </span>
+                                                </IconText>
+                                            </div>
+                                            <div className=" break-words gap-2 flex-1">
+                                                <div>
+                                                    <p className="text-[14px] text-[#455A64] md:hidden block">
+                                                        ERC-721 Tokens Transferred
+                                                    </p>
                                                 </div>
-                                                <div className=" break-words gap-2 flex-1">
-                                                    <div>
-                                                        <p className="text-[14px] text-[#455A64] md:hidden block">Activity</p>
+                                                <div className="md:flex block justify-between">
+                                                    <div className="flex flex-col gap-[10px] w-full">
+                                                        {item.erc721Transfers.map(
+                                                            (
+                                                                {
+                                                                    to,
+                                                                    from,
+                                                                    tokenId,
+                                                                    name,
+                                                                    decimals,
+                                                                    contractAddress,
+                                                                    symbol
+                                                                }: UserOp['erc721Transfers'],
+                                                                index: number,
+                                                            ) => (
+                                                                <ERC721Transfers
+                                                                    sender={item.sender as string}
+                                                                    to={to}
+                                                                    from={from}
+                                                                    tokenId={tokenId}
+                                                                    name={name}
+                                                                    symbol={symbol}
+                                                                    decimals={parseInt(decimals)}
+                                                                    address={contractAddress}
+                                                                    key={index}
+                                                                />
+                                                            ),
+                                                        )}
                                                     </div>
-                                                    <ExecutionTrace executionTrace={metaData.executionTrace} />
                                                 </div>
                                             </div>
-                                        )} */}
-                                        {!showMetadata &&
-                                            selectedNetwork == 'mainnet' &&
-                                            [0].map((num, index) => <Skeleton height={55} key={index} />)}
+                                        </div>
+                                    )}
+                                        
                                     </div>
                                 </section>
                             </div>
