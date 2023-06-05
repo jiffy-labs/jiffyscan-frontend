@@ -20,14 +20,14 @@ function ERC20Transfers({ key, address, symbol, from, to, tokenId, decimals, nam
     if (sender && (sender.toLowerCase() == to.toLowerCase() || sender.toLowerCase() == from.toLowerCase())) {
         return (
             <div key={key} className="flex items-center">
-                From: <LinkAndCopy link={null} text={shortenString(from)} copyText={from} />
-                To: <LinkAndCopy link={null} text={shortenString(to)} copyText={to} />{' '}
+                From: <LinkAndCopy link={"/account/"+from} text={shortenString(from)} copyText={from} />
+                To: <LinkAndCopy link={"/account/"+to} text={shortenString(to)} copyText={to} />{' '}
                 
                     <div>
                         TokenId:&nbsp;
-                        <LinkAndCopy text={tokenId} link={NETWORK_SCANNER_MAP+"/token/"+address+"?a="+tokenId} copyText={null}/> {' '}
+                        <LinkAndCopy text={tokenId} link={NETWORK_SCANNER_MAP[selectedNetwork]+"/token/"+address+"?a="+tokenId} copyText={null}/> {' '}
                         {symbol ? symbol : ""}{' '}
-                        ({name ? <LinkAndCopy text={name} link={NETWORK_SCANNER_MAP+"/token/"+address} copyText={null}/>: ""})
+                        ({name ? <LinkAndCopy text={name} link={NETWORK_SCANNER_MAP[selectedNetwork]+"/token/"+address} copyText={null}/>: ""})
                     </div>
             </div>
         );
