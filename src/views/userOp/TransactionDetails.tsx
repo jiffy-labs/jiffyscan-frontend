@@ -360,12 +360,13 @@ export default function TransactionDetails({
                                                 <div>
                                                     <p className="text-[14px] text-[#455A64] md:hidden block">Value</p>
                                                 </div>
-                                                <div className="md:flex block justify-between" style={{display: 'ruby'}}>
+                                                <div className="md:flex justify-between" style={{display: 'ruby'}}>
+                                                    <div className="flex flex-col gap-[10px] w-full">
                                                     {values && values.length > 0 ? (
                                                         values.map((value: any, index: number) => {
                                                             return (
-                                                                <span key={index} className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
-                                                                    {type == "Multi Send" && (index+1)+": "}<DisplayFee
+                                                                <span key={index} className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5 flex items-center">
+                                                                    {type == "Multi Send" && (index+1)+":  "} &nbsp; <DisplayFee
                                                                         item={value! ? value! : '0'}
                                                                         network={item?.network}
                                                                     />
@@ -377,6 +378,7 @@ export default function TransactionDetails({
                                                             <DisplayFee item={item?.value! ? item?.value! : '0'} network={item?.network} />
                                                         </span>
                                                     )}
+                                                    </div>      
                                                 </div>
                                             </div>
                                         </div>
@@ -390,7 +392,7 @@ export default function TransactionDetails({
                                             </div>
                                             <div className=" break-words gap-2 flex-1">
                                                 <div>
-                                                    <p className="text-[14px] text-[#455A64] md:hidden block">Value</p>
+                                                    <p className="text-[14px] text-[#455A64] md:hidden block">Gas Fee</p>
                                                 </div>
                                                 <div className="md:flex block justify-between">
                                                     <div className="flex items-center gap-[10px]">
@@ -698,7 +700,7 @@ export default function TransactionDetails({
                                                         </div>
                                                         <div className="md:flex block justify-between">
                                                             <div className="flex flex-col gap-[10px] w-full">
-                                                                {item.erc20Transfers.map(
+                                                                {item.erc20Transfers.slice(0).reverse().map(
                                                                     (
                                                                         {
                                                                             to,
@@ -721,6 +723,7 @@ export default function TransactionDetails({
                                                                             decimals={parseInt(decimals)}
                                                                             address={contractAddress}
                                                                             key={index}
+                                                                            selectedNetwork={item.network}
                                                                         />
                                                                     ),
                                                                 )}
@@ -746,7 +749,7 @@ export default function TransactionDetails({
                                                 </div>
                                                 <div className="md:flex block justify-between">
                                                     <div className="flex flex-col gap-[10px] w-full">
-                                                        {item.erc721Transfers.map(
+                                                        {item.erc721Transfers.slice(0).reverse().map(
                                                             (
                                                                 {
                                                                     to,
@@ -769,6 +772,7 @@ export default function TransactionDetails({
                                                                     decimals={parseInt(decimals)}
                                                                     address={contractAddress}
                                                                     key={index}
+                                                                    selectedNetwork={item.network}
                                                                 />
                                                             ),
                                                         )}

@@ -3,9 +3,9 @@ import React from 'react';
 import { NETWORK_SCANNER_MAP } from './constants';
 import CopyButton from './copy_button/CopyButton';
 
-const LinkAndCopy = ({ link, text, copyText, secondaryTargetLink }: { link: string | null; text: string; copyText: string, secondaryTargetLink?: string }) => {
+const LinkAndCopy = ({ link, text, copyText, secondaryTargetLink }: { link: string | null; text: string; copyText: string | null, secondaryTargetLink?: string }) => {
     return (
-        <div className="flex items-center gap-[10px]">
+        <div className="flex items-center gap-[10px]" style={{"display": "inline-flex"}}>
             {link ? (
                 <Link
                     underline="hover"
@@ -21,9 +21,9 @@ const LinkAndCopy = ({ link, text, copyText, secondaryTargetLink }: { link: stri
                 <span className="text-blue-200 md:text-[14px] text-[16px] break-all leading-5">{text}</span>
             )}
 
-            <div className="w-[30px] flex">
+            { copyText && <div className="w-[30px] flex">
                 <CopyButton text={copyText} />
-            </div>
+            </div> }
 
             {secondaryTargetLink &&  <Link
                 underline="hover"

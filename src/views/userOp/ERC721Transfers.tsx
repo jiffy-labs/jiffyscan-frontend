@@ -1,4 +1,5 @@
 import LinkAndCopy from '@/components/common/LinkAndCopy';
+import { NETWORK_SCANNER_MAP } from '@/components/common/constants';
 import { getFee, shortenString } from '@/components/common/utils';
 import React from 'react';
 
@@ -12,9 +13,10 @@ export interface ERC20Transfer {
     decimals: number | null;
     name: string | null;
     sender: string;
+    selectedNetwork: string;
 }
 
-function ERC20Transfers({ key, address, symbol, from, to, tokenId, decimals, name, sender }: ERC20Transfer) {
+function ERC20Transfers({ key, address, symbol, from, to, tokenId, decimals, name, sender, selectedNetwork }: ERC20Transfer) {
     if (sender && (sender.toLowerCase() == to.toLowerCase() || sender.toLowerCase() == from.toLowerCase())) {
         return (
             <div key={key} className="flex items-center">
@@ -23,9 +25,9 @@ function ERC20Transfers({ key, address, symbol, from, to, tokenId, decimals, nam
                 
                     <div>
                         TokenId:&nbsp;
-                        {parseInt(tokenId) }{' '}
+                        <LinkAndCopy text={tokenId} link={NETWORK_SCANNER_MAP+"/token/"+address+"?a="+tokenId} copyText={null}/> {' '}
                         {symbol ? symbol : ""}{' '}
-                        ({name ? name: ""})
+                        ({name ? <LinkAndCopy text={name} link={NETWORK_SCANNER_MAP+"/token/"+address} copyText={null}/>: ""})
                     </div>
             </div>
         );
