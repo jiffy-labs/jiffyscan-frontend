@@ -361,7 +361,7 @@ export default function TransactionDetails({
                                                     <p className="text-[14px] text-[#455A64] md:hidden block">Value</p>
                                                 </div>
                                                 <div className="md:flex justify-between" style={{display: 'ruby'}}>
-                                                    <div className="flex flex-col gap-[10px] w-full">
+                                                    <div className="flex flex-col gap-[10px] w-full my-4">
                                                     {values && values.length > 0 ? (
                                                         values.map((value: any, index: number) => {
                                                             return (

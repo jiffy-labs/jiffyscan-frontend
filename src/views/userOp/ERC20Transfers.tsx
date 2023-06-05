@@ -16,6 +16,22 @@ export interface ERC20Transfer {
     selectedNetwork: string;
 }
 
+function getValue (value: string, decimals: number | null) {
+    let response: number;
+    if (decimals) {
+        response = (parseInt(value) / 10 ** decimals);
+    } else {
+        response = (parseInt(value) / 10 ** 18);
+    }
+
+    if (response < 0.000001) {
+        return response.toExponential();
+    } else {
+        return response.toFixed(6);
+    }
+}
+
+
 function ERC20Transfers({ key, address, symbol, from, to, value, decimals, name, sender, selectedNetwork }: ERC20Transfer) {
     if (sender && (sender.toLowerCase() == to.toLowerCase() || sender.toLowerCase() == from.toLowerCase())) {
         return (
@@ -25,7 +41,7 @@ function ERC20Transfers({ key, address, symbol, from, to, value, decimals, name,
                 
                     <div>
                         Amount:&nbsp;
-                        {(parseInt(value) / 10 ** (decimals ? decimals : 18)).toFixed(4)}{' '}
+                        {getValue(value, decimals)}{' '}
                         {symbol ? symbol : ""}{' '}
                         ({name ? <LinkAndCopy  link={NETWORK_SCANNER_MAP[selectedNetwork]+"/address/"+address} text={name} copyText={null}/> : ''})
                     </div>
