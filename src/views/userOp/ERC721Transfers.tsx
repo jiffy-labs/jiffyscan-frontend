@@ -25,7 +25,7 @@ function ERC20Transfers({ key, address, symbol, from, to, tokenId, decimals, nam
                 
                     <div>
                         TokenId:&nbsp;
-                        <LinkAndCopy text={tokenId} link={NETWORK_SCANNER_MAP[selectedNetwork]+"/token/"+address+"?a="+tokenId} copyText={null}/> {' '}
+                        <LinkAndCopy text={tokenId} link={NETWORK_SCANNER_MAP[selectedNetwork]+"/token/"+address+"?a="+parseInt(tokenId)} copyText={null}/> {' '}
                         {symbol ? symbol : ""}{' '}
                         ({name ? <LinkAndCopy text={name} link={NETWORK_SCANNER_MAP[selectedNetwork]+"/token/"+address} copyText={null}/>: ""})
                     </div>
