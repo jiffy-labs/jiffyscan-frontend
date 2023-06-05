@@ -683,7 +683,7 @@ export default function TransactionDetails({
                                                 </div>
                                             </div>
                                         </div>
-                                        {item.erc20Transfers?.length > 0 && (
+                                        {getNumberOfERC20Transfers(item.erc20Transfers) > 0 && (
                                             <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
                                                     <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
                                                         <IconText icon={'/images/cube.svg'}>
