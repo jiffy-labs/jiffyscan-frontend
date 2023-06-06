@@ -1,8 +1,17 @@
 import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
-import { getAddressActivity, UserOp, AccountDetail, AddressActivity, tokenBalance } from '@/components/common/apiCalls/jiffyApis';
-import { Breadcrumbs, Link } from '@mui/material';
+import {
+    getAddressActivity,
+    UserOp,
+    AddressActivity,
+    tokenBalance,
+    getAddressBalances,
+    getAddressERC20Transfers,
+    getAddressERC721Transfers,
+    tokenTransferAlchemy,
+} from '@/components/common/apiCalls/jiffyApis';
+import { Breadcrumbs, Link, Box, Tab, Tabs, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
 import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
@@ -17,6 +26,7 @@ import HeaderSection from './HeaderSection';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useConfig } from '@/context/config';
+import { set } from 'lodash';
 
 // import Skeleton from '@/components/Skeleton';
 export const BUTTON_LIST = [
@@ -32,13 +42,68 @@ export const BUTTON_LIST = [
 
 const DEFAULT_PAGE_SIZE = 10;
 
-const columns = [
+const userOpColumns = [
     { name: 'Hash', sort: true },
     { name: 'Age', sort: true },
     { name: 'Sender', sort: false },
     { name: 'Target', sort: false },
     { name: 'Fee', sort: true },
 ];
+
+const erc20TransferColumns = [
+    { name: 'Hash', sort: true },
+    { name: 'Block Number', sort: true },
+    { name: 'From', sort: false },
+    { name: 'To', sort: false },
+    { name: 'Value', sort: true },
+];
+
+const erc721TransferColumns = [
+    { name: 'Hash', sort: true },
+    { name: 'Block Number', sort: true },
+    { name: 'From', sort: false },
+    { name: 'To', sort: false },
+    { name: 'Token ID', sort: true },
+];
+
+const constructERC20TransferRows = (erc20Transfers: tokenTransferAlchemy[], network: string): tableDataT['rows'] => {
+    let newRows = [] as tableDataT['rows'];
+    if (!erc20Transfers) return newRows;
+    erc20Transfers.forEach((erc20Transfer) => {
+        newRows.push({
+            token: {
+                text: erc20Transfer.hash,
+                icon: NETWORK_ICON_MAP[network],
+                type: 'erc20Transfer',
+            },
+            ago: parseInt(erc20Transfer.blockNum).toString(),
+            sender: erc20Transfer.from,
+            target: erc20Transfer.to,
+            fee: { value: parseInt(erc20Transfer.rawContract.value ? erc20Transfer.rawContract.value : '0').toString()+ `( ${erc20Transfer.asset} )` },
+        });
+    });
+    return newRows;
+};
+
+const constructERC721TransferRows = (erc721Transfers: tokenTransferAlchemy[], network: string): tableDataT['rows'] => {
+    let newRows = [] as tableDataT['rows'];
+    if (!erc721Transfers) return newRows;
+    erc721Transfers.forEach((erc721Transfer) => {
+        newRows.push({
+            token: {
+                text: erc721Transfer.hash,
+                icon: NETWORK_ICON_MAP[network],
+                type: 'erc721Transfer',
+            },
+            ago: parseInt(erc721Transfer.blockNum).toString(),
+            sender: erc721Transfer.from,
+            target: erc721Transfer.to,
+            fee: { value: (parseInt(erc721Transfer.tokenId ? erc721Transfer.tokenId : '0').toString()+ `( ${erc721Transfer.asset} )`) },
+        });
+    });
+    return newRows;
+};
+
 const createUserOpsTableRows = (userOps: UserOp[]): tableDataT['rows'] => {
     let newRows = [] as tableDataT['rows'];
     if (!userOps) return newRows;
@@ -78,15 +143,43 @@ const createAccountInfoObject = (addressActivity: AddressActivity): AccountInfo 
         userOpHash: addressActivity.accountDetail.userOpHash,
         blockTime: parseInt(addressActivity.accountDetail.blockTime),
         factory: addressActivity.accountDetail.factory,
-        ethBalance: 'ethBalance' in addressActivity  ? parseInt(addressActivity.ethBalance as string,16).toString() : "",
-        tokenBalances: 'tokenBalances' in addressActivity ? addressActivity.tokenBalances as tokenBalance[] : [],
+        ethBalance: 'ethBalance' in addressActivity ? parseInt(addressActivity.ethBalance as string, 16).toString() : '',
+        tokenBalances: 'tokenBalances' in addressActivity ? (addressActivity.tokenBalances as tokenBalance[]) : [],
     };
 };
+
+interface TabPanelProps {
+    children?: React.ReactNode;
+    index: number;
+    value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
+    const { children, value, index, ...other } = props;
+
+    return (
+        <div role="tabpanel" hidden={value !== index} id={`simple-tabpanel-${index}`} aria-labelledby={`simple-tab-${index}`} {...other}>
+            {value === index && (
+                <Box sx={{ p: 3 }}>
+                    <Typography>{children}</Typography>
+                </Box>
+            )}
+        </div>
+    );
+}
+
+function a11yProps(index: number) {
+    return {
+        id: `simple-tab-${index}`,
+        'aria-controls': `simple-tabpanel-${index}`,
+    };
+}
 
 function Account(props: any) {
     const router = useRouter();
     const [tableLoading, setTableLoading] = useState(true);
-    const {addressMapping} = useConfig();
+    const [tabNo, setTabNo] = useState(0);
+    const { addressMapping } = useConfig();
     const hash = props.slug && props.slug[0];
     const network = router.query && (router.query.network as string);
     const [rows, setRows] = useState([] as tableDataT['rows']);
@@ -95,6 +188,21 @@ function Account(props: any) {
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE);
     const [captionText, setCaptionText] = useState('N/A User Ops found');
+    const [tokenBalances, setTokenBalances] = useState<tokenBalance[]>([]);
+    const [erc20Transfers, setErc20Transfers] = useState<tokenTransferAlchemy[]>([]);
+    const [erc20TransfersTableRows, setErc20TransfersTableRows] = useState<tableDataT['rows']>([]);
+    const [erc721TransfersTableRows, setErc721TransfersTableRows] = useState<tableDataT['rows']>([]);
+    const [erc721Transfers, setErc721Transfers] = useState<tokenTransferAlchemy[]>([]);
+    const [erc20PageNo, setErc20PageNo] = useState(0);
+    const [erc721PageNo, setErc721PageNo] = useState(0);
+
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    
 
     // handling table page change. Everytime the pageNo change, or pageSize change this function will fetch new data and update it.
     const updateRowsData = async (network: string, pageNo: number, pageSize: number) => {
@@ -105,13 +213,39 @@ function Account(props: any) {
         const addressActivity = await getAddressActivity(addressInfo.address, network ? network : '', pageNo, pageSize, toast);
         const rows = createUserOpsTableRows(addressActivity.accountDetail.userOps);
         setRows(rows);
-        setTableLoading(false);
+        console.log('whats happening here', rows)
+        if (rows.length > 0) 
+            setTableLoading(false);
     };
 
     // update the page No after changing the pageSize
     const setPageSize = (size: number) => {
         _setPageSize(size);
         setPageNo(0);
+        setErc20PageNo(0);
+        setErc721PageNo(0);
+    };
+
+    // fetch erc 20 balances
+    const loadAccountBalances = async (name: string, network: string) => {
+        const tokenBalances = await getAddressBalances(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo, toast);
+        setTokenBalances(tokenBalances);
+    };
+
+    // fetch erc20 transfers
+    const loadAccountERC20Transfers = async (name: string, network: string) => {
+        const erc20Transfers = await getAddressERC20Transfers(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo, toast);
+        const erc20TableRows = constructERC20TransferRows(erc20Transfers.slice(0, pageSize * (pageNo + 1)), network ? network : '');
+        setErc20Transfers(erc20Transfers);
+        setErc20TransfersTableRows(erc20TableRows);
+    };
+
+    // getch erc721 transfers
+    const loadAccountERC721Transfers = async (name: string, network: string) => {
+        const erc721Transfers = await getAddressERC721Transfers(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo, toast);
+        const erc721TableRows = constructERC721TransferRows(erc721Transfers.slice(0, pageSize * (pageNo + 1)), network ? network : '');
+        setErc721TransfersTableRows(erc721TableRows);
+        setErc721Transfers(erc721Transfers);
     };
 
     // load the account details.
@@ -120,6 +254,7 @@ function Account(props: any) {
         const addressActivity = await getAddressActivity(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo, toast);
         const accountInfo = createAccountInfoObject(addressActivity);
         setAddressInfo(accountInfo);
+        setTableLoading(false);
     };
 
     useEffect(() => {
@@ -131,6 +266,20 @@ function Account(props: any) {
         setCaptionText(captionText);
     }, [addressInfo]);
 
+    useEffect(() => {
+        console.log(erc20PageNo, erc721PageNo, pageSize);
+        let erc20RowData = constructERC20TransferRows(
+            erc20Transfers.slice(pageSize * erc20PageNo, pageSize * (erc20PageNo + 1)),
+            network ? network : '',
+        );
+        setErc20TransfersTableRows(erc20RowData);
+        let erc721RowData = constructERC721TransferRows(
+            erc721Transfers.slice(pageSize * erc721PageNo, pageSize * (erc721PageNo + 1)),
+            network ? network : '',
+        );
+        setErc721TransfersTableRows(erc721RowData);
+    }, [erc20PageNo, erc721PageNo]);
+
     let prevHash = hash;
     let prevNetwork = network;
     useEffect(() => {
@@ -139,9 +288,14 @@ function Account(props: any) {
             prevHash = hash;
             prevNetwork = network;
             loadAccountDetails(hash as string, network as string);
+            loadAccountBalances(hash as string, network as string);
+            loadAccountERC20Transfers(hash as string, network as string);
+            loadAccountERC721Transfers(hash as string, network as string);
         }
     }, [hash, network]);
-    let skeletonCards = Array(5).fill(0);
+
+    if (!mounted) return <></>;
+
     return (
         <div className="">
             <Navbar searchbar />
@@ -174,27 +328,66 @@ function Account(props: any) {
                 </div>
             </section>
             <HeaderSection item={addressInfo} network={network} />
-            <TransactionDetails item={addressInfo} network={network} addressMapping={addressMapping}/>
+            <TransactionDetails item={addressInfo} network={network} addressMapping={addressMapping} tableLoading={tableLoading}/>
+
             <div className="container px-0">
-                <Table
-                    rows={rows}
-                    columns={columns}
-                    loading={tableLoading}
-                    caption={{
-                        children: captionText,
-                        icon: '/images/cube.svg',
-                        text: 'Approx Number of Operations Processed in the selected chain',
-                    }}
-                />
-                <Pagination
-                    pageDetails={{
-                        pageNo,
-                        setPageNo,
-                        pageSize,
-                        setPageSize,
-                        totalRows: addressInfo?.userOpsCount != null ? addressInfo.userOpsCount : 0,
-                    }}
-                />
+                <Box sx={{ width: '100%' }}>
+                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                        <Tabs value={tabNo} onChange={(e, newTabNo) => setTabNo(newTabNo)} aria-label="basic tabs example">
+                            <Tab label={`(${addressInfo?.userOpsCount ? addressInfo?.userOpsCount : 0}) User Ops`} {...a11yProps(0)} />
+                            {erc20Transfers.length > 0 && <Tab label={`(${erc20Transfers.length}) Token Transfers (ERC-20)`} {...a11yProps(1)} />}
+                            {erc721Transfers.length > 0 && <Tab label={`(${erc721Transfers.length}) NFT Transfers (ERC-721)`} {...a11yProps(2)} />}
+                        </Tabs>
+                    </Box>
+                    <TabPanel value={tabNo} index={0}>
+                        <Table
+                            rows={rows}
+                            columns={userOpColumns}
+                            loading={tableLoading}
+                        />
+                        <Pagination
+                            pageDetails={{
+                                pageNo,
+                                setPageNo,
+                                pageSize,
+                                setPageSize,
+                                totalRows: addressInfo?.userOpsCount != null ? addressInfo.userOpsCount : 0,
+                            }}
+                        />
+                    </TabPanel>
+                    <TabPanel value={tabNo} index={1}>
+                        <Table
+                            rows={erc20TransfersTableRows}
+                            columns={erc20TransferColumns}
+                            loading={tableLoading}
+                        />
+                        <Pagination
+                            pageDetails={{
+                                pageNo: erc20PageNo,
+                                setPageNo: setErc20PageNo,
+                                pageSize,
+                                setPageSize,
+                                totalRows: erc20Transfers.length,
+                            }}
+                        />
+                    </TabPanel>
+                    <TabPanel value={tabNo} index={2}>
+                        <Table
+                            rows={erc721TransfersTableRows}
+                            columns={erc721TransferColumns}
+                            loading={tableLoading}
+                        />
+                        <Pagination
+                            pageDetails={{
+                                pageNo: erc721PageNo,
+                                setPageNo: setErc721PageNo,
+                                pageSize,
+                                setPageSize,
+                                totalRows: erc721Transfers.length,
+                            }}
+                        />
+                    </TabPanel>
+                </Box>
             </div>
             <ToastContainer />
             <Footer />

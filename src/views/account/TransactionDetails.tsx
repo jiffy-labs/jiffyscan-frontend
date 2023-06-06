@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 
 import React, { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton-2';
-export default function TransactionDetails({ item, network, addressMapping }: any) {
+export default function TransactionDetails({ item, network, addressMapping, tableLoading }: any) {
     console.log('🚀 ~ file: TransactionDetails.tsx:11 ~ TransactionDetails ~ item:', item);
     const [tableLoading1, setTableLoading1] = useState(true);
     const [selectValue, setSelectValue] = useState(0 as number);
@@ -35,7 +35,7 @@ export default function TransactionDetails({ item, network, addressMapping }: an
                         </Caption>
                     </div>
                     <div className="bg-white overflow-auto rounded shadow-300 mb-[20px]">
-                        {tableLoading1 ? (
+                        {tableLoading1 && tableLoading ? (
                             skeletonCards.map((index: number) => <Skeleton height={55} key={index} />)
                         ) : (
                             <div>

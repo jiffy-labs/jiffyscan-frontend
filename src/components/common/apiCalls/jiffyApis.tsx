@@ -98,8 +98,8 @@ export interface AddressActivity {
     accountDetail: AccountDetail;
     ethBalance: string | null;
     tokenBalances: tokenBalance[] | null;
-    erc20Transfers: erc20Transfer[] | null;
-    erc721Transfers: erc721Transfer[] | null;
+    erc20Transfers: tokenTransferAlchemy[] | null;
+    erc721Transfers: tokenTransferAlchemy[] | null;
 }
 
 export interface AccountDetail {
@@ -138,24 +138,52 @@ export interface tokenBalance {
     "is_spam":	null
 }
 
-export interface erc20Transfer {
+// export interface erc20Transfer {
+//     to: string
+//     from: string
+//     asset: string;
+//     value: string;
+//     rawContract: {
+//         address: string
+//         value: string
+//     }
+// }
+
+// export interface erc721Transfer {
+//     to: string
+//     from: string
+//     asset: string;
+//     rawContract: {
+//         address: string
+//         value: string | null;
+//     }
+//     tokenId: string;
+// }
+
+export interface tokenTransferAlchemy {
     to: string
     from: string
     asset: string;
+    blockNum: string; // hex
+    hash: string;
     rawContract: {
         address: string
-        value: string
+        value: string | null;
+        decimal: string | null;
     }
+    tokenId: string;
 }
 
-export interface erc721Transfer {
-    to: string
-    from: string
-    rawContract: {
-        address: string
-    }
-    asset: string;
-}
+// export interface erc721Transfer {
+//     to: string;
+//     from: string;
+//     rawContract: {
+//         address: string
+//         value: string | null;
+//     }
+//     asset: string;
+//     tokenId: string;
+// }
 
 export interface FactoryDetails {
     id: string;
@@ -529,6 +557,109 @@ export const getAddressActivity = async (
     const data = await response.json();
     
     return data as AddressActivity;
+};
+
+export const getAddressBalances = async (
+    userOpHash: string,
+    selectedNetwork: string,
+    pageSize: number,
+    pageNo: number,
+    toast: any,
+): Promise<tokenBalance[]> => {
+    if (!performApiCall(selectedNetwork)) return [] as tokenBalance[];
+    const response = await fetch(
+        'https://api.jiffyscan.xyz/v0/getAddressBalances?address=' +
+            userOpHash +
+            '&network=' +
+            selectedNetwork +
+            '&first=' +
+            pageSize +
+            '&skip=' +
+            pageNo * pageSize,
+        {
+            headers: { 'x-api-key': 'dummy' },
+        },
+    ).catch((e) => {
+        console.log(e);
+        return null;
+    });
+
+    if (response == null) return [] as tokenBalance[];
+    if (response.status != 200) {
+        showToast(toast, 'Error fetching data');
+    }
+    const data = await response.json();
+    
+    return data as tokenBalance[];
+};
+
+
+export const getAddressERC20Transfers = async (
+    userOpHash: string,
+    selectedNetwork: string,
+    pageSize: number,
+    pageNo: number,
+    toast: any,
+): Promise<tokenTransferAlchemy[]> => {
+    if (!performApiCall(selectedNetwork)) return [] as tokenTransferAlchemy[];
+    const response = await fetch(
+        'https://api.jiffyscan.xyz/v0/getAddressERC20Transfers?address=' +
+            userOpHash +
+            '&network=' +
+            selectedNetwork +
+            '&first=' +
+            pageSize +
+            '&skip=' +
+            pageNo * pageSize,
+        {
+            headers: { 'x-api-key': 'dummy' },
+        },
+    ).catch((e) => {
+        console.log(e);
+        return null;
+    });
+
+    if (response == null) return [] as tokenTransferAlchemy[];
+    if (response.status != 200) {
+        showToast(toast, 'Error fetching data');
+    }
+    const data = await response.json();
+    
+    return data.erc20Transfers as tokenTransferAlchemy[];
+};
+
+export const getAddressERC721Transfers = async (
+    userOpHash: string,
+    selectedNetwork: string,
+    pageSize: number,
+    pageNo: number,
+    toast: any,
+): Promise<tokenTransferAlchemy[]> => {
+    if (!performApiCall(selectedNetwork)) return [] as tokenTransferAlchemy[];
+    const response = await fetch(
+        'https://api.jiffyscan.xyz/v0/getAddressERC721Transfers?address=' +
+            userOpHash +
+            '&network=' +
+            selectedNetwork +
+            '&first=' +
+            pageSize +
+            '&skip=' +
+            pageNo * pageSize,
+        {
+            headers: { 'x-api-key': 'dummy' },
+        },
+    ).catch((e) => {
+        console.log(e);
+        return null;
+    });
+
+    if (response == null) return [] as tokenTransferAlchemy[];
+    if (response.status != 200) {
+        showToast(toast, 'Error fetching data');
+    }
+    const data = await response.json();
+    
+    return data.erc721Transfers as tokenTransferAlchemy[];
 };
 
 export const getFactoryDetails = async (
