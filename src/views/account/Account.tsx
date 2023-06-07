@@ -93,7 +93,6 @@ const constructERC20TransferRows = (erc20Transfers: tokenTransferAlchemy[], netw
     if (!erc20Transfers) return newRows;
     erc20Transfers.forEach((erc20Transfer) => {
         let { value, component } = constructValueRowForTokenTransfer(erc20Transfer, network);
-        console.log(value, component);
         newRows.push({
             token: {
                 text: erc20Transfer.hash,
@@ -309,7 +308,6 @@ function Account(props: any) {
     const loadAccountERC721Transfers = async (name: string, network: string) => {
         const erc721Transfers = await getAddressERC721Transfers(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo, toast);
         const erc721TableRows = constructERC721TransferRows(erc721Transfers.slice(0, pageSize * (pageNo + 1)), network ? network : '');
-        console.log('erc721TableRows', erc721TableRows);
         setErc721TransfersTableRows(erc721TableRows);
         setErc721Transfers(erc721Transfers);
     };
@@ -335,7 +333,6 @@ function Account(props: any) {
     }, [addressInfo]);
 
     useEffect(() => {
-        console.log(erc20PageNo, erc721PageNo, pageSize);
         let erc20RowData = constructERC20TransferRows(
             erc20Transfers.slice(pageSize * erc20PageNo, pageSize * (erc20PageNo + 1)),
             network ? network : '',
