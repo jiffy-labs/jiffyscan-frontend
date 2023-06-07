@@ -183,6 +183,9 @@ export interface tokenTransferAlchemy {
         decimal: string | null;
     }
     tokenId: string;
+    metadata?: {
+        blockTimestamp?: string,
+    }
 }
 
 // export interface erc721Transfer {

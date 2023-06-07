@@ -82,6 +82,12 @@ const constructTokenIdRowForTokenTransfer = (erc721Transfer: tokenTransferAlchem
     return { value: parseInt(value).toString(), component };
 }
 
+const getAgoFromAssetTransfer = (assetTransfer: tokenTransferAlchemy) => {
+    if (assetTransfer.metadata?.blockTimestamp) 
+        return getTimePassed((new Date(assetTransfer.metadata?.blockTimestamp)).getTime()/1000)
+    else return parseInt(assetTransfer.blockNum).toString();
+}
+
 const constructERC20TransferRows = (erc20Transfers: tokenTransferAlchemy[], network: string): tableDataT['rows'] => {
     let newRows = [] as tableDataT['rows'];
     if (!erc20Transfers) return newRows;
@@ -94,10 +100,11 @@ const constructERC20TransferRows = (erc20Transfers: tokenTransferAlchemy[], netw
                 icon: NETWORK_ICON_MAP[network],
                 type: 'erc20Transfer',
             },
-            ago: parseInt(erc20Transfer.blockNum).toString(),
+            ago: getAgoFromAssetTransfer(erc20Transfer),
             sender: erc20Transfer.from,
             target: erc20Transfer.to,
             fee: { value, component },
+            status: true,
         });
     });
     return newRows;
@@ -114,10 +121,11 @@ const constructERC721TransferRows = (erc721Transfers: tokenTransferAlchemy[], ne
                 icon: NETWORK_ICON_MAP[network],
                 type: 'erc721Transfer',
             },
-            ago: parseInt(erc721Transfer.blockNum).toString(),
+            ago: getAgoFromAssetTransfer(erc721Transfer),
             sender: erc721Transfer.from,
             target: erc721Transfer.to,
             fee: { value: value, component: component },
+            status: true,
         });
     });
     return newRows;
