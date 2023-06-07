@@ -153,10 +153,11 @@ const createTransactionTableRows = (transactions: Transaction[], network: string
                 icon: NETWORK_ICON_MAP[network],
                 type: 'transaction',
             },
-            ago: transaction.block_signed_at,
+            ago: getTimePassed((new Date(transaction.block_signed_at)).getTime()/1000),
             sender: transaction.from_address,
             target: transaction.to_address,
             fee: getFee(transaction.gas_price, network),
+            status: transaction.successful,
         });
     });
     return newRows;
