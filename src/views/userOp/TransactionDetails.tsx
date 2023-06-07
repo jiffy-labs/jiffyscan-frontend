@@ -95,8 +95,6 @@ export default function TransactionDetails({
                 num++
             }
         }
-        console.log()
-        console.log('num', num)
         return num;
     }
 
@@ -105,8 +103,6 @@ export default function TransactionDetails({
         if (showMetadata && metadata && metadata?.erc20Transfers && metadata?.erc20Transfers.length > 0) {
             showERC20Transfers = true;
         }
-        console.log(showMetadata, metadata, metadata?.erc20Transfers, showERC20Transfers);
-        console.log('showERC20Transfers', showERC20Transfers);
         return showERC20Transfers;
     };
 
