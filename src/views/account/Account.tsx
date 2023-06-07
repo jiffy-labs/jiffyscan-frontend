@@ -142,7 +142,7 @@ const createUserOpsTableRows = (userOps: UserOp[]): tableDataT['rows'] => {
             },
             ago: getTimePassed(userOp.blockTime!),
             sender: userOp.sender,
-            target: userOp.target!,
+            target: userOp.target ? userOp.target : '0x',
             fee: getFee(userOp.actualGasCost, userOp.network as string),
             status: userOp.success!,
         });
@@ -324,11 +324,6 @@ function Account(props: any) {
     useEffect(() => {
         updateRowsData(network ? network : '', pageSize, pageNo);
     }, [pageNo]);
-
-    useEffect(() => {
-        const captionText = `${addressInfo?.userOpsCount} User Ops found`;
-        setCaptionText(captionText);
-    }, [addressInfo]);
 
     useEffect(() => {
         let erc20RowData = constructERC20TransferRows(
