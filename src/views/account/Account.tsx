@@ -71,14 +71,16 @@ const erc721TransferColumns = [
 
 const constructValueRowForTokenTransfer = (erc20Transfer: tokenTransferAlchemy, network: string) => {
     let value = calculateTokenValue(parseInt(erc20Transfer.rawContract.value ? erc20Transfer.rawContract.value : '0'), erc20Transfer.rawContract.decimal)
-    // let component = <div>text</div>
-    let component = <LinkAndCopy text={erc20Transfer.asset ? erc20Transfer.asset : shortenString(erc20Transfer.rawContract.address)} link={NETWORK_SCANNER_MAP[network] + '/address/' + erc20Transfer.rawContract.address} copyText={null}/>
+    let asset = erc20Transfer.asset ? (erc20Transfer.asset.length > 5 ? erc20Transfer.asset.slice(0,4) + '...': erc20Transfer.asset) : shortenString(erc20Transfer.rawContract.address)
+    let component = <LinkAndCopy text={asset} link={NETWORK_SCANNER_MAP[network] + '/address/' + erc20Transfer.rawContract.address} copyText={null}/>
     return { value, component };
 }
 
 const constructTokenIdRowForTokenTransfer = (erc721Transfer: tokenTransferAlchemy, network: string) => {
     let value = erc721Transfer.tokenId ? erc721Transfer.tokenId : '0'
-    let component = <LinkAndCopy text={erc721Transfer.asset ? erc721Transfer.asset : '0'} link={NETWORK_SCANNER_MAP[network] + '/address/' + erc721Transfer.rawContract.address} copyText={null}/>
+    let asset = erc721Transfer.asset ? erc721Transfer.asset : '0'
+    asset = asset.length > 5 ? asset.slice(0,5) + '...' : asset
+    let component = <LinkAndCopy text={asset} link={NETWORK_SCANNER_MAP[network] + '/address/' + erc721Transfer.rawContract.address} copyText={null}/>
     return { value: parseInt(value).toString(), component };
 }
 
