@@ -35,7 +35,7 @@ export default function TransactionDetails({ item, network, addressMapping, tabl
                         </Caption>
                     </div>
                     <div className="bg-white overflow-auto rounded shadow-300 mb-[20px]">
-                        {tableLoading1 && tableLoading ? (
+                        {tableLoading ? (
                             skeletonCards.map((index: number) => <Skeleton height={55} key={index} />)
                         ) : (
                             <div>
@@ -210,32 +210,6 @@ export default function TransactionDetails({ item, network, addressMapping, tabl
                                                 </div>
                                             </div>
                                         </div>
-                                        {item?.ethBalance != null && item?.ethBalance && (
-                                            <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
-                                                <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
-                                                    <IconText icon={'/images/sader.svg'}>
-                                                        <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
-                                                            Eth Balance
-                                                        </span>
-                                                    </IconText>
-                                                </div>
-                                                <div className=" break-words gap-2 flex-1">
-                                                    <div>
-                                                        <p className="text-[14px] text-[#455A64] md:hidden block">Eth Balance</p>
-                                                    </div>
-                                                    <div className="md:flex block justify-between">
-                                                        <div className="flex items-center gap-[10px]">
-                                                            <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
-                                                                <DisplayFee
-                                                                    item={item?.ethBalance ? item?.ethBalance : '0'}
-                                                                    network={network}
-                                                                />
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )}
                                         {item?.tokenBalances?.length > 0 && (
                                             <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
                                                 <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">

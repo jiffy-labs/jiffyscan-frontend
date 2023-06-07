@@ -10,6 +10,8 @@ import {
     getAddressERC20Transfers,
     getAddressERC721Transfers,
     tokenTransferAlchemy,
+    getAddressTransactions,
+    Transaction
 } from '@/components/common/apiCalls/jiffyApis';
 import { Breadcrumbs, Link, Box, Tab, Tabs, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -141,6 +143,26 @@ const createUserOpsTableRows = (userOps: UserOp[]): tableDataT['rows'] => {
     return newRows;
 };
 
+const createTransactionTableRows = (transactions: Transaction[], network: string): tableDataT['rows'] => {
+    let newRows = [] as tableDataT['rows'];
+    if (!transactions) return newRows;
+    transactions.forEach((transaction) => {
+        newRows.push({
+            token: {
+                text: transaction.tx_hash,
+                icon: NETWORK_ICON_MAP[network],
+                type: 'transaction',
+            },
+            ago: transaction.block_signed_at,
+            sender: transaction.from_address,
+            target: transaction.to_address,
+            fee: getFee(transaction.gas_price, network),
+        });
+    });
+    return newRows;
+};
+
+
 interface AccountInfo {
     address: string;
     totalDeposit: number;
@@ -160,7 +182,6 @@ const createAccountInfoObject = (addressActivity: AddressActivity): AccountInfo 
         userOpHash: addressActivity.accountDetail.userOpHash,
         blockTime: parseInt(addressActivity.accountDetail.blockTime),
         factory: addressActivity.accountDetail.factory,
-        ethBalance: 'ethBalance' in addressActivity ? parseInt(addressActivity.ethBalance as string, 16).toString() : '',
         tokenBalances: 'tokenBalances' in addressActivity ? (addressActivity.tokenBalances as tokenBalance[]) : [],
     };
 };
@@ -221,6 +242,9 @@ function Account(props: any) {
     const [erc721Transfers, setErc721Transfers] = useState<tokenTransferAlchemy[]>([]);
     const [erc20PageNo, setErc20PageNo] = useState(0);
     const [erc721PageNo, setErc721PageNo] = useState(0);
+    const [transactions, setTransactions] = useState<Transaction[]>([]);
+    const [transactionsTableRows, setTransactionsTableRows] = useState<tableDataT['rows']>([]);
+    const [transactionsPageNo, setTransactionsPageNo] = useState(0);
 
     const [mounted, setMounted] = useState(false);
 
@@ -258,6 +282,13 @@ function Account(props: any) {
         setTokenBalances(tokenBalances);
     };
 
+    const loadAccountTransaction = async (name: string, network: string) => {
+        const transactions = await getAddressTransactions(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo, toast);
+        setTransactions(transactions);
+        const transactionRows = createTransactionTableRows(transactions.slice(0, pageSize * (pageNo + 1)), network ? network : '');
+        setTransactionsTableRows(transactionRows);
+    };
+
     // fetch erc20 transfers
     const loadAccountERC20Transfers = async (name: string, network: string) => {
         const erc20Transfers = await getAddressERC20Transfers(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo, toast);
@@ -280,13 +311,15 @@ function Account(props: any) {
         setTableLoading(true);
         const addressActivity = await getAddressActivity(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo, toast);
         const accountInfo = createAccountInfoObject(addressActivity);
+        const rows = createUserOpsTableRows(addressActivity.accountDetail.userOps);
+        setRows(rows);
         setAddressInfo(accountInfo);
         setTableLoading(false);
     };
 
     useEffect(() => {
         updateRowsData(network ? network : '', pageSize, pageNo);
-    }, [pageNo, addressInfo]);
+    }, [pageNo]);
 
     useEffect(() => {
         const captionText = `${addressInfo?.userOpsCount} User Ops found`;
@@ -318,6 +351,7 @@ function Account(props: any) {
             loadAccountBalances(hash as string, network as string);
             loadAccountERC20Transfers(hash as string, network as string);
             loadAccountERC721Transfers(hash as string, network as string);
+            loadAccountTransaction(hash as string, network as string);
         }
     }, [hash, network]);
 
@@ -361,9 +395,10 @@ function Account(props: any) {
                 <Box sx={{ width: '100%' }}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <Tabs value={tabNo} onChange={(e, newTabNo) => setTabNo(newTabNo)} aria-label="basic tabs example">
-                            <Tab label={`(${addressInfo?.userOpsCount ? addressInfo?.userOpsCount : 0}) User Ops`} tabIndex={0} {...a11yProps(0)} />
-                            <Tab label={`(${erc20Transfers.length}) Token Transfers (ERC-20)`} hidden={!(erc20Transfers.length > 0)} tabIndex={1} {...a11yProps(1)} />
-                            <Tab label={`(${erc721Transfers.length}) NFT Transfers (ERC-721)`} hidden={!(erc721Transfers.length > 0)} tabIndex={2} {...a11yProps(2)} />
+                            <Tab label={`User Ops (${addressInfo?.userOpsCount ? addressInfo?.userOpsCount : 0})`} tabIndex={0} {...a11yProps(0)} />
+                            <Tab label={`Transactions (${transactions.length})`} tabIndex={3} {...a11yProps(2)} />
+                            <Tab label={`Token Transfers (${erc20Transfers.length})`} tabIndex={1} {...a11yProps(1)} />
+                            <Tab label={`NFT Transfers (${erc721Transfers.length})`} tabIndex={2} {...a11yProps(2)} />
                         </Tabs>
                     </Box>
                     <TabPanel value={tabNo} index={0}>
@@ -384,6 +419,22 @@ function Account(props: any) {
                     </TabPanel>
                     <TabPanel value={tabNo} index={1}>
                         <Table
+                            rows={transactionsTableRows}
+                            columns={userOpColumns}
+                            loading={tableLoading}
+                        />
+                        <Pagination
+                            pageDetails={{
+                                pageNo: transactionsPageNo,
+                                setPageNo: setTransactionsPageNo,
+                                pageSize,
+                                setPageSize,
+                                totalRows: transactions.length,
+                            }}
+                        />
+                    </TabPanel>
+                    <TabPanel value={tabNo} index={2}>
+                        <Table
                             rows={erc20TransfersTableRows}
                             columns={erc20TransferColumns}
                             loading={tableLoading}
@@ -398,7 +449,7 @@ function Account(props: any) {
                             }}
                         />
                     </TabPanel>
-                    <TabPanel value={tabNo} index={2}>
+                    <TabPanel value={tabNo} index={3}>
                         <Table
                             rows={erc721TransfersTableRows}
                             columns={erc721TransferColumns}

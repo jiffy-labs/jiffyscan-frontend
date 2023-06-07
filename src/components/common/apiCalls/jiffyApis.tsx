@@ -89,6 +89,17 @@ export interface erc20Transfer {
     address: string | null;
 }
 
+export interface Transaction {
+    tx_hash: string;
+    block_height: number;
+    block_signed_at: string;
+    from_address: string;
+    to_address: string;
+    value: string;
+    successful: boolean;
+    gas_price: number;
+}
+
 export interface metadata {
     traces: Trace[];
     erc20Transfers: erc20Transfer[];
@@ -591,6 +602,38 @@ export const getAddressBalances = async (
     const data = await response.json();
     
     return data as tokenBalance[];
+};
+
+export const getAddressTransactions = async (
+    userOpHash: string,
+    selectedNetwork: string,
+    pageSize: number,
+    pageNo: number,
+    toast: any,
+): Promise<Transaction[]> => {
+    if (!performApiCall(selectedNetwork)) return [] as Transaction[];
+    const response = await fetch(
+        'https://api.jiffyscan.xyz/v0/getAddressTransactions?address=' +
+            userOpHash +
+            '&network=' +
+            selectedNetwork +
+            '&page' +
+            pageNo,
+        {
+            headers: { 'x-api-key': 'dummy' },
+        },
+    ).catch((e) => {
+        console.log(e);
+        return null;
+    });
+
+    if (response == null) return [] as Transaction[];
+    if (response.status != 200) {
+        showToast(toast, 'Error fetching data');
+    }
+    const data = await response.json();
+    
+    return data.transactions as Transaction[];
 };
 
 

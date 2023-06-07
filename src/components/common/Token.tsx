@@ -73,7 +73,7 @@ function getHrefLink(type: string | undefined, text: string, network: string) {
             pathname: `/paymaster/${text}`,
             query: { network: network },
         };
-    } else if (type == "erc20Transfer" || type == "erc721Transfer" ) {
+    } else if (type == "erc20Transfer" || type == "erc721Transfer" || type == "transaction" ) {
         return {
             pathname: NETWORK_SCANNER_MAP[network]+`/tx/${text}`,
         };
@@ -91,7 +91,7 @@ function getTarget(type: string | undefined) {
     // }
     if (type == 'bundle') {
         return '_self';
-    } else if (type == "erc20Transfer" || type == "erc721Transfer" ) {
+    } else if (type == "erc20Transfer" || type == "erc721Transfer" || type == "transaction" ) {
         return '_blank';
     }else {
         return '_self';
