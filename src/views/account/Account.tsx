@@ -144,7 +144,7 @@ const createUserOpsTableRows = (userOps: UserOp[]): tableDataT['rows'] => {
             },
             ago: getTimePassed(userOp.blockTime!),
             sender: userOp.sender,
-            target: userOp.target ? userOp.target : '0x',
+            target: userOp.target ? userOp.target : 'Unavailable!',
             fee: getFee(userOp.actualGasCost, userOp.network as string),
             status: userOp.success!,
         });
