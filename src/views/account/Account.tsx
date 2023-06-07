@@ -239,10 +239,8 @@ function Account(props: any) {
     const network = router.query && (router.query.network as string);
     const [rows, setRows] = useState([] as tableDataT['rows']);
     const [addressInfo, setAddressInfo] = useState<AccountInfo>();
-    const [useOps, setuserOps] = useState<UserOp[]>();
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE);
-    const [captionText, setCaptionText] = useState('N/A User Ops found');
     const [tokenBalances, setTokenBalances] = useState<tokenBalance[]>([]);
     const [erc20Transfers, setErc20Transfers] = useState<tokenTransferAlchemy[]>([]);
     const [erc20TransfersTableRows, setErc20TransfersTableRows] = useState<tableDataT['rows']>([]);
