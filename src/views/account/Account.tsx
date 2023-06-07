@@ -16,7 +16,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
 import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
 import Token from '@/components/common/Token';
-import { NETWORK_ICON_MAP } from '@/components/common/constants';
+import { NETWORK_ICON_MAP, NETWORK_SCANNER_MAP } from '@/components/common/constants';
 import Skeleton from 'react-loading-skeleton-2';
 import CopyButton from '@/components/common/copy_button/CopyButton';
 import Table, { tableDataT } from '@/components/common/table/Table';
@@ -27,6 +27,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useConfig } from '@/context/config';
 import { set } from 'lodash';
+import LinkAndCopy from '@/components/common/LinkAndCopy';
 
 // import Skeleton from '@/components/Skeleton';
 export const BUTTON_LIST = [
@@ -66,10 +67,25 @@ const erc721TransferColumns = [
     { name: 'Token ID', sort: true },
 ];
 
+const constructValueRowForTokenTransfer = (erc20Transfer: tokenTransferAlchemy, network: string) => {
+    let value = calculateTokenValue(parseInt(erc20Transfer.rawContract.value ? erc20Transfer.rawContract.value : '0'), erc20Transfer.rawContract.decimal)
+    // let component = <div>text</div>
+    let component = <LinkAndCopy text={erc20Transfer.asset ? erc20Transfer.asset : shortenString(erc20Transfer.rawContract.address)} link={NETWORK_SCANNER_MAP[network] + '/address/' + erc20Transfer.rawContract.address} copyText={null}/>
+    return { value, component };
+}
+
+const constructTokenIdRowForTokenTransfer = (erc721Transfer: tokenTransferAlchemy, network: string) => {
+    let value = erc721Transfer.tokenId ? erc721Transfer.tokenId : '0'
+    let component = <LinkAndCopy text={erc721Transfer.asset ? erc721Transfer.asset : '0'} link={NETWORK_SCANNER_MAP[network] + '/address/' + erc721Transfer.rawContract.address} copyText={null}/>
+    return { value: parseInt(value).toString(), component };
+}
+
 const constructERC20TransferRows = (erc20Transfers: tokenTransferAlchemy[], network: string): tableDataT['rows'] => {
     let newRows = [] as tableDataT['rows'];
     if (!erc20Transfers) return newRows;
     erc20Transfers.forEach((erc20Transfer) => {
+        let { value, component } = constructValueRowForTokenTransfer(erc20Transfer, network);
+        console.log(value, component);
         newRows.push({
             token: {
                 text: erc20Transfer.hash,
@@ -79,7 +95,7 @@ const constructERC20TransferRows = (erc20Transfers: tokenTransferAlchemy[], netw
             ago: parseInt(erc20Transfer.blockNum).toString(),
             sender: erc20Transfer.from,
             target: erc20Transfer.to,
-            fee: { value: parseInt(erc20Transfer.rawContract.value ? erc20Transfer.rawContract.value : '0').toString()+ `( ${erc20Transfer.asset} )` },
+            fee: { value, component },
         });
     });
     return newRows;
@@ -89,6 +105,7 @@ const constructERC721TransferRows = (erc721Transfers: tokenTransferAlchemy[], ne
     let newRows = [] as tableDataT['rows'];
     if (!erc721Transfers) return newRows;
     erc721Transfers.forEach((erc721Transfer) => {
+        let { value, component } = constructTokenIdRowForTokenTransfer(erc721Transfer, network);
         newRows.push({
             token: {
                 text: erc721Transfer.hash,
@@ -98,7 +115,7 @@ const constructERC721TransferRows = (erc721Transfers: tokenTransferAlchemy[], ne
             ago: parseInt(erc721Transfer.blockNum).toString(),
             sender: erc721Transfer.from,
             target: erc721Transfer.to,
-            fee: { value: (parseInt(erc721Transfer.tokenId ? erc721Transfer.tokenId : '0').toString()+ `( ${erc721Transfer.asset} )`) },
+            fee: { value: value, component: component },
         });
     });
     return newRows;
@@ -175,6 +192,15 @@ function a11yProps(index: number) {
     };
 }
 
+function calculateTokenValue(value: number, decimals: string | null): string {
+    let responseValue;
+    if (decimals == null) responseValue = (value / Math.pow(10, 18))
+    else responseValue = (value / Math.pow(10, parseInt(decimals)));
+    
+    if (responseValue < 0.0001) return responseValue.toExponential(2);
+    else return responseValue.toFixed(4);
+}
+
 function Account(props: any) {
     const router = useRouter();
     const [tableLoading, setTableLoading] = useState(true);
@@ -244,6 +270,7 @@ function Account(props: any) {
     const loadAccountERC721Transfers = async (name: string, network: string) => {
         const erc721Transfers = await getAddressERC721Transfers(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo, toast);
         const erc721TableRows = constructERC721TransferRows(erc721Transfers.slice(0, pageSize * (pageNo + 1)), network ? network : '');
+        console.log('erc721TableRows', erc721TableRows);
         setErc721TransfersTableRows(erc721TableRows);
         setErc721Transfers(erc721Transfers);
     };
@@ -334,9 +361,9 @@ function Account(props: any) {
                 <Box sx={{ width: '100%' }}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <Tabs value={tabNo} onChange={(e, newTabNo) => setTabNo(newTabNo)} aria-label="basic tabs example">
-                            <Tab label={`(${addressInfo?.userOpsCount ? addressInfo?.userOpsCount : 0}) User Ops`} {...a11yProps(0)} />
-                            {erc20Transfers.length > 0 && <Tab label={`(${erc20Transfers.length}) Token Transfers (ERC-20)`} {...a11yProps(1)} />}
-                            {erc721Transfers.length > 0 && <Tab label={`(${erc721Transfers.length}) NFT Transfers (ERC-721)`} {...a11yProps(2)} />}
+                            <Tab label={`(${addressInfo?.userOpsCount ? addressInfo?.userOpsCount : 0}) User Ops`} tabIndex={0} {...a11yProps(0)} />
+                            <Tab label={`(${erc20Transfers.length}) Token Transfers (ERC-20)`} hidden={!(erc20Transfers.length > 0)} tabIndex={1} {...a11yProps(1)} />
+                            <Tab label={`(${erc721Transfers.length}) NFT Transfers (ERC-721)`} hidden={!(erc721Transfers.length > 0)} tabIndex={2} {...a11yProps(2)} />
                         </Tabs>
                     </Box>
                     <TabPanel value={tabNo} index={0}>

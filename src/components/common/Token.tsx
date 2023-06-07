@@ -73,6 +73,10 @@ function getHrefLink(type: string | undefined, text: string, network: string) {
             pathname: `/paymaster/${text}`,
             query: { network: network },
         };
+    } else if (type == "erc20Transfer" || type == "erc721Transfer" ) {
+        return {
+            pathname: NETWORK_SCANNER_MAP[network]+`/tx/${text}`,
+        };
     } else {
         return '#';
     }
@@ -87,7 +91,9 @@ function getTarget(type: string | undefined) {
     // }
     if (type == 'bundle') {
         return '_self';
-    } else {
+    } else if (type == "erc20Transfer" || type == "erc721Transfer" ) {
+        return '_blank';
+    }else {
         return '_self';
     }
 }

@@ -38,6 +38,7 @@ export interface fee {
         children: string;
         color: string;
     };
+    component?: React.ReactNode;
 }
 
 function Table(props: tableDataT) {
@@ -148,6 +149,7 @@ function Table(props: tableDataT) {
                                                                 {fee.gas.children}
                                                             </Chip>
                                                         )}
+                                                        {fee.component && fee.component}
                                                     </div>
                                                 </td>
                                             )}
