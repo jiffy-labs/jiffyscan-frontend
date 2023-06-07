@@ -272,7 +272,6 @@ function Account(props: any) {
         const addressActivity = await getAddressActivity(addressInfo.address, network ? network : '', pageNo, pageSize, toast);
         const rows = createUserOpsTableRows(addressActivity.accountDetail.userOps);
         setRows(rows);
-        console.log('whats happening here', rows)
         if (rows.length > 0) 
             setTableLoading(false);
     };
