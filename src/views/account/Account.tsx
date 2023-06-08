@@ -395,7 +395,7 @@ function Account(props: any) {
                 <Box sx={{ width: '100%' }}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <Tabs value={tabNo} onChange={(e, newTabNo) => setTabNo(newTabNo)} aria-label="basic tabs example">
-                            <Tab label={`User Ops (${addressInfo?.userOpsCount ? addressInfo?.userOpsCount : 0})`} tabIndex={0} {...a11yProps(0)} />
+                            <Tooltip title='ERC-4337 Transactions of user' placement='top'><Tab label={`User Ops (${addressInfo?.userOpsCount ? addressInfo?.userOpsCount : 0})`} tabIndex={0} {...a11yProps(0)} /></Tooltip>
                             <Tooltip title='Internal + External transactions' placement='top'><Tab label={`Transactions (${transactions.length})`} tabIndex={3} {...a11yProps(2)} /></Tooltip>
                             <Tooltip title='ERC-20 Transfers' placement='top'><Tab label={`Token Transfers (${erc20Transfers.length})`} tabIndex={1} {...a11yProps(1)} /></Tooltip>
                             <Tooltip title='ERC721 + ERC1155 Transfers' placement='top'><Tab label={`NFT Transfers (${erc721Transfers.length})`} tabIndex={2} {...a11yProps(2)} /></Tooltip>

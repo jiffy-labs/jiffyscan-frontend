@@ -45,7 +45,7 @@ export default function TransactionDetails({ item, network, addressMapping, tabl
             <section className="mt-[48px] px-3">
                 <div className="container px-0">
                     <div>
-                        <Caption icon={'/images/cube.svg'} text={''}>
+                        <Caption icon={'/images/cube.svg'} text={'Details of the account/address'}>
                             Account Details
                         </Caption>
                     </div>
