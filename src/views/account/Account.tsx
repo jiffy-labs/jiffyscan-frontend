@@ -13,7 +13,7 @@ import {
     getAddressTransactions,
     Transaction
 } from '@/components/common/apiCalls/jiffyApis';
-import { Breadcrumbs, Link, Box, Tab, Tabs, Typography } from '@mui/material';
+import { Breadcrumbs, Link, Box, Tab, Tabs, Typography, Tooltip } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
 import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
@@ -389,16 +389,16 @@ function Account(props: any) {
                 </div>
             </section>
             <HeaderSection item={addressInfo} network={network} />
-            <TransactionDetails item={addressInfo} network={network} addressMapping={addressMapping} tableLoading={tableLoading}/>
+            <TransactionDetails item={addressInfo} network={network} addressMapping={addressMapping} tokenBalances={tokenBalances} tableLoading={tableLoading}/>
 
             <div className="container px-0">
                 <Box sx={{ width: '100%' }}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <Tabs value={tabNo} onChange={(e, newTabNo) => setTabNo(newTabNo)} aria-label="basic tabs example">
                             <Tab label={`User Ops (${addressInfo?.userOpsCount ? addressInfo?.userOpsCount : 0})`} tabIndex={0} {...a11yProps(0)} />
-                            <Tab label={`Transactions (${transactions.length})`} tabIndex={3} {...a11yProps(2)} />
-                            <Tab label={`Token Transfers (${erc20Transfers.length})`} tabIndex={1} {...a11yProps(1)} />
-                            <Tab label={`NFT Transfers (${erc721Transfers.length})`} tabIndex={2} {...a11yProps(2)} />
+                            <Tooltip title='Internal + External transactions' placement='top'><Tab label={`Transactions (${transactions.length})`} tabIndex={3} {...a11yProps(2)} /></Tooltip>
+                            <Tooltip title='ERC-20 Transfers' placement='top'><Tab label={`Token Transfers (${erc20Transfers.length})`} tabIndex={1} {...a11yProps(1)} /></Tooltip>
+                            <Tooltip title='ERC721 + ERC1155 Transfers' placement='top'><Tab label={`NFT Transfers (${erc721Transfers.length})`} tabIndex={2} {...a11yProps(2)} /></Tooltip>
                         </Tabs>
                     </Box>
                     <TabPanel value={tabNo} index={0}>

@@ -604,7 +604,7 @@ export const getAddressBalances = async (
     }
     const data = await response.json();
     
-    return data as tokenBalance[];
+    return data.tokenBalances as tokenBalance[];
 };
 
 export const getAddressTransactions = async (
