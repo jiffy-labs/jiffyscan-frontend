@@ -683,7 +683,7 @@ export const getAddressERC721Transfers = async (
 ): Promise<tokenTransferAlchemy[]> => {
     if (!performApiCall(selectedNetwork)) return [] as tokenTransferAlchemy[];
     const response = await fetch(
-        'https://api.jiffyscan.xyz/v0/getAddressNFTTransferss?address=' +
+        'https://api.jiffyscan.xyz/v0/getAddressNFTTransfers?address=' +
             userOpHash +
             '&network=' +
             selectedNetwork +
