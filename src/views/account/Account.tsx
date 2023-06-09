@@ -260,8 +260,6 @@ function Account(props: any) {
         setMounted(true);
     }, []);
 
-    
-
     // handling table page change. Everytime the pageNo change, or pageSize change this function will fetch new data and update it.
     const updateRowsData = async (network: string, pageNo: number, pageSize: number) => {
         setTableLoading(true);
