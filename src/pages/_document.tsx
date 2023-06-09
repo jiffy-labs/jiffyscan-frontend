@@ -12,13 +12,13 @@ export default function Document() {
                 <meta property="og:title" content="Jiffy Scan - User Op Explorer" />
                 <meta property="og:type" content="blockchain explorer" />
                 <meta property="og:url" content="https://www.jiffyscan.xyz/" />
-                <meta property="og:image" content="https://jiffyscan-public-assets.s3.us-east-2.amazonaws.com/favicon.ico" />
+                <meta property="og:image" content="https://jiffyscan-public-assets.s3.us-east-2.amazonaws.com/favicon.jpg" />
                 <meta name="twitter:card" content="summary_large_image"></meta>
                 <meta name="twitter:site" content="@jiffylabs"></meta>
                 <meta name="twitter:creator" content="@jiffylabs"></meta>
                 <meta name="twitter:title" content="Jiffy Scan - User Op Explorer"></meta>
                 <meta name="twitter:description" content="User Operation explorer for Account Abstraction (ERC-4337)"></meta>
-                <meta name="twitter:image" content="https://jiffyscan-public-assets.s3.us-east-2.amazonaws.com/favicon.ico"></meta>
+                <meta name="twitter:image" content="https://jiffyscan-public-assets.s3.us-east-2.amazonaws.com/favicon.jpg"></meta>
                 <title>Jiffy Scan - User Op Explorer</title>
             </Head>
             <body>
