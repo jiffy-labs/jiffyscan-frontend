@@ -5,6 +5,7 @@ import TopPaymasters from '@/views/topPaymasters/TopPaymasters';
 import { useRouter } from 'next/router';
 import { getNetworkParam } from '@/components/common/utils';
 import ReactGA from 'react-ga4';
+import SEO from '@/components/common/SEO';
 
 function LatestUserOps() {
     const router = useRouter();
@@ -15,6 +16,7 @@ function LatestUserOps() {
 
     return (
         <div>
+            <SEO/>
             <TopPaymasters />
         </div>
     );

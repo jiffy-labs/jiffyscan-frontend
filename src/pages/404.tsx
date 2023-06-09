@@ -8,6 +8,7 @@ import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
 import ReactGA from 'react-ga4';
 import Link from 'next/link';
+import SEO from '@/components/common/SEO';
 
 export default function FourOhFour() {
     useEffect(() => {
@@ -16,6 +17,7 @@ export default function FourOhFour() {
 
     return (
         <div>
+            <SEO/>
             <Navbar />
             <div className="container ">
                 <div className="row">

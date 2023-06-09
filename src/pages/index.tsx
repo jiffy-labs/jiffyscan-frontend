@@ -6,6 +6,7 @@ import Layout from '@/components/global/Layout';
 import { getNetworkParam } from '@/components/common/utils';
 import ReactGA from 'react-ga4';
 import { duration } from 'moment';
+import SEO from '@/components/common/SEO';
 
 function Index() {
     const router = useRouter();
@@ -18,6 +19,7 @@ function Index() {
 
     return (
         <Layout>
+            <SEO/>
             <Home />
         </Layout>
     );
