@@ -1,3 +1,4 @@
+import SEO from '@/components/common/SEO';
 import { getNetworkParam } from '@/components/common/utils';
 import Layout from '@/components/global/Layout';
 import { useConfig } from '@/context/config';
@@ -18,6 +19,7 @@ function RecentBlock() {
 
     return (
         <div>
+            <SEO/>
             <RecentBlockActivity slug={slug} />
         </div>
     );

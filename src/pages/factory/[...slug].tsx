@@ -1,3 +1,4 @@
+import SEO from '@/components/common/SEO';
 import { getNetworkParam } from '@/components/common/utils';
 import Layout from '@/components/global/Layout';
 import { useConfig } from '@/context/config';
@@ -16,6 +17,7 @@ function RecentBundler() {
 
     return (
         <div>
+            <SEO/>
             <Factory slug={slug} />
         </div>
     );

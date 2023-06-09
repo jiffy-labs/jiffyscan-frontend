@@ -1,3 +1,4 @@
+import SEO from '@/components/common/SEO';
 import { fallBack } from '@/components/common/constants';
 import { getNetworkParam } from '@/components/common/utils';
 import Layout from '@/components/global/Layout';
@@ -27,6 +28,7 @@ function RecentUserOps() {
 
     return (
         <div>
+            <SEO/>
             <UserOperations slug={slug} />
         </div>
     );
