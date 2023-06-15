@@ -323,7 +323,7 @@ const cachedFetch = async (url: string) => {
         return cachedResponse;
     } else {
         const hours = 24;
-        const response = await fetch(url, { headers: { 'x-api-key': 'dummy' } });
+        const response = await fetch(url, { headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' } });
         const data = await response.json();
         cache.put(url, data, hours * 1000 * 60 * 60);
         return data;
@@ -337,7 +337,7 @@ export const getUserOpMetadata = async (userOpHash: string, network: string, toa
     let response;
     try {
         response = await fetch(`https://api.jiffyscan.xyz/v0/getUserOpMetadata?userOpHash=${userOpHash}&network=${network}`, {
-            headers: { 'x-api-key': 'dummy' },
+            headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         });
     } catch (e) {
         // showToast(toast, 'Error fetching metadata');
@@ -369,7 +369,7 @@ export const populateERC20TransfersWithTokenInfo = async (metaData: metadata): P
 
 export const getAddressMapping = async (): Promise<AddressMapping> => {
     const response = await fetch('https://xe2kr8t49e.execute-api.us-east-2.amazonaws.com/default/getAAAddressMapping', {
-        headers: { 'x-api-key': 'dummy' },
+        headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
     });
     if (response.status != 200) {
         return {} as AddressMapping;
@@ -388,7 +388,7 @@ export const getTopPaymasters = async (
     const response = await fetch(
         'https://api.jiffyscan.xyz/v0/getTopPaymasters?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
         {
-            headers: { 'x-api-key': 'dummy' },
+            headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
     );
     if (response.status != 200) {
@@ -409,7 +409,7 @@ export const getTopBundlers = async (selectedNetwork: string, pageSize: number, 
     const response = await fetch(
         'https://api.jiffyscan.xyz/v0/getTopBundlers?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
         {
-            headers: { 'x-api-key': 'dummy' },
+            headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
     );
     if (response.status != 200) {
@@ -430,7 +430,7 @@ export const getTopFactories = async (selectedNetwork: string, pageSize: number,
     const response = await fetch(
         'https://api.jiffyscan.xyz/v0/getTopFactories?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
         {
-            headers: { 'x-api-key': 'dummy' },
+            headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
     );
     if (response.status != 200) {
@@ -469,7 +469,7 @@ export const getLatestBundles = async (selectedNetwork: string, pageSize: number
     const response = await fetch(
         'https://api.jiffyscan.xyz/v0/getLatestBundles?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
         {
-            headers: { 'x-api-key': 'dummy' },
+            headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
     );
     if (response.status != 200) {
@@ -488,7 +488,7 @@ export const getLatestBundles = async (selectedNetwork: string, pageSize: number
 export const getDailyMetrics = async (selectedNetwork: string, noOfDays: number, toast: any): Promise<DailyMetric[]> => {
     if (!performApiCall(selectedNetwork)) return [] as DailyMetric[];
     const response = await fetch('https://api.jiffyscan.xyz/v0/getDailyMetrics?network=' + selectedNetwork + '&noOfDays=' + noOfDays, {
-        headers: { 'x-api-key': 'dummy' },
+        headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
     });
     if (response.status != 200) {
         showToast(toast, 'Error fetching data');
@@ -506,7 +506,7 @@ export const getDailyMetrics = async (selectedNetwork: string, noOfDays: number,
 export const getGlobalMetrics = async (selectedNetwork: string, toast: any): Promise<GlobalCounts> => {
     if (!performApiCall(selectedNetwork)) return {} as GlobalCounts;
     const response = await fetch('https://api.jiffyscan.xyz/v0/getGlobalCounts?network=' + selectedNetwork, {
-        headers: { 'x-api-key': 'dummy' },
+        headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
     });
     if (response.status != 200) {
         showToast(toast, 'Error fetching data');
@@ -523,7 +523,7 @@ export const getGlobalMetrics = async (selectedNetwork: string, toast: any): Pro
 
 export const getUserOp = async (userOpHash: string, toast: any): Promise<UserOp[]> => {
     const response = await fetch('https://api.jiffyscan.xyz/v0/getUserOp?hash=' + userOpHash, {
-        headers: { 'x-api-key': 'dummy' },
+        headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
     });
     if (response.status != 200) {
         showToast(toast, 'Error fetching data');
@@ -557,7 +557,7 @@ export const getAddressActivity = async (
             '&skip=' +
             pageNo * pageSize,
         {
-            headers: { 'x-api-key': 'dummy' },
+            headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
     ).catch((e) => {
         console.log(e);
@@ -591,7 +591,7 @@ export const getAddressBalances = async (
             '&skip=' +
             pageNo * pageSize,
         {
-            headers: { 'x-api-key': 'dummy' },
+            headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
     ).catch((e) => {
         console.log(e);
@@ -623,7 +623,7 @@ export const getAddressTransactions = async (
             '&page' +
             pageNo,
         {
-            headers: { 'x-api-key': 'dummy' },
+            headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
     ).catch((e) => {
         console.log(e);
@@ -658,7 +658,7 @@ export const getAddressERC20Transfers = async (
             '&skip=' +
             pageNo * pageSize,
         {
-            headers: { 'x-api-key': 'dummy' },
+            headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
     ).catch((e) => {
         console.log(e);
@@ -692,7 +692,7 @@ export const getAddressERC721Transfers = async (
             '&skip=' +
             pageNo * pageSize,
         {
-            headers: { 'x-api-key': 'dummy' },
+            headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
     ).catch((e) => {
         console.log(e);
@@ -726,7 +726,7 @@ export const getFactoryDetails = async (
             '&skip=' +
             pageNo * pageSize,
         {
-            headers: { 'x-api-key': 'dummy' },
+            headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
     );
     if (response.status != 200) {
@@ -760,7 +760,7 @@ export const getPayMasterDetails = async (
             '&skip=' +
             pageNo * pageSize,
         {
-            headers: { 'x-api-key': 'dummy' },
+            headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
     );
     if (response.status != 200) {
@@ -783,7 +783,7 @@ export const getPoweredBy = async (beneficiary: string, paymaster: string, toast
             '&paymaster=' +
             paymaster,
         {
-            headers: { 'x-api-key': 'dummy' },
+            headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
     );
     if (response.status != 200) {
@@ -817,7 +817,7 @@ export const getBlockDetails = async (
             '&skip=' +
             pageNo * pageSize,
         {
-            headers: { 'x-api-key': 'dummy' },
+            headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
     );
     if (response.status != 200) {
@@ -836,7 +836,7 @@ export const getBlockDetails = async (
 
 export const getAccountDetails = async (userOpHash: string, selectedNetwork: string, toast: any): Promise<UserOp> => {
     const response = await fetch('https://api.jiffyscan.xyz/v0/getAddressActivity?address=' + userOpHash + '&network=' + selectedNetwork, {
-        headers: { 'x-api-key': 'dummy' },
+        headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
     });
     if (response.status != 200) {
         showToast(toast, 'Error fetching data');
@@ -870,7 +870,7 @@ export const getBundleDetails = async (
             '&skip=' +
             pageNo * pageSize,
         {
-            headers: { 'x-api-key': 'dummy' },
+            headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
     ).catch((e) => {
         console.log(e);
@@ -910,7 +910,7 @@ export const getBundlerDetails = async (
             '&skip=' +
             pageNo * pageSize,
         {
-            headers: { 'x-api-key': 'dummy' },
+            headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
     );
     // if (response == null) return {} as Bundle;
