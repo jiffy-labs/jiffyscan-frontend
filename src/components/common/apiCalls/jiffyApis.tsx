@@ -450,6 +450,9 @@ export const getLatestUserOps = async (selectedNetwork: string, pageSize: number
     if (!performApiCall(selectedNetwork)) return [] as UserOp[];
     const response = await fetch(
         'https://api.jiffyscan.xyz/v0/getLatestUserOps?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
+        {
+            headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
+        },
     );
     if (response.status != 200) {
         showToast(toast, 'Error fetching data');
