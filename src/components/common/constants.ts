@@ -95,6 +95,12 @@ export const NETWORK_LIST = [
         iconPath: '/images/bsc-logo.svg',
         iconPathInverted: '/images/bsc-logo.svg',
     },
+    {
+        name: 'Fuse',
+        key: 'fuse',
+        iconPath: '/images/fuse-logo.svg',
+        iconPathInverted: '/images/fuse-logo.svg',
+    }
 ];
 
 interface NETWORK_ICON_MAP {
@@ -118,6 +124,7 @@ export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
     'base-testnet': '/images/base-logo.svg',
     'gnosis': '/images/gnosis-logo.svg',
     'bsc': '/images/bsc-logo.svg',
+    'fuse': '/images/fuse-logo.svg',
 };
 
 export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
@@ -136,7 +143,8 @@ export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
     "fantom-testnet": 'https://testnet.ftmscan.com',
     gnosis: 'https://gnosisscan.io',
     bsc: 'https://bscscan.com',
-    "avalanche-fuji": 'https://testnet.snowtrace.io'
+    "avalanche-fuji": 'https://testnet.snowtrace.io',
+    "fuse": 'https://explorer.fuse.io'
 };
 
 export const POWERED_BY_LOGO_MAP: { [id: string]: {[id: string]: string} } = {
