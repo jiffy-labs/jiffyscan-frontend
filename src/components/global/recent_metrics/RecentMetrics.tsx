@@ -11,6 +11,8 @@ import { Chart } from './Chart';
 import Spinner from '@/components/common/Spinner';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import SouthEastIcon from '@mui/icons-material/SouthEast';
+import NorthEastIcon from '@mui/icons-material/NorthEast';
 
 const METRIC_DATA_POINT_SIZE = 42;
 
@@ -26,7 +28,6 @@ function RecentMetrics({
 
     useEffect(() => {
         refreshMetricsChart(selectedNetwork);
-        
     }, [selectedNetwork]);
 
     const refreshMetricsChart = async (network: string) => {
@@ -75,7 +76,13 @@ function RecentMetrics({
                                             </div>
                                             <div className="flex items-center gap-1 mb-4">
                                                 <span className="text-sm text-dark-500">{status}</span>
-                                                <img src="/images/icon-container (9).svg" alt="" />
+                                                {status.includes('-') ? (
+                                                    //  
+                                                    <SouthEastIcon style={{height:12 , width: 12, color: "#FF5252"}}/>
+                                                ) : (
+                                                    <NorthEastIcon style={{height:12 , width: 12, color: "#4CAF50"}}/>
+
+                                                )}
                                             </div>
                                             <div>
                                                 <Chart chartValues={data} labels={labels} />

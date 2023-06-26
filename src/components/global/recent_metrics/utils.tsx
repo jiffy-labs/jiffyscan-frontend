@@ -89,7 +89,7 @@ const getPercentageChange = (numberArray: number[]) => {
     const first = numberArray.slice(-1)[0];
     const second = numberArray.slice(-2,-1)[0];
     if (first == 0) return '0';
-    const percentageChange = ((first - second) / first) * 100;
+    const percentageChange = ((first - second) / second) * 100;
     return percentageChange.toFixed(1).toString();
 };
 
