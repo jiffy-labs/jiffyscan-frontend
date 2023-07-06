@@ -21,7 +21,7 @@ const LinkAndCopy = ({ link, text, copyText, secondaryTargetLink }: { link: stri
                 <span className="text-blue-200 md:text-[14px] text-[16px] break-all leading-5">{text}</span>
             )}
 
-            { copyText && <div className="w-[30px] flex">
+            { copyText && <div className="w-[30px] h-[30px] flex">
                 <CopyButton text={copyText} />
             </div> }
 

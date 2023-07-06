@@ -192,7 +192,7 @@ const createAccountInfoObject = (addressActivity: AddressActivity): AccountInfo 
         userOpHash: addressActivity.accountDetail.userOpHash,
         blockTime: parseInt(addressActivity.accountDetail.blockTime),
         factory: addressActivity.accountDetail.factory,
-        tokenBalances: 'tokenBalances' in addressActivity ? (addressActivity.tokenBalances as tokenBalance[]) : [],
+        // tokenBalances: 'tokenBalances' in addressActivity ? (addressActivity.tokenBalances as tokenBalance[]) : [],
     };
 };
 
