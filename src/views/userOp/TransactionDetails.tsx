@@ -680,7 +680,7 @@ export default function TransactionDetails({
                                             </div>
                                         </div>
                                         {getNumberOfERC20Transfers(item.erc20Transfers) > 0 && (
-                                            <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
+                                            <div className="flex md:pt-[0px] pt-[16px] items-start md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
                                                     <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
                                                         <IconText icon={'/images/cube.svg'}>
                                                             <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
@@ -729,7 +729,7 @@ export default function TransactionDetails({
                                                 </div>
                                             )}
                                         {item.erc721Transfers?.length > 0 && (
-                                            <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
+                                            <div className="flex md:pt-[0px] pt-[16px] items-start md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
                                             <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
                                                 <IconText icon={'/images/cube.svg'}>
                                                     <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
