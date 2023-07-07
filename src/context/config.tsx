@@ -47,10 +47,19 @@ export function ConfigProvider({ children }: Props) {
     useEffect(() => {
         // if (query?.network == selectedNetwork) return;
         if (!selectedNetwork) return;
+        console.log('here ????')
+
+        const params = new URLSearchParams(window.location.search);
+        const queries: {[key: string]: string}  = {}
+
+        params.forEach((value, key) => {
+            queries[key] = value;
+        });
+        queries['network'] = selectedNetwork;
 
         const href: { pathname: string; query: { [key: string]: string } } = {
             pathname: window.location.pathname,
-            query: { network: selectedNetwork },
+            query: queries,
         };
 
         localStorage.setItem('network', selectedNetwork);

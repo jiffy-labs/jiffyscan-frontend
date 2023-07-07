@@ -1,7 +1,7 @@
 import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
 import RecentMetrics from '@/components/global/recent_metrics/RecentMetrics';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Table, { tableDataT } from '@/components/common/table/Table';
 import Pagination from '@/components/common/table/Pagination';
 import table_data from './table_data.json';
@@ -13,11 +13,15 @@ import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { set } from 'lodash';
+import usePrevious from '@/hooks/usePrevious';
 
 const DEFAULT_PAGE_SIZE = 10;
 
 function UserOperations() {
     const { selectedNetwork, setSelectedNetwork } = useConfig();
+    const prevNetwork = usePrevious(selectedNetwork);
+    const [initialSetupDone, setInitialSetupDone] = useState(false);
     const [latestUserOpsTable, setLatestUserOpsTable] = useState<tableDataT>(table_data as tableDataT);
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE);
@@ -31,13 +35,27 @@ function UserOperations() {
     };
 
     useEffect(() => {
-        refreshUserOpsTable(selectedNetwork, pageSize, pageNo);
+        // const pageNoFromUrl = fetchPageNoFromUrl();
+        console.log('pageNo',pageNo);
+        if (initialSetupDone) {
+            refreshUserOpsTable(selectedNetwork, pageSize, pageNo);
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('pageNo', (pageNo+1).toString());
+            window.history.pushState(null, '', `${window.location.pathname}?${urlParams.toString()}`);
+        }
     }, [pageNo]);
 
     useEffect(() => {
-        setPageNo(0);
+        let pageNoFromParam;
+        if (prevNetwork == '' || prevNetwork == selectedNetwork) {
+            const urlParams = new URLSearchParams(window.location.search);
+            pageNoFromParam = urlParams.get('pageNo');
+        }
+        const effectivePageNo = pageNoFromParam ? parseInt(pageNoFromParam)-1 : 0;
+        setPageNo(effectivePageNo);
         fetchTotalRows();
-        refreshUserOpsTable(selectedNetwork, pageSize, pageNo);
+        refreshUserOpsTable(selectedNetwork, pageSize, effectivePageNo);
+        setInitialSetupDone(true);
     }, [selectedNetwork]);
 
     const fetchTotalRows = async () => {
@@ -96,7 +114,7 @@ function UserOperations() {
                             </Link>
                         </Breadcrumbs>
                     </div>
-                    <h1 className="font-bold text-3xl">User Operations</h1>
+                    <h1 className="text-3xl font-bold">User Operations</h1>
                 </div>
             </section>
             <RecentMetrics selectedNetwork={selectedNetwork} handleNetworkChange={setSelectedNetwork} />
