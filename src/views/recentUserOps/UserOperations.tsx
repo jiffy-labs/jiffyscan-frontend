@@ -30,31 +30,39 @@ function UserOperations() {
     const [captionText, setCaptionText] = useState('');
 
     const setPageSize = (size: number) => {
+        console.log('here', size, pageNo);
         _setPageSize(size);
         setPageNo(0);
     };
 
+    
+
     useEffect(() => {
-        // const pageNoFromUrl = fetchPageNoFromUrl();
-        console.log('pageNo',pageNo);
+        console.log(initialSetupDone, pageNo);
         if (initialSetupDone) {
             refreshUserOpsTable(selectedNetwork, pageSize, pageNo);
             const urlParams = new URLSearchParams(window.location.search);
             urlParams.set('pageNo', (pageNo+1).toString());
+            urlParams.set('pageSize', pageSize.toString());
             window.history.pushState(null, '', `${window.location.pathname}?${urlParams.toString()}`);
         }
-    }, [pageNo]);
+    }, [pageNo, pageSize]);
 
     useEffect(() => {
         let pageNoFromParam;
+        let pageSizeFromParam;
         if (prevNetwork == '' || prevNetwork == selectedNetwork) {
             const urlParams = new URLSearchParams(window.location.search);
             pageNoFromParam = urlParams.get('pageNo');
+            pageSizeFromParam = urlParams.get('pageSize');
         }
         const effectivePageNo = pageNoFromParam ? parseInt(pageNoFromParam)-1 : 0;
+        const effectivePageSize = pageSizeFromParam ? parseInt(pageSizeFromParam) : DEFAULT_PAGE_SIZE;
         setPageNo(effectivePageNo);
+        _setPageSize(effectivePageSize);
+        
         fetchTotalRows();
-        refreshUserOpsTable(selectedNetwork, pageSize, effectivePageNo);
+        refreshUserOpsTable(selectedNetwork, effectivePageSize, effectivePageNo);
         setInitialSetupDone(true);
     }, [selectedNetwork]);
 
@@ -89,7 +97,7 @@ function UserOperations() {
         });
         setLatestUserOpsTable({
             ...latestUserOpsTable,
-            rows: newRows.slice(0, 10),
+            rows: newRows.slice(0, pageSize),
         });
         setTableLoading(false);
     };
