@@ -46,7 +46,7 @@ export const getCurrencySymbol = (amount: number, network: string): string => {
     let gasFee: number = amount;
     if (gasFee > 10 ** 13) {
         return getSymbol(network);
-    } else if (gasFee > 10 ** 9) {
+    } else if (gasFee > 10 ** 6) {
         return 'GWEI';
     } else {
         return 'WEI';
