@@ -30,15 +30,11 @@ function UserOperations() {
     const [captionText, setCaptionText] = useState('');
 
     const setPageSize = (size: number) => {
-        console.log('here', size, pageNo);
         _setPageSize(size);
         setPageNo(0);
     };
 
-    
-
     useEffect(() => {
-        console.log(initialSetupDone, pageNo);
         if (initialSetupDone) {
             refreshUserOpsTable(selectedNetwork, pageSize, pageNo);
             const urlParams = new URLSearchParams(window.location.search);

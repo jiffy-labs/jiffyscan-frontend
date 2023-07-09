@@ -13,12 +13,15 @@ import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import usePrevious from '@/hooks/usePrevious';
 
 const METRIC_DATA_POINT_SIZE = 14;
 const DEFAULT_PAGE_SIZE = 10;
 
 function TopFactories(props: any) {
     const { selectedNetwork, setSelectedNetwork } = useConfig();
+    const prevNetwork = usePrevious(selectedNetwork);
+    const [initialSetupDone, setInitialSetupDone] = useState(false);
     const [topFactoriesTable, setTopFactoriesTable] = useState<tableDataT>(table_data as tableDataT);
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE);
@@ -32,13 +35,31 @@ function TopFactories(props: any) {
     };
 
     useEffect(() => {
-        refreshUserOpsTable(selectedNetwork, pageSize, pageNo);
+        if (initialSetupDone) {
+            refreshUserOpsTable(selectedNetwork, pageSize, pageNo);
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('pageNo', (pageNo+1).toString());
+            urlParams.set('pageSize', pageSize.toString());
+            window.history.pushState(null, '', `${window.location.pathname}?${urlParams.toString()}`);
+        }
     }, [pageNo, pageSize]);
 
     useEffect(() => {
-        setPageNo(0);
+        let pageNoFromParam;
+        let pageSizeFromParam;
+        if (prevNetwork == '' || prevNetwork == selectedNetwork) {
+            const urlParams = new URLSearchParams(window.location.search);
+            pageNoFromParam = urlParams.get('pageNo');
+            pageSizeFromParam = urlParams.get('pageSize');
+        }
+        const effectivePageNo = pageNoFromParam ? parseInt(pageNoFromParam)-1 : 0;
+        const effectivePageSize = pageSizeFromParam ? parseInt(pageSizeFromParam) : DEFAULT_PAGE_SIZE;
+
+        setPageNo(effectivePageNo);
         fetchTotalRows();
-        refreshUserOpsTable(selectedNetwork, pageSize, pageNo);
+        refreshUserOpsTable(selectedNetwork, effectivePageSize, effectivePageNo);
+
+        setInitialSetupDone(true);
     }, [selectedNetwork]);
 
     const fetchTotalRows = async () => {
@@ -65,7 +86,7 @@ function TopFactories(props: any) {
                 userOps: `${factory.accountsLength} accounts`,
             });
         });
-        setTopFactoriesTable({ ...topFactoriesTable, rows: newRows.slice(0, 10) });
+        setTopFactoriesTable({ ...topFactoriesTable, rows: newRows.slice(0, pageSize) });
         setTimeout(() => {
             setTableLoading(false);
         }, 2000);
@@ -93,7 +114,7 @@ function TopFactories(props: any) {
                         </Breadcrumbs>
                     </div>
 
-                    <h1 className="font-bold text-3xl">Factories</h1>
+                    <h1 className="text-3xl font-bold">Factories</h1>
                 </div>
             </section>
             <RecentMetrics selectedNetwork={selectedNetwork} handleNetworkChange={setSelectedNetwork} />

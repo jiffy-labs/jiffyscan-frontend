@@ -17,6 +17,7 @@ import HeaderSection from './HeaderSection';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useConfig } from '@/context/config';
+import usePrevious from '@/hooks/usePrevious';
 
 // import Skeleton from '@/components/Skeleton';
 export const BUTTON_LIST = [
@@ -75,10 +76,13 @@ const createPaymasterInfoObject = (accountDetails: PayMasterActivity): AccountIn
 
 function RecentPaymentMaster(props: any) {
     const router = useRouter();
+    
+    const [initialSetupDone, setInitialSetupDone] = useState(false);
     const [tableLoading, setTableLoading] = useState(true);
     const {addressMapping} = useConfig();
     const hash = props.slug && props.slug[0];
     const network = router.query && (router.query.network as string);
+    const prevNetwork = usePrevious(network);
     const [rows, setRows] = useState([] as tableDataT['rows']);
     const [addressInfo, setAddressInfo] = useState<AccountInfo>();
     const [pageNo, setPageNo] = useState(0);
@@ -113,6 +117,10 @@ function RecentPaymentMaster(props: any) {
 
     useEffect(() => {
         updateRowsData(network ? network : '', pageSize, pageNo);
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('pageNo', (pageNo+1).toString());
+        urlParams.set('pageSize', pageSize.toString());
+        window.history.pushState(null, '', `${window.location.pathname}?${urlParams.toString()}`);
     }, [pageNo, addressInfo]);
 
     useEffect(() => {
@@ -121,12 +129,10 @@ function RecentPaymentMaster(props: any) {
     }, [addressInfo]);
 
     let prevHash = hash;
-    let prevNetwork = network;
     useEffect(() => {
         // Check if hash or network have changed
         if (prevHash !== undefined || prevNetwork !== undefined) {
             prevHash = hash;
-            prevNetwork = network;
             loadAccountDetails(hash as string, network as string);
         }
     }, [hash, network]);
@@ -134,7 +140,7 @@ function RecentPaymentMaster(props: any) {
     return (
         <div className="">
             <Navbar searchbar />
-            <section className="py-10 px-3">
+            <section className="px-3 py-10">
                 <div className="container">
                     <div className="flex flex-row">
                         <Link href="/" className="text-gray-500">
@@ -159,7 +165,7 @@ function RecentPaymentMaster(props: any) {
                             </Link>
                         </Breadcrumbs>
                     </div>
-                    <h1 className="font-bold text-3xl">Paymaster</h1>
+                    <h1 className="text-3xl font-bold">Paymaster</h1>
                 </div>
             </section>
             <HeaderSection item={addressInfo} network={network} addressMapping={addressMapping}/>
