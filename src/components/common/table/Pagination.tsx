@@ -29,7 +29,6 @@ function Pagination({ pageDetails: { pageNo, setPageNo, pageSize, setPageSize, t
 
     const handleShow = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value = event.target.value;
-        setPageNo(0);
         setPageSize(parseInt(value));
     };
 
@@ -53,13 +52,14 @@ function Pagination({ pageDetails: { pageNo, setPageNo, pageSize, setPageSize, t
     };
 
     return (
-        <div className="flex flex-wrap justify-end items-center gap-2 md:gap-4 text-sm mt-4 mb-6">
+        <div className="flex flex-wrap items-center justify-end gap-2 mt-4 mb-6 text-sm md:gap-4">
             <div className="flex items-center">
                 <p>Rows per page:</p>
                 <select onChange={handleShow} value={pageSize} name="" id="" className="pl-3 pr-1">
                     {/* <option value="5">5</option> */}
                     <option value="10">10</option>
-                    {/* <option value="20">10</option> */}
+                    <option value="20">20</option>
+                    <option value="50">50</option>
                 </select>
             </div>
             <p>

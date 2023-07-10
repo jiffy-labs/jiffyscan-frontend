@@ -106,6 +106,10 @@ function Bundler(props: any) {
 
     useEffect(() => {
         updateRowsData(network ? network : '', pageSize, pageNo);
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('pageNo', (pageNo+1).toString());
+        urlParams.set('pageSize', pageSize.toString());
+        window.history.pushState(null, '', `${window.location.pathname}?${urlParams.toString()}`);
     }, [pageNo, addressInfo]);
 
     useEffect(() => {
@@ -127,7 +131,7 @@ function Bundler(props: any) {
     return (
         <div className="">
             <Navbar searchbar />
-            <section className="py-10 px-3">
+            <section className="px-3 py-10">
                 <div className="container px-0">
                     <div className="flex flex-row">
                         <Link href="/" className="text-gray-500">
@@ -152,7 +156,7 @@ function Bundler(props: any) {
                             </Link>
                         </Breadcrumbs>
                     </div>
-                    <h1 className="font-bold text-3xl">Bundler</h1>
+                    <h1 className="text-3xl font-bold">Bundler</h1>
                 </div>
             </section>
             <HeaderSection item={addressInfo} network={network} addressMapping={addressMapping}/>

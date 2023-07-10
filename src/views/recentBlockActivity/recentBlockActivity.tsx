@@ -86,6 +86,10 @@ function RecentBlockActivity(props: any) {
 
     useEffect(() => {
         updateRowsData(network as string, pageSize, pageNo);
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('pageNo', (pageNo+1).toString());
+        urlParams.set('pageSize', pageSize.toString());
+        window.history.pushState(null, '', `${window.location.pathname}?${urlParams.toString()}`);
     }, [pageNo]);
 
     useEffect(() => {
@@ -106,7 +110,7 @@ function RecentBlockActivity(props: any) {
     return (
         <div className="">
             <Navbar searchbar />
-            <section className="py-10 px-3">
+            <section className="px-3 py-10">
                 <div className="container">
                     <div className="flex flex-row">
                         <Link href="/" className="text-gray-500">
@@ -131,7 +135,7 @@ function RecentBlockActivity(props: any) {
                             </Link>
                         </Breadcrumbs>
                     </div>
-                    <h1 className="font-bold text-3xl">Block</h1>
+                    <h1 className="text-3xl font-bold">Block</h1>
                 </div>
             </section>
 
