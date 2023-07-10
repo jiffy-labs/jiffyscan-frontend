@@ -623,8 +623,10 @@ export const getAddressTransactions = async (
             userOpHash +
             '&network=' +
             selectedNetwork +
-            '&page' +
-            pageNo,
+            '&first=' +
+            pageSize +
+            '&skip=' +
+            pageNo * pageSize,
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
