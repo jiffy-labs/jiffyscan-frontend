@@ -54,11 +54,11 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                     </span>
                                                 </IconText>
                                             </div>
-                                            <div className=" break-words gap-2 flex-1">
+                                            <div className="flex-1 gap-2 break-words ">
                                                 <div>
                                                     <p className="text-[14px] text-[#455A64] md:hidden block">Entry Point</p>
                                                 </div>
-                                                <div className="md:flex block justify-between">
+                                                <div className="justify-between block md:flex">
                                                     <div className="flex items-center gap-[10px]">
                                                         <LinkAndCopy
                                                             text={item?.entryPoint}
@@ -145,7 +145,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                     </div>
                                                     <div className="flex gap-2">
                                                         <div className="overflow-y-auto overflow-x-hidden flex-1 max-h-[290px] bg-white border-dark-200 rounded border">
-                                                            <table className="wordbrack divide-y divide-dark-100">
+                                                            <table className="divide-y wordbrack divide-dark-100">
                                                                 <thead className="bg-white">
                                                                     <tr>
                                                                         <th
@@ -184,7 +184,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                             address
                                                                         </td>
                                                                         <td className="wordbrack  text-black wordbrack  [87%] py-[14px] px-3 text-sm leading-5">
-                                                                            <span className="text-dark-700 break-all text-sm leading-5">
+                                                                            <span className="text-sm leading-5 break-all text-dark-700">
                                                                                 {item?.sender}
                                                                             </span>
                                                                         </td>
@@ -229,7 +229,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                     )}
                                                                     <tr>
                                                                         <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5">
-                                                                            <div className="flex gap-2 items-center">
+                                                                            <div className="flex items-center gap-2">
                                                                                 calldata
                                                                                 <button
                                                                                     onClick={() => setOpen(!open)}
@@ -241,11 +241,23 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                         </td>
                                                                         <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5"></td>
                                                                         <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                            <span className="text-blue-200 text-sm leading-5"></span>
+                                                                            <span className="text-sm leading-5 text-blue-200"></span>
                                                                         </td>
                                                                     </tr>
                                                                     {open && (
                                                                         <>
+                                                                            {item?.target && item?.value && item.callData  ? <tr>
+                                                                                <td className="text-black  [87%] text-end text-sm leading-5 py-[14px] px-3"></td>
+                                                                                <td className="text-black [87%] text-left text-sm leading-5 py-[14px] px-3">
+                                                                                    Format
+                                                                                </td>
+                                                                                <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                    executeCall(target, value, targetCallData)
+                                                                                </td>
+                                                                                <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                    <span className="text-sm leading-5 text-blue-200"></span>
+                                                                                </td>
+                                                                            </tr> : ''}
                                                                             <tr>
                                                                                 <td className="text-black  [87%] text-end text-sm leading-5 py-[14px] px-3"></td>
                                                                                 <td className="text-black [87%] text-left text-sm leading-5 py-[14px] px-3">
@@ -255,7 +267,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                                     {item?.target}
                                                                                 </td>
                                                                                 <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                                    <span className="text-blue-200 text-sm leading-5"></span>
+                                                                                    <span className="text-sm leading-5 text-blue-200"></span>
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>
@@ -270,7 +282,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                                     />
                                                                                 </td>
                                                                                 <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                                    <span className="text-blue-200 text-sm leading-5"></span>
+                                                                                    <span className="text-sm leading-5 text-blue-200"></span>
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>
@@ -282,7 +294,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                                     {item?.callData}
                                                                                 </td>
                                                                                 <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                                    <span className="text-blue-200 text-sm leading-5"></span>
+                                                                                    <span className="text-sm leading-5 text-blue-200"></span>
                                                                                 </td>
                                                                             </tr>
                                                                         </>
