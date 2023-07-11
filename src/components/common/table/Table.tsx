@@ -1,7 +1,7 @@
 import Chip, { ChipProps } from '@/components/common/chip/Chip';
 import React, { useEffect, useState } from 'react';
 import Token, { TokenType } from '@/components/common/Token';
-import Caption, { CaptionProps } from './Caption';
+import Caption, { CaptionProps } from '../Caption';
 import ScrollContainer from 'react-indiana-drag-scroll';
 import useWidth from '@/hooks/useWidth';
 import { getCurrencySymbol } from '../utils';
@@ -30,6 +30,7 @@ export interface tableDataT {
     }[];
     loading: boolean;
     onRowClick?: (idx: number) => void;
+    hideHeader?: boolean;
 }
 
 export interface fee {
@@ -42,18 +43,18 @@ export interface fee {
 }
 
 function Table(props: tableDataT) {
-    const { rows, columns, caption, onRowClick } = props;
+    const { rows, columns, caption, onRowClick, hideHeader } = props;
     const width = useWidth();
 
     let skeletonCards = Array(5).fill(0);
     return (
         <div className="">
-            {caption?.text && <Caption icon={caption?.icon!} text={caption?.text}>
+            {!hideHeader && caption?.text && <Caption icon={caption?.icon!} text={caption?.text}>
                 {caption?.children}
             </Caption>}
             <ScrollContainer>
                 <div style={width < 768 ? { minWidth: columns?.length * 160 } : {}}>
-                    <table className="w-full text-md bg-white shadow-200 border border-dark-100">
+                    <table className="w-full bg-white border text-md shadow-200 border-dark-100">
                         <thead>
                             <tr>
                                 {columns?.map(({ name, sort }, key) => {
@@ -124,7 +125,7 @@ function Table(props: tableDataT) {
                                             
                                             {userOps && (
                                                 <td className="">
-                                                    <span className="text-center block">{userOps}</span>
+                                                    <span className="block text-center">{userOps}</span>
                                                 </td>
                                             )}
 
@@ -142,7 +143,7 @@ function Table(props: tableDataT) {
 
                                             {fee && (
                                                 <td className="">
-                                                    <div className="flex items-center justify-end text-right gap-2">
+                                                    <div className="flex items-center justify-end gap-2 text-right">
                                                         <span>{fee.value}</span>
                                                         {fee.gas && (
                                                             <Chip variant="outlined" color={fee.gas.color as ChipProps['color']}>

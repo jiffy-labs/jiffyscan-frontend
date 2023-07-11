@@ -147,17 +147,22 @@ function TopFactories(props: any) {
                     <h1 className="text-3xl font-bold">Factories</h1>
                 </div>
             </section>
-            <RecentMetrics selectedNetwork={selectedNetwork} handleNetworkChange={setSelectedNetwork} />
+            <RecentMetrics selectedNetwork={selectedNetwork} handleNetworkChange={setSelectedNetwork} caption={{
+                                children: captionText,
+                                icon: '/images/cube.svg',
+                                text: 'Approx Number of Factories in the selected chain',
+                            }} hideMetrics={true} />
             <section className="mb-10">
                 <div className="container">
                     <div>
                         <Table
                             {...topFactoriesTable}
                             loading={tableLoading}
+                            hideHeader={true}
                             caption={{
                                 children: captionText,
                                 icon: '/images/cube.svg',
-                                text: 'Approx Number of Bundles Processed in the selected chain',
+                                text: 'Approx Number of Factories in the selected chain',
                             }}
                         />
                         <Pagination

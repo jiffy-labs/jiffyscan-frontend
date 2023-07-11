@@ -5,7 +5,7 @@ import DisplayFee from '@/components/common/displayfee/DisplayFee';
 import IconText from '@/components/common/IconText';
 import LinkAndCopy from '@/components/common/LinkAndCopy';
 import Status from '@/components/common/status/Status';
-import Caption from '@/components/common/table/Caption';
+import Caption from '@/components/common/Caption';
 import { shortenString } from '@/components/common/utils';
 import { Link, Tooltip, Box, CircularProgress } from '@mui/material';
 import moment from 'moment';

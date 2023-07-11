@@ -1,7 +1,7 @@
 import Chip, { ChipProps } from '@/components/common/chip/Chip';
 import DisplayFee from '@/components/common/displayfee/DisplayFee';
 import IconText from '@/components/common/IconText';
-import Caption from '@/components/common/table/Caption';
+import Caption from '@/components/common/Caption';
 import { getFee } from '@/components/common/utils';
 import { useRouter } from 'next/router';
 

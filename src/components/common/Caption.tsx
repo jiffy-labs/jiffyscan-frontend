@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import InfoButton from '../InfoButton';
+import InfoButton from './InfoButton';
 
 export interface CaptionProps {
     children?: ReactNode;

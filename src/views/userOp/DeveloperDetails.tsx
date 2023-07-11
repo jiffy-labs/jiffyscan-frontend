@@ -3,7 +3,7 @@ import CopyButton from '@/components/common/copy_button/CopyButton';
 import DisplayFee from '@/components/common/displayfee/DisplayFee';
 import IconText from '@/components/common/IconText';
 import InfoButton from '@/components/common/InfoButton';
-import Caption from '@/components/common/table/Caption';
+import Caption from '@/components/common/Caption';
 import { getFee } from '@/components/common/utils';
 import React, { useState, useEffect } from 'react';
 import Skeleton from 'react-loading-skeleton-2';

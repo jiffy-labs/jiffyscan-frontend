@@ -5,7 +5,7 @@ import { getPoweredBy, getUserOp, getUserOpMetadata, metadata, PoweredBy, Trace,
 import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CopyButton from '@/components/common/copy_button/CopyButton';
-import Caption from '@/components/common/table/Caption';
+import Caption from '@/components/common/Caption';
 import IconText from '@/components/common/IconText';
 import Chip from '@/components/common/chip/Chip';
 import sx from './usertable.module.sass';
