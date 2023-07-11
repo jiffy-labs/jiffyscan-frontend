@@ -32,7 +32,7 @@ export const BUTTON_LIST = [
 const DEFAULT_PAGE_SIZE = 10;
 
 const columns = [
-    { name: 'Hash', sort: true },
+    { name: 'UserOp Hash', sort: true },
     { name: 'Age', sort: true },
     { name: 'Sender', sort: false },
     { name: 'Target', sort: false },

@@ -46,7 +46,15 @@ export const BUTTON_LIST = [
 const DEFAULT_PAGE_SIZE = 10;
 
 const userOpColumns = [
-    { name: 'Hash', sort: true },
+    { name: 'UserOp Hash', sort: true },
+    { name: 'Age', sort: true },
+    { name: 'Sender', sort: false },
+    { name: 'Target', sort: false },
+    { name: 'Fee', sort: true },
+];
+
+const TransactionColumns = [
+    { name: 'Transaction Hash', sort: true },
     { name: 'Age', sort: true },
     { name: 'Sender', sort: false },
     { name: 'Target', sort: false },
@@ -54,7 +62,7 @@ const userOpColumns = [
 ];
 
 const erc20TransferColumns = [
-    { name: 'Hash', sort: true },
+    { name: 'Transaction Hash', sort: true },
     { name: 'Block Number', sort: true },
     { name: 'From', sort: false },
     { name: 'To', sort: false },
@@ -62,7 +70,7 @@ const erc20TransferColumns = [
 ];
 
 const erc721TransferColumns = [
-    { name: 'Hash', sort: true },
+    { name: 'Transaction Hash', sort: true },
     { name: 'Block Number', sort: true },
     { name: 'From', sort: false },
     { name: 'To', sort: false },
@@ -422,7 +430,7 @@ function Account(props: any) {
                     <TabPanel value={tabNo} index={1}>
                         <Table
                             rows={transactionsTableRows}
-                            columns={userOpColumns}
+                            columns={TransactionColumns}
                             loading={tableLoading}
                         />
                         <Pagination

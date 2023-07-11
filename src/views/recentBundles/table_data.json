@@ -1,6 +1,6 @@
 {
     "columns": [
-        { "name": "Hash", "sort": true },
+        { "name": "Transaction Hash", "sort": true },
         { "name": "Age", "sort": true },
         { "name": "UserOps", "sort": false }
     ],
