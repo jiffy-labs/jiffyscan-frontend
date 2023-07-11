@@ -432,6 +432,7 @@ function Account(props: any) {
                                 pageSize,
                                 setPageSize,
                                 totalRows: transactions.length,
+                                fixedPageSize: 100,
                             }}
                         />
                     </TabPanel>

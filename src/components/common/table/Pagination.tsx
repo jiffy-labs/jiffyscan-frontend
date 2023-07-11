@@ -1,3 +1,4 @@
+import { set } from 'lodash';
 import React, { useEffect, useState } from 'react';
 
 interface PaginationProps {
@@ -8,10 +9,11 @@ interface PaginationProps {
         pageSize: number;
         setPageSize: (size: number) => void;
         totalRows: number;
+        fixedPageSize?: number;
     };
 }
 
-function Pagination({ pageDetails: { pageNo, setPageNo, pageSize, setPageSize, totalRows } }: PaginationProps) {
+function Pagination({ pageDetails: { pageNo, setPageNo, pageSize, setPageSize, totalRows, fixedPageSize } }: PaginationProps) {
     // console.log("🚀 ~ file: Pagination.tsx:15 ~ Pagination ~ pageNo:", pageNo,pageSize,totalRows)
     const [isMaxPage, setIsMaxPage] = useState(false);
     const [isMinPage, setIsMinPage] = useState(false);
@@ -19,11 +21,19 @@ function Pagination({ pageDetails: { pageNo, setPageNo, pageSize, setPageSize, t
     const [toPage, setToPage] = useState(0);
 
     useEffect(() => {
-        let isMaxPage = (pageNo + 1) * pageSize >= totalRows; //
-        setIsMaxPage(isMaxPage);
-        setIsMinPage(pageNo <= 0);
-        setFromPage(pageNo * pageSize + 1);
-        setToPage(isMaxPage ? totalRows : (pageNo + 1) * pageSize);
+        if (fixedPageSize) {
+            setPageSize(fixedPageSize);
+            setIsMaxPage(true);
+            setIsMinPage(true);
+            setFromPage(1);
+            setToPage(totalRows);
+        } else {
+            let isMaxPage = (pageNo + 1) * pageSize >= totalRows; //
+            setIsMaxPage(isMaxPage);
+            setIsMinPage(pageNo <= 0);
+            setFromPage(pageNo * pageSize + 1);
+            setToPage(isMaxPage ? totalRows : (pageNo + 1) * pageSize);
+        }
     }, [pageNo, totalRows, totalRows]);
     // console.log("Pgaesss-------->",isMaxPage,isMinPage,fromPage,toPage)
 
@@ -55,12 +65,13 @@ function Pagination({ pageDetails: { pageNo, setPageNo, pageSize, setPageSize, t
         <div className="flex flex-wrap items-center justify-end gap-2 mt-4 mb-6 text-sm md:gap-4">
             <div className="flex items-center">
                 <p>Rows per page:</p>
-                <select onChange={handleShow} value={pageSize} name="" id="" className="pl-3 pr-1">
+                { fixedPageSize ? fixedPageSize : <select onChange={handleShow} value={pageSize} name="" id="" className="pl-3 pr-1">
                     {/* <option value="5">5</option> */}
                     <option value="10">10</option>
                     <option value="20">20</option>
-                    <option value="50">50</option>
+                    <option value="50">50</option> 
                 </select>
+                }
             </div>
             <p>
                 {fromPage}–{toPage} of {totalRows}
