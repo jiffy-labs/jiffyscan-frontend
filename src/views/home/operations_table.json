@@ -1,6 +1,6 @@
 {
     "columns": [
-        { "name": "Hash", "sort": true },
+        { "name": "UserOp Hash", "sort": true },
         { "name": "Age", "sort": true },
         { "name": "Sender", "sort": false },
         { "name": "Target", "sort": false }
