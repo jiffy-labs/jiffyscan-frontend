@@ -76,8 +76,6 @@ const createPaymasterInfoObject = (accountDetails: PayMasterActivity): AccountIn
 
 function RecentPaymentMaster(props: any) {
     const router = useRouter();
-    
-    const [initialSetupDone, setInitialSetupDone] = useState(false);
     const [tableLoading, setTableLoading] = useState(true);
     const {addressMapping} = useConfig();
     const hash = props.slug && props.slug[0];

@@ -290,7 +290,7 @@ function Account(props: any) {
     const loadAccountTransaction = async (name: string, network: string) => {
         const transactions = await getAddressTransactions(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo, toast);
         setTransactions(transactions);
-        const transactionRows = createTransactionTableRows(transactions.slice(0, pageSize * (pageNo + 1)), network ? network : '');
+        const transactionRows = createTransactionTableRows(transactions, network ? network : '');
         setTransactionsTableRows(transactionRows);
     };
 
