@@ -7,7 +7,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
 import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
 import Token from '@/components/common/Token';
-import { NETWORK_ICON_MAP } from '@/components/common/constants';
+import { NETWORK_ICON_MAP, PAGE_SIZE_LIST } from '@/components/common/constants';
 import Skeleton from 'react-loading-skeleton-2';
 import CopyButton from '@/components/common/copy_button/CopyButton';
 import Table, { tableDataT } from '@/components/common/table/Table';
@@ -40,6 +40,28 @@ const columns = [
     { name: 'Target', sort: false },
     { name: 'Fee', sort: true },
 ];
+
+const getEffectivePageSize = (pageSizeFromParam: string | null | undefined): number => {
+    let effectivePageSize;
+    effectivePageSize = pageSizeFromParam ? parseInt(pageSizeFromParam) : DEFAULT_PAGE_SIZE;
+    if (!PAGE_SIZE_LIST.includes(effectivePageSize)) {
+        effectivePageSize = DEFAULT_PAGE_SIZE;
+    }
+    return effectivePageSize;
+}
+
+const getEffectivePageNo = (pageNoFromParam: string | null | undefined, totalRows: number, pageSize: number): number => {
+    let effectivePageNo;
+    effectivePageNo = pageNoFromParam ? parseInt(pageNoFromParam) : 1;
+    
+    if (effectivePageNo > Math.ceil(totalRows/pageSize)) {
+        effectivePageNo = Math.ceil(totalRows/pageSize);
+    }
+    if (effectivePageNo <= 0) {
+        effectivePageNo = 1;
+    }
+    return effectivePageNo;
+}
 
 const createUserOpsTableRows = (userOps: UserOp[]): tableDataT['rows'] => {
     let newRows = [] as tableDataT['rows'];
@@ -116,7 +138,7 @@ function RecentPaymentMaster(props: any) {
     useEffect(() => {
         updateRowsData(network ? network : '', pageSize, pageNo);
         const urlParams = new URLSearchParams(window.location.search);
-        urlParams.set('pageNo', (pageNo+1).toString());
+        urlParams.set('pageNo', (pageNo).toString());
         urlParams.set('pageSize', pageSize.toString());
         window.history.pushState(null, '', `${window.location.pathname}?${urlParams.toString()}`);
     }, [pageNo, addressInfo]);

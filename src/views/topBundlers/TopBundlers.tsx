@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import Table, { tableDataT } from '@/components/common/table/Table';
 import Pagination from '@/components/common/table/Pagination';
 import table_data from './table_data.json';
-import { NETWORK_ICON_MAP } from '@/components/common/constants';
+import { NETWORK_ICON_MAP, PAGE_SIZE_LIST } from '@/components/common/constants';
 import { getFee, getTimePassed } from '@/components/common/utils';
 import { getLatestBundles, getDailyMetrics, getTopBundlers } from '@/components/common/apiCalls/jiffyApis';
 import { useConfig } from '@/context/config';
@@ -17,6 +17,28 @@ import usePrevious from '@/hooks/usePrevious';
 
 const METRIC_DATA_POINT_SIZE = 14;
 const DEFAULT_PAGE_SIZE = 10;
+
+const getEffectivePageSize = (pageSizeFromParam: string | null | undefined): number => {
+    let effectivePageSize;
+    effectivePageSize = pageSizeFromParam ? parseInt(pageSizeFromParam) : DEFAULT_PAGE_SIZE;
+    if (!PAGE_SIZE_LIST.includes(effectivePageSize)) {
+        effectivePageSize = DEFAULT_PAGE_SIZE;
+    }
+    return effectivePageSize;
+}
+
+const getEffectivePageNo = (pageNoFromParam: string | null | undefined, totalRows: number, pageSize: number): number => {
+    let effectivePageNo;
+    effectivePageNo = pageNoFromParam ? parseInt(pageNoFromParam) : 1;
+    
+    if (effectivePageNo > Math.ceil(totalRows/pageSize)) {
+        effectivePageNo = Math.ceil(totalRows/pageSize);
+    }
+    if (effectivePageNo <= 0) {
+        effectivePageNo = 1;
+    }
+    return effectivePageNo;
+}
 
 function TopBundlers(props: any) {
     const { selectedNetwork, setSelectedNetwork, addressMapping } = useConfig();
@@ -38,25 +60,33 @@ function TopBundlers(props: any) {
         if (initialSetupDone) {
             refreshBundlersTable(selectedNetwork, pageSize, pageNo);
             const urlParams = new URLSearchParams(window.location.search);
-            urlParams.set('pageNo', (pageNo+1).toString());
+            urlParams.set('pageNo', (pageNo).toString());
             urlParams.set('pageSize', pageSize.toString());
             window.history.pushState(null, '', `${window.location.pathname}?${urlParams.toString()}`);
         }
     }, [pageNo, pageSize]);
 
     useEffect(() => {
-        let pageNoFromParam;
+        let pageNoFromParam: string | null | undefined;
         let pageSizeFromParam;
+        const urlParams = new URLSearchParams(window.location.search);
+
         if (prevNetwork == '' || prevNetwork == selectedNetwork) {
-            const urlParams = new URLSearchParams(window.location.search);
             pageNoFromParam = urlParams.get('pageNo');
             pageSizeFromParam = urlParams.get('pageSize');
         }
-        const effectivePageNo = pageNoFromParam ? parseInt(pageNoFromParam)-1 : 0;
-        const effectivePageSize = pageSizeFromParam ? parseInt(pageSizeFromParam) : DEFAULT_PAGE_SIZE;
-        setPageNo(effectivePageNo);
-        fetchTotalRows();
-        refreshBundlersTable(selectedNetwork, effectivePageSize, effectivePageNo);
+        
+        const effectivePageSize = getEffectivePageSize(pageSizeFromParam);
+        _setPageSize(effectivePageSize);
+
+        fetchTotalRows().then((totalRows) => {
+            const effectivePageNo = getEffectivePageNo(pageNoFromParam, totalRows, effectivePageSize);
+            setPageNo(effectivePageNo);
+            urlParams.set('pageNo', (pageNo).toString());
+            urlParams.set('pageSize', pageSize.toString());
+            window.history.pushState(null, '', `${window.location.pathname}?${urlParams.toString()}`);
+            refreshBundlersTable(selectedNetwork, effectivePageSize, effectivePageNo);
+        });
 
         setInitialSetupDone(true);
     }, [selectedNetwork]);
@@ -80,6 +110,7 @@ function TopBundlers(props: any) {
         }
         setCaptionText(' ' + parseInt(presentDayMetrics?.bundlerTotal || '0') + ' bundlers found');
         setTotalRows(parseInt(presentDayMetrics?.bundlesTotal || '0'));
+        return parseInt(presentDayMetrics?.bundlesTotal || '0');
     };
 
     const refreshBundlersTable = async (network: string, pageSize: number, pageNo: number) => {

@@ -27,6 +27,7 @@ const getDailyMetricsFromCache = (network: string) => {
 }
 
 const setDailyMetricsToCache = (network: string, dailyMetrics: DailyMetric[]) => {
+    // set metrics in cache with expiry
     const metricsCacheJson = {
         metrics: dailyMetrics,
         expiry: Date.now() + 5 * 60 * 1000, // 5 mins

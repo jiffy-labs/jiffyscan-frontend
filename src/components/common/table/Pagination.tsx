@@ -1,5 +1,6 @@
-import { set } from 'lodash';
+import { set, size } from 'lodash';
 import React, { useEffect, useState } from 'react';
+import { PAGE_SIZE_LIST } from '@/components/common/constants';
 
 interface PaginationProps {
     // table: tableDataT;
@@ -65,13 +66,18 @@ function Pagination({ pageDetails: { pageNo, setPageNo, pageSize, setPageSize, t
         <div className="flex flex-wrap items-center justify-end gap-2 mt-4 mb-6 text-sm md:gap-4">
             <div className="flex items-center">
                 <p>Rows per page:</p>
-                { fixedPageSize ? fixedPageSize : <select onChange={handleShow} value={pageSize} name="" id="" className="pl-3 pr-1">
-                    {/* <option value="5">5</option> */}
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option> 
-                </select>
-                }
+                {fixedPageSize ? (
+                    fixedPageSize
+                ) : (
+                    <select onChange={handleShow} value={pageSize} name="" id="" className="pl-3 pr-1">
+                        {/* <option value="5">5</option> */}
+                        {PAGE_SIZE_LIST.map((size: number) => (
+                            <option key={size} value={size}>
+                                {size}
+                            </option>
+                        ))}
+                    </select>
+                )}
             </div>
             <p>
                 {fromPage}–{toPage} of {totalRows}

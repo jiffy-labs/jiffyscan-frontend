@@ -97,6 +97,8 @@ export const NETWORK_LIST = [
     },
 ];
 
+export const PAGE_SIZE_LIST: number[] = [10, 25, 50, 100];
+
 interface NETWORK_ICON_MAP {
     [key: string]: string;
 }

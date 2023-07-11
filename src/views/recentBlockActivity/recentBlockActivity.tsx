@@ -87,7 +87,7 @@ function RecentBlockActivity(props: any) {
     useEffect(() => {
         updateRowsData(network as string, pageSize, pageNo);
         const urlParams = new URLSearchParams(window.location.search);
-        urlParams.set('pageNo', (pageNo+1).toString());
+        urlParams.set('pageNo', (pageNo).toString());
         urlParams.set('pageSize', pageSize.toString());
         window.history.pushState(null, '', `${window.location.pathname}?${urlParams.toString()}`);
     }, [pageNo]);

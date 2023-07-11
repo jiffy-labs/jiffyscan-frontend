@@ -13,10 +13,33 @@ import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { set } from 'lodash';
+import { get, set } from 'lodash';
 import usePrevious from '@/hooks/usePrevious';
+import {PAGE_SIZE_LIST} from '@/components/common/constants';
 
 const DEFAULT_PAGE_SIZE = 10;
+
+const getEffectivePageSize = (pageSizeFromParam: string | null | undefined): number => {
+    let effectivePageSize;
+    effectivePageSize = pageSizeFromParam ? parseInt(pageSizeFromParam) : DEFAULT_PAGE_SIZE;
+    if (!PAGE_SIZE_LIST.includes(effectivePageSize)) {
+        effectivePageSize = DEFAULT_PAGE_SIZE;
+    }
+    return effectivePageSize;
+}
+
+const getEffectivePageNo = (pageNoFromParam: string | null | undefined, totalRows: number, pageSize: number): number => {
+    let effectivePageNo;
+    effectivePageNo = pageNoFromParam ? parseInt(pageNoFromParam) : 1;
+    
+    if (effectivePageNo > Math.ceil(totalRows/pageSize)) {
+        effectivePageNo = Math.ceil(totalRows/pageSize);
+    }
+    if (effectivePageNo <= 0) {
+        effectivePageNo = 1;
+    }
+    return effectivePageNo;
+}
 
 function UserOperations() {
     const { selectedNetwork, setSelectedNetwork } = useConfig();
@@ -38,27 +61,34 @@ function UserOperations() {
         if (initialSetupDone) {
             refreshUserOpsTable(selectedNetwork, pageSize, pageNo);
             const urlParams = new URLSearchParams(window.location.search);
-            urlParams.set('pageNo', (pageNo+1).toString());
+            urlParams.set('pageNo', (pageNo).toString());
             urlParams.set('pageSize', pageSize.toString());
             window.history.pushState(null, '', `${window.location.pathname}?${urlParams.toString()}`);
         }
     }, [pageNo, pageSize]);
 
     useEffect(() => {
-        let pageNoFromParam;
+        let pageNoFromParam: string | null | undefined;
         let pageSizeFromParam;
+        const urlParams = new URLSearchParams(window.location.search);
+
         if (prevNetwork == '' || prevNetwork == selectedNetwork) {
-            const urlParams = new URLSearchParams(window.location.search);
             pageNoFromParam = urlParams.get('pageNo');
             pageSizeFromParam = urlParams.get('pageSize');
         }
-        const effectivePageNo = pageNoFromParam ? parseInt(pageNoFromParam)-1 : 0;
-        const effectivePageSize = pageSizeFromParam ? parseInt(pageSizeFromParam) : DEFAULT_PAGE_SIZE;
-        setPageNo(effectivePageNo);
-        _setPageSize(effectivePageSize);
         
-        fetchTotalRows();
-        refreshUserOpsTable(selectedNetwork, effectivePageSize, effectivePageNo);
+        const effectivePageSize = getEffectivePageSize(pageSizeFromParam);
+        _setPageSize(effectivePageSize);
+
+        fetchTotalRows().then((totalRows) => {
+            const effectivePageNo = getEffectivePageNo(pageNoFromParam, totalRows, effectivePageSize);
+            setPageNo(effectivePageNo);
+            urlParams.set('pageNo', (pageNo).toString());
+            urlParams.set('pageSize', pageSize.toString());
+            window.history.pushState(null, '', `${window.location.pathname}?${urlParams.toString()}`);
+            refreshUserOpsTable(selectedNetwork, effectivePageSize, effectivePageNo);
+        });
+
         setInitialSetupDone(true);
     }, [selectedNetwork]);
 
@@ -70,6 +100,7 @@ function UserOperations() {
         }
         setTotalRows(parseInt(presentDayMetrics?.userOpsTotal || '0'));
         setCaptionText(' ' + parseInt(presentDayMetrics?.userOpsTotal || '0') + ' user operations found');
+        return parseInt(presentDayMetrics?.userOpsTotal || '0');
     };
 
     const refreshUserOpsTable = async (network: string, pageSize: number, pageNo: number) => {
