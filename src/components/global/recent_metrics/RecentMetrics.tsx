@@ -16,6 +16,25 @@ import NorthEastIcon from '@mui/icons-material/NorthEast';
 
 const METRIC_DATA_POINT_SIZE = 42;
 
+const getDailyMetricsFromCache = (network: string) => {
+    // return metrics if not expired else return empty array
+    const metricsCache: string | null = localStorage.getItem(`metrics-${network}`);
+    const metricsCacheJson = metricsCache ? JSON.parse(metricsCache) : {};
+    if (metricsCacheJson && metricsCacheJson.expiry && metricsCacheJson.expiry > Date.now()) {
+        return metricsCacheJson.metrics;
+    }
+    return [];
+}
+
+const setDailyMetricsToCache = (network: string, dailyMetrics: DailyMetric[]) => {
+    const metricsCacheJson = {
+        metrics: dailyMetrics,
+        expiry: Date.now() + 5 * 60 * 1000, // 5 mins
+    };
+    localStorage.setItem(`metrics-${network}`, JSON.stringify(metricsCacheJson));
+}
+
+
 function RecentMetrics({
     selectedNetwork,
     handleNetworkChange,
@@ -31,22 +50,33 @@ function RecentMetrics({
     }, [selectedNetwork]);
 
     const refreshMetricsChart = async (network: string) => {
+        let dailyMetrics: DailyMetric[] = [];
         setLoading(true);
-        const dailyMetrics: DailyMetric[] = await getDailyMetrics(network, METRIC_DATA_POINT_SIZE, toast);
+        // check in cache first
+        // if cache is empty, fetch from api and store in cache
+        // if cache is not empty, set metrics using cache 
+        dailyMetrics = getDailyMetricsFromCache(network);
+        if (dailyMetrics.length == 0) {
+            console.log('fetching from api');
+            dailyMetrics = await getDailyMetrics(network, METRIC_DATA_POINT_SIZE, toast);
+            setDailyMetricsToCache(network, dailyMetrics);
+        } 
+        console.log('from here to ')
         let metrics: any;
         const chartDataAndMetrics = prepareChartDataAndMetrics(dailyMetrics, recentMetrics, METRIC_DATA_POINT_SIZE, network);
         let newChartData: ChartData = chartDataAndMetrics.chartData;
         metrics = chartDataAndMetrics.metrics;
         setMetrics(metrics);
         setLoading(false);
+        console.log('here')
     };
     return (
         <main className="mb-10">
             <div className="container">
-                <div className="flex justify-between flex-wrap items-center gap-3 md:gap-10 py-2 mb-4">
-                    <div className="flex items-center gap-2 flex-grow">
+                <div className="flex flex-wrap items-center justify-between gap-3 py-2 mb-4 md:gap-10">
+                    <div className="flex items-center flex-grow gap-2">
                         <img src="/images/cube-unfolded.svg" alt="" />
-                        <b className="font-bold text-lg">Recent Metrics</b>
+                        <b className="text-lg font-bold">Recent Metrics</b>
                         <InfoButton data="Latest Activity from entrypoint, and smart contract wallets" />
                     </div>
                     <NetworkSelector selectedNetwork={selectedNetwork} handleNetworkChange={handleNetworkChange} disabled={loading} />
@@ -60,7 +90,7 @@ function RecentMetrics({
                                 {Object.keys(metrics).map((key) => {
                                     const { id, title, value, status, data, labels, toolTipValue } = metrics[key];
                                     return (
-                                        <div className="p-4 rounded border border-dark-200 bg-white shadow-200" key={id}>
+                                        <div className="p-4 bg-white border rounded border-dark-200 shadow-200" key={id}>
                                             <div className="flex items-center gap-1">
                                                 <span className="text-sm leadsdsdsding-[1.3]">{title} </span>
                                                 <InfoButton data={toolTipValue} />
