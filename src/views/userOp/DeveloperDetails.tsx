@@ -249,7 +249,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                             {item?.target && item?.value && item.callData  ? <tr>
                                                                                 <td className="text-black  [87%] text-end text-sm leading-5 py-[14px] px-3"></td>
                                                                                 <td className="text-black [87%] text-left text-sm leading-5 py-[14px] px-3">
-                                                                                    Format
+                                                                                    format
                                                                                 </td>
                                                                                 <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
                                                                                     executeCall(target, value, targetCallData)
