@@ -3,8 +3,8 @@ const nextConfig = {
     reactStrictMode: true,
     swcMinify: false,
     env: {
-        ENV: "development",
-        test: "test",
+        // ENV: "development",
+        // test: "test",
     }
 };
 
