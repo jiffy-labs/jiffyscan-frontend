@@ -85,7 +85,7 @@ function UserOperations() {
             setPageNo(effectivePageNo);
             urlParams.set('pageNo', (pageNo).toString());
             urlParams.set('pageSize', pageSize.toString());
-            window.history.pushState(null, '', `${window.location.pathname}?${urlParams.toString()}`);
+            window.history.replaceState(null, '', `${window.location.pathname}?${urlParams.toString()}`);
             refreshUserOpsTable(selectedNetwork, effectivePageSize, effectivePageNo);
         });
 

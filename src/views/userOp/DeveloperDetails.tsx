@@ -267,7 +267,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                                     format
                                                                                 </td>
                                                                                 <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                                    executeCall(target, value, targetCallData)
+                                                                                    executeCall(address target, uint256 value, bytes targetCallData)
                                                                                 </td>
                                                                                 <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
                                                                                     <span className="text-sm leading-5 text-blue-200"></span>
