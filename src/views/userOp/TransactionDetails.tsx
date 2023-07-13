@@ -136,13 +136,13 @@ export default function TransactionDetails({
                             Transaction Details
                         </Caption>
                     </div>
-                    <div className="bg-white overflow-auto rounded shadow-300 ">
+                    <div className="overflow-auto bg-white rounded shadow-300 ">
                         {tableLoading ? (
                             skeletonCards.map((index: number) => <Skeleton height={55} key={index} />)
                         ) : (
                             <div>
                                 <section className="">
-                                    <div className="container rounded  px-0">
+                                    <div className="container px-0 rounded">
                                         <div className="flex items-center md:pt-[0px] pt-[16px]  md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
                                             <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
                                                 <IconText icon={'/images/sader.svg'}>
@@ -151,11 +151,11 @@ export default function TransactionDetails({
                                                     </span>
                                                 </IconText>
                                             </div>
-                                            <div className=" break-words gap-2 flex-1">
+                                            <div className="flex-1 gap-2 break-words ">
                                                 <div>
                                                     <p className="text-[14px] text-[#455A64] md:hidden block">Sender</p>
                                                 </div>
-                                                <div className="md:flex block justify-between">
+                                                <div className="justify-between block md:flex">
                                                     <div className="flex items-center gap-[10px]">
                                                         <Link
                                                             underline="hover"
@@ -179,7 +179,7 @@ export default function TransactionDetails({
                                                             className="text-blue-200 "
                                                             target={'_blank'}
                                                         >
-                                                            <button className="outline-none md:block hidden focus:outline-none ring-0 focus:ring-0">
+                                                            <button className="hidden outline-none md:block focus:outline-none ring-0 focus:ring-0">
                                                                 <img src="/images/share.svg" alt="" />
                                                                 {/* </Link> */}
                                                             </button>
@@ -215,7 +215,7 @@ export default function TransactionDetails({
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
+                                        {((targets && targets.length > 0) || item?.target) && <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
                                             <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
                                                 <IconText icon={'/images/sader.svg'}>
                                                     <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
@@ -223,11 +223,11 @@ export default function TransactionDetails({
                                                     </span>
                                                 </IconText>
                                             </div>
-                                            <div className=" break-words gap-2 flex-1">
+                                            <div className="flex-1 gap-2 break-words ">
                                                 <div>
                                                     <p className="text-[14px] text-[#455A64] md:hidden block">Target</p>
                                                 </div>
-                                                <div className="block justify-between">
+                                                <div className="justify-between block">
                                                     {targets && targets.length > 0 ? (
                                                         targets.map((target: any, index: number) => {
                                                             return (
@@ -247,7 +247,7 @@ export default function TransactionDetails({
                                                     ) : (
                                                         <div className="flex items-center gap-[10px]">
                                                             <LinkAndCopy
-                                                                text={item?.target}
+                                                                text={item?.target ? item?.target : 'Unavailable'}
                                                                 link={`/account/${item?.target}?network=${
                                                                     item?.network ? item?.network : ''
                                                                 }`}
@@ -267,7 +267,7 @@ export default function TransactionDetails({
                                                     )}
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>}
                                         <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
                                             <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
                                                 <IconText icon={'/images/clock.svg'}>
@@ -276,11 +276,11 @@ export default function TransactionDetails({
                                                     </span>
                                                 </IconText>
                                             </div>
-                                            <div className=" break-words gap-2 flex-1">
+                                            <div className="flex-1 gap-2 break-words ">
                                                 <div>
                                                     <p className="text-[14px] text-[#455A64] md:hidden block">Block Time</p>
                                                 </div>
-                                                <div className="md:flex block justify-between">
+                                                <div className="justify-between block md:flex">
                                                     <div className="flex items-center gap-[10px]">
                                                         <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
                                                             {moment.unix(item?.blockTime!).utcOffset(120).format()}(Eastern European
@@ -298,11 +298,11 @@ export default function TransactionDetails({
                                                     </span>
                                                 </IconText>
                                             </div>
-                                            <div className=" break-words gap-2 flex-1">
+                                            <div className="flex-1 gap-2 break-words ">
                                                 <div>
                                                     <p className="text-[14px] text-[#455A64] md:hidden block">Status</p>
                                                 </div>
-                                                <div className="md:flex block justify-between">
+                                                <div className="justify-between block md:flex">
                                                     <div className="flex items-center gap-[10px]">
                                                         <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
                                                             <div className="flex">
@@ -331,11 +331,11 @@ export default function TransactionDetails({
                                                     </span>
                                                 </IconText>
                                             </div>
-                                            <div className=" break-words gap-2 flex-1">
+                                            <div className="flex-1 gap-2 break-words ">
                                                 <div>
                                                     <p className="text-[14px] text-[#455A64] md:hidden block">Value</p>
                                                 </div>
-                                                <div className="md:flex block justify-between">
+                                                <div className="justify-between block md:flex">
                                                     <div className="flex items-center gap-[10px]">
                                                         <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
                                                             {type}
@@ -344,7 +344,7 @@ export default function TransactionDetails({
                                                 </div>
                                             </div>
                                         </div>}
-                                        <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
+                                        {(values && values.length > 0) || item?.value && <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
                                             <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
                                                 <IconText icon={'/images/star.svg'}>
                                                     <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
@@ -352,11 +352,11 @@ export default function TransactionDetails({
                                                     </span>
                                                 </IconText>
                                             </div>
-                                            <div className=" break-words gap-2 flex-1">
+                                            <div className="flex-1 gap-2 break-words ">
                                                 <div>
                                                     <p className="text-[14px] text-[#455A64] md:hidden block">Value</p>
                                                 </div>
-                                                <div className="md:flex justify-between" style={{display: 'ruby'}}>
+                                                <div className="justify-between md:flex" style={{display: 'ruby'}}>
                                                     <div className="flex flex-col gap-[10px] w-full my-4">
                                                     {values && values.length > 0 ? (
                                                         values.map((value: any, index: number) => {
@@ -371,13 +371,13 @@ export default function TransactionDetails({
                                                         })
                                                     ) : (
                                                         <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
-                                                            <DisplayFee item={item?.value! ? item?.value! : '0'} network={item?.network} />
+                                                            <DisplayFee item={item?.value! ? item?.value! : 'Unavailable'} network={item?.network} />
                                                         </span>
                                                     )}
                                                     </div>      
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>}
                                         <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
                                             <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
                                                 <IconText toolTip="actualGasCost by user op" icon={'/images/Fee.svg'}>
@@ -386,11 +386,11 @@ export default function TransactionDetails({
                                                     </span>
                                                 </IconText>
                                             </div>
-                                            <div className=" break-words gap-2 flex-1">
+                                            <div className="flex-1 gap-2 break-words ">
                                                 <div>
                                                     <p className="text-[14px] text-[#455A64] md:hidden block">Gas Fee</p>
                                                 </div>
-                                                <div className="md:flex block justify-between">
+                                                <div className="justify-between block md:flex">
                                                     <div className="flex items-center gap-[10px]">
                                                         <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
                                                             <DisplayFee item={item?.actualGasCost!} network={item?.network} />
@@ -407,11 +407,11 @@ export default function TransactionDetails({
                                                     </span>
                                                 </IconText>
                                             </div>
-                                            <div className=" break-words gap-2 flex-1">
+                                            <div className="flex-1 gap-2 break-words ">
                                                 <div>
                                                     <p className="text-[14px] text-[#455A64] md:hidden block">Gas Used</p>
                                                 </div>
-                                                <div className="md:flex block justify-between">
+                                                <div className="justify-between block md:flex">
                                                     <div className="flex items-center gap-[10px]">
                                                         <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
                                                             {item?.actualGasUsed}
@@ -428,11 +428,11 @@ export default function TransactionDetails({
                                                     </span>
                                                 </IconText>
                                             </div>
-                                            <div className=" break-words gap-2 flex-1">
+                                            <div className="flex-1 gap-2 break-words ">
                                                 <div>
                                                     <p className="text-[14px] text-[#455A64] md:hidden block">PayMaster</p>
                                                 </div>
-                                                <div className="md:flex block justify-between">
+                                                <div className="justify-between block md:flex">
                                                     <div className="flex items-center gap-[10px]">
                                                         <Link
                                                             underline="hover"
@@ -474,7 +474,7 @@ export default function TransactionDetails({
                                                                     }`}
                                                                     target="_blank"
                                                                 >
-                                                                    <button className="outline-none md:block hidden focus:outline-none ring-0 focus:ring-0">
+                                                                    <button className="hidden outline-none md:block focus:outline-none ring-0 focus:ring-0">
                                                                         <img src="/images/share.svg" alt="" />
                                                                     </button>
                                                                 </Link>
@@ -519,11 +519,11 @@ export default function TransactionDetails({
                                                     </span>
                                                 </IconText>
                                             </div>
-                                            <div className=" break-words gap-2 flex-1">
+                                            <div className="flex-1 gap-2 break-words ">
                                                 <div>
                                                     <p className="text-[14px] text-[#455A64] md:hidden block">Beneficiary</p>
                                                 </div>
-                                                <div className="md:flex block justify-between">
+                                                <div className="justify-between block md:flex">
                                                     <div className="flex items-center gap-[10px]">
                                                         <Link
                                                             underline="hover"
@@ -549,7 +549,7 @@ export default function TransactionDetails({
                                                             className=""
                                                             target="_blank"
                                                         >
-                                                            <button className="outline-none md:block hidden focus:outline-none ring-0 focus:ring-0">
+                                                            <button className="hidden outline-none md:block focus:outline-none ring-0 focus:ring-0">
                                                                 <img src="/images/share.svg" alt="" />
                                                             </button>
                                                         </Link>
@@ -592,11 +592,11 @@ export default function TransactionDetails({
                                                     </span>
                                                 </IconText>
                                             </div>
-                                            <div className=" break-words gap-2 flex-1">
+                                            <div className="flex-1 gap-2 break-words ">
                                                 <div>
                                                     <p className="text-[14px] text-[#455A64] md:hidden block">Transaction Hash</p>
                                                 </div>
-                                                <div className="md:flex block justify-between">
+                                                <div className="justify-between block md:flex">
                                                     <div className="flex items-center gap-[10px]">
                                                         <Link
                                                             underline="hover"
@@ -622,7 +622,7 @@ export default function TransactionDetails({
                                                             className="text-blue-200"
                                                             target="_blank"
                                                         >
-                                                            <button className="outline-none md:block hidden focus:outline-none ring-0 focus:ring-0">
+                                                            <button className="hidden outline-none md:block focus:outline-none ring-0 focus:ring-0">
                                                                 <img src="/images/share.svg" alt="" />
                                                             </button>
                                                         </Link>
@@ -639,11 +639,11 @@ export default function TransactionDetails({
                                                     </span>
                                                 </IconText>
                                             </div>
-                                            <div className=" break-words gap-2 flex-1">
+                                            <div className="flex-1 gap-2 break-words ">
                                                 <div>
                                                     <p className="text-[14px] text-[#455A64] md:hidden block">Block</p>
                                                 </div>
-                                                <div className="md:flex block justify-between">
+                                                <div className="justify-between block md:flex">
                                                     <div className="flex items-center gap-[10px]">
                                                         <Link
                                                             underline="hover"
@@ -671,7 +671,7 @@ export default function TransactionDetails({
                                                             className="text-blue-200"
                                                             target={'_blank'}
                                                         >
-                                                            <button className="outline-none md:block hidden focus:outline-none ring-0 focus:ring-0">
+                                                            <button className="hidden outline-none md:block focus:outline-none ring-0 focus:ring-0">
                                                                 <img src="/images/share.svg" alt="" />
                                                             </button>
                                                         </Link>
@@ -688,13 +688,13 @@ export default function TransactionDetails({
                                                             </span>
                                                         </IconText>
                                                     </div>
-                                                    <div className=" break-words gap-2 flex-1">
+                                                    <div className="flex-1 gap-2 break-words ">
                                                         <div>
                                                             <p className="text-[14px] text-[#455A64] md:hidden block">
                                                                 ERC-20 Tokens Transferred
                                                             </p>
                                                         </div>
-                                                        <div className="md:flex block justify-between">
+                                                        <div className="justify-between block md:flex">
                                                             <div className="flex flex-col gap-[10px] w-full">
                                                                 {item.erc20Transfers.slice(0).reverse().map(
                                                                     (
@@ -737,13 +737,13 @@ export default function TransactionDetails({
                                                     </span>
                                                 </IconText>
                                             </div>
-                                            <div className=" break-words gap-2 flex-1">
+                                            <div className="flex-1 gap-2 break-words ">
                                                 <div>
                                                     <p className="text-[14px] text-[#455A64] md:hidden block">
                                                         ERC-721 Tokens Transferred
                                                     </p>
                                                 </div>
-                                                <div className="md:flex block justify-between">
+                                                <div className="justify-between block md:flex">
                                                     <div className="flex flex-col gap-[10px] w-full">
                                                         {item.erc721Transfers.slice(0).reverse().map(
                                                             (

@@ -12,15 +12,33 @@ import sx from './usertable.module.sass';
 import LinkAndCopy from '@/components/common/LinkAndCopy';
 import { NETWORK_SCANNER_MAP } from '@/components/common/constants';
 export default function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, setSelectedColor, open, setOpen, metaData, selectedNetwork }: any) {
-    const [dropOpen, SetdropOpen] = useState(false);
+    const initialize = (key: any, initialValue: any) => {
+        try {
+          const item = localStorage.getItem(key);
+          if (item && item !== "undefined") {
+            return JSON.parse(item);
+          }
+    
+          localStorage.setItem(key, JSON.stringify(initialValue));
+          return initialValue;
+        } catch {
+          return initialValue;
+        }
+      };
+    
+    const [dropOpen, SetdropOpen] = useState(() => initialize('dropOpen', true));
     const [userOpParamsExists, setUserOpParamsExists] = useState(false);
+
+    useEffect(() => {
+        // save dropOpen state in localstorage
+        if (typeof window === 'undefined') return;
+        localStorage.setItem('dropOpen', JSON.stringify(dropOpen));
+    }, [dropOpen])
 
     useEffect(() => {
         if (metaData && Object.keys(metaData).length > 0 && 'userOpParams' in metaData && metaData.userOpParams.length > 0) 
             setUserOpParamsExists(true);  
     },[metaData])
-
-    console.log(metaData);
 
     return (
         <div>
@@ -36,16 +54,6 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                             skeletonCards1.map((index: number) => <Skeleton height={55} key={index} />)
                         ) : (
                             <div className="items-center md:pt-[0px] pt-[16px]  md:gap-[20px] gap-[10px]  pb-[2px]">
-                                <div className="flex items-center p-[16px] border-b border-[#ccc] border-0">
-                                    <div className="flex gap-[12px] w-[400px]">
-                                        <img src="/images/code-array.svg" alt="" />
-                                        <p>Value</p>
-                                        <InfoButton />
-                                    </div>
-                                    <div className="flex items-center gap-[132px]">
-                                        <DisplayFee item={item?.value! ? item?.value! : '0'} network={item?.network} />
-                                    </div>
-                                </div>
                                 <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
                                             <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
                                                 <IconText icon={'/images/Hash.svg'}>
@@ -258,7 +266,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                                     <span className="text-sm leading-5 text-blue-200"></span>
                                                                                 </td>
                                                                             </tr> : ''}
-                                                                            <tr>
+                                                                            {item?.target && <tr>
                                                                                 <td className="text-black  [87%] text-end text-sm leading-5 py-[14px] px-3"></td>
                                                                                 <td className="text-black [87%] text-left text-sm leading-5 py-[14px] px-3">
                                                                                     target
@@ -269,8 +277,8 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                                 <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
                                                                                     <span className="text-sm leading-5 text-blue-200"></span>
                                                                                 </td>
-                                                                            </tr>
-                                                                            <tr>
+                                                                            </tr>}
+                                                                            {item?.value && <tr>
                                                                                 <td className="text-black [87%] text-end text-sm leading-5 py-[14px] px-3"></td>
                                                                                 <td className="text-black [87%]  text-sm leading-5 py-[14px] px-3">
                                                                                     value
@@ -284,8 +292,8 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                                 <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
                                                                                     <span className="text-sm leading-5 text-blue-200"></span>
                                                                                 </td>
-                                                                            </tr>
-                                                                            <tr>
+                                                                            </tr>}
+                                                                            {item?.calldata && <tr>
                                                                                 <td className="text-black [87%] text-end text-sm leading-5 py-[14px] px-3 "></td>
                                                                                 <td className="text-black [87%] text-left text-sm leading-5 py-[14px] px-3">
                                                                                     calldata
@@ -296,7 +304,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                                 <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
                                                                                     <span className="text-sm leading-5 text-blue-200"></span>
                                                                                 </td>
-                                                                            </tr>
+                                                                            </tr>}
                                                                         </>
                                                                     )}
                                                                     <tr>
