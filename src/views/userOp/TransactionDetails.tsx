@@ -77,7 +77,9 @@ export default function TransactionDetails({
             for (let i in executionList) {
                 let executionCall = executionList[i];
                 targetList.push(executionCall.traceData.to);
-                invokesList.push(executionCall.traceData.method ? executionCall.traceData.method : executionCall.traceData.input.slice(0,10))
+                invokesList.push(
+                    executionCall.traceData.method ? executionCall.traceData.method : executionCall.traceData.input.slice(0, 10),
+                );
                 valueList.push(parseInt(executionCall.traceData.value, 16));
             }
             setTargets(targetList);
@@ -88,15 +90,18 @@ export default function TransactionDetails({
 
     const [traceCallToDisplay, setTraceCallToDisplay] = React.useState<Array<ExecutionTraceType>>([] as Array<ExecutionTraceType>);
 
-    const getNumberOfERC20Transfers = (erc20Transfers: Array<{to:string, from: string}>) => {
+    const getNumberOfERC20Transfers = (erc20Transfers: Array<{ to: string; from: string }>) => {
         let num = 0;
         for (let i in erc20Transfers) {
-            if (item?.sender.toLowerCase() == erc20Transfers[i].from.toLowerCase() || item?.sender.toLowerCase() == erc20Transfers[i].to.toLowerCase()) {
-                num++
+            if (
+                item?.sender.toLowerCase() == erc20Transfers[i].from.toLowerCase() ||
+                item?.sender.toLowerCase() == erc20Transfers[i].to.toLowerCase()
+            ) {
+                num++;
             }
         }
         return num;
-    }
+    };
 
     const showERC20Transfers = (showMetadata: boolean, metadata: metadata, reload: number): boolean => {
         let showERC20Transfers = false;
@@ -215,59 +220,77 @@ export default function TransactionDetails({
                                                 </div>
                                             </div>
                                         </div>
-                                        {((targets && targets.length > 0) || item?.target) && <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
-                                            <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
-                                                <IconText icon={'/images/sader.svg'}>
-                                                    <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
-                                                        Target
-                                                    </span>
-                                                </IconText>
-                                            </div>
-                                            <div className="flex-1 gap-2 break-words ">
-                                                <div>
-                                                    <p className="text-[14px] text-[#455A64] md:hidden block">Target</p>
+                                        {((targets && targets.length > 0) || item?.target) && (
+                                            <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
+                                                <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
+                                                    <IconText icon={'/images/sader.svg'}>
+                                                        <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
+                                                            Target
+                                                        </span>
+                                                    </IconText>
                                                 </div>
-                                                <div className="justify-between block">
-                                                    {targets && targets.length > 0 ? (
-                                                        targets.map((target: any, index: number) => {
-                                                            return (
-                                                                <div key={index} className="flex gap-[10px] item-center display-ruby">
-                                                                    <LinkAndCopy
-                                                                        text={target}
-                                                                        link={`/account/${target}?network=${
-                                                                            item?.network ? item?.network : ''
-                                                                        }`}
-                                                                        copyText={target}
-                                                                        secondaryTargetLink={NETWORK_SCANNER_MAP[selectedNetwork] + '/address/' + target}
-                                                                    />
-                                                                    {" "} Invoked: {invokes[index]}
-                                                                </div>
-                                                            );
-                                                        })
-                                                    ) : (
-                                                        <div className="flex items-center gap-[10px]">
-                                                            <LinkAndCopy
-                                                                text={item?.target ? item?.target : 'Unavailable'}
-                                                                link={`/account/${item?.target}?network=${
-                                                                    item?.network ? item?.network : ''
-                                                                }`}
-                                                                copyText={item?.target}
-                                                            />
-                                                            <Link
-                                                                underline="hover"
-                                                                // color="text.primary"
-                                                                href={`/account/${item?.target}?network=${
-                                                                    item?.network ? item.network : ''
-                                                                }`}
-                                                                aria-current="page"
-                                                                className="text-blue-200 "
-                                                                target={'_blank'}
-                                                            ></Link>
-                                                        </div>
-                                                    )}
+                                                <div className="flex-1 gap-2 break-words ">
+                                                    <div>
+                                                        <p className="text-[14px] text-[#455A64] md:hidden block">Target</p>
+                                                    </div>
+                                                    <div className="justify-between block">
+                                                        {targets && targets.length > 0 ? (
+                                                            targets.map((target: any, index: number) => {
+                                                                return (
+                                                                    <div key={index} className="flex gap-[10px] item-center display-ruby">
+                                                                        <LinkAndCopy
+                                                                            text={target}
+                                                                            link={`/account/${target}?network=${
+                                                                                item?.network ? item?.network : ''
+                                                                            }`}
+                                                                            copyText={target}
+                                                                            secondaryTargetLink={
+                                                                                NETWORK_SCANNER_MAP[selectedNetwork] + '/address/' + target
+                                                                            }
+                                                                        />{' '}
+                                                                        Invoked: {invokes[index]}
+                                                                    </div>
+                                                                );
+                                                            })
+                                                        ) : (
+                                                            <div className="block items-center gap-[10px]">
+                                                                {item.target.map((target: any, index: number) => {
+                                                                    return (
+                                                                        <div
+                                                                            key={index}
+                                                                            className="flex gap-[10px] item-center display-ruby"
+                                                                        >
+                                                                            <LinkAndCopy
+                                                                                text={target}
+                                                                                link={`/account/${target}?network=${
+                                                                                    item?.network ? item?.network : ''
+                                                                                }`}
+                                                                                copyText={target}
+                                                                                secondaryTargetLink={
+                                                                                    NETWORK_SCANNER_MAP[selectedNetwork] +
+                                                                                    '/address/' +
+                                                                                    target
+                                                                                }
+                                                                            />
+                                                                            <Link
+                                                                                underline="hover"
+                                                                                // color="text.primary"
+                                                                                href={`/account/${item?.target}?network=${
+                                                                                    item?.network ? item.network : ''
+                                                                                }`}
+                                                                                aria-current="page"
+                                                                                className="text-blue-200 "
+                                                                                target={'_blank'}
+                                                                            ></Link>
+                                                                        </div>
+                                                                    );
+                                                                })}
+                                                            </div>
+                                                        )}
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>}
+                                        )}
                                         <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
                                             <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
                                                 <IconText icon={'/images/clock.svg'}>
@@ -323,61 +346,83 @@ export default function TransactionDetails({
                                                 </div>
                                             </div>
                                         </div>
-                                        {type && <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
-                                            <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
-                                                <IconText toolTip="actualGasCost by user op" icon={'/images/Fee.svg'}>
-                                                    <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
-                                                        Transaction Type
-                                                    </span>
-                                                </IconText>
-                                            </div>
-                                            <div className="flex-1 gap-2 break-words ">
-                                                <div>
-                                                    <p className="text-[14px] text-[#455A64] md:hidden block">Value</p>
-                                                </div>
-                                                <div className="justify-between block md:flex">
-                                                    <div className="flex items-center gap-[10px]">
-                                                        <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
-                                                            {type}
+                                        {type && (
+                                            <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
+                                                <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
+                                                    <IconText toolTip="actualGasCost by user op" icon={'/images/Fee.svg'}>
+                                                        <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
+                                                            Transaction Type
                                                         </span>
+                                                    </IconText>
+                                                </div>
+                                                <div className="flex-1 gap-2 break-words ">
+                                                    <div>
+                                                        <p className="text-[14px] text-[#455A64] md:hidden block">Value</p>
+                                                    </div>
+                                                    <div className="justify-between block md:flex">
+                                                        <div className="flex items-center gap-[10px]">
+                                                            <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
+                                                                {type}
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>}
-                                        {(values && values.length > 0) || item?.value && <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
-                                            <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
-                                                <IconText icon={'/images/star.svg'}>
-                                                    <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
-                                                        Value
-                                                    </span>
-                                                </IconText>
-                                            </div>
-                                            <div className="flex-1 gap-2 break-words ">
-                                                <div>
-                                                    <p className="text-[14px] text-[#455A64] md:hidden block">Value</p>
+                                        )}
+                                        {(values && values.length > 0) ||
+                                            (item?.value && (
+                                                <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
+                                                    <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
+                                                        <IconText icon={'/images/star.svg'}>
+                                                            <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
+                                                                Value
+                                                            </span>
+                                                        </IconText>
+                                                    </div>
+                                                    <div className="flex-1 gap-2 break-words ">
+                                                        <div>
+                                                            <p className="text-[14px] text-[#455A64] md:hidden block">Value</p>
+                                                        </div>
+                                                        <div className="justify-between md:flex" style={{ display: 'ruby' }}>
+                                                            <div className="flex flex-col gap-[10px] w-full my-4">
+                                                                {values && values.length > 0 ? (
+                                                                    values.map((value: any, index: number) => {
+                                                                        return (
+                                                                            <span
+                                                                                key={index}
+                                                                                className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5 flex items-center"
+                                                                            >
+                                                                                {type == 'Multi Send' && index + 1 + ':  '} &nbsp;{' '}
+                                                                                <DisplayFee
+                                                                                    item={value! ? value! : '0'}
+                                                                                    network={item?.network}
+                                                                                    
+                                                                                />
+                                                                            </span>
+                                                                        );
+                                                                    })
+                                                                ) : (
+                                                                    <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
+                                                                        {item.value.map((value: any, index: number) => {
+                                                                            return (
+                                                                                <span
+                                                                                    key={index}
+                                                                                    className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5 flex items-center"
+                                                                                >
+                                                                                    <DisplayFee
+                                                                                        item={value! ? parseInt(value.hex)! : 'Unavailable'}
+                                                                                        network={item?.network}
+                                                                                    />
+                                                                                </span>
+                                                                            );
+                                                                        })}
+                                                                    </span>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div className="justify-between md:flex" style={{display: 'ruby'}}>
-                                                    <div className="flex flex-col gap-[10px] w-full my-4">
-                                                    {values && values.length > 0 ? (
-                                                        values.map((value: any, index: number) => {
-                                                            return (
-                                                                <span key={index} className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5 flex items-center">
-                                                                    {type == "Multi Send" && (index+1)+":  "} &nbsp; <DisplayFee
-                                                                        item={value! ? value! : '0'}
-                                                                        network={item?.network}
-                                                                    />
-                                                                </span>
-                                                            );
-                                                        })
-                                                    ) : (
-                                                        <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
-                                                            <DisplayFee item={item?.value! ? item?.value! : 'Unavailable'} network={item?.network} />
-                                                        </span>
-                                                    )}
-                                                    </div>      
-                                                </div>
-                                            </div>
-                                        </div>}
+                                            ))}
                                         <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
                                             <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
                                                 <IconText toolTip="actualGasCost by user op" icon={'/images/Fee.svg'}>
@@ -630,7 +675,7 @@ export default function TransactionDetails({
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                         <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
                                             <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
                                                 <IconText icon={'/images/cube.svg'}>
@@ -681,22 +726,25 @@ export default function TransactionDetails({
                                         </div>
                                         {getNumberOfERC20Transfers(item.erc20Transfers) > 0 && (
                                             <div className="flex md:pt-[0px] pt-[16px] items-start md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
-                                                    <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
-                                                        <IconText icon={'/images/cube.svg'}>
-                                                            <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
-                                                                ERC-20 Tokens Transferred
-                                                            </span>
-                                                        </IconText>
+                                                <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
+                                                    <IconText icon={'/images/cube.svg'}>
+                                                        <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
+                                                            ERC-20 Tokens Transferred
+                                                        </span>
+                                                    </IconText>
+                                                </div>
+                                                <div className="flex-1 gap-2 break-words ">
+                                                    <div>
+                                                        <p className="text-[14px] text-[#455A64] md:hidden block">
+                                                            ERC-20 Tokens Transferred
+                                                        </p>
                                                     </div>
-                                                    <div className="flex-1 gap-2 break-words ">
-                                                        <div>
-                                                            <p className="text-[14px] text-[#455A64] md:hidden block">
-                                                                ERC-20 Tokens Transferred
-                                                            </p>
-                                                        </div>
-                                                        <div className="justify-between block md:flex">
-                                                            <div className="flex flex-col gap-[10px] w-full">
-                                                                {item.erc20Transfers.slice(0).reverse().map(
+                                                    <div className="justify-between block md:flex">
+                                                        <div className="flex flex-col gap-[10px] w-full">
+                                                            {item.erc20Transfers
+                                                                .slice(0)
+                                                                .reverse()
+                                                                .map(
                                                                     (
                                                                         {
                                                                             to,
@@ -705,7 +753,7 @@ export default function TransactionDetails({
                                                                             name,
                                                                             decimals,
                                                                             contractAddress,
-                                                                            symbol
+                                                                            symbol,
                                                                         }: UserOp['erc20Transfers'],
                                                                         index: number,
                                                                     ) => (
@@ -723,61 +771,63 @@ export default function TransactionDetails({
                                                                         />
                                                                     ),
                                                                 )}
-                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            )}
+                                            </div>
+                                        )}
                                         {item.erc721Transfers?.length > 0 && (
                                             <div className="flex md:pt-[0px] pt-[16px] items-start md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
-                                            <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
-                                                <IconText icon={'/images/cube.svg'}>
-                                                    <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
-                                                        ERC-721 Tokens Transferred
-                                                    </span>
-                                                </IconText>
-                                            </div>
-                                            <div className="flex-1 gap-2 break-words ">
-                                                <div>
-                                                    <p className="text-[14px] text-[#455A64] md:hidden block">
-                                                        ERC-721 Tokens Transferred
-                                                    </p>
+                                                <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
+                                                    <IconText icon={'/images/cube.svg'}>
+                                                        <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
+                                                            ERC-721 Tokens Transferred
+                                                        </span>
+                                                    </IconText>
                                                 </div>
-                                                <div className="justify-between block md:flex">
-                                                    <div className="flex flex-col gap-[10px] w-full">
-                                                        {item.erc721Transfers.slice(0).reverse().map(
-                                                            (
-                                                                {
-                                                                    to,
-                                                                    from,
-                                                                    tokenId,
-                                                                    name,
-                                                                    decimals,
-                                                                    contractAddress,
-                                                                    symbol
-                                                                }: UserOp['erc721Transfers'],
-                                                                index: number,
-                                                            ) => (
-                                                                <ERC721Transfers
-                                                                    sender={item.sender as string}
-                                                                    to={to}
-                                                                    from={from}
-                                                                    tokenId={tokenId}
-                                                                    name={name}
-                                                                    symbol={symbol}
-                                                                    decimals={parseInt(decimals)}
-                                                                    address={contractAddress}
-                                                                    key={index}
-                                                                    selectedNetwork={item.network}
-                                                                />
-                                                            ),
-                                                        )}
+                                                <div className="flex-1 gap-2 break-words ">
+                                                    <div>
+                                                        <p className="text-[14px] text-[#455A64] md:hidden block">
+                                                            ERC-721 Tokens Transferred
+                                                        </p>
+                                                    </div>
+                                                    <div className="justify-between block md:flex">
+                                                        <div className="flex flex-col gap-[10px] w-full">
+                                                            {item.erc721Transfers
+                                                                .slice(0)
+                                                                .reverse()
+                                                                .map(
+                                                                    (
+                                                                        {
+                                                                            to,
+                                                                            from,
+                                                                            tokenId,
+                                                                            name,
+                                                                            decimals,
+                                                                            contractAddress,
+                                                                            symbol,
+                                                                        }: UserOp['erc721Transfers'],
+                                                                        index: number,
+                                                                    ) => (
+                                                                        <ERC721Transfers
+                                                                            sender={item.sender as string}
+                                                                            to={to}
+                                                                            from={from}
+                                                                            tokenId={tokenId}
+                                                                            name={name}
+                                                                            symbol={symbol}
+                                                                            decimals={parseInt(decimals)}
+                                                                            address={contractAddress}
+                                                                            key={index}
+                                                                            selectedNetwork={item.network}
+                                                                        />
+                                                                    ),
+                                                                )}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    )}
-                                        
+                                        )}
                                     </div>
                                 </section>
                             </div>

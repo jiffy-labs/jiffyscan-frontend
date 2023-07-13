@@ -111,7 +111,7 @@ const constructERC20TransferRows = (erc20Transfers: tokenTransferAlchemy[], netw
             },
             ago: getAgoFromAssetTransfer(erc20Transfer),
             sender: erc20Transfer.from,
-            target: erc20Transfer.to,
+            target: [erc20Transfer.to],
             fee: { value, component },
             status: true,
         });
@@ -132,7 +132,7 @@ const constructERC721TransferRows = (erc721Transfers: tokenTransferAlchemy[], ne
             },
             ago: getAgoFromAssetTransfer(erc721Transfer),
             sender: erc721Transfer.from,
-            target: erc721Transfer.to,
+            target: [erc721Transfer.to],
             fee: { value: value, component: component },
             status: true,
         });
@@ -152,7 +152,7 @@ const createUserOpsTableRows = (userOps: UserOp[]): tableDataT['rows'] => {
             },
             ago: getTimePassed(userOp.blockTime!),
             sender: userOp.sender,
-            target: userOp.target ? userOp.target : 'Unavailable!',
+            target: userOp.target ? userOp.target : ['Unavailable!'],
             fee: getFee(userOp.actualGasCost, userOp.network as string),
             status: userOp.success!,
         });
@@ -172,7 +172,7 @@ const createTransactionTableRows = (transactions: Transaction[], network: string
             },
             ago: getTimePassed((new Date(transaction.block_signed_at)).getTime()/1000),
             sender: transaction.from_address,
-            target: transaction.to_address,
+            target: [transaction.to_address],
             fee: getFee(transaction.gas_price, network),
             status: transaction.successful,
         });

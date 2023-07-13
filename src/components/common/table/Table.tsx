@@ -20,7 +20,7 @@ export interface tableDataT {
         token?: TokenType;
         ago?: string;
         sender?: string;
-        target?: string;
+        target?: string[];
         fee?: fee;
         userOps?: string;
         status?: Boolean;
@@ -137,15 +137,21 @@ function Table(props: tableDataT) {
 
                                             {target && (
                                                 <td className="">
-                                                    <Token text={target} type="address" />
+                                                    
+                                                    { target.length > 0 &&  target.map((item, index) => {
+                                                        console.log('target from table', target)
+                                                        return (
+                                                            <Token key={index} text={item} type="address" />
+                                                        )
+                                                    })}
                                                 </td>
                                             )}
 
                                             {fee && (
                                                 <td className="">
                                                     <div className="flex items-center justify-end gap-2 text-right">
-                                                        <span>{fee.value}</span>
-                                                        {fee.gas && (
+                                                        {fee.value ? <span>{fee.value}</span> : "Unavailable" }
+                                                        {fee.gas && fee.value && (
                                                             <Chip variant="outlined" color={fee.gas.color as ChipProps['color']}>
                                                                 {fee.gas.children}
                                                             </Chip>
