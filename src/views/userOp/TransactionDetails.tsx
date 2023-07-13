@@ -410,7 +410,7 @@ export default function TransactionDetails({
                                                                                     className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5 flex items-center"
                                                                                 >
                                                                                     <DisplayFee
-                                                                                        item={value! ? parseInt(value.hex)! : 'Unavailable'}
+                                                                                        item={value! ? (typeof value == "string" ? value : parseInt(value.hex))! : 'Unavailable'}
                                                                                         network={item?.network}
                                                                                     />
                                                                                 </span>

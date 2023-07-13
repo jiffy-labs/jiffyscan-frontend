@@ -14,6 +14,7 @@ import { NETWORK_SCANNER_MAP } from '@/components/common/constants';
 
 const FORMAT_MAP: {[key: string]: string} = {
     "0x940d3c60": "executeCall(address target, uint256 value, bytes targetCallData)",
+    "0x9e5d4c49": "executeDelegateCall(address target, bytes data)",
     "0x912ccaa3": "executeBatchCall(address[] target, uint256[] value, bytes[] targetCallData)",
 }
 
@@ -313,9 +314,9 @@ export default function DeveloperDetails({
                                                                                         {item?.target.map(
                                                                                             (target: string, index: number) => {
                                                                                                 return (
-                                                                                                    <div className="flex items-center gap-2">
+                                                                                                    <div key={index} className="flex items-center gap-2">
                                                                                                         <span className="text-sm leading-5">
-                                                                                                            {index + 1} : {target}
+                                                                                                            {item.target.length > 1 && index + 1 + ' : '}{target}
                                                                                                         </span>
                                                                                                     </div>
                                                                                                 );
@@ -337,9 +338,9 @@ export default function DeveloperDetails({
                                                                                         {item?.value?.map(
                                                                                             (value: {type: string, hex: string}, index: number) => {
                                                                                                 return (
-                                                                                                    <div className="flex items-center gap-2">
+                                                                                                    <div key={index} className="flex items-center gap-2">
                                                                                                         <span className="text-sm leading-5">
-                                                                                                            {index + 1} : {parseInt(value.hex)}
+                                                                                                            {item.value.length > 1 && index + 1 + ' : '}{(typeof value == "string" ? value : parseInt(value.hex))}
                                                                                                         </span>
                                                                                                     </div>
                                                                                                 );
@@ -358,12 +359,12 @@ export default function DeveloperDetails({
                                                                                         calldata
                                                                                     </td>
                                                                                     <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                                        {item?.callData?.map(
+                                                                                        {typeof item.callData == "string" ? item?.callData : item?.callData?.map(
                                                                                             (callData: string, index: number) => {
                                                                                                 return (
-                                                                                                    <div className="flex items-center gap-2">
+                                                                                                    <div key={index} className="flex items-center gap-2">
                                                                                                         <span className="text-sm leading-5">
-                                                                                                            {index + 1} : {callData}
+                                                                                                            {item.callData.length > 1 && index + 1 + ' : '}{callData}
                                                                                                         </span>
                                                                                                     </div>
                                                                                                 );
