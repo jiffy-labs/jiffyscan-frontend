@@ -8,13 +8,11 @@ export default function DisplayFee({ item, network }: any) {
 
     useEffect(() => {
         setFee(getFee(item, network));
-        console.log('fee', fee);
-        console.log(item, fee);
     }, [item, network]);
 
     return (
         <div>
-            <div className="flex items-center text-rgiht gap-2">
+            <div className="flex items-center gap-2 mt-2 text-rgiht">
                 <span>{fee?.value}</span>
                 <Chip variant="outlined" color={fee?.gas?.color as ChipProps['color']}>
                     {fee?.gas?.children}

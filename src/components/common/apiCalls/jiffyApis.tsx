@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { fallBack } from '../constants';
 import cache from 'memory-cache';
+import { BigNumber } from 'ethers';
 export interface UserOp {
     id: string | null;
     transactionHash: string | null;
@@ -18,12 +19,13 @@ export interface UserOp {
     blockNumber: number | null;
     network: string;
     input: string | null;
-    target: string | null;
+    target: string[] | null;
     accountTarget: { factory: string };
-    callData: string | null;
+    callData: string[] | null;
+    preDecodedCallData: string | null;
     beneficiary: string | null;
     factory: string | null;
-    value: number | null;
+    value: BigNumber[] | null;
     verificationGasLimit: string | null;
     preVerificationGas: string | null;
     maxFeePerGas: number | null;
@@ -295,6 +297,15 @@ const performApiCall = (network: string): boolean => {
     return true;
 };
 
+
+
+const PRO_API = "https://api.jiffyscan.xyz"
+const DEV_API = "https://api-dev.jiffyscan.xyz"
+const API_URL = process.env.ENV === 'production' ? PRO_API : DEV_API;
+
+console.log(API_URL)
+
+
 const showToast = (toast: any, message: string, type?: string) => {
     if (type == 'warning') {
         toast.warning(message, {
@@ -386,7 +397,7 @@ export const getTopPaymasters = async (
 ): Promise<PayMasterActivity[]> => {
     if (!performApiCall(selectedNetwork)) return [] as PayMasterActivity[];
     const response = await fetch(
-        'https://api.jiffyscan.xyz/v0/getTopPaymasters?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
+        API_URL+'/v0/getTopPaymasters?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -407,7 +418,7 @@ export const getTopPaymasters = async (
 export const getTopBundlers = async (selectedNetwork: string, pageSize: number, pageNo: number, toast: any): Promise<Bundler[]> => {
     if (!performApiCall(selectedNetwork)) return [] as Bundler[];
     const response = await fetch(
-        'https://api.jiffyscan.xyz/v0/getTopBundlers?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
+        API_URL+'/v0/getTopBundlers?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -428,7 +439,7 @@ export const getTopBundlers = async (selectedNetwork: string, pageSize: number, 
 export const getTopFactories = async (selectedNetwork: string, pageSize: number, pageNo: number, toast: any): Promise<FactoryDetails[]> => {
     if (!performApiCall(selectedNetwork)) return [] as FactoryDetails[];
     const response = await fetch(
-        'https://api.jiffyscan.xyz/v0/getTopFactories?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
+        API_URL+'/v0/getTopFactories?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -449,7 +460,7 @@ export const getTopFactories = async (selectedNetwork: string, pageSize: number,
 export const getLatestUserOps = async (selectedNetwork: string, pageSize: number, pageNo: number, toast: any): Promise<UserOp[]> => {
     if (!performApiCall(selectedNetwork)) return [] as UserOp[];
     const response = await fetch(
-        'https://api.jiffyscan.xyz/v0/getLatestUserOps?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
+        API_URL+'/v0/getLatestUserOps?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -469,8 +480,11 @@ export const getLatestUserOps = async (selectedNetwork: string, pageSize: number
 
 export const getLatestBundles = async (selectedNetwork: string, pageSize: number, pageNo: number, toast: any): Promise<Bundle[]> => {
     if (!performApiCall(selectedNetwork)) return [] as Bundle[];
+    console.log('...ENV',process.env.ENV);
+    console.log('....envs',process.env);
+    console.log('.....API url',API_URL);
     const response = await fetch(
-        'https://api.jiffyscan.xyz/v0/getLatestBundles?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
+        API_URL+'/v0/getLatestBundles?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -490,7 +504,7 @@ export const getLatestBundles = async (selectedNetwork: string, pageSize: number
 
 export const getDailyMetrics = async (selectedNetwork: string, noOfDays: number, toast: any): Promise<DailyMetric[]> => {
     if (!performApiCall(selectedNetwork)) return [] as DailyMetric[];
-    const response = await fetch('https://api.jiffyscan.xyz/v0/getDailyMetrics?network=' + selectedNetwork + '&noOfDays=' + noOfDays, {
+    const response = await fetch(API_URL+'/v0/getDailyMetrics?network=' + selectedNetwork + '&noOfDays=' + noOfDays, {
         headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
     });
     if (response.status != 200) {
@@ -508,7 +522,7 @@ export const getDailyMetrics = async (selectedNetwork: string, noOfDays: number,
 
 export const getGlobalMetrics = async (selectedNetwork: string, toast: any): Promise<GlobalCounts> => {
     if (!performApiCall(selectedNetwork)) return {} as GlobalCounts;
-    const response = await fetch('https://api.jiffyscan.xyz/v0/getGlobalCounts?network=' + selectedNetwork, {
+    const response = await fetch(API_URL+'/v0/getGlobalCounts?network=' + selectedNetwork, {
         headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
     });
     if (response.status != 200) {
@@ -525,7 +539,7 @@ export const getGlobalMetrics = async (selectedNetwork: string, toast: any): Pro
 };
 
 export const getUserOp = async (userOpHash: string, toast: any): Promise<UserOp[]> => {
-    const response = await fetch('https://api.jiffyscan.xyz/v0/getUserOp?hash=' + userOpHash, {
+    const response = await fetch(API_URL+'/v0/getUserOp?hash=' + userOpHash, {
         headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
     });
     if (response.status != 200) {
@@ -551,7 +565,7 @@ export const getAddressActivity = async (
 ): Promise<AddressActivity> => {
     if (!performApiCall(selectedNetwork)) return {} as AddressActivity;
     const response = await fetch(
-        'https://api.jiffyscan.xyz/v0/getAddressActivity?address=' +
+        API_URL+'/v0/getAddressActivity?address=' +
             userOpHash +
             '&network=' +
             selectedNetwork +
@@ -585,7 +599,7 @@ export const getAddressBalances = async (
 ): Promise<tokenBalance[]> => {
     if (!performApiCall(selectedNetwork)) return [] as tokenBalance[];
     const response = await fetch(
-        'https://api.jiffyscan.xyz/v0/getAddressBalances?address=' +
+        API_URL+'/v0/getAddressBalances?address=' +
             userOpHash +
             '&network=' +
             selectedNetwork +
@@ -619,7 +633,7 @@ export const getAddressTransactions = async (
 ): Promise<Transaction[]> => {
     if (!performApiCall(selectedNetwork)) return [] as Transaction[];
     const response = await fetch(
-        'https://api.jiffyscan.xyz/v0/getAddressTransactions?address=' +
+        API_URL+'/v0/getAddressTransactions?address=' +
             userOpHash +
             '&network=' +
             selectedNetwork +
@@ -654,7 +668,7 @@ export const getAddressERC20Transfers = async (
 ): Promise<tokenTransferAlchemy[]> => {
     if (!performApiCall(selectedNetwork)) return [] as tokenTransferAlchemy[];
     const response = await fetch(
-        'https://api.jiffyscan.xyz/v0/getAddressERC20Transfers?address=' +
+        API_URL+'/v0/getAddressERC20Transfers?address=' +
             userOpHash +
             '&network=' +
             selectedNetwork +
@@ -688,7 +702,7 @@ export const getAddressERC721Transfers = async (
 ): Promise<tokenTransferAlchemy[]> => {
     if (!performApiCall(selectedNetwork)) return [] as tokenTransferAlchemy[];
     const response = await fetch(
-        'https://api.jiffyscan.xyz/v0/getAddressNFTTransfers?address=' +
+        API_URL+'/v0/getAddressNFTTransfers?address=' +
             userOpHash +
             '&network=' +
             selectedNetwork +
@@ -722,7 +736,7 @@ export const getFactoryDetails = async (
 ): Promise<FactoryDetails> => {
     if (!performApiCall(selectedNetwork)) return {} as FactoryDetails;
     const response = await fetch(
-        'https://api.jiffyscan.xyz/v0/getFactoryDetails?factory=' +
+        API_URL+'/v0/getFactoryDetails?factory=' +
             factory +
             '&network=' +
             selectedNetwork +
@@ -756,7 +770,7 @@ export const getPayMasterDetails = async (
 ): Promise<PayMasterActivity> => {
     if (!performApiCall(selectedNetwork)) return {} as PayMasterActivity;
     const response = await fetch(
-        'https://api.jiffyscan.xyz/v0/getPaymasterActivity?address=' +
+        API_URL+'/v0/getPaymasterActivity?address=' +
             userOpHash +
             '&network=' +
             selectedNetwork +
@@ -813,7 +827,7 @@ export const getBlockDetails = async (
 ): Promise<Block> => {
     if (!performApiCall(selectedNetwork)) return {} as Block;
     const response = await fetch(
-        'https://api.jiffyscan.xyz/v0/getBlockActivity?blockNumber=' +
+        API_URL+'/v0/getBlockActivity?blockNumber=' +
             blockNumber +
             '&network=' +
             selectedNetwork +
@@ -840,7 +854,7 @@ export const getBlockDetails = async (
 };
 
 export const getAccountDetails = async (userOpHash: string, selectedNetwork: string, toast: any): Promise<UserOp> => {
-    const response = await fetch('https://api.jiffyscan.xyz/v0/getAddressActivity?address=' + userOpHash + '&network=' + selectedNetwork, {
+    const response = await fetch(API_URL+'/v0/getAddressActivity?address=' + userOpHash + '&network=' + selectedNetwork, {
         headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
     });
     if (response.status != 200) {
@@ -866,7 +880,7 @@ export const getBundleDetails = async (
 ): Promise<Bundle> => {
     if (!performApiCall(selectedNetwork)) return {} as Bundle;
     const response = await fetch(
-        'https://api.jiffyscan.xyz/v0/getBundleActivity?bundle=' +
+        API_URL+'/v0/getBundleActivity?bundle=' +
             userOpHash +
             '&network=' +
             selectedNetwork +
@@ -906,7 +920,7 @@ export const getBundlerDetails = async (
 ): Promise<Bundle> => {
     if (!performApiCall(selectedNetwork)) return {} as Bundle;
     const response = await fetch(
-        'https://api.jiffyscan.xyz/v0/getBundlerActivity?address=' +
+        API_URL+'/v0/getBundlerActivity?address=' +
             userOpHash +
             '&network=' +
             selectedNetwork +

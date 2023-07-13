@@ -11,21 +11,43 @@ import { BUTTON_LIST } from './UserOperation';
 import sx from './usertable.module.sass';
 import LinkAndCopy from '@/components/common/LinkAndCopy';
 import { NETWORK_SCANNER_MAP } from '@/components/common/constants';
-export default function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, setSelectedColor, metaData, selectedNetwork }: any) {
+
+const FORMAT_MAP: {[key: string]: string} = {
+    "0x940d3c60": "executeCall(address target, uint256 value, bytes targetCallData)",
+    "0x9e5d4c49": "executeCall(address target,uint256 value, bytes data)",
+    "0x912ccaa3": "executeBatchCall(address[] target, uint256[] value, bytes[] targetCallData)",
+}
+
+const getFormat = (callData: string) => {
+    if (callData.length < 10) return "";
+    const format = FORMAT_MAP[callData.slice(0, 10)];
+    if (format) return format;
+    return "";
+}
+
+export default function DeveloperDetails({
+    tableLoading,
+    skeletonCards1,
+    item,
+    selectedColor,
+    setSelectedColor,
+    metaData,
+    selectedNetwork,
+}: any) {
     const initialize = (key: any, initialValue: any) => {
         try {
-          const item = localStorage.getItem(key);
-          if (item && item !== "undefined") {
-            return JSON.parse(item);
-          }
-    
-          localStorage.setItem(key, JSON.stringify(initialValue));
-          return initialValue;
+            const item = localStorage.getItem(key);
+            if (item && item !== 'undefined') {
+                return JSON.parse(item);
+            }
+
+            localStorage.setItem(key, JSON.stringify(initialValue));
+            return initialValue;
         } catch {
-          return initialValue;
+            return initialValue;
         }
-      };
-    
+    };
+
     const [dropOpen, SetdropOpen] = useState(() => initialize('dropOpen', true));
     const [open, setOpen] = useState(() => initialize('open', true));
     const [userOpParamsExists, setUserOpParamsExists] = useState(false);
@@ -34,18 +56,18 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
         // save dropOpen state in localstorage
         if (typeof window === 'undefined') return;
         localStorage.setItem('dropOpen', JSON.stringify(dropOpen));
-    }, [dropOpen])
+    }, [dropOpen]);
 
     useEffect(() => {
         // save open state in localstorage
         if (typeof window === 'undefined') return;
         localStorage.setItem('open', JSON.stringify(open));
-    })
+    });
 
     useEffect(() => {
-        if (metaData && Object.keys(metaData).length > 0 && 'userOpParams' in metaData && metaData.userOpParams.length > 0) 
-            setUserOpParamsExists(true);  
-    },[metaData])
+        if (metaData && Object.keys(metaData).length > 0 && 'userOpParams' in metaData && metaData.userOpParams.length > 0)
+            setUserOpParamsExists(true);
+    }, [metaData]);
 
     return (
         <div>
@@ -62,28 +84,28 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                         ) : (
                             <div className="items-center md:pt-[0px] pt-[16px]  md:gap-[20px] gap-[10px]  pb-[2px]">
                                 <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
-                                            <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
-                                                <IconText icon={'/images/Hash.svg'}>
-                                                    <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
-                                                        Entry Point
-                                                    </span>
-                                                </IconText>
-                                            </div>
-                                            <div className="flex-1 gap-2 break-words ">
-                                                <div>
-                                                    <p className="text-[14px] text-[#455A64] md:hidden block">Entry Point</p>
-                                                </div>
-                                                <div className="justify-between block md:flex">
-                                                    <div className="flex items-center gap-[10px]">
-                                                        <LinkAndCopy
-                                                            text={item?.entryPoint}
-                                                            link={NETWORK_SCANNER_MAP[selectedNetwork] + '/address/' + item?.entryPoint}
-                                                            copyText={item?.entryPoint}
-                                                        />
-                                                    </div>
-                                                </div>
+                                    <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
+                                        <IconText icon={'/images/Hash.svg'}>
+                                            <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
+                                                Entry Point
+                                            </span>
+                                        </IconText>
+                                    </div>
+                                    <div className="flex-1 gap-2 break-words ">
+                                        <div>
+                                            <p className="text-[14px] text-[#455A64] md:hidden block">Entry Point</p>
+                                        </div>
+                                        <div className="justify-between block md:flex">
+                                            <div className="flex items-center gap-[10px]">
+                                                <LinkAndCopy
+                                                    text={item?.entryPoint}
+                                                    link={NETWORK_SCANNER_MAP[selectedNetwork] + '/address/' + item?.entryPoint}
+                                                    copyText={item?.entryPoint}
+                                                />
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
                                 <div className="flex justify-between items-center p-[16px]" onClick={() => SetdropOpen(!dropOpen)}>
                                     <div className="flex gap-[12px] w-[400px]">
                                         <img src="/images/code-array.svg" alt="" />
@@ -212,8 +234,9 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                             uint256
                                                                         </td>
                                                                         <td className="wordbrack  text-black wordbrack  [87%] py-[14px] px-3 text-sm leading-5 ">
-                                                                            { (userOpParamsExists && metaData?.userOpParams[1]) ? parseInt(metaData?.userOpParams[1].hex) : item?.initCode }
-                                                                            
+                                                                            {userOpParamsExists && metaData?.userOpParams[1]
+                                                                                ? parseInt(metaData?.userOpParams[1].hex)
+                                                                                : item?.initCode}
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
@@ -224,7 +247,9 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                             bytes
                                                                         </td>
                                                                         <td className="whitespace-nowrap text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                            { (userOpParamsExists && metaData?.userOpParams[2]) ? metaData?.userOpParams[2] : item?.initCOde }
+                                                                            {userOpParamsExists && metaData?.userOpParams[2]
+                                                                                ? metaData?.userOpParams[2]
+                                                                                : item?.initCOde}
                                                                         </td>
                                                                     </tr>
                                                                     {selectedColor === 'Original' ? (
@@ -236,7 +261,9 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                                 Bytes
                                                                             </td>
                                                                             <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                                { (userOpParamsExists && metaData?.userOpParams[2]) ? metaData?.userOpParams[2] : item?.initCode }
+                                                                                {userOpParamsExists && metaData?.userOpParams[2]
+                                                                                    ? metaData?.userOpParams[2]
+                                                                                    : item?.initCode}
                                                                             </td>
                                                                         </tr>
                                                                     ) : (
@@ -261,57 +288,94 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                     </tr>
                                                                     {open && (
                                                                         <>
-                                                                            {item?.target && item?.value && item.callData  ? <tr>
-                                                                                <td className="text-black  [87%] text-end text-sm leading-5 py-[14px] px-3"></td>
-                                                                                <td className="text-black [87%] text-left text-sm leading-5 py-[14px] px-3">
-                                                                                    format
-                                                                                </td>
-                                                                                <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                                    executeCall(address target, uint256 value, bytes targetCallData)
-                                                                                </td>
-                                                                                <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                                    <span className="text-sm leading-5 text-blue-200"></span>
-                                                                                </td>
-                                                                            </tr> : ''}
-                                                                            {item?.target && <tr>
-                                                                                <td className="text-black  [87%] text-end text-sm leading-5 py-[14px] px-3"></td>
-                                                                                <td className="text-black [87%] text-left text-sm leading-5 py-[14px] px-3">
-                                                                                    target
-                                                                                </td>
-                                                                                <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                                    {item?.target}
-                                                                                </td>
-                                                                                <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                                    <span className="text-sm leading-5 text-blue-200"></span>
-                                                                                </td>
-                                                                            </tr>}
-                                                                            {item?.value && <tr>
-                                                                                <td className="text-black [87%] text-end text-sm leading-5 py-[14px] px-3"></td>
-                                                                                <td className="text-black [87%]  text-sm leading-5 py-[14px] px-3">
-                                                                                    value
-                                                                                </td>
-                                                                                <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                    <DisplayFee
-                                                                                        item={item?.value!}
-                                                                                        network={item?.network}
-                                                                                    />
-                                                                                </td>
-                                                                                <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                                    <span className="text-sm leading-5 text-blue-200"></span>
-                                                                                </td>
-                                                                            </tr>}
-                                                                            {item?.callData && <tr>
-                                                                                <td className="text-black [87%] text-end text-sm leading-5 py-[14px] px-3 "></td>
-                                                                                <td className="text-black [87%] text-left text-sm leading-5 py-[14px] px-3">
-                                                                                    calldata
-                                                                                </td>
-                                                                                <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                                    {item?.callData}
-                                                                                </td>
-                                                                                <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                                    <span className="text-sm leading-5 text-blue-200"></span>
-                                                                                </td>
-                                                                            </tr>}
+                                                                            {item?.preDecodedCallData && getFormat(item?.preDecodedCallData) != "" ? (
+                                                                                <tr>
+                                                                                    <td className="text-black  [87%] text-end text-sm leading-5 py-[14px] px-3"></td>
+                                                                                    <td className="text-black [87%] text-left text-sm leading-5 py-[14px] px-3">
+                                                                                        format
+                                                                                    </td>
+                                                                                    <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                        {getFormat(item?.preDecodedCallData)}
+                                                                                    </td>
+                                                                                    <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                        <span className="text-sm leading-5 text-blue-200"></span>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            ) : (
+                                                                                ''
+                                                                            )}
+                                                                            {item?.target && (
+                                                                                <tr>
+                                                                                    <td className="text-black  [87%] text-end text-sm leading-5 py-[14px] px-3"></td>
+                                                                                    <td className="text-black [87%] text-left text-sm leading-5 py-[14px] px-3">
+                                                                                        target
+                                                                                    </td>
+                                                                                    <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                        {item?.target.map(
+                                                                                            (target: string, index: number) => {
+                                                                                                return (
+                                                                                                    <div key={index} className="flex items-center gap-2">
+                                                                                                        <span className="text-sm leading-5">
+                                                                                                            {item.target.length > 1 && index + 1 + ' : '}{target}
+                                                                                                        </span>
+                                                                                                    </div>
+                                                                                                );
+                                                                                            },
+                                                                                        )}
+                                                                                    </td>
+                                                                                    <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                        <span className="text-sm leading-5 text-blue-200"></span>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            )}
+                                                                            {item?.value && (
+                                                                                <tr>
+                                                                                    <td className="text-black [87%] text-end text-sm leading-5 py-[14px] px-3"></td>
+                                                                                    <td className="text-black [87%]  text-sm leading-5 py-[14px] px-3">
+                                                                                        value
+                                                                                    </td>
+                                                                                    <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                        {item?.value?.map(
+                                                                                            (value: {type: string, hex: string}, index: number) => {
+                                                                                                return (
+                                                                                                    <div key={index} className="flex items-center gap-2">
+                                                                                                        <span className="text-sm leading-5">
+                                                                                                            {item.value.length > 1 && index + 1 + ' : '}{(typeof value == "string" ? value : parseInt(value.hex))}
+                                                                                                        </span>
+                                                                                                    </div>
+                                                                                                );
+                                                                                            },
+                                                                                        )}
+                                                                                    </td>
+                                                                                    <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                        <span className="text-sm leading-5 text-blue-200"></span>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            )}
+                                                                            {item?.callData && (
+                                                                                <tr>
+                                                                                    <td className="text-black [87%] text-end text-sm leading-5 py-[14px] px-3 "></td>
+                                                                                    <td className="text-black [87%] text-left text-sm leading-5 py-[14px] px-3">
+                                                                                        calldata
+                                                                                    </td>
+                                                                                    <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                        {typeof item.callData == "string" ? item?.callData : item?.callData?.map(
+                                                                                            (callData: string, index: number) => {
+                                                                                                return (
+                                                                                                    <div key={index} className="flex items-center gap-2">
+                                                                                                        <span className="text-sm leading-5">
+                                                                                                            {item.callData.length > 1 && index + 1 + ' : '}{callData}
+                                                                                                        </span>
+                                                                                                    </div>
+                                                                                                );
+                                                                                            },
+                                                                                        )}
+                                                                                    </td>
+                                                                                    <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                        <span className="text-sm leading-5 text-blue-200"></span>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            )}
                                                                         </>
                                                                     )}
                                                                     <tr>
@@ -322,8 +386,9 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                             uint256
                                                                         </td>
                                                                         <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                        { (userOpParamsExists && metaData?.userOpParams[4]) ? parseInt(metaData?.userOpParams[4].hex) : item?.callGasLimit }
-                                                                            
+                                                                            {userOpParamsExists && metaData?.userOpParams[4]
+                                                                                ? parseInt(metaData?.userOpParams[4].hex)
+                                                                                : item?.callGasLimit}
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
@@ -334,8 +399,9 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                             uint256
                                                                         </td>
                                                                         <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                        { (userOpParamsExists && metaData?.userOpParams[5]) ? parseInt(metaData?.userOpParams[5].hex) : item?.verificationGasLimit }
-                                                                            
+                                                                            {userOpParamsExists && metaData?.userOpParams[5]
+                                                                                ? parseInt(metaData?.userOpParams[5].hex)
+                                                                                : item?.verificationGasLimit}
                                                                         </td>
                                                                     </tr>
 
@@ -347,8 +413,9 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                             uint256
                                                                         </td>
                                                                         <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                        { (userOpParamsExists && metaData?.userOpParams[6]) ? parseInt(metaData?.userOpParams[6].hex) : item?.preVerificationGas }
-                                                                            
+                                                                            {userOpParamsExists && metaData?.userOpParams[6]
+                                                                                ? parseInt(metaData?.userOpParams[6].hex)
+                                                                                : item?.preVerificationGas}
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
@@ -361,7 +428,11 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
 
                                                                         <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
                                                                             <DisplayFee
-                                                                                item={(userOpParamsExists && metaData?.userOpParams[7]) ? parseInt(metaData?.userOpParams[7].hex) : item?.maxFeePerGas!}
+                                                                                item={
+                                                                                    userOpParamsExists && metaData?.userOpParams[7]
+                                                                                        ? parseInt(metaData?.userOpParams[7].hex)
+                                                                                        : item?.maxFeePerGas!
+                                                                                }
                                                                                 network={item?.network}
                                                                             />
                                                                         </td>
@@ -375,7 +446,11 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                         </td>
                                                                         <td className="wordbrack text-black [87%] py-[14px] px-3 text-sm leading-5">
                                                                             <DisplayFee
-                                                                                item={(userOpParamsExists && metaData?.userOpParams[8]) ? parseInt(metaData?.userOpParams[8].hex) : item?.maxPriorityFeePerGas!}
+                                                                                item={
+                                                                                    userOpParamsExists && metaData?.userOpParams[8]
+                                                                                        ? parseInt(metaData?.userOpParams[8].hex)
+                                                                                        : item?.maxPriorityFeePerGas!
+                                                                                }
                                                                                 network={item?.network}
                                                                             />
                                                                         </td>
@@ -388,7 +463,9 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                             uint256
                                                                         </td>
                                                                         <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                            {(userOpParamsExists && metaData?.userOpParams[9]) ? metaData?.userOpParams[9] : item?.paymasterAndData}
+                                                                            {userOpParamsExists && metaData?.userOpParams[9]
+                                                                                ? metaData?.userOpParams[9]
+                                                                                : item?.paymasterAndData}
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
@@ -399,7 +476,9 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                             uint256
                                                                         </td>
                                                                         <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                            {(userOpParamsExists && metaData?.userOpParams[10]) ? metaData?.userOpParams[10] : item?.signature}
+                                                                            {userOpParamsExists && metaData?.userOpParams[10]
+                                                                                ? metaData?.userOpParams[10]
+                                                                                : item?.signature}
                                                                         </td>
                                                                     </tr>
                                                                 </tbody>

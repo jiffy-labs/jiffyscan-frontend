@@ -13,7 +13,7 @@
             },
             "ago": "13 min ago",
             "sender": "0x2824r6o923dqe3d7f",
-            "target": "0x2824r6o923dqe3d7f"
+            "target": ["0x2824r6o923dqe3d7f"]
         },
         {
             "token": {
@@ -22,7 +22,7 @@
             },
             "ago": "13 min ago",
             "sender": "0x2824r6o923dqe3d7f",
-            "target": "0x2824r6o923dqe3d7f"
+            "target": ["0x2824r6o923dqe3d7f"]
         },
         {
             "token": {
@@ -31,7 +31,7 @@
             },
             "ago": "13 min ago",
             "sender": "0x2824r6o923dqe3d7f",
-            "target": "0x2824r6o923dqe3d7f"
+            "target": ["0x2824r6o923dqe3d7f"]
         },
         {
             "token": {
@@ -40,7 +40,7 @@
             },
             "ago": "13 min ago",
             "sender": "0x2824r6o923dqe3d7f",
-            "target": "0x2824r6o923dqe3d7f"
+            "target": ["0x2824r6o923dqe3d7f"]
         },
         {
             "token": {
@@ -49,7 +49,7 @@
             },
             "ago": "13 min ago",
             "sender": "0x2824r6o923dqe3d7f",
-            "target": "0x2824r6o923dqe3d7f"
+            "target": ["0x2824r6o923dqe3d7f"]
         }
     ]
 }
