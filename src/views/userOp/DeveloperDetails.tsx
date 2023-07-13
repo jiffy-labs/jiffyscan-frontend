@@ -14,7 +14,7 @@ import { NETWORK_SCANNER_MAP } from '@/components/common/constants';
 
 const FORMAT_MAP: {[key: string]: string} = {
     "0x940d3c60": "executeCall(address target, uint256 value, bytes targetCallData)",
-    "0x9e5d4c49": "executeDelegateCall(address target, bytes data)",
+    "0x9e5d4c49": "executeCall(address target,uint256 value, bytes data)",
     "0x912ccaa3": "executeBatchCall(address[] target, uint256[] value, bytes[] targetCallData)",
 }
 

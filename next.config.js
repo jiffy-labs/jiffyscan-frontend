@@ -4,6 +4,7 @@ const nextConfig = {
     swcMinify: false,
     env: {
         ENV: "development",
+        test: "test",
     }
 };
 
