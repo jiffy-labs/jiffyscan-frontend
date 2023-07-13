@@ -1,6 +1,6 @@
 {
     "columns": [
-        { "name": "Address", "sort": true },
+        { "name": "Paymaster Address", "sort": true },
         { "name": "No. of UserOps", "sort": false },
         { "name": "Gas Sponsored", "sort": false }
     ]

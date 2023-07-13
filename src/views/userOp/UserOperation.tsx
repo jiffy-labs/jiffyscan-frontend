@@ -68,7 +68,6 @@ const createDuplicateUserOpsRows = (userOps: UserOp[], handleRowClicked: (id: nu
 
 function RecentUserOps(props: any) {
     const router = useRouter();
-    const [open, setOpen] = useState(false);
     const [tableLoading, setTableLoading] = useState(true);
     const { selectedNetwork, setSelectedNetwork, addressMapping } = useConfig();
 
@@ -151,7 +150,7 @@ function RecentUserOps(props: any) {
     return (
         <div className="">
             <Navbar searchbar />
-            <section className="py-10 px-3">
+            <section className="px-3 py-10">
                 <div className="container">
                     <div className="flex flex-row">
                         <Link href="/" className="text-gray-500">
@@ -201,8 +200,6 @@ function RecentUserOps(props: any) {
                             BUTTON_LIST={BUTTON_LIST}
                             setSelectedColor={setSelectedColor}
                             selectedNetwork={selectedNetwork}
-                            open={open}
-                            setOpen={setOpen}
                             metaData={metaData}
                         />
                     </>

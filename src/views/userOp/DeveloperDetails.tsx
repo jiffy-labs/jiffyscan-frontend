@@ -11,7 +11,7 @@ import { BUTTON_LIST } from './UserOperation';
 import sx from './usertable.module.sass';
 import LinkAndCopy from '@/components/common/LinkAndCopy';
 import { NETWORK_SCANNER_MAP } from '@/components/common/constants';
-export default function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, setSelectedColor, open, setOpen, metaData, selectedNetwork }: any) {
+export default function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, setSelectedColor, metaData, selectedNetwork }: any) {
     const initialize = (key: any, initialValue: any) => {
         try {
           const item = localStorage.getItem(key);
@@ -27,6 +27,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
       };
     
     const [dropOpen, SetdropOpen] = useState(() => initialize('dropOpen', true));
+    const [open, setOpen] = useState(() => initialize('open', true));
     const [userOpParamsExists, setUserOpParamsExists] = useState(false);
 
     useEffect(() => {
@@ -34,6 +35,12 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
         if (typeof window === 'undefined') return;
         localStorage.setItem('dropOpen', JSON.stringify(dropOpen));
     }, [dropOpen])
+
+    useEffect(() => {
+        // save open state in localstorage
+        if (typeof window === 'undefined') return;
+        localStorage.setItem('open', JSON.stringify(open));
+    })
 
     useEffect(() => {
         if (metaData && Object.keys(metaData).length > 0 && 'userOpParams' in metaData && metaData.userOpParams.length > 0) 
@@ -293,7 +300,7 @@ export default function DeveloperDetails({ tableLoading, skeletonCards1, item, s
                                                                                     <span className="text-sm leading-5 text-blue-200"></span>
                                                                                 </td>
                                                                             </tr>}
-                                                                            {item?.calldata && <tr>
+                                                                            {item?.callData && <tr>
                                                                                 <td className="text-black [87%] text-end text-sm leading-5 py-[14px] px-3 "></td>
                                                                                 <td className="text-black [87%] text-left text-sm leading-5 py-[14px] px-3">
                                                                                     calldata

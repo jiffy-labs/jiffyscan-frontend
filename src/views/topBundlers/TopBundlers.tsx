@@ -162,7 +162,7 @@ function TopBundlers(props: any) {
             <RecentMetrics selectedNetwork={selectedNetwork} handleNetworkChange={setSelectedNetwork} caption={{
                                 children: captionText,
                                 icon: '/images/cube.svg',
-                                text: 'Approx Number of Bundles Processed in the selected chain',
+                                text: 'Approx Number of Bundler in the selected chain',
                             }} hideMetrics={true}/>
             <section className="mb-10">
                 <div className="container">
@@ -174,7 +174,7 @@ function TopBundlers(props: any) {
                             caption={{
                                 children: captionText,
                                 icon: '/images/cube.svg',
-                                text: 'Approx Number of Bundles Processed in the selected chain',
+                                text: 'Approx Number of Bundler in the selected chain',
                             }}
                         />
                         <Pagination
