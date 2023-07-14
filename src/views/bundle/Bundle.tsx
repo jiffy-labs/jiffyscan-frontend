@@ -181,7 +181,7 @@ function Bundler(props: any) {
                 </div>
             </section>
             <HeaderSection item={bundleInfo} network={network} />
-            <TransactionDetails item={bundleInfo} network={network} />
+            <TransactionDetails item={bundleInfo} network={network} tableLoading={tableLoading}/>
             <div className="container px-0">
                 <Table
                     rows={rows}

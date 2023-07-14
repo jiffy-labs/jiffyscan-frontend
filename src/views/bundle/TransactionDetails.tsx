@@ -11,17 +11,8 @@ import { useRouter } from 'next/router';
 
 import React, { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton-2';
-export default function TransactionDetails({ item, network }: any) {
-    const [tableLoading1, setTableLoading1] = useState(true);
-
-    useEffect(() => {
-        setTableLoading1(true);
-        if (network) {
-            setTimeout(() => {
-                setTableLoading1(false);
-            }, 1000);
-        }
-    }, [network]);
+export default function TransactionDetails({ item, network, tableLoading }: any) {
+    
     let skeletonCards = Array(3).fill(0);
     const router = useRouter();
     return (
@@ -34,12 +25,12 @@ export default function TransactionDetails({ item, network }: any) {
                         </Caption>
                     </div>
                     <div className="bg-white overflow-auto rounded shadow-300 mb-[20px]">
-                        {tableLoading1 ? (
+                        {tableLoading ? (
                             skeletonCards.map((index: number) => <Skeleton height={55} key={index} />)
                         ) : (
                             <div>
                                 <section className="">
-                                    <div className="container rounded  px-0">
+                                    <div className="container px-0 rounded">
                                         <div className="flex items-center md:pt-[0px] pt-[16px]  md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
                                             <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
                                                 <IconText icon={'/images/sader.svg'}>
@@ -48,11 +39,11 @@ export default function TransactionDetails({ item, network }: any) {
                                                     </span>
                                                 </IconText>
                                             </div>
-                                            <div className=" break-words gap-2 flex-1">
+                                            <div className="flex-1 gap-2 break-words ">
                                                 <div>
                                                     <p className="text-[14px] text-[#455A64] md:hidden block">Block Number</p>
                                                 </div>
-                                                <div className="md:flex block justify-between">
+                                                <div className="justify-between block md:flex">
                                                     <div className="flex items-center gap-[10px]">
                                                         <Link
                                                             underline="hover"
@@ -80,7 +71,7 @@ export default function TransactionDetails({ item, network }: any) {
                                                             className="text-blue-200 "
                                                             target={'_blank'}
                                                         >
-                                                            <button className="outline-none md:block hidden focus:outline-none ring-0 focus:ring-0">
+                                                            <button className="hidden outline-none md:block focus:outline-none ring-0 focus:ring-0">
                                                                 <img src="/images/share.svg" alt="" />
                                                                 {/* </Link> */}
                                                             </button>
@@ -108,11 +99,11 @@ export default function TransactionDetails({ item, network }: any) {
                                                     </span>
                                                 </IconText>
                                             </div>
-                                            <div className=" break-words gap-2 flex-1">
+                                            <div className="flex-1 gap-2 break-words ">
                                                 <div>
                                                     <p className="text-[14px] text-[#455A64] md:hidden block">Mined</p>
                                                 </div>
-                                                <div className="md:flex block justify-between">
+                                                <div className="justify-between block md:flex">
                                                     <div className="flex items-center gap-[10px]">
                                                         <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
                                                             {getTimePassed(item?.blockTime)}
@@ -143,11 +134,11 @@ export default function TransactionDetails({ item, network }: any) {
                                                     </span>
                                                 </IconText>
                                             </div>
-                                            <div className=" break-words gap-2 flex-1">
+                                            <div className="flex-1 gap-2 break-words ">
                                                 <div>
                                                     <p className="text-[14px] text-[#455A64] md:hidden block">Bundler</p>
                                                 </div>
-                                                <div className="md:flex block justify-between">
+                                                <div className="justify-between block md:flex">
                                                     <div className="flex items-center gap-[10px]">
                                                         <Link
                                                             underline="hover"
@@ -169,7 +160,7 @@ export default function TransactionDetails({ item, network }: any) {
                                                             className="text-blue-200 "
                                                             target={'_blank'}
                                                         >
-                                                            <button className="outline-none md:block hidden focus:outline-none ring-0 focus:ring-0">
+                                                            <button className="hidden outline-none md:block focus:outline-none ring-0 focus:ring-0">
                                                                 <img src="/images/share.svg" alt="" />
                                                                 {/* </Link> */}
                                                             </button>
@@ -190,11 +181,11 @@ export default function TransactionDetails({ item, network }: any) {
                                                     </span>
                                                 </IconText>
                                             </div>
-                                            <div className=" break-words gap-2 flex-1">
+                                            <div className="flex-1 gap-2 break-words ">
                                                 <div>
                                                     <p className="text-[14px] text-[#455A64] md:hidden block">Status</p>
                                                 </div>
-                                                <div className="md:flex block justify-between">
+                                                <div className="justify-between block md:flex">
                                                     <div className="flex items-center gap-[10px]">
                                                         <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
                                                             <div className="flex">
@@ -223,11 +214,11 @@ export default function TransactionDetails({ item, network }: any) {
                                                     </span>
                                                 </IconText>
                                             </div>
-                                            <div className=" break-words gap-2 flex-1">
+                                            <div className="flex-1 gap-2 break-words ">
                                                 <div>
                                                     <p className="text-[14px] text-[#455A64] md:hidden block">Transaction Fee</p>
                                                 </div>
-                                                <div className="md:flex block justify-between">
+                                                <div className="justify-between block md:flex">
                                                     <div className="flex items-center gap-[10px]">
                                                         <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
                                                             <DisplayFee item={item?.transactionFee} network={item?.network} />
