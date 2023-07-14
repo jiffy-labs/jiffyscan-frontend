@@ -3,7 +3,7 @@ import InfoButton from '@/components/common/InfoButton';
 import React, { useState, useEffect } from 'react';
 import recentMetrics from './recent_metrics.json';
 import ScrollContainer from 'react-indiana-drag-scroll';
-import NetworkSelector from './NetworkSelector';
+import NetworkSelector from '../../common/NetworkSelector';
 import { getDailyMetrics, DailyMetric } from '@/components/common/apiCalls/jiffyApis';
 import { CaptionProps } from '../../common/Caption';
 import { NETWORK_ICON_MAP } from '@/components/common/constants';
@@ -38,17 +38,18 @@ const setDailyMetricsToCache = (network: string, dailyMetrics: DailyMetric[]) =>
 
 function RecentMetrics({
     selectedNetwork,
-    handleNetworkChange,
     caption,
     hideMetrics,
+    loading,
+    setLoading,
 }: {
     selectedNetwork: string;
-    handleNetworkChange: (network: string) => void;
     caption?: CaptionProps;
     hideMetrics?: boolean;
+    loading: boolean;
+    setLoading: (loading: boolean) => void;
 }) {
     const [metrics, setMetrics] = useState(recentMetrics as any);
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         refreshMetricsChart(selectedNetwork);
@@ -78,17 +79,7 @@ function RecentMetrics({
     return (
         <main className="mb-10">
             <div className="container">
-                <div className="flex flex-wrap items-center justify-between gap-3 py-2 mb-4 md:gap-10">
-                    <div className="flex items-center flex-grow gap-2">
-                        <img src={caption && caption.icon ? caption.icon : "/images/cube-unfolded.svg"} alt="" />
-                        <b className="text-lg font-bold">{caption && caption.children ? caption.children : 'Recent Metrics'}</b>
-                        <InfoButton data={caption && caption.text ? caption.text : "Latest Activity from entrypoint, and smart contract wallets"} />
-                    </div>
-                    <NetworkSelector selectedNetwork={selectedNetwork} handleNetworkChange={handleNetworkChange} disabled={loading} />
-                </div>
-                {hideMetrics ? (
-                    <></>
-                ) : (
+                
                     <div>
                         {loading ? (
                             <Spinner />
@@ -134,7 +125,6 @@ function RecentMetrics({
                             </div>
                         )}
                     </div>
-                )}
             </div>
         </main>
     );

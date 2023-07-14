@@ -14,6 +14,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import usePrevious from '@/hooks/usePrevious';
+import NetworkSelector from '@/components/common/NetworkSelector';
+import Header from '@/components/common/Header';
 
 const METRIC_DATA_POINT_SIZE = 14;
 const DEFAULT_PAGE_SIZE = 10;
@@ -25,20 +27,20 @@ const getEffectivePageSize = (pageSizeFromParam: string | null | undefined): num
         effectivePageSize = DEFAULT_PAGE_SIZE;
     }
     return effectivePageSize;
-}
+};
 
 const getEffectivePageNo = (pageNoFromParam: string | null | undefined, totalRows: number, pageSize: number): number => {
     let effectivePageNo;
     effectivePageNo = pageNoFromParam ? parseInt(pageNoFromParam) : 1;
-    
-    if (effectivePageNo > Math.ceil(totalRows/pageSize)) {
-        effectivePageNo = Math.ceil(totalRows/pageSize);
+
+    if (effectivePageNo > Math.ceil(totalRows / pageSize)) {
+        effectivePageNo = Math.ceil(totalRows / pageSize);
     }
     if (effectivePageNo <= 0) {
         effectivePageNo = 1;
     }
     return effectivePageNo;
-}
+};
 
 function TopBundlers(props: any) {
     const { selectedNetwork, setSelectedNetwork, addressMapping } = useConfig();
@@ -60,7 +62,7 @@ function TopBundlers(props: any) {
         if (initialSetupDone) {
             refreshBundlersTable(selectedNetwork, pageSize, pageNo);
             const urlParams = new URLSearchParams(window.location.search);
-            urlParams.set('pageNo', (pageNo).toString());
+            urlParams.set('pageNo', pageNo.toString());
             urlParams.set('pageSize', pageSize.toString());
             window.history.pushState(null, '', `${window.location.pathname}?${urlParams.toString()}`);
         }
@@ -75,14 +77,14 @@ function TopBundlers(props: any) {
             pageNoFromParam = urlParams.get('pageNo');
             pageSizeFromParam = urlParams.get('pageSize');
         }
-        
+
         const effectivePageSize = getEffectivePageSize(pageSizeFromParam);
         _setPageSize(effectivePageSize);
 
         fetchTotalRows().then((totalRows) => {
             const effectivePageNo = getEffectivePageNo(pageNoFromParam, totalRows, effectivePageSize);
             setPageNo(effectivePageNo);
-            urlParams.set('pageNo', (pageNo).toString());
+            urlParams.set('pageNo', pageNo.toString());
             urlParams.set('pageSize', pageSize.toString());
             window.history.pushState(null, '', `${window.location.pathname}?${urlParams.toString()}`);
             refreshBundlersTable(selectedNetwork, effectivePageSize, effectivePageNo);
@@ -93,14 +95,13 @@ function TopBundlers(props: any) {
 
     useEffect(() => {
         let rows = topBundlersTable.rows;
-        console.log('modifying the address mapping',addressMapping);
+        console.log('modifying the address mapping', addressMapping);
         if (rows)
             rows.forEach((row) => {
-                if (row?.token?.text) 
-                    row.poweredBy = addressMapping?.[row.token.text]?.company;
+                if (row?.token?.text) row.poweredBy = addressMapping?.[row.token.text]?.company;
             });
         setTopBundlersTable({ ...topBundlersTable, rows });
-    }, [addressMapping])
+    }, [addressMapping]);
 
     const fetchTotalRows = async () => {
         const oneDayMetrics = await getDailyMetrics(selectedNetwork, 1, toast);
@@ -133,8 +134,6 @@ function TopBundlers(props: any) {
         setTableLoading(false);
     };
 
-
-
     return (
         <div className="">
             <Navbar searchbar />
@@ -159,11 +158,17 @@ function TopBundlers(props: any) {
                     <h1 className="text-3xl font-bold">Bundlers</h1>
                 </div>
             </section>
-            <RecentMetrics selectedNetwork={selectedNetwork} handleNetworkChange={setSelectedNetwork} caption={{
-                                children: captionText,
-                                icon: '/images/cube.svg',
-                                text: 'Approx Number of Bundler in the selected chain',
-                            }} hideMetrics={true}/>
+            <div className="container">
+                <div className="flex flex-wrap items-center justify-between gap-3 py-2 mb-4 md:gap-10">
+                    <Header
+                        icon="/images/cube.svg"
+                        headerText={tableLoading ? 'Loading' : captionText}
+                        infoText="Approx Number of Bundler in the selected chain"
+                    />
+                    <NetworkSelector selectedNetwork={selectedNetwork} handleNetworkChange={setSelectedNetwork} disabled={tableLoading}/>
+                </div>
+            </div>
+
             <section className="mb-10">
                 <div className="container">
                     <div>

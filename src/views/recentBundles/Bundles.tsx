@@ -14,6 +14,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import usePrevious from '@/hooks/usePrevious';
+import NetworkSelector from '@/components/common/NetworkSelector';
+import Header from '@/components/common/Header';
 
 const METRIC_DATA_POINT_SIZE = 14;
 const DEFAULT_PAGE_SIZE = 10;
@@ -38,7 +40,7 @@ function UserOperations(props: any) {
         if (initialSetupDone) {
             refreshUserOpsTable(selectedNetwork, pageSize, pageNo);
             const urlParams = new URLSearchParams(window.location.search);
-            urlParams.set('pageNo', (pageNo).toString());
+            urlParams.set('pageNo', pageNo.toString());
             urlParams.set('pageSize', pageSize.toString());
             window.history.pushState(null, '', `${window.location.pathname}?${urlParams.toString()}`);
         }
@@ -52,7 +54,7 @@ function UserOperations(props: any) {
             pageNoFromParam = urlParams.get('pageNo');
             pageSizeFromParam = urlParams.get('pageSize');
         }
-        const effectivePageNo = pageNoFromParam ? parseInt(pageNoFromParam)-1 : 0;
+        const effectivePageNo = pageNoFromParam ? parseInt(pageNoFromParam) - 1 : 0;
         const effectivePageSize = pageSizeFromParam ? parseInt(pageSizeFromParam) : DEFAULT_PAGE_SIZE;
         setPageNo(effectivePageNo);
         fetchTotalRows();
@@ -119,12 +121,18 @@ function UserOperations(props: any) {
                     <h1 className="text-3xl font-bold">Bundles</h1>
                 </div>
             </section>
-            <RecentMetrics selectedNetwork={selectedNetwork} handleNetworkChange={setSelectedNetwork} caption={{
-                                children: captionText,
-                                icon: '/images/cube.svg',
-                                text: 'Approx Number of Bundles Processed in the selected chain',
-                            }}
-                            hideMetrics={true}/>
+            <div className="container">
+                <div className="flex flex-wrap items-center justify-between gap-3 py-2 mb-4 md:gap-10">
+                    <Header
+                        icon="/images/cube.svg"
+                        headerText={tableLoading ? 'Loading' : captionText}
+                        infoText="Approx Number of Bundles Processed in the selected chain"
+                    />
+                    <NetworkSelector selectedNetwork={selectedNetwork} handleNetworkChange={setSelectedNetwork} disabled={tableLoading}/>
+                </div>
+            </div>
+            {/* <RecentMetrics selectedNetwork={selectedNetwork} setLoading={setLoading} loading={loading} /> */}
+
             <section className="mb-10">
                 <div className="container">
                     <div>

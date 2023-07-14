@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Chip from '@/components/common/chip/Chip';
 import { NETWORK_LIST } from '@/components/common/constants';
 import ChipDropdown from '@/components/common/chip/ChipDropdown';
-import useWindowDimensions from './utils';
+import useWindowDimensions from '../global/recent_metrics/utils';
 
 const SET_DEFAULT_CHIP_SIZE = 4;
 
@@ -22,7 +22,7 @@ function NetworkSelector({
 }: {
     selectedNetwork: string;
     handleNetworkChange: (network: string) => void;
-    disabled: boolean;
+    disabled?: boolean;
 }) {
     const [endIndex, setEndIndex] = useState(SET_DEFAULT_CHIP_SIZE);
     const displayNetworkList = NETWORK_LIST.slice(0, endIndex);

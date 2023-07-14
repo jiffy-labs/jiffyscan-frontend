@@ -9,12 +9,15 @@ import BundlersTable from './bundlers_table.json';
 import PaymastersTable from './paymasters_table.json';
 import OperationsTable from './operations_table.json';
 import Searchblock from '../../components/global/searchblock/Searchblock';
+import NetworkSelector from '@/components/common/NetworkSelector';
 import { NETWORK_ICON_MAP } from '@/components/common/constants';
 import { getLatestBundles, getLatestUserOps, getTopBundlers, getTopPaymasters } from '@/components/common/apiCalls/jiffyApis';
 import { getFee, getTimePassed } from '@/components/common/utils';
 import { useConfig } from '../../context/config';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import InfoButton from '@/components/common/InfoButton';
+import Header from '@/components/common/Header';
 
 function Home() {
     const { selectedNetwork, setSelectedNetwork } = useConfig();
@@ -26,6 +29,7 @@ function Home() {
     const [bundleTableLoading, setBundleTableLoading] = useState(true);
     const [bundlerTableLoading, setBundlerTableLoading] = useState(true);
     const [paymasterTableLoading, setPaymasterTableLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
         refreshBundlesTable(selectedNetwork);
         refreshUserOpsTable(selectedNetwork);
@@ -64,7 +68,7 @@ function Home() {
                     type: 'paymaster',
                 },
                 userOps: `${paymaster.userOpsLength} ops`,
-                fee: getFee(parseInt(paymaster.gasSponsored), network)
+                fee: getFee(parseInt(paymaster.gasSponsored), network),
             });
         });
         setPaymastersTable({ ...paymastersTable, rows: newRows.slice(0, 10) });
@@ -88,7 +92,7 @@ function Home() {
         console.log(newRows);
         setBundlersTable({ ...bundlersTable, rows: newRows });
         setBundlerTableLoading(false);
-    }
+    };
 
     const refreshUserOpsTable = async (network: string) => {
         setUserOpTableLoading(true);
@@ -116,7 +120,7 @@ function Home() {
             <Navbar />
             <section className="py-6">
                 <div className="container">
-                    <h1 className="font-bold text-xl leading-8 md:text-3xl mb-2 md:mb-4">
+                    <h1 className="mb-2 text-xl font-bold leading-8 md:text-3xl md:mb-4">
                         UserOp Explorer for{' '}
                         <a href="https://eips.ethereum.org/EIPS/eip-4337" target="_blank" style={{ textDecoration: 'underline' }}>
                             4337
@@ -127,9 +131,19 @@ function Home() {
                     </div>
                 </div>
             </section>
-            <RecentMetrics selectedNetwork={selectedNetwork} handleNetworkChange={setSelectedNetwork} />
+            <div className="container">
+                <div className="flex flex-wrap items-center justify-between gap-3 py-2 mb-4 md:gap-10">
+                    <Header
+                        icon="/images/cube-unfolded.svg"
+                        headerText="Recent Metrics"
+                        infoText="Latest Activity from entrypoint, and smart contract wallets"
+                    />
+                    <NetworkSelector selectedNetwork={selectedNetwork} handleNetworkChange={setSelectedNetwork} disabled={loading} />
+                </div>
+            </div>
+            <RecentMetrics selectedNetwork={selectedNetwork} setLoading={setLoading} loading={loading} />
             <section className="mb-12">
-                <div className="container grid-cols-1 md:grid-cols-2 grid gap-10">
+                <div className="container grid grid-cols-1 gap-10 md:grid-cols-2">
                     <div>
                         <Table
                             {...(bundlesTable as tableDataT)}
@@ -162,7 +176,7 @@ function Home() {
                 </div>
             </section>
             <section className="mb-12">
-                <div className="container grid-cols-1 md:grid-cols-2 grid gap-10">
+                <div className="container grid grid-cols-1 gap-10 md:grid-cols-2">
                     <div>
                         <Table
                             {...(bundlersTable as tableDataT)}
