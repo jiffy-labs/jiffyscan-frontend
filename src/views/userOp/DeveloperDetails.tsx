@@ -12,18 +12,19 @@ import sx from './usertable.module.sass';
 import LinkAndCopy from '@/components/common/LinkAndCopy';
 import { NETWORK_SCANNER_MAP } from '@/components/common/constants';
 
-const FORMAT_MAP: {[key: string]: string} = {
-    "0x940d3c60": "executeCall(address target, uint256 value, bytes targetCallData)",
-    "0x9e5d4c49": "executeCall(address target,uint256 value, bytes data)",
-    "0x912ccaa3": "executeBatchCall(address[] target, uint256[] value, bytes[] targetCallData)",
-}
+const FORMAT_MAP: { [key: string]: string } = {
+    '0x940d3c60': 'executeCall(address target, uint256 value, bytes targetCallData)',
+    '0x9e5d4c49': 'executeCall(address target,uint256 value, bytes data)',
+    '0x912ccaa3': 'executeBatchCall(address[] target, uint256[] value, bytes[] targetCallData)',
+    '0x18dfb3c7': 'execute(address target[], bytes callData[])'
+};
 
 const getFormat = (callData: string) => {
-    if (callData.length < 10) return "";
+    if (callData.length < 10) return '';
     const format = FORMAT_MAP[callData.slice(0, 10)];
     if (format) return format;
-    return "";
-}
+    return '';
+};
 
 export default function DeveloperDetails({
     tableLoading,
@@ -195,7 +196,7 @@ export default function DeveloperDetails({
                                                                             scope="col"
                                                                             className="sticky whitespace-nowrap z-10 top-0 bg-white py-[14px] px-3 text-left text-[12px] font-bold leading-5 text-dark-600"
                                                                         >
-                                                                            Type
+                                                                            Type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                                         </th>
                                                                         <th
                                                                             scope="col"
@@ -269,10 +270,21 @@ export default function DeveloperDetails({
                                                                     ) : (
                                                                         ''
                                                                     )}
+                                                                    <tr className="bg-gray-50">
+                                                                        <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5 ">
+                                                                            callData
+                                                                        </td>
+                                                                        <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5 ">
+                                                                            bytes
+                                                                        </td>
+                                                                        <td className="wordbrack  text-black wordbrack  [87%] py-[14px] px-3 text-sm leading-5 ">
+                                                                            {item.preDecodedCallData}   
+                                                                        </td>
+                                                                    </tr>
                                                                     <tr>
                                                                         <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5">
                                                                             <div className="flex items-center gap-2">
-                                                                                calldata
+                                                                                decoded calldata
                                                                                 <button
                                                                                     onClick={() => setOpen(!open)}
                                                                                     className={`${open ? 'rotate-180' : ''}`}
@@ -288,7 +300,8 @@ export default function DeveloperDetails({
                                                                     </tr>
                                                                     {open && (
                                                                         <>
-                                                                            {item?.preDecodedCallData && getFormat(item?.preDecodedCallData) != "" ? (
+                                                                            {item?.preDecodedCallData &&
+                                                                            getFormat(item?.preDecodedCallData) != '' ? (
                                                                                 <tr>
                                                                                     <td className="text-black  [87%] text-end text-sm leading-5 py-[14px] px-3"></td>
                                                                                     <td className="text-black [87%] text-left text-sm leading-5 py-[14px] px-3">
@@ -304,78 +317,55 @@ export default function DeveloperDetails({
                                                                             ) : (
                                                                                 ''
                                                                             )}
-                                                                            {item?.target && (
-                                                                                <tr>
-                                                                                    <td className="text-black  [87%] text-end text-sm leading-5 py-[14px] px-3"></td>
-                                                                                    <td className="text-black [87%] text-left text-sm leading-5 py-[14px] px-3">
-                                                                                        target
-                                                                                    </td>
-                                                                                    <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                                        {item?.target.map(
-                                                                                            (target: string, index: number) => {
-                                                                                                return (
-                                                                                                    <div key={index} className="flex items-center gap-2">
-                                                                                                        <span className="text-sm leading-5">
-                                                                                                            {item.target.length > 1 && index + 1 + ' : '}{target}
-                                                                                                        </span>
-                                                                                                    </div>
-                                                                                                );
-                                                                                            },
-                                                                                        )}
-                                                                                    </td>
-                                                                                    <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                                        <span className="text-sm leading-5 text-blue-200"></span>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            )}
-                                                                            {item?.value && (
-                                                                                <tr>
-                                                                                    <td className="text-black [87%] text-end text-sm leading-5 py-[14px] px-3"></td>
-                                                                                    <td className="text-black [87%]  text-sm leading-5 py-[14px] px-3">
-                                                                                        value
-                                                                                    </td>
-                                                                                    <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                                        {item?.value?.map(
-                                                                                            (value: {type: string, hex: string}, index: number) => {
-                                                                                                return (
-                                                                                                    <div key={index} className="flex items-center gap-2">
-                                                                                                        <span className="text-sm leading-5">
-                                                                                                            {item.value.length > 1 && index + 1 + ' : '}{(typeof value == "string" ? value : parseInt(value.hex))}
-                                                                                                        </span>
-                                                                                                    </div>
-                                                                                                );
-                                                                                            },
-                                                                                        )}
-                                                                                    </td>
-                                                                                    <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                                        <span className="text-sm leading-5 text-blue-200"></span>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            )}
-                                                                            {item?.callData && (
-                                                                                <tr>
-                                                                                    <td className="text-black [87%] text-end text-sm leading-5 py-[14px] px-3 "></td>
-                                                                                    <td className="text-black [87%] text-left text-sm leading-5 py-[14px] px-3">
-                                                                                        calldata
-                                                                                    </td>
-                                                                                    <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                                        {typeof item.callData == "string" ? item?.callData : item?.callData?.map(
-                                                                                            (callData: string, index: number) => {
-                                                                                                return (
-                                                                                                    <div key={index} className="flex items-center gap-2">
-                                                                                                        <span className="text-sm leading-5">
-                                                                                                            {item.callData.length > 1 && index + 1 + ' : '}{callData}
-                                                                                                        </span>
-                                                                                                    </div>
-                                                                                                );
-                                                                                            },
-                                                                                        )}
-                                                                                    </td>
-                                                                                    <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                                        <span className="text-sm leading-5 text-blue-200"></span>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            )}
+                                                                            {item?.target &&
+                                                                                item?.target.map((target: string, index: number) => {
+                                                                                    return (
+                                                                                        <>
+                                                                                            <tr key={index}>
+                                                                                                <td className="text-black  [87%] text-end text-sm leading-5 py-[14px] px-3"></td>
+                                                                                                <td className="text-black [87%] text-left text-sm leading-5 py-[14px] px-3">
+                                                                                                    {index + 1}: target
+                                                                                                </td>
+                                                                                                <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                    {target}
+                                                                                                </td>
+                                                                                                <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                    <span className="text-sm leading-5 text-blue-200"></span>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                            {item?.value && item?.value.length == item?.target.length && (
+                                                                                                <tr key={index}>
+                                                                                                    <td className="text-black  [87%] text-end text-sm leading-5 py-[14px] px-3"></td>
+                                                                                                    <td className="text-black [87%] text-left text-sm leading-5 py-[14px] px-3">
+                                                                                                        {index + 1}:value
+                                                                                                    </td>
+                                                                                                    <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                        {item.value[index]}
+                                                                                                    </td>
+                                                                                                    <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                        <span className="text-sm leading-5 text-blue-200"></span>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            )}
+                                                                                            {item?.callData && item?.callData.length ==
+                                                                                                item.target.length && (
+                                                                                                <tr key={index}>
+                                                                                                    <td className="text-black  [87%] text-end text-sm leading-5 py-[14px] px-3"></td>
+                                                                                                    <td className="text-black [87%] text-left text-sm leading-5 py-[14px] px-3">
+                                                                                                        {index + 1}: callData
+                                                                                                    </td>
+                                                                                                    
+                                                                                                    <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                        {item.callData[index]}
+                                                                                                    </td>
+                                                                                                    <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                        <span className="text-sm leading-5 text-blue-200"></span>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            )}
+                                                                                        </>
+                                                                                    );
+                                                                                })}
                                                                         </>
                                                                     )}
                                                                     <tr>
