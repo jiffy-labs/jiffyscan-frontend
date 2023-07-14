@@ -270,17 +270,7 @@ export default function DeveloperDetails({
                                                                     ) : (
                                                                         ''
                                                                     )}
-                                                                    <tr className="bg-gray-50">
-                                                                        <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5 ">
-                                                                            callData
-                                                                        </td>
-                                                                        <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5 ">
-                                                                            bytes
-                                                                        </td>
-                                                                        <td className="wordbrack  text-black wordbrack  [87%] py-[14px] px-3 text-sm leading-5 ">
-                                                                            {item.preDecodedCallData}   
-                                                                        </td>
-                                                                    </tr>
+                                                                    
                                                                     <tr>
                                                                         <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5">
                                                                             <div className="flex items-center gap-2">
@@ -337,7 +327,7 @@ export default function DeveloperDetails({
                                                                                                 <tr key={index}>
                                                                                                     <td className="text-black  [87%] text-end text-sm leading-5 py-[14px] px-3"></td>
                                                                                                     <td className="text-black [87%] text-left text-sm leading-5 py-[14px] px-3">
-                                                                                                        {index + 1}:value
+                                                                                                        {index + 1}: value
                                                                                                     </td>
                                                                                                     <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
                                                                                                         {item.value[index]}
@@ -368,6 +358,17 @@ export default function DeveloperDetails({
                                                                                 })}
                                                                         </>
                                                                     )}
+                                                                    <tr className="bg-gray-50">
+                                                                        <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5 ">
+                                                                            callData
+                                                                        </td>
+                                                                        <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5 ">
+                                                                            bytes
+                                                                        </td>
+                                                                        <td className="wordbrack  text-black wordbrack  [87%] py-[14px] px-3 text-sm leading-5 ">
+                                                                            {item.preDecodedCallData}   
+                                                                        </td>
+                                                                    </tr>
                                                                     <tr>
                                                                         <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5">
                                                                             callGasLimit
