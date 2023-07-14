@@ -108,7 +108,7 @@ function UserOperations() {
     const refreshUserOpsTable = async (network: string, pageSize: number, pageNo: number) => {
         setTableLoading(true);
         console.log('testing refresh', pageSize, pageNo);
-        const userOps = await getLatestUserOps(network, pageSize, pageNo, toast);
+        const userOps = await getLatestUserOps(network, pageSize, pageNo-1, toast);
         let newRows = [] as tableDataT['rows'];
         userOps.forEach((userOp) => {
             newRows.push({

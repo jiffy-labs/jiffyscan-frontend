@@ -75,7 +75,7 @@ function UserOperations(props: any) {
 
     const refreshUserOpsTable = async (network: string, pageSize: number, pageNo: number) => {
         setTableLoading(true);
-        const bundles = await getLatestBundles(network, pageSize, pageNo, toast);
+        const bundles = await getLatestBundles(network, pageSize, pageNo-1, toast);
         let newRows: tableDataT['rows'] = [];
         bundles.forEach((bundle) => {
             console.log('🚀 ~ file: Bundles.tsx:56 ~ refreshUserOpsTable ~ newRows:', bundle.success);

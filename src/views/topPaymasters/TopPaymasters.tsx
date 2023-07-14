@@ -106,7 +106,7 @@ function TopPaymasters(props: any) {
 
     const refreshPaymatersTable = async (network: string, pageSize: number, pageNo: number) => {
         setTableLoading(true);
-        const paymasters = await getTopPaymasters(network, pageSize, pageNo, toast);
+        const paymasters = await getTopPaymasters(network, pageSize, pageNo-1, toast);
         let newRows: tableDataT['rows'] = [];
         paymasters.forEach((paymaster) => {
             newRows.push({

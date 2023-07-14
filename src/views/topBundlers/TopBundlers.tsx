@@ -116,7 +116,7 @@ function TopBundlers(props: any) {
 
     const refreshBundlersTable = async (network: string, pageSize: number, pageNo: number) => {
         setTableLoading(true);
-        const bundlers = await getTopBundlers(network, pageSize, pageNo, toast);
+        const bundlers = await getTopBundlers(network, pageSize, pageNo-1, toast);
         let newRows: tableDataT['rows'] = [];
         bundlers.forEach((bundler) => {
             newRows.push({

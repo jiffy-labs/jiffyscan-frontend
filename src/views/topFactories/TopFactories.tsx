@@ -106,7 +106,7 @@ function TopFactories(props: any) {
 
     const refreshUserOpsTable = async (network: string, pageSize: number, pageNo: number) => {
         setTableLoading(true);
-        const factories = await getTopFactories(network, pageSize, pageNo, toast);
+        const factories = await getTopFactories(network, pageSize, pageNo-1, toast);
         let newRows: tableDataT['rows'] = [];
         factories.forEach((factory) => {
             newRows.push({
