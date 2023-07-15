@@ -99,7 +99,7 @@ function TopPaymasters(props: any) {
         if (oneDayMetrics.length > 0) {
             presentDayMetrics = oneDayMetrics[0];
         }
-        setCaptionText(' ' + parseInt(presentDayMetrics?.paymasterTotal || '0') + ' paymasters found');
+        setCaptionText(' ' + parseInt(presentDayMetrics?.paymasterTotal || '0') + ' Pay Masters found');
         setTotalRows(parseInt(presentDayMetrics?.bundlesTotal || '0'));
         return parseInt(presentDayMetrics?.bundlesTotal || '0');
     };
@@ -142,12 +142,12 @@ function TopPaymasters(props: any) {
                                 Home
                             </Link>
                             <Link underline="hover" color="text.primary" href="/paymasters" aria-current="page">
-                                Paymasters
+                                Pay Masters
                             </Link>
                         </Breadcrumbs>
                     </div>
 
-                    <h1 className="text-3xl font-bold">Paymasters</h1>
+                    <h1 className="text-3xl font-bold">Pay Masters</h1>
                 </div>
             </section>
             <div className="container">
@@ -155,7 +155,7 @@ function TopPaymasters(props: any) {
                     <Header
                         icon="/images/cube.svg"
                         headerText={tableLoading ? 'Loading' : captionText}
-                        infoText="Approx Number of Paymasters in the selected chain"
+                        infoText="Approx Number of Pay Masters in the selected chain"
                     />
                     <NetworkSelector selectedNetwork={selectedNetwork} handleNetworkChange={setSelectedNetwork} disabled={tableLoading}/>
                 </div>
@@ -170,7 +170,7 @@ function TopPaymasters(props: any) {
                             caption={{
                                 children: captionText,
                                 icon: '/images/cube.svg',
-                                text: 'Approx Number of Paymasters in the selected chain',
+                                text: 'Approx Number of Pay Masters in the selected chain',
                             }}
                         />
                         <Pagination

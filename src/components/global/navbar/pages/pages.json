@@ -12,7 +12,7 @@
             ["UserOps", "/recentUserOps", "_self"],
             ["Bundles", "/recentBundles", "_self"],
             ["Factories", "/factories", "_self"],
-            ["Paymasters", "/paymasters", "_self"],
+            ["Pay Masters", "/paymasters", "_self"],
             ["Bundlers", "/bundlers", "_self"]
         ]
     },

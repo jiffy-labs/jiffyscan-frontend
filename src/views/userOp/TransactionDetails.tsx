@@ -469,13 +469,13 @@ export default function TransactionDetails({
                                             <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
                                                 <IconText icon={'/images/building.svg'}>
                                                     <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
-                                                        PayMaster
+                                                        Pay Master
                                                     </span>
                                                 </IconText>
                                             </div>
                                             <div className="flex-1 gap-2 break-words ">
                                                 <div>
-                                                    <p className="text-[14px] text-[#455A64] md:hidden block">PayMaster</p>
+                                                    <p className="text-[14px] text-[#455A64] md:hidden block">Pay Master</p>
                                                 </div>
                                                 <div className="justify-between block md:flex">
                                                     <div className="flex items-center gap-[10px]">

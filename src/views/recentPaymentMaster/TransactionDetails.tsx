@@ -25,7 +25,7 @@ export default function TransactionDetails({ item, network }: any) {
                 <div className="container px-0">
                     <div>
                         <Caption icon={'/images/cube.svg'} text={''}>
-                            Paymaster Details
+                            Pay Master Details
                         </Caption>
                     </div>
                     <div className="bg-white overflow-auto rounded shadow-300 mb-[20px]">
@@ -34,7 +34,7 @@ export default function TransactionDetails({ item, network }: any) {
                         ) : (
                             <div>
                                 <section className="">
-                                    <div className="container rounded  px-0">
+                                    <div className="container px-0 rounded">
                                         <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
                                             <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
                                                 <IconText icon={'/images/sader.svg'}>
@@ -43,11 +43,11 @@ export default function TransactionDetails({ item, network }: any) {
                                                     </span>
                                                 </IconText>
                                             </div>
-                                            <div className=" break-words gap-2 flex-1">
+                                            <div className="flex-1 gap-2 break-words ">
                                                 <div>
                                                     <p className="text-[14px] text-[#455A64] md:hidden block">Total Deposit</p>
                                                 </div>
-                                                <div className="md:flex block justify-between">
+                                                <div className="justify-between block md:flex">
                                                     <div className="flex items-center gap-[10px]">
                                                         <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
                                                             <DisplayFee
