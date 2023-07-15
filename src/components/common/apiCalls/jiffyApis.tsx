@@ -397,7 +397,7 @@ export const getTopPaymasters = async (
 ): Promise<PayMasterActivity[]> => {
     if (!performApiCall(selectedNetwork)) return [] as PayMasterActivity[];
     const response = await fetch(
-        API_URL+'/v0/getTopPaymasters?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
+        API_URL+'/v0/getTopPaymasters?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -418,7 +418,7 @@ export const getTopPaymasters = async (
 export const getTopBundlers = async (selectedNetwork: string, pageSize: number, pageNo: number, toast: any): Promise<Bundler[]> => {
     if (!performApiCall(selectedNetwork)) return [] as Bundler[];
     const response = await fetch(
-        API_URL+'/v0/getTopBundlers?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
+        API_URL+'/v0/getTopBundlers?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -439,7 +439,7 @@ export const getTopBundlers = async (selectedNetwork: string, pageSize: number, 
 export const getTopFactories = async (selectedNetwork: string, pageSize: number, pageNo: number, toast: any): Promise<FactoryDetails[]> => {
     if (!performApiCall(selectedNetwork)) return [] as FactoryDetails[];
     const response = await fetch(
-        API_URL+'/v0/getTopFactories?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
+        API_URL+'/v0/getTopFactories?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -460,7 +460,7 @@ export const getTopFactories = async (selectedNetwork: string, pageSize: number,
 export const getLatestUserOps = async (selectedNetwork: string, pageSize: number, pageNo: number, toast: any): Promise<UserOp[]> => {
     if (!performApiCall(selectedNetwork)) return [] as UserOp[];
     const response = await fetch(
-        API_URL+'/v0/getLatestUserOps?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
+        API_URL+'/v0/getLatestUserOps?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + (pageNo * pageSize >= 0 ? pageNo * pageSize : 0) ,
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -484,7 +484,7 @@ export const getLatestBundles = async (selectedNetwork: string, pageSize: number
     console.log('....envs',process.env);
     console.log('.....API url',API_URL);
     const response = await fetch(
-        API_URL+'/v0/getLatestBundles?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + pageNo * pageSize,
+        API_URL+'/v0/getLatestBundles?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -572,7 +572,7 @@ export const getAddressActivity = async (
             '&first=' +
             pageSize +
             '&skip=' +
-            pageNo * pageSize,
+            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -606,7 +606,7 @@ export const getAddressBalances = async (
             '&first=' +
             pageSize +
             '&skip=' +
-            pageNo * pageSize,
+            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -640,7 +640,7 @@ export const getAddressTransactions = async (
             '&first=' +
             pageSize +
             '&skip=' +
-            pageNo * pageSize,
+            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -675,7 +675,7 @@ export const getAddressERC20Transfers = async (
             '&first=' +
             pageSize +
             '&skip=' +
-            pageNo * pageSize,
+            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -709,7 +709,7 @@ export const getAddressERC721Transfers = async (
             '&first=' +
             pageSize +
             '&skip=' +
-            pageNo * pageSize,
+            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -743,7 +743,7 @@ export const getFactoryDetails = async (
             '&first=' +
             pageSize +
             '&skip=' +
-            pageNo * pageSize,
+            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -777,7 +777,7 @@ export const getPayMasterDetails = async (
             '&first=' +
             pageSize +
             '&skip=' +
-            pageNo * pageSize,
+            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -834,7 +834,7 @@ export const getBlockDetails = async (
             '&first=' +
             pageSize +
             '&skip=' +
-            pageNo * pageSize,
+            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -887,7 +887,7 @@ export const getBundleDetails = async (
             '&first=' +
             pageSize +
             '&skip=' +
-            pageNo * pageSize,
+            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -927,7 +927,7 @@ export const getBundlerDetails = async (
             '&first=' +
             pageSize +
             '&skip=' +
-            pageNo * pageSize,
+            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
