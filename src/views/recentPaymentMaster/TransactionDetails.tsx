@@ -25,7 +25,7 @@ export default function TransactionDetails({ item, network }: any) {
                 <div className="container px-0">
                     <div>
                         <Caption icon={'/images/cube.svg'} text={''}>
-                            Pay Master Details
+                            Paymaster Details
                         </Caption>
                     </div>
                     <div className="bg-white overflow-auto rounded shadow-300 mb-[20px]">

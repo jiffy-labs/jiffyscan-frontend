@@ -185,7 +185,7 @@ function RecentPaymentMaster(props: any) {
                             </Link>
                         </Breadcrumbs>
                     </div>
-                    <h1 className="text-3xl font-bold">Pay Master</h1>
+                    <h1 className="text-3xl font-bold">Paymaster</h1>
                 </div>
             </section>
             <HeaderSection item={addressInfo} network={network} addressMapping={addressMapping}/>

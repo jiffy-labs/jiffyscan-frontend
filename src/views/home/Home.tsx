@@ -197,13 +197,13 @@ function Home() {
                             {...(paymastersTable as tableDataT)}
                             loading={paymasterTableLoading}
                             caption={{
-                                children: 'Top Pay Masters',
+                                children: 'Top Paymasters',
                                 icon: '/images/swap-vertical-bold (1).svg',
-                                text: 'Top Pay Master by selected chain',
+                                text: 'Top Paymaster by selected chain',
                             }}
                         />
                         <div className="mt-4">
-                            <Button href="/paymasters">View all Pay Masters</Button>
+                            <Button href="/paymasters">View all Paymasters</Button>
                         </div>
                     </div>
                 </div>
