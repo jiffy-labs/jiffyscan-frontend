@@ -13,7 +13,7 @@ export default function DisplayFee({ item, network }: any) {
     return (
         <div>
             <div className="flex items-center gap-2 mt-2 text-rgiht">
-                <span>{fee?.value}</span>
+                <span>{typeof fee?.value == "object" ? parseInt(fee?.value.hex) : fee.value}</span>
                 <Chip variant="outlined" color={fee?.gas?.color as ChipProps['color']}>
                     {fee?.gas?.children}
                 </Chip>

@@ -330,7 +330,7 @@ export default function DeveloperDetails({
                                                                                                         {index + 1}: value
                                                                                                     </td>
                                                                                                     <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                                                        {item.value[index]}
+                                                                                                        {typeof item.value[index] == 'string' ? item.value[index] : parseInt(item.value[index].hex)}
                                                                                                     </td>
                                                                                                     <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
                                                                                                         <span className="text-sm leading-5 text-blue-200"></span>

@@ -34,7 +34,7 @@ export interface tableDataT {
 }
 
 export interface fee {
-    value: string;
+    value: string | { hex: string, type: string };
     gas?: {
         children: string;
         color: string;
