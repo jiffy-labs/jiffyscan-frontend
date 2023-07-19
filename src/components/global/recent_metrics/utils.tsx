@@ -146,7 +146,7 @@ export const prepareChartDataAndMetrics = (dailyMetrics: DailyMetric[], metrics:
 
     let feeString = getFee(metrics.totalFeeCollectedMetric.data.slice(-1)[0], network);
     metrics.userOpMetric.value = weeklyData.userOpMetric.slice(-1)[0];
-    metrics.totalFeeCollectedMetric.value = parseFloat(feeString.value).toFixed(5).toString(); // apply the value and symbol both
+    metrics.totalFeeCollectedMetric.value = parseFloat(feeString.value as string).toFixed(5).toString(); // apply the value and symbol both
     metrics.totalwalletsCreatedMetric.value = chartData.totalwalletsCreatedMetric.slice(-1)[0];
     metrics.activeWalletsDailyMetric.value = weeklyData.activeWalletsDaily.slice(-1)[0];
 
