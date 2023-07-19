@@ -150,7 +150,7 @@ function Table(props: tableDataT) {
                                             {fee && (
                                                 <td className="">
                                                     <div className="flex items-center justify-end gap-2 text-right">
-                                                        {fee.value ? <span>{fee.value}</span> : "Unavailable" }
+                                                        {fee.value ? <span>{typeof fee.value == "string" ? fee.value : parseInt(fee.value.hex)}</span> : "Unavailable" }
                                                         {fee.gas && fee.value && (
                                                             <Chip variant="outlined" color={fee.gas.color as ChipProps['color']}>
                                                                 {fee.gas.children}
