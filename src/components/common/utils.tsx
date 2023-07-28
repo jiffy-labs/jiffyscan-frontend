@@ -20,7 +20,13 @@ export function getSymbol(network: string): string {
     else if (network == 'mumbai') return 'MATIC';
     else if (network == 'optimism-goerli') return 'ETH';
     else if (network == 'matic') return 'MATIC';
+    else if (network == 'fuse') return 'FUSE';
     else return 'ETH';
+}
+
+export const getExplorerLogo = (network: string) => {
+    if (network == "fuse") return "/images/blockscout_logo.svg";
+    else return "/images/graph.svg";
 }
 
 export const getFee = (amount: number, network: string): fee => {

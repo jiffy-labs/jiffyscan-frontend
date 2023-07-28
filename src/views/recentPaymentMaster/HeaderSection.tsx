@@ -1,5 +1,6 @@
 import { NETWORK_ICON_MAP, NETWORK_LIST, NETWORK_SCANNER_MAP, POWERED_BY_LOGO_MAP } from '@/components/common/constants';
 import CopyButton from '@/components/common/copy_button/CopyButton';
+import { getExplorerLogo } from '@/components/common/utils';
 import Link from 'next/link';
 import React from 'react';
 
@@ -28,7 +29,7 @@ export default function HeaderSection({ item, network, addressMapping }: any) {
                                     className="text-blue-200"
                                     target="_blank"
                                 >
-                                    <img src="/images/graph.svg" alt="" />
+                                    <img src={getExplorerLogo(network)} style={{height: '16px', width: '16px'}} alt="" />
                                 </Link>
                             </button>
                         </div>
