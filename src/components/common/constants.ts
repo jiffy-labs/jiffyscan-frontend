@@ -6,12 +6,6 @@ export const NETWORK_LIST = [
         iconPathInverted: '/images/polygon-icon.svg',
     },
     {
-        name: 'Arbitrum One',
-        key: 'arbitrum-one',
-        iconPath: '/images/arbitrum-logo.svg',
-        iconPathInverted: '/images/arbitrum-logo.svg',
-    },
-    {
         name: 'Optimism',
         key: 'optimism',
         iconPath: '/images/icon-container (6).svg',
@@ -22,6 +16,12 @@ export const NETWORK_LIST = [
         key: 'mainnet',
         iconPath: '/images/ethereum-logo-rainbow.svg',
         iconPathInverted: '/images/ethereum-logo-rainbow.svg',
+    },
+    {
+        name: 'Fuse',
+        key: 'fuse',
+        iconPath: '/images/fuse-logo.svg',
+        iconPathInverted: '/images/fuse-logo.svg',
     },
     {
         name: 'Optimism Goerli',
@@ -96,11 +96,11 @@ export const NETWORK_LIST = [
         iconPathInverted: '/images/bsc-logo.svg',
     },
     {
-        name: 'Fuse',
-        key: 'fuse',
-        iconPath: '/images/fuse-logo.svg',
-        iconPathInverted: '/images/fuse-logo.svg',
-    }
+        name: 'Arbitrum One',
+        key: 'arbitrum-one',
+        iconPath: '/images/arbitrum-logo.svg',
+        iconPathInverted: '/images/arbitrum-logo.svg',
+    },
 ];
 
 export const PAGE_SIZE_LIST: number[] = [10, 25, 50, 100];
