@@ -1,7 +1,7 @@
 import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
-import { getPoweredBy, getUserOp, getUserOpMetadata, metadata, PoweredBy, Trace, UserOp } from '@/components/common/apiCalls/jiffyApis';
+import { getPoweredBy, getUserOp, getUserOpMetadata, metadata, PoweredBy, Trace, UserOp, showToast } from '@/components/common/apiCalls/jiffyApis';
 import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CopyButton from '@/components/common/copy_button/CopyButton';
@@ -25,6 +25,28 @@ import User from '@/components/global/navbar/User';
 import Spinner from '@/components/common/Spinner';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+const passedTime = (time: number) => {
+    let currentTime = (new Date()).getTime();
+    let passedTime = currentTime - time;
+    return passedTime;
+}
+
+async function returnUserOpData(hash: string, toast: any) {
+    let currentTime = (new Date()).getTime();
+    let userOp = await getUserOp(hash, toast);
+    while (userOp.length === 0) {
+        await sleep(1000);
+        userOp = await getUserOp(hash, toast);
+        if (passedTime(currentTime) > 10000) {
+            showToast(toast, 'Error fetching data');
+            break;
+        }
+    }
+    return userOp;
+}
 
 // import Skeleton from '@/components/Skeleton';
 export const BUTTON_LIST = [
@@ -86,7 +108,8 @@ function RecentUserOps(props: any) {
             setTableLoading(true);
         }
         // setShowUserOpId(-1)
-        const userOps = await getUserOp(name, toast);
+        // const userOps = await getUserOp(name, toast);
+        const userOps = await returnUserOpData(name, toast);
 
         setuserOpsData(userOps);
         let rows: tableDataT['rows'] = createDuplicateUserOpsRows(userOps, handleDuplicateRowClick);

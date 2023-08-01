@@ -306,7 +306,7 @@ const API_URL = process.env.ENV === 'production' ? PRO_API : DEV_API;
 console.log(API_URL)
 
 
-const showToast = (toast: any, message: string, type?: string) => {
+export const showToast = (toast: any, message: string, type?: string) => {
     if (type == 'warning') {
         toast.warning(message, {
             position: 'bottom-left',
@@ -547,9 +547,9 @@ export const getUserOp = async (userOpHash: string, toast: any): Promise<UserOp[
     }
     const data = await response.json();
     if ('userOps' in data) {
-        if (data.userOps.length == 0) {
-            showToast(toast, 'Error fetching data');
-        }
+        // if (data.userOps.length == 0) {
+        //     showToast(toast, 'Error fetching data');
+        // }
         return data.userOps as UserOp[];
     }
 

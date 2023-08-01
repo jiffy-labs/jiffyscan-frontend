@@ -509,7 +509,7 @@ export default function TransactionDetails({
                                                                 <Link
                                                                     underline="hover"
                                                                     href={`/paymaster/${item?.paymaster!}?network=${
-                                                                        item.network ? item.network : ''
+                                                                        item?.network ? item?.network : ''
                                                                     }`}
                                                                     aria-current="page"
                                                                     className={`${
@@ -724,7 +724,7 @@ export default function TransactionDetails({
                                                 </div>
                                             </div>
                                         </div>
-                                        {(item.erc20Transfers?.length) > 0 && (
+                                        {(item?.erc20Transfers?.length) > 0 && (
                                             <div className="flex md:pt-[0px] pt-[16px] items-start md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
                                                 <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
                                                     <IconText icon={'/images/cube.svg'}>
@@ -758,7 +758,7 @@ export default function TransactionDetails({
                                                                         index: number,
                                                                     ) => (
                                                                         <ERC20Transfers
-                                                                            sender={item.sender as string}
+                                                                            sender={item?.sender as string}
                                                                             to={to}
                                                                             from={from}
                                                                             value={value}
@@ -767,7 +767,7 @@ export default function TransactionDetails({
                                                                             decimals={parseInt(decimals)}
                                                                             address={contractAddress}
                                                                             key={index}
-                                                                            selectedNetwork={item.network}
+                                                                            selectedNetwork={item?.network}
                                                                         />
                                                                     ),
                                                                 )}
@@ -776,7 +776,7 @@ export default function TransactionDetails({
                                                 </div>
                                             </div>
                                         )}
-                                        {item.erc721Transfers?.length > 0 && (
+                                        {item?.erc721Transfers?.length > 0 && (
                                             <div className="flex md:pt-[0px] pt-[16px] items-start md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
                                                 <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
                                                     <IconText icon={'/images/cube.svg'}>
@@ -810,7 +810,7 @@ export default function TransactionDetails({
                                                                         index: number,
                                                                     ) => (
                                                                         <ERC721Transfers
-                                                                            sender={item.sender as string}
+                                                                            sender={item?.sender as string}
                                                                             to={to}
                                                                             from={from}
                                                                             tokenId={tokenId}
@@ -819,7 +819,7 @@ export default function TransactionDetails({
                                                                             decimals={parseInt(decimals)}
                                                                             address={contractAddress}
                                                                             key={index}
-                                                                            selectedNetwork={item.network}
+                                                                            selectedNetwork={item?.network}
                                                                         />
                                                                     ),
                                                                 )}

@@ -346,7 +346,7 @@ export default function DeveloperDetails({
                                                                                                     </td>
                                                                                                     
                                                                                                     <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                                                        {item.callData[index]}
+                                                                                                        {item?.callData[index]}
                                                                                                     </td>
                                                                                                     <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
                                                                                                         <span className="text-sm leading-5 text-blue-200"></span>
@@ -366,7 +366,7 @@ export default function DeveloperDetails({
                                                                             bytes
                                                                         </td>
                                                                         <td className="wordbrack  text-black wordbrack  [87%] py-[14px] px-3 text-sm leading-5 ">
-                                                                            {typeof item.callData == "string" ? item.callData : item.preDecodedCallData}   
+                                                                            {typeof item?.callData == "string" ? item?.callData : item?.preDecodedCallData}   
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
