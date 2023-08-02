@@ -310,11 +310,11 @@ export default function DeveloperDetails({
                                                                                     <td className="text-black  [87%] text-end text-sm leading-5 py-[14px] px-3"></td>
                                                                                     <td className="text-black [87%] text-left text-sm leading-5 py-[14px] px-3">
                                                                                         {item?.callData == '0x' ? (
-                                                                                            <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-red-700 rounded-md bg-red-50 ring-1 ring-inset ring-gray-500/10">
+                                                                                            <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-red-700 rounded-md bg-gray-50 ring-1 ring-inset ring-gray-500/10">
                                                                                                 No call data
                                                                                             </span>
                                                                                         ) : (
-                                                                                            <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-red-700 rounded-md bg-gray-50 ring-1 ring-inset ring-gray-500/10">
+                                                                                            <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-red-700 rounded-md bg-red-50 ring-1 ring-inset ring-gray-500/10">
                                                                                                 Unknown callData signature
                                                                                             </span>
                                                                                         )}
