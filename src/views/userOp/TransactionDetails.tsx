@@ -190,6 +190,11 @@ export default function TransactionDetails({
                                                             </button>
                                                         </Link>
                                                     </div>
+                                                    {item && item?.initCode?.length > 2 && (
+                                                        <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-green-700 rounded-md bg-gray-50 ring-1 ring-inset ring-gray-500/10">
+                                                            newly created
+                                                        </span>
+                                                    )}
                                                     {item?.accountSender?.factory === '' ? null : (
                                                         <div className="md:px-[16px] px-0 md:py-[8px] py-0">
                                                             <p className="text-[10px] text-[#455A64]">
@@ -233,7 +238,7 @@ export default function TransactionDetails({
                                                     <div>
                                                         <p className="text-[14px] text-[#455A64] md:hidden block">Target</p>
                                                     </div>
-                                                    <div className="justify-between block">
+                                                        <div className="justify-between block">
                                                         {targets && targets.length > 0 ? (
                                                             targets.map((target: any, index: number) => {
                                                                 return (
@@ -396,7 +401,6 @@ export default function TransactionDetails({
                                                                                 <DisplayFee
                                                                                     item={value! ? value! : '0'}
                                                                                     network={item?.network}
-                                                                                    
                                                                                 />
                                                                             </span>
                                                                         );
@@ -410,7 +414,13 @@ export default function TransactionDetails({
                                                                                     className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5 flex items-center"
                                                                                 >
                                                                                     <DisplayFee
-                                                                                        item={value! ? (typeof value == "string" ? value : parseInt(value.hex))! : 'Unavailable'}
+                                                                                        item={
+                                                                                            value!
+                                                                                                ? (typeof value == 'string'
+                                                                                                      ? value
+                                                                                                      : parseInt(value.hex))!
+                                                                                                : 'Unavailable'
+                                                                                        }
                                                                                         network={item?.network}
                                                                                     />
                                                                                 </span>
@@ -724,7 +734,7 @@ export default function TransactionDetails({
                                                 </div>
                                             </div>
                                         </div>
-                                        {(item?.erc20Transfers?.length) > 0 && (
+                                        {item?.erc20Transfers?.length > 0 && (
                                             <div className="flex md:pt-[0px] pt-[16px] items-start md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
                                                 <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
                                                     <IconText icon={'/images/cube.svg'}>

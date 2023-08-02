@@ -16,7 +16,7 @@ const FORMAT_MAP: { [key: string]: string } = {
     '0x940d3c60': 'executeCall(address target, uint256 value, bytes targetCallData)',
     '0x9e5d4c49': 'executeCall(address target,uint256 value, bytes data)',
     '0x912ccaa3': 'executeBatchCall(address[] target, uint256[] value, bytes[] targetCallData)',
-    '0x18dfb3c7': 'execute(address target[], bytes callData[])'
+    '0x18dfb3c7': 'execute(address target[], bytes callData[])',
 };
 
 const getFormat = (callData: string) => {
@@ -237,7 +237,7 @@ export default function DeveloperDetails({
                                                                         <td className="wordbrack  text-black wordbrack  [87%] py-[14px] px-3 text-sm leading-5 ">
                                                                             {userOpParamsExists && metaData?.userOpParams[1]
                                                                                 ? parseInt(metaData?.userOpParams[1].hex)
-                                                                                : item?.initCode}
+                                                                                : item?.nonce}
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
@@ -270,7 +270,7 @@ export default function DeveloperDetails({
                                                                     ) : (
                                                                         ''
                                                                     )}
-                                                                    
+
                                                                     <tr>
                                                                         <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5">
                                                                             <div className="flex items-center gap-2">
@@ -305,7 +305,21 @@ export default function DeveloperDetails({
                                                                                     </td>
                                                                                 </tr>
                                                                             ) : (
-                                                                                ''
+                                                                                <tr>
+                                                                                    <td className="text-black  [87%] text-end text-sm leading-5 py-[14px] px-3"></td>
+                                                                                    <td className="text-black  [87%] text-end text-sm leading-5 py-[14px] px-3"></td>
+                                                                                    <td className="text-black [87%] text-left text-sm leading-5 py-[14px] px-3">
+                                                                                        {item?.callData == '0x' ? (
+                                                                                            <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-red-700 rounded-md bg-red-50 ring-1 ring-inset ring-gray-500/10">
+                                                                                                No call data
+                                                                                            </span>
+                                                                                        ) : (
+                                                                                            <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-red-700 rounded-md bg-gray-50 ring-1 ring-inset ring-gray-500/10">
+                                                                                                Unknown callData signature
+                                                                                            </span>
+                                                                                        )}
+                                                                                    </td>
+                                                                                </tr>
                                                                             )}
                                                                             {item?.target &&
                                                                                 item?.target.map((target: string, index: number) => {
@@ -323,36 +337,44 @@ export default function DeveloperDetails({
                                                                                                     <span className="text-sm leading-5 text-blue-200"></span>
                                                                                                 </td>
                                                                                             </tr>
-                                                                                            {item?.value && item?.value.length == item?.target.length && (
-                                                                                                <tr key={index}>
-                                                                                                    <td className="text-black  [87%] text-end text-sm leading-5 py-[14px] px-3"></td>
-                                                                                                    <td className="text-black [87%] text-left text-sm leading-5 py-[14px] px-3">
-                                                                                                        {index + 1}: value
-                                                                                                    </td>
-                                                                                                    <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                                                        {typeof item.value[index] == 'string' ? item.value[index] : parseInt(item.value[index].hex)}
-                                                                                                    </td>
-                                                                                                    <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                                                        <span className="text-sm leading-5 text-blue-200"></span>
-                                                                                                    </td>
-                                                                                                </tr>
-                                                                                            )}
-                                                                                            {item?.callData && item?.callData.length ==
-                                                                                                item.target.length && (
-                                                                                                <tr key={index}>
-                                                                                                    <td className="text-black  [87%] text-end text-sm leading-5 py-[14px] px-3"></td>
-                                                                                                    <td className="text-black [87%] text-left text-sm leading-5 py-[14px] px-3">
-                                                                                                        {index + 1}: callData
-                                                                                                    </td>
-                                                                                                    
-                                                                                                    <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                                                        {item?.callData[index]}
-                                                                                                    </td>
-                                                                                                    <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                                                        <span className="text-sm leading-5 text-blue-200"></span>
-                                                                                                    </td>
-                                                                                                </tr>
-                                                                                            )}
+                                                                                            {item?.value &&
+                                                                                                item?.value.length ==
+                                                                                                    item?.target.length && (
+                                                                                                    <tr key={index}>
+                                                                                                        <td className="text-black  [87%] text-end text-sm leading-5 py-[14px] px-3"></td>
+                                                                                                        <td className="text-black [87%] text-left text-sm leading-5 py-[14px] px-3">
+                                                                                                            {index + 1}: value
+                                                                                                        </td>
+                                                                                                        <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                            {typeof item.value[index] ==
+                                                                                                            'string'
+                                                                                                                ? item.value[index]
+                                                                                                                : parseInt(
+                                                                                                                      item.value[index].hex,
+                                                                                                                  )}
+                                                                                                        </td>
+                                                                                                        <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                            <span className="text-sm leading-5 text-blue-200"></span>
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                )}
+                                                                                            {item?.callData &&
+                                                                                                item?.callData.length ==
+                                                                                                    item.target.length && (
+                                                                                                    <tr key={index}>
+                                                                                                        <td className="text-black  [87%] text-end text-sm leading-5 py-[14px] px-3"></td>
+                                                                                                        <td className="text-black [87%] text-left text-sm leading-5 py-[14px] px-3">
+                                                                                                            {index + 1}: callData
+                                                                                                        </td>
+
+                                                                                                        <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                            {item?.callData[index]}
+                                                                                                        </td>
+                                                                                                        <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                                            <span className="text-sm leading-5 text-blue-200"></span>
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                )}
                                                                                         </>
                                                                                     );
                                                                                 })}
@@ -366,7 +388,9 @@ export default function DeveloperDetails({
                                                                             bytes
                                                                         </td>
                                                                         <td className="wordbrack  text-black wordbrack  [87%] py-[14px] px-3 text-sm leading-5 ">
-                                                                            {typeof item?.callData == "string" ? item?.callData : item?.preDecodedCallData}   
+                                                                            {typeof item?.callData == 'string'
+                                                                                ? item?.callData
+                                                                                : item?.preDecodedCallData}
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
