@@ -17,6 +17,8 @@ const FORMAT_MAP: { [key: string]: string } = {
     '0x9e5d4c49': 'executeCall(address target,uint256 value, bytes data)',
     '0x912ccaa3': 'executeBatchCall(address[] target, uint256[] value, bytes[] targetCallData)',
     '0x18dfb3c7': 'execute(address target[], bytes callData[])',
+    '0xb61d27f6': 'executeCall(address target,uint256 value, bytes data)',
+    '0x51945447': 'executeCall(address target,uint256 value, bytes data)',
 };
 
 const getFormat = (callData: string) => {
