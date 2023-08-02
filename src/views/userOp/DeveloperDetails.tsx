@@ -19,6 +19,7 @@ const FORMAT_MAP: { [key: string]: string } = {
     '0x18dfb3c7': 'execute(address target[], bytes callData[])',
     '0xb61d27f6': 'executeCall(address target,uint256 value, bytes data)',
     '0x51945447': 'executeCall(address target,uint256 value, bytes data)',
+    '0xf34308ef': 'executeCall(address target,uint256 value, bytes data)',
 };
 
 const getFormat = (callData: string) => {
@@ -287,6 +288,14 @@ export default function DeveloperDetails({
                                                                         </td>
                                                                         <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5"></td>
                                                                         <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                            {!(item?.preDecodedCallData &&
+                                                                                getFormat(item?.preDecodedCallData) != '') && (
+                                                                                    <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-red-700 rounded-md bg-gray-50 ring-1 ring-inset ring-gray-500/10">
+                                                                                        {item?.callData == '0x'
+                                                                                            ? 'No call data'
+                                                                                            : 'Unknown callData signature'}
+                                                                                    </span>
+                                                                                )}
                                                                             <span className="text-sm leading-5 text-blue-200"></span>
                                                                         </td>
                                                                     </tr>
@@ -306,23 +315,7 @@ export default function DeveloperDetails({
                                                                                         <span className="text-sm leading-5 text-blue-200"></span>
                                                                                     </td>
                                                                                 </tr>
-                                                                            ) : (
-                                                                                <tr>
-                                                                                    <td className="text-black  [87%] text-end text-sm leading-5 py-[14px] px-3"></td>
-                                                                                    <td className="text-black  [87%] text-end text-sm leading-5 py-[14px] px-3"></td>
-                                                                                    <td className="text-black [87%] text-left text-sm leading-5 py-[14px] px-3">
-                                                                                        {item?.callData == '0x' ? (
-                                                                                            <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-red-700 rounded-md bg-gray-50 ring-1 ring-inset ring-gray-500/10">
-                                                                                                No call data
-                                                                                            </span>
-                                                                                        ) : (
-                                                                                            <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-red-700 rounded-md bg-red-50 ring-1 ring-inset ring-gray-500/10">
-                                                                                                Unknown callData signature
-                                                                                            </span>
-                                                                                        )}
-                                                                                    </td>
-                                                                                </tr>
-                                                                            )}
+                                                                            ) : ''}
                                                                             {item?.target &&
                                                                                 item?.target.map((target: string, index: number) => {
                                                                                     return (
