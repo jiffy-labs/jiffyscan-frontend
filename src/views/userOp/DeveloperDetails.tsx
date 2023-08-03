@@ -253,7 +253,7 @@ export default function DeveloperDetails({
                                                                         <td className="whitespace-nowrap text-black [87%] py-[14px] px-3 text-sm leading-5">
                                                                             {userOpParamsExists && metaData?.userOpParams[2]
                                                                                 ? metaData?.userOpParams[2]
-                                                                                : item?.initCOde}
+                                                                                : item?.initCode}
                                                                         </td>
                                                                     </tr>
                                                                     {selectedColor === 'Original' ? (
