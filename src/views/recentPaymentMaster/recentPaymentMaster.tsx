@@ -190,7 +190,7 @@ function RecentPaymentMaster(props: any) {
             </section>
             <HeaderSection item={addressInfo} network={network} addressMapping={addressMapping}/>
             <TransactionDetails item={addressInfo} network={network} />
-            <div className="container">
+            <div className="container px-0">
                 <Table
                     rows={rows}
                     columns={columns}
