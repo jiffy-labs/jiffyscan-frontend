@@ -23,12 +23,12 @@ export default function Status({ type, status, ago }: { type?: boolean; status?:
             )}
             {status === 'success' && (
                 <span className="flex items-cente gap-2 rounded-full">
-                    <img src="/images/Success.svg" alt="" /> <span className="tracking-normal">{ago}</span>
+                    <img src="/images/Success.svg" alt="" /> <span className="tracking-normal whitespace-nowrap">{ago}</span>
                 </span>
             )}
             {status === 'failure' && (
                 <span className="flex items-center gap-2 rounded-full">
-                    <img src="/images/failed.svg" alt="" /> <span className="tracking-normal">{ago}</span>
+                    <img src="/images/failed.svg" alt="" /> <span className="tracking-normal whitespace-nowrap">{ago}</span>
                 </span>
             )}
         </div>
