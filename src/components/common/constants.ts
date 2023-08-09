@@ -84,6 +84,12 @@ export const NETWORK_LIST = [
         iconPathInverted: '/images/gnosis-logo.svg',
     },
     {
+        name: 'Base',
+        key: 'base',
+        iconPath: '/images/base-logo.svg',
+        iconPathInverted: '/images/base-logo.svg',
+    },
+    {
         name: 'Base Testnet',
         key: 'base-testnet',
         iconPath: '/images/base-logo.svg',
@@ -124,6 +130,7 @@ export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
     'fantom': '/images/fantom-logo.svg',
     'fantom-testnet': '/images/fantom-logo.svg',
     'base-testnet': '/images/base-logo.svg',
+    'base': '/images/base-logo.svg',
     'gnosis': '/images/gnosis-logo.svg',
     'bsc': '/images/bsc-logo.svg',
     'fuse': '/images/fuse-logo.svg',
@@ -146,7 +153,8 @@ export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
     gnosis: 'https://gnosisscan.io',
     bsc: 'https://bscscan.com',
     "avalanche-fuji": 'https://testnet.snowtrace.io',
-    "fuse": 'https://explorer.fuse.io'
+    "fuse": 'https://explorer.fuse.io',
+    'base': 'https://basescan.org',
 };
 
 export const POWERED_BY_LOGO_MAP: { [id: string]: {[id: string]: string} } = {
