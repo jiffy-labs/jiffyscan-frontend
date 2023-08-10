@@ -44,46 +44,37 @@ export interface fee {
 
 function Table(props: tableDataT) {
     const { rows, columns, caption, onRowClick, hideHeader } = props;
-    const [sortedRows, setSortedRows] = useState(props.rows);
-    const [sortOrder, setSortOrder] = useState("ascending");
+    const [sortedRows, setSortedRows] = useState(rows);
+    const [sortOrder, setSortOrder] = useState("asc");
     const width = useWidth();
 
     let skeletonCards = Array(5).fill(0);
-    const agoToHours = (ago: string): number => {
-        const split = ago.split(' ');
-        if (split[1] === 'hour' || split[1] === 'hours') {
-            if(split[0] === 'an'){
-                return 1;
-            }
-            return parseFloat(split[0]);
+    const convertAgoToNumber = (ago: string): number => {
+        if (ago.includes("an")) return 1;
+        const [value, unit] = ago.split(" ");
+        switch (unit) {
+            case "hour":
+            case "hours":
+                return parseInt(value);
+            default:
+                return Number.MAX_SAFE_INTEGER;
         }
-        return 0; // for 'an hour' or any other non-specified formats
-    };
-    console.log("sortedRows", sortedRows);
-    function sortRowsDescByAgo(rows:any) {
-        console.log("ascending", sortOrder);
-        // Sort the rows in descending order by the `ago` field
-        rows.sort((a:any, b:any) => {
-          return b.ago!.localeCompare(a.ago!, {
-            order: sortOrder,
-            insensitive: true,
-          });
-        });
-      
-        return rows;
-      }
-    const handleSort = () =>{
-        const sortedRows = sortRowsDescByAgo(rows);
-        console.log("sortedRows", sortedRows);
-        setSortedRows(sortedRows);
-        if(sortOrder == "ascending"){
-            setSortOrder("descending");
-        } else setSortOrder("ascending");
+    }
+    const sortRowsAscending = (rows: tableDataT['rows']): typeof rows => {
+        return [...rows].sort((a, b) => convertAgoToNumber(a.ago!) - convertAgoToNumber(b.ago!));
+    }
+    const sortRowsDescending = (rows: tableDataT['rows']): typeof rows => {
+        return [...rows].sort((a, b) => convertAgoToNumber(b.ago!) - convertAgoToNumber(a.ago!));
+    }
+    const handleSort = () => {
+        const data = sortOrder === "asc" ? sortRowsAscending(sortedRows) : sortRowsDescending(sortedRows);
+        setSortedRows(data);
+        setSortOrder(prevOrder => prevOrder === "asc" ? "desc" : "asc");
     };
 
-    useEffect(() => {
-        setSortedRows(props.rows);
-    }, [props.rows]);    
+    useEffect(() => { 
+        setSortedRows(rows);
+    }, [rows]);
     return (
         <div className="">
             {!hideHeader && caption?.text && <Caption icon={caption?.icon!} text={caption?.text}>
