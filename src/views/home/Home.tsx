@@ -133,16 +133,17 @@ function Home() {
             </section>
             <div className="container">
                 <div className="flex flex-wrap items-center justify-between gap-3 py-2 mb-4 md:gap-10">
-                    <Header
-                        icon="/images/cube-unfolded.svg"
-                        headerText="Recent Metrics"
-                        infoText="Latest Activity from entrypoint, and smart contract wallets"
-                    />
-
+                    {selectedNetwork != 'matic' && (
+                        <Header
+                            icon="/images/cube-unfolded.svg"
+                            headerText="Recent Metrics"
+                            infoText="Latest Activity from entrypoint, and smart contract wallets"
+                        />
+                    )}
                     <NetworkSelector selectedNetwork={selectedNetwork} handleNetworkChange={setSelectedNetwork} disabled={loading} />
                 </div>
             </div>
-            <RecentMetrics selectedNetwork={selectedNetwork} setLoading={setLoading} loading={loading} />
+            {selectedNetwork != 'matic' && <RecentMetrics selectedNetwork={selectedNetwork} setLoading={setLoading} loading={loading} />}
             <section className="mb-12">
                 <div className="container grid grid-cols-1 gap-10 md:grid-cols-2">
                     <div>
