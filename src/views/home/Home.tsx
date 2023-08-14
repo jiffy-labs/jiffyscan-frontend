@@ -111,6 +111,7 @@ function Home() {
                 status: userOp.success!,
             });
         });
+        setLoading(false);
         setOperationsTable({ ...operationsTable, rows: newRows.slice(0, 5) });
         setUserOpTableLoading(false);
     };
@@ -135,13 +136,13 @@ function Home() {
                 <div className="flex flex-wrap items-center justify-between gap-3 py-2 mb-4 md:gap-10">
                     <Header
                         icon="/images/cube-unfolded.svg"
-                        headerText="Recent Metrics"
-                        infoText="Latest Activity from entrypoint, and smart contract wallets"
+                        headerText="Select network to explore"
+                        infoText="Shows latest Activity for different entities in a chain"
                     />                    
                     <NetworkSelector selectedNetwork={selectedNetwork} handleNetworkChange={setSelectedNetwork} disabled={loading} />
                 </div>
             </div>
-            <RecentMetrics selectedNetwork={selectedNetwork} setLoading={setLoading} loading={loading} />
+            {/* <RecentMetrics selectedNetwork={selectedNetwork} setLoading={setLoading} loading={loading} /> */}
             <section className="mb-12">
                 <div className="container grid grid-cols-1 gap-10 md:grid-cols-2">
                     <div>
