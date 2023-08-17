@@ -69,12 +69,14 @@ function RecentMetrics({
             weeklyMetrics = await getWeeklyData(network, METRIC_DATA_POINT_SIZE, toast);
             setDailyMetricsToCache(network, weeklyMetrics);
         }
+
         let metrics: any;
         const chartDataAndMetrics = prepareChartDataAndMetrics(weeklyMetrics, recentMetrics, METRIC_DATA_POINT_SIZE, network);
         metrics = chartDataAndMetrics.metrics;
         setMetrics(metrics);
         setLoading(false);
     };
+
     return (
         <main className="mb-10">
             <div className="container">
@@ -85,7 +87,7 @@ function RecentMetrics({
                         ) : (
                             <div className="w-full">
                                 <ScrollContainer>
-                                    <div className="grid grid-cols-4 gap-2 min-w-[700px] ">
+                                    <div className="grid grid-cols-3 gap-2 min-w-[700px] ">
                                         {Object.keys(metrics).map((key) => {
                                             const { id, title, value, status, data, labels, toolTipValue } = metrics[key];
                                             return (

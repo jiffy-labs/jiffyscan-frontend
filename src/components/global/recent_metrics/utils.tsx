@@ -156,26 +156,26 @@ export const prepareChartDataAndMetrics = (weeklyData: any, metrics: any, dataSi
         return value / 10 ** 18;
     });
     metrics.totalwalletsCreatedMetric.data = weeklyData.totalwalletsCreatedMetric;
-    metrics.activeWalletsDailyMetric.data = weeklyData.activeWalletsDaily;
+    // metrics.activeWalletsDailyMetric.data = weeklyData.activeWalletsDaily;
 
     let feeString = getFee(metrics.totalFeeCollectedMetric.data.slice(-1)[0], network);
     metrics.totalFeeCollectedMetric.title = TOTAL_FEES_PAID_TITLE + ` ( in ${getNetworkFeeParams(network)} )`;
     metrics.userOpMetric.value = weeklyData.userOpMetric.slice(-1)[0];
     metrics.totalFeeCollectedMetric.value = parseFloat(feeString.value as string).toFixed(5).toString(); // apply the value and symbol both
     metrics.totalwalletsCreatedMetric.value = weeklyData.totalwalletsCreatedMetric.slice(-1)[0];
-    metrics.activeWalletsDailyMetric.value = weeklyData.activeWalletsDaily.slice(-1)[0];
+    // metrics.activeWalletsDailyMetric.value = weeklyData.activeWalletsDaily.slice(-1)[0];
 
     metrics.userOpMetric.status = getPercentageChange(weeklyData.userOpMetric) + '% WoW';
     metrics.totalFeeCollectedMetric.status = getPercentageChange(weeklyData.totalFeeCollectedMetric) + '% WoW';
     metrics.totalwalletsCreatedMetric.status = getPercentageChange(weeklyData.totalwalletsCreatedMetric) + '% WoW';
-    metrics.activeWalletsDailyMetric.status = getPercentageChange(weeklyData.activeWalletsDaily) + '% WoW';
+    // metrics.activeWalletsDailyMetric.status = getPercentageChange(weeklyData.activeWalletsDaily) + '% WoW';
 
     const totalWeeks = weeklyData.tMinusWeekSinceToday.length;
     const labels = getWeeklyLabels(totalWeeks);
     metrics.userOpMetric.labels = labels;
     metrics.totalFeeCollectedMetric.labels = labels;
     metrics.totalwalletsCreatedMetric.labels = labels;
-    metrics.activeWalletsDailyMetric.labels = labels;
+    // metrics.activeWalletsDailyMetric.labels = labels;
 
     return { metrics };
 };
