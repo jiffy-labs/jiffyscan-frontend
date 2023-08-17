@@ -520,6 +520,24 @@ export const getDailyMetrics = async (selectedNetwork: string, noOfDays: number,
     return [] as DailyMetric[];
 };
 
+export const getWeeklyData = async (selectedNetwork: string, noOfDays: number, toast: any): Promise<any> => {
+    if (!performApiCall(selectedNetwork)) return [] as DailyMetric[];
+    const response = await fetch(`https://8yu00jz0rj.execute-api.us-east-2.amazonaws.com/default/getChartData?network=${selectedNetwork}&noOfDays=${noOfDays}`);
+
+    if (response.status != 200) {
+        showToast(toast, 'Error fetching data');
+    }
+    const data = await response.json();
+    if ('weeklyData' in data) {
+        if (!('userOpMetric' in data.weeklyData)) {
+            showToast(toast, 'Error fetching data');
+        }
+        return data.weeklyData;
+    }
+    return [];
+
+}
+
 export const getGlobalMetrics = async (selectedNetwork: string, toast: any): Promise<GlobalCounts> => {
     if (!performApiCall(selectedNetwork)) return {} as GlobalCounts;
     const response = await fetch(API_URL+'/v0/getGlobalCounts?network=' + selectedNetwork, {

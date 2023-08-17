@@ -125,15 +125,29 @@ const aggregateWeeklyData = (chartData: ChartData): ChartDataWeekly => {
 }
 
 
-export const prepareChartDataAndMetrics = (dailyMetrics: DailyMetric[], metrics: any, dataSize: number, network: string) => {
+const getNetworkFeeParams = (network: string) => {
+    if (network == "matic") {
+        return "MATIC"
+    } else if (network == "fuse") {
+        return "FUSE"
+    } else if (network == "bsc" || network == "bsc-testnet") {
+        return "BNB"
+    }else {
+        return "ETH"
+    }
+}
+
+const TOTAL_FEES_PAID_TITLE = "Total Fees Paid"
+
+export const prepareChartDataAndMetrics = (weeklyData: any, metrics: any, dataSize: number, network: string) => {
     // This is the problem, the daily metric chart will not be consistent. For the days that there are no
     // user operations, the data point for that day will not exist. So we are creating an empty dailyData object will all the days.
     // and later populating it with the daily metric. Then creating a list out of it.
-    let chartData: ChartData = prepareDayWiseData(dailyMetrics, dataSize);
-    let weeklyData: ChartDataWeekly = aggregateWeeklyData(chartData);
-    
+    // let chartData: ChartData = prepareDayWiseData(dailyMetrics, dataSize);
+    // let weeklyData: ChartDataWeekly = aggregateWeeklyData(chartData);
+
     metrics.userOpMetric.data = weeklyData.userOpMetric;
-    metrics.totalFeeCollectedMetric.data = weeklyData.totalFeeCollectedMetric.map((value) => {
+    metrics.totalFeeCollectedMetric.data = weeklyData.totalFeeCollectedMetric.map((value: number) => {
         // if (value == 0) return 0;
         // else if (value < 10 ** 6) return value / 10 ** 9;
         // else if (value < 10 ** 9) return value / 10 ** 12; 
@@ -141,13 +155,14 @@ export const prepareChartDataAndMetrics = (dailyMetrics: DailyMetric[], metrics:
         // else if (value < 10 ** 15) return value / 10 ** 15; 
         return value / 10 ** 18;
     });
-    metrics.totalwalletsCreatedMetric.data = getDataForEvery7Days(chartData.totalwalletsCreatedMetric);
+    metrics.totalwalletsCreatedMetric.data = weeklyData.totalwalletsCreatedMetric;
     metrics.activeWalletsDailyMetric.data = weeklyData.activeWalletsDaily;
 
     let feeString = getFee(metrics.totalFeeCollectedMetric.data.slice(-1)[0], network);
+    metrics.totalFeeCollectedMetric.title = TOTAL_FEES_PAID_TITLE + ` ( in ${getNetworkFeeParams(network)} )`;
     metrics.userOpMetric.value = weeklyData.userOpMetric.slice(-1)[0];
     metrics.totalFeeCollectedMetric.value = parseFloat(feeString.value as string).toFixed(5).toString(); // apply the value and symbol both
-    metrics.totalwalletsCreatedMetric.value = chartData.totalwalletsCreatedMetric.slice(-1)[0];
+    metrics.totalwalletsCreatedMetric.value = weeklyData.totalwalletsCreatedMetric.slice(-1)[0];
     metrics.activeWalletsDailyMetric.value = weeklyData.activeWalletsDaily.slice(-1)[0];
 
     metrics.userOpMetric.status = getPercentageChange(weeklyData.userOpMetric) + '% WoW';
@@ -162,7 +177,7 @@ export const prepareChartDataAndMetrics = (dailyMetrics: DailyMetric[], metrics:
     metrics.totalwalletsCreatedMetric.labels = labels;
     metrics.activeWalletsDailyMetric.labels = labels;
 
-    return { chartData, metrics };
+    return { metrics };
 };
 
 const getWeeklyLabels = (totalWeeks: number): string[] => {

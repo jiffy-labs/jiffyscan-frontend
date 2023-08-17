@@ -10,7 +10,7 @@
     },
     "totalFeeCollectedMetric": {
         "id": "totalFeeCollectedMetric",
-        "title": "Fee Paid ($/week)",
+        "title": "Total Fees Paid",
         "value": "N/A",
         "status": "N/A",
         "data": [0, 0, 0, 0, 0, 0, 0],

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import recentMetrics from './recent_metrics.json';
 import ScrollContainer from 'react-indiana-drag-scroll';
 import NetworkSelector from '../../common/NetworkSelector';
-import { getDailyMetrics, DailyMetric } from '@/components/common/apiCalls/jiffyApis';
+import { getDailyMetrics, DailyMetric, getWeeklyData } from '@/components/common/apiCalls/jiffyApis';
 import { CaptionProps } from '../../common/Caption';
 import { NETWORK_ICON_MAP } from '@/components/common/constants';
 import { prepareChartDataAndMetrics, ChartData } from './utils';
@@ -15,7 +15,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import SouthEastIcon from '@mui/icons-material/SouthEast';
 import NorthEastIcon from '@mui/icons-material/NorthEast';
 
-const METRIC_DATA_POINT_SIZE = 42;
+const METRIC_DATA_POINT_SIZE = 84;
 
 const getDailyMetricsFromCache = (network: string) => {
     // return metrics if not expired else return empty array
@@ -56,25 +56,24 @@ function RecentMetrics({
     }, [selectedNetwork]);
 
     const refreshMetricsChart = async (network: string) => {
-        let dailyMetrics: DailyMetric[] = [];
+        let weeklyMetrics: DailyMetric[] = [];
         setLoading(true);
+
+        if (!network) return;
         // check in cache first
         // if cache is empty, fetch from api and store in cache
         // if cache is not empty, set metrics using cache
-        dailyMetrics = getDailyMetricsFromCache(network);
-        if (dailyMetrics.length == 0) {
-            console.log('fetching from api');
-            dailyMetrics = await getDailyMetrics(network, METRIC_DATA_POINT_SIZE, toast);
-            setDailyMetricsToCache(network, dailyMetrics);
+
+        weeklyMetrics = getDailyMetricsFromCache(network);
+        if (weeklyMetrics.length == 0) {
+            weeklyMetrics = await getWeeklyData(network, METRIC_DATA_POINT_SIZE, toast);
+            setDailyMetricsToCache(network, weeklyMetrics);
         }
-        console.log('from here to ');
         let metrics: any;
-        const chartDataAndMetrics = prepareChartDataAndMetrics(dailyMetrics, recentMetrics, METRIC_DATA_POINT_SIZE, network);
-        let newChartData: ChartData = chartDataAndMetrics.chartData;
+        const chartDataAndMetrics = prepareChartDataAndMetrics(weeklyMetrics, recentMetrics, METRIC_DATA_POINT_SIZE, network);
         metrics = chartDataAndMetrics.metrics;
         setMetrics(metrics);
         setLoading(false);
-        console.log('here');
     };
     return (
         <main className="mb-10">
