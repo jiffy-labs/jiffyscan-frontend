@@ -142,7 +142,7 @@ function Home() {
                     <NetworkSelector selectedNetwork={selectedNetwork} handleNetworkChange={setSelectedNetwork} disabled={loading} />
                 </div>
             </div>
-            <RecentMetrics selectedNetwork={selectedNetwork} setLoading={setLoading} loading={loading} />
+            {/* <RecentMetrics selectedNetwork={selectedNetwork} setLoading={setLoading} loading={loading} /> */}
             <section className="mb-12">
                 <div className="container grid grid-cols-1 gap-10 md:grid-cols-2">
                     <div>
