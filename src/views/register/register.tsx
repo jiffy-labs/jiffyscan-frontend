@@ -3,9 +3,12 @@ import Image from 'next/image';
 import logo from '../../../public/images/logo.png';
 import google from '../../../public/images/google.png';
 import github from '../../../public/images/github.png';
-import check from '../../../public/images/check.png';
+import check from '../../../public/images/Success.svg';
 import Link from 'next/link';
-import MiniFooter from '@/components/global/minifooter';
+import Footer from '@/components/global/footer/Footer';
+import Copyright from '@/components/global/footer/Copyright';
+import Donations from '@/components/global/footer/Donations';
+
 const RegisterComponent = () => {
     return (
         <>
@@ -47,7 +50,7 @@ const RegisterComponent = () => {
                         </div>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <div className="sec-box bg-white rounded px-10 mt-8 py-5" style={{ width: '450px' }}>
+                        <div className="sec-box bg-white rounded px-10 mt-8 py-5" style={{ height: '645px', width: '464px' }}>
                             <p className="text-black text-xl font-weight-bold mt-4 text-center" style={{ fontSize: '1.5rem' }}>
                                 Register
                             </p>
@@ -139,9 +142,17 @@ const RegisterComponent = () => {
                         </div>
                     </div>
                 </div>
-                <div className="footer" style={{marginTop: '11%'}}>
-                    <MiniFooter/>
-                </div>
+                {<RegisterComponent /> ? (
+                    <div
+                        className="footer flex flex-wrap gap-3 md:gap-10 justify-between text-white"
+                        style={{ marginTop: '13%', padding: '0 100px' }}
+                    >
+                        <Copyright />
+                        <Donations />
+                    </div>
+                ) : (
+                    <Footer />
+                )}
             </div>
         </>
     );
