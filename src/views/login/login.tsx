@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import logo from '../../../public/images/logo.png';
-import google from '../../../public/images/google.png';
 import github from '../../../public/images/github.png';
 import Link from 'next/link';
 import GoogleLogin from 'react-google-login';
-import Copyright from '@/components/global/footer/Copyright';
-import Donations from '@/components/global/footer/Donations';
-import Footer from '@/components/global/footer/Footer';
+import MiniFooter from '@/components/global/minifooter';
 
 const LoginComponent = () => {
     const responseGoogleSuccess = (response: any) => {
@@ -27,10 +24,8 @@ const LoginComponent = () => {
         }
     };
 
-    const shouldShowLogin = true;
-
     return (
-        <div className="main-box bg-dark-600" style={{ height: '100vh !important' }}>
+        <div className="main-box bg-dark-600" style={{ height: 'auto !important', minHeight: '100vh' }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Image src={logo} alt="logo" className="mt-10 text-center" />
                 <div className="whitebox bg-white rounded px-10 mt-11 py-5" style={{ height: '546px', width: '464px' }}>
@@ -43,12 +38,7 @@ const LoginComponent = () => {
                         onSuccess={responseGoogleSuccess}
                         onFailure={responseGoogleFailure}
                         cookiePolicy={'single_host_origin'}
-                        className="rounded py-2 mt-6 w-full gap-3 text-center"
-                        // style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}
-                        style={{
-                            border: '1px solid #e5e7eb', // Add the border style
-                            // ... other styles ...
-                        }}
+                        className="box rounded py-2 mt-6 w-full gap-3"
                     >
                         <p className="text-black font-weight-bold">LOGIN WITH GOOGLE</p>
                     </GoogleLogin>
@@ -127,21 +117,16 @@ const LoginComponent = () => {
                               .whitebox button{
                                 justify-content:center
                               }
+                              .box{
+                                border:1px solid #e5e7eb !important;
+                                box-shadow:none !important;
+                                border-radius: 5px !important;
+                              }
                             `}
                     </style>
                 </div>
             </div>
-            {<LoginComponent /> ? (
-                <div
-                    className="footer flex flex-wrap gap-3 md:gap-10 justify-between text-white"
-                    style={{ marginTop: '13%', padding: '0 100px' }}
-                >
-                    <Copyright />
-                    <Donations />
-                </div>
-            ) : (
-                <Footer />
-            )}
+            <MiniFooter />
         </div>
     );
 };

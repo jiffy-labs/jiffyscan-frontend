@@ -1,22 +1,35 @@
 import React from 'react';
 import Image from 'next/image';
 import logo from '../../../public/images/logo.png';
-import google from '../../../public/images/google.png';
 import github from '../../../public/images/github.png';
 import check from '../../../public/images/Success.svg';
 import Link from 'next/link';
-import Footer from '@/components/global/footer/Footer';
-import Copyright from '@/components/global/footer/Copyright';
-import Donations from '@/components/global/footer/Donations';
+import GoogleLogin from 'react-google-login';
+import MiniFooter from '@/components/global/minifooter';
 
 const RegisterComponent = () => {
+    const responseGoogleSuccess = (response: any) => {
+        console.log('Google login success:', response);
+    };
+
+    const responseGoogleFailure = (error: any) => {
+        console.error('Google login error:', error);
+    };
+
+    const handleGithubLogin = async () => {
+        try {
+            window.location.href = `https://github.com/login/oauth/authorize?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&scope=user`;
+        } catch (error) {
+            console.error('Error initiating GitHub login:', error);
+        }
+    };
     return (
         <>
             <div
-                className="Maincontainer bg-dark-600  h-screen d-flex justify-content-center align-items-center w-full"
-                style={{ height: '100vh' }}
+                className="Maincontainer bg-dark-600  d-flex justify-content-center align-items-center w-full"
+                style={{ height: 'auto !important', minHeight: '100vh' }}
             >
-                <div className="container w-full pt-6 gap-20" style={{ display: 'flex', justifyContent: 'center' }}>
+                <div className="container w-full pt-6 px-6 gap-20" style={{ display: 'flex', justifyContent: 'center' ,marginTop:"-35px"}}>
                     <div className="mt-20">
                         <Image src={logo} alt="logo" className=" text-center" />
                         <div style={{ display: 'flex', alignItems: 'center' }} className="mt-3">
@@ -50,23 +63,28 @@ const RegisterComponent = () => {
                         </div>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <div className="sec-box bg-white rounded px-10 mt-8 py-5" style={{ height: '645px', width: '464px' }}>
+                        <div className="sec-box bg-white rounded px-10 mt-8 py-5" style={{ height: 'auto !important', width: '464px' }}>
                             <p className="text-black text-xl font-weight-bold mt-4 text-center" style={{ fontSize: '1.5rem' }}>
                                 Register
                             </p>
-                            <button
-                                className="rounded border py-2 mt-6 w-full gap-3"
-                                style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}
+                            <GoogleLogin
+                                clientId="YOUR_GOOGLE_CLIENT_ID"
+                                onSuccess={responseGoogleSuccess}
+                                onFailure={responseGoogleFailure}
+                                cookiePolicy={'single_host_origin'}
+                                className="box rounded py-2 mt-6 w-full gap-3 text-cente"
                             >
-                                <Image src={google} alt="logo" />
                                 <p className="text-black font-weight-bold">LOGIN WITH GOOGLE</p>
-                            </button>
+                            </GoogleLogin>
                             <button
+                                onClick={handleGithubLogin}
                                 className="rounded border py-2 text-black font-weight-bold mt-2 w-full gap-3"
                                 style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}
                             >
                                 <Image src={github} alt="logo" />
-                                <p className="text-black font-weight-bold">LOGIN WITH GITHUB</p>
+                                <p className="text-black font-weight-bold" style={{ marginLeft: '17px' }}>
+                                    LOGIN WITH GITHUB
+                                </p>
                             </button>
                             <p className="text-black text-md font-weight-bold mt-5 text-center">or</p>
                             <input
@@ -94,10 +112,27 @@ const RegisterComponent = () => {
                                 REGISTER
                             </button>
                             <p className="text-black text-md font-weight-bold mt-9 text-center">
-                                By clicking “Create account” or “Continue with Google” or “Continue with Github”, you agree to the
-                                jiffyscan.xyz <span style={{ color: '#1976D2' }}>Terms of Service</span> and
-                                <span style={{ color: '#1976D2' }}>Privacy Policy</span>
+                                By clicking “Create account” or “Continue with Google” or “Continue with Github”, you agree to the&nbsp;
+                                jiffyscan.xyz
+                                <a
+                                    href="https://www.notion.so/adityaagarwal/Terms-of-Use-0012b80699cc4b948cdae9e42983035b"
+                                    style={{ color: '#1976D2' }}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Terms of Service
+                                </a>
+                                &nbsp;and&nbsp;
+                                <a
+                                    href="https://adityaagarwal.notion.site/Privacy-Policy-5f05315af636474797f1255d338a0d76?pvs=4"
+                                    style={{ color: '#1976D2' }}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Privacy Policy
+                                </a>
                             </p>
+
                             <Link href="/login">
                                 <p className=" text-black text-md font-weight-bold mt-5 text-center">
                                     Already have an account? <span style={{ color: '#1976D2' }}>Log in</span>
@@ -134,25 +169,23 @@ const RegisterComponent = () => {
                       }
                       @media (min-width: 768px) and (max-width: 992px) {
                         .footer{
-                            margin-bottom: 40px;
+                            margin-bottom: 40px !important;
                         }
+                      }
+                      .box{
+                        border:1px solid #e5e7eb !important;
+                        box-shadow:none !important;
+                        border-radius: 5px !important;
+                      }
+                      .sec-box button{
+                        justify-content:center
                       }
                     `}
                             </style>
                         </div>
                     </div>
                 </div>
-                {<RegisterComponent /> ? (
-                    <div
-                        className="footer flex flex-wrap gap-3 md:gap-10 justify-between text-white"
-                        style={{ marginTop: '13%', padding: '0 100px' }}
-                    >
-                        <Copyright />
-                        <Donations />
-                    </div>
-                ) : (
-                    <Footer />
-                )}
+                <MiniFooter />
             </div>
         </>
     );
