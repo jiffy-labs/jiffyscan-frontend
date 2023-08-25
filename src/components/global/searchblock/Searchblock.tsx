@@ -10,14 +10,14 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const showToast = (toast: any, message: string) => {
     toast.error(message, {
-        position: "bottom-left",
+        position: 'bottom-left',
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
-        theme: "colored"
-    })
-}
+        theme: 'colored',
+    });
+};
 
 function Searchblock({ isNavbar }: { isNavbar: boolean }) {
     const { push } = useRouter();
@@ -44,15 +44,15 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
                 if (redirectUrl) {
                     push(redirectUrl);
                 } else {
-                    showToast(toast, "No results found")
+                    showToast(toast, 'No results found');
                 }
                 setSearching(false);
             } else {
-                showToast(toast, "Invalid search term ?")
+                showToast(toast, 'Invalid search term ?');
                 setSearching(false);
             }
         } else {
-            showToast(toast, "Invalid search term ?")
+            showToast(toast, 'Invalid search term ?');
         }
     };
 

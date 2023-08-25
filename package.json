@@ -29,6 +29,7 @@
         "moment-timezone": "^0.5.42",
         "next": "13.2.4",
         "react": "18.2.0",
+        "react-apexcharts": "^1.4.1",
         "react-chartjs-2": "^5.2.0",
         "react-dom": "18.2.0",
         "react-ga4": "^2.1.0",
