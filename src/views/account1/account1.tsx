@@ -12,6 +12,8 @@ import dot from '../../../public/images/dot.png';
 import pen from '../../../public/images/pen.png';
 import api from '../../../public/images/api.png';
 import arrow from '../../../public/images/uparrow.png';
+import refresh from '../../../public/images/refresh.png';
+import trash from '../../../public/images/delete.png';
 import Image from 'next/image';
 import ApexLineChart from '../../../src/views/account1/apexchart';
 
@@ -25,7 +27,7 @@ const Account1 = () => {
     };
 
     const handleClickOutside = (event: any) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target) as any) {
+        if (dropdownRef.current && (!dropdownRef.current.contains(event.target) as any)) {
             setDropdownOpen(false);
         }
     };
@@ -67,11 +69,11 @@ const Account1 = () => {
                             <div className="leftContent lg:w-1/2 lg:pr-4">
                                 <p style={{ color: '#455A64', fontSize: '14px' }}>key</p>
                                 <div className="d-flex alignItm-center flex gap-3 mt-1">
-                                    <Image src={circle} alt="" className="h-3 w-3 mt-2" />
+                                    <Image src={circle} alt="" className="h-5 w-5 mt-1" />
                                     <p style={{ color: '#263238' }} className="sm:text-[14px] text-[10px]">
                                         server_8***********************52e06621087
                                     </p>
-                                    <Image src={eye} alt="" className="h-5 w-5 mt-1" />
+                                    <Image src={eye} alt="" className="h-4 w-4 mt-1" />
                                     <Image src={copy} alt="" />
                                 </div>
                                 <div className="grid grid-cols-2 gap-15 mt-7">
@@ -106,14 +108,14 @@ const Account1 = () => {
                                 </div>
                                 <div className="flex mt-10 font-bold text-center gap-3">
                                     <div
-                                        className="rounded border flex align-items-center justify-center text-center gap-2 px-[10px] pt-2 sm:px-[30px] sm:py-[8px] text-[14px]"
+                                        className="rounded border flex align-items-center justify-center text-center gap-2 px-[10px] pt-2 sm:px-[16px] sm:py-[8px] text-[14px]"
                                         style={{ color: '#263238' }}
                                     >
                                         <Image src={pen} alt="" className="h-2 w-2 sm:h-4 sm:w-4 mt-1" />
                                         <p className="sm:text-[14px] text-[10px]">MANAGE PLAN</p>
                                     </div>
                                     <div
-                                        className="rounded border flex align-items-center text-center gap-4 px-[20px] pt-1 sm:px-[20px] sm:py-[8px]"
+                                        className="rounded border flex align-items-center text-center gap-2 px-[20px] pt-1 sm:px-[15px] sm:py-[8px]"
                                         style={{ color: '#263238' }}
                                     >
                                         <Image src={shortBell} alt="" className="h-2 w-2 sm:h-4 sm:w-4 mt-1" />{' '}
@@ -184,11 +186,11 @@ const Account1 = () => {
                             <div className="leftContent lg:w-1/2 lg:pr-4">
                                 <p style={{ color: '#455A64', fontSize: '14px' }}>key</p>
                                 <div className="d-flex alignItm-center flex gap-3 mt-1">
-                                    <Image src={circle} alt="" className="h-3 w-3 mt-2" />
+                                    <Image src={Rcircle} alt="" className="h-5 w-5 mt-1" />
                                     <p style={{ color: '#263238' }} className="sm:text-[14px] text-[10px]">
                                         server_8***********************52e06621087
                                     </p>
-                                    <Image src={eye} alt="" className="h-5 w-5 mt-1" />
+                                    <Image src={eye} alt="" className="h-4 w-4 mt-1" />
                                     <Image src={copy} alt="" />
                                 </div>
                                 <div className="grid grid-cols-2 gap-15 mt-7">
@@ -223,14 +225,14 @@ const Account1 = () => {
                                 </div>
                                 <div className="flex mt-10 font-bold text-center gap-3">
                                     <div
-                                        className="rounded border flex align-items-center justify-center text-center gap-2 px-[10px] pt-2 sm:px-[30px] sm:py-[8px] text-[14px]"
+                                        className="rounded border flex align-items-center justify-center text-center gap-2 px-[10px] pt-2 sm:px-[16px] sm:py-[8px] text-[14px]"
                                         style={{ color: '#263238' }}
                                     >
                                         <Image src={pen} alt="" className="h-2 w-2 sm:h-4 sm:w-4 mt-1" />
                                         <p className="sm:text-[14px] text-[10px]">MANAGE PLAN</p>
                                     </div>
                                     <div
-                                        className="rounded border flex align-items-center text-center gap-4 px-[20px] pt-1 sm:px-[20px] sm:py-[8px]"
+                                        className="rounded border flex align-items-center text-center gap-2 px-[20px] pt-1 sm:px-[15px] sm:py-[8px]"
                                         style={{ color: '#263238' }}
                                     >
                                         <Image src={shortBell} alt="" className="h-2 w-2 sm:h-4 sm:w-4 mt-1" />{' '}
@@ -254,7 +256,7 @@ const Account1 = () => {
                                 </div>
                             </div>
                             <div className="rightContent lg:w-1/2 mt-3 lg:mt-0">
-                            <div className="font-bold text-center flex items-end justify-end gap-1 sm:gap-2">
+                                <div className="font-bold text-center flex items-end justify-end gap-1 sm:gap-2">
                                     <div
                                         className="rounded border flex align-items-center justify-center text-center text-[10px] sm:text-[14px]"
                                         style={{ color: '#263238', padding: '5px 18px' }}
@@ -301,11 +303,11 @@ const Account1 = () => {
                             <div className="leftContent lg:w-1/2 lg:pr-4">
                                 <p style={{ color: '#455A64', fontSize: '14px' }}>key</p>
                                 <div className="d-flex alignItm-center flex gap-3 mt-1">
-                                    <Image src={circle} alt="" className="h-3 w-3 mt-2" />
+                                    <Image src={circle} alt="" className="h-5 w-5 mt-1" />
                                     <p style={{ color: '#263238' }} className="sm:text-[14px] text-[10px]">
                                         server_8***********************52e06621087
                                     </p>
-                                    <Image src={eye} alt="" className="h-5 w-5 mt-1" />
+                                    <Image src={eye} alt="" className="h-4 w-4 mt-1" />
                                     <Image src={copy} alt="" />
                                 </div>
                                 <div className="grid grid-cols-2 gap-15 mt-7">
@@ -340,38 +342,50 @@ const Account1 = () => {
                                 </div>
                                 <div className="flex mt-10 font-bold text-center gap-3">
                                     <div
-                                        className="rounded border flex align-items-center justify-center text-center gap-2 px-[10px] pt-2 sm:px-[30px] sm:py-[8px] text-[14px]"
+                                        className="rounded border flex align-items-center justify-center text-center gap-2 px-[10px] pt-2 sm:px-[16px] sm:py-[8px] text-[14px]"
                                         style={{ color: '#263238' }}
                                     >
                                         <Image src={pen} alt="" className="h-2 w-2 sm:h-4 sm:w-4 mt-1" />
                                         <p className="sm:text-[14px] text-[10px]">MANAGE PLAN</p>
                                     </div>
                                     <div
-                                        className="rounded border flex align-items-center text-center gap-4 px-[20px] pt-1 sm:px-[20px] sm:py-[8px]"
+                                        className="rounded border flex align-items-center text-center gap-2 px-[20px] pt-1 sm:px-[15px] sm:py-[8px]"
                                         style={{ color: '#263238' }}
                                     >
-                                        <Image src={shortBell} alt="" className="h-2 w-2 sm:h-4 sm:w-4 mt-1" />
+                                        <Image src={shortBell} alt="" className="h-2 w-2 sm:h-4 sm:w-4 mt-1" />{' '}
                                         <p className="sm:text-[14px] text-[10px]"> EDIT NOTIFICATION</p>
                                     </div>
-                                    <button
-                                        className="rounded border flex align-items-center justify-center text-center gap-2  px-[10px] pt-4 sm:px-[30px] sm:py-[8px]"
-                                        style={{ color: '#263238' }}
-                                        onClick={toggleDropdown}
-                                    >
-                                        <p className="sm:text-[14px] text-[10px]">MORE</p>
-                                        <Image src={arrow} alt="" className="h-2 w-2 sm:h-2 sm:w-2 mt-2 sm:mt-2" />
-                                    </button>
-                                    {isDropdownOpen && (
-                                        <div ref={dropdownRef} className="bg-black absolute w-40 ml-80 text-white px-4 py-4 rounded">
-                                            <p style={{ color: '#607D8B', fontSize: '14px' }}>ACCOUNT</p>
-                                            <p style={{ color: '#263238', fontSize: '16px', fontWeight: 'bold' }}> My Profile</p>
-                                            <p style={{ color: '#263238', fontSize: '16px', fontWeight: 'bold' }}>API Plans</p>
-                                        </div>
-                                    )}
+                                    <div className="relative">
+                                        <button
+                                            className="rounded border flex items-center justify-center text-center gap-2 px-[10px] pt-4 sm:px-[30px] sm:py-[8px]"
+                                            style={{ color: '#263238' }}
+                                            // onClick={toggleDropdown}
+                                            onClick={toggleDropdown}
+                                        >
+                                            <p className="sm:text-[14px] text-[10px]">MORE</p>
+                                            <Image src={arrow} alt="" className="h-2 w-2 sm:h-3 sm:w-3 mt-2 sm:mt-1" />
+                                        </button>
+                                        {isDropdownOpen && (
+                                            <div
+                                                // ref={dropdownRef}
+                                                // onClick={()=>setDropdownOpen(!isDropdownOpen)}
+                                                className="bg-white absolute w-35 text-white mt-1 ml-[-5px] sm:ml-0 text-white px-5 py-5 rounded"
+                                            >
+                                                <div className="flex items-center gap-2 py-2">
+                                                    <Image src={refresh} alt="" className="h-4 w-4 mt-1" />
+                                                    <p style={{ color: '#263238', fontSize: '16px' }}>RESET</p>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <Image src={trash} alt="" className="h-4 w-5 mt-1" />
+                                                    <p style={{ color: '#263238', fontSize: '16px' }}>DELETE</p>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                             <div className="rightContent lg:w-1/2 mt-3 lg:mt-0">
-                            <div className="font-bold text-center flex items-end justify-end gap-1 sm:gap-2">
+                                <div className="font-bold text-center flex items-end justify-end gap-1 sm:gap-2">
                                     <div
                                         className="rounded border flex align-items-center justify-center text-center text-[10px] sm:text-[14px]"
                                         style={{ color: '#263238', padding: '5px 18px' }}
