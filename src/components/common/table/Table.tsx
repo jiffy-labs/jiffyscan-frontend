@@ -44,9 +44,37 @@ export interface fee {
 
 function Table(props: tableDataT) {
     const { rows, columns, caption, onRowClick, hideHeader } = props;
+    const [sortedRows, setSortedRows] = useState(rows);
+    const [sortOrder, setSortOrder] = useState("asc");
     const width = useWidth();
 
     let skeletonCards = Array(5).fill(0);
+    const convertAgoToNumber = (ago: string): number => {
+        if (ago.includes("an")) return 1;
+        const [value, unit] = ago.split(" ");
+        switch (unit) {
+            case "hour":
+            case "hours":
+                return parseInt(value);
+            default:
+                return Number.MAX_SAFE_INTEGER;
+        }
+    }
+    const sortRowsAscending = (rows: tableDataT['rows']): typeof rows => {
+        return [...rows].sort((a, b) => convertAgoToNumber(a.ago!) - convertAgoToNumber(b.ago!));
+    }
+    const sortRowsDescending = (rows: tableDataT['rows']): typeof rows => {
+        return [...rows].sort((a, b) => convertAgoToNumber(b.ago!) - convertAgoToNumber(a.ago!));
+    }
+    const handleSort = () => {
+        const data = sortOrder === "asc" ? sortRowsAscending(sortedRows) : sortRowsDescending(sortedRows);
+        setSortedRows(data);
+        setSortOrder(prevOrder => prevOrder === "asc" ? "desc" : "asc");
+    };
+
+    useEffect(() => { 
+        setSortedRows(rows);
+    }, [rows]);
     return (
         <div className="">
             {!hideHeader && caption?.text && <Caption icon={caption?.icon!} text={caption?.text}>
@@ -70,6 +98,7 @@ function Table(props: tableDataT) {
                                                 className={`flex items-center gap-2.5 ${
                                                     columns.length <= 3 ? 'group-last:justify-end' : ''
                                                 }`}
+                                                onClick={() => name === 'Age' && handleSort()}
                                             >
                                                 <span>{name}</span>
                                                 {name === 'Age' ? sort && <img src="/images/span.svg" alt="" /> : null}
@@ -95,7 +124,7 @@ function Table(props: tableDataT) {
                             </tbody>
                         ) : (
                             <tbody>
-                                {rows?.map(({ ago, fee, sender, target, token, userOps, status, count, poweredBy }, index) => {
+                                {sortedRows?.map(({ ago, fee, sender, target, token, userOps, status, count, poweredBy }, index) => {
                                     return (
                                         <tr
                                             key={index}
