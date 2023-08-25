@@ -20,14 +20,14 @@ import ApexLineChart from '../../../src/views/account1/apexchart';
 const Account1 = () => {
     const [isDropdownOpen, setDropdownOpen] = useState(false);
 
-    const dropdownRef = useRef(null);
+    const dropdownRef:any = useRef(null);
 
     const toggleDropdown = () => {
         setDropdownOpen(!isDropdownOpen);
     };
 
     const handleClickOutside = (event: any) => {
-        if (dropdownRef.current && (!dropdownRef.current.contains(event.target) as any)) {
+        if (dropdownRef.current && (!dropdownRef.current.contains((event.target) as any))) {
             setDropdownOpen(false);
         }
     };
