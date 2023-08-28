@@ -6,7 +6,7 @@ function CopyButton({ text, copyIcon }: { text: string; copyIcon?: string }) {
             onClick={() => {
                 copyToClipboard(text);
             }}
-            className="active:shadow-300 pd-2"
+            className="active:shadow-300 pd-2 flex"
             type="button"
         >
             <img className="h-[20px] w-[20px] md:h-[16px] md:w-[16px]" src={copyIcon || '/images/Button.svg'} alt="" />

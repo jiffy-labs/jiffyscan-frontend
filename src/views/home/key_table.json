@@ -1,0 +1,20 @@
+{
+    "columns": [
+        { "name": "Keys", "sort": true },
+        { "name": "Created", "sort": true }
+    ],
+    "rows": [
+        {
+            "keytoken": {
+                "text": "server_822222222222222252e06621087"
+            },
+            "ago": "12.06.2023"
+        },
+        {
+            "keytoken": {
+                "text": "server_822222222222222252e06621087"
+            },
+            "ago": "23.06.2023"
+        }
+    ]
+}

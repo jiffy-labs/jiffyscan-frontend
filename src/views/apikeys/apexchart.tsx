@@ -1,12 +1,14 @@
 import React from 'react';
-
+// import { Chart as Chartjs, BarElement, Tooltip, Legend, CategoryScale, LinearScale } from 'chart.js';
 import dynamic from 'next/dynamic';
+import { Line } from 'react-chartjs-2';
+// Chartjs.register(BarElement, Tooltip, Legend, CategoryScale, LinearScale);
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 const data = {
     series: [
         {
             name: 'Desktops',
-            data: [10, 41, 35, 41, 49, 29, 47,20],
+            data: [10, 41, 35, 41, 49, 29, 47, 20],
         },
     ],
     options: {
@@ -58,12 +60,12 @@ const data = {
             },
             style: {
                 fontSize: '12px',
-                colors: '#4CAF50', 
+                colors: '#4CAF50',
             },
-            },
-            axisBorder: {
-                show: false,
-            },
+        },
+        axisBorder: {
+            show: false,
+        },
         yaxis: {
             labels: {
                 formatter: function (value: any) {
@@ -78,10 +80,31 @@ const data = {
         },
     },
 };
+
+// const data = {
+//     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+//     datasets: [
+//         {
+//             label: 'First dataset',
+//             data: [33, 53, 85, 41, 44, 65],
+//             fill: true,
+//             backgroundColor: 'rgba(75,192,192,0.2)',
+//             borderColor: 'rgba(75,192,192,1)',
+//         },
+//         {
+//             label: 'Second dataset',
+//             data: [33, 25, 35, 51, 54, 76],
+//             fill: false,
+//             borderColor: '#742774',
+//         },
+//     ],
+// };
+
 function ApexLineChart() {
     return (
         <div>
             <Chart options={data.options as any} series={data.series} type="line" height={250} className="mt-2" />
+            {/* <Line data={data} /> */}
         </div>
     );
 }

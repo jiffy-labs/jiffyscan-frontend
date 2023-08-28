@@ -25,9 +25,9 @@ export function getSymbol(network: string): string {
 }
 
 export const getExplorerLogo = (network: string) => {
-    if (network == "fuse") return "/images/blockscout_logo.svg";
-    else return "/images/graph.svg";
-}
+    if (network == 'fuse') return '/images/blockscout_logo.svg';
+    else return '/images/graph.svg';
+};
 
 export const getFee = (amount: number, network: string): fee => {
     let gasFee: number = amount;
@@ -67,6 +67,15 @@ export const shortenString = (str: string) => {
     const lastChars = str?.slice(-4);
 
     return `${firstChars}...${lastChars}`;
+};
+export const shortenStringstar = (str: string) => {
+    if (str?.length <= 10) {
+        return str;
+    }
+    const firstChars = str?.slice(0, 6);
+    const lastChars = str?.slice(-4);
+
+    return `${firstChars}*******************${lastChars}`;
 };
 
 const getNetworkFromUrl = () => {

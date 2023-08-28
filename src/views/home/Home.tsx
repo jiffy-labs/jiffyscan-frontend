@@ -138,7 +138,7 @@ function Home() {
                         icon="/images/cube-unfolded.svg"
                         headerText="Select network to explore"
                         infoText="Shows latest Activity for different entities in a chain"
-                    />                    
+                    />
                     <NetworkSelector selectedNetwork={selectedNetwork} handleNetworkChange={setSelectedNetwork} disabled={loading} />
                 </div>
             </div>
