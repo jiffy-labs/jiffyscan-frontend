@@ -59,14 +59,14 @@ export const getCurrencySymbol = (amount: number, network: string): string => {
     }
 };
 
-export const shortenString = (str: string) => {
+export const shortenString = (str: string, star = false) => {
     if (str?.length <= 10) {
         return str;
     }
     const firstChars = str?.slice(0, 6);
     const lastChars = str?.slice(-4);
 
-    return `${firstChars}...${lastChars}`;
+    return `${firstChars}${star ? '**************': '...' }${lastChars}`;
 };
 
 const getNetworkFromUrl = () => {

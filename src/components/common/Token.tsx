@@ -1,10 +1,11 @@
 import Link from 'next/link';
-import React, { useContext } from 'react';
+import React, {useContext, useState} from 'react';
 import CopyButton from './copy_button/CopyButton';
 import { useConfig } from '@/context/config';
 import { useRouter } from 'next/router';
 import { shortenString } from './utils';
 import { NETWORK_SCANNER_MAP } from './constants';
+import TextVisibleButton from "@/components/common/textVisiblebutton/textVisibleButton";
 
 export interface TokenType {
     icon?: string;
@@ -13,27 +14,30 @@ export interface TokenType {
     type?: string;
     onTokenClicked?: (value: number) => void;
     value?: number;
+    eyes?: boolean;
 }
 
-function Token({ icon, text, copyIcon, type, onTokenClicked, value }: TokenType) {
+function Token({ icon, text, copyIcon, type, onTokenClicked, value, eyes }: TokenType) {
     const { selectedNetwork } = useConfig();
+    const [ showText, setShowText] = useState(false);
 
     if (text == "Unavailable!") 
         return <div className="flex items-center gap-2.5">{text}</div>
+    const renderString = showText? text:  shortenString(text, eyes)
 
     return (
         <div className="flex items-center gap-2.5">
             {icon && <img src={icon} alt="" style={{ width: '20px', height: '20px' }} />}
             {onTokenClicked ? (
                 <a onClick={() => onTokenClicked(value ? value : 0)} className="text-blue-200 cursor-pointer">
-                    {shortenString(text)}
+                    {renderString}
                 </a>
             ) : (
                 <Link href={getHrefLink(type, text, selectedNetwork)} target={getTarget(type)} className="text-blue-200">
-                    {shortenString(text)}
+                    {renderString}
                 </Link>
             )}
-
+            {eyes && <TextVisibleButton isShow={showText} handleText={(showText)=>setShowText(!!showText)} />}
             <CopyButton text={text} copyIcon={copyIcon} />
         </div>
     );
