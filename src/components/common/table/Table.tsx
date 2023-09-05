@@ -24,6 +24,8 @@ export interface tableDataT {
         fee?: fee;
         userOps?: string;
         status?: Boolean;
+        created?: string;
+        keys?: string;
         account?: TokenType;
         count?: string;
         poweredBy?: string;
@@ -98,10 +100,10 @@ function Table(props: tableDataT) {
                                                 className={`flex items-center gap-2.5 ${
                                                     columns.length <= 3 ? 'group-last:justify-end' : ''
                                                 }`}
-                                                onClick={() => name === 'Age' && handleSort()}
+                                                onClick={() => sort && handleSort()}
                                             >
                                                 <span>{name}</span>
-                                                {name === 'Age' ? sort && <img src="/images/span.svg" alt="" /> : null}
+                                                {sort ? <img src="/images/span.svg" alt="" /> : null}
                                             </div>
                                         </th>
                                     );
@@ -124,7 +126,7 @@ function Table(props: tableDataT) {
                             </tbody>
                         ) : (
                             <tbody>
-                                {sortedRows?.map(({ ago, fee, sender, target, token, userOps, status, count, poweredBy }, index) => {
+                                {sortedRows?.map(({ ago, fee, sender, target, token, userOps, status, count, poweredBy, created, keys }, index) => {
                                     return (
                                         <tr
                                             key={index}
@@ -135,6 +137,7 @@ function Table(props: tableDataT) {
                                                     <Token {...token} />
                                                 </td>
                                             )}
+
 
                                             {ago && (
                                                 <td className="">
@@ -157,7 +160,11 @@ function Table(props: tableDataT) {
                                                     <span className="block text-center">{userOps}</span>
                                                 </td>
                                             )}
-
+                                            {keys && (
+                                                <td className="">
+                                                    <Token text={keys} type="address" eyes/>
+                                                </td>
+                                            )}
                                             {sender && (
                                                 <td className="">
                                                     <Token text={sender} type="address" />
@@ -186,6 +193,13 @@ function Table(props: tableDataT) {
                                                             </Chip>
                                                         )}
                                                         {fee.component && fee.component}
+                                                    </div>
+                                                </td>
+                                            )}
+                                            {created && (
+                                                <td className="">
+                                                    <div className="flex items-center justify-end gap-2 text-right">
+                                                        {created}
                                                     </div>
                                                 </td>
                                             )}
