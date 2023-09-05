@@ -1,122 +1,205 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Image from 'next/image';
 import logo from '../../../public/images/logo.png';
-import github from '../../../public/images/github.png';
 import check from '../../../public/images/Success.svg';
 import Link from 'next/link';
-import GoogleLogin from 'react-google-login';
 import MiniFooter from '@/components/global/minifooter';
+import {signIn} from "next-auth/react";
+import {Amplify, Auth} from "aws-amplify";
+import Spinner from "@/components/common/Spinner";
+
+const COGNITO_REGION = process.env.NEXT_PUBLIC_COGNITO_REGION;
+const LOGIN_REGISTER_COGNITO_CLIENT_ID = process.env.NEXT_PUBLIC_LOGIN_REGISTER_COGNITO_CLIENT_ID;
+const COGNITO_USER_POOL_ID = process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID;
+
 
 const RegisterComponent = () => {
-    const responseGoogleSuccess = (response: any) => {
-        console.log('Google login success:', response);
-    };
-
-    const responseGoogleFailure = (error: any) => {
-        console.error('Google login error:', error);
-    };
-
-    const handleGithubLogin = async () => {
-        try {
-            window.location.href = `https://github.com/login/oauth/authorize?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&scope=user`;
-        } catch (error) {
-            console.error('Error initiating GitHub login:', error);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const [loading, setLoading] = useState(false);
+    const handleRegistration = async () => {
+        // Validate confirm password
+        setErrorMessage('');
+        setSuccessMessage('');
+        if (!email || !password || !confirmPassword) {
+            setErrorMessage('All fields are required');
+            return;
         }
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            setErrorMessage('Invalid email format');
+
+            return;
+        }
+        if (password !== confirmPassword) {
+            setErrorMessage('Passwords do not match');
+
+            return;
+        }
+        setLoading(true)
+
+        const awsAmplifyConfig = {
+            mandatorySignId: true,
+            region: COGNITO_REGION,
+            userPoolId: COGNITO_USER_POOL_ID,
+            userPoolWebClientId: LOGIN_REGISTER_COGNITO_CLIENT_ID
+        }
+        console.log("awsAmplifyConfig:", awsAmplifyConfig)
+        Amplify.configure(awsAmplifyConfig)
+        const params = {
+            password: password,
+            username: email,
+            attributes: {email: email}
+        }
+        try {
+            const signUpResponse = await Auth.signUp(params);
+            console.log("DeliveryMedium:", signUpResponse)
+            if (signUpResponse) {
+                if (signUpResponse.codeDeliveryDetails.DeliveryMedium === "EMAIL") {
+                    setSuccessMessage("Please check your email for verification link")
+                }
+            }
+        } catch (err) {
+            if (err instanceof Error) {
+                setErrorMessage(err.message);
+            } else {
+                setErrorMessage('An unexpected error occurred');
+                console.error('An unexpected error occurred:', err);
+            }
+        }
+        setLoading(false)
+
     };
+    const handleLoginWithGoogle = async () => {
+        setLoading(true)
+        await signIn("cognito_google", {redirect: false})
+        // setLoading(false)
+    };
+
     return (
         <>
             <div
                 className="Maincontainer bg-dark-600  d-flex justify-content-center align-items-center w-full"
-                style={{ height: 'auto !important', minHeight: '100vh' }}
+                style={{height: 'auto !important', minHeight: '100vh'}}
             >
-                <div className="container w-full pt-6 px-6 gap-20" style={{ display: 'flex', justifyContent: 'center' ,marginTop:"-35px"}}>
+                <div className="container w-full pt-6 px-6 gap-20"
+                     style={{display: 'flex', justifyContent: 'center', marginTop: "-35px"}}>
                     <div className="mt-20">
-                        <Image src={logo} alt="logo" className=" text-center" />
-                        <div style={{ display: 'flex', alignItems: 'center' }} className="mt-3">
-                            <Image src={check} alt="logo" className=" text-center" style={{ marginTop: '-66px' }} />
+                        <Image src={logo} alt="logo" className=" text-center"/>
+                        <div style={{display: 'flex', alignItems: 'center'}} className="mt-3">
+                            <Image src={check} alt="logo" className=" text-center" style={{marginTop: '-66px'}}/>
                             <p className="text-white ml-3">
-                                <span style={{ color: '#90A4AE' }}>Real-time Monitoring. </span>Track <br /> Ethereum network hash-rate and
-                                <br /> difficulty in real-time with charts and <br /> historical data.
+                                <span style={{color: '#90A4AE'}}>Real-time Monitoring. </span>Track <br/> Ethereum
+                                network hash-rate and
+                                <br/> difficulty in real-time with charts and <br/> historical data.
                             </p>
                         </div>
-                        <div style={{ display: 'flex', alignItems: 'center' }} className="mt-3">
-                            <Image src={check} alt="logo" className="text-center mt-2" style={{ marginTop: '-66px' }} />
+                        <div style={{display: 'flex', alignItems: 'center'}} className="mt-3">
+                            <Image src={check} alt="logo" className="text-center mt-2" style={{marginTop: '-66px'}}/>
                             <p className="text-white ml-3">
-                                <span style={{ color: '#90A4AE' }}>Miner Distribution Analysis.</span>
-                                <br />
+                                <span style={{color: '#90A4AE'}}>Miner Distribution Analysis.</span>
+                                <br/>
                                 Analyze miner distribution on the
-                                <br />
-                                network to understand risks to <br />
+                                <br/>
+                                network to understand risks to <br/>
                                 security and decentralization.
                             </p>
                         </div>
-                        <div style={{ display: 'flex', alignItems: 'center' }} className="mt-3">
-                            <Image src={check} alt="logo" className="text-center mt-2" style={{ marginTop: '-66px' }} />
+                        <div style={{display: 'flex', alignItems: 'center'}} className="mt-3">
+                            <Image src={check} alt="logo" className="text-center mt-2" style={{marginTop: '-66px'}}/>
                             <p className="text-white ml-3">
-                                <span style={{ color: '#90A4AE' }}>Miner Distribution Analysis.</span>
-                                <br />
+                                <span style={{color: '#90A4AE'}}>Miner Distribution Analysis.</span>
+                                <br/>
                                 Analyze miner distribution on the
-                                <br />
-                                network to understand risks to <br />
+                                <br/>
+                                network to understand risks to <br/>
                                 security and decentralization.
                             </p>
                         </div>
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <div className="sec-box bg-white rounded px-10 mt-8 py-5" style={{ height: 'auto !important', width: '464px' }}>
-                            <p className="text-black text-xl font-weight-bold mt-4 text-center" style={{ fontSize: '1.5rem' }}>
+                    <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                        <div className="sec-box bg-white rounded px-10 mt-8 py-5"
+                             style={{height: 'auto !important', width: '464px'}}>
+                            <p className="text-black text-xl font-weight-bold mt-4 text-center"
+                               style={{fontSize: '1.5rem'}}>
                                 Register
                             </p>
-                            <GoogleLogin
-                                clientId="YOUR_GOOGLE_CLIENT_ID"
-                                onSuccess={responseGoogleSuccess}
-                                onFailure={responseGoogleFailure}
-                                cookiePolicy={'single_host_origin'}
-                                className="box rounded py-2 mt-6 w-full gap-3 text-cente"
-                            >
-                                <p className="text-black font-weight-bold">LOGIN WITH GOOGLE</p>
-                            </GoogleLogin>
+                            {errorMessage && <div
+                              className="font-regular mt-5 relative  block w-full rounded-lg bg-red-500 p-2 text-base leading-5 text-white opacity-100">
+                                {errorMessage}
+                            </div>}
+                            {successMessage && <div
+                              className="font-regular mt-5 relative  block w-full rounded-lg bg-green-500 p-4 text-base leading-5 text-white opacity-100">
+                                {successMessage}
+                            </div>}
+                            {loading && <div className={'align-items-center d-flex flex justify-center mt-3'}>
+                              <Spinner height={'1rem'} width={'1rem'}/>
+                            </div>}
                             <button
+                                type="button"
+                                onClick={() => handleLoginWithGoogle()}
+                                className="w-full mt-4 text-center justify-center focus:ring-0 focus:outline-none rounded border border-dark-200 md:text-md sm:text-sm text-[10px] px-5 py-3 inline-flex items-center mb-2"
+                            >
+                                <img src="/images/google.svg" alt=""/>
+                                <span
+                                    className="uppercase font-medium text-dark-600 ml-1 sm:ml-2 tracking-[1.5px]">continue with google</span>
+                            </button>
+                            {/* <button
                                 onClick={handleGithubLogin}
                                 className="rounded border py-2 text-black font-weight-bold mt-2 w-full gap-3"
-                                style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}
                             >
-                                <Image src={github} alt="logo" />
-                                <p className="text-black font-weight-bold" style={{ marginLeft: '17px' }}>
+                                <Image src={github} alt="logo"/>
+                                <p className="text-black font-weight-bold" style={{marginLeft: '17px'}}>
                                     LOGIN WITH GITHUB
                                 </p>
-                            </button>
-                            <p className="text-black text-md font-weight-bold mt-5 text-center">or</p>
+                            </button>*/}
+                            <p className="text-black text-md font-weight-bold mt-2 text-center">or</p>
                             <input
                                 type="text"
-                                className="form-control text-black bottom-border w-full mt-9"
+                                className="form-control text-black bottom-border w-full mt-4"
                                 placeholder="Email"
-                                id="validationCustom01"
+                                onChange={(e) => setEmail(e.target.value)}
+                                id="input_email"
                                 required
                             />
                             <input
-                                type="text"
+                                type="password"
                                 className="form-control text-black bottom-border w-full mt-9"
                                 placeholder="Password"
-                                id="validationCustom01"
+                                onChange={(e) => setPassword(e.target.value)}
+                                id="input_password"
                                 required
                             />
                             <input
-                                type="text"
+                                type="password"
                                 className="form-control text-black bottom-border w-full mt-9"
                                 placeholder="Password repeat"
-                                id="validationCustom01"
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                id="input_password_repeat"
                                 required
                             />
-                            <button className="text-white font-weight-bold text-center bg-dark-600 w-full rounded py-2 mt-9">
+                            <button
+                                className="text-white font-weight-bold text-center bg-dark-600 w-full rounded py-2 mt-9"
+                                onClick={handleRegistration}
+                                type="button">
                                 REGISTER
                             </button>
                             <p className="text-black text-md font-weight-bold mt-9 text-center">
-                                By clicking “Create account” or “Continue with Google” or “Continue with Github”, you agree to the&nbsp;
+                                By clicking “Create account” or “Continue with Google” or “Continue with Github”, you
+                                agree to the&nbsp;
                                 jiffyscan.xyz
                                 <a
                                     href="https://www.notion.so/adityaagarwal/Terms-of-Use-0012b80699cc4b948cdae9e42983035b"
-                                    style={{ color: '#1976D2' }}
+                                    style={{color: '#1976D2'}}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
@@ -125,7 +208,7 @@ const RegisterComponent = () => {
                                 &nbsp;and&nbsp;
                                 <a
                                     href="https://adityaagarwal.notion.site/Privacy-Policy-5f05315af636474797f1255d338a0d76?pvs=4"
-                                    style={{ color: '#1976D2' }}
+                                    style={{color: '#1976D2'}}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
@@ -135,7 +218,7 @@ const RegisterComponent = () => {
 
                             <Link href="/login">
                                 <p className=" text-black text-md font-weight-bold mt-5 text-center">
-                                    Already have an account? <span style={{ color: '#1976D2' }}>Log in</span>
+                                    Already have an account? <span style={{color: '#1976D2'}}>Log in</span>
                                 </p>
                             </Link>
                             <style>
@@ -185,7 +268,7 @@ const RegisterComponent = () => {
                         </div>
                     </div>
                 </div>
-                <MiniFooter />
+                <MiniFooter/>
             </div>
         </>
     );

@@ -83,7 +83,9 @@ function RecentMetrics({
                 
                     <div>
                         {loading ? (
+                            <div className="h-[177px] bg-white flex items-center justify-center">
                             <Spinner />
+                            </div>
                         ) : (
                             <div className="w-full">
                                 <ScrollContainer>
