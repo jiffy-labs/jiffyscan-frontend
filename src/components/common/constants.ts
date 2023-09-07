@@ -140,7 +140,7 @@ export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
     'gnosis': '/images/gnosis-logo.svg',
     'bsc': '/images/bsc-logo.svg',
     'fuse': '/images/fuse-logo.svg',
-    'celo': '/images/celo_logo.svg',
+    'celo-testnet': '/images/celo_logo.svg',
 };
 
 export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
