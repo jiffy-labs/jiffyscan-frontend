@@ -110,8 +110,8 @@ export const NETWORK_LIST = [
     {
         name: 'Celo Testnet',
         key: 'celo-testnet',
-        iconPath: '/images/celo-logo.svg',
-        iconPathInverted: '/images/celo-logo.svg',
+        iconPath: '/images/celo_logo.svg',
+        iconPathInverted: '/images/celo_logo.svg',
     },
 ];
 
@@ -140,7 +140,7 @@ export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
     'gnosis': '/images/gnosis-logo.svg',
     'bsc': '/images/bsc-logo.svg',
     'fuse': '/images/fuse-logo.svg',
-    'celo': '/images/celo-testnet-logo.svg',
+    'celo': '/images/celo_logo.svg',
 };
 
 export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
