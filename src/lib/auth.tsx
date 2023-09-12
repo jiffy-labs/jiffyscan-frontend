@@ -68,7 +68,6 @@ function getProvider(provider: string): Provider {
 }
 
 export const authOptions = {
-    secret: process.env.NEXTAUTH_SECRET,
     providers: [
         ...["Google"].map((provider) => getProvider(provider)),
         CredentialsProvider({
@@ -87,6 +86,7 @@ export const authOptions = {
             }
         }),
     ],
+    secret: process.env.SECRET,
     callbacks: {
         async signIn() {
             // Return true to allow sign in and false to block sign in.
