@@ -175,7 +175,6 @@ function Table(props: tableDataT) {
                                                 <td className="">
                                                     
                                                     { target.length > 0 &&  target.map((item, index) => {
-                                                        console.log('target from table', target)
                                                         return (
                                                             <Token key={index} text={item} type="address" />
                                                         )
