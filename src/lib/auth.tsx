@@ -68,6 +68,7 @@ function getProvider(provider: string): Provider {
 }
 
 export const authOptions = {
+    secret: process.env.NEXTAUTH_SECRET,
     providers: [
         ...["Google"].map((provider) => getProvider(provider)),
         CredentialsProvider({
