@@ -86,6 +86,7 @@ export const authOptions = {
             }
         }),
     ],
+    secret: process.env.SECRET,
     callbacks: {
         async signIn() {
             // Return true to allow sign in and false to block sign in.

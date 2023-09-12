@@ -17,6 +17,7 @@ const LoginComponent = () => {
 
     const handleLoginWithGoogle = async () => {
         try {
+            console.log("handleLoginWithGoogle")
             setLoading(true)
             const googleSignInResponse = await signIn("cognito_google")
             if (googleSignInResponse?.error) {
