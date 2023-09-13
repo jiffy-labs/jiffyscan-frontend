@@ -89,7 +89,6 @@ function Home() {
                 fee: getFee(parseInt(bundler.actualGasCostSum), network),
             });
         });
-        console.log(newRows);
         setBundlersTable({ ...bundlersTable, rows: newRows });
         setBundlerTableLoading(false);
     };
