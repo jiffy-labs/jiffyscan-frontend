@@ -181,7 +181,7 @@ function RecentUserOps(props: any) {
                                 style={{ height: '15px', width: '15px', marginRight: '20px', marginLeft: '10px', marginBottom: '3px' }}
                             />
                         </Link>
-                        <Breadcrumbs aria-label="breadcrumb" className="font-['Roboto']">
+                        <Breadcrumbs aria-label="breadcrumb">
                             <Link underline="hover" color="inherit" href={'/' + (selectedNetwork ? '?network=' + selectedNetwork : '')}>
                                 Home
                             </Link>
