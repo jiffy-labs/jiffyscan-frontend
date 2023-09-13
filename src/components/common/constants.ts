@@ -108,9 +108,9 @@ export const NETWORK_LIST = [
         iconPathInverted: '/images/arbitrum-logo.svg',
     },
     {
-        name: 'Celo Testnet',
-        key: 'celo-testnet',
-        iconPath: '/images/celo_logo.svg',
+        name: 'Celo Alfajores',
+        key: 'celo-alfajores',
+        iconPath: '/images/Celo_logo_black.svg',
         iconPathInverted: '/images/celo_logo.svg',
     },
 ];
@@ -140,7 +140,7 @@ export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
     'gnosis': '/images/gnosis-logo.svg',
     'bsc': '/images/bsc-logo.svg',
     'fuse': '/images/fuse-logo.svg',
-    'celo-testnet': '/images/celo_logo.svg',
+    'celo-alfajores': '/images/Celo_logo_black.svg',
 };
 
 export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
@@ -162,7 +162,7 @@ export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
     "avalanche-fuji": 'https://testnet.snowtrace.io',
     "fuse": 'https://explorer.fuse.io',
     'base': 'https://basescan.org',
-    "celo-testnet": 'https://alfajores.celoscan.io',
+    "celo-alfajores": 'https://alfajores.celoscan.io',
 };
 
 export const POWERED_BY_LOGO_MAP: { [id: string]: {[id: string]: string} } = {
