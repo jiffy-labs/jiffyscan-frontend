@@ -1,52 +1,63 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Image from 'next/image';
 import logo from '../../../public/images/logo.png';
 import Link from 'next/link';
 import MiniFooter from '@/components/global/minifooter';
-import {signIn} from "next-auth/react";
+import {signIn, useSession} from "next-auth/react";
 import {useRouter} from "next/router";
 import Spinner from "@/components/common/Spinner";
+import {mockProviders} from "next-auth/client/__tests__/helpers/mocks";
+import callbackUrl = mockProviders.github.callbackUrl;
 
 const LoginComponent = () => {
+    const {data: session, status, update} = useSession()
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const router = useRouter();
     const [errorMessage, setErrorMessage] = useState('');
     const [loading, setLoading] = useState(false);
-
+    const {query} = router;
     const handleLoginWithGoogle = async () => {
+
         try {
-            console.log("handleLoginWithGoogle")
             setLoading(true)
-            const googleSignInResponse = await signIn("cognito_google")
+
+            const googleSignInResponse = await signIn("cognito_google", {
+                redirect: false,
+                callbackUrl: `http://localhost:3000${query?.callBack}`
+            })
+            console.log("googleSignInResponse:", googleSignInResponse)
             if (googleSignInResponse?.error) {
                 setErrorMessage(googleSignInResponse.error)
-            } else {
-                await router.push('/')
+                setLoading(false)
             }
         } catch (error: any) {
             console.error('Error initiating Google login:', error);
+            setLoading(false)
             setErrorMessage(error.message)
         }
-        setLoading(false)
     };
 
     async function handleLogin() {
         setLoading(true)
         try {
-            const signInResponse = await signIn("Credentials_signIn", {email, password, redirect: false,})
+            const signInResponse = await signIn("Credentials_signIn", {
+                email,
+                password,
+                redirect: false,
+                callbackUrl: `http://localhost:3000${query?.callBack}`
+            })
             console.log("signInResponse:", signInResponse)
             if (signInResponse?.error) {
                 setErrorMessage(signInResponse.error)
-            } else {
-                await router.push('/')
+                setLoading(false)
             }
         } catch (error: any) {
             console.error('Error initiating cognito login:', error);
             setErrorMessage(error.message)
+            setLoading(false)
         }
-        setLoading(false)
     }
 
     // useEffect(() => {

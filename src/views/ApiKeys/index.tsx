@@ -18,7 +18,7 @@ function APIKeys() {
     const [captionText, setCaptionText] = useState('');
     const { data: sessions } = useSession()
 
-    const { id_token, sub } = sessions?.user as { id_token: string; sub: string } || {};;
+    const { id_token, sub } = sessions?.user as { id_token: string; sub: string } || {};
 
     useEffect(() => {
         const fetchData = async () => {

@@ -567,9 +567,20 @@ export const getGlobalMetrics = async (selectedNetwork: string, toast: any): Pro
     return {} as GlobalCounts;
 };
 
-export const getUserOp = async (userOpHash: string, toast: any): Promise<UserOp[]> => {
-    const response = await fetch(API_URL+'/v0/getUserOp?hash=' + userOpHash, {
-        headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
+export const getUserOp = async (userOpHash: string, toast: any, Authorization?: string): Promise<UserOp[]> => {
+    type Headers = {
+        "x-api-key": string,
+        Authorization?: string,
+    }
+    const header = {
+        'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5'
+    } as Headers;
+
+    if (Authorization) {
+        header['Authorization'] = Authorization
+    }
+    const response = await fetch(API_URL + '/v0/getUserOp?hash=' + userOpHash, {
+        headers: header
     });
     if (response.status != 200) {
         showToast(toast, 'Error fetching data');

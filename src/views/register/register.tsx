@@ -7,6 +7,7 @@ import MiniFooter from '@/components/global/minifooter';
 import {signIn} from "next-auth/react";
 import {Amplify, Auth} from "aws-amplify";
 import Spinner from "@/components/common/Spinner";
+import {useRouter} from "next/router";
 
 const COGNITO_REGION = process.env.NEXT_PUBLIC_COGNITO_REGION;
 const LOGIN_REGISTER_COGNITO_CLIENT_ID = process.env.NEXT_PUBLIC_LOGIN_REGISTER_COGNITO_CLIENT_ID;
@@ -20,6 +21,7 @@ const RegisterComponent = () => {
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [loading, setLoading] = useState(false);
+    const {query} = useRouter();
     const handleRegistration = async () => {
         // Validate confirm password
         setErrorMessage('');
@@ -47,7 +49,6 @@ const RegisterComponent = () => {
             userPoolId: COGNITO_USER_POOL_ID,
             userPoolWebClientId: LOGIN_REGISTER_COGNITO_CLIENT_ID
         }
-        console.log("awsAmplifyConfig:", awsAmplifyConfig)
         Amplify.configure(awsAmplifyConfig)
         const params = {
             password: password,
@@ -75,8 +76,7 @@ const RegisterComponent = () => {
     };
     const handleLoginWithGoogle = async () => {
         setLoading(true)
-        await signIn("cognito_google", {redirect: false})
-        // setLoading(false)
+        await signIn("cognito_google", {redirect: false, callbackUrl: `http://localhost:3000${query?.callBack}`})
     };
 
     return (

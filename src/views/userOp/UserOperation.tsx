@@ -1,31 +1,71 @@
 import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
-import React, { useEffect, useState } from 'react';
-import { getPoweredBy, getUserOp, getUserOpMetadata, metadata, PoweredBy, Trace, UserOp, showToast } from '@/components/common/apiCalls/jiffyApis';
-import { Breadcrumbs, Link } from '@mui/material';
+import React, {useEffect, useState} from 'react';
+import {
+    getPoweredBy,
+    getUserOp,
+    getUserOpMetadata,
+    metadata,
+    PoweredBy,
+    Trace,
+    UserOp,
+    showToast
+} from '@/components/common/apiCalls/jiffyApis';
+import {Breadcrumbs, Link} from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import CopyButton from '@/components/common/copy_button/CopyButton';
-import Caption from '@/components/common/Caption';
-import IconText from '@/components/common/IconText';
-import Chip from '@/components/common/chip/Chip';
-import sx from './usertable.module.sass';
-import { useRouter } from 'next/router';
-import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
-import { fallBack, NETWORK_ICON_MAP, NETWORK_LIST, NETWORK_SCANNER_MAP } from '@/components/common/constants';
+import {useRouter} from 'next/router';
+import {getFee, getTimePassed, shortenString} from '@/components/common/utils';
+import {NETWORK_ICON_MAP} from '@/components/common/constants';
 
-import Tooltip from '@mui/material/Tooltip';
-import Skeleton from 'react-loading-skeleton-2';
-import moment from 'moment';
 import HeaderSection from './HeaderSection';
 import TransactionDetails from './TransactionDetails';
 import DeveloperDetails from './DeveloperDetails';
-import { useConfig } from '@/context/config';
-import Table, { tableDataT } from '@/components/common/table/Table';
-import User from '@/components/global/navbar/User';
-import Spinner from '@/components/common/Spinner';
-import { ToastContainer, toast } from 'react-toastify';
+import {useConfig} from '@/context/config';
+import Table, {tableDataT} from '@/components/common/table/Table';
+import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Paywall from "@/views/userOp/Paywall";
+import {useSession} from "next-auth/react";
+import {Session} from "next-auth";
 
+interface UserInfo {
+    user: {
+        name: string;
+        email: string;
+        sub: string;
+        id?: string;
+        at_hash?: string;
+        'cognito:groups'?: string[];
+        email_verified?: boolean;
+        iss?: string;
+        'cognito:username'?: string;
+        nonce?: string;
+        origin_jti?: string;
+        aud?: string;
+        identities?: {
+            userId: string;
+            providerName: string;
+            providerType: string;
+            issuer: null | string;
+            primary: string;
+            dateCreated: string;
+        }[];
+        token_use?: string;
+        auth_time?: number;
+        exp?: number;
+        iat?: number;
+        jti?: string;
+        provider?: string;
+        type?: string;
+        providerAccountId?: string;
+        id_token?: string;
+        access_token?: string;
+        refresh_token?: string;
+        expires_at?: number;
+        token_type?: string;
+    };
+    expires: string;
+}
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const passedTime = (time: number) => {
@@ -34,19 +74,6 @@ const passedTime = (time: number) => {
     return passedTime;
 }
 
-async function returnUserOpData(hash: string, toast: any) {
-    let currentTime = (new Date()).getTime();
-    let userOp = await getUserOp(hash, toast);
-    while (userOp.length === 0) {
-        await sleep(1000);
-        userOp = await getUserOp(hash, toast);
-        if (passedTime(currentTime) > 10000) {
-            showToast(toast, 'Error fetching data');
-            break;
-        }
-    }
-    return userOp;
-}
 
 // import Skeleton from '@/components/Skeleton';
 export const BUTTON_LIST = [
@@ -60,10 +87,10 @@ export const BUTTON_LIST = [
     },
 ];
 const columns = [
-    { name: 'Hash', sort: true },
-    { name: 'Age', sort: true },
-    { name: 'Sender', sort: true },
-    { name: 'Target', sort: true },
+    {name: 'Hash', sort: true},
+    {name: 'Age', sort: true},
+    {name: 'Sender', sort: true},
+    {name: 'Target', sort: true},
 ];
 
 const createDuplicateUserOpsRows = (userOps: UserOp[], handleRowClicked: (id: number) => void): tableDataT['rows'] => {
@@ -88,6 +115,13 @@ const createDuplicateUserOpsRows = (userOps: UserOp[], handleRowClicked: (id: nu
     return newRows;
 };
 
+interface SessionType extends Session {
+
+}
+
+interface SessionUserInfo {
+    data: UserInfo
+}
 function RecentUserOps(props: any) {
     const router = useRouter();
     const [tableLoading, setTableLoading] = useState(true);
@@ -95,13 +129,29 @@ function RecentUserOps(props: any) {
 
     const hash = props.slug && props.slug[0];
     const network = router.query && router.query.network;
-
+    const {data: session} = useSession()
     const [selectedColor, setSelectedColor] = useState(BUTTON_LIST[0].key);
     const [userOpsData, setuserOpsData] = useState<UserOp[]>([] as UserOp[]);
     const [showUserOpId, setShowUserOpId] = useState<number>(0);
     const [responseData, setresponseData] = useState<PoweredBy>();
     const [metaData, setMetaData] = useState<metadata>();
     const [duplicateUserOpsRows, setDuplicateUserOpsRows] = useState<tableDataT['rows']>([] as tableDataT['rows']);
+    const {data: sessionData} = useSession()
+    const sessions = sessionData as unknown as UserInfo;
+
+    async function returnUserOpData(hash: string, toast: any) {
+        let currentTime = (new Date()).getTime();
+        let userOp = await getUserOp(hash, toast, sessions?.user?.id_token);
+        while (userOp.length === 0) {
+            await sleep(1000);
+            userOp = await getUserOp(hash, toast);
+            if (passedTime(currentTime) > 10000) {
+                showToast(toast, 'Error fetching data');
+                break;
+            }
+        }
+        return userOp;
+    }
 
     const refreshUserOpsTable = async (name: string) => {
         if (userOpsData === undefined) {
@@ -163,7 +213,7 @@ function RecentUserOps(props: any) {
     }, []);
 
     useEffect(() => {
-        if (showUserOpId>=0 && userOpsData.length > showUserOpId){
+        if (showUserOpId >= 0 && userOpsData.length > showUserOpId) {
             fetchUserOpMetadata(userOpsData[showUserOpId].userOpHash, userOpsData[showUserOpId].network);
         }
     }, [userOpsData, showUserOpId]);
@@ -172,17 +222,24 @@ function RecentUserOps(props: any) {
     let skeletonCards1 = Array(2).fill(0);
     return (
         <div className="">
-            <Navbar searchbar />
+            <Navbar searchbar/>
             <section className="px-3 py-10">
                 <div className="container">
                     <div className="flex flex-row">
                         <Link href="/" className="text-gray-500">
                             <ArrowBackIcon
-                                style={{ height: '15px', width: '15px', marginRight: '20px', marginLeft: '10px', marginBottom: '3px' }}
+                                style={{
+                                    height: '15px',
+                                    width: '15px',
+                                    marginRight: '20px',
+                                    marginLeft: '10px',
+                                    marginBottom: '3px'
+                                }}
                             />
                         </Link>
                         <Breadcrumbs aria-label="breadcrumb" className="font-['Roboto']">
-                            <Link underline="hover" color="inherit" href={'/' + (selectedNetwork ? '?network=' + selectedNetwork : '')}>
+                            <Link underline="hover" color="inherit"
+                                  href={'/' + (selectedNetwork ? '?network=' + selectedNetwork : '')}>
                                 Home
                             </Link>
                             <Link underline="hover" color="inherit" href="/recentUserOps">
@@ -201,10 +258,11 @@ function RecentUserOps(props: any) {
                     </div>
                 </div>
             </section>
-            <>
+            {!session && <Paywall></Paywall>}
+            <div className={`${!session && 'blur'}`}>
                 {showUserOpId >= 0 ? (
                     <>
-                        <HeaderSection item={userOpsData?.[showUserOpId]} network={network} loading={tableLoading} />
+                        <HeaderSection item={userOpsData?.[showUserOpId]} network={network} loading={tableLoading}/>
                         <TransactionDetails
                             tableLoading={tableLoading}
                             skeletonCards={skeletonCards}
@@ -242,9 +300,10 @@ function RecentUserOps(props: any) {
                         </div>
                     )
                 )}
-            </>
-            <ToastContainer />
-            <Footer />
+            </div>
+
+            <ToastContainer/>
+            <Footer/>
         </div>
     );
 }
