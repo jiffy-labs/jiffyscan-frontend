@@ -1,11 +1,113 @@
-import IconButton from '@/components/common/icon_button/IconButton';
+import IconImgButton from '@/components/common/icon_button/IconButton';
 import React from 'react';
+import Box from '@mui/material/Box';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
+import Logout from '@mui/icons-material/Logout';
+import Login from '@mui/icons-material/Login';
+import { useRouter } from "next/router";
+import { useSession, signOut } from "next-auth/react"
 
 function User() {
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const { data: sessions } = useSession()
+    const router = useRouter();
+
+    const { id_token } = sessions?.user as { id_token: string} || {};
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+    const dropdown = [
+        ["My Profile", "/my-profile", "/images/icon-container (2).svg"],
+        ["API Plans", "/api-plans", "/images/API.svg"],
+        ["API Keys", "/api-keys", "images/shield-key.svg"],
+    ]
+    const propsConfig = {
+        elevation: 0,
+        sx: {
+            overflow: 'visible',
+            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+            mt: 1,
+            width: 190,
+            '& .MuiAvatar-root': {
+                width: 32,
+                height: 32,
+                ml: -0.7,
+                mr: 1,
+            },
+            '&:before': {
+                content: '""',
+                display: 'block',
+                position: 'absolute',
+                top: 0,
+                right: 14,
+                width: 10,
+                height: 10,
+                bgcolor: 'background.paper',
+                transform: 'translateY(-50%) rotate(45deg)',
+                zIndex: 0,
+            },
+        },
+    }
     return (
         <div className="flex items-center gap-1">
-            {/* <IconButton icon="/images/icon-container (1).svg" /> */}
-            {/* <IconButton icon="/images/icon-container (2).svg" /> */}
+            { id_token ? <>
+                <IconImgButton icon="/images/icon-container (1).svg" />
+               <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+                    <IconButton
+                            onClick={handleClick}
+                            size="small"
+                            aria-controls={open ? 'user-menu' : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={open ? 'true' : undefined}
+                        >
+                        <img src={"/images/icon-container (2).svg"} alt="user" />
+                    </IconButton>
+                </Box>
+                <Menu
+                    anchorEl={anchorEl}
+                    id="user-menu"
+                    open={open}
+                    onClose={handleClose}
+                    onClick={handleClose}
+                    PaperProps={ propsConfig}
+                    transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                    anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                >
+                {dropdown?.map((menuItem, index) => (
+                        <MenuItem key={index} className="ml-0" onClick={handleClose}>
+                            <ListItemIcon>
+                                <img src={menuItem[2]} alt="" />
+                            </ListItemIcon>
+                            <span className="mr-3.5"> {menuItem[0]}</span>
+                        </MenuItem>
+                        ))
+                    }
+                    <Divider />
+                    <MenuItem onClick={handleClose}>
+                        <Button fullWidth color="inherit"
+                                variant="outlined"
+                                onClick={() => signOut()}
+                                startIcon={<Logout fontSize="inherit" />}>
+                            Sing Out
+                        </Button>
+                    </MenuItem>
+                </Menu></>: <>
+                <Button fullWidth color="inherit"
+                        variant="outlined"
+                        onClick={()=> router.push('/login')}
+                        startIcon={<Login fontSize="inherit" />}>
+                Sing In
+            </Button>
+            </> }
         </div>
     );
 }
