@@ -92,13 +92,16 @@ export const authOptions = {
             // Return true to allow sign in and false to block sign in.
             return true;
         },
-        async redirect({baseUrl}: any) {
+        async redirect(url: any) {
+            console.log("Url======>", url)
             // Return the url to redirect to after successful sign in.
-            return baseUrl;
+            return url.url.startsWith(url.baseUrl)
+                ? url.url
+                : url.baseUrl
         },
         jwt: jwt,
         // async jwt({token, account, profile, user}: any) {
-        //     return await jwt({token, account, profile, user})
+        //     return awaits jwt({token, account, profile, user})
         // },
         session: manageSession,
         // return session; // Make sure to return the modified session

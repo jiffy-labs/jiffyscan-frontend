@@ -1,26 +1,34 @@
 import Button from '@/components/common/Button';
-import Table, { tableDataT } from '@/components/common/table/Table';
+import Table, {tableDataT} from '@/components/common/table/Table';
 import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
 import RecentMetrics from '@/components/global/recent_metrics/RecentMetrics';
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import BundlesTable from './bundles_table.json';
 import BundlersTable from './bundlers_table.json';
 import PaymastersTable from './paymasters_table.json';
 import OperationsTable from './operations_table.json';
 import Searchblock from '../../components/global/searchblock/Searchblock';
 import NetworkSelector from '@/components/common/NetworkSelector';
-import { NETWORK_ICON_MAP } from '@/components/common/constants';
-import { getLatestBundles, getLatestUserOps, getTopBundlers, getTopPaymasters } from '@/components/common/apiCalls/jiffyApis';
-import { getFee, getTimePassed } from '@/components/common/utils';
-import { useConfig } from '../../context/config';
-import { ToastContainer, toast } from 'react-toastify';
+import {NETWORK_ICON_MAP} from '@/components/common/constants';
+import {
+    getLatestBundles,
+    getLatestUserOps,
+    getTopBundlers,
+    getTopPaymasters
+} from '@/components/common/apiCalls/jiffyApis';
+import {getFee, getTimePassed} from '@/components/common/utils';
+import {useConfig} from '../../context/config';
+import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import InfoButton from '@/components/common/InfoButton';
 import Header from '@/components/common/Header';
+import {session} from "next-auth/core/routes";
+import {useSession} from "next-auth/react";
+import {useRouter} from "next/router";
 
 function Home() {
-    const { selectedNetwork, setSelectedNetwork } = useConfig();
+    const {selectedNetwork, setSelectedNetwork} = useConfig();
     const [bundlesTable, setBundlesTable] = useState<tableDataT>(BundlesTable as tableDataT);
     const [operationsTable, setOperationsTable] = useState<tableDataT>(OperationsTable as tableDataT);
     const [bundlersTable, setBundlersTable] = useState<tableDataT>(BundlersTable as tableDataT);
@@ -112,23 +120,24 @@ function Home() {
             });
         });
         setLoading(false);
-        setOperationsTable({ ...operationsTable, rows: newRows.slice(0, 5) });
+        setOperationsTable({...operationsTable, rows: newRows.slice(0, 5)});
         setUserOpTableLoading(false);
     };
 
     return (
         <div>
-            <Navbar />
+            <Navbar/>
             <section className="py-6">
                 <div className="container">
                     <h1 className="mb-2 text-xl font-bold leading-8 md:text-3xl md:mb-4">
                         UserOp Explorer for{' '}
-                        <a href="https://eips.ethereum.org/EIPS/eip-4337" target="_blank" style={{ textDecoration: 'underline' }}>
+                        <a href="https://eips.ethereum.org/EIPS/eip-4337" target="_blank"
+                           style={{textDecoration: 'underline'}}>
                             4337
                         </a>
                     </h1>
                     <div>
-                        <Searchblock isNavbar={false} />
+                        <Searchblock isNavbar={false}/>
                     </div>
                 </div>
             </section>
@@ -138,8 +147,9 @@ function Home() {
                         icon="/images/cube-unfolded.svg"
                         headerText="Select network to explore"
                         infoText="Shows latest Activity for different entities in a chain"
-                    />                    
-                    <NetworkSelector selectedNetwork={selectedNetwork} handleNetworkChange={setSelectedNetwork} disabled={loading} />
+                    />
+                    <NetworkSelector selectedNetwork={selectedNetwork} handleNetworkChange={setSelectedNetwork}
+                                     disabled={loading}/>
                 </div>
             </div>
             {/* <RecentMetrics selectedNetwork={selectedNetwork} setLoading={setLoading} loading={loading} /> */}
@@ -209,8 +219,8 @@ function Home() {
                     </div>
                 </div>
             </section>
-            <ToastContainer />
-            <Footer />
+            <ToastContainer/>
+            <Footer/>
         </div>
     );
 }

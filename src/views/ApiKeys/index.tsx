@@ -1,22 +1,52 @@
 import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
+import { useSession } from "next-auth/react"
 import Table, { tableDataT } from '@/components/common/table/Table';
 import table_data from './table_data.json';
-import { ToastContainer } from 'react-toastify';
+import moment from 'moment';
+import { ToastContainer , toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import { createAPIKey, fetchAPIKeyList } from "@/components/common/apiCalls/jiffyApis";
 
 
 function APIKeys() {
-    const [apiKeysTable] = useState<tableDataT>( table_data as tableDataT);
+    const [apiKeysTable, setApiKeysTable] = useState<tableDataT>(table_data as tableDataT);
+
     const [tableLoading] = useState(false);
     const [captionText, setCaptionText] = useState('');
+    const { data: sessions } = useSession()
+
+    const { id_token, sub } = sessions?.user as { id_token: string; sub: string } || {};
+
+    useEffect(() => {
+        const fetchData = async () => {
+            if (!sub) return;
+            try {
+                const { data } = await fetchAPIKeyList(id_token, sub);
+                if (Array.isArray(data.data.apiKeys)) {
+                    const newRows = data.data.apiKeys.map((item :any) => ({
+                        keys: item.value,
+                        created: moment(item.createdDate).format('MM/DD/yyyy'),
+                    }));
+                    setApiKeysTable((prevState) => ({ ...prevState, rows: newRows }));
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchData();
+    }, [sub]);
 
     useEffect(() => {
         setCaptionText(`${apiKeysTable.rows.length}  API Keys found`);
-    }, []);
+    }, [apiKeysTable]);
 
-
+    const handleCreateApiKey = () => {
+        createAPIKey(id_token, toast);
+    }
 
     return (
         <div className="">
@@ -31,6 +61,7 @@ function APIKeys() {
                     <button
                         className="text-sm border border-dark-200 text-md gap-2 inline-flex tracking-[1.25px] pt-[9px] pb-[9px] px-4 uppercase  rounded bg-black text-white"
                         style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}
+                        onClick={handleCreateApiKey}
                     >
                         <img className="-translate-y-[1px]" src="/images/plus.svg" alt="" />
                         <span>CREATE NEW KEY</span>
