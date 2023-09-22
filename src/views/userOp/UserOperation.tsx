@@ -138,6 +138,7 @@ function RecentUserOps(props: any) {
     const [duplicateUserOpsRows, setDuplicateUserOpsRows] = useState<tableDataT['rows']>([] as tableDataT['rows']);
     const {data: sessionData} = useSession()
     const sessions = sessionData as unknown as UserInfo;
+    const [block, setBlock] = useState(false);
 
     async function returnUserOpData(hash: string, toast: any) {
         let currentTime = (new Date()).getTime();
@@ -165,6 +166,9 @@ function RecentUserOps(props: any) {
         let rows: tableDataT['rows'] = createDuplicateUserOpsRows(userOps, handleDuplicateRowClick);
         setDuplicateUserOpsRows(rows);
         if (userOps.length > 1) setShowUserOpId(-1);
+        else {
+            if (userOps[0].block) setBlock(true);
+        }
 
         if (userOps[0] && userOps[0].network) {
             setSelectedNetwork(userOps[0].network);
@@ -178,6 +182,7 @@ function RecentUserOps(props: any) {
     const handleDuplicateRowClick = (id: number) => {
         setShowUserOpId(id);
     };
+
 
     let prevHash = hash;
     useEffect(() => {
@@ -258,8 +263,8 @@ function RecentUserOps(props: any) {
                     </div>
                 </div>
             </section>
-            {!session && <Paywall></Paywall>}
-            <div className={`${!session && 'blur'}`}>
+            {block && <Paywall></Paywall>}
+            <div className={`${block && 'blur'}`}>
                 {showUserOpId >= 0 ? (
                     <>
                         <HeaderSection item={userOpsData?.[showUserOpId]} network={network} loading={tableLoading}/>

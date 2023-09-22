@@ -33,6 +33,7 @@ export interface UserOp {
     paymasterAndData: string | null;
     signature: string | null;
     entryPoint: string;
+    block: true;
     erc20Transfers: {
         contractAddress: string;
         from: string;
