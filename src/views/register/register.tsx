@@ -7,14 +7,29 @@ import MiniFooter from '@/components/global/minifooter';
 import {signIn} from "next-auth/react";
 import {Amplify, Auth} from "aws-amplify";
 import Spinner from "@/components/common/Spinner";
+import UserInfo from '../Profile/userInfo'
+import TextField from "@mui/material/TextField";
 
 const COGNITO_REGION = process.env.NEXT_PUBLIC_COGNITO_REGION;
 const LOGIN_REGISTER_COGNITO_CLIENT_ID = process.env.NEXT_PUBLIC_LOGIN_REGISTER_COGNITO_CLIENT_ID;
 const COGNITO_USER_POOL_ID = process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID;
 
+type userProps = {
+    name: string,
+    designation: string,
+    companyName:string,
+    receiveUpdates: string
+};
 
 const RegisterComponent = () => {
+    const userDefualt = {
+        name: "",
+        designation: "",
+        companyName: "",
+        receiveUpdates: "false"
+    };
     const [email, setEmail] = useState('');
+    const [user, setUser] = useState(userDefualt);
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
@@ -31,12 +46,10 @@ const RegisterComponent = () => {
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailPattern.test(email)) {
             setErrorMessage('Invalid email format');
-
             return;
         }
         if (password !== confirmPassword) {
             setErrorMessage('Passwords do not match');
-
             return;
         }
         setLoading(true)
@@ -49,10 +62,16 @@ const RegisterComponent = () => {
         }
         console.log("awsAmplifyConfig:", awsAmplifyConfig)
         Amplify.configure(awsAmplifyConfig)
+        const { name, designation, companyName, receiveUpdates}: userProps = user;
         const params = {
             password: password,
             username: email,
-            attributes: {email: email}
+            attributes: {email,
+                name,
+                'custom:receiveUpdates': receiveUpdates ?? "",
+                'custom:designation': designation ?? "",
+                'custom:companyName': companyName ?? ""
+            }
         }
         try {
             const signUpResponse = await Auth.signUp(params);
@@ -71,14 +90,27 @@ const RegisterComponent = () => {
             }
         }
         setLoading(false)
-
     };
     const handleLoginWithGoogle = async () => {
         setLoading(true)
         await signIn("cognito_google", {redirect: false})
-        // setLoading(false)
     };
 
+    const handleUser = async ({validates, user}:  any) => {
+        if (validates['name'].error) {
+            setErrorMessage( validates['name'].msg);
+        } else {
+            setErrorMessage('');
+        }
+        setUser(user);
+    };
+    const handleConfirmPdW = async () => {
+        if (password !== confirmPassword) {
+            setErrorMessage('Passwords do not match');
+        } else {
+            setErrorMessage('');
+        }
+    };
     return (
         <>
             <div
@@ -141,52 +173,43 @@ const RegisterComponent = () => {
                             <button
                                 type="button"
                                 onClick={() => handleLoginWithGoogle()}
-                                className="w-full mt-4 text-center justify-center focus:ring-0 focus:outline-none rounded border border-dark-200 md:text-md sm:text-sm text-[10px] px-5 py-3 inline-flex items-center mb-2"
+                                className="w-full hidden mt-4 text-center justify-center focus:ring-0 focus:outline-none rounded border border-dark-200 md:text-md sm:text-sm text-[10px] px-5 py-3 inline-flex items-center mb-2"
                             >
                                 <img src="/images/google.svg" alt=""/>
-                                <span
-                                    className="uppercase font-medium text-dark-600 ml-1 sm:ml-2 tracking-[1.5px]">continue with google</span>
+                                <span className="uppercase font-medium text-dark-600 ml-1 sm:ml-2 tracking-[1.5px]">continue with google</span>
                             </button>
-                            {/* <button
-                                onClick={handleGithubLogin}
-                                className="rounded border py-2 text-black font-weight-bold mt-2 w-full gap-3"
-                                style={{
-                                    display: 'flex',
-                                    flexDirection: 'row',
-                                    alignItems: 'center',
-                                    justifyContent: 'center'
-                                }}
-                            >
-                                <Image src={github} alt="logo"/>
-                                <p className="text-black font-weight-bold" style={{marginLeft: '17px'}}>
-                                    LOGIN WITH GITHUB
-                                </p>
-                            </button>*/}
-                            <p className="text-black text-md font-weight-bold mt-2 text-center">or</p>
-                            <input
-                                type="text"
-                                className="form-control text-black bottom-border w-full mt-4"
-                                placeholder="Email"
-                                onChange={(e) => setEmail(e.target.value)}
+                            <TextField
+                                label="Email"
                                 id="input_email"
+                                size="small"
+                                variant="standard"
+                                type="text"
+                                className="w-full mb-6"
+                                onChange={(e) => setEmail(e.target.value)}
                                 required
                             />
-                            <input
-                                type="password"
-                                className="form-control text-black bottom-border w-full mt-9"
-                                placeholder="Password"
-                                onChange={(e) => setPassword(e.target.value)}
+                            <TextField
+                                label="Password"
                                 id="input_password"
-                                required
-                            />
-                            <input
+                                size="small"
+                                variant="standard"
                                 type="password"
-                                className="form-control text-black bottom-border w-full mt-9"
-                                placeholder="Password repeat"
-                                onChange={(e) => setConfirmPassword(e.target.value)}
-                                id="input_password_repeat"
+                                className="w-full mb-6"
+                                onChange={(e) => setPassword(e.target.value)}
                                 required
                             />
+                            <TextField
+                                label="Password repeat"
+                                id="input_password_repeat"
+                                size="small"
+                                variant="standard"
+                                type="password"
+                                className="w-full mb-6"
+                                onBlur={handleConfirmPdW}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                required
+                            />
+                            <UserInfo handleInfo={handleUser}  />
                             <button
                                 className="text-white font-weight-bold text-center bg-dark-600 w-full rounded py-2 mt-9"
                                 onClick={handleRegistration}

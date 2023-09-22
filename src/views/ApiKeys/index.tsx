@@ -13,12 +13,10 @@ import { createAPIKey, fetchAPIKeyList } from "@/components/common/apiCalls/jiff
 
 function APIKeys() {
     const [apiKeysTable, setApiKeysTable] = useState<tableDataT>(table_data as tableDataT);
-
     const [tableLoading] = useState(false);
     const [captionText, setCaptionText] = useState('');
     const { data: sessions } = useSession()
-
-    const { id_token, sub } = sessions?.user as { id_token: string; sub: string } || {};;
+    const { id_token, sub } = sessions?.user as { id_token: string; sub: string } || {};
 
     useEffect(() => {
         const fetchData = async () => {

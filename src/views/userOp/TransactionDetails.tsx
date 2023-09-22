@@ -148,7 +148,7 @@ export default function TransactionDetails({
                                                 {item?.initCode?.length > 2 && (
                                                     <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-green-700 rounded-md bg-gray-50 ring-1 ring-inset ring-gray-500/10">
                                                             newly created
-                                                        </span>
+                                                    </span>
                                                 )}
                                                 <PowerButton item ={item?.accountSender?.factory?.toLowerCase()} addressMapping={addressMapping}/>
                                             </>
