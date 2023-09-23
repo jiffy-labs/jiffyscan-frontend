@@ -75,14 +75,12 @@ const LoginComponent = () => {
                     <button
                         type="button"
                         onClick={() => handleLoginWithGoogle()}
-                        className="w-full mt-5 text-center justify-center focus:ring-0 focus:outline-none rounded border border-dark-200 md:text-md sm:text-sm text-[10px] px-5 py-3 inline-flex items-center mb-2"
+                        className="w-full mt-5 hidden text-center justify-center focus:ring-0 focus:outline-none rounded border border-dark-200 md:text-md sm:text-sm text-[10px] px-5 py-3 inline-flex items-center mb-2"
                     >
                         <img src="/images/google.svg" alt=""/>
                         <span
                             className="uppercase font-medium text-dark-600 ml-1 sm:ml-2 tracking-[1.5px]">continue with google</span>
                     </button>
-
-                    <p className="text-black text-md font-weight-bold mt-5 text-center">or</p>
                     <input
                         type="text"
                         className="form-control text-black bottom-border w-full mt-5 mt-lg-9"
