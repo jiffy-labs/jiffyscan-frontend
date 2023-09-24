@@ -84,15 +84,15 @@ const LoginComponent = () => {
                     {loading && <div className={'align-items-center d-flex flex justify-center mt-3'}>
                       <Spinner height={'1rem'} width={'1rem'}/>
                     </div>}
-                    {/* <button
+                    <button
                         type="button"
                         onClick={() => handleLoginWithGoogle()}
-                        className="w-full mt-5 text-center justify-center focus:ring-0 focus:outline-none rounded border border-dark-200 md:text-md sm:text-sm text-[10px] px-5 py-3 inline-flex items-center mb-2"
+                        className="w-full mt-5 text-center hudden justify-center focus:ring-0 focus:outline-none rounded border border-dark-200 md:text-md sm:text-sm text-[10px] px-5 py-3 inline-flex items-center mb-2"
                     >
                         <img src="/images/google.svg" alt=""/>
                         <span
                             className="uppercase font-medium text-dark-600 ml-1 sm:ml-2 tracking-[1.5px]">continue with google</span>
-                    </button> */}
+                    </button>
 
                     {/* <p className="mt-5 text-center text-black text-md font-weight-bold">or</p> */}
                     <br/>
@@ -118,22 +118,7 @@ const LoginComponent = () => {
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
                             />
-                    {/* <input
-                        type="text"
-                        className="w-full mt-5 text-black form-control bottom-border mt-lg-9"
-                        placeholder="Email"
-                        onChange={(e) => setEmail(e.target.value)}
-                        id="email"
-                        required
-                    />
-                    <input
-                        type="password"
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="w-full mt-5 text-black form-control bottom-border mt-lg-9"
-                        placeholder="Password"
-                        id="password"
-                        required
-                    /> */}
+
                     <button
                         onClick={() => handleLogin()}
                         className="w-full py-2 mt-8 text-center text-white rounded font-weight-bold bg-dark-600">LOGIN
