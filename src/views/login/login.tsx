@@ -53,11 +53,7 @@ const LoginComponent = () => {
             if (signInResponse?.error) {
                 setErrorMessage(signInResponse.error)
                 setLoading(false)
-            } else {
-                setSuccessMessage('Login Successful')
-                setLoading(false)
-                router.push('/')
-            }
+            } 
         } catch (error: any) {
             console.error('Error initiating cognito login:', error);
             setErrorMessage(error.message)
@@ -104,7 +100,7 @@ const LoginComponent = () => {
                     <br/>
                     <TextField
                                 label="Email"
-                                id="input_email"
+                                id="email"
                                 size="small"
                                 variant="standard"
                                 type="text"
@@ -114,7 +110,7 @@ const LoginComponent = () => {
                             />
                             <TextField
                                 label="Password"
-                                id="input_password"
+                                id="password"
                                 size="small"
                                 variant="standard"
                                 type="password"
