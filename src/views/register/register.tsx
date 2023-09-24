@@ -7,19 +7,36 @@ import MiniFooter from '@/components/global/minifooter';
 import {signIn} from "next-auth/react";
 import {Amplify, Auth} from "aws-amplify";
 import Spinner from "@/components/common/Spinner";
+import UserInfo from '../Profile/userInfo'
+import TextField from "@mui/material/TextField";
+import {useRouter} from "next/router";
 
 const COGNITO_REGION = process.env.NEXT_PUBLIC_COGNITO_REGION;
 const LOGIN_REGISTER_COGNITO_CLIENT_ID = process.env.NEXT_PUBLIC_LOGIN_REGISTER_COGNITO_CLIENT_ID;
 const COGNITO_USER_POOL_ID = process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID;
 
+type userProps = {
+    name: string,
+    designation: string,
+    companyName:string,
+    receiveUpdates: string
+};
 
 const RegisterComponent = () => {
+    const userDefualt = {
+        name: "",
+        designation: "",
+        companyName: "",
+        receiveUpdates: "false"
+    };
     const [email, setEmail] = useState('');
+    const [user, setUser] = useState(userDefualt);
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [loading, setLoading] = useState(false);
+    const {query} = useRouter();
     const handleRegistration = async () => {
         // Validate confirm password
         setErrorMessage('');
@@ -31,12 +48,10 @@ const RegisterComponent = () => {
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailPattern.test(email)) {
             setErrorMessage('Invalid email format');
-
             return;
         }
         if (password !== confirmPassword) {
             setErrorMessage('Passwords do not match');
-
             return;
         }
         setLoading(true)
@@ -47,12 +62,17 @@ const RegisterComponent = () => {
             userPoolId: COGNITO_USER_POOL_ID,
             userPoolWebClientId: LOGIN_REGISTER_COGNITO_CLIENT_ID
         }
-        console.log("awsAmplifyConfig:", awsAmplifyConfig)
         Amplify.configure(awsAmplifyConfig)
+        const { name, designation, companyName, receiveUpdates}: userProps = user;
         const params = {
             password: password,
             username: email,
-            attributes: {email: email}
+            attributes: {email,
+                name,
+                'custom:receiveUpdates': receiveUpdates ?? "",
+                'custom:designation': designation ?? "",
+                'custom:companyName': companyName ?? ""
+            }
         }
         try {
             const signUpResponse = await Auth.signUp(params);
@@ -71,35 +91,48 @@ const RegisterComponent = () => {
             }
         }
         setLoading(false)
-
     };
     const handleLoginWithGoogle = async () => {
         setLoading(true)
-        await signIn("cognito_google", {redirect: false})
-        // setLoading(false)
+        await signIn("cognito_google", {redirect: false, callbackUrl: `http://localhost:3000${query?.callBack}`})
     };
 
+    const handleUser = async ({validates, user}:  any) => {
+        if (validates['name'].error) {
+            setErrorMessage( validates['name'].msg);
+        } else {
+            setErrorMessage('');
+        }
+        setUser(user);
+    };
+    const handleConfirmPdW = async () => {
+        if (password !== confirmPassword) {
+            setErrorMessage('Passwords do not match');
+        } else {
+            setErrorMessage('');
+        }
+    };
     return (
         <>
             <div
-                className="Maincontainer bg-dark-600  d-flex justify-content-center align-items-center w-full"
+                className="w-full Maincontainer bg-dark-600 d-flex justify-content-center align-items-center"
                 style={{height: 'auto !important', minHeight: '100vh'}}
             >
-                <div className="container w-full pt-6 px-6 gap-20"
+                <div className="container w-full gap-20 px-6 pt-6"
                      style={{display: 'flex', justifyContent: 'center', marginTop: "-35px"}}>
                     <div className="mt-20">
-                        <Image src={logo} alt="logo" className=" text-center"/>
+                        <Image src={logo} alt="logo" className="text-center "/>
                         <div style={{display: 'flex', alignItems: 'center'}} className="mt-3">
-                            <Image src={check} alt="logo" className=" text-center" style={{marginTop: '-66px'}}/>
-                            <p className="text-white ml-3">
+                            <Image src={check} alt="logo" className="text-center " style={{marginTop: '-66px'}}/>
+                            <p className="ml-3 text-white">
                                 <span style={{color: '#90A4AE'}}>Real-time Monitoring. </span>Track <br/> Ethereum
                                 network hash-rate and
                                 <br/> difficulty in real-time with charts and <br/> historical data.
                             </p>
                         </div>
                         <div style={{display: 'flex', alignItems: 'center'}} className="mt-3">
-                            <Image src={check} alt="logo" className="text-center mt-2" style={{marginTop: '-66px'}}/>
-                            <p className="text-white ml-3">
+                            <Image src={check} alt="logo" className="mt-2 text-center" style={{marginTop: '-66px'}}/>
+                            <p className="ml-3 text-white">
                                 <span style={{color: '#90A4AE'}}>Miner Distribution Analysis.</span>
                                 <br/>
                                 Analyze miner distribution on the
@@ -109,8 +142,8 @@ const RegisterComponent = () => {
                             </p>
                         </div>
                         <div style={{display: 'flex', alignItems: 'center'}} className="mt-3">
-                            <Image src={check} alt="logo" className="text-center mt-2" style={{marginTop: '-66px'}}/>
-                            <p className="text-white ml-3">
+                            <Image src={check} alt="logo" className="mt-2 text-center" style={{marginTop: '-66px'}}/>
+                            <p className="ml-3 text-white">
                                 <span style={{color: '#90A4AE'}}>Miner Distribution Analysis.</span>
                                 <br/>
                                 Analyze miner distribution on the
@@ -121,18 +154,18 @@ const RegisterComponent = () => {
                         </div>
                     </div>
                     <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                        <div className="sec-box bg-white rounded px-10 mt-8 py-5"
+                        <div className="px-10 py-5 mt-8 bg-white rounded sec-box"
                              style={{height: 'auto !important', width: '464px'}}>
-                            <p className="text-black text-xl font-weight-bold mt-4 text-center"
+                            <p className="mt-4 text-xl text-center text-black font-weight-bold"
                                style={{fontSize: '1.5rem'}}>
                                 Register
                             </p>
                             {errorMessage && <div
-                              className="font-regular mt-5 relative  block w-full rounded-lg bg-red-500 p-2 text-base leading-5 text-white opacity-100">
+                              className="relative block w-full p-2 mt-5 text-base leading-5 text-white bg-red-500 rounded-lg opacity-100 font-regular">
                                 {errorMessage}
                             </div>}
                             {successMessage && <div
-                              className="font-regular mt-5 relative  block w-full rounded-lg bg-green-500 p-4 text-base leading-5 text-white opacity-100">
+                              className="relative block w-full p-4 mt-5 text-base leading-5 text-white bg-green-500 rounded-lg opacity-100 font-regular">
                                 {successMessage}
                             </div>}
                             {loading && <div className={'align-items-center d-flex flex justify-center mt-3'}>
@@ -141,62 +174,53 @@ const RegisterComponent = () => {
                             <button
                                 type="button"
                                 onClick={() => handleLoginWithGoogle()}
-                                className="w-full mt-4 text-center justify-center focus:ring-0 focus:outline-none rounded border border-dark-200 md:text-md sm:text-sm text-[10px] px-5 py-3 inline-flex items-center mb-2"
+                                className="w-full hidden mt-4 text-center justify-center focus:ring-0 focus:outline-none rounded border border-dark-200 md:text-md sm:text-sm text-[10px] px-5 py-3 inline-flex items-center mb-2"
                             >
                                 <img src="/images/google.svg" alt=""/>
-                                <span
-                                    className="uppercase font-medium text-dark-600 ml-1 sm:ml-2 tracking-[1.5px]">continue with google</span>
+                                <span className="uppercase font-medium text-dark-600 ml-1 sm:ml-2 tracking-[1.5px]">continue with google</span>
                             </button>
-                            {/* <button
-                                onClick={handleGithubLogin}
-                                className="rounded border py-2 text-black font-weight-bold mt-2 w-full gap-3"
-                                style={{
-                                    display: 'flex',
-                                    flexDirection: 'row',
-                                    alignItems: 'center',
-                                    justifyContent: 'center'
-                                }}
-                            >
-                                <Image src={github} alt="logo"/>
-                                <p className="text-black font-weight-bold" style={{marginLeft: '17px'}}>
-                                    LOGIN WITH GITHUB
-                                </p>
-                            </button>*/}
-                            <p className="text-black text-md font-weight-bold mt-2 text-center">or</p>
-                            <input
-                                type="text"
-                                className="form-control text-black bottom-border w-full mt-4"
-                                placeholder="Email"
-                                onChange={(e) => setEmail(e.target.value)}
+                            <TextField
+                                label="Email"
                                 id="input_email"
+                                size="small"
+                                variant="standard"
+                                type="text"
+                                className="w-full mb-6"
+                                onChange={(e) => setEmail(e.target.value)}
                                 required
                             />
-                            <input
-                                type="password"
-                                className="form-control text-black bottom-border w-full mt-9"
-                                placeholder="Password"
-                                onChange={(e) => setPassword(e.target.value)}
+                            <TextField
+                                label="Password"
                                 id="input_password"
-                                required
-                            />
-                            <input
+                                size="small"
+                                variant="standard"
                                 type="password"
-                                className="form-control text-black bottom-border w-full mt-9"
-                                placeholder="Password repeat"
-                                onChange={(e) => setConfirmPassword(e.target.value)}
-                                id="input_password_repeat"
+                                className="w-full mb-6"
+                                onChange={(e) => setPassword(e.target.value)}
                                 required
                             />
+                            <TextField
+                                label="Password repeat"
+                                id="input_password_repeat"
+                                size="small"
+                                variant="standard"
+                                type="password"
+                                className="w-full mb-6"
+                                onBlur={handleConfirmPdW}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                required
+                            />
+                            <UserInfo handleInfo={handleUser}  />
                             <button
-                                className="text-white font-weight-bold text-center bg-dark-600 w-full rounded py-2 mt-9"
+                                className="w-full py-2 text-center text-white rounded font-weight-bold bg-dark-600 mt-9"
                                 onClick={handleRegistration}
                                 type="button">
                                 REGISTER
                             </button>
-                            <p className="text-black text-md font-weight-bold mt-9 text-center">
+                            <p className="text-center text-black text-md font-weight-bold mt-9">
                                 By clicking “Create account” or “Continue with Google” or “Continue with Github”, you
                                 agree to the&nbsp;
-                                jiffyscan.xyz
+                                jiffyscan.xyz&nbsp;
                                 <a
                                     href="https://www.notion.so/adityaagarwal/Terms-of-Use-0012b80699cc4b948cdae9e42983035b"
                                     style={{color: '#1976D2'}}
@@ -217,7 +241,7 @@ const RegisterComponent = () => {
                             </p>
 
                             <Link href="/login">
-                                <p className=" text-black text-md font-weight-bold mt-5 text-center">
+                                <p className="mt-5 text-center text-black text-md font-weight-bold">
                                     Already have an account? <span style={{color: '#1976D2'}}>Log in</span>
                                 </p>
                             </Link>
