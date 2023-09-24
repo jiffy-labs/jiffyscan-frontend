@@ -53,6 +53,10 @@ const LoginComponent = () => {
             if (signInResponse?.error) {
                 setErrorMessage(signInResponse.error)
                 setLoading(false)
+            } else {
+                setSuccessMessage('Login Successful')
+                setLoading(false)
+                router.push('/')
             }
         } catch (error: any) {
             console.error('Error initiating cognito login:', error);
