@@ -220,7 +220,7 @@ const RegisterComponent = () => {
                             <p className="text-center text-black text-md font-weight-bold mt-9">
                                 By clicking “Create account” or “Continue with Google” or “Continue with Github”, you
                                 agree to the&nbsp;
-                                jiffyscan.xyz
+                                jiffyscan.xyz&nbsp;
                                 <a
                                     href="https://www.notion.so/adityaagarwal/Terms-of-Use-0012b80699cc4b948cdae9e42983035b"
                                     style={{color: '#1976D2'}}

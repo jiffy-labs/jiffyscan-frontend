@@ -8,6 +8,7 @@ import {useRouter} from "next/router";
 import Spinner from "@/components/common/Spinner";
 import {mockProviders} from "next-auth/client/__tests__/helpers/mocks";
 import callbackUrl = mockProviders.github.callbackUrl;
+import { TextField } from '@mui/material';
 
 const LoginComponent = () => {
     const {data: session, status, update} = useSession()
@@ -68,22 +69,22 @@ const LoginComponent = () => {
         <div className="main-box bg-dark-600" style={{height: 'auto !important', minHeight: '100vh'}}>
             <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                 <Image src={logo} alt="logo" className="mt-10 text-center"/>
-                <div className="whitebox bg-white rounded px-10 mt-11 py-5" style={{height: '546px', width: '464px'}}>
-                    <p className="text-black text-xl font-weight-bold mt-4 text-center" style={{fontSize: '1.4rem'}}>
+                <div className="px-10 py-5 bg-white rounded whitebox mt-11" style={{height: '546px', width: '464px'}}>
+                    <p className="mt-4 text-xl text-center text-black font-weight-bold" style={{fontSize: '1.4rem'}}>
                         Login
                     </p>
                     {errorMessage && <div
-                      className="font-regular mt-5 relative block w-full rounded-lg bg-red-500 p-4 text-base leading-5 text-white opacity-100">
+                      className="relative block w-full p-4 mt-5 text-base leading-5 text-white bg-red-500 rounded-lg opacity-100 font-regular">
                         {errorMessage}
                     </div>}
                     {successMessage && <div
-                      className="font-regular mt-5 relative  block w-full rounded-lg bg-green-500 p-4 text-base leading-5 text-white opacity-100">
+                      className="relative block w-full p-4 mt-5 text-base leading-5 text-white bg-green-500 rounded-lg opacity-100 font-regular">
                         {successMessage}
                     </div>}
                     {loading && <div className={'align-items-center d-flex flex justify-center mt-3'}>
                       <Spinner height={'1rem'} width={'1rem'}/>
                     </div>}
-                    <button
+                    {/* <button
                         type="button"
                         onClick={() => handleLoginWithGoogle()}
                         className="w-full mt-5 text-center justify-center focus:ring-0 focus:outline-none rounded border border-dark-200 md:text-md sm:text-sm text-[10px] px-5 py-3 inline-flex items-center mb-2"
@@ -91,12 +92,35 @@ const LoginComponent = () => {
                         <img src="/images/google.svg" alt=""/>
                         <span
                             className="uppercase font-medium text-dark-600 ml-1 sm:ml-2 tracking-[1.5px]">continue with google</span>
-                    </button>
+                    </button> */}
 
-                    <p className="text-black text-md font-weight-bold mt-5 text-center">or</p>
-                    <input
+                    {/* <p className="mt-5 text-center text-black text-md font-weight-bold">or</p> */}
+                    <br/>
+                    <br/>
+                    <br/>
+                    <TextField
+                                label="Email"
+                                id="input_email"
+                                size="small"
+                                variant="standard"
+                                type="text"
+                                className="w-full mb-6"
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                            />
+                            <TextField
+                                label="Password"
+                                id="input_password"
+                                size="small"
+                                variant="standard"
+                                type="password"
+                                className="w-full mb-6"
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
+                    {/* <input
                         type="text"
-                        className="form-control text-black bottom-border w-full mt-5 mt-lg-9"
+                        className="w-full mt-5 text-black form-control bottom-border mt-lg-9"
                         placeholder="Email"
                         onChange={(e) => setEmail(e.target.value)}
                         id="email"
@@ -105,21 +129,21 @@ const LoginComponent = () => {
                     <input
                         type="password"
                         onChange={(e) => setPassword(e.target.value)}
-                        className="form-control text-black bottom-border w-full mt-5 mt-lg-9"
+                        className="w-full mt-5 text-black form-control bottom-border mt-lg-9"
                         placeholder="Password"
                         id="password"
                         required
-                    />
+                    /> */}
                     <button
                         onClick={() => handleLogin()}
-                        className="text-white font-weight-bold text-center bg-dark-600 w-full rounded py-2 mt-8">LOGIN
+                        className="w-full py-2 mt-8 text-center text-white rounded font-weight-bold bg-dark-600">LOGIN
                     </button>
-                    <p className="text-black text-xl font-weight-bold mt-9 text-center"
+                    <p className="text-xl text-center text-black font-weight-bold mt-9"
                        style={{color: '#1976D2', fontSize: '14px'}}>
                         Reset Password
                     </p>
                     <Link href="/register">
-                        <p className=" text-black text-xl font-weight-bold mt-5 text-center" style={{fontSize: '14px'}}>
+                        <p className="mt-5 text-xl text-center text-black font-weight-bold" style={{fontSize: '14px'}}>
                             No account? <span style={{color: '#1976D2'}}>Create one</span>
                         </p>
                     </Link>

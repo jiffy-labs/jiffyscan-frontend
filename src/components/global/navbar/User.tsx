@@ -22,13 +22,15 @@ function User() {
     const router = useRouter();
 
     const { id_token } = sessions?.user as { id_token: string} || {};
-    const handleClose = () => {
+    const handleClose = (url?: string) => {
         setAnchorEl(null);
+        url && router.push(url)
     };
+    
     const dropdown = [
         ["My Profile", "/my-profile", "/images/icon-container (2).svg"],
-        ["API Plans", "/api-plans", "/images/API.svg"],
-        ["API Keys", "/api-keys", "images/shield-key.svg"],
+        ["API Plans", "/apiplans", "/images/API.svg"],
+        ["API Keys", "/apiKeys", "images/shield-key.svg"],
     ]
     const propsConfig = {
         elevation: 0,
@@ -76,14 +78,14 @@ function User() {
                     anchorEl={anchorEl}
                     id="user-menu"
                     open={open}
-                    onClose={handleClose}
-                    onClick={handleClose}
+                    onClose={()=>handleClose()}
+                    onClick={()=>handleClose()}
                     PaperProps={ propsConfig}
                     transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                     anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                 >
                 {dropdown?.map((menuItem, index) => (
-                        <MenuItem key={index} className="ml-0" onClick={handleClose}>
+                        <MenuItem key={index} className="ml-0" onClick={() =>handleClose(menuItem[1])}>
                             <ListItemIcon>
                                 <img src={menuItem[2]} alt="" />
                             </ListItemIcon>
@@ -92,12 +94,12 @@ function User() {
                         ))
                     }
                     <Divider />
-                    <MenuItem onClick={handleClose}>
+                    <MenuItem>
                         <Button fullWidth color="inherit"
                                 variant="outlined"
                                 onClick={() => signOut()}
                                 startIcon={<Logout fontSize="inherit" />}>
-                            Sing Out
+                            Sign Out
                         </Button>
                     </MenuItem>
                 </Menu></>: <>
@@ -105,7 +107,7 @@ function User() {
                         variant="outlined"
                         onClick={()=> router.push('/login')}
                         startIcon={<Login fontSize="inherit" />}>
-                Sing In
+                Sign In
             </Button>
             </> }
         </div>
