@@ -84,10 +84,10 @@ const LoginComponent = () => {
                     {loading && <div className={'align-items-center d-flex flex justify-center mt-3'}>
                       <Spinner height={'1rem'} width={'1rem'}/>
                     </div>}
-                    <button
+                    <button 
                         type="button"
                         onClick={() => handleLoginWithGoogle()}
-                        className="w-full mt-5 text-center hudden justify-center focus:ring-0 focus:outline-none rounded border border-dark-200 md:text-md sm:text-sm text-[10px] px-5 py-3 inline-flex items-center mb-2"
+                        className="w-full mt-5 text-center hidden justify-center focus:ring-0 focus:outline-none rounded border border-dark-200 md:text-md sm:text-sm text-[10px] px-5 py-3 inline-flex items-center mb-2"
                     >
                         <img src="/images/google.svg" alt=""/>
                         <span
