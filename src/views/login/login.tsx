@@ -19,6 +19,9 @@ const LoginComponent = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [loading, setLoading] = useState(false);
     const { query } = router;
+
+    console.log('session',session);
+
     const handleLoginWithGoogle = async () => {
         try {
             setLoading(true);
