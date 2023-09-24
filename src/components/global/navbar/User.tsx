@@ -21,7 +21,7 @@ function User() {
     const { data: sessions } = useSession()
     const router = useRouter();
 
-    const { id_token } = sessions?.user as { id_token: string} || {};
+    const { id_token, idToken } = sessions?.user as { id_token?: string, idToken?: string} || {};
     const handleClose = (url?: string) => {
         setAnchorEl(null);
         url && router.push(url)
@@ -61,7 +61,7 @@ function User() {
     }
     return (
         <div className="flex items-center gap-1">
-            { id_token ? <>
+            { (id_token || idToken) ? <>
                 <IconImgButton icon="/images/icon-container (1).svg" />
                <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                     <IconButton
