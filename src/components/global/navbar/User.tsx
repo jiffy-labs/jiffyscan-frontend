@@ -18,10 +18,10 @@ function User() {
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
-    const {data: sessions} = useSession()
+    const { data: sessions } = useSession()
     const router = useRouter();
 
-    const {id_token, idToken} = sessions?.user as { id_token?: string, idToken?: string } || {};
+    const { id_token, idToken } = sessions?.user as { id_token?: string, idToken?: string} || {};
     const handleClose = (url?: string) => {
         setAnchorEl(null);
         url && router.push(url)
@@ -29,7 +29,7 @@ function User() {
 
     const dropdown = [
         ["My Profile", "/my-profile", "/images/icon-container (2).svg"],
-        ["API Plans", "/apiplans", "/images/API.svg"],
+        ["API Plans", "https://adityaagarwal.notion.site/Products-Services-c3633ff3f9ea4aeeb1892ae1303439ba#4b87ad9fa7a346548e1c7cd71803821d", "/images/API.svg"],
         ["API Keys", "/apiKeys", "images/shield-key.svg"],
     ]
     const propsConfig = {
