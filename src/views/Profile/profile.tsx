@@ -8,6 +8,13 @@ import UserInfo from './userInfo'
 import { isValidEmail, validateEmail, validatePassword } from '@/components/common/validation/validation';
 import { Divider } from '@mui/material';
 import Footer from '@/components/global/footer/Footer';
+import { useSession } from "next-auth/react";
+interface User {
+    name?: string | null | undefined;
+    'custom:designation'?: string | null | undefined;
+    'custom:companyName'?: string | null | undefined;
+    'custom:receiveUpdates'?: string | null | undefined;
+}
 
 const Profile = () => {
     const validationOdj = {
@@ -15,6 +22,15 @@ const Profile = () => {
         'email': { error:false, fb: false, msg:''},
         'new password' : { error:false, fb: false, msg:'' },
         'password' : { error:false, fb: false, msg:'' }
+    }
+    const { data: sessions } = useSession()
+    const { user }:{ user?: User }  = sessions || {};
+
+  const initUser = {
+        name: user?.name ,
+            designation: user && user['custom:designation'],
+        companyName: user && user['custom:companyName'],
+        receiveUpdates: user && user['custom:receiveUpdates'],
     }
     const [newEmail, setNewEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -87,7 +103,7 @@ const Profile = () => {
                         <ProfileSection title="Account" buttonText="SAVE CHANGES" onClick={nameValue}>
                             <div className="flex-col w-2/4">
                                 <div className="xl:w-11/12 md:w-5/6 lg:w-4/5 w-11/12">
-                                    <UserInfo handleInfo={nameValue} />
+                                    <UserInfo handleInfo={nameValue} data={initUser} />
                                 </div>
                             </div>
                             <Divider orientation="vertical" flexItem />

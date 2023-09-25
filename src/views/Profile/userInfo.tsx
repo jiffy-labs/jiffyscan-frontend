@@ -3,18 +3,19 @@ import { FormControl, InputLabel, FormControlLabel, Checkbox, NativeSelect } fro
 import TextField from '@mui/material/TextField';
 import { validateName } from "@/components/common/validation/validation";
 
-function UserInfo({handleInfo} :any) {
+function UserInfo({handleInfo, data} :any) {
     const validationOdj = {
         name: { error:false, fb: false, msg:'' },
         designation: { error:false, fb: false, msg:'' },
         companyName: { error:false, fb: false, msg:'' },
     }
     const [isValid, setValidate] = useState(validationOdj);
-    const [user, setUser] = useState({
+    const [user, setUser] = useState( {
         name: '',
         designation: '',
         companyName: '',
         receiveUpdates: false,
+        ...data
     });
 
     const designations = [{ name: '' , value: 'Select' }, { name: 'Founder', value:'Founder' }, { name: 'Engineer', value:'Engineer' }, { name: 'Other', value:'Other' }]
