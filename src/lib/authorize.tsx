@@ -27,7 +27,7 @@ export default async function authorize(credentials: any) {
                 if (decoded) {
                     return {
                         accessToken: signInResponse.AuthenticationResult.AccessToken,
-                        idToken: signInResponse.AuthenticationResult.IdToken,
+                        id_token: signInResponse.AuthenticationResult.IdToken,
                         refreshToken: signInResponse.AuthenticationResult.RefreshToken,
                         ...decoded
                     }
