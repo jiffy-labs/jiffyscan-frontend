@@ -95,9 +95,12 @@ export const authOptions = {
         async redirect(url: any) {
             console.log("Url======>", url)
             // Return the url to redirect to after successful sign in.
-            return url.url.startsWith(url.baseUrl)
-                ? url.url
-                : url.baseUrl
+            // Allows relative callback URLs
+
+            if (url.url.startsWith("/")) return `${url.baseUrl}${url.url}`
+            // Allows callback URLs on the same origin
+            else if (new URL(url.url)?.origin === url.baseUrl) return url.url
+            return url.baseUrl
         },
         jwt: jwt,
         // async jwt({token, account, profile, user}: any) {

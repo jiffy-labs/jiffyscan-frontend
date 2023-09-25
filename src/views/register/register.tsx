@@ -18,7 +18,7 @@ const COGNITO_USER_POOL_ID = process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID;
 type userProps = {
     name: string,
     designation: string,
-    companyName:string,
+    companyName: string,
     receiveUpdates: string
 };
 
@@ -63,11 +63,12 @@ const RegisterComponent = () => {
             userPoolWebClientId: LOGIN_REGISTER_COGNITO_CLIENT_ID
         }
         Amplify.configure(awsAmplifyConfig)
-        const { name, designation, companyName, receiveUpdates}: userProps = user;
+        const {name, designation, companyName, receiveUpdates}: userProps = user;
         const params = {
             password: password,
             username: email,
-            attributes: {email,
+            attributes: {
+                email,
                 name,
                 'custom:receiveUpdates': receiveUpdates ?? "",
                 'custom:designation': designation ?? "",
@@ -97,9 +98,9 @@ const RegisterComponent = () => {
         await signIn("cognito_google", {redirect: false, callbackUrl: `http://localhost:3000${query?.callBack}`})
     };
 
-    const handleUser = async ({validates, user}:  any) => {
+    const handleUser = async ({validates, user}: any) => {
         if (validates['name'].error) {
-            setErrorMessage( validates['name'].msg);
+            setErrorMessage(validates['name'].msg);
         } else {
             setErrorMessage('');
         }
@@ -210,7 +211,7 @@ const RegisterComponent = () => {
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                                 required
                             />
-                            <UserInfo handleInfo={handleUser}  />
+                            <UserInfo handleInfo={handleUser}/>
                             <button
                                 className="w-full py-2 text-center text-white rounded font-weight-bold bg-dark-600 mt-9"
                                 onClick={handleRegistration}
@@ -240,7 +241,7 @@ const RegisterComponent = () => {
                                 </a>
                             </p>
 
-                            <Link href="/login">
+                            <Link href={`/login?callBack=${query.callBack ? query.callBack : '/'}`}>
                                 <p className="mt-5 text-center text-black text-md font-weight-bold">
                                     Already have an account? <span style={{color: '#1976D2'}}>Log in</span>
                                 </p>

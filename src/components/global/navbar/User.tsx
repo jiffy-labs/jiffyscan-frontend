@@ -9,8 +9,8 @@ import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import Logout from '@mui/icons-material/Logout';
 import Login from '@mui/icons-material/Login';
-import { useRouter } from "next/router";
-import { useSession, signOut } from "next-auth/react"
+import {useRouter} from "next/router";
+import {useSession, signOut} from "next-auth/react"
 
 function User() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -18,15 +18,15 @@ function User() {
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
-    const { data: sessions } = useSession()
+    const {data: sessions} = useSession()
     const router = useRouter();
 
-    const { id_token, idToken } = sessions?.user as { id_token?: string, idToken?: string} || {};
+    const {id_token, idToken} = sessions?.user as { id_token?: string, idToken?: string } || {};
     const handleClose = (url?: string) => {
         setAnchorEl(null);
         url && router.push(url)
     };
-    
+
     const dropdown = [
         ["My Profile", "/my-profile", "/images/icon-container (2).svg"],
         ["API Plans", "/apiplans", "/images/API.svg"],
@@ -61,55 +61,55 @@ function User() {
     }
     return (
         <div className="flex items-center gap-1">
-            { (id_token || idToken) ? <>
-                <IconImgButton icon="/images/icon-container (1).svg" />
-               <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+            {(id_token || idToken) ? <>
+                <IconImgButton icon="/images/icon-container (1).svg"/>
+                <Box sx={{display: 'flex', alignItems: 'center', textAlign: 'center'}}>
                     <IconButton
-                            onClick={handleClick}
-                            size="small"
-                            aria-controls={open ? 'user-menu' : undefined}
-                            aria-haspopup="true"
-                            aria-expanded={open ? 'true' : undefined}
-                        >
-                        <img src={"/images/icon-container (2).svg"} alt="user" />
+                        onClick={handleClick}
+                        size="small"
+                        aria-controls={open ? 'user-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={open ? 'true' : undefined}
+                    >
+                        <img src={"/images/icon-container (2).svg"} alt="user"/>
                     </IconButton>
                 </Box>
                 <Menu
                     anchorEl={anchorEl}
                     id="user-menu"
                     open={open}
-                    onClose={()=>handleClose()}
-                    onClick={()=>handleClose()}
-                    PaperProps={ propsConfig}
-                    transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                    anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                    onClose={() => handleClose()}
+                    onClick={() => handleClose()}
+                    PaperProps={propsConfig}
+                    transformOrigin={{horizontal: 'right', vertical: 'top'}}
+                    anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
                 >
-                {dropdown?.map((menuItem, index) => (
-                        <MenuItem key={index} className="ml-0" onClick={() =>handleClose(menuItem[1])}>
+                    {dropdown?.map((menuItem, index) => (
+                        <MenuItem key={index} className="ml-0" onClick={() => handleClose(menuItem[1])}>
                             <ListItemIcon>
-                                <img src={menuItem[2]} alt="" />
+                                <img src={menuItem[2]} alt=""/>
                             </ListItemIcon>
                             <span className="mr-3.5"> {menuItem[0]}</span>
                         </MenuItem>
-                        ))
+                    ))
                     }
-                    <Divider />
+                    <Divider/>
                     <MenuItem>
                         <Button fullWidth color="inherit"
                                 variant="outlined"
                                 onClick={() => signOut()}
-                                startIcon={<Logout fontSize="inherit" />}>
+                                startIcon={<Logout fontSize="inherit"/>}>
                             Sign Out
                         </Button>
                     </MenuItem>
-                </Menu></>: <>
+                </Menu></> : <>
                 <Button fullWidth color="inherit"
                         variant="outlined"
-                        onClick={()=> router.push('/login')}
-                        startIcon={<Login fontSize="inherit" />}>
-                Sign In
-            </Button>
-            </> }
+                        onClick={() => router.push(`/login?callBack=${router?.asPath ? router?.asPath : '/'}`)}
+                        startIcon={<Login fontSize="inherit"/>}>
+                    Sign In
+                </Button>
+            </>}
         </div>
     );
 }
