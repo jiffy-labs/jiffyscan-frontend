@@ -20,7 +20,7 @@ const LoginComponent = () => {
     const [loading, setLoading] = useState(false);
     const { query } = router;
 
-    console.log('session',session);
+    console.log('session',session); 
 
     const handleLoginWithGoogle = async () => {
         try {
@@ -49,7 +49,7 @@ const LoginComponent = () => {
                 email,
                 password,
                 redirect: true,
-                callbackUrl: `http://localhost:3000${query?.callBack}`,
+                callbackUrl: query?.callBack ? `http://localhost:3000${query?.callBack}`: 'http://localhost:3000',
             });
             console.log('signInResponse:', signInResponse);
             if (signInResponse?.error) {
