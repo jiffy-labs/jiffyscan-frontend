@@ -1,4 +1,5 @@
 import {CognitoIdentityProvider} from "@aws-sdk/client-cognito-identity-provider";
+import jwt_decode from "jwt-decode";
 
 const COGNITO_REGION = process.env.NEXT_PUBLIC_COGNITO_REGION;
 const LOGIN_REGISTER_COGNITO_CLIENT_ID = process.env.NEXT_PUBLIC_LOGIN_REGISTER_COGNITO_CLIENT_ID;
@@ -21,14 +22,19 @@ export default async function authorize(credentials: any) {
         console.log("signInResponse:", signInResponse);
         // Process signInResponse and return a user object if successful
         if (signInResponse.AuthenticationResult) {
-            return {
-                accessToken: signInResponse.AuthenticationResult.AccessToken,
-                idToken: signInResponse.AuthenticationResult.IdToken,
-                refreshToken: signInResponse.AuthenticationResult.RefreshToken,
-                user: {
-                    email: credentials.email,
+            if (signInResponse.AuthenticationResult.IdToken != null) {
+                const decoded = jwt_decode(signInResponse.AuthenticationResult.IdToken);
+                if (decoded) {
+                    return {
+                        accessToken: signInResponse.AuthenticationResult.AccessToken,
+                        idToken: signInResponse.AuthenticationResult.IdToken,
+                        refreshToken: signInResponse.AuthenticationResult.RefreshToken,
+                        ...decoded
+                    }
                 }
+                return null
             }
+
         } else {
             console.log('Error signing in:', signInResponse, signInParams);
             throw new Error('Failed to authenticate')
