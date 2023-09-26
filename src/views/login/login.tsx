@@ -7,7 +7,6 @@ import {signIn, useSession} from 'next-auth/react';
 import {useRouter} from 'next/router';
 import Spinner from '@/components/common/Spinner';
 import {mockProviders} from 'next-auth/client/__tests__/helpers/mocks';
-import callbackUrl = mockProviders.github.callbackUrl;
 import {TextField} from '@mui/material';
 
 const LoginComponent = () => {
@@ -23,7 +22,6 @@ const LoginComponent = () => {
     const handleLoginWithGoogle = async () => {
         try {
             setLoading(true);
-
             const googleSignInResponse = await signIn('cognito_google', {
                 redirect: false,
                 callbackUrl: `http://localhost:3000${query?.callBack}`,
@@ -130,10 +128,13 @@ const LoginComponent = () => {
                     >
                         LOGIN
                     </button>
-                    <p className="text-xl text-center text-black font-weight-bold mt-9"
-                       style={{color: '#1976D2', fontSize: '14px'}}>
-                        Reset Password
-                    </p>
+
+                    <Link href={`/resetPassword`}>
+                        <p className="mt-5 text-xl text-center text-black font-weight-bold" style={{fontSize: '14px', color: '#1976D2'}}>
+                            Reset Password
+                        </p>
+                    </Link>
+
                     <Link href={`/register?callBack=${router.query.callBack ? router.query.callBack : '/'}`}>
                         <p className="mt-5 text-xl text-center text-black font-weight-bold" style={{fontSize: '14px'}}>
                             No account? <span style={{color: '#1976D2'}}>Create one</span>
