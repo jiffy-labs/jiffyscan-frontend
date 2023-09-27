@@ -240,56 +240,11 @@ const RegisterComponent = () => {
                                     Privacy Policy
                                 </a>
                             </p>
-
-                            <Link href={`/login?callBack=${query.callBack ? query.callBack : '/'}`}>
+                          <Link href={`/login?callBack=${query.callBack ? query.callBack : '/'}`}>
                                 <p className="mt-5 text-center text-black text-md font-weight-bold">
                                     Already have an account? <span style={{color: '#1976D2'}}>Log in</span>
                                 </p>
                             </Link>
-                            <style>
-                                {`
-                    .bottom-border {
-                      border-left: none;
-                      border-right: none;
-                      border-top: none;
-                      border-radius: 0;
-                      border-bottom: 1px solid #000;
-                    }
-                    .bottom-border::placeholder {
-                      color: #000;
-                    }
-                    @media (max-width: 576px) {
-                        .Maincontainer{
-                            height:auto !important;
-                        }
-                    .container {
-                        flex-direction:column
-                    }
-                      }
-                      @media (min-width: 576px) and (max-width: 768px) {
-                        .Maincontainer{
-                            height:auto !important;
-                        }
-                        .container {
-                            flex-direction:column;
-                            width:450px !important;
-                        }
-                      }
-                      @media (min-width: 768px) and (max-width: 992px) {
-                        .footer{
-                            margin-bottom: 40px !important;
-                        }
-                      }
-                      .box{
-                        border:1px solid #e5e7eb !important;
-                        box-shadow:none !important;
-                        border-radius: 5px !important;
-                      }
-                      .sec-box button{
-                        justify-content:center
-                      }
-                    `}
-                            </style>
                         </div>
                     </div>
                 </div>

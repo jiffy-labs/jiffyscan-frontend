@@ -17,11 +17,11 @@ export const isValidEmail = (email: string) => {
 };
 
 export const validatePassword = (pwd :string) => {
-    if (!isvalidpassword(pwd)) return  'At least 6 characters including a number, uppercase, and lowercase letter';
+    if (!isvalidpassword(pwd)) return  'At least 6 characters including a number, and lowercase letter';
     return '';
 };
 
 const isvalidpassword = (newPassword: string) => {
-    const passwordregex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
+    const passwordregex = /^(?=.*[a-z])(?=.*\d)[a-zA-Z\d]{6,}$/;
     return passwordregex.test(newPassword);
 };
