@@ -1,6 +1,6 @@
 import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     getPoweredBy,
     getUserOp,
@@ -9,24 +9,22 @@ import {
     PoweredBy,
     Trace,
     UserOp,
-    showToast
+    showToast,
 } from '@/components/common/apiCalls/jiffyApis';
-import {Breadcrumbs, Link} from '@mui/material';
+import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import {useRouter} from 'next/router';
-import {getFee, getTimePassed, shortenString} from '@/components/common/utils';
-import {NETWORK_ICON_MAP} from '@/components/common/constants';
+import { useRouter } from 'next/router';
+import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
+import { NETWORK_ICON_MAP } from '@/components/common/constants';
 
 import HeaderSection from './HeaderSection';
 import TransactionDetails from './TransactionDetails';
 import DeveloperDetails from './DeveloperDetails';
-import {useConfig} from '@/context/config';
-import Table, {tableDataT} from '@/components/common/table/Table';
-import {ToastContainer, toast} from 'react-toastify';
+import { useConfig } from '@/context/config';
+import Table, { tableDataT } from '@/components/common/table/Table';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Paywall from "@/views/userOp/Paywall";
-import {useSession} from "next-auth/react";
-import {Session} from "next-auth";
+import Paywall from '@/views/userOp/Paywall';
 
 interface UserInfo {
     user: {
@@ -69,11 +67,10 @@ interface UserInfo {
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const passedTime = (time: number) => {
-    let currentTime = (new Date()).getTime();
+    let currentTime = new Date().getTime();
     let passedTime = currentTime - time;
     return passedTime;
-}
-
+};
 
 // import Skeleton from '@/components/Skeleton';
 export const BUTTON_LIST = [
@@ -87,10 +84,10 @@ export const BUTTON_LIST = [
     },
 ];
 const columns = [
-    {name: 'Hash', sort: true},
-    {name: 'Age', sort: true},
-    {name: 'Sender', sort: true},
-    {name: 'Target', sort: true},
+    { name: 'Hash', sort: true },
+    { name: 'Age', sort: true },
+    { name: 'Sender', sort: true },
+    { name: 'Target', sort: true },
 ];
 
 const createDuplicateUserOpsRows = (userOps: UserOp[], handleRowClicked: (id: number) => void): tableDataT['rows'] => {
@@ -115,12 +112,8 @@ const createDuplicateUserOpsRows = (userOps: UserOp[], handleRowClicked: (id: nu
     return newRows;
 };
 
-interface SessionType extends Session {
-
-}
-
 interface SessionUserInfo {
-    data: UserInfo
+    data: UserInfo;
 }
 function RecentUserOps(props: any) {
     const router = useRouter();
@@ -129,20 +122,17 @@ function RecentUserOps(props: any) {
 
     const hash = props.slug && props.slug[0];
     const network = router.query && router.query.network;
-    const {data: session} = useSession()
     const [selectedColor, setSelectedColor] = useState(BUTTON_LIST[0].key);
     const [userOpsData, setuserOpsData] = useState<UserOp[]>([] as UserOp[]);
     const [showUserOpId, setShowUserOpId] = useState<number>(0);
     const [responseData, setresponseData] = useState<PoweredBy>();
     const [metaData, setMetaData] = useState<metadata>();
     const [duplicateUserOpsRows, setDuplicateUserOpsRows] = useState<tableDataT['rows']>([] as tableDataT['rows']);
-    const {data: sessionData} = useSession()
-    const sessions = sessionData as unknown as UserInfo;
     const [block, setBlock] = useState(false);
 
     async function returnUserOpData(hash: string, toast: any) {
-        let currentTime = (new Date()).getTime();
-        let userOp = await getUserOp(hash, toast, sessions?.user?.id_token);
+        let currentTime = new Date().getTime();
+        let userOp = await getUserOp(hash, toast, '');
         while (userOp.length === 0) {
             await sleep(1000);
             userOp = await getUserOp(hash, toast);
@@ -183,7 +173,6 @@ function RecentUserOps(props: any) {
         setShowUserOpId(id);
     };
 
-
     let prevHash = hash;
     useEffect(() => {
         // Check if hash or network have changed
@@ -200,7 +189,7 @@ function RecentUserOps(props: any) {
     const fetchUserOpMetadata = async (hash: string, network: string) => {
         const metaData = await getUserOpMetadata(hash as string, network, toast);
         setMetaData(metaData);
-    }
+    };
 
     const fetchPoweredBy = async () => {
         const beneficiary =
@@ -227,7 +216,7 @@ function RecentUserOps(props: any) {
     let skeletonCards1 = Array(2).fill(0);
     return (
         <div className="">
-            <Navbar searchbar/>
+            <Navbar searchbar />
             <section className="px-3 py-10">
                 <div className="container">
                     <div className="flex flex-row">
@@ -238,14 +227,13 @@ function RecentUserOps(props: any) {
                                     width: '15px',
                                     marginRight: '20px',
                                     marginLeft: '10px',
-                                    marginBottom: '3px'
+                                    marginBottom: '3px',
                                 }}
                             />
                         </Link>
 
                         <Breadcrumbs aria-label="breadcrumb" className="font-['Roboto']">
-                            <Link underline="hover" color="inherit"
-                                  href={'/' + (selectedNetwork ? '?network=' + selectedNetwork : '')}>
+                            <Link underline="hover" color="inherit" href={'/' + (selectedNetwork ? '?network=' + selectedNetwork : '')}>
                                 Home
                             </Link>
                             <Link underline="hover" color="inherit" href="/recentUserOps">
@@ -264,52 +252,53 @@ function RecentUserOps(props: any) {
                     </div>
                 </div>
             </section>
-            {block && <Paywall></Paywall>}
-            <div className={`${block && 'blur'}`}>
-                {showUserOpId >= 0 ? (
-                    <>
-                        <HeaderSection item={userOpsData?.[showUserOpId]} network={network} loading={tableLoading}/>
-                        <TransactionDetails
-                            tableLoading={tableLoading}
-                            skeletonCards={skeletonCards}
-                            item={userOpsData?.[showUserOpId]}
-                            responseData={responseData}
-                            addressMapping={addressMapping}
-                            metaData={metaData}
-                            setMetadata={setMetaData}
-                            selectedNetwork={selectedNetwork}
-                        />
-                        <DeveloperDetails
-                            tableLoading={tableLoading}
-                            skeletonCards1={skeletonCards1}
-                            item={userOpsData?.[showUserOpId]}
-                            selectedColor={selectedColor}
-                            BUTTON_LIST={BUTTON_LIST}
-                            setSelectedColor={setSelectedColor}
-                            selectedNetwork={selectedNetwork}
-                            metaData={metaData}
-                        />
-                    </>
-                ) : (
-                    showUserOpId === -1 && (
-                        <div className="container mb-16">
-                            <Table
-                                columns={columns}
-                                rows={duplicateUserOpsRows}
-                                loading={tableLoading}
-                                caption={{
-                                    children: 'Duplicate User Operations',
-                                    icon: '/images/cube.svg',
-                                    text: 'Approx Number of Operations Processed in the selected chain',
-                                }}
+            <div>
+                {block && <Paywall></Paywall>}
+                <div className={`${block && 'blur'}`}>
+                    {showUserOpId >= 0 ? (
+                        <>
+                            <HeaderSection item={userOpsData?.[showUserOpId]} network={network} loading={tableLoading} />
+                            <TransactionDetails
+                                tableLoading={tableLoading}
+                                skeletonCards={skeletonCards}
+                                item={userOpsData?.[showUserOpId]}
+                                responseData={responseData}
+                                addressMapping={addressMapping}
+                                metaData={metaData}
+                                setMetadata={setMetaData}
+                                selectedNetwork={selectedNetwork}
                             />
-                        </div>
-                    )
-                )}
+                            <DeveloperDetails
+                                tableLoading={tableLoading}
+                                skeletonCards1={skeletonCards1}
+                                item={userOpsData?.[showUserOpId]}
+                                selectedColor={selectedColor}
+                                BUTTON_LIST={BUTTON_LIST}
+                                setSelectedColor={setSelectedColor}
+                                selectedNetwork={selectedNetwork}
+                                metaData={metaData}
+                            />
+                        </>
+                    ) : (
+                        showUserOpId === -1 && (
+                            <div className="container mb-16">
+                                <Table
+                                    columns={columns}
+                                    rows={duplicateUserOpsRows}
+                                    loading={tableLoading}
+                                    caption={{
+                                        children: 'Duplicate User Operations',
+                                        icon: '/images/cube.svg',
+                                        text: 'Approx Number of Operations Processed in the selected chain',
+                                    }}
+                                />
+                            </div>
+                        )
+                    )}
+                </div>
             </div>
-
-            <ToastContainer/>
-            <Footer/>
+            <ToastContainer />
+            <Footer />
         </div>
     );
 }

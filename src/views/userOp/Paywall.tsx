@@ -5,11 +5,11 @@ import {useRouter} from "next/router";
 function Paywall() {
     const {asPath} = useRouter();
     return (
-        <div className="z-10 absolute inset-1 flex flex-col items-center justify-center">
-            <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-                <h1 className="text-3xl font-semibold mb-4">Unlock Premium Content</h1>
-                <p className="text-gray-600 mb-8">
-                    Access exclusive data and more by login or register.
+        <div className="absolute z-10 flex flex-col items-center justify-center inset-x-1 bottom-1">
+            <div className="p-6 text-center bg-white rounded-lg shadow-lg">
+                <h1 className="mb-4 text-3xl font-semibold">Kindly Login</h1>
+                <p className="mb-8 text-gray-600">
+                    Sign In to Continue.
                 </p>
                 <div className={'inline-flex'}>
                     <div className={'mr-4'}>

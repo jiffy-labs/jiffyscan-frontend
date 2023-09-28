@@ -9,29 +9,27 @@ import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import Logout from '@mui/icons-material/Logout';
 import Login from '@mui/icons-material/Login';
-import {useRouter} from "next/router";
-import {useSession, signOut} from "next-auth/react"
+import { useRouter } from 'next/router';
 
-function User() {
+function User({ login, sessionTokens, user, logout }: { login: any; sessionTokens: any; user: any, logout: any }) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
-    const {data: sessions} = useSession()
     const router = useRouter();
 
-    const {id_token, idToken} = sessions?.user as { id_token?: string, idToken?: string } || {};
+    // const {id_token, idToken} = sessions?.user as { id_token?: string, idToken?: string } || {};
     const handleClose = (url?: string) => {
         setAnchorEl(null);
-        url && router.push(url)
+        url && router.push(url);
     };
 
-    const dropdown = [
-        ["My Profile", "/my-profile", "/images/icon-container (2).svg"],
-        ["API Plans", "/apiplans", "/images/API.svg"],
-        ["API Keys", "/apiKeys", "images/shield-key.svg"],
-    ]
+    // const dropdown = [
+    //     ["My Profile", "/my-profile", "/images/icon-container (2).svg"],
+    //     ["API Plans", "/apiplans", "/images/API.svg"],
+    //     ["API Keys", "/apiKeys", "images/shield-key.svg"],
+    // ]
     const propsConfig = {
         elevation: 0,
         sx: {
@@ -58,33 +56,35 @@ function User() {
                 zIndex: 0,
             },
         },
-    }
+    };
     return (
         <div className="flex items-center gap-1">
-            {(id_token || idToken) ? <>
-                <IconImgButton icon="/images/icon-container (1).svg"/>
-                <Box sx={{display: 'flex', alignItems: 'center', textAlign: 'center'}}>
-                    <IconButton
-                        onClick={handleClick}
-                        size="small"
-                        aria-controls={open ? 'user-menu' : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={open ? 'true' : undefined}
+            {sessionTokens?.accessToken ? (
+                <>
+                    {/* <IconImgButton icon="/images/icon-container (1).svg" /> */}
+                    <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+                        <IconButton
+                            onClick={handleClick}
+                            size="small"
+                            style={{ height: '40px', width: '40px'}}
+                            aria-controls={open ? 'user-menu' : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={open ? 'true' : undefined}
+                        >
+                            <img src={user ? user?.profilePicture :'/images/icon-container (2).svg'} style={{borderRadius: '50%'}} alt="user" />
+                        </IconButton>
+                    </Box>
+                    <Menu
+                        anchorEl={anchorEl}
+                        id="user-menu"
+                        open={open}
+                        onClose={() => handleClose()}
+                        onClick={() => handleClose()}
+                        PaperProps={propsConfig}
+                        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                     >
-                        <img src={"/images/icon-container (2).svg"} alt="user"/>
-                    </IconButton>
-                </Box>
-                <Menu
-                    anchorEl={anchorEl}
-                    id="user-menu"
-                    open={open}
-                    onClose={() => handleClose()}
-                    onClick={() => handleClose()}
-                    PaperProps={propsConfig}
-                    transformOrigin={{horizontal: 'right', vertical: 'top'}}
-                    anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
-                >
-                    {dropdown?.map((menuItem, index) => (
+                        {/* {dropdown?.map((menuItem, index) => (
                         <MenuItem key={index} className="ml-0" onClick={() => handleClose(menuItem[1])}>
                             <ListItemIcon>
                                 <img src={menuItem[2]} alt=""/>
@@ -93,23 +93,46 @@ function User() {
                         </MenuItem>
                     ))
                     }
-                    <Divider/>
-                    <MenuItem>
-                        <Button fullWidth color="inherit"
+                    <Divider/> */}
+                        <MenuItem>
+                            <Button
+                                fullWidth
+                                color="inherit"
                                 variant="outlined"
-                                onClick={() => signOut()}
-                                startIcon={<Logout fontSize="inherit"/>}>
-                            Sign Out
-                        </Button>
-                    </MenuItem>
-                </Menu></> : <>
-                <Button fullWidth color="inherit"
+                                onClick={() => logout(router?.asPath ? router?.asPath : '/')}
+                                startIcon={<Logout fontSize="inherit" />}
+                            >
+                                Sign Out
+                            </Button>
+                        </MenuItem>
+                    </Menu>
+                </>
+            ) : (
+                <>
+                    {/* <Button
+                        fullWidth
+                        color="inherit"
                         variant="outlined"
-                        onClick={() => router.push(`/login?callBack=${router?.asPath ? router?.asPath : '/'}`)}
-                        startIcon={<Login fontSize="inherit"/>}>
-                    Sign In
-                </Button>
-            </>}
+                        style={{ marginRight: '10px' }}
+                        onClick={() => login('twitter', router?.asPath ? router?.asPath : '/')}
+                        // onClick={() => router.push(`/login?callBack=${router?.asPath ? router?.asPath : '/'}`)}
+                        startIcon={<Login fontSize="inherit" />}
+                    >
+                        Sign In
+                    </Button> */}
+                    <Button
+                        fullWidth
+                        color="inherit"
+                        style={{ marginRight: '10px' }}
+                        variant="outlined"
+                        onClick={() => login('github', router?.asPath ? router?.asPath : '/')}
+                        // onClick={() => router.push(`/login?callBack=${router?.asPath ? router?.asPath : '/'}`)}
+                        startIcon={<img style={{height: '20px', width: '20px'}} src="/images/github.svg" alt="" />}
+                    >
+                        GITHUB
+                    </Button>
+                </>
+            )}
         </div>
     );
 }
