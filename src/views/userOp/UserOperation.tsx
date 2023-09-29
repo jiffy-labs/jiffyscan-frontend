@@ -24,7 +24,8 @@ import { useConfig } from '@/context/config';
 import Table, { tableDataT } from '@/components/common/table/Table';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Paywall from '@/views/userOp/Paywall';
+import Paywall from '@/components/global/Paywall';
+import { useSessionContext } from '@/context/session';
 
 interface UserInfo {
     user: {
@@ -119,6 +120,7 @@ function RecentUserOps(props: any) {
     const router = useRouter();
     const [tableLoading, setTableLoading] = useState(true);
     const { selectedNetwork, setSelectedNetwork, addressMapping } = useConfig();
+    const {sessionTokens, setSessionTokens, setUser, user, expiryStatus, login, logout} = useSessionContext();
 
     const hash = props.slug && props.slug[0];
     const network = router.query && router.query.network;
@@ -128,7 +130,14 @@ function RecentUserOps(props: any) {
     const [responseData, setresponseData] = useState<PoweredBy>();
     const [metaData, setMetaData] = useState<metadata>();
     const [duplicateUserOpsRows, setDuplicateUserOpsRows] = useState<tableDataT['rows']>([] as tableDataT['rows']);
-    const [block, setBlock] = useState(false);
+    const [block, setBlock] = useState(sessionTokens?.accessToken ? false : true);
+
+
+    useEffect(() => {
+        if (sessionTokens?.accessToken) {
+            setBlock(false);
+        }    
+    }, [sessionTokens])
 
     async function returnUserOpData(hash: string, toast: any) {
         let currentTime = new Date().getTime();
@@ -253,7 +262,7 @@ function RecentUserOps(props: any) {
                 </div>
             </section>
             <div>
-                {block && <Paywall></Paywall>}
+                {block && <Paywall showClose={false} block={block} setBlock={setBlock}></Paywall>}
                 <div className={`${block && 'blur'}`}>
                     {showUserOpId >= 0 ? (
                         <>

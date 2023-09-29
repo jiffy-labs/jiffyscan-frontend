@@ -26,9 +26,14 @@ import Header from '@/components/common/Header';
 import {session} from "next-auth/core/routes";
 import {useSession} from "next-auth/react";
 import {useRouter} from "next/router";
+import Paywall from '@/components/global/Paywall';
+import { useSessionContext, SessionContextType } from '@/context/session';
+
 
 function Home() {
     const {selectedNetwork, setSelectedNetwork} = useConfig();
+    const {sessionTokens, setSessionTokens, setUser, user, expiryStatus, login, logout} = useSessionContext();
+    const [block, setBlock] = useState(false);
     const [bundlesTable, setBundlesTable] = useState<tableDataT>(BundlesTable as tableDataT);
     const [operationsTable, setOperationsTable] = useState<tableDataT>(OperationsTable as tableDataT);
     const [bundlersTable, setBundlersTable] = useState<tableDataT>(BundlersTable as tableDataT);
@@ -43,7 +48,28 @@ function Home() {
         refreshUserOpsTable(selectedNetwork);
         refreshBundlersTable(selectedNetwork);
         refreshPaymastersTable(selectedNetwork);
+        turnBlockOnAfterXSeconds(10);   
     }, [selectedNetwork]);
+
+    useEffect(() => {
+        if (sessionTokens?.accessToken) {
+            setBlock(false);
+        }    
+    }, [sessionTokens])
+
+    //turn on block after 10 seconds 
+    const turnBlockOnAfterXSeconds = (seconds: number) => {
+        setTimeout(() => {
+            blockView();
+        }, seconds*1000);
+    }
+
+    const blockView = () => {
+        if (sessionTokens?.accessToken) {
+            setBlock(false);
+        }
+        setBlock(true);
+    }
 
     const refreshBundlesTable = async (network: string) => {
         setBundleTableLoading(true);
@@ -153,8 +179,11 @@ function Home() {
                 </div>
             </div>
             {/* <RecentMetrics selectedNetwork={selectedNetwork} setLoading={setLoading} loading={loading} /> */}
-            <section className="mb-12">
-                <div className="container grid grid-cols-1 gap-10 md:grid-cols-2">
+            <div>
+                
+            <section className={`mb-12`}>
+            {block ? <Paywall showClose={true} block={block} setBlock={setBlock}/> : null}
+                <div className={`container grid grid-cols-1 gap-10 md:grid-cols-2 ${block && 'blur'}`}>
                     <div>
                         <Table
                             {...(bundlesTable as tableDataT)}
@@ -186,7 +215,7 @@ function Home() {
                     </div>
                 </div>
             </section>
-            <section className="mb-12">
+            <section className={`mb-12 ${block && 'blur'}`}>
                 <div className="container grid grid-cols-1 gap-10 md:grid-cols-2">
                     <div>
                         <Table
@@ -219,6 +248,7 @@ function Home() {
                     </div>
                 </div>
             </section>
+            </div>
             <ToastContainer/>
             <Footer/>
         </div>

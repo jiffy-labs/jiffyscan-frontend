@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import auth0 from 'auth0-js';
 
 
-const callbackPopup = () => {
+const CallbackPopup = () => {
   useEffect(() => {
     let auth = new auth0.WebAuth({
       domain: 'https://dev-xbhwhdj3wrltd7bv.us.auth0.com',
@@ -21,5 +21,5 @@ const callbackPopup = () => {
   )
 }
 
-export default callbackPopup
+export default CallbackPopup
 

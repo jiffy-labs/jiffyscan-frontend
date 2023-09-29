@@ -5,7 +5,6 @@ import Searchblock from '../searchblock/Searchblock';
 import Pages from './pages/Pages';
 import Logo from '@/components/common/Logo';
 import dynamic from 'next/dynamic';
-import auth0 from 'auth0-js';
 
 const Drawer = dynamic(
     import('react-modern-drawer').then((mod) => mod.default),
@@ -22,10 +21,7 @@ import { ChevronRightIcon, HomeIcon } from '@heroicons/react/20/solid';
 import { Button } from '@mui/material';
 import { useSessionContext } from '@/context/session';
 
-let webAuth = new auth0.WebAuth({
-    domain: 'https://dev-xbhwhdj3wrltd7bv.us.auth0.com',
-    clientID: 'VRNrC8mxH3DP7v16nT41siK7zIqS8Whl',
-});
+
 
 
 interface NavbarProps {
@@ -33,7 +29,7 @@ interface NavbarProps {
 }
 
 function Navbar(props: NavbarProps) {
-    const { sessionTokens, setSessionTokens, setUser, user ,expiryStatus } = useSessionContext();
+    const { sessionTokens, setSessionTokens, setUser, user ,expiryStatus, login, logout } = useSessionContext();
     const { searchbar } = props;
 
     console.log('sessions',sessionTokens)
@@ -46,51 +42,7 @@ function Navbar(props: NavbarProps) {
         setIsOpen((prevState) => !prevState);
     };
 
-    const logout = async (callbackPath: string) => {
-        webAuth.logout({
-            returnTo: 'http://localhost:3000?callbackPath='+callbackPath,
-            clientID: 'VRNrC8mxH3DP7v16nT41siK7zIqS8Whl'
-          });
-        setSessionTokens({accessToken: "", idToken: "", expiresAt: 0, refreshToken: ""});
-        setUser({id: 0, name: "", profilePicture: "", email: "", username: "", token: ""});
-    }
 
-    const login = async (social: string, callbackPath: string) => {
-        webAuth.popup.authorize({
-            domain: 'https://dev-xbhwhdj3wrltd7bv.us.auth0.com',
-            responseType: 'token',
-            clientId: 'VRNrC8mxH3DP7v16nT41siK7zIqS8Whl',
-            redirectUri: 'http://localhost:3000/callbackPopup?callbackPath='+callbackPath,
-            connection: social
-          }, function(err, authResult) {
-            console.log('authResult ',authResult);
-            console.log('err',err);
-            if (authResult.accessToken) {
-                webAuth.client.userInfo(authResult.accessToken, async function(err, user) {
-                    // Now you have the user's information
-                    setUser({
-                        id: 1,
-                        name: user.name,
-                        profilePicture: user.picture,
-                        email: user.email ? user.email : "",
-                        username: user.nickname,
-                        token: 'test'
-                    });
-                    console.log('here', user);
-
-                    });
-
-                    setSessionTokens({
-                        accessToken: authResult.accessToken,
-                        idToken: authResult.idToken ? authResult.idToken : "",
-                        expiresAt: authResult.expiresIn ? (new Date()).getTime()/1000 + authResult.expiresIn  : 0,
-                        refreshToken: authResult.refreshToken ? authResult.refreshToken : ""
-                    });
-                    
-                  }
-            
-          });
-    };
 
     return (
         <Fragment>
