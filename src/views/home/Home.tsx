@@ -34,6 +34,7 @@ function Home() {
     const {selectedNetwork, setSelectedNetwork} = useConfig();
     const {sessionTokens, setSessionTokens, setUser, user, expiryStatus, login, logout} = useSessionContext();
     const [block, setBlock] = useState(false);
+    const [triggerBlock, setTriggerBlock] = useState(false);
     const [bundlesTable, setBundlesTable] = useState<tableDataT>(BundlesTable as tableDataT);
     const [operationsTable, setOperationsTable] = useState<tableDataT>(OperationsTable as tableDataT);
     const [bundlersTable, setBundlersTable] = useState<tableDataT>(BundlersTable as tableDataT);
@@ -55,7 +56,7 @@ function Home() {
         if (sessionTokens?.accessToken) {
             setBlock(false);
         }    
-    }, [sessionTokens])
+    }, [sessionTokens, triggerBlock])
 
     //turn on block after 10 seconds 
     const turnBlockOnAfterXSeconds = (seconds: number) => {
@@ -65,10 +66,7 @@ function Home() {
     }
 
     const blockView = () => {
-        if (sessionTokens?.accessToken) {
-            setBlock(false);
-        }
-        setBlock(true);
+        setTriggerBlock(true);
     }
 
     const refreshBundlesTable = async (network: string) => {
@@ -180,10 +178,11 @@ function Home() {
             </div>
             {/* <RecentMetrics selectedNetwork={selectedNetwork} setLoading={setLoading} loading={loading} /> */}
             <div>
-                
+            
             <section className={`mb-12`}>
-            {block ? <Paywall showClose={true} block={block} setBlock={setBlock}/> : null}
+            {block ? <Paywall showClose={true} block={block} setBlock={setBlock}/> : null} 
                 <div className={`container grid grid-cols-1 gap-10 md:grid-cols-2 ${block && 'blur'}`}>
+                
                     <div>
                         <Table
                             {...(bundlesTable as tableDataT)}

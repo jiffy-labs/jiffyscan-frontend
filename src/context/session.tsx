@@ -79,8 +79,11 @@ export default function SessionStore({ children }: any) {
     }, [sessionTokens]);
 
     const logout = async (callbackPath: string) => {
+        let callbackUrl = (window?.location ? window.location.protocol +'//'+ window.location.host : 'http://localhost:3000') + '/callbackPopup?callbackPath='+callbackPath;
+
         webAuth.logout({
-            returnTo: 'http://localhost:3000?callbackPath='+callbackPath,
+            returnTo: "https://localhost:3000",
+            // returnTo: ('http://localhost:3000') + '/callbackPopup?callbackPath='+callbackPath,
             clientID: 'VRNrC8mxH3DP7v16nT41siK7zIqS8Whl'
           });
         setSessionTokens({accessToken: "", idToken: "", expiresAt: 0, refreshToken: ""});
@@ -88,16 +91,21 @@ export default function SessionStore({ children }: any) {
     }
     
     const login = async (social: string, callbackPath: string) => {
+        console.log(window.location);
+        console.log('callbackurl - ', (window?.location ? window.location.protocol +'//'+ window.location.host : 'http://localhost:3000') + '/callbackPopup?callbackPath='+callbackPath);
+        console.log('callbackurl - ', 'http://localhost:3000/callbackPopup?callbackPath='+callbackPath);
+        let callbackUrl = (window?.location ? window.location.protocol +'//'+ window.location.host : 'http://localhost:3000') + '/callbackPopup?callbackPath='+callbackPath;
         webAuth.popup.authorize({
             domain: 'https://dev-xbhwhdj3wrltd7bv.us.auth0.com',
             responseType: 'token',
             clientId: 'VRNrC8mxH3DP7v16nT41siK7zIqS8Whl',
-            redirectUri: 'http://localhost:3000/callbackPopup?callbackPath='+callbackPath,
+            redirectUri: callbackUrl,
+            // redirectUri: 'http://localhost:3000/callbackPopup?callbackPath='+callbackPath,
             connection: social
           }, function(err, authResult) {
             console.log('authResult ',authResult);
             console.log('err',err);
-            if (authResult.accessToken) {
+            if (authResult?.accessToken) {
                 webAuth.client.userInfo(authResult.accessToken, async function(err, user) {
                     // Now you have the user's information
                     setUser({
@@ -119,6 +127,8 @@ export default function SessionStore({ children }: any) {
                         refreshToken: authResult.refreshToken ? authResult.refreshToken : ""
                     });
                     
+                  } else if (err) {
+                    console.log(err);
                   }
             
           });
