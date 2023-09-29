@@ -3,8 +3,8 @@ import auth0 from 'auth0-js';
 
 
 const CallbackPopup = () => {
-  let callbackUrl = window.location.protocol + "//" + window.location.host
   useEffect(() => {
+    let callbackUrl = window.location.protocol + "//" + window.location.host
     let auth = new auth0.WebAuth({
       domain: 'https://dev-xbhwhdj3wrltd7bv.us.auth0.com',
       clientID: 'VRNrC8mxH3DP7v16nT41siK7zIqS8Whl',
