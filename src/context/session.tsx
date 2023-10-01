@@ -79,11 +79,10 @@ export default function SessionStore({ children }: any) {
     }, [sessionTokens]);
 
     const logout = async (callbackPath: string) => {
-        let callbackUrl = (window?.location ? window.location.protocol +'//'+ window.location.host : 'http://localhost:3000') + '/callbackPopup?callbackPath='+callbackPath;
+        let callbackUrl = 'http://localhost:3000';
 
         webAuth.logout({
-            returnTo: "https://localhost:3000",
-            // returnTo: ('http://localhost:3000') + '/callbackPopup?callbackPath='+callbackPath,
+            returnTo: callbackUrl,
             clientID: 'VRNrC8mxH3DP7v16nT41siK7zIqS8Whl'
           });
         setSessionTokens({accessToken: "", idToken: "", expiresAt: 0, refreshToken: ""});

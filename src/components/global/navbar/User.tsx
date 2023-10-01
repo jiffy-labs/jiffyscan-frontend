@@ -109,7 +109,7 @@ function User({ login, sessionTokens, user, logout }: { login: any; sessionToken
                 </>
             ) : (
                 <>
-                    {/* <Button
+                    <Button
                         fullWidth
                         color="inherit"
                         variant="outlined"
@@ -119,7 +119,7 @@ function User({ login, sessionTokens, user, logout }: { login: any; sessionToken
                         startIcon={<Login fontSize="inherit" />}
                     >
                         Sign In
-                    </Button> */}
+                    </Button>
                     <Button
                         fullWidth
                         color="inherit"
