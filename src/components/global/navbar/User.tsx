@@ -10,24 +10,8 @@ import Button from '@mui/material/Button';
 import Logout from '@mui/icons-material/Logout';
 import Login from '@mui/icons-material/Login';
 import { useRouter } from 'next/router';
-import { useSession, signIn, signOut } from 'next-auth/react';
-import { DefaultSession } from 'next-auth';
+import { useUserSession, Social } from '@/context/userSession';
 
-declare module 'next-auth' {
-    interface User {
-        email: string;
-        email_verified: boolean;
-        exp: number;
-        name: string;
-        picture: string;
-        sub: string;
-        expires_at: number;
-    }
-
-    interface Session extends DefaultSession {
-        user?: User;
-    }
-}
 
 function User() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -43,7 +27,7 @@ function User() {
         url && router.push(url);
     };
 
-    const { data: session } = useSession();
+    const {session, signIn, signOut} = useUserSession();
 
     useEffect(() => {
         console.log('next auth session', session);
@@ -148,7 +132,7 @@ function User() {
                         color="inherit"
                         variant="outlined"
                         style={{ marginRight: '10px' }}
-                        onClick={() => signIn('twitter')}
+                        onClick={() => signIn(Social.TWITTER)}
                         // onClick={() => router.push(`/login?callBack=${router?.asPath ? router?.asPath : '/'}`)}
                         startIcon={<img style={{ height: '20px', width: '20px' }} src="/images/twitter.svg" alt="" />}
                     >
@@ -159,7 +143,7 @@ function User() {
                         color="inherit"
                         style={{ marginRight: '10px' }}
                         variant="outlined"
-                        onClick={() => signIn('github')}
+                        onClick={() => signIn(Social.GITHUB)}
                         // onClick={() => router.push(`/login?callBack=${router?.asPath ? router?.asPath : '/'}`)}
                         startIcon={<img style={{ height: '20px', width: '20px' }} src="/images/github.svg" alt="" />}
                     >

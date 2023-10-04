@@ -9,6 +9,7 @@ import { useSession, signIn, signOut } from 'next-auth/react';
 const UserSessionContext = createContext({} as UserSession);
 
 export interface UserSession {
+    session?: Session | null;
     signOut: () => void;
     signIn: (social: Social) => void;
     isLoggedIn: () => boolean;
@@ -40,7 +41,7 @@ export default function UserSessionStore({ children }: any) {
     };
 
     return (
-        <UserSessionContext.Provider value={{ isLoggedIn, signIn, signOut }}>
+        <UserSessionContext.Provider value={{ isLoggedIn, signIn, signOut, session }}>
             {children}
         </UserSessionContext.Provider>
     );

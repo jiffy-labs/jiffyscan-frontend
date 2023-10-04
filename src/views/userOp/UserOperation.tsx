@@ -95,10 +95,7 @@ function RecentUserOps(props: any) {
     const { isLoggedIn } = useUserSession();
 
     useEffect(() => {
-        setBlock(!isLoggedIn())       
-    }, []);
-
-    useEffect(() => {
+        console.log(!isLoggedIn());
         setBlock(!isLoggedIn());
     }, [isLoggedIn]);
 
