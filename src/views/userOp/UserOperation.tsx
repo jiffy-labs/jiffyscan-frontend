@@ -113,12 +113,17 @@ function RecentUserOps(props: any) {
     const [block, setBlock] = useState(true);
 
     useEffect(() => {
+        console.log('testing session',session?.user);
         if (session?.user?.expires_at ? getBlockCondition(session.user.expires_at) : getBlockCondition(session?.user?.exp))
             setBlock(false);        
     }, []);
 
-    useEffect(() => {        
-        setBlock(session?.user?.expires_at ? getBlockCondition(session.user.expires_at): getBlockCondition(session?.user?.exp));
+    useEffect(() => {   
+        console.log('testing session 22', session?.user);  
+        let expiryTime = session?.user?.expires_at ? session.user.expires_at : session?.user?.exp; 
+        // setBlock(session?.user);
+        console.log('expiry time 2', expiryTime);
+        setBlock((session?.user && expiryTime && expiryTime > Date.now() / 1000) ? false : true);
     }, [session]);
 
     async function returnUserOpData(hash: string, toast: any) {
