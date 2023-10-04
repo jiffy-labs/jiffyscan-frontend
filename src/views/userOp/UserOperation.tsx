@@ -222,8 +222,8 @@ function RecentUserOps(props: any) {
                 </div>
             </section>
             <div>
-                {block && <Paywall showClose={false} block={block} setBlock={setBlock}></Paywall>}
-                <div className={`${block && 'blur'}`}>
+                {!isLoggedIn() && <Paywall showClose={false} block={() => !isLoggedIn()} setBlock={setBlock}></Paywall>}
+                <div className={`${!isLoggedIn() && 'blur'}`}>
                     {showUserOpId >= 0 ? (
                         <>
                             <HeaderSection item={userOpsData?.[showUserOpId]} network={network} loading={tableLoading} />
