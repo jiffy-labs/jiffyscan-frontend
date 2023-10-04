@@ -50,9 +50,6 @@ function User() {
     }, [session]);
 
     const isExpired = (expirationTime: number) => {
-        console.log('expirationTime', expirationTime);
-        console.log('Date.now()', Date.now());
-        console.log('return value', expirationTime < Date.now() / 1000);
         return expirationTime < Date.now() / 1000;
     };
 

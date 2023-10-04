@@ -214,7 +214,7 @@ export default function DeveloperDetails({
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody className="divide-y divide-dark-100">
-                                                                    <tr>
+                                                                    <tr key="sender">
                                                                         <td className="whitespace-nowrap text-black  [87%] py-[14px] px-3 text-sm leading-5">
                                                                             sender
                                                                         </td>
@@ -227,7 +227,7 @@ export default function DeveloperDetails({
                                                                             </span>
                                                                         </td>
                                                                     </tr>
-                                                                    <tr className="bg-gray-50">
+                                                                    <tr className="bg-gray-50" key="nonce">
                                                                         <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5 ">
                                                                             nonce
                                                                         </td>
@@ -240,7 +240,7 @@ export default function DeveloperDetails({
                                                                                 : item?.nonce}
                                                                         </td>
                                                                     </tr>
-                                                                    <tr>
+                                                                    <tr key="initCode">
                                                                         <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5">
                                                                             initCode
                                                                         </td>

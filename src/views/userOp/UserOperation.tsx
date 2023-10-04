@@ -25,25 +25,7 @@ import Table, { tableDataT } from '@/components/common/table/Table';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Paywall from '@/components/global/Paywall';
-import { useSessionContext } from '@/context/auth0Context';
-import { useSession } from 'next-auth/react';
-import { DefaultSession } from 'next-auth/core/types';
-
-declare module "next-auth" {
-    interface User {
-        email: string;
-        email_verified: boolean;
-        exp: number
-        name: string;
-        picture: string;
-        sub: string;
-        expires_at: number;
-    }
-  
-    interface Session extends DefaultSession {
-      user?: User;
-    }
-  }
+import { useUserSession } from '@/context/userSession';
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const passedTime = (time: number) => {
@@ -100,7 +82,7 @@ function RecentUserOps(props: any) {
     const router = useRouter();
     const [tableLoading, setTableLoading] = useState(true);
     const { selectedNetwork, setSelectedNetwork, addressMapping } = useConfig();
-    const { data: session } = useSession();
+    const [block, setBlock] = useState(false);
 
     const hash = props.slug && props.slug[0];
     const network = router.query && router.query.network;
@@ -110,21 +92,15 @@ function RecentUserOps(props: any) {
     const [responseData, setresponseData] = useState<PoweredBy>();
     const [metaData, setMetaData] = useState<metadata>();
     const [duplicateUserOpsRows, setDuplicateUserOpsRows] = useState<tableDataT['rows']>([] as tableDataT['rows']);
-    const [block, setBlock] = useState(true);
+    const { isLoggedIn } = useUserSession();
 
     useEffect(() => {
-        console.log('testing session',session?.user);
-        if (session?.user?.expires_at ? getBlockCondition(session.user.expires_at) : getBlockCondition(session?.user?.exp))
-            setBlock(false);        
+        setBlock(!isLoggedIn())       
     }, []);
 
-    useEffect(() => {   
-        console.log('testing session 22', session?.user);  
-        let expiryTime = session?.user?.expires_at ? session.user.expires_at : session?.user?.exp; 
-        // setBlock(session?.user);
-        console.log('expiry time 2', expiryTime);
-        setBlock((session?.user && expiryTime && expiryTime > Date.now() / 1000) ? false : true);
-    }, [session]);
+    useEffect(() => {
+        setBlock(!isLoggedIn());
+    }, [isLoggedIn]);
 
     async function returnUserOpData(hash: string, toast: any) {
         let currentTime = new Date().getTime();

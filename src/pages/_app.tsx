@@ -6,8 +6,9 @@ import { ConfigProvider } from '@/context/config';
 import { Analytics } from '@vercel/analytics/react';
 import '../styles/main.sass';
 import ReactGA from 'react-ga4';
-import { SessionProvider } from "next-auth/react"
+import { SessionProvider } from 'next-auth/react';
 import HeapAnalytics from '@/components/global/HeapAnalytics';
+import UserSessionStore from '@/context/userSession';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
     getLayout?: (page: ReactElement) => ReactNode;
@@ -20,14 +21,16 @@ type AppPropsWithLayout = AppProps & {
 const TRACKING_ID = 'G-8HQ9S4Z1YF';
 ReactGA.initialize(TRACKING_ID);
 
-export default function MyApp({ Component, pageProps: {session, ...pageProps} }: AppPropsWithLayout) {
+export default function MyApp({ Component, pageProps: { session, ...pageProps } }: AppPropsWithLayout) {
     // Use the layout defined at the page level, if available
     const getLayout = Component.getLayout ?? ((page) => page);
     return (
         <div>
             <SessionProvider session={session}>
-                <ConfigProvider>{getLayout(<Component {...pageProps} />)}</ConfigProvider>
-                <HeapAnalytics />
+                <UserSessionStore>
+                    <ConfigProvider>{getLayout(<Component {...pageProps} />)}</ConfigProvider>
+                    <HeapAnalytics />
+                </UserSessionStore>
             </SessionProvider>
             <Analytics />
         </div>
