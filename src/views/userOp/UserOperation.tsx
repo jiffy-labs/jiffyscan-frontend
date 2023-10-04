@@ -25,7 +25,7 @@ import Table, { tableDataT } from '@/components/common/table/Table';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Paywall from '@/components/global/Paywall';
-import { useSessionContext } from '@/context/session';
+import { useSessionContext } from '@/context/auth0Context';
 import { useSession } from 'next-auth/react';
 import { DefaultSession } from 'next-auth/core/types';
 
@@ -110,14 +110,16 @@ function RecentUserOps(props: any) {
     const [responseData, setresponseData] = useState<PoweredBy>();
     const [metaData, setMetaData] = useState<metadata>();
     const [duplicateUserOpsRows, setDuplicateUserOpsRows] = useState<tableDataT['rows']>([] as tableDataT['rows']);
-    const [block, setBlock] = useState(session?.user?.expires_at ? getBlockCondition(session.user.expires_at) : getBlockCondition(session?.user?.exp));
-
-    
+    const [block, setBlock] = useState(true);
 
     useEffect(() => {
-        let block = session?.user?.expires_at ? getBlockCondition(session.user.expires_at) : getBlockCondition(session?.user?.exp)
-        setBlock(block);
-    }, [session])
+        if (session?.user?.expires_at ? getBlockCondition(session.user.expires_at) : getBlockCondition(session?.user?.exp))
+            setBlock(false);        
+    }, []);
+
+    useEffect(() => {        
+        setBlock(session?.user?.expires_at ? getBlockCondition(session.user.expires_at): getBlockCondition(session?.user?.exp));
+    }, [session]);
 
     async function returnUserOpData(hash: string, toast: any) {
         let currentTime = new Date().getTime();

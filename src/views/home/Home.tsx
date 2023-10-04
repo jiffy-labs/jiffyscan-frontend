@@ -22,7 +22,7 @@ import { session } from 'next-auth/core/routes';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Paywall from '@/components/global/Paywall';
-import { useSessionContext, SessionContextType } from '@/context/session';
+import { useSessionContext, SessionContextType } from '@/context/auth0Context';
 import { DefaultSession } from 'next-auth';
 
 declare module 'next-auth' {
