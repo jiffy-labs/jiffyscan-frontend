@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import Button from '@/components/common/Button';
 import { useRouter } from 'next/router';
-import { useSessionContext } from '@/context/session';
+import { useSession, signIn, signOut } from 'next-auth/react';
 
 type PaywallProps = {
     showClose?: boolean;
@@ -11,14 +11,11 @@ type PaywallProps = {
 };
 
 function Paywall(props: PaywallProps) {
-    const { asPath } = useRouter();
-    const { login, logout } = useSessionContext();
-    const [close, setClose] = useState(false);
 
     if (!props.block) return null;
 
     return (
-        <div className="absolute z-10 flex flex-col items-center justify-center inset-x-1 bottom-1">
+        <div className="absolute z-10 flex flex-col items-center justify-center inset-x-1">
             <div className="relative p-6 text-center bg-white rounded-lg shadow-lg">
                 {props.showClose && <button
                     className="absolute text-gray-500 top-2 right-2 hover:text-gray-700"
@@ -32,9 +29,9 @@ function Paywall(props: PaywallProps) {
                 <p className="mb-8 text-gray-600">Sign In to Continue.</p>
                 <div className={'inline-flex'}>
                     <div className={'mr-4'}>
-                        <Button onClick={() => login('github', asPath)}>GITHUB</Button>
+                        <Button onClick={() => signIn('Github')}>GITHUB</Button>
                     </div>
-                    <Button onClick={() => login('twitter', asPath)}>TWITTER</Button>
+                    <Button onClick={() => signIn('twitter')}>TWITTER</Button>
                 </div>
             </div>
         </div>

@@ -1,5 +1,5 @@
 import IconImgButton from '@/components/common/icon_button/IconButton';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -10,8 +10,26 @@ import Button from '@mui/material/Button';
 import Logout from '@mui/icons-material/Logout';
 import Login from '@mui/icons-material/Login';
 import { useRouter } from 'next/router';
+import { useSession, signIn, signOut } from 'next-auth/react';
+import { DefaultSession } from 'next-auth';
 
-function User({ login, sessionTokens, user, logout }: { login: any; sessionTokens: any; user: any, logout: any }) {
+declare module 'next-auth' {
+    interface User {
+        email: string;
+        email_verified: boolean;
+        exp: number;
+        name: string;
+        picture: string;
+        sub: string;
+        expires_at: number;
+    }
+
+    interface Session extends DefaultSession {
+        user?: User;
+    }
+}
+
+function User() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -23,6 +41,19 @@ function User({ login, sessionTokens, user, logout }: { login: any; sessionToken
     const handleClose = (url?: string) => {
         setAnchorEl(null);
         url && router.push(url);
+    };
+
+    const { data: session } = useSession();
+
+    useEffect(() => {
+        console.log('next auth session', session);
+    }, [session]);
+
+    const isExpired = (expirationTime: number) => {
+        console.log('expirationTime', expirationTime);
+        console.log('Date.now()', Date.now());
+        console.log('return value', expirationTime < Date.now() / 1000);
+        return expirationTime < Date.now() / 1000;
     };
 
     // const dropdown = [
@@ -59,19 +90,25 @@ function User({ login, sessionTokens, user, logout }: { login: any; sessionToken
     };
     return (
         <div className="flex items-center gap-1">
-            {sessionTokens?.accessToken ? (
+            {((session?.user?.expires_at && !isExpired(session.user.expires_at)) ||
+                (session?.user?.exp && !isExpired(session?.user?.exp))) &&
+            session.user?.image ? (
                 <>
                     {/* <IconImgButton icon="/images/icon-container (1).svg" /> */}
                     <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                         <IconButton
                             onClick={handleClick}
                             size="small"
-                            style={{ height: '40px', width: '40px'}}
+                            style={{ height: '40px', width: '40px' }}
                             aria-controls={open ? 'user-menu' : undefined}
                             aria-haspopup="true"
                             aria-expanded={open ? 'true' : undefined}
                         >
-                            <img src={user ? user?.profilePicture :'/images/icon-container (2).svg'} style={{borderRadius: '50%'}} alt="user" />
+                            <img
+                                src={session.user?.image ? session.user.image : '/images/icon-container (2).svg'}
+                                style={{ borderRadius: '50%' }}
+                                alt="user"
+                            />
                         </IconButton>
                     </Box>
                     <Menu
@@ -99,7 +136,7 @@ function User({ login, sessionTokens, user, logout }: { login: any; sessionToken
                                 fullWidth
                                 color="inherit"
                                 variant="outlined"
-                                onClick={() => logout(router?.asPath ? router?.asPath : '/')}
+                                onClick={() => signOut()}
                                 startIcon={<Logout fontSize="inherit" />}
                             >
                                 Sign Out
@@ -114,20 +151,20 @@ function User({ login, sessionTokens, user, logout }: { login: any; sessionToken
                         color="inherit"
                         variant="outlined"
                         style={{ marginRight: '10px' }}
-                        onClick={() => login('twitter', router?.asPath ? router?.asPath : '/')}
+                        onClick={() => signIn('twitter')}
                         // onClick={() => router.push(`/login?callBack=${router?.asPath ? router?.asPath : '/'}`)}
-                        startIcon={<Login fontSize="inherit" />}
+                        startIcon={<img style={{ height: '20px', width: '20px' }} src="/images/twitter.svg" alt="" />}
                     >
-                        Sign In
+                        Twitter
                     </Button>
                     <Button
                         fullWidth
                         color="inherit"
                         style={{ marginRight: '10px' }}
                         variant="outlined"
-                        onClick={() => login('github', router?.asPath ? router?.asPath : '/')}
+                        onClick={() => signIn('github')}
                         // onClick={() => router.push(`/login?callBack=${router?.asPath ? router?.asPath : '/'}`)}
-                        startIcon={<img style={{height: '20px', width: '20px'}} src="/images/github.svg" alt="" />}
+                        startIcon={<img style={{ height: '20px', width: '20px' }} src="/images/github.svg" alt="" />}
                     >
                         GITHUB
                     </Button>

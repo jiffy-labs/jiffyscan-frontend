@@ -16,13 +16,13 @@ function APIKeys() {
     const [tableLoading] = useState(false);
     const [captionText, setCaptionText] = useState('');
     const { data: sessions } = useSession()
-    const { id_token, sub } = sessions?.user as { id_token: string; sub: string } || {};
+    const { id_token, sub } = sessions?.user as { id_token?: string, sub?: string } || {};
 
     useEffect(() => {
         const fetchData = async () => {
             if (!sub) return;
             try {
-                const { data } = await fetchAPIKeyList(id_token, sub);
+                const { data } = await fetchAPIKeyList(id_token ? id_token : "", sub);
                 if (Array.isArray(data.data.apiKeys)) {
                     const newRows = data.data.apiKeys.map((item :any) => ({
                         keys: item.value,
@@ -43,7 +43,7 @@ function APIKeys() {
     }, [apiKeysTable]);
 
     const handleCreateApiKey = () => {
-        createAPIKey(id_token, toast);
+        createAPIKey(id_token ? id_token : "", toast);
     }
 
     return (

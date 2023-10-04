@@ -4,6 +4,7 @@ import authorize from "@/lib/authorize";
 import jwt from "@/lib/jwtAuthCallBack";
 import manageSession from "@/lib/sessionCallBack";
 import TwitterProvider from "next-auth/providers/twitter";
+import GithubProvider from "next-auth/providers/github";
 
 const NEXTAUTH_URL = process.env.NEXTAUTH_URL;
 const COGNITO_REGION = process.env.NEXT_PUBLIC_COGNITO_REGION;
@@ -106,7 +107,11 @@ export const authOptions = {
             clientId: TWITTER_CLIENT_ID ? TWITTER_CLIENT_ID : "",
             clientSecret: TWITTER_CLIENT_SECRET ? TWITTER_CLIENT_SECRET : "",
             version: "2.0",
-          })
+          }),
+        GithubProvider({
+            clientId: GITHUB_CLIENT_ID ? GITHUB_CLIENT_ID : "",
+            clientSecret: GITHUB_CLIENT_SECRET ? GITHUB_CLIENT_SECRET : "",
+        })
         // CredentialsProvider({
         //     type: "credentials",
         //     id: 'Credentials_signIn',

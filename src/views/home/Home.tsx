@@ -1,39 +1,56 @@
 import Button from '@/components/common/Button';
-import Table, {tableDataT} from '@/components/common/table/Table';
+import Table, { tableDataT } from '@/components/common/table/Table';
 import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
 import RecentMetrics from '@/components/global/recent_metrics/RecentMetrics';
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import BundlesTable from './bundles_table.json';
 import BundlersTable from './bundlers_table.json';
 import PaymastersTable from './paymasters_table.json';
 import OperationsTable from './operations_table.json';
 import Searchblock from '../../components/global/searchblock/Searchblock';
 import NetworkSelector from '@/components/common/NetworkSelector';
-import {NETWORK_ICON_MAP} from '@/components/common/constants';
-import {
-    getLatestBundles,
-    getLatestUserOps,
-    getTopBundlers,
-    getTopPaymasters
-} from '@/components/common/apiCalls/jiffyApis';
-import {getFee, getTimePassed} from '@/components/common/utils';
-import {useConfig} from '../../context/config';
-import {ToastContainer, toast} from 'react-toastify';
+import { NETWORK_ICON_MAP } from '@/components/common/constants';
+import { getLatestBundles, getLatestUserOps, getTopBundlers, getTopPaymasters } from '@/components/common/apiCalls/jiffyApis';
+import { getFee, getTimePassed } from '@/components/common/utils';
+import { useConfig } from '../../context/config';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import InfoButton from '@/components/common/InfoButton';
 import Header from '@/components/common/Header';
-import {session} from "next-auth/core/routes";
-import {useSession} from "next-auth/react";
-import {useRouter} from "next/router";
+import { session } from 'next-auth/core/routes';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import Paywall from '@/components/global/Paywall';
 import { useSessionContext, SessionContextType } from '@/context/session';
+import { DefaultSession } from 'next-auth';
 
+declare module 'next-auth' {
+    interface User {
+        email: string;
+        email_verified: boolean;
+        exp: number;
+        name: string;
+        picture: string;
+        sub: string;
+        expires_at: number;
+    }
+
+    interface Session extends DefaultSession {
+        user?: User;
+    }
+}
+
+const getBlockCondition = (expTime: number | null | undefined): boolean => {
+    return expTime ? expTime < Date.now() / 1000 : true;
+};
 
 function Home() {
-    const {selectedNetwork, setSelectedNetwork} = useConfig();
-    const {sessionTokens, setSessionTokens, setUser, user, expiryStatus, login, logout} = useSessionContext();
+    const { selectedNetwork, setSelectedNetwork } = useConfig();
+    const { data: session } = useSession();
+
     const [block, setBlock] = useState(false);
+
     const [triggerBlock, setTriggerBlock] = useState(false);
     const [bundlesTable, setBundlesTable] = useState<tableDataT>(BundlesTable as tableDataT);
     const [operationsTable, setOperationsTable] = useState<tableDataT>(OperationsTable as tableDataT);
@@ -49,25 +66,26 @@ function Home() {
         refreshUserOpsTable(selectedNetwork);
         refreshBundlersTable(selectedNetwork);
         refreshPaymastersTable(selectedNetwork);
-        turnBlockOnAfterXSeconds(10);   
+        turnBlockOnAfterXSeconds(10);
     }, [selectedNetwork]);
 
     useEffect(() => {
-        if (sessionTokens?.accessToken) {
-            setBlock(false);
-        }    
-    }, [sessionTokens, triggerBlock])
+        if(triggerBlock) {
+            let block = session?.user?.expires_at ? getBlockCondition(session.user.expires_at) : getBlockCondition(session?.user?.exp)
+            setBlock(block);
+        }
+    }, [session, triggerBlock])
 
-    //turn on block after 10 seconds 
+    //turn on block after 10 seconds
     const turnBlockOnAfterXSeconds = (seconds: number) => {
         setTimeout(() => {
             blockView();
-        }, seconds*1000);
-    }
+        }, seconds * 1000);
+    };
 
     const blockView = () => {
         setTriggerBlock(true);
-    }
+    };
 
     const refreshBundlesTable = async (network: string) => {
         setBundleTableLoading(true);
@@ -144,24 +162,23 @@ function Home() {
             });
         });
         setLoading(false);
-        setOperationsTable({...operationsTable, rows: newRows.slice(0, 5)});
+        setOperationsTable({ ...operationsTable, rows: newRows.slice(0, 5) });
         setUserOpTableLoading(false);
     };
 
     return (
         <div>
-            <Navbar/>
+            <Navbar />
             <section className="py-6">
                 <div className="container">
                     <h1 className="mb-2 text-xl font-bold leading-8 md:text-3xl md:mb-4">
                         UserOp Explorer for{' '}
-                        <a href="https://eips.ethereum.org/EIPS/eip-4337" target="_blank"
-                           style={{textDecoration: 'underline'}}>
+                        <a href="https://eips.ethereum.org/EIPS/eip-4337" target="_blank" style={{ textDecoration: 'underline' }}>
                             4337
                         </a>
                     </h1>
                     <div>
-                        <Searchblock isNavbar={false}/>
+                        <Searchblock isNavbar={false} />
                     </div>
                 </div>
             </section>
@@ -172,84 +189,81 @@ function Home() {
                         headerText="Select network to explore"
                         infoText="Shows latest Activity for different entities in a chain"
                     />
-                    <NetworkSelector selectedNetwork={selectedNetwork} handleNetworkChange={setSelectedNetwork}
-                                     disabled={loading}/>
+                    <NetworkSelector selectedNetwork={selectedNetwork} handleNetworkChange={setSelectedNetwork} disabled={loading} />
                 </div>
             </div>
             {/* <RecentMetrics selectedNetwork={selectedNetwork} setLoading={setLoading} loading={loading} /> */}
             <div>
-            
-            <section className={`mb-12`}>
-            {block ? <Paywall showClose={true} block={block} setBlock={setBlock}/> : null} 
-                <div className={`container grid grid-cols-1 gap-10 md:grid-cols-2 ${block && 'blur'}`}>
-                
-                    <div>
-                        <Table
-                            {...(bundlesTable as tableDataT)}
-                            loading={bundleTableLoading}
-                            caption={{
-                                children: 'Recent Bundles',
-                                icon: '/images/swap-vertical-bold (1).svg',
-                                text: 'Recent bundles Processed by selected chain',
-                            }}
-                        />
+                <section className={`mb-12`}>
+                    {block ? <Paywall showClose={true} block={block} setBlock={setBlock} /> : null}
+                    <div className={`container grid grid-cols-1 gap-10 md:grid-cols-2 ${block && 'blur'}`}>
+                        <div>
+                            <Table
+                                {...(bundlesTable as tableDataT)}
+                                loading={bundleTableLoading}
+                                caption={{
+                                    children: 'Recent Bundles',
+                                    icon: '/images/swap-vertical-bold (1).svg',
+                                    text: 'Recent bundles Processed by selected chain',
+                                }}
+                            />
 
-                        <div className="mt-4">
-                            <Button href="/recentBundles">View all bundles</Button>
+                            <div className="mt-4">
+                                <Button href="/recentBundles">View all bundles</Button>
+                            </div>
+                        </div>
+                        <div>
+                            <Table
+                                {...(operationsTable as tableDataT)}
+                                loading={userOpTableLoading}
+                                caption={{
+                                    children: 'Recent User Operations',
+                                    icon: '/images/swap-vertical-bold (1).svg',
+                                    text: 'Recent User Operations Processed by selected chain',
+                                }}
+                            />
+                            <div className="mt-4">
+                                <Button href="/recentUserOps">View all User operations</Button>
+                            </div>
                         </div>
                     </div>
-                    <div>
-                        <Table
-                            {...(operationsTable as tableDataT)}
-                            loading={userOpTableLoading}
-                            caption={{
-                                children: 'Recent User Operations',
-                                icon: '/images/swap-vertical-bold (1).svg',
-                                text: 'Recent User Operations Processed by selected chain',
-                            }}
-                        />
-                        <div className="mt-4">
-                            <Button href="/recentUserOps">View all User operations</Button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section className={`mb-12 ${block && 'blur'}`}>
-                <div className="container grid grid-cols-1 gap-10 md:grid-cols-2">
-                    <div>
-                        <Table
-                            {...(bundlersTable as tableDataT)}
-                            loading={bundlerTableLoading}
-                            caption={{
-                                children: 'Top Bundlers',
-                                icon: '/images/swap-vertical-bold (1).svg',
-                                text: 'Top Bundlers by selected chain',
-                            }}
-                        />
+                </section>
+                <section className={`mb-12 ${block && 'blur'}`}>
+                    <div className="container grid grid-cols-1 gap-10 md:grid-cols-2">
+                        <div>
+                            <Table
+                                {...(bundlersTable as tableDataT)}
+                                loading={bundlerTableLoading}
+                                caption={{
+                                    children: 'Top Bundlers',
+                                    icon: '/images/swap-vertical-bold (1).svg',
+                                    text: 'Top Bundlers by selected chain',
+                                }}
+                            />
 
-                        <div className="mt-4">
-                            <Button href="/bundlers">View all Bundlers</Button>
+                            <div className="mt-4">
+                                <Button href="/bundlers">View all Bundlers</Button>
+                            </div>
+                        </div>
+                        <div>
+                            <Table
+                                {...(paymastersTable as tableDataT)}
+                                loading={paymasterTableLoading}
+                                caption={{
+                                    children: 'Top Paymasters',
+                                    icon: '/images/swap-vertical-bold (1).svg',
+                                    text: 'Top Paymaster by selected chain',
+                                }}
+                            />
+                            <div className="mt-4">
+                                <Button href="/paymasters">View all Paymasters</Button>
+                            </div>
                         </div>
                     </div>
-                    <div>
-                        <Table
-                            {...(paymastersTable as tableDataT)}
-                            loading={paymasterTableLoading}
-                            caption={{
-                                children: 'Top Paymasters',
-                                icon: '/images/swap-vertical-bold (1).svg',
-                                text: 'Top Paymaster by selected chain',
-                            }}
-                        />
-                        <div className="mt-4">
-                            <Button href="/paymasters">View all Paymasters</Button>
-                        </div>
-                    </div>
-                </div>
-            </section>
+                </section>
             </div>
-            <ToastContainer/>
-            <Footer/>
+            <ToastContainer />
+            <Footer />
         </div>
     );
 }

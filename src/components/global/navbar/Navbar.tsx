@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import Link from 'next/link';
 import IconButton from '@/components/common/icon_button/IconButton';
 import Searchblock from '../searchblock/Searchblock';
@@ -21,7 +21,7 @@ import { ChevronRightIcon, HomeIcon } from '@heroicons/react/20/solid';
 import { Button } from '@mui/material';
 import { useSessionContext } from '@/context/session';
 
-import { useSession, signIn, signOut } from "next-auth/react"
+
 
 
 interface NavbarProps {
@@ -29,13 +29,8 @@ interface NavbarProps {
 }
 
 function Navbar(props: NavbarProps) {
-    const { sessionTokens, setSessionTokens, setUser, user ,expiryStatus, login, logout } = useSessionContext();
     const { searchbar } = props;
-    const { data: session } = useSession()
-
-    console.log('sessions',sessionTokens)
-    console.log('loggedIn ? ', expiryStatus());
-
+    
     const [isOpen, setIsOpen] = React.useState(false);
     const [closeBanner, setCloseBanner] = React.useState(false);
 
@@ -43,7 +38,7 @@ function Navbar(props: NavbarProps) {
         setIsOpen((prevState) => !prevState);
     };
 
-
+    
 
     return (
         <Fragment>
@@ -71,8 +66,7 @@ function Navbar(props: NavbarProps) {
                     </div>
                     <div className="items-center justify-end flex-grow hidden gap-3 md:flex">
                         {searchbar && <Searchblock isNavbar={true} />}
-                        <User login={login} sessionTokens={sessionTokens} user={user} logout={logout}/>
-                        <button type="button" onClick={() => signIn("twitter")}>Testiing</button>
+                        <User/>
                     </div>
                     <div className="flex items-center md:hidden">
                         <button type="button" onClick={toggleDrawer}>
@@ -100,24 +94,19 @@ function Navbar(props: NavbarProps) {
                             <Logo />
                             <button type="button" onClick={toggleDrawer}>
                                 <img className="w-6 h-5 translate-y-[1px]" src="/images/xmark-solid.svg" alt="" />
-                                asdas
                             </button>
-                            <button type="button" onClick={() => signIn("Twitter")}>Testing</button>
                         </div>
                         <div className="mb-3">
                             <Pages />
                         </div>
                         <hr className="mb-2" />
-                        <Button onClick={() => signIn("Twitter")}>Testing</Button>
                         <div className="-ml-2">
-                            <Button onClick={() => signIn("Twitter")}>Testing</Button>
-                            <User login={login} sessionTokens={sessionTokens} user={user} logout={logout}/>
+                            <User/>
                         </div>
                     </div>
                     <div className="flex flex-col gap-1 justify-start [&_span]:text-dark-600/75">
                         <Copyright />
                         <Donations />
-                        asdasd
                     </div>
                 </div>
             </Drawer>

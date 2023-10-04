@@ -26,45 +26,24 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Paywall from '@/components/global/Paywall';
 import { useSessionContext } from '@/context/session';
+import { useSession } from 'next-auth/react';
+import { DefaultSession } from 'next-auth/core/types';
 
-interface UserInfo {
-    user: {
-        name: string;
+declare module "next-auth" {
+    interface User {
         email: string;
+        email_verified: boolean;
+        exp: number
+        name: string;
+        picture: string;
         sub: string;
-        id?: string;
-        at_hash?: string;
-        'cognito:groups'?: string[];
-        email_verified?: boolean;
-        iss?: string;
-        'cognito:username'?: string;
-        nonce?: string;
-        origin_jti?: string;
-        aud?: string;
-        identities?: {
-            userId: string;
-            providerName: string;
-            providerType: string;
-            issuer: null | string;
-            primary: string;
-            dateCreated: string;
-        }[];
-        token_use?: string;
-        auth_time?: number;
-        exp?: number;
-        iat?: number;
-        jti?: string;
-        provider?: string;
-        type?: string;
-        providerAccountId?: string;
-        id_token?: string;
-        access_token?: string;
-        refresh_token?: string;
-        expires_at?: number;
-        token_type?: string;
-    };
-    expires: string;
-}
+        expires_at: number;
+    }
+  
+    interface Session extends DefaultSession {
+      user?: User;
+    }
+  }
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const passedTime = (time: number) => {
@@ -113,14 +92,15 @@ const createDuplicateUserOpsRows = (userOps: UserOp[], handleRowClicked: (id: nu
     return newRows;
 };
 
-interface SessionUserInfo {
-    data: UserInfo;
-}
+const getBlockCondition = (expTime: number | null | undefined): boolean => {
+    return expTime ? expTime < Date.now() / 1000 : true;
+} 
+
 function RecentUserOps(props: any) {
     const router = useRouter();
     const [tableLoading, setTableLoading] = useState(true);
     const { selectedNetwork, setSelectedNetwork, addressMapping } = useConfig();
-    const {sessionTokens, setSessionTokens, setUser, user, expiryStatus, login, logout} = useSessionContext();
+    const { data: session } = useSession();
 
     const hash = props.slug && props.slug[0];
     const network = router.query && router.query.network;
@@ -130,14 +110,14 @@ function RecentUserOps(props: any) {
     const [responseData, setresponseData] = useState<PoweredBy>();
     const [metaData, setMetaData] = useState<metadata>();
     const [duplicateUserOpsRows, setDuplicateUserOpsRows] = useState<tableDataT['rows']>([] as tableDataT['rows']);
-    const [block, setBlock] = useState(sessionTokens?.accessToken ? false : true);
+    const [block, setBlock] = useState(session?.user?.expires_at ? getBlockCondition(session.user.expires_at) : getBlockCondition(session?.user?.exp));
 
+    
 
     useEffect(() => {
-        if (sessionTokens?.accessToken) {
-            setBlock(false);
-        }    
-    }, [sessionTokens])
+        let block = session?.user?.expires_at ? getBlockCondition(session.user.expires_at) : getBlockCondition(session?.user?.exp)
+        setBlock(block);
+    }, [session])
 
     async function returnUserOpData(hash: string, toast: any) {
         let currentTime = new Date().getTime();
