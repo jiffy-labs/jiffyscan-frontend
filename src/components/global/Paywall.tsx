@@ -29,7 +29,7 @@ function Paywall(props: PaywallProps) {
                 <p className="mb-8 text-gray-600">Sign In to Continue.</p>
                 <div className={'inline-flex'}>
                     <div className={'mr-4'}>
-                        <Button onClick={() => signIn('Github')}>GITHUB</Button>
+                        <Button onClick={() => signIn('github')}>GITHUB</Button>
                     </div>
                     <Button onClick={() => signIn('twitter')}>TWITTER</Button>
                 </div>
