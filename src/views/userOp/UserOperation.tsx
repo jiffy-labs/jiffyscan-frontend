@@ -24,7 +24,7 @@ import { useConfig } from '@/context/config';
 import Table, { tableDataT } from '@/components/common/table/Table';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Paywall from '@/components/global/Paywall';
+import LoginModal from '@/components/global/LoginModal';
 import { useUserSession } from '@/context/userSession';
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
@@ -222,7 +222,7 @@ function RecentUserOps(props: any) {
                 </div>
             </section>
             <div>
-                {!isLoggedIn() && <Paywall showClose={false} block={block} setBlock={setBlock}></Paywall>}
+                {!isLoggedIn() && <LoginModal showClose={false} block={block} setBlock={setBlock}></LoginModal>}
                 <div className={`${!isLoggedIn() && 'blur'}`}>
                     {showUserOpId >= 0 ? (
                         <>

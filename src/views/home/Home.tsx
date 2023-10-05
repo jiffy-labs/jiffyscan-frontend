@@ -21,7 +21,7 @@ import Header from '@/components/common/Header';
 import { session } from 'next-auth/core/routes';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import Paywall from '@/components/global/Paywall';
+import LoginModal from '@/components/global/LoginModal';
 import { useSessionContext, SessionContextType } from '@/context/auth0Context';
 import { DefaultSession } from 'next-auth';
 import { useUserSession } from '@/context/userSession';
@@ -139,7 +139,6 @@ function Home() {
                 fee: getFee(parseInt(bundler.actualGasCostSum), network),
             });
         });
-        console.log(newRows);
         setBundlersTable({ ...bundlersTable, rows: newRows });
         setBundlerTableLoading(false);
     };
@@ -195,7 +194,7 @@ function Home() {
             {/* <RecentMetrics selectedNetwork={selectedNetwork} setLoading={setLoading} loading={loading} /> */}
             <div>
                 <section className={`mb-12`}>
-                    {block ? <Paywall showClose={true} block={block} setBlock={setBlock} /> : null}
+                    {block ? <LoginModal showClose={true} block={block} setBlock={setBlock} /> : null}
                     <div className={`container grid grid-cols-1 gap-10 md:grid-cols-2 ${block && 'blur'}`}>
                         <div>
                             <Table

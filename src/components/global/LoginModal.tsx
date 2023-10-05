@@ -4,13 +4,13 @@ import Button from '@/components/common/Button';
 import { useRouter } from 'next/router';
 import { useSession, signIn, signOut } from 'next-auth/react';
 
-type PaywallProps = {
+type LoginModalProps = {
     showClose?: boolean;
     block: boolean;
     setBlock: (block: boolean) => void;
 };
 
-function Paywall(props: PaywallProps) {
+function LoginModal(props: LoginModalProps) {
 
     if (!props.block) return null;
 
@@ -38,4 +38,4 @@ function Paywall(props: PaywallProps) {
     );
 }
 
-export default Paywall;
+export default LoginModal;

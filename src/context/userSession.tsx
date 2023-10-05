@@ -3,7 +3,7 @@ import { set } from 'lodash';
 import { createContext, useContext, useState, useEffect } from 'react';
 import auth0 from 'auth0-js';
 import { DefaultSession, Session } from 'next-auth/core/types';
-import { useSession, signIn, signOut } from 'next-auth/react';
+import * as NextAuth from 'next-auth/react';
 // Creating the user context
 
 const UserSessionContext = createContext({} as UserSession);
@@ -22,7 +22,7 @@ export enum Social {
 
 // Making the function which will wrap the whole app using Context Provider
 export default function UserSessionStore({ children }: any) {
-    const {data: session} = useSession();
+    const {data: session} = NextAuth.useSession();
 
     const isLoggedIn = () => {
         const expiryTime = session?.user?.expires_at ? session.user.expires_at : session?.user?.exp;
@@ -30,11 +30,11 @@ export default function UserSessionStore({ children }: any) {
     }
 
     const signOut = () => {
-        signOut();
+        NextAuth.signOut();
     }
     
     const signIn = (social: Social) => {
-        signIn(social);
+        NextAuth.signIn(social);
     };
 
     return (
