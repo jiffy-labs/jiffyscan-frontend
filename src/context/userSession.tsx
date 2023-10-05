@@ -26,9 +26,6 @@ export default function UserSessionStore({ children }: any) {
 
     const isLoggedIn = () => {
         const expiryTime = session?.user?.expires_at ? session.user.expires_at : session?.user?.exp;
-        console.log('expiryTime', expiryTime);
-        console.log('currentTime', Date.now() / 1000);
-        console.log('expiryTime > (Date.now() / 1000)', expiryTime ? expiryTime  > (Date.now() / 1000) : false);
         return expiryTime ? expiryTime > (Date.now() / 1000) : false;
     }
 
