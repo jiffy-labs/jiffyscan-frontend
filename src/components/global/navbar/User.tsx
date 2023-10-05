@@ -29,10 +29,6 @@ function User() {
 
     const {session, signIn, signOut} = useUserSession();
 
-    useEffect(() => {
-        console.log('next auth session', session);
-    }, [session]);
-
     const isExpired = (expirationTime: number) => {
         return expirationTime < Date.now() / 1000;
     };
