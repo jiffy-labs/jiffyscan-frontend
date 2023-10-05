@@ -24,6 +24,7 @@ import { useRouter } from 'next/router';
 import Paywall from '@/components/global/Paywall';
 import { useSessionContext, SessionContextType } from '@/context/auth0Context';
 import { DefaultSession } from 'next-auth';
+import { useUserSession } from '@/context/userSession';
 
 declare module 'next-auth' {
     interface User {
@@ -47,7 +48,7 @@ const getBlockCondition = (expTime: number | null | undefined): boolean => {
 
 function Home() {
     const { selectedNetwork, setSelectedNetwork } = useConfig();
-    const { data: session } = useSession();
+    const { isLoggedIn } = useUserSession();
 
     const [block, setBlock] = useState(false);
 
@@ -71,10 +72,9 @@ function Home() {
 
     useEffect(() => {
         if(triggerBlock) {
-            let block = session?.user?.expires_at ? getBlockCondition(session.user.expires_at) : getBlockCondition(session?.user?.exp)
-            setBlock(block);
+            setBlock(!isLoggedIn());    
         }
-    }, [session, triggerBlock])
+    }, [triggerBlock])
 
     //turn on block after 10 seconds
     const turnBlockOnAfterXSeconds = (seconds: number) => {

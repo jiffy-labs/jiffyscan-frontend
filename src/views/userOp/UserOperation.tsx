@@ -82,8 +82,7 @@ function RecentUserOps(props: any) {
     const router = useRouter();
     const [tableLoading, setTableLoading] = useState(true);
     const { selectedNetwork, setSelectedNetwork, addressMapping } = useConfig();
-    const [block, setBlock] = useState(false);
-
+    
     const hash = props.slug && props.slug[0];
     const network = router.query && router.query.network;
     const [selectedColor, setSelectedColor] = useState(BUTTON_LIST[0].key);
@@ -93,6 +92,8 @@ function RecentUserOps(props: any) {
     const [metaData, setMetaData] = useState<metadata>();
     const [duplicateUserOpsRows, setDuplicateUserOpsRows] = useState<tableDataT['rows']>([] as tableDataT['rows']);
     const { isLoggedIn } = useUserSession();
+    
+    const [block, setBlock] = useState(!isLoggedIn());
 
     useEffect(() => {
         console.log(!isLoggedIn());
@@ -222,7 +223,7 @@ function RecentUserOps(props: any) {
                 </div>
             </section>
             <div>
-                {!isLoggedIn() && <Paywall showClose={false} block={() => !isLoggedIn()} setBlock={setBlock}></Paywall>}
+                {!isLoggedIn() && <Paywall showClose={false} block={block} setBlock={setBlock}></Paywall>}
                 <div className={`${!isLoggedIn() && 'blur'}`}>
                     {showUserOpId >= 0 ? (
                         <>
