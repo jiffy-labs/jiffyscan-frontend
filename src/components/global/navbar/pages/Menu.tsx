@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 
-function Menu(props: { name: string | any ; dropdown: string[][] | undefined; id: string; url?: string }) {
+function Menu(props: { name: string; dropdown: string[][] | undefined; id: string; url?: string }) {
     const { pathname, push } = useRouter();
     const [isOpen, setIsOpen] = useState(false);
     const current = props.url === pathname;

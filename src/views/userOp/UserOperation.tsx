@@ -1,38 +1,52 @@
 import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
-import {
-    getPoweredBy,
-    getUserOp,
-    getUserOpMetadata,
-    metadata,
-    PoweredBy,
-    Trace,
-    UserOp,
-    showToast,
-} from '@/components/common/apiCalls/jiffyApis';
+import { getPoweredBy, getUserOp, getUserOpMetadata, metadata, PoweredBy, Trace, UserOp, showToast } from '@/components/common/apiCalls/jiffyApis';
 import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import CopyButton from '@/components/common/copy_button/CopyButton';
+import Caption from '@/components/common/Caption';
+import IconText from '@/components/common/IconText';
+import Chip from '@/components/common/chip/Chip';
+import sx from './usertable.module.sass';
 import { useRouter } from 'next/router';
 import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
-import { NETWORK_ICON_MAP } from '@/components/common/constants';
+import { fallBack, NETWORK_ICON_MAP, NETWORK_LIST, NETWORK_SCANNER_MAP } from '@/components/common/constants';
 
+import Tooltip from '@mui/material/Tooltip';
+import Skeleton from 'react-loading-skeleton-2';
+import moment from 'moment';
 import HeaderSection from './HeaderSection';
 import TransactionDetails from './TransactionDetails';
 import DeveloperDetails from './DeveloperDetails';
 import { useConfig } from '@/context/config';
 import Table, { tableDataT } from '@/components/common/table/Table';
+import User from '@/components/global/navbar/User';
+import Spinner from '@/components/common/Spinner';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import LoginModal from '@/components/global/LoginModal';
-import { useUserSession } from '@/context/userSession';
+
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const passedTime = (time: number) => {
-    let currentTime = new Date().getTime();
+    let currentTime = (new Date()).getTime();
     let passedTime = currentTime - time;
     return passedTime;
-};
+}
+
+async function returnUserOpData(hash: string, toast: any) {
+    let currentTime = (new Date()).getTime();
+    let userOp = await getUserOp(hash, toast);
+    while (userOp.length === 0) {
+        await sleep(1000);
+        userOp = await getUserOp(hash, toast);
+        if (passedTime(currentTime) > 10000) {
+            showToast(toast, 'Error fetching data');
+            break;
+        }
+    }
+    return userOp;
+}
 
 // import Skeleton from '@/components/Skeleton';
 export const BUTTON_LIST = [
@@ -74,44 +88,20 @@ const createDuplicateUserOpsRows = (userOps: UserOp[], handleRowClicked: (id: nu
     return newRows;
 };
 
-const getBlockCondition = (expTime: number | null | undefined): boolean => {
-    return expTime ? expTime < Date.now() / 1000 : true;
-} 
-
 function RecentUserOps(props: any) {
     const router = useRouter();
     const [tableLoading, setTableLoading] = useState(true);
     const { selectedNetwork, setSelectedNetwork, addressMapping } = useConfig();
-    
+
     const hash = props.slug && props.slug[0];
     const network = router.query && router.query.network;
+
     const [selectedColor, setSelectedColor] = useState(BUTTON_LIST[0].key);
     const [userOpsData, setuserOpsData] = useState<UserOp[]>([] as UserOp[]);
     const [showUserOpId, setShowUserOpId] = useState<number>(0);
     const [responseData, setresponseData] = useState<PoweredBy>();
     const [metaData, setMetaData] = useState<metadata>();
     const [duplicateUserOpsRows, setDuplicateUserOpsRows] = useState<tableDataT['rows']>([] as tableDataT['rows']);
-    const { isLoggedIn } = useUserSession();
-    
-    const [block, setBlock] = useState(!isLoggedIn());
-
-    useEffect(() => {
-        setBlock(!isLoggedIn());
-    }, [isLoggedIn]);
-
-    async function returnUserOpData(hash: string, toast: any) {
-        let currentTime = new Date().getTime();
-        let userOp = await getUserOp(hash, toast, '');
-        while (userOp.length === 0) {
-            await sleep(1000);
-            userOp = await getUserOp(hash, toast);
-            if (passedTime(currentTime) > 10000) {
-                showToast(toast, 'Error fetching data');
-                break;
-            }
-        }
-        return userOp;
-    }
 
     const refreshUserOpsTable = async (name: string) => {
         if (userOpsData === undefined) {
@@ -125,9 +115,6 @@ function RecentUserOps(props: any) {
         let rows: tableDataT['rows'] = createDuplicateUserOpsRows(userOps, handleDuplicateRowClick);
         setDuplicateUserOpsRows(rows);
         if (userOps.length > 1) setShowUserOpId(-1);
-        else {
-            if (userOps[0].block) setBlock(true);
-        }
 
         if (userOps[0] && userOps[0].network) {
             setSelectedNetwork(userOps[0].network);
@@ -158,7 +145,7 @@ function RecentUserOps(props: any) {
     const fetchUserOpMetadata = async (hash: string, network: string) => {
         const metaData = await getUserOpMetadata(hash as string, network, toast);
         setMetaData(metaData);
-    };
+    }
 
     const fetchPoweredBy = async () => {
         const beneficiary =
@@ -176,7 +163,7 @@ function RecentUserOps(props: any) {
     }, []);
 
     useEffect(() => {
-        if (showUserOpId >= 0 && userOpsData.length > showUserOpId) {
+        if (showUserOpId>=0 && userOpsData.length > showUserOpId){
             fetchUserOpMetadata(userOpsData[showUserOpId].userOpHash, userOpsData[showUserOpId].network);
         }
     }, [userOpsData, showUserOpId]);
@@ -191,17 +178,10 @@ function RecentUserOps(props: any) {
                     <div className="flex flex-row">
                         <Link href="/" className="text-gray-500">
                             <ArrowBackIcon
-                                style={{
-                                    height: '15px',
-                                    width: '15px',
-                                    marginRight: '20px',
-                                    marginLeft: '10px',
-                                    marginBottom: '3px',
-                                }}
+                                style={{ height: '15px', width: '15px', marginRight: '20px', marginLeft: '10px', marginBottom: '3px' }}
                             />
                         </Link>
-
-                        <Breadcrumbs aria-label="breadcrumb" className="font-['Roboto']">
+                        <Breadcrumbs aria-label="breadcrumb">
                             <Link underline="hover" color="inherit" href={'/' + (selectedNetwork ? '?network=' + selectedNetwork : '')}>
                                 Home
                             </Link>
@@ -221,51 +201,48 @@ function RecentUserOps(props: any) {
                     </div>
                 </div>
             </section>
-            <div>
-                {!isLoggedIn() && <LoginModal showClose={false} block={block} setBlock={setBlock}></LoginModal>}
-                <div className={`${!isLoggedIn() && 'blur'}`}>
-                    {showUserOpId >= 0 ? (
-                        <>
-                            <HeaderSection item={userOpsData?.[showUserOpId]} network={network} loading={tableLoading} />
-                            <TransactionDetails
-                                tableLoading={tableLoading}
-                                skeletonCards={skeletonCards}
-                                item={userOpsData?.[showUserOpId]}
-                                responseData={responseData}
-                                addressMapping={addressMapping}
-                                metaData={metaData}
-                                setMetadata={setMetaData}
-                                selectedNetwork={selectedNetwork}
+            <>
+                {showUserOpId >= 0 ? (
+                    <>
+                        <HeaderSection item={userOpsData?.[showUserOpId]} network={network} loading={tableLoading} />
+                        <TransactionDetails
+                            tableLoading={tableLoading}
+                            skeletonCards={skeletonCards}
+                            item={userOpsData?.[showUserOpId]}
+                            responseData={responseData}
+                            addressMapping={addressMapping}
+                            metaData={metaData}
+                            setMetadata={setMetaData}
+                            selectedNetwork={selectedNetwork}
+                        />
+                        <DeveloperDetails
+                            tableLoading={tableLoading}
+                            skeletonCards1={skeletonCards1}
+                            item={userOpsData?.[showUserOpId]}
+                            selectedColor={selectedColor}
+                            BUTTON_LIST={BUTTON_LIST}
+                            setSelectedColor={setSelectedColor}
+                            selectedNetwork={selectedNetwork}
+                            metaData={metaData}
+                        />
+                    </>
+                ) : (
+                    showUserOpId === -1 && (
+                        <div className="container mb-16">
+                            <Table
+                                columns={columns}
+                                rows={duplicateUserOpsRows}
+                                loading={tableLoading}
+                                caption={{
+                                    children: 'Duplicate User Operations',
+                                    icon: '/images/cube.svg',
+                                    text: 'Approx Number of Operations Processed in the selected chain',
+                                }}
                             />
-                            <DeveloperDetails
-                                tableLoading={tableLoading}
-                                skeletonCards1={skeletonCards1}
-                                item={userOpsData?.[showUserOpId]}
-                                selectedColor={selectedColor}
-                                BUTTON_LIST={BUTTON_LIST}
-                                setSelectedColor={setSelectedColor}
-                                selectedNetwork={selectedNetwork}
-                                metaData={metaData}
-                            />
-                        </>
-                    ) : (
-                        showUserOpId === -1 && (
-                            <div className="container mb-16">
-                                <Table
-                                    columns={columns}
-                                    rows={duplicateUserOpsRows}
-                                    loading={tableLoading}
-                                    caption={{
-                                        children: 'Duplicate User Operations',
-                                        icon: '/images/cube.svg',
-                                        text: 'Approx Number of Operations Processed in the selected chain',
-                                    }}
-                                />
-                            </div>
-                        )
-                    )}
-                </div>
-            </div>
+                        </div>
+                    )
+                )}
+            </>
             <ToastContainer />
             <Footer />
         </div>

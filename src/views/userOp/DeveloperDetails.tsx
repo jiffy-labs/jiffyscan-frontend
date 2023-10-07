@@ -151,7 +151,9 @@ export default function DeveloperDetails({
                                                                 </div>
                                                             </div>
                                                             <div
-                                                                className="overflow-auto flex-1 max-h-[290px] custom-scroll bg-white border-dark-200 rounded border ml-[16px]"
+                                                                className="overflow-auto flex-1 max-h-[290px] 
+                                            custom-scroll bg-white border-dark-200 rounded border
+                                            ml-[16px]"
                                                             >
                                                                 {item?.input}
                                                             </div>
@@ -167,7 +169,8 @@ export default function DeveloperDetails({
                                                             <div className="flex gap-1">
                                                                 {BUTTON_LIST.map(({ name, key }, index) => (
                                                                     <Chip
-                                                                        className={`text-white table-tab py-[6px] px-3 ${sx.tab}`}
+                                                                        className={`
+                                        text-white table-tab py-[6px] px-3 ${sx.tab}`}
                                                                         onClick={() => setSelectedColor(key)}
                                                                         key={index}
                                                                         color={`${selectedColor === key ? 'blue-700' : 'white'}`}
@@ -214,7 +217,7 @@ export default function DeveloperDetails({
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody className="divide-y divide-dark-100">
-                                                                    <tr key="sender">
+                                                                    <tr>
                                                                         <td className="whitespace-nowrap text-black  [87%] py-[14px] px-3 text-sm leading-5">
                                                                             sender
                                                                         </td>
@@ -227,7 +230,7 @@ export default function DeveloperDetails({
                                                                             </span>
                                                                         </td>
                                                                     </tr>
-                                                                    <tr className="bg-gray-50" key="nonce">
+                                                                    <tr className="bg-gray-50">
                                                                         <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5 ">
                                                                             nonce
                                                                         </td>
@@ -240,7 +243,7 @@ export default function DeveloperDetails({
                                                                                 : item?.nonce}
                                                                         </td>
                                                                     </tr>
-                                                                    <tr key="initCode">
+                                                                    <tr>
                                                                         <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5">
                                                                             initCode
                                                                         </td>
@@ -358,6 +361,7 @@ export default function DeveloperDetails({
                                                                                                         <td className="text-black [87%] text-left text-sm leading-5 py-[14px] px-3">
                                                                                                             {index + 1}: callData
                                                                                                         </td>
+
                                                                                                         <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
                                                                                                             {item?.callData[index]}
                                                                                                         </td>
@@ -410,6 +414,7 @@ export default function DeveloperDetails({
                                                                                 : item?.verificationGasLimit}
                                                                         </td>
                                                                     </tr>
+
                                                                     <tr>
                                                                         <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5">
                                                                             preVerificationGas

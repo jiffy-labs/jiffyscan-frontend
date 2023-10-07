@@ -47,6 +47,7 @@ export function ConfigProvider({ children }: Props) {
     useEffect(() => {
         // if (query?.network == selectedNetwork) return;
         if (!selectedNetwork) return;
+        console.log('here ????')
 
         const params = new URLSearchParams(window.location.search);
         const queries: {[key: string]: string}  = {}

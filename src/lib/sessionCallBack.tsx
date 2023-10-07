@@ -2,7 +2,7 @@ import {DefaultSession, Session} from "next-auth";
 import {JWT} from "next-auth/jwt";
 
 export default async function manageSession(params: {
-    session: any;
+    session: Session;
     token: JWT;
     user: any; // Replace with the appropriate user type
     newSession: any; // Replace with the appropriate session type

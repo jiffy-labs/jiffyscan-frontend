@@ -129,6 +129,7 @@ function TopBundlers(props: any) {
                 fee: getFee(parseInt(bundler.actualGasCostSum), network),
             });
         });
+        console.log(newRows);
         setTopBundlersTable({ ...topBundlersTable, rows: newRows });
         setTableLoading(false);
     };

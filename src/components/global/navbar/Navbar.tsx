@@ -1,11 +1,10 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import Link from 'next/link';
 import IconButton from '@/components/common/icon_button/IconButton';
 import Searchblock from '../searchblock/Searchblock';
 import Pages from './pages/Pages';
 import Logo from '@/components/common/Logo';
 import dynamic from 'next/dynamic';
-
 const Drawer = dynamic(
     import('react-modern-drawer').then((mod) => mod.default),
     { ssr: false },
@@ -18,7 +17,6 @@ import Copyright from '../footer/Copyright';
 import Donations from '../footer/Donations';
 import CloseIcon from '@mui/icons-material/Close';
 import { ChevronRightIcon, HomeIcon } from '@heroicons/react/20/solid';
-import { Button } from '@mui/material';
 
 interface NavbarProps {
     searchbar?: boolean;
@@ -29,7 +27,6 @@ function Navbar(props: NavbarProps) {
 
     const [isOpen, setIsOpen] = React.useState(false);
     const [closeBanner, setCloseBanner] = React.useState(false);
-
     const toggleDrawer = () => {
         setIsOpen((prevState) => !prevState);
     };

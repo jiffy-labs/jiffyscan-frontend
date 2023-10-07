@@ -16,8 +16,6 @@ import TransactionDetails from './TransactionDetails';
 import HeaderSection from './HeaderSection';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useUserSession } from "@/context/userSession";
-import LoginModal from '@/components/global/LoginModal';
 
 // import Skeleton from '@/components/Skeleton';
 export const BUTTON_LIST = [
@@ -97,14 +95,6 @@ function Bundler(props: any) {
     const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE);
     const [captionText, setCaptionText] = useState('N/A User Ops found');
 
-    const { isLoggedIn } = useUserSession();
-
-    const [block, setBlock] = useState(!isLoggedIn());
-
-    useEffect(() => {
-        setBlock(!isLoggedIn());
-    }, [isLoggedIn]);
-
     // handling table page change. Everytime the pageNo change, or pageSize change this function will fetch new data and update it.
     const updateRowsData = async (network: string, pageNo: number, pageSize: number) => {
         setTableLoading(true);
@@ -126,6 +116,7 @@ function Bundler(props: any) {
     // load the account details.
     const loadBundleDetails = async (name: string, network: string) => {
         setTableLoading(true);
+        console.log('checking for hash ', name, ' and network ', network, ' in useEffect');
 
         const bundleDetail = await getBundleDetails(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo, toast);
         const bundleInfo = createBundleInfoObject(bundleDetail);
@@ -190,9 +181,8 @@ function Bundler(props: any) {
                 </div>
             </section>
             <HeaderSection item={bundleInfo} network={network} />
-            {!isLoggedIn() && <LoginModal showClose={false} block={block} setBlock={setBlock}></LoginModal>}
-            <TransactionDetails className={`${!isLoggedIn() && 'blur'}`} item={bundleInfo} network={network} tableLoading={tableLoading}/>
-            <div className={`${!isLoggedIn() && 'blur'} container px-0`}>
+            <TransactionDetails item={bundleInfo} network={network} tableLoading={tableLoading}/>
+            <div className="container px-0">
                 <Table
                     rows={rows}
                     columns={columns}
