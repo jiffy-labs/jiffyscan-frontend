@@ -83,12 +83,12 @@ export const NETWORK_LIST = [
         iconPath: '/images/gnosis-logo.svg',
         iconPathInverted: '/images/gnosis-logo.svg',
     },
-    {
-        name: 'Base',
-        key: 'base',
-        iconPath: '/images/base-logo.svg',
-        iconPathInverted: '/images/base-logo.svg',
-    },
+    // {
+    //     name: 'Base',
+    //     key: 'base',
+    //     iconPath: '/images/base-logo.svg',
+    //     iconPathInverted: '/images/base-logo.svg',
+    // },
     {
         name: 'Base Testnet',
         key: 'base-testnet',
@@ -101,12 +101,12 @@ export const NETWORK_LIST = [
         iconPath: '/images/bsc-logo.svg',
         iconPathInverted: '/images/bsc-logo.svg',
     },
-    {
-        name: 'Arbitrum One',
-        key: 'arbitrum-one',
-        iconPath: '/images/arbitrum-logo.svg',
-        iconPathInverted: '/images/arbitrum-logo.svg',
-    },
+    // {
+    //     name: 'Arbitrum One',
+    //     key: 'arbitrum-one',
+    //     iconPath: '/images/arbitrum-logo.svg',
+    //     iconPathInverted: '/images/arbitrum-logo.svg',
+    // },
     {
         name: 'Celo Alfajores',
         key: 'celo-alfajores',
