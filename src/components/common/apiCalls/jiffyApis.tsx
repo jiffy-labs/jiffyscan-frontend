@@ -33,6 +33,7 @@ export interface UserOp {
     paymasterAndData: string | null;
     signature: string | null;
     entryPoint: string;
+    block: true;
     erc20Transfers: {
         contractAddress: string;
         from: string;
@@ -301,7 +302,9 @@ const performApiCall = (network: string): boolean => {
 
 const PRO_API = "https://api.jiffyscan.xyz"
 const DEV_API = "https://api-dev.jiffyscan.xyz"
-const API_URL = process.env.ENV === 'production' ? PRO_API : DEV_API;
+const API_URL = process.env.NEXT_PUBLIC_APP_ENV === 'production' ? PRO_API : DEV_API;
+const X_API_Key = process.env.NEXT_PUBLIC_X_API_KEY ;
+
 
 console.log(API_URL)
 
@@ -309,6 +312,15 @@ console.log(API_URL)
 export const showToast = (toast: any, message: string, type?: string) => {
     if (type == 'warning') {
         toast.warning(message, {
+            position: 'bottom-left',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            theme: 'colored',
+        });
+    } else if (type == 'success') {
+        toast.success(message, {
             position: 'bottom-left',
             autoClose: 5000,
             hideProgressBar: false,
@@ -556,9 +568,20 @@ export const getGlobalMetrics = async (selectedNetwork: string, toast: any): Pro
     return {} as GlobalCounts;
 };
 
-export const getUserOp = async (userOpHash: string, toast: any): Promise<UserOp[]> => {
-    const response = await fetch(API_URL+'/v0/getUserOp?hash=' + userOpHash, {
-        headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
+export const getUserOp = async (userOpHash: string, toast: any, Authorization?: string): Promise<UserOp[]> => {
+    type Headers = {
+        "x-api-key": string,
+        Authorization?: string,
+    }
+    const header = {
+        'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5'
+    } as Headers;
+
+    if (Authorization) {
+        header['Authorization'] = Authorization
+    }
+    const response = await fetch(API_URL + '/v0/getUserOp?hash=' + userOpHash, {
+        headers: header
     });
     if (response.status != 200) {
         showToast(toast, 'Error fetching data');
@@ -810,7 +833,6 @@ export const getPayMasterDetails = async (
         }
         return data.paymasterDetail as PayMasterActivity;
     }
-
     return {} as PayMasterActivity;
 };
 export const getPoweredBy = async (beneficiary: string, paymaster: string, toast: any): Promise<PoweredBy> => {
@@ -923,7 +945,6 @@ export const getBundleDetails = async (
         if (Object.keys(data.bundleDetails).length == 0) {
             showToast(toast, 'Error fetching data');
         }
-
         return data.bundleDetails as Bundle;
     }
     return {} as Bundle;
@@ -962,4 +983,42 @@ export const getBundlerDetails = async (
         return data.bundlerDetails as Bundle;
     }
     return {} as Bundle;
+};
+
+
+
+export const fetchAPIKeyList = async (Authorization :string, sub :string) => {
+    let config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: `${API_URL}/user/getxapikey?usersub=${sub}`,
+        headers: {
+            Authorization: Authorization,
+            'x-api-key': X_API_Key,
+        },
+    };
+    return await axios.request(config)
+}
+
+export const createAPIKey = async (Authorization :string, toast:any) => {
+    let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: `${API_URL}/user/createxapikey`,
+        headers: {
+            Authorization,
+            'x-api-key': X_API_Key,
+        },
+    };
+    try {
+       return  await axios.request(config).then(()=>{
+           showToast(toast,    `API Key Created SuccessFully` , "success");
+       });
+    } catch (error: any) {
+        if (error.request) {
+            showToast(toast, `No response received, ${error.request}`);
+        } else {
+            console.error('Error:', error.message);
+        }
+    }
 };

@@ -11,8 +11,9 @@ function ApiKeys() {
 
     return (
         <div>
-            <SEO/>
-            <ManageApi />
+            {/* <SEO/>
+            <ManageApi /> */}
+            test
         </div>
     );
 }

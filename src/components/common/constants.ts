@@ -107,12 +107,12 @@ export const NETWORK_LIST = [
     //     iconPath: '/images/arbitrum-logo.svg',
     //     iconPathInverted: '/images/arbitrum-logo.svg',
     // },
-    {
-        name: 'Celo Alfajores',
-        key: 'celo-alfajores',
-        iconPath: '/images/Celo_logo_black.svg',
-        iconPathInverted: '/images/celo_logo.svg',
-    },
+    // {
+    //     name: 'Celo Alfajores',
+    //     key: 'celo-alfajores',
+    //     iconPath: '/images/Celo_logo_black.svg',
+    //     iconPathInverted: '/images/celo_logo.svg',
+    // },
 ];
 
 export const PAGE_SIZE_LIST: number[] = [10, 25, 50, 100];
