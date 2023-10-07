@@ -35,15 +35,15 @@ const RenderIconWithText = ({ name }: { name: keyof typeof iconList }) => {
     );
 };
 
-export function InfoSection({ icon, title, content } :any) {
+export function InfoSection({ icon, title, content, isFlex } :any) {
     return (
         <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px] pb-[2px]">
             <RenderIconWithText  name={icon} />
-            <div className="flex-1 gap-2 break-words">
+            <div className="flex-1 gap-2 break-words ">
                 <div>
                     <p className="text-[14px] text-[#455A64] md:hidden block">{title}</p>
                 </div>
-                <div className="justify-between block md:flex">{content}</div>
+                <div className={`justify-between ${isFlex ? "flex md:block" : "block md:flex"}`}>{content}</div>
             </div>
         </div>
     );
