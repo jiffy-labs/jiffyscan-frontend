@@ -15,7 +15,7 @@ import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
 import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
-import { NETWORK_ICON_MAP } from '@/components/common/constants';
+import { NETWORKS_WHITELISTED_FOR_NO_LOGIN, NETWORK_ICON_MAP } from '@/components/common/constants';
 
 import HeaderSection from './HeaderSection';
 import TransactionDetails from './TransactionDetails';
@@ -222,8 +222,8 @@ function RecentUserOps(props: any) {
                 </div>
             </section>
             <div>
-                {!isLoggedIn() && <LoginModal showClose={false} block={block} setBlock={setBlock}></LoginModal>}
-                <div className={`${!isLoggedIn() && 'blur'}`}>
+                {!(isLoggedIn() || (selectedNetwork && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(selectedNetwork))) && <LoginModal showClose={false} block={block} setBlock={setBlock}></LoginModal>}
+                <div className={`${!(isLoggedIn() || (selectedNetwork && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(selectedNetwork))) && 'blur'}`}>
                     {showUserOpId >= 0 ? (
                         <>
                             <HeaderSection item={userOpsData?.[showUserOpId]} network={network} loading={tableLoading} />

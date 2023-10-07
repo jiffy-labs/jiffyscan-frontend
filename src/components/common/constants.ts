@@ -83,12 +83,12 @@ export const NETWORK_LIST = [
         iconPath: '/images/gnosis-logo.svg',
         iconPathInverted: '/images/gnosis-logo.svg',
     },
-    // {
-    //     name: 'Base',
-    //     key: 'base',
-    //     iconPath: '/images/base-logo.svg',
-    //     iconPathInverted: '/images/base-logo.svg',
-    // },
+    {
+        name: 'Base',
+        key: 'base',
+        iconPath: '/images/base-logo.svg',
+        iconPathInverted: '/images/base-logo.svg',
+    },
     {
         name: 'Base Testnet',
         key: 'base-testnet',
@@ -101,18 +101,27 @@ export const NETWORK_LIST = [
         iconPath: '/images/bsc-logo.svg',
         iconPathInverted: '/images/bsc-logo.svg',
     },
-    // {
-    //     name: 'Arbitrum One',
-    //     key: 'arbitrum-one',
-    //     iconPath: '/images/arbitrum-logo.svg',
-    //     iconPathInverted: '/images/arbitrum-logo.svg',
-    // },
+    {
+        name: 'Arbitrum One',
+        key: 'arbitrum-one',
+        iconPath: '/images/arbitrum-logo.svg',
+        iconPathInverted: '/images/arbitrum-logo.svg',
+    },
     // {
     //     name: 'Celo Alfajores',
     //     key: 'celo-alfajores',
     //     iconPath: '/images/Celo_logo_black.svg',
     //     iconPathInverted: '/images/celo_logo.svg',
     // },
+];
+
+export const NETWORKS_WHITELISTED_FOR_NO_LOGIN = [
+    "mainnet",
+    "goerli",
+    "sepolia",
+    "optimism-goerli",
+    "optimism",
+    "fuse"
 ];
 
 export const PAGE_SIZE_LIST: number[] = [10, 25, 50, 100];
@@ -129,14 +138,14 @@ export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
     mumbai: '/images/polygon-mumbai-icon.svg',
     'optimism-goerli': '/images/icon-container (6).svg',
     optimism: '/images/icon-container (6).svg',
-    // 'arbitrum-one': '/images/arbitrum-logo.svg',
+    'arbitrum-one': '/images/arbitrum-logo.svg',
     'arbitrum-goerli': '/images/arbitrum-logo.svg',
     'avalanche': '/images/avalanche-logo-red.svg',
     'avalanche-fuji': '/images/avalanche-logo-red.svg',
     'fantom': '/images/fantom-logo.svg',
     'fantom-testnet': '/images/fantom-logo.svg',
     'base-testnet': '/images/base-logo.svg',
-    // 'base': '/images/base-logo.svg',
+    'base': '/images/base-logo.svg',
     'gnosis': '/images/gnosis-logo.svg',
     'bsc': '/images/bsc-logo.svg',
     'fuse': '/images/fuse-logo.svg',

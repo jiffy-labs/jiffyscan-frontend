@@ -7,7 +7,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
 import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
 import Token from '@/components/common/Token';
-import { NETWORK_ICON_MAP } from '@/components/common/constants';
+import { NETWORKS_WHITELISTED_FOR_NO_LOGIN, NETWORK_ICON_MAP } from '@/components/common/constants';
 import Skeleton from 'react-loading-skeleton-2';
 import CopyButton from '@/components/common/copy_button/CopyButton';
 import Table, { tableDataT } from '@/components/common/table/Table';
@@ -190,9 +190,9 @@ function Bundler(props: any) {
                 </div>
             </section>
             <HeaderSection item={bundleInfo} network={network} />
-            {!isLoggedIn() && <LoginModal showClose={false} block={block} setBlock={setBlock}></LoginModal>}
-            <TransactionDetails className={`${!isLoggedIn() && 'blur'}`} item={bundleInfo} network={network} tableLoading={tableLoading}/>
-            <div className={`${!isLoggedIn() && 'blur'} container px-0`}>
+            {!(isLoggedIn() || (network && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(network))) && <LoginModal showClose={false} block={block} setBlock={setBlock}></LoginModal>}
+            <TransactionDetails className={`${!(isLoggedIn() || (network && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(network))) && 'blur'}`} item={bundleInfo} network={network} tableLoading={tableLoading}/>
+            <div className={`${!(isLoggedIn() || (network && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(network))) && 'blur'} container px-0`}>
                 <Table
                     rows={rows}
                     columns={columns}
