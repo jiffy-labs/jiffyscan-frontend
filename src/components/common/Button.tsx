@@ -2,12 +2,23 @@ import Link from 'next/link';
 import React, { ReactNode } from 'react';
 
 interface ButtonProps {
-    href: string;
+    href?: string;
     children?: ReactNode;
+    onClick?: () => void;
 }
 
 function Button(props: ButtonProps) {
-    const { href, children } = props;
+    const { href, children, onClick } = props;
+
+    if (!href) return (
+        <button
+            onClick={onClick}
+            className="font-medium border border-dark-200 text-md gap-2 inline-flex items-center tracking-[1.25px] pt-[9px] pb-[9px] px-4 uppercase hover:no-underline rounded bg-white"
+        >
+            <span>{children}</span>
+            <img className="-translate-y-[1px]" src="/images/chevron-right.svg" alt="" />
+        </button>
+    );
 
     return (
         <Link

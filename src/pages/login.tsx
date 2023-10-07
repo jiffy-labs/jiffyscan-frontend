@@ -19,7 +19,7 @@ function Login() {
         <div>
             <SEO/>
             {/* <TopPaymasters /> */}
-            <LoginComponent/>
+            {/* <LoginComponent/> */}
         </div>
     );
 }
