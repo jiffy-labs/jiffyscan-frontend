@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Button from '@/components/common/Button';
 import { useRouter } from 'next/router';
 import { useSession, signIn, signOut } from 'next-auth/react';
+import { Social } from '@/context/userSession';
 
 type LoginModalProps = {
     showClose?: boolean;
@@ -29,9 +30,9 @@ function LoginModal(props: LoginModalProps) {
                 <p className="mb-8 text-gray-600">Sign In to Continue.</p>
                 <div className={'inline-flex'}>
                     <div className={'mr-4'}>
-                        <Button onClick={() => signIn('github')}>GITHUB</Button>
+                        <Button onClick={() => signIn(Social.GITHUB)}>GITHUB</Button>
                     </div>
-                    <Button onClick={() => signIn('twitter')}>TWITTER</Button>
+                    <Button onClick={() => signIn(Social.TWITTER)}>TWITTER</Button>
                 </div>
             </div>
         </div>
