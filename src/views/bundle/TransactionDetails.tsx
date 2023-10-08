@@ -11,13 +11,13 @@ import { useRouter } from 'next/router';
 
 import React, { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton-2';
-export default function TransactionDetails({ item, network, tableLoading }: any) {
+export default function TransactionDetails({ item, network, tableLoading, block }: any) {
     
     let skeletonCards = Array(3).fill(0);
     const router = useRouter();
     return (
-        <div>
-            <section className="mt-[48px] px-3">
+        <div >
+            <section className={`${block && 'blur'} mt-[48px] px-3`}>
                 <div className="container px-0">
                     <div>
                         <Caption icon={'/images/cube.svg'} text={''}>

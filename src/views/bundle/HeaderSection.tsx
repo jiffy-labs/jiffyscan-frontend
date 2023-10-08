@@ -4,10 +4,10 @@ import { getExplorerLogo } from '@/components/common/utils';
 import Link from 'next/link';
 import React from 'react';
 
-export default function HeaderSection({ item, network }: any) {
+export default function HeaderSection({ item, network, block }: any) {
     return (
         <div>
-            <section className="px-3 ">
+            <section className={`${block && "blur"} px-3 `}>
                 <div className="container  bg-white rounded shadow-200 px-[16px] py-[12px]">
                     <h3 className="text-[15px]  leading-[28px] font-bold text-dark-600">Bundle</h3>
                     <div className="md:flex items-center gap-4 pt-[14px] pb-[2px]">
