@@ -234,7 +234,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                                 <>
                                                     <div className="flex items-center gap-[10px]">
                                                         <RenderTextCopyLink
-                                                            text={item?.sender}
+                                                            text={item?.paymaster}
                                                             network={item?.network}
                                                             type="paymaster"
                                                             active={item?.paymaster === '0x0000000000000000000000000000000000000000'}
