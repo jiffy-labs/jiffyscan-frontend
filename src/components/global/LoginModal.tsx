@@ -2,8 +2,8 @@
 import { useState } from 'react';
 import Button from '@/components/common/Button';
 import { useRouter } from 'next/router';
-import { useSession, signIn, signOut } from 'next-auth/react';
-import { Social } from '@/context/userSession';
+// import { useSession, signIn, signOut } from 'next-auth/react';
+import { Social, useUserSession } from '@/context/userSession';
 
 type LoginModalProps = {
     showClose?: boolean;
@@ -12,6 +12,7 @@ type LoginModalProps = {
 };
 
 function LoginModal(props: LoginModalProps) {
+    const { signIn } = useUserSession();
 
     if (!props.block) return null;
 

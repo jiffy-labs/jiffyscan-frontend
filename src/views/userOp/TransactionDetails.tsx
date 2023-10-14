@@ -258,7 +258,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                             icon="transactionHash"
                                             title="Transaction Hash"
                                             content={
-                                                <RenderTextCopyLink text={item?.transactionHash} network={item?.network} type="bundler" />
+                                                <RenderTextCopyLink text={item?.transactionHash} network={item?.network} type="bundle" />
                                             }
                                         />
                                         <InfoSection
