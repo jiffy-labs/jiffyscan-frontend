@@ -27,7 +27,7 @@ function User() {
         url && router.push(url);
     };
 
-    const {session, signIn, signOut} = useUserSession();
+    const {session, signIn, signOut, isLoggedIn} = useUserSession();
 
     const isExpired = (expirationTime: number) => {
         return expirationTime < Date.now() / 1000;
@@ -67,9 +67,7 @@ function User() {
     };
     return (
         <div className="flex items-center gap-1">
-            {((session?.user?.expires_at && !isExpired(session.user.expires_at)) ||
-                (session?.user?.exp && !isExpired(session?.user?.exp))) &&
-            session.user?.image ? (
+            {(isLoggedIn()) ? (
                 <>
                     {/* <IconImgButton icon="/images/icon-container (1).svg" /> */}
                     <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
@@ -82,7 +80,7 @@ function User() {
                             aria-expanded={open ? 'true' : undefined}
                         >
                             <img
-                                src={session.user?.image ? session.user.image : '/images/icon-container (2).svg'}
+                                src={(session && session?.user?.image) ? session.user.image : '/images/icon-container (2).svg'}
                                 style={{ borderRadius: '50%' }}
                                 alt="user"
                             />

@@ -48,7 +48,7 @@ function ChipDropdown(props: ChipProps) {
                         )}
 
                         {isMoreSelected ? selectedNetwork : 'More'}
-                        <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
+                        <ChevronDownIcon className="w-5 h-5 -mr-1 text-gray-400" aria-hidden="true" />
                     </Menu.Button>
                 </span>
 
@@ -61,14 +61,13 @@ function ChipDropdown(props: ChipProps) {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                 >
-                    <Menu.Items className="absolute right-0 z-10 mt-2 w-36 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                        <div className="py-1 flex flex-col">
+                    <Menu.Items className="absolute right-0 z-10 mt-2 origin-top-right bg-white rounded-md shadow-lg w-36 ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        <div className="flex flex-col py-1">
                             {dropdownNetworkList.map(({ name, key, iconPath }, index) => (
                                 <Menu.Item key={key}>
                                     {({ active }) => (
                                         <a
                                             onClick={() => {
-                                                console.log('is this setting it ??')
                                                 setIsMoreSelected(true);
                                                 onClickFcn(key);
                                                 setIcon(iconPath);
