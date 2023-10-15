@@ -35,6 +35,7 @@ declare module 'next-auth' {
         picture: string;
         sub: string;
         expires_at: number;
+        provider?: string; 
     }
 
     interface Session extends DefaultSession {

@@ -10,11 +10,12 @@ export default function HeapAnalytics() {
 
   useEffect(() => {
     if (status === "authenticated" && window.heap) {
-      console.info("Identifying Heap User...");
+      console.info("Identifying Heap User..." , session?.user);
       window.heap.identify(session?.user?.email);
       window.heap.addUserProperties({
         name: session?.user?.name,
         userId: session?.user?.id,
+        provider: session?.user?.provider
       });
     }
   }, [scriptLoaded, session, status]);
