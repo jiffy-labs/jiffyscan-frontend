@@ -58,10 +58,10 @@ function Navbar(props: NavbarProps) {
                     <div className="hidden md:block">
                         <Pages />
                     </div>
-                    {/* <div className="items-center justify-end flex-grow hidden gap-3 md:flex">
+                    <div className="items-center justify-end flex-grow hidden gap-3 md:flex">
                         {searchbar && <Searchblock isNavbar={true} />}
-                        <User />
-                    </div> */}
+                        {/* <User /> */}
+                    </div>
                     <div className="flex items-center md:hidden">
                         <button type="button" onClick={toggleDrawer}>
                             <img src="/images/menu.svg" alt="" />
