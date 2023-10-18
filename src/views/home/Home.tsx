@@ -195,8 +195,8 @@ function Home() {
             {/* <RecentMetrics selectedNetwork={selectedNetwork} setLoading={setLoading} loading={loading} /> */}
             <div>
                 <section className={`mb-12`}>
-                    {block ? <LoginModal showClose={true} block={block} setBlock={setBlock} /> : null}
-                    <div className={`container grid grid-cols-1 gap-10 md:grid-cols-2 ${block && 'blur'}`}>
+                    {/* {block ? <LoginModal showClose={true} block={block} setBlock={setBlock} /> : null} */}
+                    <div className={`container grid grid-cols-1 gap-10 md:grid-cols-2 `}>
                         <div>
                             <Table
                                 {...(bundlesTable as tableDataT)}
@@ -228,7 +228,7 @@ function Home() {
                         </div>
                     </div>
                 </section>
-                <section className={`mb-12 ${block && 'blur'}`}>
+                <section className={`mb-12`}>
                     <div className="container grid grid-cols-1 gap-10 md:grid-cols-2">
                         <div>
                             <Table

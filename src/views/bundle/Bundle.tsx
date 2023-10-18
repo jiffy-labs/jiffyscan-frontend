@@ -189,10 +189,10 @@ function Bundler(props: any) {
                     <h1 className="text-3xl font-bold">Bundle</h1>
                 </div>
             </section>
-            {!(isLoggedIn() || (network && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(network))) && <LoginModal showClose={false} block={block} setBlock={setBlock}></LoginModal>}
-            <HeaderSection block={!(isLoggedIn() || (network && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(network)))} item={bundleInfo} network={network} />
-            <TransactionDetails block={!(isLoggedIn() || (network && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(network)))} item={bundleInfo} network={network} tableLoading={tableLoading}/>
-            <div className={`${!(isLoggedIn() || (network && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(network))) && 'blur'} container px-0`}>
+            {/* {!(isLoggedIn() || (network && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(network))) && <LoginModal showClose={false} block={block} setBlock={setBlock}></LoginModal>} */}
+            <HeaderSection  item={bundleInfo} network={network} />
+            <TransactionDetails  item={bundleInfo} network={network} tableLoading={tableLoading}/>
+            <div className={` container px-0`}>
                 <Table
                     rows={rows}
                     columns={columns}

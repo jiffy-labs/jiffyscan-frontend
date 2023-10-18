@@ -222,8 +222,8 @@ function RecentUserOps(props: any) {
                 </div>
             </section>
             <div>
-                {!(isLoggedIn() || (selectedNetwork && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(selectedNetwork))) && <LoginModal showClose={false} block={block} setBlock={setBlock}></LoginModal>}
-                <div className={`${!(isLoggedIn() || (selectedNetwork && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(selectedNetwork))) && 'blur'}`}>
+                {/* {!(isLoggedIn() || (selectedNetwork && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(selectedNetwork))) && <LoginModal showClose={false} block={block} setBlock={setBlock}></LoginModal>} */}
+                <div>
                     {showUserOpId >= 0 ? (
                         <>
                             <HeaderSection item={userOpsData?.[showUserOpId]} network={network} loading={tableLoading} />
