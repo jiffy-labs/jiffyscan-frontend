@@ -42,7 +42,7 @@ export interface UserOp {
         decimals: string;
         name: string;
         symbol: string;
-    };
+    }[];
     erc721Transfers: {
         contractAddress: string;
         from: string;
@@ -51,7 +51,7 @@ export interface UserOp {
         decimals: string;
         name: string;
         symbol: string;
-    }
+    }[]
 }
 
 export interface Trace {

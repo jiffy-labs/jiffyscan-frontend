@@ -7,34 +7,28 @@ import DisplayFee from "@/components/common/displayfee/DisplayFee";
 
 const iconList = {
     sender: { icon: 'sader', label: 'Sender' },
-    wallet: { icon: 'sader', label: 'Wallet' },
     target: { icon: 'sader', label: 'Target' },
     blockTime: { icon: 'clock', label: 'Block Time' },
     status: { icon: 'delete', label: 'Status' },
     transactionType: { icon: 'Fee', label: 'Transaction Type' },
     value: { icon: 'star', label: 'Value' },
     gasFee: { icon: 'Fee', label: 'Fee' },
-    gasFees: { icon: 'Fee', label: 'Fee' },
     gasUsed: { icon: 'local_gas_station', label: 'Gas Used' },
     paymaster: { icon: 'building', label: 'Paymaster' },
     beneficiary: { icon: 'Beneficiary', label: 'Beneficiary' },
     transactionHash: { icon: 'Hash', label: 'Transaction Hash' },
     block: { icon: 'cube', label: 'Block' },
     erc20: { icon: 'cube', label: 'ERC-20 Tokens Transferred' },
-    erc20out: { icon: 'cube', label: 'ERC-20 Outbound Tokens Transferred' },
-    erc20in: { icon: 'cube', label: 'ERC-20 Inbound Tokens Transferred' },
     erc721: { icon: 'cube', label: 'ERC-721 Tokens Transferred' },
-    erc721out: { icon: 'cube', label: 'ERC-721 Outbound Tokens Transferred' },
-    erc721in: { icon: 'cube', label: 'ERC-721 Inbound Tokens Transferred' },
 };
 
-const RenderIconWithText = ({ name, title }: { name: keyof typeof iconList, title?: String }) => {
+const RenderIconWithText = ({ name }: { name: keyof typeof iconList }) => {
     const { icon, label } = iconList[name] || {};
     return (
         <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
             <IconText icon={`/images/${icon}.svg`}>
                 <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
-                  {title ? title : label}
+                  {label}
                 </span>
             </IconText>
         </div>
@@ -44,7 +38,7 @@ const RenderIconWithText = ({ name, title }: { name: keyof typeof iconList, titl
 export function InfoSection({ icon, title, content, isFlex } :any) {
     return (
         <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px] pb-[2px]">
-            <RenderIconWithText  name={icon} title={title}/>
+            <RenderIconWithText  name={icon} />
             <div className="flex-1 gap-2 break-words ">
                 <div>
                     <p className="text-[14px] text-[#455A64] md:hidden block">{title}</p>
