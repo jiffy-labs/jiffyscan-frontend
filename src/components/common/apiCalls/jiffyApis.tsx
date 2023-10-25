@@ -492,8 +492,8 @@ export const getLatestUserOps = async (selectedNetwork: string, pageSize: number
 
 export const getLatestBundles = async (selectedNetwork: string, pageSize: number, pageNo: number, toast: any): Promise<Bundle[]> => {
     if (!performApiCall(selectedNetwork)) return [] as Bundle[];
-    console.log('...ENV',process.env.ENV);
-    console.log('....envs',process.env);
+    // console.log('...ENV',process.env.ENV);
+    // console.log('....envs',process.env);
     console.log('.....API url',API_URL);
     const response = await fetch(
         API_URL+'/v0/getLatestBundles?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
