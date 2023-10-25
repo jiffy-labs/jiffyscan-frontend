@@ -3,6 +3,7 @@ import Table, { tableDataT } from '@/components/common/table/Table';
 import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
 import RecentMetrics from '@/components/global/recent_metrics/RecentMetrics';
+import { useSearchParams } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 import BundlesTable from './bundles_table.json';
 import BundlersTable from './bundlers_table.json';
@@ -63,6 +64,9 @@ function Home() {
     const [bundlerTableLoading, setBundlerTableLoading] = useState(true);
     const [paymasterTableLoading, setPaymasterTableLoading] = useState(true);
     const [loading, setLoading] = useState(true);
+    const [loginErrorDisplayed, setLoginErrorDisplayed] = useState(false)
+    const searchParams = useSearchParams();
+
     useEffect(() => {
         refreshBundlesTable(selectedNetwork);
         refreshUserOpsTable(selectedNetwork);
@@ -76,6 +80,21 @@ function Home() {
             setBlock(!isLoggedIn());    
         }
     }, [triggerBlock])
+
+    useEffect(() => {
+        const error = searchParams.get("error");
+        if(window && error && !loginErrorDisplayed) {
+            toast.error("Failed to log you in. Please try again ! ERROR: "+error, {
+                position: 'bottom-left',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                theme: 'colored',
+            });
+            setLoginErrorDisplayed(true)
+        }
+    })
 
     //turn on block after 10 seconds
     const turnBlockOnAfterXSeconds = (seconds: number) => {
