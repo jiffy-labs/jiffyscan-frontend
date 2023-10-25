@@ -71,7 +71,10 @@ export const authOptions = {
         // },
         session: manageSession,
         // return session; // Make sure to return the modified session
-    }
+    },
+    pages: {
+        signIn: '/'
+      }
 };
 
 
