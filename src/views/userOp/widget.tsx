@@ -4,6 +4,7 @@ import {Link} from "@mui/material";
 import CopyButton from "@/components/common/copy_button/CopyButton";
 import {POWERED_BY_LOGO_MAP} from "@/components/common/constants";
 import DisplayFee from "@/components/common/displayfee/DisplayFee";
+import Address from "@/components/global/Address";
 
 const iconList = {
     sender: { icon: 'sader', label: 'Sender' },
@@ -50,6 +51,7 @@ export function InfoSection({ icon, title, content, isFlex } :any) {
 }
 
 export const RenderTextCopyLink = ({ text, network, type, active = true }: any) => {
+    
     return (
         <div className="flex items-center gap-[10px]">
             <Link
@@ -59,7 +61,7 @@ export const RenderTextCopyLink = ({ text, network, type, active = true }: any) 
                 className={`text-blue-200 ${active ? 'active-link' : ''}`}
             >
                 <span className="text-[#1976D2] md:text-[14px] text-[16px] break-all leading-5">
-                  {text}
+                  <Address text={text}></Address>
                 </span>
             </Link>
             {active && (

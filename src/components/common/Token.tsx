@@ -1,11 +1,14 @@
 import Link from 'next/link';
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import CopyButton from './copy_button/CopyButton';
 import { useConfig } from '@/context/config';
 import { useRouter } from 'next/router';
 import { shortenString } from './utils';
 import { NETWORK_SCANNER_MAP } from './constants';
 import TextVisibleButton from "@/components/common/textVisiblebutton/textVisibleButton";
+import { BNS } from '@basename/core';
+import axios from 'axios';
+import { resolveBNSAddress } from './apiCalls/jiffyApis';
 
 export interface TokenType {
     icon?: string;
@@ -17,9 +20,32 @@ export interface TokenType {
     eyes?: boolean;
 }
 
+const resolveFor = ["facotry", "bundler", "address", "bundler", "paymaster"];
+
+// const bns = new BNS({
+//     rpcEndpoint: 'https://mainnet.base.org'
+// });
+
+
 function Token({ icon, text, copyIcon, type, onTokenClicked, value, eyes }: TokenType) {
     const { selectedNetwork } = useConfig();
     const [ showText, setShowText] = useState(false);
+    const [resolvedAddress, setResolvedAddress] = useState("")
+
+    useEffect(() => {
+        const resolveAddress = async (address: String) => {
+            const name = await resolveBNSAddress(address, selectedNetwork);
+            // console.log('finally something ', name);
+            setResolvedAddress(name.toString());
+        }
+
+        // console.log("type:", type);
+        // console.log(resolveFor.includes(type ? type : ""));
+        if (resolveFor.includes(type ? type : "")) {
+            resolveAddress(text)
+        }
+    });
+
 
     if (text == "Unavailable!") 
         return <div className="flex items-center gap-2.5">{text}</div>
@@ -30,11 +56,11 @@ function Token({ icon, text, copyIcon, type, onTokenClicked, value, eyes }: Toke
             {icon && <img src={icon} alt="" style={{ width: '20px', height: '20px' }} />}
             {onTokenClicked ? (
                 <a onClick={() => onTokenClicked(value ? value : 0)} className="text-blue-200 cursor-pointer">
-                    {renderString}
+                    {resolvedAddress ? resolvedAddress : renderString}
                 </a>
             ) : (
                 <Link href={getHrefLink(type, text, selectedNetwork)} target={getTarget(type)} className="text-blue-200">
-                    {renderString}
+                    {resolvedAddress ? resolvedAddress : renderString}
                 </Link>
             )}
             {eyes && <TextVisibleButton isShow={showText} handleText={(showText)=>setShowText(!!showText)} />}

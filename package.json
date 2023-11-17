@@ -13,6 +13,7 @@
   "dependencies": {
     "@auth0/nextjs-auth0": "^3.1.0",
     "@aws-sdk/client-cognito-identity-provider": "^3.398.0",
+    "@basename/core": "^0.0.2",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@mui/icons-material": "^5.11.11",

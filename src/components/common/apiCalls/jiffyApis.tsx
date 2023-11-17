@@ -1022,3 +1022,19 @@ export const createAPIKey = async (Authorization :string, toast:any) => {
         }
     }
 };
+
+export const resolveBNSAddress = async (address: String, network: string): Promise<String> => {
+    let name = ""
+    
+    if (address && address.length > 2 && address.slice(0,2) == "0x" && address.length == 42) {
+        const BnsResponse = await axios.get("https://resolver-api.basename.app/v1/addresses/"+address.toString(), {
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json'
+                }
+        });
+        console.log(BnsResponse);
+        name = BnsResponse?.data?.name ? BnsResponse.data.name : "";
+    }
+    return name;
+}

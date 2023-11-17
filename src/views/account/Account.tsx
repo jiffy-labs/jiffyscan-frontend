@@ -11,7 +11,7 @@ import {
     getAddressERC721Transfers,
     tokenTransferAlchemy,
     getAddressTransactions,
-    Transaction
+    Transaction,
 } from '@/components/common/apiCalls/jiffyApis';
 import { Breadcrumbs, Link, Box, Tab, Tabs, Typography, Tooltip } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -78,25 +78,35 @@ const erc721TransferColumns = [
 ];
 
 const constructValueRowForTokenTransfer = (erc20Transfer: tokenTransferAlchemy, network: string) => {
-    let value = calculateTokenValue(parseInt(erc20Transfer.rawContract.value ? erc20Transfer.rawContract.value : '0'), erc20Transfer.rawContract.decimal)
-    let asset = erc20Transfer.asset ? (erc20Transfer.asset.length > 5 ? erc20Transfer.asset.slice(0,4) + '...': erc20Transfer.asset) : shortenString(erc20Transfer.rawContract.address)
-    let component = <LinkAndCopy text={asset} link={NETWORK_SCANNER_MAP[network] + '/address/' + erc20Transfer.rawContract.address} copyText={null}/>
+    let value = calculateTokenValue(
+        parseInt(erc20Transfer.rawContract.value ? erc20Transfer.rawContract.value : '0'),
+        erc20Transfer.rawContract.decimal,
+    );
+    let asset = erc20Transfer.asset
+        ? erc20Transfer.asset.length > 5
+            ? erc20Transfer.asset.slice(0, 4) + '...'
+            : erc20Transfer.asset
+        : shortenString(erc20Transfer.rawContract.address);
+    let component = (
+        <LinkAndCopy text={asset} link={NETWORK_SCANNER_MAP[network] + '/address/' + erc20Transfer.rawContract.address} copyText={null} />
+    );
     return { value, component };
-}
+};
 
 const constructTokenIdRowForTokenTransfer = (erc721Transfer: tokenTransferAlchemy, network: string) => {
-    let value = erc721Transfer.tokenId ? erc721Transfer.tokenId : '0'
-    let asset = erc721Transfer.asset ? erc721Transfer.asset : '0'
-    asset = asset.length > 5 ? asset.slice(0,5) + '...' : asset
-    let component = <LinkAndCopy text={asset} link={NETWORK_SCANNER_MAP[network] + '/address/' + erc721Transfer.rawContract.address} copyText={null}/>
+    let value = erc721Transfer.tokenId ? erc721Transfer.tokenId : '0';
+    let asset = erc721Transfer.asset ? erc721Transfer.asset : '0';
+    asset = asset.length > 5 ? asset.slice(0, 5) + '...' : asset;
+    let component = (
+        <LinkAndCopy text={asset} link={NETWORK_SCANNER_MAP[network] + '/address/' + erc721Transfer.rawContract.address} copyText={null} />
+    );
     return { value: parseInt(value).toString(), component };
-}
+};
 
 const getAgoFromAssetTransfer = (assetTransfer: tokenTransferAlchemy) => {
-    if (assetTransfer.metadata?.blockTimestamp) 
-        return getTimePassed((new Date(assetTransfer.metadata?.blockTimestamp)).getTime()/1000)
+    if (assetTransfer.metadata?.blockTimestamp) return getTimePassed(new Date(assetTransfer.metadata?.blockTimestamp).getTime() / 1000);
     else return parseInt(assetTransfer.blockNum).toString();
-}
+};
 
 const constructERC20TransferRows = (erc20Transfers: tokenTransferAlchemy[], network: string): tableDataT['rows'] => {
     let newRows = [] as tableDataT['rows'];
@@ -170,7 +180,7 @@ const createTransactionTableRows = (transactions: Transaction[], network: string
                 icon: NETWORK_ICON_MAP[network],
                 type: 'transaction',
             },
-            ago: getTimePassed((new Date(transaction.block_signed_at)).getTime()/1000),
+            ago: getTimePassed(new Date(transaction.block_signed_at).getTime() / 1000),
             sender: transaction.from_address,
             target: [transaction.to_address],
             fee: getFee(transaction.gas_price, network),
@@ -179,7 +189,6 @@ const createTransactionTableRows = (transactions: Transaction[], network: string
     });
     return newRows;
 };
-
 
 interface AccountInfo {
     address: string;
@@ -192,16 +201,27 @@ interface AccountInfo {
     tokenBalances?: tokenBalance[];
 }
 
-const createAccountInfoObject = (addressActivity: AddressActivity): AccountInfo => {
-    return {
-        address: addressActivity.accountDetail.address,
-        totalDeposit: parseInt(addressActivity.accountDetail.totalDeposits),
-        userOpsCount: parseInt(addressActivity.accountDetail.userOpsCount),
-        userOpHash: addressActivity.accountDetail.userOpHash,
-        blockTime: parseInt(addressActivity.accountDetail.blockTime),
-        factory: addressActivity.accountDetail.factory,
-        // tokenBalances: 'tokenBalances' in addressActivity ? (addressActivity.tokenBalances as tokenBalance[]) : [],
-    };
+const createAccountInfoObject = (addressActivity: AddressActivity, address: string): AccountInfo => {
+    console.log(addressActivity);
+    if (addressActivity && Object.keys(addressActivity).length > 0)
+        return {
+            address: address,
+            totalDeposit: parseInt(addressActivity.accountDetail.totalDeposits),
+            userOpsCount: parseInt(addressActivity.accountDetail.userOpsCount),
+            userOpHash: addressActivity.accountDetail.userOpHash,
+            blockTime: parseInt(addressActivity.accountDetail.blockTime),
+            factory: addressActivity.accountDetail.factory,
+            // tokenBalances: 'tokenBalances' in addressActivity ? (addressActivity.tokenBalances as tokenBalance[]) : [],
+        };
+    else
+        return {
+            address: address,
+            totalDeposit: 0,
+            userOpsCount: 0,
+            userOpHash: '',
+            blockTime: 0,
+            factory: '',
+        };
 };
 
 interface TabPanelProps {
@@ -233,9 +253,9 @@ function a11yProps(index: number) {
 
 function calculateTokenValue(value: number, decimals: string | null): string {
     let responseValue;
-    if (decimals == null) responseValue = (value / Math.pow(10, 18))
-    else responseValue = (value / Math.pow(10, parseInt(decimals)));
-    
+    if (decimals == null) responseValue = value / Math.pow(10, 18);
+    else responseValue = value / Math.pow(10, parseInt(decimals));
+
     if (responseValue < 0.0001) return responseValue.toExponential(2);
     else return responseValue.toFixed(4);
 }
@@ -277,8 +297,7 @@ function Account(props: any) {
         const addressActivity = await getAddressActivity(addressInfo.address, network ? network : '', pageNo, pageSize, toast);
         const rows = createUserOpsTableRows(addressActivity.accountDetail.userOps);
         setRows(rows);
-        if (rows.length > 0) 
-            setTableLoading(false);
+        if (rows.length > 0) setTableLoading(false);
     };
 
     // update the page No after changing the pageSize
@@ -322,8 +341,8 @@ function Account(props: any) {
     const loadAccountDetails = async (name: string, network: string) => {
         setTableLoading(true);
         const addressActivity = await getAddressActivity(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo, toast);
-        const accountInfo = createAccountInfoObject(addressActivity);
-        const rows = createUserOpsTableRows(addressActivity.accountDetail.userOps);
+        const accountInfo = createAccountInfoObject(addressActivity, name);
+        const rows = createUserOpsTableRows(addressActivity.accountDetail?.userOps);
         setRows(rows);
         setAddressInfo(accountInfo);
         setTableLoading(false);
@@ -332,7 +351,7 @@ function Account(props: any) {
     useEffect(() => {
         updateRowsData(network ? network : '', pageSize, pageNo);
         const urlParams = new URLSearchParams(window.location.search);
-        urlParams.set('pageNo', (pageNo).toString());
+        urlParams.set('pageNo', pageNo.toString());
         urlParams.set('pageSize', pageSize.toString());
         window.history.pushState(null, '', `${window.location.pathname}?${urlParams.toString()}`);
     }, [pageNo]);
@@ -399,24 +418,38 @@ function Account(props: any) {
                 </div>
             </section>
             <HeaderSection item={addressInfo} network={network} />
-            <TransactionDetails item={addressInfo} network={network} addressMapping={addressMapping} tokenBalances={tokenBalances} tableLoading={tableLoading}/>
+            <TransactionDetails
+                item={addressInfo}
+                network={network}
+                addressMapping={addressMapping}
+                tokenBalances={tokenBalances}
+                tableLoading={tableLoading}
+            />
 
             <div className="container px-0">
                 <Box sx={{ width: '100%' }}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <Tabs value={tabNo} onChange={(e, newTabNo) => setTabNo(newTabNo)} aria-label="basic tabs example">
-                            <Tooltip title='ERC-4337 Transactions of user' placement='top'><Tab label={`User Ops (${addressInfo?.userOpsCount ? addressInfo?.userOpsCount : 0})`} tabIndex={0} {...a11yProps(0)} /></Tooltip>
-                            <Tooltip title='Internal + External transactions' placement='top'><Tab label={`Transactions (${transactions.length})`} tabIndex={3} {...a11yProps(2)} /></Tooltip>
-                            <Tooltip title='ERC-20 Transfers' placement='top'><Tab label={`Token Transfers (${erc20Transfers.length})`} tabIndex={1} {...a11yProps(1)} /></Tooltip>
-                            <Tooltip title='ERC721 + ERC1155 Transfers' placement='top'><Tab label={`NFT Transfers (${erc721Transfers.length})`} tabIndex={2} {...a11yProps(2)} /></Tooltip>
+                            <Tooltip title="ERC-4337 Transactions of user" placement="top">
+                                <Tab
+                                    label={`User Ops (${addressInfo?.userOpsCount ? addressInfo?.userOpsCount : 0})`}
+                                    tabIndex={0}
+                                    {...a11yProps(0)}
+                                />
+                            </Tooltip>
+                            <Tooltip title="Internal + External transactions" placement="top">
+                                <Tab label={`Transactions (${transactions.length})`} tabIndex={3} {...a11yProps(2)} />
+                            </Tooltip>
+                            <Tooltip title="ERC-20 Transfers" placement="top">
+                                <Tab label={`Token Transfers (${erc20Transfers.length})`} tabIndex={1} {...a11yProps(1)} />
+                            </Tooltip>
+                            <Tooltip title="ERC721 + ERC1155 Transfers" placement="top">
+                                <Tab label={`NFT Transfers (${erc721Transfers.length})`} tabIndex={2} {...a11yProps(2)} />
+                            </Tooltip>
                         </Tabs>
                     </Box>
                     <TabPanel value={tabNo} index={0}>
-                        <Table
-                            rows={rows}
-                            columns={userOpColumns}
-                            loading={tableLoading}
-                        />
+                        <Table rows={rows} columns={userOpColumns} loading={tableLoading} />
                         <Pagination
                             pageDetails={{
                                 pageNo,
@@ -428,11 +461,7 @@ function Account(props: any) {
                         />
                     </TabPanel>
                     <TabPanel value={tabNo} index={1}>
-                        <Table
-                            rows={transactionsTableRows}
-                            columns={TransactionColumns}
-                            loading={tableLoading}
-                        />
+                        <Table rows={transactionsTableRows} columns={TransactionColumns} loading={tableLoading} />
                         <Pagination
                             pageDetails={{
                                 pageNo: transactionsPageNo,
@@ -445,11 +474,7 @@ function Account(props: any) {
                         />
                     </TabPanel>
                     <TabPanel value={tabNo} index={2}>
-                        <Table
-                            rows={erc20TransfersTableRows}
-                            columns={erc20TransferColumns}
-                            loading={tableLoading}
-                        />
+                        <Table rows={erc20TransfersTableRows} columns={erc20TransferColumns} loading={tableLoading} />
                         <Pagination
                             pageDetails={{
                                 pageNo: erc20PageNo,
@@ -461,11 +486,7 @@ function Account(props: any) {
                         />
                     </TabPanel>
                     <TabPanel value={tabNo} index={3}>
-                        <Table
-                            rows={erc721TransfersTableRows}
-                            columns={erc721TransferColumns}
-                            loading={tableLoading}
-                        />
+                        <Table rows={erc721TransfersTableRows} columns={erc721TransferColumns} loading={tableLoading} />
                         <Pagination
                             pageDetails={{
                                 pageNo: erc721PageNo,

@@ -1,6 +1,7 @@
 import { NETWORK_ICON_MAP, NETWORK_LIST, NETWORK_SCANNER_MAP } from '@/components/common/constants';
 import CopyButton from '@/components/common/copy_button/CopyButton';
 import { getExplorerLogo } from '@/components/common/utils';
+import Address from '@/components/global/Address';
 import Link from 'next/link';
 import React from 'react';
 
@@ -19,7 +20,7 @@ export default function HeaderSection({ item, network }: any) {
                             </span>
                         </div>
                         <div className="flex items-center flex-1 gap-2 break-words">
-                            <span className="text-sm leading-5 break-all text-dark-600">{item?.address}</span>
+                            <span className="text-sm leading-5 break-all text-dark-600"><Address text={item?.address}></Address></span>
                             <CopyButton text={item?.address} />
                             <button className="outline-none focus:outline-none ring-0 focus:ring-0">
                                 <Link
