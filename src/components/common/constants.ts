@@ -54,6 +54,12 @@ export const NETWORK_LIST = [
         iconPathInverted: '/images/arbitrum-logo.svg',
     }, 
     {
+        name: 'Arbitrum Sepolia',
+        key: 'arbitrum-sepolia',
+        iconPath: '/images/arbitrum-logo.svg',
+        iconPathInverted: '/images/arbitrum-logo.svg',
+    }, 
+    {
         name: 'Sepolia',
         key: 'sepolia',
         iconPath: '/images/eth-diamond-purple.svg',
@@ -140,6 +146,7 @@ export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
     optimism: '/images/icon-container (6).svg',
     'arbitrum-one': '/images/arbitrum-logo.svg',
     'arbitrum-goerli': '/images/arbitrum-logo.svg',
+    'arbitrum-sepolia': '/images/arbitrum-logo.svg',
     'avalanche': '/images/avalanche-logo-red.svg',
     'avalanche-fuji': '/images/avalanche-logo-red.svg',
     'fantom': '/images/fantom-logo.svg',
@@ -161,6 +168,7 @@ export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
     'optimism-goerli': 'https://goerli-optimism.etherscan.io',
     'arbitrum-one': 'https://arbiscan.io',
     'arbitrum-goerli': 'https://goerli.arbiscan.io',
+    'arbitrum-sepolia': 'https://sepolia.arbiscan.io',
     optimism: 'https://optimistic.etherscan.io',
     avalanche: 'https://snowtrace.io',
     "base-testnet": 'https://goerli.basescan.org',
