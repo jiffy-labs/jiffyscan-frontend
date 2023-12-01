@@ -30,6 +30,12 @@ export const NETWORK_LIST = [
         iconPathInverted: '/images/icon-container (6).svg',
     },
     {
+        name: 'Arbitrum One',
+        key: 'arbitrum-one',
+        iconPath: '/images/arbitrum-logo.svg',
+        iconPathInverted: '/images/arbitrum-logo.svg',
+    },
+    {
         name: 'Goerli',
         key: 'goerli',
         iconPath: '/images/eth-diamond-purple.svg',
@@ -52,13 +58,13 @@ export const NETWORK_LIST = [
         key: 'arbitrum-goerli',
         iconPath: '/images/arbitrum-logo.svg',
         iconPathInverted: '/images/arbitrum-logo.svg',
-    }, 
+    },
     {
         name: 'Arbitrum Sepolia',
         key: 'arbitrum-sepolia',
         iconPath: '/images/arbitrum-logo.svg',
         iconPathInverted: '/images/arbitrum-logo.svg',
-    }, 
+    },
     {
         name: 'Sepolia',
         key: 'sepolia',
@@ -108,10 +114,10 @@ export const NETWORK_LIST = [
         iconPathInverted: '/images/bsc-logo.svg',
     },
     {
-        name: 'Arbitrum One',
-        key: 'arbitrum-one',
-        iconPath: '/images/arbitrum-logo.svg',
-        iconPathInverted: '/images/arbitrum-logo.svg',
+        name: 'BNB Smart Chain',
+        key: 'bnb-testnet',
+        iconPath: '/images/bsc-logo.svg',
+        iconPathInverted: '/images/bsc-logo.svg',
     },
     // {
     //     name: 'Celo Alfajores',
@@ -155,6 +161,7 @@ export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
     'base': '/images/base-logo.svg',
     'gnosis': '/images/gnosis-logo.svg',
     'bsc': '/images/bsc-logo.svg',
+    'bnb-testnet': '/images/bsc-logo.svg',
     'fuse': '/images/fuse-logo.svg',
     'celo-alfajores': '/images/Celo_logo_black.svg',
 };
@@ -176,19 +183,20 @@ export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
     "fantom-testnet": 'https://testnet.ftmscan.com',
     gnosis: 'https://gnosisscan.io',
     bsc: 'https://bscscan.com',
+    "bnb-testnet": "https://testnet.bscscan.com",
     "avalanche-fuji": 'https://testnet.snowtrace.io',
     "fuse": 'https://explorer.fuse.io',
     'base': 'https://basescan.org',
     "celo-alfajores": 'https://alfajores.celoscan.io',
 };
 
-export const POWERED_BY_LOGO_MAP: { [id: string]: {[id: string]: string} } = {
+export const POWERED_BY_LOGO_MAP: { [id: string]: { [id: string]: string } } = {
     pimlico: {
-        small:'/images/pimlico.svg',
+        small: '/images/pimlico.svg',
         wide: '',
     },
     biconomy: {
-        small:'/images/Biconomy-small.svg',
+        small: '/images/Biconomy-small.svg',
         wide: '/images/Biconomy-wide.svg',
     },
     candide: {
