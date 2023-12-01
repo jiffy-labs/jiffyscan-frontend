@@ -24,6 +24,12 @@ export const NETWORK_LIST = [
         iconPathInverted: '/images/fuse-logo.svg',
     },
     {
+        name: 'Base',
+        key: 'base',
+        iconPath: '/images/base-logo.svg',
+        iconPathInverted: '/images/base-logo.svg',
+    },
+    {
         name: 'Optimism Goerli',
         key: 'optimism-goerli',
         iconPath: '/images/icon-container (6).svg',
@@ -96,12 +102,6 @@ export const NETWORK_LIST = [
         iconPathInverted: '/images/gnosis-logo.svg',
     },
     {
-        name: 'Base',
-        key: 'base',
-        iconPath: '/images/base-logo.svg',
-        iconPathInverted: '/images/base-logo.svg',
-    },
-    {
         name: 'Base Testnet',
         key: 'base-testnet',
         iconPath: '/images/base-logo.svg',
@@ -114,7 +114,7 @@ export const NETWORK_LIST = [
         iconPathInverted: '/images/bsc-logo.svg',
     },
     {
-        name: 'BNB Smart Chain',
+        name: 'BNB Testnet',
         key: 'bnb-testnet',
         iconPath: '/images/bsc-logo.svg',
         iconPathInverted: '/images/bsc-logo.svg',
