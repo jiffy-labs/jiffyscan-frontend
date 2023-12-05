@@ -1,11 +1,14 @@
 import Link from 'next/link';
-import React, { useContext, useEffect, useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import CopyButton from './copy_button/CopyButton';
 import { useConfig } from '@/context/config';
+import { useRouter } from 'next/router';
 import { shortenString } from './utils';
 import { NETWORK_SCANNER_MAP } from './constants';
-import TextVisibleButton from '@/components/common/textVisiblebutton/textVisibleButton';
-import { useNameService } from '@/context/nameServiceContext';
+import TextVisibleButton from "@/components/common/textVisiblebutton/textVisibleButton";
+import { BNS } from '@basename/core';
+import axios from 'axios';
+import { resolveBNSAddress } from './apiCalls/jiffyApis';
 
 export interface TokenType {
     icon?: string;
@@ -17,30 +20,36 @@ export interface TokenType {
     eyes?: boolean;
 }
 
-const resolveFor = ['facotry', 'bundler', 'address', 'bundler', 'paymaster'];
+const resolveFor = ["facotry", "bundler", "address", "bundler", "paymaster"];
 
 // const bns = new BNS({
 //     rpcEndpoint: 'https://mainnet.base.org'
 // });
 
+
 function Token({ icon, text, copyIcon, type, onTokenClicked, value, eyes }: TokenType) {
     const { selectedNetwork } = useConfig();
-    const [showText, setShowText] = useState(false);
-    const [resolvedAddress, setResolvedAddress] = useState('');
-    const { getName } = useNameService();
+    const [ showText, setShowText] = useState(false);
+    const [resolvedAddress, setResolvedAddress] = useState("")
 
     useEffect(() => {
-        const resolveAddress = async () => {
-            if (resolveFor.includes(type ? type : '')) {
-                const name = await getName(text);
-                setResolvedAddress(name);
-            }
-        };
-        resolveAddress();
+        const resolveAddress = async (address: String) => {
+            const name = await resolveBNSAddress(address, selectedNetwork);
+            // console.log('finally something ', name);
+            setResolvedAddress(name.toString());
+        }
+
+        // console.log("type:", type);
+        // console.log(resolveFor.includes(type ? type : ""));
+        if (resolveFor.includes(type ? type : "")) {
+            resolveAddress(text)
+        }
     });
 
-    if (text == 'Unavailable!') return <div className="flex items-center gap-2.5">{text}</div>;
-    const renderString = showText ? text : shortenString(text, eyes);
+
+    if (text == "Unavailable!") 
+        return <div className="flex items-center gap-2.5">{text}</div>
+    const renderString = showText? text:  shortenString(text, eyes)
 
     return (
         <div className="flex items-center gap-2.5">
@@ -54,7 +63,7 @@ function Token({ icon, text, copyIcon, type, onTokenClicked, value, eyes }: Toke
                     {resolvedAddress ? resolvedAddress : renderString}
                 </Link>
             )}
-            {eyes && <TextVisibleButton isShow={showText} handleText={(showText) => setShowText(!!showText)} />}
+            {eyes && <TextVisibleButton isShow={showText} handleText={(showText)=>setShowText(!!showText)} />}
             <CopyButton text={text} copyIcon={copyIcon} />
         </div>
     );
@@ -78,7 +87,7 @@ function getHrefLink(type: string | undefined, text: string, network: string) {
         return {
             pathname: `/factory/${text}`,
             query: { network: network },
-        };
+        }
     } else if (type == 'bundle') {
         return {
             pathname: `/bundle/${text}`,
@@ -94,9 +103,9 @@ function getHrefLink(type: string | undefined, text: string, network: string) {
             pathname: `/paymaster/${text}`,
             query: { network: network },
         };
-    } else if (type == 'erc20Transfer' || type == 'erc721Transfer' || type == 'transaction') {
+    } else if (type == "erc20Transfer" || type == "erc721Transfer" || type == "transaction" ) {
         return {
-            pathname: NETWORK_SCANNER_MAP[network] + `/tx/${text}`,
+            pathname: NETWORK_SCANNER_MAP[network]+`/tx/${text}`,
         };
     } else {
         return '#';
@@ -112,9 +121,9 @@ function getTarget(type: string | undefined) {
     // }
     if (type == 'bundle') {
         return '_self';
-    } else if (type == 'erc20Transfer' || type == 'erc721Transfer' || type == 'transaction') {
+    } else if (type == "erc20Transfer" || type == "erc721Transfer" || type == "transaction" ) {
         return '_blank';
-    } else {
+    }else {
         return '_self';
     }
 }

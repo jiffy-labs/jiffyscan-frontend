@@ -9,7 +9,6 @@ import ReactGA from 'react-ga4';
 import { SessionProvider } from 'next-auth/react';
 import HeapAnalytics from '@/components/global/HeapAnalytics';
 import UserSessionStore from '@/context/userSession';
-import NameServiceStore from '@/context/nameServiceContext';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
     getLayout?: (page: ReactElement) => ReactNode;
@@ -29,10 +28,8 @@ export default function MyApp({ Component, pageProps: { session, ...pageProps } 
         <div>
             <SessionProvider session={session}>
                 <UserSessionStore>
-                    <NameServiceStore>
-                        <ConfigProvider>{getLayout(<Component {...pageProps} />)}</ConfigProvider>
-                        <HeapAnalytics />
-                    </NameServiceStore>
+                    <ConfigProvider>{getLayout(<Component {...pageProps} />)}</ConfigProvider>
+                    <HeapAnalytics />
                 </UserSessionStore>
             </SessionProvider>
             <Analytics />
