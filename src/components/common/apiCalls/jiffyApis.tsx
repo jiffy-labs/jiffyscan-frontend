@@ -51,7 +51,7 @@ export interface UserOp {
         decimals: string;
         name: string;
         symbol: string;
-    }
+    };
 }
 
 export interface Trace {
@@ -131,25 +131,25 @@ export interface AccountDetail {
 }
 
 export interface tokenBalance {
-    "contract_decimals": number
-    "contract_name": string
-    "contract_ticker_symbol": string
-    "contract_address":	string
-    "supports_erc":	null
-    "logo_url":	string
-    "last_transferred_at":	string
-    "native_token":	boolean
-    "type":	string
-    "balance":	string
-    "balance_24h":	string
-    "quote_rate": number
-    "quote_rate_24h": number
-    "quote": number
-    "pretty_quote":	string
-    "quote_24h": string
-    "pretty_quote_24h":	string
-    "nft_data":	null
-    "is_spam":	null
+    contract_decimals: number;
+    contract_name: string;
+    contract_ticker_symbol: string;
+    contract_address: string;
+    supports_erc: null;
+    logo_url: string;
+    last_transferred_at: string;
+    native_token: boolean;
+    type: string;
+    balance: string;
+    balance_24h: string;
+    quote_rate: number;
+    quote_rate_24h: number;
+    quote: number;
+    pretty_quote: string;
+    quote_24h: string;
+    pretty_quote_24h: string;
+    nft_data: null;
+    is_spam: null;
 }
 
 // export interface erc20Transfer {
@@ -175,20 +175,20 @@ export interface tokenBalance {
 // }
 
 export interface tokenTransferAlchemy {
-    to: string
-    from: string
+    to: string;
+    from: string;
     asset: string;
     blockNum: string; // hex
     hash: string;
     rawContract: {
-        address: string
+        address: string;
         value: string | null;
         decimal: string | null;
-    }
+    };
     tokenId: string;
     metadata?: {
-        blockTimestamp?: string,
-    }
+        blockTimestamp?: string;
+    };
 }
 
 // export interface erc721Transfer {
@@ -298,16 +298,10 @@ const performApiCall = (network: string): boolean => {
     return true;
 };
 
-
-
-const PRO_API = "https://api.jiffyscan.xyz"
-const DEV_API = "https://api-dev.jiffyscan.xyz"
+const PRO_API = 'https://api.jiffyscan.xyz';
+const DEV_API = 'https://api-dev.jiffyscan.xyz';
 const API_URL = process.env.NEXT_PUBLIC_APP_ENV === 'production' ? PRO_API : DEV_API;
-const X_API_Key = process.env.NEXT_PUBLIC_X_API_KEY ;
-
-
-console.log(API_URL)
-
+const X_API_Key = process.env.NEXT_PUBLIC_X_API_KEY;
 
 export const showToast = (toast: any, message: string, type?: string) => {
     if (type == 'warning') {
@@ -409,7 +403,13 @@ export const getTopPaymasters = async (
 ): Promise<PayMasterActivity[]> => {
     if (!performApiCall(selectedNetwork)) return [] as PayMasterActivity[];
     const response = await fetch(
-        API_URL+'/v0/getTopPaymasters?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
+        API_URL +
+            '/v0/getTopPaymasters?network=' +
+            selectedNetwork +
+            '&first=' +
+            pageSize +
+            '&skip=' +
+            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -430,7 +430,13 @@ export const getTopPaymasters = async (
 export const getTopBundlers = async (selectedNetwork: string, pageSize: number, pageNo: number, toast: any): Promise<Bundler[]> => {
     if (!performApiCall(selectedNetwork)) return [] as Bundler[];
     const response = await fetch(
-        API_URL+'/v0/getTopBundlers?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
+        API_URL +
+            '/v0/getTopBundlers?network=' +
+            selectedNetwork +
+            '&first=' +
+            pageSize +
+            '&skip=' +
+            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -451,7 +457,13 @@ export const getTopBundlers = async (selectedNetwork: string, pageSize: number, 
 export const getTopFactories = async (selectedNetwork: string, pageSize: number, pageNo: number, toast: any): Promise<FactoryDetails[]> => {
     if (!performApiCall(selectedNetwork)) return [] as FactoryDetails[];
     const response = await fetch(
-        API_URL+'/v0/getTopFactories?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
+        API_URL +
+            '/v0/getTopFactories?network=' +
+            selectedNetwork +
+            '&first=' +
+            pageSize +
+            '&skip=' +
+            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -472,7 +484,13 @@ export const getTopFactories = async (selectedNetwork: string, pageSize: number,
 export const getLatestUserOps = async (selectedNetwork: string, pageSize: number, pageNo: number, toast: any): Promise<UserOp[]> => {
     if (!performApiCall(selectedNetwork)) return [] as UserOp[];
     const response = await fetch(
-        API_URL+'/v0/getLatestUserOps?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + (pageNo * pageSize >= 0 ? pageNo * pageSize : 0) ,
+        API_URL +
+            '/v0/getLatestUserOps?network=' +
+            selectedNetwork +
+            '&first=' +
+            pageSize +
+            '&skip=' +
+            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -492,11 +510,14 @@ export const getLatestUserOps = async (selectedNetwork: string, pageSize: number
 
 export const getLatestBundles = async (selectedNetwork: string, pageSize: number, pageNo: number, toast: any): Promise<Bundle[]> => {
     if (!performApiCall(selectedNetwork)) return [] as Bundle[];
-    // console.log('...ENV',process.env.ENV);
-    // console.log('....envs',process.env);
-    console.log('.....API url',API_URL);
     const response = await fetch(
-        API_URL+'/v0/getLatestBundles?network=' + selectedNetwork + '&first=' + pageSize + '&skip=' + (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
+        API_URL +
+            '/v0/getLatestBundles?network=' +
+            selectedNetwork +
+            '&first=' +
+            pageSize +
+            '&skip=' +
+            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -516,7 +537,7 @@ export const getLatestBundles = async (selectedNetwork: string, pageSize: number
 
 export const getDailyMetrics = async (selectedNetwork: string, noOfDays: number, toast: any): Promise<DailyMetric[]> => {
     if (!performApiCall(selectedNetwork)) return [] as DailyMetric[];
-    const response = await fetch(API_URL+'/v0/getDailyMetrics?network=' + selectedNetwork + '&noOfDays=' + noOfDays, {
+    const response = await fetch(API_URL + '/v0/getDailyMetrics?network=' + selectedNetwork + '&noOfDays=' + noOfDays, {
         headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
     });
     if (response.status != 200) {
@@ -534,7 +555,9 @@ export const getDailyMetrics = async (selectedNetwork: string, noOfDays: number,
 
 export const getWeeklyData = async (selectedNetwork: string, noOfDays: number, toast: any): Promise<any> => {
     if (!performApiCall(selectedNetwork)) return [] as DailyMetric[];
-    const response = await fetch(`https://8yu00jz0rj.execute-api.us-east-2.amazonaws.com/default/getChartData?network=${selectedNetwork}&noOfDays=${noOfDays}`);
+    const response = await fetch(
+        `https://8yu00jz0rj.execute-api.us-east-2.amazonaws.com/default/getChartData?network=${selectedNetwork}&noOfDays=${noOfDays}`,
+    );
 
     if (response.status != 200) {
         showToast(toast, 'Error fetching data');
@@ -547,12 +570,11 @@ export const getWeeklyData = async (selectedNetwork: string, noOfDays: number, t
         return data.weeklyData;
     }
     return [];
-
-}
+};
 
 export const getGlobalMetrics = async (selectedNetwork: string, toast: any): Promise<GlobalCounts> => {
     if (!performApiCall(selectedNetwork)) return {} as GlobalCounts;
-    const response = await fetch(API_URL+'/v0/getGlobalCounts?network=' + selectedNetwork, {
+    const response = await fetch(API_URL + '/v0/getGlobalCounts?network=' + selectedNetwork, {
         headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
     });
     if (response.status != 200) {
@@ -570,18 +592,18 @@ export const getGlobalMetrics = async (selectedNetwork: string, toast: any): Pro
 
 export const getUserOp = async (userOpHash: string, toast: any, Authorization?: string): Promise<UserOp[]> => {
     type Headers = {
-        "x-api-key": string,
-        Authorization?: string,
-    }
+        'x-api-key': string;
+        Authorization?: string;
+    };
     const header = {
-        'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5'
+        'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5',
     } as Headers;
 
     if (Authorization) {
-        header['Authorization'] = Authorization
+        header['Authorization'] = Authorization;
     }
     const response = await fetch(API_URL + '/v0/getUserOp?hash=' + userOpHash, {
-        headers: header
+        headers: header,
     });
     if (response.status != 200) {
         showToast(toast, 'Error fetching data');
@@ -606,7 +628,8 @@ export const getAddressActivity = async (
 ): Promise<AddressActivity> => {
     if (!performApiCall(selectedNetwork)) return {} as AddressActivity;
     const response = await fetch(
-        API_URL+'/v0/getAddressActivity?address=' +
+        API_URL +
+            '/v0/getAddressActivity?address=' +
             userOpHash +
             '&network=' +
             selectedNetwork +
@@ -627,7 +650,7 @@ export const getAddressActivity = async (
         showToast(toast, 'Error fetching data');
     }
     const data = await response.json();
-    
+
     return data as AddressActivity;
 };
 
@@ -640,7 +663,8 @@ export const getAddressBalances = async (
 ): Promise<tokenBalance[]> => {
     if (!performApiCall(selectedNetwork)) return [] as tokenBalance[];
     const response = await fetch(
-        API_URL+'/v0/getAddressBalances?address=' +
+        API_URL +
+            '/v0/getAddressBalances?address=' +
             userOpHash +
             '&network=' +
             selectedNetwork +
@@ -661,7 +685,7 @@ export const getAddressBalances = async (
         showToast(toast, 'Error fetching data');
     }
     const data = await response.json();
-    
+
     return data.tokenBalances as tokenBalance[];
 };
 
@@ -674,7 +698,8 @@ export const getAddressTransactions = async (
 ): Promise<Transaction[]> => {
     if (!performApiCall(selectedNetwork)) return [] as Transaction[];
     const response = await fetch(
-        API_URL+'/v0/getAddressTransactions?address=' +
+        API_URL +
+            '/v0/getAddressTransactions?address=' +
             userOpHash +
             '&network=' +
             selectedNetwork +
@@ -695,10 +720,9 @@ export const getAddressTransactions = async (
         showToast(toast, 'Error fetching data');
     }
     const data = await response.json();
-    
+
     return data.transactions as Transaction[];
 };
-
 
 export const getAddressERC20Transfers = async (
     userOpHash: string,
@@ -709,7 +733,8 @@ export const getAddressERC20Transfers = async (
 ): Promise<tokenTransferAlchemy[]> => {
     if (!performApiCall(selectedNetwork)) return [] as tokenTransferAlchemy[];
     const response = await fetch(
-        API_URL+'/v0/getAddressERC20Transfers?address=' +
+        API_URL +
+            '/v0/getAddressERC20Transfers?address=' +
             userOpHash +
             '&network=' +
             selectedNetwork +
@@ -730,7 +755,7 @@ export const getAddressERC20Transfers = async (
         showToast(toast, 'Error fetching data');
     }
     const data = await response.json();
-    
+
     return data.erc20Transfers as tokenTransferAlchemy[];
 };
 
@@ -743,7 +768,8 @@ export const getAddressERC721Transfers = async (
 ): Promise<tokenTransferAlchemy[]> => {
     if (!performApiCall(selectedNetwork)) return [] as tokenTransferAlchemy[];
     const response = await fetch(
-        API_URL+'/v0/getAddressNFTTransfers?address=' +
+        API_URL +
+            '/v0/getAddressNFTTransfers?address=' +
             userOpHash +
             '&network=' +
             selectedNetwork +
@@ -764,7 +790,7 @@ export const getAddressERC721Transfers = async (
         showToast(toast, 'Error fetching data');
     }
     const data = await response.json();
-    
+
     return data.erc721Transfers as tokenTransferAlchemy[];
 };
 
@@ -777,7 +803,8 @@ export const getFactoryDetails = async (
 ): Promise<FactoryDetails> => {
     if (!performApiCall(selectedNetwork)) return {} as FactoryDetails;
     const response = await fetch(
-        API_URL+'/v0/getFactoryDetails?factory=' +
+        API_URL +
+            '/v0/getFactoryDetails?factory=' +
             factory +
             '&network=' +
             selectedNetwork +
@@ -811,7 +838,8 @@ export const getPayMasterDetails = async (
 ): Promise<PayMasterActivity> => {
     if (!performApiCall(selectedNetwork)) return {} as PayMasterActivity;
     const response = await fetch(
-        API_URL+'/v0/getPaymasterActivity?address=' +
+        API_URL +
+            '/v0/getPaymasterActivity?address=' +
             userOpHash +
             '&network=' +
             selectedNetwork +
@@ -867,7 +895,8 @@ export const getBlockDetails = async (
 ): Promise<Block> => {
     if (!performApiCall(selectedNetwork)) return {} as Block;
     const response = await fetch(
-        API_URL+'/v0/getBlockActivity?blockNumber=' +
+        API_URL +
+            '/v0/getBlockActivity?blockNumber=' +
             blockNumber +
             '&network=' +
             selectedNetwork +
@@ -894,7 +923,7 @@ export const getBlockDetails = async (
 };
 
 export const getAccountDetails = async (userOpHash: string, selectedNetwork: string, toast: any): Promise<UserOp> => {
-    const response = await fetch(API_URL+'/v0/getAddressActivity?address=' + userOpHash + '&network=' + selectedNetwork, {
+    const response = await fetch(API_URL + '/v0/getAddressActivity?address=' + userOpHash + '&network=' + selectedNetwork, {
         headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
     });
     if (response.status != 200) {
@@ -920,7 +949,8 @@ export const getBundleDetails = async (
 ): Promise<Bundle> => {
     if (!performApiCall(selectedNetwork)) return {} as Bundle;
     const response = await fetch(
-        API_URL+'/v0/getBundleActivity?bundle=' +
+        API_URL +
+            '/v0/getBundleActivity?bundle=' +
             userOpHash +
             '&network=' +
             selectedNetwork +
@@ -959,7 +989,8 @@ export const getBundlerDetails = async (
 ): Promise<Bundle> => {
     if (!performApiCall(selectedNetwork)) return {} as Bundle;
     const response = await fetch(
-        API_URL+'/v0/getBundlerActivity?address=' +
+        API_URL +
+            '/v0/getBundlerActivity?address=' +
             userOpHash +
             '&network=' +
             selectedNetwork +
@@ -985,9 +1016,7 @@ export const getBundlerDetails = async (
     return {} as Bundle;
 };
 
-
-
-export const fetchAPIKeyList = async (Authorization :string, sub :string) => {
+export const fetchAPIKeyList = async (Authorization: string, sub: string) => {
     let config = {
         method: 'get',
         maxBodyLength: Infinity,
@@ -997,10 +1026,10 @@ export const fetchAPIKeyList = async (Authorization :string, sub :string) => {
             'x-api-key': X_API_Key,
         },
     };
-    return await axios.request(config)
-}
+    return await axios.request(config);
+};
 
-export const createAPIKey = async (Authorization :string, toast:any) => {
+export const createAPIKey = async (Authorization: string, toast: any) => {
     let config = {
         method: 'post',
         maxBodyLength: Infinity,
@@ -1011,9 +1040,9 @@ export const createAPIKey = async (Authorization :string, toast:any) => {
         },
     };
     try {
-       return  await axios.request(config).then(()=>{
-           showToast(toast,    `API Key Created SuccessFully` , "success");
-       });
+        return await axios.request(config).then(() => {
+            showToast(toast, `API Key Created SuccessFully`, 'success');
+        });
     } catch (error: any) {
         if (error.request) {
             showToast(toast, `No response received, ${error.request}`);
@@ -1024,17 +1053,16 @@ export const createAPIKey = async (Authorization :string, toast:any) => {
 };
 
 export const resolveBNSAddress = async (address: String, network: string): Promise<String> => {
-    let name = ""
-    
-    if (address && address.length > 2 && address.slice(0,2) == "0x" && address.length == 42) {
-        const BnsResponse = await axios.get("https://resolver-api.basename.app/v1/addresses/"+address.toString(), {
+    let name = '';
+
+    if (address && address.length > 2 && address.slice(0, 2) == '0x' && address.length == 42) {
+        const BnsResponse = await axios.get('https://resolver-api.basename.app/v1/addresses/' + address.toString(), {
             headers: {
                 'Access-Control-Allow-Origin': '*',
-                'Content-Type': 'application/json'
-                }
+                'Content-Type': 'application/json',
+            },
         });
-        console.log(BnsResponse);
-        name = BnsResponse?.data?.name ? BnsResponse.data.name : "";
+        name = BnsResponse?.data?.name ? BnsResponse.data.name : '';
     }
     return name;
-}
+};
