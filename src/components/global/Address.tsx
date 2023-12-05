@@ -1,24 +1,23 @@
+'use client';
+
 import React, { useEffect, useState } from 'react';
 import { resolveBNSAddress } from '../common/apiCalls/jiffyApis';
 import { useConfig } from '@/context/config';
+import { useNameService } from '@/context/nameServiceContext';
 
 function Address({ text }: any) {
-    const { selectedNetwork } = useConfig();
-
-    const [resolvedAddress, setResolvedAddress] = useState(text);
+    const { getName } = useNameService();
+    const [resolvedName, setResolvedName] = useState('');
 
     useEffect(() => {
-        const resolveAddress = async (address: String | undefined | null) => {
-            const name = await resolveBNSAddress(address ? address : '', selectedNetwork);
-            // console.log('finally something ', name);
-            if (name) setResolvedAddress(name.toString());
+        const resolveAddress = async () => {
+            const name = await getName(text);
+            setResolvedName(name);
         };
+        resolveAddress();
+    }, [text]);
 
-        // console.log("type:", type);
-        // console.log(resolveFor.includes(type ? type : ""));
-        resolveAddress(text);
-    });
-    return <>{resolvedAddress ? resolvedAddress : text}</>;
+    return <>{resolvedName ? resolvedName : text}</>;
 }
 
 export default Address;
