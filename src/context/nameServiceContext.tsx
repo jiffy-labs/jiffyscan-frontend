@@ -21,21 +21,17 @@ export default function NameServiceStore({ children }: any) {
     const [addressToNameMap, setAddressToNameMap] = useState<{ [key: string]: string }>({});
 
     const getName = async (address: string): Promise<string> => {
-        let resolvedName = address;
         if (!(address in addressToNameMap)) {
-            console.log('resolved ?', addressToNameMap, address);
             const name = await resolveAddress(address, 'base');
             if (name != '') {
                 setAddressToNameMap({ ...addressToNameMap, [address]: name });
                 setNameToAddressMap({ ...nameToAddressMap, [name]: address });
-                resolvedName = name;
+                return name;
             }
         } else {
-            console.log('resolved ?', addressToNameMap, address);
-
-            resolvedName = addressToNameMap[address];
+            return addressToNameMap[address];
         }
-        return resolvedName;
+        return '';
     };
 
     const getAddress = async (name: string): Promise<string> => {
