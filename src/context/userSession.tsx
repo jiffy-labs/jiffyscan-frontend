@@ -1,7 +1,5 @@
 // context/user.js
-import { set } from 'lodash';
 import { createContext, useContext, useState, useEffect } from 'react';
-import auth0 from 'auth0-js';
 import { DefaultSession, Session } from 'next-auth/core/types';
 import * as NextAuth from 'next-auth/react';
 import { useRouter } from 'next/router';
@@ -34,37 +32,37 @@ export default function UserSessionStore({ children }: any) {
 
     useEffect(() => {
         if (localStorage) {
-            setBypass(localStorage.getItem('bypass') == 'true');
+            // setBypass(localStorage.getItem('bypass') == 'true');
             setInitiate(true);
         }
     }, []);
 
-    useEffect(() => {
-        if (localStorage && initiate) {
-            // console.log('bypass', bypass)
-            localStorage.setItem('bypass', bypass.toString());
-        }
-    }, [bypass, initiate]);
+    // useEffect(() => {
+    //     if (localStorage && initiate) {
+    //         // console.log('bypass', bypass)
+    //         // localStorage.setItem('bypass', bypass.toString());
+    //     }
+    // }, [bypass, initiate]);
 
     const isLoggedIn = () => {
-        if (bypass) return true;
+        // if (bypass) return true;
         const expiryTime = session?.user?.expires_at ? session.user.expires_at : session?.user?.exp;
         return expiryTime ? expiryTime > Date.now() / 1000 : false;
     };
 
     const signOut = () => {
-        if (bypass) {
-            setBypass(false);
-            return;
-        }
+        // if (bypass) {
+        //     setBypass(false);
+        //     return;
+        // }
         NextAuth.signOut();
     };
 
     const signIn = (social: Social) => {
-        if (social == Social.TWITTER) {
-            setBypass(true);
-            return;
-        }
+        // if (social == Social.TWITTER) {
+        //     setBypass(true);
+        //     return;
+        // }
         NextAuth.signIn(social);
     };
 
