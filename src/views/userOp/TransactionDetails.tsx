@@ -168,8 +168,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                             content={
                                                 <div className="flex items-center gap-[10px]">
                                                     <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
-                                                        {moment.unix(item?.blockTime!).local().format()}(Eastern European Standard
-                                                        Time)
+                                                        {moment.unix(item?.blockTime!).local().format()}
                                                     </span>
                                                 </div>
                                             }
