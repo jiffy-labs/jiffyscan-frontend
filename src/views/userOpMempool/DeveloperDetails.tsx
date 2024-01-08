@@ -1,0 +1,417 @@
+import Chip, { ChipProps } from '@/components/common/chip/Chip';
+import CopyButton from '@/components/common/copy_button/CopyButton';
+import DisplayFee from '@/components/common/displayfee/DisplayFee';
+import IconText from '@/components/common/IconText';
+import InfoButton from '@/components/common/InfoButton';
+import Caption from '@/components/common/Caption';
+import { getFee } from '@/components/common/utils';
+import React, { useState, useEffect } from 'react';
+import Skeleton from 'react-loading-skeleton-2';
+import { BUTTON_LIST } from './UserOperation';
+import sx from './usertable.module.sass';
+import LinkAndCopy from '@/components/common/LinkAndCopy';
+import { NETWORK_SCANNER_MAP } from '@/components/common/constants';
+
+const FORMAT_MAP: { [key: string]: string } = {
+    '0x940d3c60': 'executeCall(address target, uint256 value, bytes targetCallData)',
+    '0x9e5d4c49': 'executeCall(address target,uint256 value, bytes data)',
+    '0x912ccaa3': 'executeBatchCall(address[] target, uint256[] value, bytes[] targetCallData)',
+    '0x18dfb3c7': 'execute(address target[], bytes callData[])',
+    '0xb61d27f6': 'executeCall(address target,uint256 value, bytes data)',
+    '0x51945447': 'executeCall(address target,uint256 value, bytes data)',
+    '0xf34308ef': 'executeCall(address target,uint256 value, bytes data)',
+};
+
+const getFormat = (callData: string) => {
+    if (callData.length < 10) return '';
+    const format = FORMAT_MAP[callData.slice(0, 10)];
+    if (format) return format;
+    return '';
+};
+
+export default function DeveloperDetails({
+    tableLoading,
+    skeletonCards1,
+    mempoolData,
+    selectedColor,
+    setSelectedColor,
+    metaData,
+    selectedNetwork,
+}: any) {
+    const initialize = (key: any, initialValue: any) => {
+        try {
+            const item = localStorage.getItem(key);
+            if (item && item !== 'undefined') {
+                return JSON.parse(item);
+            }
+
+            localStorage.setItem(key, JSON.stringify(initialValue));
+            return initialValue;
+        } catch {
+            return initialValue;
+        }
+    };
+
+    const [dropOpen, SetdropOpen] = useState(() => initialize('dropOpen', true));
+    const [open, setOpen] = useState(() => initialize('open', true));
+    const [userOpParamsExists, setUserOpParamsExists] = useState(false);
+    const [userOpParams, setUserOpParams] = useState<any>([]);
+
+    useEffect(() => {
+        if (mempoolData && 'data' in mempoolData) {
+            setUserOpParams(mempoolData.data.userOperation);
+        }
+    }, [mempoolData]);
+
+    useEffect(() => {
+        // save dropOpen state in localstorage
+        if (typeof window === 'undefined') return;
+        localStorage.setItem('dropOpen', JSON.stringify(dropOpen));
+    }, [dropOpen]);
+
+    useEffect(() => {
+        // save open state in localstorage
+        if (typeof window === 'undefined') return;
+        localStorage.setItem('open', JSON.stringify(open));
+    });
+
+    useEffect(() => {
+        if (metaData && Object.keys(metaData).length > 0 && 'userOpParams' in metaData && metaData.userOpParams.length > 0)
+            setUserOpParamsExists(true);
+    }, [metaData]);
+
+    return (
+        <div>
+            <section className="mt-[48px] px-3 mb-10">
+                <div className="container px-0">
+                    <div>
+                        <Caption icon={'/images/cube.svg'} text={''}>
+                            Developer Details
+                        </Caption>
+                    </div>
+                    <div className="bg-white rounded shadow-300 ">
+                        {tableLoading ? (
+                            skeletonCards1.map((index: number) => <Skeleton height={55} key={index} />)
+                        ) : (
+                            <div className="items-center md:pt-[0px] pt-[16px]  md:gap-[20px] gap-[10px]  pb-[2px]">
+                                <div className="flex md:pt-[0px] pt-[16px] items-center md:border-b border-[#ccc] border-0 md:gap-[20px] gap-[10px]  pb-[2px]">
+                                    <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
+                                        <IconText icon={'/images/Hash.svg'}>
+                                            <span className="text-[14px] font-normal md:block hidden leading-5 text-dark-600">
+                                                Entry Point
+                                            </span>
+                                        </IconText>
+                                    </div>
+                                    <div className="flex-1 gap-2 break-words ">
+                                        <div>
+                                            <p className="text-[14px] text-[#455A64] md:hidden block">Entry Point</p>
+                                        </div>
+                                        <div className="justify-between block md:flex">
+                                            <div className="flex items-center gap-[10px]">
+                                                <LinkAndCopy
+                                                    text={mempoolData?.transactionData?.transactionRequest?.address}
+                                                    link={
+                                                        NETWORK_SCANNER_MAP['mainnet'] +
+                                                        '/address/' +
+                                                        mempoolData?.transactionData?.transactionRequest?.address
+                                                    }
+                                                    copyText={mempoolData?.transactionData?.transactionRequest?.address}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="flex justify-between items-center p-[16px]" onClick={() => SetdropOpen(!dropOpen)}>
+                                    <div className="flex gap-[12px] w-[400px]">
+                                        <img src="/images/code-array.svg" alt="" />
+                                        <p>CallData</p>
+                                        <InfoButton />
+                                    </div>
+                                    <div className="flex gap-[132px]">
+                                        <img src="/images/dropdownarrow.svg" />
+                                    </div>
+                                </div>
+                                {dropOpen ? (
+                                    <>
+                                        {selectedColor === 'Original' ? (
+                                            <>
+                                                <div className="py-[14px] px-4 mt-[-28px]">
+                                                    <div className="py-[14px] px-4 mt-[-28px]">
+                                                        <div className="whitespace-normal  break-all text-black[87%] py-[14px] text-sm leading-5">
+                                                            <div className="py-[14px] flex px-4 whitespace-pre">
+                                                                <div className="flex items-center justify-between w-full my-[2px] mb-2">
+                                                                    <div className="flex gap-1">
+                                                                        {BUTTON_LIST.map(({ name, key }, index) => (
+                                                                            <Chip
+                                                                                className={`
+                                    text-white table-tab py-[6px] px-3 ${sx.tab}`}
+                                                                                onClick={() => {
+                                                                                    setSelectedColor(key);
+                                                                                }}
+                                                                                key={index}
+                                                                                color={`${selectedColor === key ? 'blue-700' : 'white'}`}
+                                                                                // variant={"outlined"}
+                                                                            >
+                                                                                {name}
+                                                                            </Chip>
+                                                                        ))}
+                                                                    </div>
+                                                                    <div className="flex-end">
+                                                                        <CopyButton text={'0x'} />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="overflow-auto flex-1 max-h-[290px] custom-scroll bg-white border-dark-200 rounded border ml-[16px]">
+                                                                {'0x'}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <div className="py-[14px] px-4 mt-[-28px]">
+                                                    <div className="py-[14px] px-4 ">
+                                                        <div className="flex my-[2px] justify-between mb-2">
+                                                            <div className="flex gap-1">
+                                                                {BUTTON_LIST.map(({ name, key }, index) => (
+                                                                    <Chip
+                                                                        className={`text-white table-tab py-[6px] px-3 ${sx.tab}`}
+                                                                        onClick={() => setSelectedColor(key)}
+                                                                        key={index}
+                                                                        color={`${selectedColor === key ? 'blue-700' : 'white'}`}
+                                                                    >
+                                                                        {name}
+                                                                    </Chip>
+                                                                ))}
+                                                            </div>
+                                                            <div className="flex-end">
+                                                                <CopyButton text={'0x'} />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex gap-2">
+                                                        <div className="overflow-y-auto overflow-x-hidden flex-1 max-h-[290px] bg-white border-dark-200 rounded border">
+                                                            <table className="divide-y wordbrack divide-dark-100">
+                                                                <thead className="bg-white">
+                                                                    <tr>
+                                                                        <th
+                                                                            scope="col"
+                                                                            className="sticky whitespace-nowrap z-10 top-0 bg-white py-[14px] px-3 text-left text-[12px] font-bold leading-5 text-dark-600"
+                                                                        >
+                                                                            Name
+                                                                        </th>
+                                                                        <th
+                                                                            scope="col"
+                                                                            className="sticky whitespace-nowrap z-10 top-0 bg-white py-[14px] px-3 text-left text-[12px] font-bold leading-5 text-dark-600"
+                                                                        >
+                                                                            Type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                        </th>
+                                                                        <th
+                                                                            scope="col"
+                                                                            className="sticky whitespace-nowrap z-10 top-0 bg-white py-[14px] px-3 text-left text-[12px] font-bold leading-5 text-dark-600"
+                                                                        >
+                                                                            Data
+                                                                        </th>
+
+                                                                        <th
+                                                                            scope="col"
+                                                                            className="relative whitespace-nowrap py-3.5 pl-3 pr-4 sm:pr-0"
+                                                                        >
+                                                                            <span className="sr-only">Edit</span>
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody className="divide-y divide-dark-100">
+                                                                    <tr key="sender">
+                                                                        <td className="whitespace-nowrap text-black  [87%] py-[14px] px-3 text-sm leading-5">
+                                                                            sender
+                                                                        </td>
+                                                                        <td className="whitespace-nowrap text-black  [87%] py-[14px] px-3 text-sm leading-5">
+                                                                            address
+                                                                        </td>
+                                                                        <td className="wordbrack  text-black wordbrack  [87%] py-[14px] px-3 text-sm leading-5">
+                                                                            <span className="text-sm leading-5 break-all text-dark-700">
+                                                                                {userOpParams?.sender}
+                                                                            </span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr className="bg-gray-50" key="nonce">
+                                                                        <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5 ">
+                                                                            nonce
+                                                                        </td>
+                                                                        <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5 ">
+                                                                            uint256
+                                                                        </td>
+                                                                        <td className="wordbrack  text-black wordbrack  [87%] py-[14px] px-3 text-sm leading-5 ">
+                                                                            {userOpParams?.nonce}
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr key="initCode">
+                                                                        <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5">
+                                                                            initCode
+                                                                        </td>
+                                                                        <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5">
+                                                                            bytes
+                                                                        </td>
+                                                                        <td className="whitespace-nowrap text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                            {userOpParams?.initCode}
+                                                                        </td>
+                                                                    </tr>
+                                                                    {selectedColor === 'Original' ? (
+                                                                        <tr>
+                                                                            <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                InitCode
+                                                                            </td>
+                                                                            <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                Bytes
+                                                                            </td>
+                                                                            <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                {userOpParams.initCode}
+                                                                            </td>
+                                                                        </tr>
+                                                                    ) : (
+                                                                        ''
+                                                                    )}
+
+                                                                    <tr>
+                                                                        <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5">
+                                                                            <div className="flex items-center gap-2">
+                                                                                decoded calldata
+                                                                                <button
+                                                                                    onClick={() => setOpen(!open)}
+                                                                                    className={`${open ? 'rotate-180' : ''}`}
+                                                                                >
+                                                                                    <IconText icon="/images/arrow-drop.svg" />
+                                                                                </button>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5"></td>
+                                                                        <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                            {
+                                                                                <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-red-700 rounded-md bg-gray-50 ring-1 ring-inset ring-gray-500/10">
+                                                                                    {'0x' == '0x'
+                                                                                        ? 'No call data'
+                                                                                        : 'Unknown callData signature'}
+                                                                                </span>
+                                                                            }
+                                                                            <span className="text-sm leading-5 text-blue-200"></span>
+                                                                        </td>
+                                                                    </tr>
+
+                                                                    <tr className="bg-gray-50">
+                                                                        <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5 ">
+                                                                            callData
+                                                                        </td>
+                                                                        <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5 ">
+                                                                            bytes
+                                                                        </td>
+                                                                        <td className="wordbrack  text-black wordbrack  [87%] py-[14px] px-3 text-sm leading-5 ">
+                                                                            {typeof userOpParams?.callData == 'string'
+                                                                                ? userOpParams?.callData
+                                                                                : userOpParams?.preDecodedCallData}
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5">
+                                                                            callGasLimit
+                                                                        </td>
+                                                                        <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                            uint256
+                                                                        </td>
+                                                                        <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                            {userOpParams?.callGasLimit}
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                            verificationGasLimit
+                                                                        </td>
+                                                                        <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                            uint256
+                                                                        </td>
+                                                                        <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                            {userOpParams?.verificationGasLimit}
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5">
+                                                                            preVerificationGas
+                                                                        </td>
+                                                                        <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                            uint256
+                                                                        </td>
+                                                                        <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                            {userOpParams?.preVerificationGas}
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5">
+                                                                            maxFeePerGas
+                                                                        </td>
+                                                                        <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                            uint256
+                                                                        </td>
+
+                                                                        <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                            <DisplayFee
+                                                                                item={userOpParams?.maxFeePerGas!}
+                                                                                network={'mainnet'}
+                                                                            />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5">
+                                                                            maxPriorityFeePerGas
+                                                                        </td>
+                                                                        <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                            uint256
+                                                                        </td>
+                                                                        <td className="wordbrack text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                            <DisplayFee
+                                                                                item={userOpParams?.maxPriorityFeePerGas!}
+                                                                                network={'mainnet'}
+                                                                            />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                            paymasterAndData
+                                                                        </td>
+                                                                        <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                            uint256
+                                                                        </td>
+                                                                        <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                            {userOpParams?.paymasterAndData}
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                            signature
+                                                                        </td>
+                                                                        <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                            uint256
+                                                                        </td>
+                                                                        <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                            {userOpParams?.signature}
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </>
+                                        )}
+                                    </>
+                                ) : (
+                                    <></>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </section>
+        </div>
+    );
+}

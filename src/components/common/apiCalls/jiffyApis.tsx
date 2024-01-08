@@ -1066,3 +1066,15 @@ export const resolveBNSAddress = async (address: String, network: string): Promi
     }
     return name;
 };
+
+const MEMPOOL_SERVER = process.env.NEXT_PUBLIC_MEMPOOL_DB_SERVER;
+export const getMempoolData = async (userOpHash: string) => {
+    const response = await fetch(MEMPOOL_SERVER + '/getUserOperationData?userOpHash=' + userOpHash, {
+        headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5', 'Content-Type': 'application/json' },
+    });
+    if (response.status != 200) {
+        return null;
+    }
+    const data = await response.json();
+    return data;
+};

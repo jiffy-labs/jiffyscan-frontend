@@ -15,14 +15,26 @@ export default function Status({ type, status, ago }: { type?: boolean; status?:
                     <span className="font-normal text-[12px] leading-5 text-dark-600">Failed</span>
                 </span>
             )}
-            {status === 'pending' && (
+            {status === 'outstanding' && (
                 <span className="flex items-center px-3 py-px  gap-2 rounded-full border border-[#d81a14]">
                     <img src="/images/pending.svg" alt="" />
-                    <span className="font-normal text-[12px] leading-5 text-dark-600">Failed</span>
+                    <span className="font-normal text-[12px] leading-5 text-dark-600">Outstanding</span>
+                </span>
+            )}
+            {status === 'processing' && (
+                <span className="flex items-center px-3 py-px  gap-2 rounded-full border border-[#d81a14]">
+                    <img src="/images/pending.svg" alt="" />
+                    <span className="font-normal text-[12px] leading-5 text-dark-600">Processing</span>
+                </span>
+            )}
+            {status === 'submitted' && (
+                <span className="flex items-center px-3 py-px  gap-2 rounded-full border border-[#d81a14]">
+                    <img src="/images/pending.svg" alt="" />
+                    <span className="font-normal text-[12px] leading-5 text-dark-600">Submitted</span>
                 </span>
             )}
             {status === 'success' && (
-                <span className="flex items-cente gap-2 rounded-full">
+                <span className="flex gap-2 rounded-full items-cente">
                     <img src="/images/Success.svg" alt="" /> <span className="tracking-normal whitespace-nowrap">{ago}</span>
                 </span>
             )}
