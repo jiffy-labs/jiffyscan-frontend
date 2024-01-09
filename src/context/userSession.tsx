@@ -63,7 +63,7 @@ export default function UserSessionStore({ children }: any) {
         //     setBypass(true);
         //     return;
         // }
-        NextAuth.signIn(social);
+        NextAuth.signIn(social, { callbackUrl: window.location.href });
     };
 
     return <UserSessionContext.Provider value={{ isLoggedIn, signIn, signOut, session }}>{children}</UserSessionContext.Provider>;
