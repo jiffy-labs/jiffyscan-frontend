@@ -4,7 +4,8 @@ import DisplayFee from '@/components/common/displayfee/DisplayFee';
 import LinkAndCopy from '@/components/common/LinkAndCopy';
 import Status from '@/components/common/status/Status';
 import Caption from '@/components/common/Caption';
-import { Tooltip } from '@mui/material';
+import { Box, CircularProgress, Tooltip } from '@mui/material';
+import LinearProgress from '@mui/material/LinearProgress';
 import { InfoSection, RenderTextCopyLink, PowerButton, RenderDisplayFee } from '@/views/userOp/widget';
 import moment from 'moment';
 
@@ -145,10 +146,8 @@ export default function TransactionDetails({ tableLoading, skeletonCards, mempoo
     }, [mempoolData]);
 
     const getStatus = (mempoolData: any) => {
-        if (mempoolData?.reciept.status == 'success') {
-            setStatus('success');
-        } else if ('reciept' in mempoolData && 'blockNumber' in mempoolData) {
-            setStatus('failure');
+        if ('success' in mempoolData?.event) {
+            setStatus(mempoolData?.event.success ? 'success' : 'failure');
         } else if (mempoolData?.submittedTime > 0) {
             setStatus('submitted');
         } else if (mempoolData?.processedTime > 0) {
@@ -197,7 +196,6 @@ export default function TransactionDetails({ tableLoading, skeletonCards, mempoo
                                             title="First Submitted"
                                             content={<DisplayTime timestamp={mempoolData?.firstSubmittedTime / 1000} />}
                                         />
-
                                         {/* {mempoolData?.processedTime && (
                                             <InfoSection
                                                 icon="processedTime"
@@ -206,28 +204,38 @@ export default function TransactionDetails({ tableLoading, skeletonCards, mempoo
                                             />
                                         )} */}
 
-                                        {mempoolData?.submittedTime && (
-                                            <InfoSection
-                                                icon="submissionTime"
-                                                title="Block Time"
-                                                content={
-                                                    <>
+                                        <InfoSection
+                                            icon="submissionTime"
+                                            title="Block Time"
+                                            content={
+                                                <>
+                                                    {mempoolData?.submittedTime ? (
                                                         <DisplayTime timestamp={mempoolData?.submittedTime / 1000} />
-                                                    </>
-                                                }
-                                            />
-                                        )}
-                                        {blockDetails && blockDetails?.timestamp && (
-                                            <InfoSection
-                                                icon="blockTime"
-                                                title="Block Time"
-                                                content={
-                                                    <>
+                                                    ) : (
+                                                        <Box sx={{ width: '100%' }}>
+                                                            To be Submitted <CircularProgress size={10} color="inherit" />
+                                                        </Box>
+                                                    )}
+                                                </>
+                                            }
+                                        />
+
+                                        <InfoSection
+                                            icon="blockTime"
+                                            title="Block Time"
+                                            content={
+                                                <>
+                                                    {blockDetails && blockDetails?.timestamp ? (
                                                         <DisplayTime timestamp={parseInt(blockDetails?.timestamp.toString())} />
-                                                    </>
-                                                }
-                                            />
-                                        )}
+                                                    ) : (
+                                                        <Box sx={{ width: '100%' }}>
+                                                            To Be Mined <CircularProgress size={10} color="inherit" />
+                                                        </Box>
+                                                    )}
+                                                </>
+                                            }
+                                        />
+
                                         <InfoSection
                                             icon="status"
                                             title="Status"
@@ -285,25 +293,33 @@ export default function TransactionDetails({ tableLoading, skeletonCards, mempoo
                                                 </>
                                             }
                                         />} */}
-                                        {mempoolData?.transactionData?.transactionRequest && (
-                                            <InfoSection
-                                                icon="beneficiary"
-                                                title="Beneficiary"
-                                                content={
-                                                    <>
-                                                        <RenderTextCopyLink
-                                                            text={mempoolData?.transactionData?.transactionRequest.args[1]}
-                                                            network={'mainnet'}
-                                                            type="bundler"
-                                                        />
-                                                        <PowerButton
-                                                            item={mempoolData?.transactionData?.transactionRequest.args[1]}
-                                                            addressMapping={addressMapping}
-                                                        />
-                                                    </>
-                                                }
-                                            />
-                                        )}
+
+                                        <InfoSection
+                                            icon="beneficiary"
+                                            title="Beneficiary"
+                                            content={
+                                                <>
+                                                    <RenderTextCopyLink
+                                                        text={
+                                                            mempoolData?.transactionData?.transactionRequest?.args[1]
+                                                                ? mempoolData?.transactionData?.transactionRequest?.args[1]
+                                                                : 'Not mined'
+                                                        }
+                                                        network={'mainnet'}
+                                                        type="bundler"
+                                                    />
+                                                    <PowerButton
+                                                        item={
+                                                            mempoolData?.transactionData?.transactionRequest?.args[1]
+                                                                ? mempoolData?.transactionData?.transactionRequest?.args[1]
+                                                                : 'Not mined'
+                                                        }
+                                                        addressMapping={addressMapping}
+                                                    />
+                                                </>
+                                            }
+                                        />
+
                                         <InfoSection
                                             icon="transactionHash"
                                             title="Transaction Hash"
@@ -319,19 +335,20 @@ export default function TransactionDetails({ tableLoading, skeletonCards, mempoo
                                                 />
                                             }
                                         />
-                                        {mempoolData?.reciept && 'blockNumber' in mempoolData.reciept && (
-                                            <InfoSection
-                                                icon="block"
-                                                title="Block"
-                                                content={
-                                                    <RenderTextCopyLink
-                                                        text={mempoolData?.reciept?.blockNumber}
-                                                        network={'mainnet'}
-                                                        type="block"
-                                                    />
-                                                }
-                                            />
-                                        )}
+
+                                        <InfoSection
+                                            icon="block"
+                                            title="Block"
+                                            content={
+                                                <RenderTextCopyLink
+                                                    text={
+                                                        mempoolData?.reciept?.blockNumber ? mempoolData?.reciept?.blockNumber : 'Not mined'
+                                                    }
+                                                    network={'mainnet'}
+                                                    type="block"
+                                                />
+                                            }
+                                        />
                                     </div>
                                 </section>
                             </div>

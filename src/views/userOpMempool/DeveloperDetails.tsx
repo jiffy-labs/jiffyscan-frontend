@@ -109,7 +109,11 @@ export default function DeveloperDetails({
                                         <div className="justify-between block md:flex">
                                             <div className="flex items-center gap-[10px]">
                                                 <LinkAndCopy
-                                                    text={mempoolData?.transactionData?.transactionRequest?.address}
+                                                    text={
+                                                        mempoolData?.transactionData?.transactionRequest?.address
+                                                            ? mempoolData?.transactionData?.transactionRequest?.address
+                                                            : 'Not known'
+                                                    }
                                                     link={
                                                         NETWORK_SCANNER_MAP['mainnet'] +
                                                         '/address/' +
