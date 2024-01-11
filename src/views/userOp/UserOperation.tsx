@@ -76,13 +76,13 @@ const createDuplicateUserOpsRows = (userOps: UserOp[], handleRowClicked: (id: nu
 
 const getBlockCondition = (expTime: number | null | undefined): boolean => {
     return expTime ? expTime < Date.now() / 1000 : true;
-} 
+};
 
 function RecentUserOps(props: any) {
     const router = useRouter();
     const [tableLoading, setTableLoading] = useState(true);
     const { selectedNetwork, setSelectedNetwork, addressMapping } = useConfig();
-    
+
     const hash = props.slug && props.slug[0];
     const network = router.query && router.query.network;
     const [selectedColor, setSelectedColor] = useState(BUTTON_LIST[0].key);
@@ -92,12 +92,12 @@ function RecentUserOps(props: any) {
     const [metaData, setMetaData] = useState<metadata>();
     const [duplicateUserOpsRows, setDuplicateUserOpsRows] = useState<tableDataT['rows']>([] as tableDataT['rows']);
     const { isLoggedIn } = useUserSession();
-    
-    const [block, setBlock] = useState(!isLoggedIn());
 
-    useEffect(() => {
-        setBlock(!isLoggedIn());
-    }, [isLoggedIn]);
+    // const [block, setBlock] = useState(!isLoggedIn());
+
+    // useEffect(() => {
+    //     setBlock(!isLoggedIn());
+    // }, [isLoggedIn]);
 
     async function returnUserOpData(hash: string, toast: any) {
         let currentTime = new Date().getTime();
@@ -125,9 +125,9 @@ function RecentUserOps(props: any) {
         let rows: tableDataT['rows'] = createDuplicateUserOpsRows(userOps, handleDuplicateRowClick);
         setDuplicateUserOpsRows(rows);
         if (userOps.length > 1) setShowUserOpId(-1);
-        else {
-            if (userOps[0].block) setBlock(true);
-        }
+        // else {
+        //     if (userOps[0].block) setBlock(true);
+        // }
 
         if (userOps[0] && userOps[0].network) {
             setSelectedNetwork(userOps[0].network);
@@ -222,8 +222,14 @@ function RecentUserOps(props: any) {
                 </div>
             </section>
             <div>
-                {!(isLoggedIn() || (selectedNetwork && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(selectedNetwork))) && <LoginModal showClose={false} block={block} setBlock={setBlock}></LoginModal>}
-                <div className={`${!(isLoggedIn() || (selectedNetwork && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(selectedNetwork))) && 'blur'}`}>
+                {/* {!(isLoggedIn() || (selectedNetwork && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(selectedNetwork))) && (
+                    <LoginModal showClose={false} block={block} setBlock={setBlock}></LoginModal>
+                )} */}
+                <div
+                // className={`${
+                //     !(isLoggedIn() || (selectedNetwork && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(selectedNetwork))) && 'blur'
+                // }`}
+                >
                     {showUserOpId >= 0 ? (
                         <>
                             <HeaderSection item={userOpsData?.[showUserOpId]} network={network} loading={tableLoading} />

@@ -36,7 +36,7 @@ declare module 'next-auth' {
         picture: string;
         sub: string;
         expires_at: number;
-        provider?: string; 
+        provider?: string;
     }
 
     interface Session extends DefaultSession {
@@ -64,7 +64,7 @@ function Home() {
     const [bundlerTableLoading, setBundlerTableLoading] = useState(true);
     const [paymasterTableLoading, setPaymasterTableLoading] = useState(true);
     const [loading, setLoading] = useState(true);
-    const [loginErrorDisplayed, setLoginErrorDisplayed] = useState(false)
+    const [loginErrorDisplayed, setLoginErrorDisplayed] = useState(false);
     const searchParams = useSearchParams();
 
     useEffect(() => {
@@ -72,19 +72,19 @@ function Home() {
         refreshUserOpsTable(selectedNetwork);
         refreshBundlersTable(selectedNetwork);
         refreshPaymastersTable(selectedNetwork);
-        turnBlockOnAfterXSeconds(10);
+        // turnBlockOnAfterXSeconds(10);
     }, [selectedNetwork]);
 
-    useEffect(() => {
-        if(triggerBlock) {
-            setBlock(!isLoggedIn());    
-        }
-    }, [triggerBlock])
+    // useEffect(() => {
+    //     if(triggerBlock) {
+    //         setBlock(!isLoggedIn());
+    //     }
+    // }, [triggerBlock])
 
     useEffect(() => {
-        const error = searchParams.get("error");
-        if(window && error && !loginErrorDisplayed) {
-            toast.error("Failed to log you in. Please try again ! ERROR: "+error, {
+        const error = searchParams.get('error');
+        if (window && error && !loginErrorDisplayed) {
+            toast.error('Failed to log you in. Please try again ! ERROR: ' + error, {
                 position: 'bottom-left',
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -92,20 +92,20 @@ function Home() {
                 pauseOnHover: true,
                 theme: 'colored',
             });
-            setLoginErrorDisplayed(true)
+            setLoginErrorDisplayed(true);
         }
-    })
+    });
 
-    //turn on block after 10 seconds
-    const turnBlockOnAfterXSeconds = (seconds: number) => {
-        setTimeout(() => {
-            blockView();
-        }, seconds * 1000);
-    };
+    // //turn on block after 10 seconds
+    // const turnBlockOnAfterXSeconds = (seconds: number) => {
+    //     setTimeout(() => {
+    //         blockView();
+    //     }, seconds * 1000);
+    // };
 
-    const blockView = () => {
-        setTriggerBlock(true);
-    };
+    // const blockView = () => {
+    //     setTriggerBlock(true);
+    // };
 
     const refreshBundlesTable = async (network: string) => {
         setBundleTableLoading(true);

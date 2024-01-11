@@ -16,7 +16,7 @@ import TransactionDetails from './TransactionDetails';
 import HeaderSection from './HeaderSection';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useUserSession } from "@/context/userSession";
+import { useUserSession } from '@/context/userSession';
 import LoginModal from '@/components/global/LoginModal';
 
 // import Skeleton from '@/components/Skeleton';
@@ -99,11 +99,11 @@ function Bundler(props: any) {
 
     const { isLoggedIn } = useUserSession();
 
-    const [block, setBlock] = useState(!isLoggedIn());
+    // const [block, setBlock] = useState(!isLoggedIn());
 
-    useEffect(() => {
-        setBlock(!isLoggedIn());
-    }, [isLoggedIn]);
+    // useEffect(() => {
+    //     setBlock(!isLoggedIn());
+    // }, [isLoggedIn]);
 
     // handling table page change. Everytime the pageNo change, or pageSize change this function will fetch new data and update it.
     const updateRowsData = async (network: string, pageNo: number, pageSize: number) => {
@@ -135,7 +135,7 @@ function Bundler(props: any) {
     useEffect(() => {
         updateRowsData(network ? network : '', pageSize, pageNo);
         const urlParams = new URLSearchParams(window.location.search);
-        urlParams.set('pageNo', (pageNo).toString());
+        urlParams.set('pageNo', pageNo.toString());
         urlParams.set('pageSize', pageSize.toString());
         window.history.pushState(null, '', `${window.location.pathname}?${urlParams.toString()}`);
     }, [pageNo, bundleInfo]);
@@ -157,7 +157,7 @@ function Bundler(props: any) {
     }, [hash, network]);
 
     let skeletonCards = Array(5).fill(0);
-    
+
     return (
         <div className="">
             <Navbar searchbar />
@@ -189,10 +189,13 @@ function Bundler(props: any) {
                     <h1 className="text-3xl font-bold">Bundle</h1>
                 </div>
             </section>
-            {!(isLoggedIn() || (network && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(network))) && <LoginModal showClose={false} block={block} setBlock={setBlock}></LoginModal>}
-            <HeaderSection block={!(isLoggedIn() || (network && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(network)))} item={bundleInfo} network={network} />
+            {/* {!(isLoggedIn() || (network && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(network))) && <LoginModal showClose={false} block={block} setBlock={setBlock}></LoginModal>} */}
+            {/* <HeaderSection block={!(isLoggedIn() || (network && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(network)))} item={bundleInfo} network={network} />
             <TransactionDetails block={!(isLoggedIn() || (network && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(network)))} item={bundleInfo} network={network} tableLoading={tableLoading}/>
-            <div className={`${!(isLoggedIn() || (network && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(network))) && 'blur'} container px-0`}>
+            <div className={`${!(isLoggedIn() || (network && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(network))) && 'blur'} container px-0`}> */}
+            <HeaderSection item={bundleInfo} network={network} />
+            <TransactionDetails item={bundleInfo} network={network} tableLoading={tableLoading} />
+            <div className="container px-0">
                 <Table
                     rows={rows}
                     columns={columns}

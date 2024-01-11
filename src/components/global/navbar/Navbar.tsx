@@ -60,7 +60,7 @@ function Navbar(props: NavbarProps) {
                     </div>
                     <div className="items-center justify-end flex-grow hidden gap-3 md:flex">
                         {searchbar && <Searchblock isNavbar={true} />}
-                        <User />
+                        {/* <User /> */}
                     </div>
                     <div className="flex items-center md:hidden">
                         <button type="button" onClick={toggleDrawer}>
@@ -94,9 +94,9 @@ function Navbar(props: NavbarProps) {
                             <Pages />
                         </div>
                         <hr className="mb-2" />
-                        <div className="-ml-2">
+                        {/* <div className="-ml-2">
                             <User />
-                        </div>
+                        </div> */}
                     </div>
                     <div className="flex flex-col gap-1 justify-start [&_span]:text-dark-600/75">
                         <Copyright />
