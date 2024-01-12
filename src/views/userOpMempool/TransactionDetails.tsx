@@ -42,6 +42,7 @@ import Skeleton from 'react-loading-skeleton-2';
 import ERC20Transfers from './ERC20Transfers';
 import ERC721Transfers from './ERC721Transfers';
 import DisplayTime from './DisplayTime';
+import axios from 'axios';
 export default function TransactionDetails({ tableLoading, skeletonCards, mempoolData, addressMapping, metaData, selectedNetwork }: any) {
     const [showMetadata, setShowMetadata] = useState(false);
     const [targets, setTargets] = useState([] as Array<string>);
@@ -137,11 +138,15 @@ export default function TransactionDetails({ tableLoading, skeletonCards, mempoo
     }, [mempoolData]);
 
     useEffect(() => {
+        const getBlockTimestamp = async (blockNumber: number) => {
+            const res = await axios.get(
+                'https://el56mi1yf0.execute-api.us-east-1.amazonaws.com/default/getBlockByNumber?blockNumber=' +
+                    mempoolData?.reciept.blockNumber,
+            );
+            setBlockDetails({ timestamp: parseInt(res.data) });
+        };
         if (mempoolData?.reciept.blockNumber > 0) {
-            client.getBlock(mempoolData?.reciept.blockNumber).then((block) => {
-                setBlockDetails(block);
-                console.log('block', block);
-            });
+            getBlockTimestamp(mempoolData?.reciept.blockNumber);
         }
     }, [mempoolData]);
 
