@@ -2,6 +2,8 @@ import axios from 'axios';
 import { fallBack } from '../constants';
 import cache from 'memory-cache';
 import { BigNumber } from 'ethers';
+import { fetchRetry } from '../utils';
+
 export interface UserOp {
     id: string | null;
     transactionHash: string | null;
@@ -402,18 +404,21 @@ export const getTopPaymasters = async (
     toast: any,
 ): Promise<PayMasterActivity[]> => {
     if (!performApiCall(selectedNetwork)) return [] as PayMasterActivity[];
-    const response = await fetch(
-        API_URL +
+
+    const topPaymastersDataUrl = API_URL +
             '/v0/getTopPaymasters?network=' +
             selectedNetwork +
             '&first=' +
             pageSize +
             '&skip=' +
-            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
-        {
+            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0);
+    
+    const options = {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
-        },
-    );
+    };
+
+    const response = await fetchRetry(topPaymastersDataUrl, options);
+
     if (response.status != 200) {
         showToast(toast, 'Error fetching data');
     }

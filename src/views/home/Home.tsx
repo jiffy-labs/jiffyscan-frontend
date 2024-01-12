@@ -67,7 +67,6 @@ function Home() {
     const searchParams = useSearchParams();
 
     useEffect(() => {
-        console.log(bundlesTables);
         refreshBundlesTable(selectedNetwork);
         refreshUserOpsTable(selectedNetwork);
         refreshBundlersTable(selectedNetwork);
@@ -145,7 +144,6 @@ function Home() {
         });
         paymastersTables[network] = ({ ...paymastersTables[network], rows: newRows.slice(0, 10) });
         setPaymastersTables(paymastersTables);
-        console.log(paymastersTables[network]);
         setPaymasterTableLoading(false);
     };
 

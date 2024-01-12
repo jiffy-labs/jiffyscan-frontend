@@ -118,3 +118,13 @@ export const checkIfValidTerm = (term: string) => {
     if (term.length < 11 && !isNaN(parseInt(term))) return true;
     return false;
 };
+
+export const fetchRetry = async (url:string, options:any, n=3) : Promise<any> => {
+    try {
+        return await fetch(url, options);
+    } catch(err) {
+        if (n === 1) throw err;
+        console.log(`Request Failed: ${url}. Retrying...`);
+        return await fetchRetry(url, options, n - 1);
+    }
+};
