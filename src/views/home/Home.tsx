@@ -1,5 +1,5 @@
 import Button from '@/components/common/Button';
-import Table, { tableDataT } from '@/components/common/table/Table';
+import Table, { tableDataT, tableDataTCollection } from '@/components/common/table/Table';
 import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
 import RecentMetrics from '@/components/global/recent_metrics/RecentMetrics';
@@ -53,12 +53,11 @@ function Home() {
     const { isLoggedIn } = useUserSession();
 
     const [block, setBlock] = useState(false);
-
     const [triggerBlock, setTriggerBlock] = useState(false);
-    const [bundlesTable, setBundlesTable] = useState<tableDataT>(BundlesTable as tableDataT);
-    const [operationsTable, setOperationsTable] = useState<tableDataT>(OperationsTable as tableDataT);
-    const [bundlersTable, setBundlersTable] = useState<tableDataT>(BundlersTable as tableDataT);
-    const [paymastersTable, setPaymastersTable] = useState<tableDataT>(PaymastersTable as tableDataT);
+    const [bundlesTables, setBundlesTables] = useState<tableDataTCollection>({[selectedNetwork]:BundlesTable} as tableDataTCollection);
+    const [operationsTables, setOperationsTables] = useState<tableDataTCollection>({[selectedNetwork]:OperationsTable} as tableDataTCollection);
+    const [bundlersTables, setBundlersTables] = useState<tableDataTCollection>({[selectedNetwork]:BundlersTable} as tableDataTCollection);
+    const [paymastersTables, setPaymastersTables] = useState<tableDataTCollection>({[selectedNetwork]:PaymastersTable} as tableDataTCollection);
     const [userOpTableLoading, setUserOpTableLoading] = useState(true);
     const [bundleTableLoading, setBundleTableLoading] = useState(true);
     const [bundlerTableLoading, setBundlerTableLoading] = useState(true);
@@ -68,6 +67,7 @@ function Home() {
     const searchParams = useSearchParams();
 
     useEffect(() => {
+        console.log(bundlesTables);
         refreshBundlesTable(selectedNetwork);
         refreshUserOpsTable(selectedNetwork);
         refreshBundlersTable(selectedNetwork);
@@ -123,7 +123,8 @@ function Home() {
                 status: true,
             });
         });
-        setBundlesTable({ ...bundlesTable, rows: newRows.slice(0, 5) });
+        bundlesTables[network] = { ...bundlesTables[network], rows: newRows.slice(0, 5) };
+        setBundlesTables(bundlesTables);
         setBundleTableLoading(false);
     };
 
@@ -142,7 +143,9 @@ function Home() {
                 fee: getFee(parseInt(paymaster.gasSponsored), network),
             });
         });
-        setPaymastersTable({ ...paymastersTable, rows: newRows.slice(0, 10) });
+        paymastersTables[network] = ({ ...paymastersTables[network], rows: newRows.slice(0, 10) });
+        setPaymastersTables(paymastersTables);
+        console.log(paymastersTables[network]);
         setPaymasterTableLoading(false);
     };
 
@@ -161,7 +164,8 @@ function Home() {
                 fee: getFee(parseInt(bundler.actualGasCostSum), network),
             });
         });
-        setBundlersTable({ ...bundlersTable, rows: newRows });
+        bundlersTables[network] = { ...bundlersTables[network], rows: newRows.slice(0, 5) };
+        setBundlesTables(bundlersTables);
         setBundlerTableLoading(false);
     };
 
@@ -183,7 +187,8 @@ function Home() {
             });
         });
         setLoading(false);
-        setOperationsTable({ ...operationsTable, rows: newRows.slice(0, 5) });
+        operationsTables[network] = { ...operationsTables[network], rows: newRows.slice(0, 5) };
+        setOperationsTables(operationsTables);
         setUserOpTableLoading(false);
     };
 
@@ -220,7 +225,8 @@ function Home() {
                     <div className={`container grid grid-cols-1 gap-10 md:grid-cols-2 ${block && 'blur'}`}>
                         <div>
                             <Table
-                                {...(bundlesTable as tableDataT)}
+                                {...(bundlesTables[selectedNetwork] as tableDataT)}
+                                columns={BundlesTable['columns']}
                                 loading={bundleTableLoading}
                                 caption={{
                                     children: 'Recent Bundles',
@@ -236,7 +242,8 @@ function Home() {
                         </div>
                         <div>
                             <Table
-                                {...(operationsTable as tableDataT)}
+                                {...(operationsTables[selectedNetwork] as tableDataT)}
+                                columns={OperationsTable['columns']}
                                 loading={userOpTableLoading}
                                 caption={{
                                     children: 'Recent User Operations',
@@ -255,7 +262,8 @@ function Home() {
                     <div className="container grid grid-cols-1 gap-10 md:grid-cols-2">
                         <div>
                             <Table
-                                {...(bundlersTable as tableDataT)}
+                                {...(bundlersTables[selectedNetwork] as tableDataT)}
+                                columns={BundlesTable['columns']}
                                 loading={bundlerTableLoading}
                                 caption={{
                                     children: 'Top Bundlers',
@@ -271,7 +279,8 @@ function Home() {
                         </div>
                         <div>
                             <Table
-                                {...(paymastersTable as tableDataT)}
+                                {...(paymastersTables[selectedNetwork] as tableDataT)}
+                                columns={PaymastersTable['columns']}
                                 loading={paymasterTableLoading}
                                 caption={{
                                     children: 'Top Paymasters',

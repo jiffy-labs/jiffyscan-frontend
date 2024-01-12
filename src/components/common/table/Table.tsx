@@ -10,6 +10,10 @@ import Status from '../status/Status';
 import { POWERED_BY_LOGO_MAP } from '../constants';
 // import Skeleton from '@/components/Skeleton';
 
+export interface tableDataTCollection {
+    [key: string]: tableDataT;
+}
+
 export interface tableDataT {
     caption?: CaptionProps;
     columns: {
