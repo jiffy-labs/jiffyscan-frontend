@@ -78,7 +78,7 @@ function Factory(props: any) {
     const [useOps, setuserOps] = useState<UserOp[]>();
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE);
-    const [captionText, setCaptionText] = useState('N/A User Ops found');
+    const [captionText, setCaptionText] = useState('Loading User Ops');
 
     // handling table page change. Everytime the pageNo change, or pageSize change this function will fetch new data and update it.
     const updateRowsData = async (network: string, pageNo: number, pageSize: number) => {
@@ -117,8 +117,10 @@ function Factory(props: any) {
     }, [pageNo, factoryInfo]);
 
     useEffect(() => {
-        const captionText = `${factoryInfo?.accountsLength} Accounts found`;
-        setCaptionText(captionText);
+        if (factoryInfo?.accountsLength != undefined ){
+            const captionText = `${factoryInfo.accountsLength} Accounts found`;
+            setCaptionText(captionText);
+        }
     }, [factoryInfo]);
 
     let prevHash = hash;
