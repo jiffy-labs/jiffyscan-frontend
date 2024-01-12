@@ -150,9 +150,7 @@ export default function DeveloperDetails({
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div
-                                                                className="overflow-auto flex-1 max-h-[290px] custom-scroll bg-white border-dark-200 rounded border ml-[16px]"
-                                                            >
+                                                            <div className="overflow-auto flex-1 max-h-[290px] custom-scroll bg-white border-dark-200 rounded border ml-[16px]">
                                                                 {item?.input}
                                                             </div>
                                                         </div>
@@ -250,7 +248,9 @@ export default function DeveloperDetails({
                                                                         <td className="whitespace-nowrap text-black [87%] py-[14px] px-3 text-sm leading-5">
                                                                             {userOpParamsExists && metaData?.userOpParams[2]
                                                                                 ? metaData?.userOpParams[2]
-                                                                                : item?.initCode}
+                                                                                : item?.initCode
+                                                                                ? item?.initCode
+                                                                                : 'Unable to decode user op input'}
                                                                         </td>
                                                                     </tr>
                                                                     {selectedColor === 'Original' ? (
@@ -285,14 +285,16 @@ export default function DeveloperDetails({
                                                                         </td>
                                                                         <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5"></td>
                                                                         <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                            {!(item?.preDecodedCallData &&
-                                                                                getFormat(item?.preDecodedCallData) != '') && (
-                                                                                    <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-red-700 rounded-md bg-gray-50 ring-1 ring-inset ring-gray-500/10">
-                                                                                        {item?.callData == '0x'
-                                                                                            ? 'No call data'
-                                                                                            : 'Unknown callData signature'}
-                                                                                    </span>
-                                                                                )}
+                                                                            {!(
+                                                                                item?.preDecodedCallData &&
+                                                                                getFormat(item?.preDecodedCallData) != ''
+                                                                            ) && (
+                                                                                <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-red-700 rounded-md bg-gray-50 ring-1 ring-inset ring-gray-500/10">
+                                                                                    {item?.callData == '0x'
+                                                                                        ? 'No call data'
+                                                                                        : 'Unknown callData signature'}
+                                                                                </span>
+                                                                            )}
                                                                             <span className="text-sm leading-5 text-blue-200"></span>
                                                                         </td>
                                                                     </tr>
@@ -312,7 +314,9 @@ export default function DeveloperDetails({
                                                                                         <span className="text-sm leading-5 text-blue-200"></span>
                                                                                     </td>
                                                                                 </tr>
-                                                                            ) : ''}
+                                                                            ) : (
+                                                                                ''
+                                                                            )}
                                                                             {item?.target &&
                                                                                 item?.target.map((target: string, index: number) => {
                                                                                     return (
@@ -381,7 +385,9 @@ export default function DeveloperDetails({
                                                                         <td className="wordbrack  text-black wordbrack  [87%] py-[14px] px-3 text-sm leading-5 ">
                                                                             {typeof item?.callData == 'string'
                                                                                 ? item?.callData
-                                                                                : item?.preDecodedCallData}
+                                                                                : item?.preDecodedCallData
+                                                                                ? item?.preDecodedCallData
+                                                                                : 'Unable to decode user op input'}
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
@@ -394,7 +400,9 @@ export default function DeveloperDetails({
                                                                         <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
                                                                             {userOpParamsExists && metaData?.userOpParams[4]
                                                                                 ? parseInt(metaData?.userOpParams[4].hex)
-                                                                                : item?.callGasLimit}
+                                                                                : item?.callGasLimit
+                                                                                ? item?.callGasLimit
+                                                                                : 'Unable to decode user op input'}
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
@@ -407,7 +415,9 @@ export default function DeveloperDetails({
                                                                         <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
                                                                             {userOpParamsExists && metaData?.userOpParams[5]
                                                                                 ? parseInt(metaData?.userOpParams[5].hex)
-                                                                                : item?.verificationGasLimit}
+                                                                                : item?.verificationGasLimit
+                                                                                ? item?.verificationGasLimit
+                                                                                : 'Unable to decode user op input'}
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
@@ -420,7 +430,9 @@ export default function DeveloperDetails({
                                                                         <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
                                                                             {userOpParamsExists && metaData?.userOpParams[6]
                                                                                 ? parseInt(metaData?.userOpParams[6].hex)
-                                                                                : item?.preVerificationGas}
+                                                                                : item?.preVerificationGas
+                                                                                ? item.preVerificationGas
+                                                                                : 'Unable to decode user op input'}
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
@@ -470,7 +482,9 @@ export default function DeveloperDetails({
                                                                         <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
                                                                             {userOpParamsExists && metaData?.userOpParams[9]
                                                                                 ? metaData?.userOpParams[9]
-                                                                                : item?.paymasterAndData}
+                                                                                : item?.paymasterAndData
+                                                                                ? item.paymasterAndData
+                                                                                : 'Unable to decode user op input'}
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
@@ -483,7 +497,9 @@ export default function DeveloperDetails({
                                                                         <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
                                                                             {userOpParamsExists && metaData?.userOpParams[10]
                                                                                 ? metaData?.userOpParams[10]
-                                                                                : item?.signature}
+                                                                                : item?.signature
+                                                                                ? item?.signature
+                                                                                : 'Unable to decode user op input'}
                                                                         </td>
                                                                     </tr>
                                                                 </tbody>
