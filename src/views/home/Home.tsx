@@ -128,6 +128,7 @@ function Home() {
     };
 
     const refreshPaymastersTable = async (network: string) => {
+        setPaymasterTableLoading(true);
         const paymasters = await getTopPaymasters(network, 5, 0, toast);
         let newRows: tableDataT['rows'] = [];
         paymasters.forEach((paymaster) => {
@@ -146,6 +147,7 @@ function Home() {
     };
 
     const refreshBundlersTable = async (network: string) => {
+        setBundlerTableLoading(true);
         const bundlers = await getTopBundlers(network, 5, 0, toast);
         let newRows: tableDataT['rows'] = [];
         bundlers.forEach((bundler) => {
@@ -225,6 +227,7 @@ function Home() {
                                     icon: '/images/swap-vertical-bold (1).svg',
                                     text: 'Recent bundles Processed by selected chain',
                                 }}
+                                key="recentBundlesTable"
                             />
 
                             <div className="mt-4">
@@ -240,6 +243,7 @@ function Home() {
                                     icon: '/images/swap-vertical-bold (1).svg',
                                     text: 'Recent User Operations Processed by selected chain',
                                 }}
+                                key="recentUserOpsTables"
                             />
                             <div className="mt-4">
                                 <Button href="/recentUserOps">View all User operations</Button>
@@ -258,6 +262,7 @@ function Home() {
                                     icon: '/images/swap-vertical-bold (1).svg',
                                     text: 'Top Bundlers by selected chain',
                                 }}
+                                key="topBundlersTable"
                             />
 
                             <div className="mt-4">
@@ -273,6 +278,7 @@ function Home() {
                                     icon: '/images/swap-vertical-bold (1).svg',
                                     text: 'Top Paymaster by selected chain',
                                 }}
+                                key="topPaymastersTable"
                             />
                             <div className="mt-4">
                                 <Button href="/paymasters">View all Paymasters</Button>
