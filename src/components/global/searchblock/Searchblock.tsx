@@ -2,7 +2,7 @@ import { NETWORK_LIST } from '@/components/common/constants';
 import { useConfig } from '@/context/config';
 import { checkIfValidTerm, constructRedirectUrl } from '@/components/common/utils';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Options from './Options';
 import { LinearProgress, Snackbar } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify';
@@ -10,19 +10,20 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const showToast = (toast: any, message: string) => {
     toast.error(message, {
-        position: "bottom-left",
+        position: 'bottom-left',
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
-        theme: "colored"
-    })
-}
+        theme: 'colored',
+    });
+};
 
 function Searchblock({ isNavbar }: { isNavbar: boolean }) {
     const { push } = useRouter();
     const [searching, setSearching] = useState(false);
     const [term, setTerm] = useState('');
+    const searchRef: any = useRef(null);
 
     const handleChange = (e: any) => setTerm(e.target.value.trim());
 
@@ -31,6 +32,20 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
             handleSubmit();
         }
     };
+
+    const keyDownHandler = (event: KeyboardEvent) => {
+        if (event.ctrlKey && event.key === 'k') {
+            console.log('You just pressed Control and K!');
+            if (searchRef.current) searchRef.current.focus();
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('keydown', keyDownHandler);
+        return () => {
+            window.removeEventListener('keydown', keyDownHandler);
+        };
+    });
 
     const handleSubmit = async () => {
         if (checkIfValidTerm(term)) {
@@ -44,15 +59,15 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
                 if (redirectUrl) {
                     push(redirectUrl);
                 } else {
-                    showToast(toast, "No results found")
+                    showToast(toast, 'No results found');
                 }
                 setSearching(false);
             } else {
-                showToast(toast, "Invalid search term ?")
+                showToast(toast, 'Invalid search term ?');
                 setSearching(false);
             }
         } else {
-            showToast(toast, "Invalid search term ?")
+            showToast(toast, 'Invalid search term ?');
         }
     };
 
@@ -66,13 +81,14 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
                     <div className="flex items-center gap-2.5 pr-3 flex-grow">
                         <input
                             type="text"
-                            className="text-base placeholder:text-dark-500 text-dark-600 px-3 py-2 flex-grow"
+                            className="flex-grow px-3 py-2 text-base placeholder:text-dark-500 text-dark-600"
                             placeholder="Search..."
                             value={term}
                             onChange={handleChange}
                             onKeyDown={handleKeyPress}
+                            ref={searchRef}
                         />
-                        <span className="bg-dark-400 px-3 h-5 flex justify-center items-center rounded-full">
+                        <span className="flex items-center justify-center h-5 px-3 rounded-full bg-dark-400">
                             <img className="" src="/images/span (1).svg" alt="" />
                         </span>
                     </div>
@@ -94,8 +110,9 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
                             value={term}
                             onChange={handleChange}
                             onKeyDown={handleKeyPress}
+                            ref={searchRef}
                         />
-                        <span className="bg-dark-400 px-3 h-5 justify-center items-center rounded-full md:flex hidden">
+                        <span className="items-center justify-center hidden h-5 px-3 rounded-full bg-dark-400 md:flex">
                             <img className="" src="/images/span (1).svg" alt="" />
                         </span>
                     </div>
@@ -105,7 +122,7 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
                         onClick={handleSubmit}
                     >
                         <img src="/images/icon-container (25).svg" alt="" />
-                        <span className="md:block hidden">Search</span>
+                        <span className="hidden md:block">Search</span>
                     </div>
                 </label>
                 {searching && <LinearProgress />}
