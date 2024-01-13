@@ -10,6 +10,7 @@ import { SessionProvider } from 'next-auth/react';
 import HeapAnalytics from '@/components/global/HeapAnalytics';
 import UserSessionStore from '@/context/userSession';
 import NameServiceStore from '@/context/nameServiceContext';
+import PHProvider from '@/context/postHogProvider';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
     getLayout?: (page: ReactElement) => ReactNode;
@@ -27,15 +28,17 @@ export default function MyApp({ Component, pageProps: { session, ...pageProps } 
     const getLayout = Component.getLayout ?? ((page) => page);
     return (
         <div>
-            <SessionProvider session={session}>
-                <UserSessionStore>
-                    <NameServiceStore>
-                        <ConfigProvider>{getLayout(<Component {...pageProps} />)}</ConfigProvider>
-                        <HeapAnalytics />
-                    </NameServiceStore>
-                </UserSessionStore>
-            </SessionProvider>
-            <Analytics />
+            <PHProvider>
+                <SessionProvider session={session}>
+                    <UserSessionStore>
+                        <NameServiceStore>
+                            <ConfigProvider>{getLayout(<Component {...pageProps} />)}</ConfigProvider>
+                            <HeapAnalytics />
+                        </NameServiceStore>
+                    </UserSessionStore>
+                </SessionProvider>
+                <Analytics />
+            </PHProvider>
         </div>
     );
 }
