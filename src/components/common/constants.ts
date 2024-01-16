@@ -203,6 +203,10 @@ export const POWERED_BY_LOGO_MAP: { [id: string]: { [id: string]: string } } = {
         small: '/images/candide.svg',
         wide: '/images/candide.svg',
     },
+    "zerodev_kernel": {
+        small: '/images/zerodev.svg',
+        wide: '/images/zerodev.svg',
+    },
 };
 
 export const fallBack = 'fallback';
