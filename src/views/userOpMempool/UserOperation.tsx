@@ -96,11 +96,11 @@ function RecentUserOps(props: any) {
     const [duplicateUserOpsRows, setDuplicateUserOpsRows] = useState<tableDataT['rows']>([] as tableDataT['rows']);
     const { isLoggedIn } = useUserSession();
 
-    const [block, setBlock] = useState(!isLoggedIn());
+    const [block, setBlock] = useState(false);
 
-    useEffect(() => {
-        setBlock(!isLoggedIn());
-    }, [isLoggedIn]);
+    // useEffect(() => {
+    //     setBlock(!isLoggedIn());
+    // }, [isLoggedIn]);
 
     useEffect(() => {
         const getAndStoreMempoolData = async (hash: string) => {
