@@ -44,7 +44,7 @@ export default function DeveloperDetails({
             if (item && item !== 'undefined') {
                 return JSON.parse(item);
             }
-
+        
             localStorage.setItem(key, JSON.stringify(initialValue));
             return initialValue;
         } catch {
@@ -71,6 +71,7 @@ export default function DeveloperDetails({
     useEffect(() => {
         if (metaData && Object.keys(metaData).length > 0 && 'userOpParams' in metaData && metaData.userOpParams.length > 0)
             setUserOpParamsExists(true);
+        
     }, [metaData]);
 
     return (
