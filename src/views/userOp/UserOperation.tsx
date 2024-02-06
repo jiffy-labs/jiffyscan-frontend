@@ -11,6 +11,7 @@ import {
     UserOp,
     showToast,
 } from '@/components/common/apiCalls/jiffyApis';
+import UserOpLogs from './UserOpLogs';
 import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
@@ -92,7 +93,78 @@ function RecentUserOps(props: any) {
     const [metaData, setMetaData] = useState<metadata>();
     const [duplicateUserOpsRows, setDuplicateUserOpsRows] = useState<tableDataT['rows']>([] as tableDataT['rows']);
     const { isLoggedIn } = useUserSession();
+    const [activeTab, setActiveTab] = useState('transaction');
 
+    const renderContent = () => {
+        // switch (activeTab) {
+        //     case 'transaction':
+        //         return <TransactionDetails
+        //             tableLoading={tableLoading}
+        //             skeletonCards={skeletonCards}
+        //             item={userOpsData?.[showUserOpId]}
+        //             responseData={responseData}
+        //             addressMapping={addressMapping}
+        //             metaData={metaData}
+        //             setMetadata={setMetaData}
+        //             selectedNetwork={selectedNetwork}
+        //         />
+
+
+        //     case 'developer':
+        //         return <DeveloperDetails
+        //             tableLoading={tableLoading}
+        //             skeletonCards1={skeletonCards1}
+        //             item={userOpsData?.[showUserOpId]}
+        //             selectedColor={selectedColor}
+        //             BUTTON_LIST={BUTTON_LIST}
+        //             setSelectedColor={setSelectedColor}
+        //             selectedNetwork={selectedNetwork}
+        //             metaData={metaData}
+        //         />
+        //     case 'logs':
+        //            {/* @ts-ignore  */ }
+        //         return <UserOpLogs item={userOpsData?.[showUserOpId]} />;
+        //     default:
+        //         {/* @ts-ignore  */ }
+        //         return <UserOpLogs item={userOpsData?.[showUserOpId]} />;
+        // }
+        return(
+        <div>
+  <div className={`${activeTab === 'transaction' ? 'block' : 'hidden'}`}>
+  <TransactionDetails
+                    tableLoading={tableLoading}
+                    skeletonCards={skeletonCards}
+                    item={userOpsData?.[showUserOpId]}
+                    responseData={responseData}
+                    addressMapping={addressMapping}
+                    metaData={metaData}
+                    setMetadata={setMetaData}
+                    selectedNetwork={selectedNetwork}
+                />
+
+  </div>
+
+  <div className={`${activeTab === 'developer' ? 'block' : 'hidden'}`}>
+  <DeveloperDetails
+                    tableLoading={tableLoading}
+                    skeletonCards1={skeletonCards1}
+                    item={userOpsData?.[showUserOpId]}
+                    selectedColor={selectedColor}
+                    BUTTON_LIST={BUTTON_LIST}
+                    setSelectedColor={setSelectedColor}
+                    selectedNetwork={selectedNetwork}
+                    metaData={metaData}
+                />
+  </div>
+
+  <div className={`${activeTab === 'logs' ? 'block' : 'hidden'}`}>
+    <UserOpLogs
+      item={userOpsData?.[showUserOpId]}
+    />
+  </div>
+</div>)
+
+    };
     // const [block, setBlock] = useState(!isLoggedIn());
 
     // useEffect(() => {
@@ -233,26 +305,33 @@ function RecentUserOps(props: any) {
                     {showUserOpId >= 0 ? (
                         <>
                             <HeaderSection item={userOpsData?.[showUserOpId]} network={network} loading={tableLoading} />
-                            <TransactionDetails
-                                tableLoading={tableLoading}
-                                skeletonCards={skeletonCards}
-                                item={userOpsData?.[showUserOpId]}
-                                responseData={responseData}
-                                addressMapping={addressMapping}
-                                metaData={metaData}
-                                setMetadata={setMetaData}
-                                selectedNetwork={selectedNetwork}
-                            />
-                            <DeveloperDetails
-                                tableLoading={tableLoading}
-                                skeletonCards1={skeletonCards1}
-                                item={userOpsData?.[showUserOpId]}
-                                selectedColor={selectedColor}
-                                BUTTON_LIST={BUTTON_LIST}
-                                setSelectedColor={setSelectedColor}
-                                selectedNetwork={selectedNetwork}
-                                metaData={metaData}
-                            />
+                            <div className="mt-[48px] px-3 mb-10">
+                            <div className="container px-0 ">
+                                <div className='flex flex-row gap-[2rem]'>
+                                <button
+                                    onClick={() => setActiveTab('transaction')}
+                                    className={`py-2 px-4 rounded-[6px] ${activeTab === 'transaction' ? 'bg-orange-400 text-white' : 'bg-gray-200'}`}
+                                >
+                                    Transaction Details
+                                </button>
+                                <button
+                                    onClick={() => setActiveTab('developer')}
+                                    className={`py-2 px-4 rounded-[6px] ${activeTab === 'developer' ? 'bg-orange-400  text-white' : 'bg-gray-200'}`}
+                                >
+                                    Developer Details
+                                </button>
+                                <button
+                                    onClick={() => setActiveTab('logs')}
+                                    className={`py-2 px-4 rounded-[6px] ${activeTab === 'logs' ? 'bg-orange-400  text-white' : 'bg-gray-200'}`}
+                                >
+                                    UserOp Logs
+                                </button>
+                                </div>
+                                <div>
+                                    {renderContent()}
+                                </div>
+                                </div>
+                            </div>
                         </>
                     ) : (
                         showUserOpId === -1 && (
