@@ -16,6 +16,7 @@ const client = createPublicClient({
     chain: localhost,
     transport: http('http://localhost:8545'),
 });
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 export interface ExecutionTraceType {
     traceData: {
@@ -139,6 +140,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, mempoo
 
     useEffect(() => {
         const getBlockTimestamp = async (blockNumber: number) => {
+            await sleep(4000);
             const res = await axios.get(
                 'https://el56mi1yf0.execute-api.us-east-1.amazonaws.com/default/getBlockByNumber?blockNumber=' +
                     mempoolData?.reciept.blockNumber,
@@ -231,7 +233,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, mempoo
                                             content={
                                                 <>
                                                     {blockDetails && blockDetails?.timestamp ? (
-                                                        <DisplayTime timestamp={parseInt(blockDetails?.timestamp.toString())} />
+                                                        <DisplayTime timestamp={parseInt(blockDetails?.timestamp.toString()) + 5} />
                                                     ) : (
                                                         <Box sx={{ width: '100%' }}>
                                                             To Be Mined <CircularProgress size={10} color="inherit" />
