@@ -96,38 +96,7 @@ function RecentUserOps(props: any) {
     const [activeTab, setActiveTab] = useState('transaction');
 
     const renderContent = () => {
-        // switch (activeTab) {
-        //     case 'transaction':
-        //         return <TransactionDetails
-        //             tableLoading={tableLoading}
-        //             skeletonCards={skeletonCards}
-        //             item={userOpsData?.[showUserOpId]}
-        //             responseData={responseData}
-        //             addressMapping={addressMapping}
-        //             metaData={metaData}
-        //             setMetadata={setMetaData}
-        //             selectedNetwork={selectedNetwork}
-        //         />
-
-
-        //     case 'developer':
-        //         return <DeveloperDetails
-        //             tableLoading={tableLoading}
-        //             skeletonCards1={skeletonCards1}
-        //             item={userOpsData?.[showUserOpId]}
-        //             selectedColor={selectedColor}
-        //             BUTTON_LIST={BUTTON_LIST}
-        //             setSelectedColor={setSelectedColor}
-        //             selectedNetwork={selectedNetwork}
-        //             metaData={metaData}
-        //         />
-        //     case 'logs':
-        //            {/* @ts-ignore  */ }
-        //         return <UserOpLogs item={userOpsData?.[showUserOpId]} />;
-        //     default:
-        //         {/* @ts-ignore  */ }
-        //         return <UserOpLogs item={userOpsData?.[showUserOpId]} />;
-        // }
+       
         return(
         <div>
   <div className={`${activeTab === 'transaction' ? 'block' : 'hidden'}`}>
