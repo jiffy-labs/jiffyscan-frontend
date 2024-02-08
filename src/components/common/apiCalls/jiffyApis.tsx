@@ -1078,7 +1078,7 @@ export const resolveBNSAddress = async (address: String, network: string): Promi
 
 
 export const fetchData = async (item : ItemProps) => {
-    const res = await fetch(`https://api-dev.jiffyscan.xyz/v0/getUserOpLogs?userOpHash=${item.userOpHash}&network=${item.network}`, {
+    const res = await fetch(`${API_URL}/v0/getUserOpLogs?userOpHash=${item.userOpHash}&network=${item.network}`, {
         headers: {
             'x-api-key': X_API_Key || 'TestAPIKeyDontUseInCode', 
         },
