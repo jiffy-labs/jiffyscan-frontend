@@ -2,6 +2,7 @@ import React from 'react';
 import Skeleton from 'react-loading-skeleton-2';
 import Caption from '@/components/common/Caption';
 import { useEffect, useState } from 'react';
+import { fetchData } from '@/components/common/apiCalls/jiffyApis';
 import Link from 'next/link';
 interface LogEntry {
     address: string;
@@ -28,19 +29,19 @@ const UserOpLogs: React.FC<UserOpLogsProps> = ({ item }: any) => {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        const fetchData = async () => {
-            const res = await fetch(`https://api-dev.jiffyscan.xyz/v0/getUserOpLogs?userOpHash=${item.userOpHash}&network=${item.network}`, {
-                headers: {
-                    'x-api-key': 'TestAPIKeyDontUseInCode', 
-                },
-            });
-            const data = await res.json();
+     
+        const functionCall = async() => {
+            const data = await fetchData(item);
             setLogs(data.logs || []);
             setLoading(false)
-        };
+
+        }
 
         if (item)
-            fetchData();
+        {
+            functionCall()
+        }
+          
 
     }, [item]);
 

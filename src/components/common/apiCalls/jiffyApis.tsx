@@ -294,6 +294,10 @@ export interface AddressInfo {
 export interface AddressMapping {
     [key: string]: AddressInfo;
 }
+export interface ItemProps {
+    userOpHash: string;
+    network: string;
+}
 
 const performApiCall = (network: string): boolean => {
     if (!network && network != fallBack) return false;
@@ -1070,4 +1074,15 @@ export const resolveBNSAddress = async (address: String, network: string): Promi
         name = BnsResponse?.data?.name ? BnsResponse.data.name : '';
     }
     return name;
+};
+
+
+export const fetchData = async (item : ItemProps) => {
+    const res = await fetch(`https://api-dev.jiffyscan.xyz/v0/getUserOpLogs?userOpHash=${item.userOpHash}&network=${item.network}`, {
+        headers: {
+            'x-api-key': X_API_Key || 'TestAPIKeyDontUseInCode', 
+        },
+    });
+   const data = await res.json();
+   return data
 };
