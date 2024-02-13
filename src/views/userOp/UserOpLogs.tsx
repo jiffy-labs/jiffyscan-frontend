@@ -4,22 +4,27 @@ import Caption from '@/components/common/Caption';
 import { useEffect, useState } from 'react';
 import { fetchData } from '@/components/common/apiCalls/jiffyApis';
 import Link from 'next/link';
-interface LogEntry {
-    address: string;
-    data: string;
-    event_name?: string;
-    topicsDecoded?: Record<string, string>;
+type LogEntry = {
+    logIndex: number | null;
+    transactionHash: string;
+    transactionLogIndex: number | null;
     topics: string[];
-  }
-  
-  interface ItemProps {
+    removed: boolean | null;
+    data: string;
+    address: string;
+    event_name: string;
+    eventName: string;
+    topicsDecoded: { [key: string]: string };
+    dataDecoded: { [key: string]: string | number };
+};
+interface ItemProps {
     userOpHash: string;
     network: string;
-  }
-  
-  interface UserOpLogsProps {
+}
+
+interface UserOpLogsProps {
     item: ItemProps;
-  }
+}
 
 
 
@@ -29,19 +34,18 @@ const UserOpLogs: React.FC<UserOpLogsProps> = ({ item }: any) => {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-     
-        const functionCall = async() => {
+
+        const functionCall = async () => {
             const data = await fetchData(item);
             setLogs(data.logs || []);
             setLoading(false)
 
         }
 
-        if (item)
-        {
+        if (item) {
             functionCall()
         }
-          
+
 
     }, [item]);
 
@@ -53,7 +57,7 @@ const UserOpLogs: React.FC<UserOpLogsProps> = ({ item }: any) => {
     if (loading) {
 
         return (
-            <div className="container px-0 mt-[48px]">
+            <div className="container px-0 mt-[48px] ">
                 <div>
                     <Caption icon={'/images/cube.svg'} text={''}>
                         UserOp Logs
@@ -69,7 +73,7 @@ const UserOpLogs: React.FC<UserOpLogsProps> = ({ item }: any) => {
 
 
     return (
-        <section className="mt-[48px] px-3 mb-10 break-all">
+        <section className="mt-[40px] px-3 mb-10 break-all">
             <div className="container px-0">
                 <div>
                     <Caption icon={'/images/cube.svg'} text={''}>
@@ -80,49 +84,63 @@ const UserOpLogs: React.FC<UserOpLogsProps> = ({ item }: any) => {
 
                     {logs.map((log, index) => (
                         <div key={index} className="bg-white shadow rounded-lg p-4">
-                            <div className="flex flex-col md:flex-row md:items-center  md:justify-between mb-2">
+                            <div className="flex flex-col gap-4">
 
-                                <div className="mb-2">
-                                    <strong>Address:</strong>
-                                    <div className="bg-gray-100 rounded px-2 py-1 inline-block ml-2">
-                                        {log.address}
+                                <div className="flex flex-row md:gap-[2.2rem] max-md:flex-col">
+                                    <strong className='md:w-[8%] '>Address:</strong>
+
+
+                                    <Link href={`https://etherscan.io/address/${log.address}`} target='_blank'>
+                                        <div className="text-indigo-600 hover:text-indigo-800 w-full px-1 py-1">{log.address}</div>
+                                    </Link>
+
+                                </div>
+
+                                <div className="flex flex-row gap-[2rem] max-md:flex-col">
+                                    <strong className='md:w-[8%]  '>Event Name:</strong>
+                                    <span className="rounded px-2 py-1 md:w-[80%] text-gray-500">
+                                        {log.event_name || 'Unknown Event'}
+                                    </span>
+                                </div>
+
+                                <div className="flex flex-row gap-[2rem] max-md:flex-col">
+                                    <strong className='md:w-[8%] '>Topics:</strong>
+                                    <div className="flex flex-col gap-2md: w-[80%]">
+                                        {log.topicsDecoded ? (
+                                            Object.entries(log.topicsDecoded).map(([key, value]) => (
+                                                <div key={key} className=" rounded px-1 py-1 flex flex-row gap-[5px]">
+                                                    <div className='bg-gray-100 px-[7px] py-[1px] rounded-[3px] text-[12px]'>{key}</div>  {value}
+                                                </div>
+                                            ))
+                                        ) : (
+                                            log.topics.map((topic, index) => (
+                                                <div key={index} className=" rounded px-2 py-1">
+                                                    {index}: {topic}
+                                                </div>
+                                            ))
+                                        )}
                                     </div>
                                 </div>
-                                <Link href={`https://etherscan.io/address/${log.address}`}>
-                                    <div className="text-indigo-600 hover:text-indigo-800">
-                                        View Contract
+
+                                <div className="flex flex-row gap-[2rem] max-md:flex-col">
+                                    <strong className='md:w-[8%]'>Data:</strong>
+                                    <div className="bg-gray-100 rounded px-2 py-1 md:w-[80%]">
+                                        {log.dataDecoded ? (
+                                            <div className="flex flex-col gap-2">
+                                                {Object.entries(log.dataDecoded).map(([key, value]) => (
+                                                    <div key={key} className="flex gap-[0.1rem]">
+                                                        <span>{key}:</span>
+                                                        <span>{value}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        ) : (
+                                            <span>{log.data !== '0x' ? log.data : 'None'}</span>
+                                        )}
                                     </div>
-                                </Link>
-                            </div>
-                            <h3 className="text-lg font-bold mb-2 md:mb-0">
-                                Event Name:
-                                <span className="bg-gray-100 rounded px-2 py-1 ml-2">
-                                    {log.event_name || 'Unknown Event'}
-                                </span>
-                            </h3>
-                            <div className="mb-2">
-                                <strong>Topics:</strong>
-                                <div className="flex flex-col gap-2 mt-2">
-                                    {log.topicsDecoded ? (
-                                        Object.entries(log.topicsDecoded).map(([key, value]) => (
-                                            <div key={key} className="bg-gray-100 rounded px-2 py-1">
-                                                {key}: {value}
-                                            </div>
-                                        ))
-                                    ) : (
-                                        log.topics.map((topic, index) => (
-                                            <div key={index} className="bg-gray-100 rounded px-2 py-1">
-                                                {index}: {topic}
-                                            </div>
-                                        ))
-                                    )}
                                 </div>
-                            </div>
-                            <div className="mb-2">
-                                <strong>Data:</strong>
-                                <div className="bg-gray-100 rounded px-2 py-1 mt-2">
-                                    {log.data !== '0x' ? log.data : 'None'}
-                                </div>
+
+
                             </div>
                         </div>
                     ))}

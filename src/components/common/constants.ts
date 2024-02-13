@@ -30,6 +30,12 @@ export const NETWORK_LIST = [
         iconPathInverted: '/images/base-logo.svg',
     },
     {
+        name: 'Base Sepolia',
+        key: 'base-sepolia',
+        iconPath: '/images/base-logo.svg',
+        iconPathInverted: '/images/base-logo.svg',
+    },
+    {
         name: 'Optimism Goerli',
         key: 'optimism-goerli',
         iconPath: '/images/icon-container (6).svg',
@@ -159,6 +165,7 @@ export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
     'fantom-testnet': '/images/fantom-logo.svg',
     'base-testnet': '/images/base-logo.svg',
     'base': '/images/base-logo.svg',
+    'base-sepolia': '/images/base-logo.svg',
     'gnosis': '/images/gnosis-logo.svg',
     'bsc': '/images/bsc-logo.svg',
     'bnb-testnet': '/images/bsc-logo.svg',
@@ -179,6 +186,7 @@ export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
     optimism: 'https://optimistic.etherscan.io',
     avalanche: 'https://snowtrace.io',
     "base-testnet": 'https://goerli.basescan.org',
+    "base-sepolia": 'https://sepolia.basescan.org/',
     fantom: 'https://ftmscan.com/',
     "fantom-testnet": 'https://testnet.ftmscan.com',
     gnosis: 'https://gnosisscan.io',
