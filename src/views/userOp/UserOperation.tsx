@@ -274,29 +274,29 @@ function RecentUserOps(props: any) {
                     {showUserOpId >= 0 ? (
                         <>
                             <HeaderSection item={userOpsData?.[showUserOpId]} network={network} loading={tableLoading} />
-                            <div className="mt-[48px] px-3 mb-10">
+                            <div className="mt-[48px] px-3 ">
                             <div className="container px-0 ">
-                                <div className='flex flex-row gap-[2rem]'>
+                                <div className='flex flex-row gap-[1rem]'>
                                 <button
                                     onClick={() => setActiveTab('transaction')}
-                                    className={`py-2 px-4 rounded-[6px] ${activeTab === 'transaction' ? 'bg-orange-400 text-white' : 'bg-gray-200'}`}
+                                    className={`py-2 px-4 rounded-[6px] ${activeTab === 'transaction' ? 'bg-gray-800 text-white' : 'bg-gray-200'}`}
                                 >
                                     Transaction Details
                                 </button>
                                 <button
                                     onClick={() => setActiveTab('developer')}
-                                    className={`py-2 px-4 rounded-[6px] ${activeTab === 'developer' ? 'bg-orange-400  text-white' : 'bg-gray-200'}`}
+                                    className={`py-2 px-4 rounded-[6px] ${activeTab === 'developer' ? 'bg-gray-800  text-white' : 'bg-gray-200'}`}
                                 >
                                     Developer Details
                                 </button>
                                 <button
                                     onClick={() => setActiveTab('logs')}
-                                    className={`py-2 px-4 rounded-[6px] ${activeTab === 'logs' ? 'bg-orange-400  text-white' : 'bg-gray-200'}`}
+                                    className={`py-2 px-4 rounded-[6px] ${activeTab === 'logs' ? 'bg-gray-800  text-white' : 'bg-gray-200'}`}
                                 >
                                     UserOp Logs
                                 </button>
                                 </div>
-                                <div>
+                                <div className='mb-[2rem]'>
                                     {renderContent()}
                                 </div>
                                 </div>
