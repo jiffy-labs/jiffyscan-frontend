@@ -274,7 +274,7 @@ function RecentUserOps(props: any) {
                     {showUserOpId >= 0 ? (
                         <>
                             <HeaderSection item={userOpsData?.[showUserOpId]} network={network} loading={tableLoading} />
-                            <div className="mt-[48px] px-3 ">
+                            <div className="mt-[28px] px-3 ">
                             <div className="container px-0 ">
                                 <div className='flex flex-row gap-[1rem]'>
                                 <button
