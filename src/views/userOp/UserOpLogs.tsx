@@ -1,4 +1,5 @@
 import React from 'react';
+import { NETWORK_ICON_MAP, NETWORK_LIST, NETWORK_SCANNER_MAP } from '@/components/common/constants';
 import Skeleton from 'react-loading-skeleton-2';
 import Caption from '@/components/common/Caption';
 import { useEffect, useState } from 'react';
@@ -28,7 +29,7 @@ interface UserOpLogsProps {
 
 
 
-const UserOpLogs: React.FC<UserOpLogsProps> = ({ item }: any) => {
+const UserOpLogs: React.FC<UserOpLogsProps> = ({ item ,network}: any) => {
 
     const [logs, setLogs] = useState<LogEntry[]>([]);
     const [loading, setLoading] = useState(true)
@@ -73,7 +74,7 @@ const UserOpLogs: React.FC<UserOpLogsProps> = ({ item }: any) => {
 
 
     return (
-        <section className="mt-[40px] px-3 mb-10 break-all">
+        <section className="mt-[15px] px-3 mb-10 break-all">
             <div className="container px-0">
                 <div>
                     <Caption icon={'/images/cube.svg'} text={''}>
@@ -90,7 +91,7 @@ const UserOpLogs: React.FC<UserOpLogsProps> = ({ item }: any) => {
                                     <strong className='md:w-[8%] '>Address:</strong>
 
 
-                                    <Link href={`https://etherscan.io/address/${log.address}`} target='_blank'>
+                                    <Link href={`${NETWORK_SCANNER_MAP[item.network]}/address/${log.address}`} target='_blank'>
                                         <div className="text-indigo-600 hover:text-indigo-800 w-full px-1 py-1">{log.address}</div>
                                     </Link>
 
@@ -125,12 +126,12 @@ const UserOpLogs: React.FC<UserOpLogsProps> = ({ item }: any) => {
                                 <div className="flex flex-row gap-[2rem] max-md:flex-col">
                                     <strong className='md:w-[8%]'>Data:</strong>
                                     <div className="bg-gray-100 rounded px-2 py-1 md:w-[80%]">
-                                        {log.dataDecoded ? (
+                                        {log.dataDecoded && Object.keys(log.dataDecoded).length ? (
                                             <div className="flex flex-col gap-2">
                                                 {Object.entries(log.dataDecoded).map(([key, value]) => (
                                                     <div key={key} className="flex gap-[0.1rem]">
                                                         <span>{key}:</span>
-                                                        <span>{value}</span>
+                                                        <span>{`${value}`}</span>
                                                     </div>
                                                 ))}
                                             </div>

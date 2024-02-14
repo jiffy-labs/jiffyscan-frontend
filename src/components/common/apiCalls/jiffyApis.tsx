@@ -1078,11 +1078,20 @@ export const resolveBNSAddress = async (address: String, network: string): Promi
 
 
 export const fetchData = async (item : ItemProps) => {
-    const res = await fetch(`${API_URL}/v0/getUserOpLogs?userOpHash=${item.userOpHash}&network=${item.network}`, {
-        headers: {
-            'x-api-key': X_API_Key || 'TestAPIKeyDontUseInCode', 
-        },
-    });
-   const data = await res.json();
-   return data
+    let data;
+    try {
+        const res = await fetch(`${API_URL}/v0/getUserOpLogs?userOpHash=${item.userOpHash}&network=${item.network}`, {
+            headers: {
+                'x-api-key': X_API_Key || 'TestAPIKeyDontUseInCode', 
+            },
+        });
+        if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        data = await res.json();
+    } catch (error) {
+        console.error("Error fetching data: ", error);
+        data = {}; //failed - empty logs
+    }
+    return data;
 };
