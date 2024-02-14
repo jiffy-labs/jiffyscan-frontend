@@ -1091,7 +1091,7 @@ export const fetchData = async (item : ItemProps) => {
         data = await res.json();
     } catch (error) {
         console.error("Error fetching data: ", error);
-        data = {}; //failed - empty logs
+        data = {};  //failed - empty logs 
     }
     return data;
 };
