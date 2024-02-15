@@ -120,7 +120,7 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
 
     return (
         <div>
-            <section className="mt-[48px] px-3">
+            <section className="mt-[15px] px-3">
                 <div className="container px-0">
                     <div>
                         <Caption icon={'/images/cube.svg'} text={''}>
