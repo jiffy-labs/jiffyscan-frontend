@@ -294,6 +294,10 @@ export interface AddressInfo {
 export interface AddressMapping {
     [key: string]: AddressInfo;
 }
+export interface ItemProps {
+    userOpHash: string;
+    network: string;
+}
 
 const performApiCall = (network: string): boolean => {
     if (!network && network != fallBack) return false;
@@ -1070,4 +1074,24 @@ export const resolveBNSAddress = async (address: String, network: string): Promi
         name = BnsResponse?.data?.name ? BnsResponse.data.name : '';
     }
     return name;
+};
+
+
+export const fetchData = async (item : ItemProps) => {
+    let data;
+    try {
+        const res = await fetch(`${API_URL}/v0/getUserOpLogs?userOpHash=${item.userOpHash}&network=${item.network}`, {
+            headers: {
+                'x-api-key': X_API_Key || 'TestAPIKeyDontUseInCode', 
+            },
+        });
+        if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        data = await res.json();
+    } catch (error) {
+        console.error("Error fetching data: ", error);
+        data = {};  //failed - empty logs 
+    }
+    return data;
 };
