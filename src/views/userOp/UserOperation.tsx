@@ -278,6 +278,12 @@ function RecentUserOps(props: any) {
                             <div className="container px-0 ">
                                 <div className='flex flex-row gap-[1rem]'>
                                 <button
+                                    onClick={() => setActiveTab('logs')}
+                                    className={`py-2 px-4 rounded-[6px] ${activeTab === 'logs' ? 'bg-gray-800  text-white' : 'bg-gray-200'}`}
+                                >
+                                    UserOp Logs
+                                </button>
+                                <button
                                     onClick={() => setActiveTab('transaction')}
                                     className={`py-2 px-4 rounded-[6px] ${activeTab === 'transaction' ? 'bg-gray-800 text-white' : 'bg-gray-200'}`}
                                 >
@@ -289,12 +295,7 @@ function RecentUserOps(props: any) {
                                 >
                                     Developer Details
                                 </button>
-                                <button
-                                    onClick={() => setActiveTab('logs')}
-                                    className={`py-2 px-4 rounded-[6px] ${activeTab === 'logs' ? 'bg-gray-800  text-white' : 'bg-gray-200'}`}
-                                >
-                                    UserOp Logs
-                                </button>
+                               
                                 </div>
                                 <div className='mb-[2rem]'>
                                     {renderContent()}
