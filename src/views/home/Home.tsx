@@ -54,10 +54,16 @@ function Home() {
 
     const [block, setBlock] = useState(false);
     const [triggerBlock, setTriggerBlock] = useState(false);
-    const [bundlesTables, setBundlesTables] = useState<tableDataTCollection>({[selectedNetwork]:BundlesTable} as tableDataTCollection);
-    const [operationsTables, setOperationsTables] = useState<tableDataTCollection>({[selectedNetwork]:OperationsTable} as tableDataTCollection);
-    const [bundlersTables, setBundlersTables] = useState<tableDataTCollection>({[selectedNetwork]:BundlersTable} as tableDataTCollection);
-    const [paymastersTables, setPaymastersTables] = useState<tableDataTCollection>({[selectedNetwork]:PaymastersTable} as tableDataTCollection);
+    const [bundlesTables, setBundlesTables] = useState<tableDataTCollection>({ [selectedNetwork]: BundlesTable } as tableDataTCollection);
+    const [operationsTables, setOperationsTables] = useState<tableDataTCollection>({
+        [selectedNetwork]: OperationsTable,
+    } as tableDataTCollection);
+    const [bundlersTables, setBundlersTables] = useState<tableDataTCollection>({
+        [selectedNetwork]: BundlersTable,
+    } as tableDataTCollection);
+    const [paymastersTables, setPaymastersTables] = useState<tableDataTCollection>({
+        [selectedNetwork]: PaymastersTable,
+    } as tableDataTCollection);
     const [userOpTableLoading, setUserOpTableLoading] = useState(true);
     const [bundleTableLoading, setBundleTableLoading] = useState(true);
     const [bundlerTableLoading, setBundlerTableLoading] = useState(true);
@@ -142,7 +148,7 @@ function Home() {
                 fee: getFee(parseInt(paymaster.gasSponsored), network),
             });
         });
-        paymastersTables[network] = ({ ...paymastersTables[network], rows: newRows.slice(0, 10) });
+        paymastersTables[network] = { ...paymastersTables[network], rows: newRows.slice(0, 10) };
         setPaymastersTables(paymastersTables);
         setPaymasterTableLoading(false);
     };
@@ -163,7 +169,7 @@ function Home() {
             });
         });
         bundlersTables[network] = { ...bundlersTables[network], rows: newRows.slice(0, 5) };
-        setBundlesTables(bundlersTables);
+        setBundlersTables(bundlersTables);
         setBundlerTableLoading(false);
     };
 
