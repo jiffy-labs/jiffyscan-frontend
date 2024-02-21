@@ -96,43 +96,39 @@ function RecentUserOps(props: any) {
     const [activeTab, setActiveTab] = useState('transaction');
 
     const renderContent = () => {
-       
-        return(
-        <div>
-  <div className={`${activeTab === 'transaction' ? 'block' : 'hidden'}`}>
-  <TransactionDetails
-                    tableLoading={tableLoading}
-                    skeletonCards={skeletonCards}
-                    item={userOpsData?.[showUserOpId]}
-                    responseData={responseData}
-                    addressMapping={addressMapping}
-                    metaData={metaData}
-                    setMetadata={setMetaData}
-                    selectedNetwork={selectedNetwork}
-                />
+        return (
+            <div>
+                <div className={`${activeTab === 'transaction' ? 'block' : 'hidden'}`}>
+                    <TransactionDetails
+                        tableLoading={tableLoading}
+                        skeletonCards={skeletonCards}
+                        item={userOpsData?.[showUserOpId]}
+                        responseData={responseData}
+                        addressMapping={addressMapping}
+                        metaData={metaData}
+                        setMetadata={setMetaData}
+                        selectedNetwork={selectedNetwork}
+                    />
+                </div>
 
-  </div>
+                <div className={`${activeTab === 'developer' ? 'block' : 'hidden'}`}>
+                    <DeveloperDetails
+                        tableLoading={tableLoading}
+                        skeletonCards1={skeletonCards1}
+                        item={userOpsData?.[showUserOpId]}
+                        selectedColor={selectedColor}
+                        BUTTON_LIST={BUTTON_LIST}
+                        setSelectedColor={setSelectedColor}
+                        selectedNetwork={selectedNetwork}
+                        metaData={metaData}
+                    />
+                </div>
 
-  <div className={`${activeTab === 'developer' ? 'block' : 'hidden'}`}>
-  <DeveloperDetails
-                    tableLoading={tableLoading}
-                    skeletonCards1={skeletonCards1}
-                    item={userOpsData?.[showUserOpId]}
-                    selectedColor={selectedColor}
-                    BUTTON_LIST={BUTTON_LIST}
-                    setSelectedColor={setSelectedColor}
-                    selectedNetwork={selectedNetwork}
-                    metaData={metaData}
-                />
-  </div>
-
-  <div className={`${activeTab === 'logs' ? 'block' : 'hidden'}`}>
-    <UserOpLogs
-      item={userOpsData?.[showUserOpId]}
-    />
-  </div>
-</div>)
-
+                <div className={`${activeTab === 'logs' ? 'block' : 'hidden'}`}>
+                    <UserOpLogs item={userOpsData?.[showUserOpId]} />
+                </div>
+            </div>
+        );
     };
     // const [block, setBlock] = useState(!isLoggedIn());
 
@@ -275,31 +271,34 @@ function RecentUserOps(props: any) {
                         <>
                             <HeaderSection item={userOpsData?.[showUserOpId]} network={network} loading={tableLoading} />
                             <div className="mt-[28px] px-3 ">
-                            <div className="container px-0 ">
-                                <div className='flex flex-row gap-[1rem]'>
-                                <button
-                                    onClick={() => setActiveTab('logs')}
-                                    className={`py-2 px-4 rounded-[6px] ${activeTab === 'logs' ? 'bg-gray-800  text-white' : 'bg-gray-200'}`}
-                                >
-                                    UserOp Logs
-                                </button>
-                                <button
-                                    onClick={() => setActiveTab('transaction')}
-                                    className={`py-2 px-4 rounded-[6px] ${activeTab === 'transaction' ? 'bg-gray-800 text-white' : 'bg-gray-200'}`}
-                                >
-                                    Transaction Details
-                                </button>
-                                <button
-                                    onClick={() => setActiveTab('developer')}
-                                    className={`py-2 px-4 rounded-[6px] ${activeTab === 'developer' ? 'bg-gray-800  text-white' : 'bg-gray-200'}`}
-                                >
-                                    Developer Details
-                                </button>
-                               
-                                </div>
-                                <div className='mb-[2rem]'>
-                                    {renderContent()}
-                                </div>
+                                <div className="container px-0 ">
+                                    <div className="flex flex-row gap-[1rem]">
+                                        <button
+                                            onClick={() => setActiveTab('transaction')}
+                                            className={`py-2 px-4 rounded-[6px] ${
+                                                activeTab === 'transaction' ? 'bg-gray-800 text-white' : 'bg-gray-200'
+                                            }`}
+                                        >
+                                            Transaction Details
+                                        </button>
+                                        <button
+                                            onClick={() => setActiveTab('developer')}
+                                            className={`py-2 px-4 rounded-[6px] ${
+                                                activeTab === 'developer' ? 'bg-gray-800  text-white' : 'bg-gray-200'
+                                            }`}
+                                        >
+                                            Developer Details
+                                        </button>
+                                        <button
+                                            onClick={() => setActiveTab('logs')}
+                                            className={`py-2 px-4 rounded-[6px] ${
+                                                activeTab === 'logs' ? 'bg-gray-800  text-white' : 'bg-gray-200'
+                                            }`}
+                                        >
+                                            UserOp Logs
+                                        </button>
+                                    </div>
+                                    <div className="mb-[2rem]">{renderContent()}</div>
                                 </div>
                             </div>
                         </>
