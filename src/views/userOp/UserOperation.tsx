@@ -93,7 +93,7 @@ function RecentUserOps(props: any) {
     const [metaData, setMetaData] = useState<metadata>();
     const [duplicateUserOpsRows, setDuplicateUserOpsRows] = useState<tableDataT['rows']>([] as tableDataT['rows']);
     const { isLoggedIn } = useUserSession();
-    const [activeTab, setActiveTab] = useState('logs');
+    const [activeTab, setActiveTab] = useState('transaction');
 
     const renderContent = () => {
         return (
