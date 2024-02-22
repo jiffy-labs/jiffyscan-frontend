@@ -1,6 +1,7 @@
 import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
+
 import {
     getPoweredBy,
     getUserOp,
@@ -84,6 +85,8 @@ function RecentUserOps(props: any) {
     const [tableLoading, setTableLoading] = useState(true);
     const { selectedNetwork, setSelectedNetwork, addressMapping } = useConfig();
 
+    const { section } = router.query;
+  
     const hash = props.slug && props.slug[0];
     const network = router.query && router.query.network;
     const [selectedColor, setSelectedColor] = useState(BUTTON_LIST[0].key);
@@ -93,7 +96,18 @@ function RecentUserOps(props: any) {
     const [metaData, setMetaData] = useState<metadata>();
     const [duplicateUserOpsRows, setDuplicateUserOpsRows] = useState<tableDataT['rows']>([] as tableDataT['rows']);
     const { isLoggedIn } = useUserSession();
-    const [activeTab, setActiveTab] = useState('transaction');
+    const [activeTab, setActiveTab] = useState(section || 'logs');
+    useEffect(() => {
+        if (section) setActiveTab(section);
+      }, [section]);
+    
+      const handleTabChange = (tabName :string) => {
+        router.push({
+          pathname: router.pathname,
+          query: { ...router.query, section: tabName },
+        });
+      };
+      
 
     const renderContent = () => {
         return (
@@ -274,7 +288,7 @@ function RecentUserOps(props: any) {
                                 <div className="container px-0 ">
                                     <div className="flex flex-row gap-[1rem]">
                                         <button
-                                            onClick={() => setActiveTab('transaction')}
+                                             onClick={() => handleTabChange('transaction')}
                                             className={`py-2 px-4 rounded-[6px] ${
                                                 activeTab === 'transaction' ? 'bg-gray-800 text-white' : 'bg-gray-200'
                                             }`}
@@ -282,7 +296,7 @@ function RecentUserOps(props: any) {
                                             Transaction Details
                                         </button>
                                         <button
-                                            onClick={() => setActiveTab('developer')}
+                                            onClick={() => handleTabChange('developer')}
                                             className={`py-2 px-4 rounded-[6px] ${
                                                 activeTab === 'developer' ? 'bg-gray-800  text-white' : 'bg-gray-200'
                                             }`}
@@ -290,7 +304,7 @@ function RecentUserOps(props: any) {
                                             Developer Details
                                         </button>
                                         <button
-                                            onClick={() => setActiveTab('logs')}
+                                            onClick={() => handleTabChange('logs')}
                                             className={`py-2 px-4 rounded-[6px] ${
                                                 activeTab === 'logs' ? 'bg-gray-800  text-white' : 'bg-gray-200'
                                             }`}
