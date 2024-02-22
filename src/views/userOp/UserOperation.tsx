@@ -86,7 +86,7 @@ function RecentUserOps(props: any) {
     const { selectedNetwork, setSelectedNetwork, addressMapping } = useConfig();
 
     const { section } = router.query;
-  
+
     const hash = props.slug && props.slug[0];
     const network = router.query && router.query.network;
     const [selectedColor, setSelectedColor] = useState(BUTTON_LIST[0].key);
@@ -96,23 +96,22 @@ function RecentUserOps(props: any) {
     const [metaData, setMetaData] = useState<metadata>();
     const [duplicateUserOpsRows, setDuplicateUserOpsRows] = useState<tableDataT['rows']>([] as tableDataT['rows']);
     const { isLoggedIn } = useUserSession();
-    const [activeTab, setActiveTab] = useState(section || 'logs');
+    const [activeTab, setActiveTab] = useState(section || 'overview');
     useEffect(() => {
         if (section) setActiveTab(section);
-      }, [section]);
-    
-      const handleTabChange = (tabName :string) => {
+    }, [section]);
+
+    const handleTabChange = (tabName: string) => {
         router.push({
-          pathname: router.pathname,
-          query: { ...router.query, section: tabName },
+            pathname: router.pathname,
+            query: { ...router.query, section: tabName },
         });
-      };
-      
+    };
 
     const renderContent = () => {
         return (
             <div>
-                <div className={`${activeTab === 'transaction' ? 'block' : 'hidden'}`}>
+                <div className={`${activeTab === 'overview' ? 'block' : 'hidden'}`}>
                     <TransactionDetails
                         tableLoading={tableLoading}
                         skeletonCards={skeletonCards}
@@ -125,7 +124,7 @@ function RecentUserOps(props: any) {
                     />
                 </div>
 
-                <div className={`${activeTab === 'developer' ? 'block' : 'hidden'}`}>
+                <div className={`${activeTab === 'developer_details' ? 'block' : 'hidden'}`}>
                     <DeveloperDetails
                         tableLoading={tableLoading}
                         skeletonCards1={skeletonCards1}
@@ -288,17 +287,17 @@ function RecentUserOps(props: any) {
                                 <div className="container px-0 ">
                                     <div className="flex flex-row gap-[1rem]">
                                         <button
-                                             onClick={() => handleTabChange('transaction')}
+                                            onClick={() => handleTabChange('overview')}
                                             className={`py-2 px-4 rounded-[6px] ${
-                                                activeTab === 'transaction' ? 'bg-gray-800 text-white' : 'bg-gray-200'
+                                                activeTab === 'overview' ? 'bg-gray-800 text-white' : 'bg-gray-200'
                                             }`}
                                         >
                                             Transaction Details
                                         </button>
                                         <button
-                                            onClick={() => handleTabChange('developer')}
+                                            onClick={() => handleTabChange('developer_details')}
                                             className={`py-2 px-4 rounded-[6px] ${
-                                                activeTab === 'developer' ? 'bg-gray-800  text-white' : 'bg-gray-200'
+                                                activeTab === 'developer_details' ? 'bg-gray-800  text-white' : 'bg-gray-200'
                                             }`}
                                         >
                                             Developer Details
