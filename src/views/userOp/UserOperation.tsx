@@ -124,7 +124,7 @@ function RecentUserOps(props: any) {
                     />
                 </div>
 
-                <div className={`${activeTab === 'developer_details' ? 'block' : 'hidden'}`}>
+                <div className={`${activeTab === 'dev_details' ? 'block' : 'hidden'}`}>
                     <DeveloperDetails
                         tableLoading={tableLoading}
                         skeletonCards1={skeletonCards1}
@@ -295,9 +295,9 @@ function RecentUserOps(props: any) {
                                             Transaction Details
                                         </button>
                                         <button
-                                            onClick={() => handleTabChange('developer_details')}
+                                            onClick={() => handleTabChange('dev_details')}
                                             className={`py-2 px-4 rounded-[6px] ${
-                                                activeTab === 'developer_details' ? 'bg-gray-800  text-white' : 'bg-gray-200'
+                                                activeTab === 'dev_details' ? 'bg-gray-800  text-white' : 'bg-gray-200'
                                             }`}
                                         >
                                             Developer Details
