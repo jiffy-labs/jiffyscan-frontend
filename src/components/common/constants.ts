@@ -198,6 +198,12 @@ export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
     "celo-alfajores": 'https://alfajores.celoscan.io',
 };
 
+
+export const ENTRY_POINT_ADDRESS_MAP: { [key: string]: string } = {
+    "V5": "0x0576a174D229E3cFA37253523E645A78A0C91B57",
+    "V6": "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
+    "V7": "0x0000000071727De22E5E9d8BAf0edAc6f37da032"
+}
 export const POWERED_BY_LOGO_MAP: { [id: string]: { [id: string]: string } } = {
     pimlico: {
         small: '/images/pimlico.svg',
