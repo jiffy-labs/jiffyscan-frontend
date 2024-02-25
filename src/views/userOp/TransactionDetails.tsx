@@ -265,6 +265,17 @@ export default function TransactionDetails({ tableLoading, skeletonCards, item, 
                                             title="Block"
                                             content={<RenderTextCopyLink text={item?.blockNumber} network={item?.network} type="block" />}
                                         />
+                                        <InfoSection
+                                            icon="revert"
+                                            title="Paymaster Revert Reason"
+                                            content={
+                                                <RenderTextCopyLink
+                                                    text={item?.paymasterRevertReason + 'testests'}
+                                                    network={item?.network}
+                                                    type="revert"
+                                                />
+                                            }
+                                        ></InfoSection>
                                         {item?.erc20Transfers?.length > 0 && (
                                             <InfoSection
                                                 icon="erc20"
