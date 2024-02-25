@@ -390,7 +390,7 @@ export default function DeveloperDetails({
                                                                                 : 'Unable to decode user op input'}
                                                                         </td>
                                                                     </tr>
-                                                                    {ENTRY_POINT_ADDRESS_MAP.V6 == item?.entryPoint && (
+                                                                    {ENTRY_POINT_ADDRESS_MAP.V6.toLowerCase() == item?.entryPoint && (
                                                                         <tr>
                                                                             <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5">
                                                                                 callGasLimit
@@ -407,7 +407,7 @@ export default function DeveloperDetails({
                                                                             </td>
                                                                         </tr>
                                                                     )}
-                                                                    {ENTRY_POINT_ADDRESS_MAP.V6 == item?.entryPoint && (
+                                                                    {ENTRY_POINT_ADDRESS_MAP.V6.toLowerCase() == item?.entryPoint && (
                                                                         <tr>
                                                                             <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
                                                                                 verificationGasLimit
@@ -451,7 +451,9 @@ export default function DeveloperDetails({
                                                                         <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
                                                                             {userOpParamsExists &&
                                                                             metaData?.userOpParams[
-                                                                                ENTRY_POINT_ADDRESS_MAP.V6 == item?.entryPoint ? 6 : 5
+                                                                                ENTRY_POINT_ADDRESS_MAP.V6.toLowerCase() == item?.entryPoint
+                                                                                    ? 6
+                                                                                    : 5
                                                                             ]
                                                                                 ? parseInt(metaData?.userOpParams[6].hex)
                                                                                 : item?.preVerificationGas
@@ -476,7 +478,7 @@ export default function DeveloperDetails({
                                                                             </td>
                                                                         </tr>
                                                                     )}
-                                                                    {ENTRY_POINT_ADDRESS_MAP.V6 == item?.entryPoint && (
+                                                                    {ENTRY_POINT_ADDRESS_MAP.V6.toLowerCase() == item?.entryPoint && (
                                                                         <tr>
                                                                             <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5">
                                                                                 maxFeePerGas
@@ -497,7 +499,7 @@ export default function DeveloperDetails({
                                                                             </td>
                                                                         </tr>
                                                                     )}
-                                                                    {ENTRY_POINT_ADDRESS_MAP.V6 == item?.entryPoint && (
+                                                                    {ENTRY_POINT_ADDRESS_MAP.V6.toLowerCase() == item?.entryPoint && (
                                                                         <tr>
                                                                             <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5">
                                                                                 maxPriorityFeePerGas
@@ -527,11 +529,14 @@ export default function DeveloperDetails({
                                                                         <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
                                                                             {userOpParamsExists &&
                                                                             metaData?.userOpParams[
-                                                                                ENTRY_POINT_ADDRESS_MAP.V6 == item?.entryPoint ? 9 : 7
+                                                                                ENTRY_POINT_ADDRESS_MAP.V6.toLowerCase() == item?.entryPoint
+                                                                                    ? 9
+                                                                                    : 7
                                                                             ]
-                                                                                ? metaData?.userOpParams[
-                                                                                      ENTRY_POINT_ADDRESS_MAP.V6 == item?.entryPoint ? 9 : 7
-                                                                                  ]
+                                                                                ? ENTRY_POINT_ADDRESS_MAP.V6.toLowerCase() ==
+                                                                                  item?.entryPoint
+                                                                                    ? metaData?.userOpParams[9]
+                                                                                    : metaData?.userOpParams[7]
                                                                                 : item?.paymasterAndData
                                                                                 ? item.paymasterAndData
                                                                                 : 'Unable to decode user op input'}
@@ -547,13 +552,14 @@ export default function DeveloperDetails({
                                                                         <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
                                                                             {userOpParamsExists &&
                                                                             metaData?.userOpParams[
-                                                                                ENTRY_POINT_ADDRESS_MAP.V6 == item?.entryPoint ? 10 : 8
+                                                                                ENTRY_POINT_ADDRESS_MAP.V6.toLowerCase() == item?.entryPoint
+                                                                                    ? 10
+                                                                                    : 8
                                                                             ]
-                                                                                ? metaData?.userOpParams[
-                                                                                      ENTRY_POINT_ADDRESS_MAP.V6 == item?.entryPoint
-                                                                                          ? 10
-                                                                                          : 8
-                                                                                  ]
+                                                                                ? ENTRY_POINT_ADDRESS_MAP.V6.toLowerCase() ==
+                                                                                  item?.entryPoint
+                                                                                    ? metaData?.userOpParams[10]
+                                                                                    : metaData?.userOpParams[8]
                                                                                 : item?.signature
                                                                                 ? item?.signature
                                                                                 : 'Unable to decode user op input'}
