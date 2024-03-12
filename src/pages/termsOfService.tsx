@@ -13,7 +13,7 @@ const termsOfService = (props: Props) => {
                     <br />
                 </p>
                 <p className={style.p}>
-                    <strong>Last modified: January 30th, 2024</strong>
+                    <strong>Last modified: March 10th, 2024</strong>
                 </p>
                 <p className={style.p}>
                     <br />
@@ -22,7 +22,7 @@ const termsOfService = (props: Props) => {
                     <strong>ACCEPTANCE OF THE TERMS AND CONDITIONS</strong>
                 </p>
                 <p className={style.p}>
-                    These Terms and Conditions are entered into by and between You and The Indexing Company, a Delaware corporation (the
+                    These Terms and Conditions are entered into by and between You and The JiffyLabs LLC (“Company”, ”We”, or “Us”) (the
                     “Company,” “we,” “our” or “us”). The following terms and conditions, together with any documents they expressly
                     incorporate by reference your use of and/or purchase of products or services from{' '}
                     <a href="https://www.jiffyscan.xyz/">
