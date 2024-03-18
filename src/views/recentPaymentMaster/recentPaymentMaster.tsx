@@ -18,7 +18,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useConfig } from '@/context/config';
 import usePrevious from '@/hooks/usePrevious';
-
+import { NETWORK_LIST } from '@/components/common/constants';
 // import Skeleton from '@/components/Skeleton';
 export const BUTTON_LIST = [
     {
@@ -87,7 +87,12 @@ interface AccountInfo {
     totalDeposits: number;
     userOpsLength: number;
 }
-
+interface NetworkItem {
+    name: string;
+    key: string;
+    iconPath: string;
+    iconPathInverted: string;
+  }
 const createPaymasterInfoObject = (accountDetails: PayMasterActivity): AccountInfo => {
     return {
         address: accountDetails.address,
@@ -108,6 +113,9 @@ function RecentPaymentMaster(props: any) {
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE);
     const [captionText, setCaptionText] = useState('N/A User Ops found');
+
+    const [displayNetworkList, setDisplayNetworkList] = useState<NetworkItem[]>([]);
+    const [networkListReady,setNetworkListReady] = useState(false)
 
     // handling table page change. Everytime the pageNo change, or pageSize change this function will fetch new data and update it.
     const updateRowsData = async (network: string, pageNo: number, pageSize: number) => {
@@ -157,6 +165,41 @@ function RecentPaymentMaster(props: any) {
         }
     }, [hash, network]);
     let skeletonCards = Array(5).fill(0);
+    const checkTermInNetworks = React.useCallback(async (term : string) => {
+        const networksWithTerm: string[] = [];
+        const networkKeys = Object.keys(NETWORK_LIST);
+    
+        try {
+            const responses = await Promise.all(
+                networkKeys.map((networkValue) =>
+                    fetch(`https://api.jiffyscan.xyz/v0/searchEntry?entry=${encodeURIComponent(term)}&network=${NETWORK_LIST[networkValue].key}`)
+                )
+            );
+    
+            const data = await Promise.all(responses.map((response) => response.json()));
+    
+            data.forEach((networkData, index) => {
+                if (!networkData.message) {
+                    const networkValue = networkKeys[index];
+                    networksWithTerm.push(networkValue);
+                }
+            });
+    
+           
+setDisplayNetworkList(
+    networksWithTerm.map((index) => NETWORK_LIST[index] as NetworkItem)
+  );
+            setNetworkListReady(true);
+        } catch (error) {
+            console.error('Error fetching data for networks:', error);
+        }
+    }, []);
+    
+    React.useEffect(() => {
+        if (!networkListReady && hash) {
+            checkTermInNetworks(hash);
+        }
+    }, [hash, networkListReady, checkTermInNetworks]);
     return (
         <div className="">
             <Navbar searchbar />
@@ -188,7 +231,7 @@ function RecentPaymentMaster(props: any) {
                     <h1 className="text-3xl font-bold">Paymaster</h1>
                 </div>
             </section>
-            <HeaderSection item={addressInfo} network={network} addressMapping={addressMapping}/>
+            <HeaderSection item={addressInfo} network={network} addressMapping={addressMapping} displayNetworkList={displayNetworkList}/>
             <TransactionDetails item={addressInfo} network={network} />
             <div className="container px-0">
                 <Table

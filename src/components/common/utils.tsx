@@ -100,7 +100,7 @@ export const constructRedirectUrl = (type: string, network: string, term: string
         return `/userOpHash/${term}/?network=${network}`;
     } else if (type === 'account') {
         return `/account/${term}/?network=${network}`;
-    } else if (type === 'paymaster') {
+    } else if (type === 'paymasters') {
         return `/paymaster/${term}/?network=${network}`;
     } else if (type === 'beneficiarie') {
         return `/bundler/${term}/?network=${network}`;

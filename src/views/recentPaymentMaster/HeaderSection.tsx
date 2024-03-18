@@ -3,8 +3,29 @@ import CopyButton from '@/components/common/copy_button/CopyButton';
 import { getExplorerLogo } from '@/components/common/utils';
 import Link from 'next/link';
 import React from 'react';
+import { useRouter } from 'next/router';
+import { useConfig } from '@/context/config';
+import Chip from '@/components/common/chip/Chip';
+import ChipDropdown from '@/components/common/chip/ChipDropdown';
+import { useState } from 'react';
+const SET_DEFAULT_CHIP_SIZE = 4;
+export default function HeaderSection({ item, network, addressMapping,displayNetworkList  }: any) {
+    const { selectedNetwork, setSelectedNetwork } = useConfig();
+    console.log(network)
+    const router = useRouter();
+    const [endIndex, setEndIndex] = useState(SET_DEFAULT_CHIP_SIZE);
+    const [isMoreSelected, setIsMoreSelected] = useState(false);
 
-export default function HeaderSection({ item, network, addressMapping }: any) {
+    const displayedNetworkList = displayNetworkList.slice(0, endIndex);
+    const dropdownNetworkList = displayNetworkList.slice(endIndex);
+
+    const isNetworkInDropdown = (network, dropdownNetworkList) => {
+        return dropdownNetworkList.some(({ key }) => key === network);
+    };
+
+    React.useEffect(() => {
+        setIsMoreSelected(isNetworkInDropdown(router.query.network, dropdownNetworkList) ? true : false);
+    }, [router.query.network, dropdownNetworkList]);
     return (
         <div>
             <section className="px-3 ">
@@ -17,9 +38,10 @@ export default function HeaderSection({ item, network, addressMapping }: any) {
                                 {NETWORK_LIST.find((el) => el.key === network)?.name}
                             </span>
                         </div>
+                        <div className='w-full flex flex-col max-md:gap-[1rem] md:flex-row justify-between'>
                         <div className="flex items-center flex-1 gap-2 break-words">
                             <span className="text-sm leading-5 break-all text-dark-600">{item?.address}</span>
-                            <CopyButton text={item?.id} />
+                            <CopyButton text={item?.address} />
                             <button className="outline-none focus:outline-none ring-0 focus:ring-0">
                                 <Link
                                     // underline="hover"
@@ -32,6 +54,40 @@ export default function HeaderSection({ item, network, addressMapping }: any) {
                                     <img src={getExplorerLogo(network)} style={{height: '16px', width: '16px'}} alt="" />
                                 </Link>
                             </button>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-1">
+                    {displayedNetworkList.map(({ name, key, iconPath, iconPathInverted }, index) => (
+                        <Chip
+                            key={index}
+                            onClick={() => {
+                                router.push({
+                                    pathname: router.pathname,
+                                    query: { ...router.query, network: key },
+                                });
+                                setIsMoreSelected(false);
+                            }}
+                            startIcon={router.query.network === key ? iconPathInverted : iconPath}
+                            color={`${router.query.network === key ? 'dark-700' : 'white'}`}
+                        >
+                            {name}
+                        </Chip>
+                    ))}
+                    {displayNetworkList.length > SET_DEFAULT_CHIP_SIZE && (
+                        <ChipDropdown
+                            onClickFcn={(network) => {
+                                router.push({
+                                    pathname: router.pathname,
+                                    query: { ...router.query, network },
+                                });
+                                setIsMoreSelected(false);
+                            }}
+                            selectedNetwork={router.query.network as string || ""}
+                            isMoreSelected={isMoreSelected}
+                            setIsMoreSelected={setIsMoreSelected}
+                            dropdownNetworkList={dropdownNetworkList}
+                        />
+                    )}
+                </div>
                         </div>
                         {item?.address === '' ? null : (
                             <div className="md:px-[16px] px-0 md:py-[8px] py-0">

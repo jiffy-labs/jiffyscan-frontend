@@ -18,7 +18,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
 import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
 import Token from '@/components/common/Token';
-import { NETWORK_ICON_MAP, NETWORK_SCANNER_MAP } from '@/components/common/constants';
+import { NETWORK_ICON_MAP, NETWORK_SCANNER_MAP ,NETWORK_LIST} from '@/components/common/constants';
 import Skeleton from 'react-loading-skeleton-2';
 import CopyButton from '@/components/common/copy_button/CopyButton';
 import Table, { tableDataT } from '@/components/common/table/Table';
@@ -201,6 +201,13 @@ interface AccountInfo {
     tokenBalances?: tokenBalance[];
 }
 
+interface NetworkItem {
+    name: string;
+    key: string;
+    iconPath: string;
+    iconPathInverted: string;
+  }
+
 const createAccountInfoObject = (addressActivity: AddressActivity, address: string): AccountInfo => {
     console.log(addressActivity);
     if (addressActivity && Object.keys(addressActivity).length > 0)
@@ -283,6 +290,10 @@ function Account(props: any) {
     const [transactionsPageNo, setTransactionsPageNo] = useState(0);
 
     const [mounted, setMounted] = useState(false);
+
+    const [displayNetworkList, setDisplayNetworkList] = useState<NetworkItem[]>([]);
+    const [networkListReady,setNetworkListReady] = useState(false)
+
 
     useEffect(() => {
         setMounted(true);
@@ -384,6 +395,45 @@ function Account(props: any) {
         }
     }, [hash, network]);
 
+    const checkTermInNetworks = React.useCallback(async (term : string) => {
+        const networksWithTerm: string[] = [];
+        const networkKeys = Object.keys(NETWORK_LIST);
+    
+        try {
+            const responses = await Promise.all(
+                networkKeys.map((networkValue) =>
+                    fetch(`https://api.jiffyscan.xyz/v0/searchEntry?entry=${encodeURIComponent(term)}&network=${NETWORK_LIST[networkValue].key}`)
+                )
+            );
+    
+            const data = await Promise.all(responses.map((response) => response.json()));
+    
+            data.forEach((networkData, index) => {
+                if (!networkData.message) {
+                    const networkValue = networkKeys[index];
+                    networksWithTerm.push(networkValue);
+                }
+            });
+console.log(networksWithTerm)  
+if(networksWithTerm.length>0)  
+{    
+  setDisplayNetworkList(
+    networksWithTerm.map((index) => NETWORK_LIST[index] as NetworkItem)
+    );
+console.log( networksWithTerm.map((index) => NETWORK_LIST[index] as NetworkItem))
+}  
+            setNetworkListReady(true);
+        } catch (error) {
+            console.error('Error fetching data for networks:', error);
+        }
+    }, []);
+    
+    React.useEffect(() => {
+        if (!networkListReady && hash) {
+            checkTermInNetworks(hash);
+        }
+    }, [hash, networkListReady, checkTermInNetworks]);
+
     if (!mounted) return <></>;
 
     return (
@@ -417,7 +467,7 @@ function Account(props: any) {
                     <h1 className="text-3xl font-bold">Account</h1>
                 </div>
             </section>
-            <HeaderSection item={addressInfo} network={network} />
+            <HeaderSection item={addressInfo} network={network} displayNetworkList={displayNetworkList}/>
             <TransactionDetails
                 item={addressInfo}
                 network={network}

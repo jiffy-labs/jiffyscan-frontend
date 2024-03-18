@@ -24,6 +24,7 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
     const [searching, setSearching] = useState(false);
     const [term, setTerm] = useState('');
     const [animateState, setAnimateState] = useState(false);
+    const [networkValue, setNetworkValue] = useState<number>(2);
     const searchRef: any = useRef(null);
 
     const handleChange = (e: any) => setTerm(e.target.value.trim());
@@ -58,9 +59,12 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
     const handleSubmit = async () => {
         if (checkIfValidTerm(term)) {
             setSearching(true);
-            const res = await fetch(`https://api.jiffyscan.xyz/v0/searchEntry?entry=${term}`);
+            const res = await fetch(`https://api.jiffyscan.xyz/v0/searchEntry?entry=${term}&network=${NETWORK_LIST[networkValue].key}`);
+            console.log(networkValue)
+            console.log(NETWORK_LIST)
             if (res.status === 200) {
                 const data = await res.json();
+                console.log(data)
                 let redirectUrl;
                 if (data.foundInNetwork && data.type && data.term)
                     redirectUrl = constructRedirectUrl(data.type, data.foundInNetwork, data.term);
@@ -90,10 +94,9 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
                 // duration-150`}
             >
                 <label className="flex justify-center">
-                    <span onClick={handleSubmit} className="p-2.5 border-r border-dark-200" role="button">
-                        <img src="/images/search.svg" alt="" />
-                    </span>
+                    
                     <div className="flex items-center gap-2.5 pr-3 flex-grow focus-within:shadow-xl">
+                    <Options networkValue={networkValue} setNetworkValue={setNetworkValue} />
                         <input
                             type="text"
                             className="flex-grow px-3 py-2 text-base placeholder:text-dark-500 text-dark-600"
@@ -106,7 +109,11 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
                         <span className="flex items-center justify-center h-5 px-3 rounded-full bg-dark-400">
                             <img className="" src="/images/span (1).svg" alt="" />
                         </span>
+                        <span onClick={handleSubmit} className="p-2.5 border-l border-dark-200" role="button">
+                        <img src="/images/search.svg" alt="" />
+                    </span>
                     </div>
+
                 </label>
                 {searching && <LinearProgress />}
                 <ToastContainer />
@@ -120,7 +127,7 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
                     ${animateState ? `focus-within:translate-y-2 focus-within:-translate-x-2   focus-within:scale-125` : ''} duration-150`}
             >
                 <label className="flex justify-center">
-                    {/* <Options networkValue={networkValue} setNetworkValue={setNetworkValue} /> */}
+                    <Options networkValue={networkValue} setNetworkValue={setNetworkValue} />
                     <div className="flex items-center gap-2.5 pr-4 flex-grow focus-within:shadow-xl ">
                         <input
                             type="text"
