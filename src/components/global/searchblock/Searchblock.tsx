@@ -38,7 +38,6 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
     const keyDownHandler = (event: KeyboardEvent) => {
         if (event.metaKey && event.key === 'k') {
             event.preventDefault();
-            console.log('You just pressed Control and K!');
             if (searchRef.current) searchRef.current.focus();
             // animate for 1 second
             setAnimateState(true);
@@ -59,7 +58,7 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
     const handleSubmit = async () => {
         if (checkIfValidTerm(term)) {
             setSearching(true);
-            const res = await fetch(`https://api.jiffyscan.xyz/v0/searchEntry?entry=${term}&network=${NETWORK_LIST[networkValue].key}`);
+            const res = await fetch(`https://api.jiffyscan.xyz/v0/searchEntry?entry=${term.toLocaleLowerCase()}&network=${NETWORK_LIST[networkValue].key}`);
             if (res.status === 200) {
                 const data = await res.json();
                 console.log(data)
