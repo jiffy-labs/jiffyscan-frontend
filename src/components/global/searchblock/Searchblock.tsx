@@ -60,8 +60,6 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
         if (checkIfValidTerm(term)) {
             setSearching(true);
             const res = await fetch(`https://api.jiffyscan.xyz/v0/searchEntry?entry=${term}&network=${NETWORK_LIST[networkValue].key}`);
-            console.log(networkValue)
-            console.log(NETWORK_LIST)
             if (res.status === 200) {
                 const data = await res.json();
                 console.log(data)
