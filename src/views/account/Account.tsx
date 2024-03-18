@@ -400,11 +400,17 @@ function Account(props: any) {
         const networkKeys = Object.keys(NETWORK_LIST);
     
         try {
-            const responses = await Promise.all(
-                networkKeys.map((networkValue) =>
-                    fetch(`https://api.jiffyscan.xyz/v0/searchEntry?entry=${encodeURIComponent(term)}&network=${NETWORK_LIST[networkValue].key}`)
-                )
-            );
+          const responses = await Promise.all(
+                (Object.keys(NETWORK_LIST) as (keyof typeof NETWORK_LIST)[]).map((networkValue) => {
+                  const networkItem = NETWORK_LIST[networkValue];
+                  if (typeof networkItem === 'object' && networkItem !== null && 'key' in networkItem) {
+                    return fetch(`https://api.jiffyscan.xyz/v0/searchEntry?entry=${encodeURIComponent(term)}&network=${networkItem.key}`);
+                  } else {
+                    
+                    return Promise.reject(`Invalid network item`);
+                  }
+                })
+              );
     
             const data = await Promise.all(responses.map((response) => response.json()));
     
@@ -414,14 +420,16 @@ function Account(props: any) {
                     networksWithTerm.push(networkValue);
                 }
             });
-console.log(networksWithTerm)  
-if(networksWithTerm.length>0)  
-{    
+
+
+const validNetworksWithTerm = networksWithTerm.filter(
+    (index) => typeof index === 'string' && !isNaN(Number(index)) && Number(index) < NETWORK_LIST.length
+  );
+  
   setDisplayNetworkList(
-    networksWithTerm.map((index) => NETWORK_LIST[index] as NetworkItem)
-    );
-console.log( networksWithTerm.map((index) => NETWORK_LIST[index] as NetworkItem))
-}  
+    validNetworksWithTerm.map((index) => NETWORK_LIST[Number(index)] as NetworkItem)
+  );
+
             setNetworkListReady(true);
         } catch (error) {
             console.error('Error fetching data for networks:', error);

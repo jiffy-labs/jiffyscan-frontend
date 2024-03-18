@@ -9,6 +9,12 @@ import Chip from '@/components/common/chip/Chip';
 import ChipDropdown from '@/components/common/chip/ChipDropdown';
 import { useState } from 'react';
 const SET_DEFAULT_CHIP_SIZE = 0;
+interface NetworkItem {
+    name: string;
+    key: string;
+    iconPath: string;
+    iconPathInverted: string;
+}
 export default function HeaderSection({ item, network, addressMapping, displayNetworkList }: any) {
     const { selectedNetwork, setSelectedNetwork } = useConfig();
     console.log(network)
@@ -19,12 +25,17 @@ export default function HeaderSection({ item, network, addressMapping, displayNe
     const displayedNetworkList = displayNetworkList.slice(0, endIndex);
     const dropdownNetworkList = displayNetworkList.slice(endIndex);
 
-    const isNetworkInDropdown = (network, dropdownNetworkList) => {
+    const isNetworkInDropdown = (network: string, dropdownNetworkList: NetworkItem[]) => {
         return dropdownNetworkList.some(({ key }) => key === network);
     };
 
     React.useEffect(() => {
-        setIsMoreSelected(isNetworkInDropdown(router.query.network, dropdownNetworkList) ? true : false);
+        setIsMoreSelected(
+            isNetworkInDropdown(
+                typeof router.query.network === 'string' ? router.query.network : '',
+                dropdownNetworkList
+            )
+        );
     }, [router.query.network, dropdownNetworkList]);
     return (
         <div>
@@ -56,22 +67,26 @@ export default function HeaderSection({ item, network, addressMapping, displayNe
                                 </button>
                             </div>
                             <div className="flex flex-wrap items-center gap-1">
-                                {displayedNetworkList.map(({ name, key, iconPath, iconPathInverted }, index) => (
-                                    <Chip
-                                        key={index}
-                                        onClick={() => {
-                                            router.push({
-                                                pathname: router.pathname,
-                                                query: { ...router.query, network: key },
-                                            });
-                                            setIsMoreSelected(false);
-                                        }}
-                                        startIcon={router.query.network === key ? iconPathInverted : iconPath}
-                                        color={`${router.query.network === key ? 'dark-700' : 'white'}`}
-                                    >
-                                        {name}
-                                    </Chip>
-                                ))}
+                                {
+                                    displayedNetworkList.map(
+                                        ({ name, key, iconPath, iconPathInverted }: NetworkItem, index: number) => (
+                                            <Chip
+                                                key={index}
+                                                onClick={() => {
+                                                    router.push({
+                                                        pathname: router.pathname,
+                                                        query: { ...router.query, network: key },
+                                                    });
+                                                    setIsMoreSelected(false);
+                                                }}
+                                                startIcon={router.query.network === key ? iconPathInverted : iconPath}
+                                                color={`${router.query.network === key ? 'dark-700' : 'white'}`}
+                                            >
+                                                {name}
+                                            </Chip>
+                                        )
+                                    )
+                                }
                                 {displayNetworkList.length > SET_DEFAULT_CHIP_SIZE && (
                                     <ChipDropdown
                                         onClickFcn={(network) => {
@@ -81,7 +96,7 @@ export default function HeaderSection({ item, network, addressMapping, displayNe
                                             });
                                             setIsMoreSelected(false);
                                         }}
-                                        selectedNetwork={router.query.network  as string || ""}
+                                        selectedNetwork={router.query.network as string || ""}
                                         isMoreSelected={isMoreSelected}
                                         setIsMoreSelected={setIsMoreSelected}
                                         dropdownNetworkList={dropdownNetworkList}
