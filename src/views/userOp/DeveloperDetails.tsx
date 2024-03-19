@@ -10,7 +10,7 @@ import Skeleton from 'react-loading-skeleton-2';
 import { BUTTON_LIST } from './UserOperation';
 import sx from './usertable.module.sass';
 import LinkAndCopy from '@/components/common/LinkAndCopy';
-import { NETWORK_SCANNER_MAP } from '@/components/common/constants';
+import { ENTRY_POINT_ADDRESS_MAP, NETWORK_SCANNER_MAP } from '@/components/common/constants';
 
 const FORMAT_MAP: { [key: string]: string } = {
     '0x940d3c60': 'executeCall(address target, uint256 value, bytes targetCallData)',
@@ -44,7 +44,7 @@ export default function DeveloperDetails({
             if (item && item !== 'undefined') {
                 return JSON.parse(item);
             }
-        
+
             localStorage.setItem(key, JSON.stringify(initialValue));
             return initialValue;
         } catch {
@@ -71,7 +71,6 @@ export default function DeveloperDetails({
     useEffect(() => {
         if (metaData && Object.keys(metaData).length > 0 && 'userOpParams' in metaData && metaData.userOpParams.length > 0)
             setUserOpParamsExists(true);
-        
     }, [metaData]);
 
     return (
@@ -391,36 +390,57 @@ export default function DeveloperDetails({
                                                                                 : 'Unable to decode user op input'}
                                                                         </td>
                                                                     </tr>
-                                                                    <tr>
-                                                                        <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5">
-                                                                            callGasLimit
-                                                                        </td>
-                                                                        <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                            uint256
-                                                                        </td>
-                                                                        <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                            {userOpParamsExists && metaData?.userOpParams[4]
-                                                                                ? parseInt(metaData?.userOpParams[4].hex)
-                                                                                : item?.callGasLimit
-                                                                                ? item?.callGasLimit
-                                                                                : 'Unable to decode user op input'}
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                            verificationGasLimit
-                                                                        </td>
-                                                                        <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                            uint256
-                                                                        </td>
-                                                                        <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                            {userOpParamsExists && metaData?.userOpParams[5]
-                                                                                ? parseInt(metaData?.userOpParams[5].hex)
-                                                                                : item?.verificationGasLimit
-                                                                                ? item?.verificationGasLimit
-                                                                                : 'Unable to decode user op input'}
-                                                                        </td>
-                                                                    </tr>
+                                                                    {ENTRY_POINT_ADDRESS_MAP.V6.toLowerCase() == item?.entryPoint && (
+                                                                        <tr>
+                                                                            <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                callGasLimit
+                                                                            </td>
+                                                                            <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                uint256
+                                                                            </td>
+                                                                            <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                {userOpParamsExists && metaData?.userOpParams[4]
+                                                                                    ? parseInt(metaData?.userOpParams[4].hex)
+                                                                                    : item?.callGasLimit
+                                                                                    ? item?.callGasLimit
+                                                                                    : 'Unable to decode user op input'}
+                                                                            </td>
+                                                                        </tr>
+                                                                    )}
+                                                                    {ENTRY_POINT_ADDRESS_MAP.V6.toLowerCase() == item?.entryPoint && (
+                                                                        <tr>
+                                                                            <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                verificationGasLimit
+                                                                            </td>
+                                                                            <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                uint256
+                                                                            </td>
+                                                                            <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                {userOpParamsExists && metaData?.userOpParams[5]
+                                                                                    ? parseInt(metaData?.userOpParams[5].hex)
+                                                                                    : item?.verificationGasLimit
+                                                                                    ? item?.verificationGasLimit
+                                                                                    : 'Unable to decode user op input'}
+                                                                            </td>
+                                                                        </tr>
+                                                                    )}
+                                                                    {ENTRY_POINT_ADDRESS_MAP.V7 == item?.entryPoint && (
+                                                                        <tr>
+                                                                            <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                accountGasFees
+                                                                            </td>
+                                                                            <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                bytes32
+                                                                            </td>
+
+                                                                            <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                {item?.accountGasLimits
+                                                                                    ? item.accountGasLimits
+                                                                                    : 'Unable to decode user op input'}
+                                                                            </td>
+                                                                        </tr>
+                                                                    )}
+
                                                                     <tr>
                                                                         <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5">
                                                                             preVerificationGas
@@ -429,50 +449,76 @@ export default function DeveloperDetails({
                                                                             uint256
                                                                         </td>
                                                                         <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                            {userOpParamsExists && metaData?.userOpParams[6]
+                                                                            {userOpParamsExists &&
+                                                                            metaData?.userOpParams[
+                                                                                ENTRY_POINT_ADDRESS_MAP.V6.toLowerCase() == item?.entryPoint
+                                                                                    ? 6
+                                                                                    : 5
+                                                                            ]
                                                                                 ? parseInt(metaData?.userOpParams[6].hex)
                                                                                 : item?.preVerificationGas
                                                                                 ? item.preVerificationGas
                                                                                 : 'Unable to decode user op input'}
                                                                         </td>
                                                                     </tr>
-                                                                    <tr>
-                                                                        <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5">
-                                                                            maxFeePerGas
-                                                                        </td>
-                                                                        <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                            uint256
-                                                                        </td>
 
-                                                                        <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
-                                                                            <DisplayFee
-                                                                                item={
-                                                                                    userOpParamsExists && metaData?.userOpParams[7]
-                                                                                        ? parseInt(metaData?.userOpParams[7].hex)
-                                                                                        : item?.maxFeePerGas!
-                                                                                }
-                                                                                network={item?.network}
-                                                                            />
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5">
-                                                                            maxPriorityFeePerGas
-                                                                        </td>
-                                                                        <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                            uint256
-                                                                        </td>
-                                                                        <td className="wordbrack text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                            <DisplayFee
-                                                                                item={
-                                                                                    userOpParamsExists && metaData?.userOpParams[8]
-                                                                                        ? parseInt(metaData?.userOpParams[8].hex)
-                                                                                        : item?.maxPriorityFeePerGas!
-                                                                                }
-                                                                                network={item?.network}
-                                                                            />
-                                                                        </td>
-                                                                    </tr>
+                                                                    {ENTRY_POINT_ADDRESS_MAP.V7 == item?.entryPoint && (
+                                                                        <tr>
+                                                                            <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                gasFees
+                                                                            </td>
+                                                                            <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                bytes32
+                                                                            </td>
+
+                                                                            <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                {item?.gasFees
+                                                                                    ? item.gasFees
+                                                                                    : 'Unable to decode user op input'}
+                                                                            </td>
+                                                                        </tr>
+                                                                    )}
+                                                                    {ENTRY_POINT_ADDRESS_MAP.V6.toLowerCase() == item?.entryPoint && (
+                                                                        <tr>
+                                                                            <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                maxFeePerGas
+                                                                            </td>
+                                                                            <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                uint256
+                                                                            </td>
+
+                                                                            <td className="whitespace-pre text-black[87%] py-[14px] px-3 text-sm leading-5">
+                                                                                <DisplayFee
+                                                                                    item={
+                                                                                        userOpParamsExists && metaData?.userOpParams[7]
+                                                                                            ? parseInt(metaData?.userOpParams[7].hex)
+                                                                                            : item?.maxFeePerGas!
+                                                                                    }
+                                                                                    network={item?.network}
+                                                                                />
+                                                                            </td>
+                                                                        </tr>
+                                                                    )}
+                                                                    {ENTRY_POINT_ADDRESS_MAP.V6.toLowerCase() == item?.entryPoint && (
+                                                                        <tr>
+                                                                            <td className=" text-black whitespace-nowrap [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                maxPriorityFeePerGas
+                                                                            </td>
+                                                                            <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                uint256
+                                                                            </td>
+                                                                            <td className="wordbrack text-black [87%] py-[14px] px-3 text-sm leading-5">
+                                                                                <DisplayFee
+                                                                                    item={
+                                                                                        userOpParamsExists && metaData?.userOpParams[8]
+                                                                                            ? parseInt(metaData?.userOpParams[8].hex)
+                                                                                            : item?.maxPriorityFeePerGas!
+                                                                                    }
+                                                                                    network={item?.network}
+                                                                                />
+                                                                            </td>
+                                                                        </tr>
+                                                                    )}
                                                                     <tr>
                                                                         <td className=" text-black [87%] py-[14px] px-3 text-sm leading-5">
                                                                             paymasterAndData
@@ -481,8 +527,16 @@ export default function DeveloperDetails({
                                                                             uint256
                                                                         </td>
                                                                         <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                            {userOpParamsExists && metaData?.userOpParams[9]
-                                                                                ? metaData?.userOpParams[9]
+                                                                            {userOpParamsExists &&
+                                                                            metaData?.userOpParams[
+                                                                                ENTRY_POINT_ADDRESS_MAP.V6.toLowerCase() == item?.entryPoint
+                                                                                    ? 9
+                                                                                    : 7
+                                                                            ]
+                                                                                ? ENTRY_POINT_ADDRESS_MAP.V6.toLowerCase() ==
+                                                                                  item?.entryPoint
+                                                                                    ? metaData?.userOpParams[9]
+                                                                                    : metaData?.userOpParams[7]
                                                                                 : item?.paymasterAndData
                                                                                 ? item.paymasterAndData
                                                                                 : 'Unable to decode user op input'}
@@ -496,8 +550,16 @@ export default function DeveloperDetails({
                                                                             uint256
                                                                         </td>
                                                                         <td className="wordbrack  text-black [87%] py-[14px] px-3 text-sm leading-5">
-                                                                            {userOpParamsExists && metaData?.userOpParams[10]
-                                                                                ? metaData?.userOpParams[10]
+                                                                            {userOpParamsExists &&
+                                                                            metaData?.userOpParams[
+                                                                                ENTRY_POINT_ADDRESS_MAP.V6.toLowerCase() == item?.entryPoint
+                                                                                    ? 10
+                                                                                    : 8
+                                                                            ]
+                                                                                ? ENTRY_POINT_ADDRESS_MAP.V6.toLowerCase() ==
+                                                                                  item?.entryPoint
+                                                                                    ? metaData?.userOpParams[10]
+                                                                                    : metaData?.userOpParams[8]
                                                                                 : item?.signature
                                                                                 ? item?.signature
                                                                                 : 'Unable to decode user op input'}

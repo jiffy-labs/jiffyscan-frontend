@@ -38,7 +38,6 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
     const keyDownHandler = (event: KeyboardEvent) => {
         if (event.metaKey && event.key === 'k') {
             event.preventDefault();
-            console.log('You just pressed Control and K!');
             if (searchRef.current) searchRef.current.focus();
             // animate for 1 second
             setAnimateState(true);

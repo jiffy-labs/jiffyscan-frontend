@@ -1,0 +1,46 @@
+.ul {
+    margin-top: 0;
+    margin-bottom: 10px;
+    padding-left: 40px;
+  }
+
+  .p {
+    color: var(--text--1);
+    margin-bottom: 25px;
+    font-family: Roobert, sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+  }
+
+  .c-legal__rich-text p {
+    color: var(--nuetral--5);
+  }
+
+  .p {
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+
+  .w-richtext ol, .w-richtext ul {
+    overflow: hidden;
+  }
+
+  .c-legal {
+    margin-bottom: 0;
+    padding: 100px 12.5%;
+  }
+
+  .section {
+    display: block;
+  }
+
+  .strong {
+    font-weight: bold;
+  }
+
+  .c-legal {
+    margin-bottom: 0;
+    padding: 100px 12.5%;
+  }
+
+  
