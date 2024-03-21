@@ -3,7 +3,7 @@ import { fallBack } from '../constants';
 import cache from 'memory-cache';
 import { BigNumber } from 'ethers';
 import { fetchRetry } from '../utils';
-
+import { NETWORK_LIST } from '../constants';
 export interface UserOp {
     id: string | null;
     transactionHash: string | null;
@@ -203,6 +203,9 @@ export interface tokenTransferAlchemy {
 //     asset: string;
 //     tokenId: string;
 // }
+export interface NetworkResponse {
+    message?: string;
+  }
 
 export interface FactoryDetails {
     id: string;
@@ -1095,3 +1098,16 @@ export const fetchData = async (item : ItemProps) => {
     }
     return data;
 };
+
+export const fetchNetworkData = async (term: string): Promise<NetworkResponse[]> => {
+    return Promise.all(
+      Object.entries(NETWORK_LIST).map(async ([_, networkItem]) => {
+        if (typeof networkItem === 'object' && networkItem !== null && 'key' in networkItem) {
+          const response = await fetch(`https://api.jiffyscan.xyz/v0/searchEntry?entry=${encodeURIComponent(term)}&network=${networkItem.key}`);
+          return response.json();
+        } else {
+          throw new Error(`Invalid network item`);
+        }
+      })
+    );
+  };

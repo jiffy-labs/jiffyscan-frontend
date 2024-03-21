@@ -1,15 +1,16 @@
 import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
-import { UserOp, Bundle, getBundlerDetails , } from '@/components/common/apiCalls/jiffyApis';
+import { UserOp, Bundle, getBundlerDetails, fetchNetworkData, NetworkResponse } from '@/components/common/apiCalls/jiffyApis';
 import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
 import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
-import { NETWORK_ICON_MAP,NETWORK_LIST } from '@/components/common/constants';
+import { NETWORK_ICON_MAP, NETWORK_LIST } from '@/components/common/constants';
 import Table, { tableDataT } from '@/components/common/table/Table';
 import Pagination from '@/components/common/table/Pagination';
 import HeaderSection from './HeaderSection';
+import HeaderSectionGlobal from '@/components/global/HeaderSection';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useConfig } from '@/context/config';
@@ -30,7 +31,8 @@ interface NetworkItem {
     key: string;
     iconPath: string;
     iconPathInverted: string;
-  }
+}
+
 
 const DEFAULT_PAGE_SIZE = 10;
 
@@ -76,7 +78,7 @@ const createAccountInfoObject = (bundleDetails: Bundle): AccountInfo => {
 function Bundler(props: any) {
     const router = useRouter();
     const [tableLoading, setTableLoading] = useState(true);
-    const {addressMapping} = useConfig();
+    const { addressMapping } = useConfig();
     const hash = props.slug && props.slug[0];
     const network = router.query && (router.query.network as string);
     const [rows, setRows] = useState([] as tableDataT['rows']);
@@ -84,9 +86,9 @@ function Bundler(props: any) {
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE);
     const [captionText, setCaptionText] = useState('N/A User Ops found');
-    
+
     const [displayNetworkList, setDisplayNetworkList] = useState<NetworkItem[]>([]);
-    const [networkListReady,setNetworkListReady] = useState(false)
+    const [networkListReady, setNetworkListReady] = useState(false)
 
     // handling table page change. Everytime the pageNo change, or pageSize change this function will fetch new data and update it.
     const updateRowsData = async (network: string, pageNo: number, pageSize: number) => {
@@ -99,72 +101,35 @@ function Bundler(props: any) {
         setRows(rows);
         setTableLoading(false);
     };
- 
-    // const checkTermInNetworks = async (term) => {
-    //     const networksWithTerm = [];
-    //     const networkKeys = Object.keys(NETWORK_LIST);
-      
-    //     await Promise.all(networkKeys.map(async (networkValue) => {
-    //       try {
-    //         const response = await fetch(`https://api.jiffyscan.xyz/v0/searchEntry?entry=${encodeURIComponent(term)}&network=${NETWORK_LIST[networkValue].key}`);
-    //         const data = await response.json();
-     
-           
-    //         if (!data.message ) {
-    //             console.log(data)
-    //           networksWithTerm.push(networkValue);
-    //         }
-    //       } catch (error) {
-    //         console.error(`Error fetching data for network ${networkValue}:`, error);
-    //       }
-    //     }));
-    //     console.log(networksWithTerm)
-    //    setDisplayNetworkList(networksWithTerm.map(index => NETWORK_LIST[index]));
-    //    setNetworkListReady(true)
-    //     // return networksWithTerm;
-    //    };
-    // if(!networkListReady)
-    //    checkTermInNetworks(hash)
-    const checkTermInNetworks = React.useCallback(async (term : string) => {
+
+    const checkTermInNetworks = React.useCallback(async (term: string) => {
         const networksWithTerm: string[] = [];
         const networkKeys = Object.keys(NETWORK_LIST);
-    
-        try {
-          const responses = await Promise.all(
-                (Object.keys(NETWORK_LIST) as (keyof typeof NETWORK_LIST)[]).map((networkValue) => {
-                  const networkItem = NETWORK_LIST[networkValue];
-                  if (typeof networkItem === 'object' && networkItem !== null && 'key' in networkItem) {
-                    return fetch(`https://api.jiffyscan.xyz/v0/searchEntry?entry=${encodeURIComponent(term)}&network=${networkItem.key}`);
-                  } else {
-                    
-                    return Promise.reject(`Invalid network item`);
-                  }
-                })
-              );
-    
-            const data = await Promise.all(responses.map((response) => response.json()));
-    
-            data.forEach((networkData, index) => {
-                if (!networkData.message) {
-                    const networkValue = networkKeys[index];
-                    networksWithTerm.push(networkValue);
-                }
-            });
-    
-           
-const validNetworksWithTerm = networksWithTerm.filter(
-  (index) => typeof index === 'string' && !isNaN(Number(index)) && Number(index) < NETWORK_LIST.length
-);
 
-setDisplayNetworkList(
-  validNetworksWithTerm.map((index) => NETWORK_LIST[Number(index)] as NetworkItem)
-);
+        try {
+            const data: NetworkResponse[] = await fetchNetworkData(term);
+
+            data.forEach((networkData: NetworkResponse, index: number) => {
+              if (!networkData.message) {
+                const networkValue = networkKeys[index];
+                networksWithTerm.push(networkValue);
+              }
+            });
+
+
+            const validNetworksWithTerm = networksWithTerm.filter(
+                (index) => typeof index === 'string' && !isNaN(Number(index)) && Number(index) < NETWORK_LIST.length
+            );
+
+            setDisplayNetworkList(
+                validNetworksWithTerm.map((index) => NETWORK_LIST[Number(index)] as NetworkItem)
+            );
             setNetworkListReady(true);
         } catch (error) {
             console.error('Error fetching data for networks:', error);
         }
     }, []);
-    
+
     React.useEffect(() => {
         if (!networkListReady && hash) {
             checkTermInNetworks(hash);
@@ -239,7 +204,8 @@ setDisplayNetworkList(
                     <h1 className="text-3xl font-bold">Bundler</h1>
                 </div>
             </section>
-            <HeaderSection item={addressInfo} network={network} addressMapping={addressMapping} displayNetworkList={displayNetworkList}/>
+            {/* <HeaderSection item={addressInfo} network={network} addressMapping={addressMapping} displayNetworkList={displayNetworkList} /> */}
+            <HeaderSectionGlobal item={addressInfo} network={network} addressMapping={addressMapping} displayNetworkList={displayNetworkList} headerTitle="Bundler" />
             <div className="container px-0 mt-[23px]">
                 <Table
                     rows={rows}

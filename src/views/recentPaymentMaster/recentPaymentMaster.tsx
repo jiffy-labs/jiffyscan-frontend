@@ -1,7 +1,7 @@
 import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
-import { getPayMasterDetails, PayMasterActivity, UserOp } from '@/components/common/apiCalls/jiffyApis';
+import { getPayMasterDetails, PayMasterActivity, UserOp, fetchNetworkData,NetworkResponse } from '@/components/common/apiCalls/jiffyApis';
 import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
@@ -14,12 +14,15 @@ import Table, { tableDataT } from '@/components/common/table/Table';
 import Pagination from '@/components/common/table/Pagination';
 import TransactionDetails from './TransactionDetails';
 import HeaderSection from './HeaderSection';
+import HeaderSectionGlobal from '@/components/global/HeaderSection';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useConfig } from '@/context/config';
 import usePrevious from '@/hooks/usePrevious';
 import { NETWORK_LIST } from '@/components/common/constants';
 // import Skeleton from '@/components/Skeleton';
+
+
 export const BUTTON_LIST = [
     {
         name: 'Default View',
@@ -53,9 +56,9 @@ const getEffectivePageSize = (pageSizeFromParam: string | null | undefined): num
 const getEffectivePageNo = (pageNoFromParam: string | null | undefined, totalRows: number, pageSize: number): number => {
     let effectivePageNo;
     effectivePageNo = pageNoFromParam ? parseInt(pageNoFromParam) : 1;
-    
-    if (effectivePageNo > Math.ceil(totalRows/pageSize)) {
-        effectivePageNo = Math.ceil(totalRows/pageSize);
+
+    if (effectivePageNo > Math.ceil(totalRows / pageSize)) {
+        effectivePageNo = Math.ceil(totalRows / pageSize);
     }
     if (effectivePageNo <= 0) {
         effectivePageNo = 1;
@@ -92,7 +95,7 @@ interface NetworkItem {
     key: string;
     iconPath: string;
     iconPathInverted: string;
-  }
+}
 const createPaymasterInfoObject = (accountDetails: PayMasterActivity): AccountInfo => {
     return {
         address: accountDetails.address,
@@ -104,7 +107,7 @@ const createPaymasterInfoObject = (accountDetails: PayMasterActivity): AccountIn
 function RecentPaymentMaster(props: any) {
     const router = useRouter();
     const [tableLoading, setTableLoading] = useState(true);
-    const {addressMapping} = useConfig();
+    const { addressMapping } = useConfig();
     const hash = props.slug && props.slug[0];
     const network = router.query && (router.query.network as string);
     const prevNetwork = usePrevious(network);
@@ -115,7 +118,7 @@ function RecentPaymentMaster(props: any) {
     const [captionText, setCaptionText] = useState('N/A User Ops found');
 
     const [displayNetworkList, setDisplayNetworkList] = useState<NetworkItem[]>([]);
-    const [networkListReady,setNetworkListReady] = useState(false)
+    const [networkListReady, setNetworkListReady] = useState(false)
 
     // handling table page change. Everytime the pageNo change, or pageSize change this function will fetch new data and update it.
     const updateRowsData = async (network: string, pageNo: number, pageSize: number) => {
@@ -165,46 +168,34 @@ function RecentPaymentMaster(props: any) {
         }
     }, [hash, network]);
     let skeletonCards = Array(5).fill(0);
-    const checkTermInNetworks = React.useCallback(async (term : string) => {
+    const checkTermInNetworks = React.useCallback(async (term: string) => {
         const networksWithTerm: string[] = [];
         const networkKeys = Object.keys(NETWORK_LIST);
-    
+
         try {
-            const responses = await Promise.all(
-                (Object.keys(NETWORK_LIST) as (keyof typeof NETWORK_LIST)[]).map((networkValue) => {
-                  const networkItem = NETWORK_LIST[networkValue];
-                  if (typeof networkItem === 'object' && networkItem !== null && 'key' in networkItem) {
-                    return fetch(`https://api.jiffyscan.xyz/v0/searchEntry?entry=${encodeURIComponent(term)}&network=${networkItem.key}`);
-                  } else {
-                    
-                    return Promise.reject(`Invalid network item`);
-                  }
-                })
-              );
-    
-            const data = await Promise.all(responses.map((response) => response.json()));
-    
-            data.forEach((networkData, index) => {
+            const data: NetworkResponse[] = await fetchNetworkData(term);
+
+            data.forEach((networkData: NetworkResponse, index: number) => {
                 if (!networkData.message) {
                     const networkValue = networkKeys[index];
                     networksWithTerm.push(networkValue);
                 }
             });
-    
-           
-const validNetworksWithTerm = networksWithTerm.filter(
-  (index) => typeof index === 'string' && !isNaN(Number(index)) && Number(index) < NETWORK_LIST.length
-);
 
-setDisplayNetworkList(
-  validNetworksWithTerm.map((index) => NETWORK_LIST[Number(index)] as NetworkItem)
-);
+
+            const validNetworksWithTerm = networksWithTerm.filter(
+                (index) => typeof index === 'string' && !isNaN(Number(index)) && Number(index) < NETWORK_LIST.length
+            );
+
+            setDisplayNetworkList(
+                validNetworksWithTerm.map((index) => NETWORK_LIST[Number(index)] as NetworkItem)
+            );
             setNetworkListReady(true);
         } catch (error) {
             console.error('Error fetching data for networks:', error);
         }
     }, []);
-    
+
     React.useEffect(() => {
         if (!networkListReady && hash) {
             checkTermInNetworks(hash);
@@ -241,7 +232,8 @@ setDisplayNetworkList(
                     <h1 className="text-3xl font-bold">Paymaster</h1>
                 </div>
             </section>
-            <HeaderSection item={addressInfo} network={network} addressMapping={addressMapping} displayNetworkList={displayNetworkList}/>
+            {/* <HeaderSection item={addressInfo} network={network} addressMapping={addressMapping} displayNetworkList={displayNetworkList} /> */}
+            <HeaderSectionGlobal item={addressInfo} network={network} displayNetworkList={displayNetworkList} headerTitle="Paymaster" />
             <TransactionDetails item={addressInfo} network={network} />
             <div className="container px-0">
                 <Table
