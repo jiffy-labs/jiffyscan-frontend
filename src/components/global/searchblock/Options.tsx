@@ -14,14 +14,15 @@ function Options({ networkValue, setNetworkValue }: { networkValue: number; setN
         <div className="relative z-0">
             <div className="py-3 px-4 border-r border-dark-200 bg-white flex items-center gap-1 text-md" role="button" onClick={toggler}>
                 {/* {/* <img src={NETWORK_LIST[value].img} alt="" /> */}
-                <span>{NETWORK_LIST[networkValue].name}</span>
+           
                 <img src={NETWORK_LIST[networkValue].iconPathInverted} alt="" style={{ width: '20px', height: 'auto' }} />
+                {/* <span>{NETWORK_LIST[networkValue].name}</span> */}
                 <img className={`duration-100 ${open ? 'rotate-180' : ''}`} src="/images/chevron-down.svg" alt="" />
             </div>
             {open && (
                 <div className="">
-                    <div onClick={toggler} className="fixed inset-0 -z-20 bg-transparent" />
-                    <div className="absolute left-0 bg-white min-w-full py-1 border-dark-200 shadow-200">
+                    <div onClick={toggler} className="fixed inset-0 z-100 bg-transparent" />
+                    <div className="absolute left-0 bg-white w-[200%] py-1 border-dark-200 shadow-200">
                         <div className="flex flex-col">
                             {NETWORK_LIST.map(({ name, key, iconPath, iconPathInverted }, index) => (
                                 <div
