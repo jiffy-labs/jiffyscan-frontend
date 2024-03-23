@@ -12,19 +12,21 @@ import {
     tokenTransferAlchemy,
     getAddressTransactions,
     Transaction,
+    fetchNetworkData, NetworkResponse
 } from '@/components/common/apiCalls/jiffyApis';
 import { Breadcrumbs, Link, Box, Tab, Tabs, Typography, Tooltip } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
 import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
 import Token from '@/components/common/Token';
-import { NETWORK_ICON_MAP, NETWORK_SCANNER_MAP } from '@/components/common/constants';
+import { NETWORK_ICON_MAP, NETWORK_SCANNER_MAP, NETWORK_LIST } from '@/components/common/constants';
 import Skeleton from 'react-loading-skeleton-2';
 import CopyButton from '@/components/common/copy_button/CopyButton';
 import Table, { tableDataT } from '@/components/common/table/Table';
 import Pagination from '@/components/common/table/Pagination';
 import TransactionDetails from './TransactionDetails';
 import HeaderSection from './HeaderSection';
+import HeaderSectionGlobal from '@/components/global/HeaderSection';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useConfig } from '@/context/config';
@@ -42,6 +44,7 @@ export const BUTTON_LIST = [
         key: 'Original',
     },
 ];
+
 
 const DEFAULT_PAGE_SIZE = 10;
 
@@ -201,6 +204,13 @@ interface AccountInfo {
     tokenBalances?: tokenBalance[];
 }
 
+interface NetworkItem {
+    name: string;
+    key: string;
+    iconPath: string;
+    iconPathInverted: string;
+}
+
 const createAccountInfoObject = (addressActivity: AddressActivity, address: string): AccountInfo => {
     console.log(addressActivity);
     if (addressActivity && Object.keys(addressActivity).length > 0)
@@ -283,6 +293,10 @@ function Account(props: any) {
     const [transactionsPageNo, setTransactionsPageNo] = useState(0);
 
     const [mounted, setMounted] = useState(false);
+
+    const [displayNetworkList, setDisplayNetworkList] = useState<NetworkItem[]>([]);
+    const [networkListReady, setNetworkListReady] = useState(false)
+
 
     useEffect(() => {
         setMounted(true);
@@ -384,6 +398,43 @@ function Account(props: any) {
         }
     }, [hash, network]);
 
+    const checkTermInNetworks = React.useCallback(async (term: string) => {
+        const networksWithTerm: string[] = [];
+        const networkKeys = Object.keys(NETWORK_LIST);
+
+        try {
+           
+
+            const data: NetworkResponse[] = await fetchNetworkData(term);
+
+            data.forEach((networkData: NetworkResponse, index: number) => {
+              if (!networkData.message) {
+                const networkValue = networkKeys[index];
+                networksWithTerm.push(networkValue);
+              }
+            });
+
+
+            const validNetworksWithTerm = networksWithTerm.filter(
+                (index) => typeof index === 'string' && !isNaN(Number(index)) && Number(index) < NETWORK_LIST.length
+            );
+
+            setDisplayNetworkList(
+                validNetworksWithTerm.map((index) => NETWORK_LIST[Number(index)] as NetworkItem)
+            );
+
+            setNetworkListReady(true);
+        } catch (error) {
+            console.error('Error fetching data for networks:', error);
+        }
+    }, []);
+
+    React.useEffect(() => {
+        if (!networkListReady && hash) {
+            checkTermInNetworks(hash);
+        }
+    }, [hash, networkListReady, checkTermInNetworks]);
+
     if (!mounted) return <></>;
 
     return (
@@ -417,7 +468,8 @@ function Account(props: any) {
                     <h1 className="text-3xl font-bold">Account</h1>
                 </div>
             </section>
-            <HeaderSection item={addressInfo} network={network} />
+            {/* <HeaderSection item={addressInfo} network={network} displayNetworkList={displayNetworkList} /> */}
+            <HeaderSectionGlobal item={addressInfo} network={network} displayNetworkList={displayNetworkList} headerTitle="Account" />
             <TransactionDetails
                 item={addressInfo}
                 network={network}
