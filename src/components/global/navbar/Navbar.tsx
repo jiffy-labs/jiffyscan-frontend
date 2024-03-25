@@ -55,7 +55,7 @@ function Navbar(props: NavbarProps) {
                         <Logo />
                     </div>
                     <div className="w-[1px] h-[40px] hidden md:block bg-black/[12%]" />
-                    <div className="hidden md:block">
+                    <div className="hidden lg:block">
                         <Pages />
                     </div>
                     <div className="items-center justify-end flex-grow hidden gap-3 md:flex">
