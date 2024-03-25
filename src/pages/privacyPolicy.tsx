@@ -11,7 +11,7 @@ const privacyPolicy = (props: Props) => {
                     <strong className={styles.strong}>Website Privacy Policy</strong>
                 </p>
                 <p className={styles['p']}>
-                    <strong className={styles.strong}>Last modified: January 30th, 2024</strong>
+                    <strong className={styles.strong}>Last modified: March 10th, 2024</strong>
                 </p>
                 <p className={styles['p']}>
                     The JiffyLabs LLC (the “Company”, ”we”, “our” or “us”) respect your privacy and are committed to protecting it through
