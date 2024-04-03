@@ -3,15 +3,15 @@ import { NETWORK_ICON_MAP } from './constants';
 import { fee } from './table/Table';
 
 export const getTimePassed = (timestamp: number): string => {
-    let timePassedInEpoch = new Date().getTime() - timestamp * 1000;
-    let timePassedMoment = moment.duration(timePassedInEpoch);
-    return timePassedMoment.humanize().replace('minutes', 'min') + ' ago';
+  let timePassedInEpoch = new Date().getTime() - timestamp * 1000;
+  let timePassedMoment = moment.duration(timePassedInEpoch);
+  return timePassedMoment.humanize().replace('minutes', 'min') + ' ago';
 };
 
 export const getDate = (daySinceEpoch: number): string => {
-    const epochTime = daySinceEpoch * 24 * 60 * 60 * 1000;
-    const date = new Date(epochTime);
-    return date.toLocaleDateString();
+  const epochTime = daySinceEpoch * 24 * 60 * 60 * 1000;
+  const date = new Date(epochTime);
+  return date.toLocaleDateString();
 };
 
 export function getSymbol(network: string): string {
@@ -31,74 +31,74 @@ export function getSymbol(network: string): string {
 }
 
 export const getExplorerLogo = (network: string) => {
-    if (network == "fuse") return "/images/blockscout_logo.svg";
-    else return "/images/graph.svg";
+  if (network == "fuse") return "/images/blockscout_logo.svg";
+  else return "/images/graph.svg";
 }
 
 export const getFee = (amount: number, network: string): fee => {
-    let gasFee: number = amount;
-    let fee: fee = {
-        value: '0',
-        gas: {
-            children: getCurrencySymbol(gasFee, network),
-            color: 'success',
-        },
-    };
-    if (gasFee > 10 ** 13) {
-        fee.value = (gasFee / 10 ** 18).toFixed(4).toString();
-    } else if (gasFee > 10 ** 6) {
-        fee.value = (gasFee / 10 ** 9).toFixed(4).toString();
-    } else {
-        fee.value = gasFee?.toString();
-    }
-    return fee;
+  let gasFee: number = amount;
+  let fee: fee = {
+    value: '0',
+    gas: {
+      children: getCurrencySymbol(gasFee, network),
+      color: 'success',
+    },
+  };
+  if (gasFee > 10 ** 14) {
+    fee.value = (gasFee / 10 ** 18).toFixed(4).toString();
+  } else if (gasFee > 10 ** 6) {
+    fee.value = (gasFee / 10 ** 9).toFixed(4).toString();
+  } else {
+    fee.value = gasFee?.toString();
+  }
+  return fee;
 };
 
 export const getCurrencySymbol = (amount: number, network: string): string => {
-    let gasFee: number = amount;
-    if (gasFee > 10 ** 13) {
-        return getSymbol(network);
-    } else if (gasFee > 10 ** 6) {
-        return 'GWEI';
-    } else {
-        return 'WEI';
-    }
+  let gasFee: number = amount;
+  if (gasFee > 10 ** 14) {
+    return getSymbol(network);
+  } else if (gasFee > 10 ** 6) {
+    return 'GWEI';
+  } else {
+    return 'WEI';
+  }
 };
 
 export const shortenString = (str: string, star = false) => {
-    if (str?.length <= 10) {
-        return str;
-    }
-    const firstChars = str?.slice(0, 6);
-    const lastChars = str?.slice(-4);
+  if (str?.length <= 10) {
+    return str;
+  }
+  const firstChars = str?.slice(0, 6);
+  const lastChars = str?.slice(-4);
 
-    return `${firstChars}${star ? '**************': '...' }${lastChars}`;
+  return `${firstChars}${star ? '**************' : '...'}${lastChars}`;
 };
 
 const getNetworkFromUrl = () => {
-    var url_string = window.location.href;
-    var url = new URL(url_string);
-    var network = url.searchParams.get('network');
-    return network;
+  var url_string = window.location.href;
+  var url = new URL(url_string);
+  var network = url.searchParams.get('network');
+  return network;
 };
 
 const getLocallyStoredNetwork = () => {
-    const storedNetwork = localStorage.getItem('network');
-    return storedNetwork ? storedNetwork : '';
+  const storedNetwork = localStorage.getItem('network');
+  return storedNetwork ? storedNetwork : '';
 };
 
 export const getNetworkParam = () => {
-    let network = getNetworkFromUrl();
+  let network = getNetworkFromUrl();
 
-    if (!network) {
-        network = getLocallyStoredNetwork();
-    }
+  if (!network) {
+    network = getLocallyStoredNetwork();
+  }
 
-    if (!(network in NETWORK_ICON_MAP)) {
-        network = 'mainnet';
-    }
+  if (!(network in NETWORK_ICON_MAP)) {
+    network = 'mainnet';
+  }
 
-    return network;
+  return network;
 };
 
 export const constructRedirectUrl = (type: string, network: string, term: string) => {
@@ -118,19 +118,19 @@ export const constructRedirectUrl = (type: string, network: string, term: string
 };
 
 export const checkIfValidTerm = (term: string) => {
-    if (!term) return false;
-    if (term.length === 42 && term.slice(0, 2) == '0x') return true;
-    if (term.length === 66 && term.slice(0, 2) == '0x') return true;
-    if (term.length < 11 && !isNaN(parseInt(term))) return true;
-    return false;
+  if (!term) return false;
+  if (term.length === 42 && term.slice(0, 2) == '0x') return true;
+  if (term.length === 66 && term.slice(0, 2) == '0x') return true;
+  if (term.length < 11 && !isNaN(parseInt(term))) return true;
+  return false;
 };
 
-export const fetchRetry = async (url:string, options:any, n=3) : Promise<any> => {
-    try {
-        return await fetch(url, options);
-    } catch(err) {
-        if (n === 1) throw err;
-        console.log(`Request Failed: ${url}. Retrying...`);
-        return await fetchRetry(url, options, n - 1);
-    }
+export const fetchRetry = async (url: string, options: any, n = 3): Promise<any> => {
+  try {
+    return await fetch(url, options);
+  } catch (err) {
+    if (n === 1) throw err;
+    console.log(`Request Failed: ${url}. Retrying...`);
+    return await fetchRetry(url, options, n - 1);
+  }
 };
