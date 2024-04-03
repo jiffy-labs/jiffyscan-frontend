@@ -24,7 +24,7 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
     const [searching, setSearching] = useState(false);
     const [term, setTerm] = useState('');
     const [animateState, setAnimateState] = useState(false);
-    const [networkValue, setNetworkValue] = useState<number>(2);
+    const [networkValue, setNetworkValue] = useState<number>(-1);
     const searchRef: any = useRef(null);
 
     const handleChange = (e: any) => setTerm(e.target.value.trim());
@@ -58,7 +58,7 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
     const handleSubmit = async () => {
         if (checkIfValidTerm(term)) {
             setSearching(true);
-            const res = await fetch(`https://api.jiffyscan.xyz/v0/searchEntry?entry=${term.toLocaleLowerCase()}&network=${NETWORK_LIST[networkValue].key}`);
+            const res = await fetch(`https://api.jiffyscan.xyz/v0/searchEntry?entry=${term.toLocaleLowerCase()}${networkValue != -1 ? `&network=${NETWORK_LIST[networkValue].key}`:""}`);
             if (res.status === 200) {
                 const data = await res.json();
                 console.log(data)

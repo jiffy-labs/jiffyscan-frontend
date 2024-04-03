@@ -610,7 +610,7 @@ export const getUserOp = async (userOpHash: string, toast: any, Authorization?: 
     const header = {
         'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5',
     } as Headers;
-
+    console.log("in api : ",userOpHash)
     if (Authorization) {
         header['Authorization'] = Authorization;
     }
@@ -625,6 +625,8 @@ export const getUserOp = async (userOpHash: string, toast: any, Authorization?: 
         // if (data.userOps.length == 0) {
         //     showToast(toast, 'Error fetching data');
         // }
+        
+        console.log("fetched in api",data.userOps[0].userOpHash)
         return data.userOps as UserOp[];
     }
 

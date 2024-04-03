@@ -14,8 +14,8 @@ function Options({ networkValue, setNetworkValue }: { networkValue: number; setN
         <div className="relative z-0">
             <div className="py-3 px-4 border-r border-dark-200 bg-white flex items-center gap-1 text-md" role="button" onClick={toggler}>
                 {/* {/* <img src={NETWORK_LIST[value].img} alt="" /> */}
-           
-                <img src={NETWORK_LIST[networkValue].iconPathInverted} alt="" style={{ width: '20px', height: 'auto' }} />
+
+                <img src={networkValue != -1 ? NETWORK_LIST[networkValue].iconPathInverted : "/zap.svg"} alt="" style={{ width: '20px', height: 'auto' }} />
                 {/* <span>{NETWORK_LIST[networkValue].name}</span> */}
                 <img className={`duration-100 ${open ? 'rotate-180' : ''}`} src="/images/chevron-down.svg" alt="" />
             </div>
@@ -24,6 +24,15 @@ function Options({ networkValue, setNetworkValue }: { networkValue: number; setN
                     <div onClick={toggler} className="fixed inset-0 z-100 bg-transparent" />
                     <div className="absolute left-0 bg-white w-[200%] py-1 border-dark-200 shadow-200">
                         <div className="flex flex-col">
+                            <div
+                                onClick={() => handleValue(-1)}
+                                className="flex items-center whitespace-no-wrap gap-2 py-2 px-3 hover:bg-dark-600/10 text-md"
+                                role="button"
+
+                            >
+                                <img src={"/zap.svg"} alt="" style={{ width: '20px', height: 'auto' }} />
+                                <span>Quick search</span>
+                            </div>
                             {NETWORK_LIST.map(({ name, key, iconPath, iconPathInverted }, index) => (
                                 <div
                                     onClick={() => handleValue(index)}
@@ -35,6 +44,7 @@ function Options({ networkValue, setNetworkValue }: { networkValue: number; setN
                                     <span>{name}</span>
                                 </div>
                             ))}
+
                         </div>
                     </div>
                 </div>

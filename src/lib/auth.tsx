@@ -16,7 +16,7 @@ const TWITTER_CLIENT_SECRET = process.env.TWITTER_CLIENT_SECRET;
 const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
 const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 
-console.log('Process env:', process.env);
+// console.log('Process env:', process.env);
 
 export const authOptions = {
     providers: [
