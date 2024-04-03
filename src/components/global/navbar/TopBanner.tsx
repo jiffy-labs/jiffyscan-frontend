@@ -14,7 +14,7 @@ function TopBanner() {
       <p className="mx-2">
         Stay Updated and Share Your Ideas! Join our Telegram channel for updates and feature requests.
       </p>
-      <Link href="" target="_blank" rel="noopener noreferrer" className="underline">
+      <Link href="https://t.me/+ZJejkXFlMAA4NzZl" target="_blank" rel="noopener noreferrer" className="underline">
         Open Telegram
       </Link>
       <Image src="/link.svg" alt="link" width={24} height={24} />
