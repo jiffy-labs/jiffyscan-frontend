@@ -254,7 +254,7 @@ function TransactionDetails({ tableLoading, skeletonCards, item, addressMapping,
                                                                                     item?.network === 'bsc' ? 'BNB' :
                                                                                         item?.network === 'bnb-testnet' ? 'BNB' :
                                                                                             item?.network === 'avalanche' ? 'AVAX' :
-                                                                                                item?.network === 'avalanche-fuji' ? 'AVAX' :
+                                                                                                item?.network === 'avalanche-fuji' || 'fuji' ? 'AVAX' :
                                                                                                     item?.network === 'fantom' ? 'FTM' :
                                                                                                         item?.network === 'fantom-testnet' ? 'FTM' : 'ETH'] *
                                                                 parseFloat(formatUnits(item?.actualGasCost || '0', 'ether'))

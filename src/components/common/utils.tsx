@@ -24,7 +24,7 @@ export function getSymbol(network: string): string {
     else if (network == 'bsc')  return 'BNB'
     else if (network == 'bnb-testnet')  return 'BNB'
     else if (network == 'avalanche')  return 'AVAX'
-    else if (network == 'avalanche-fuji')  return 'AVAX'
+    else if (network == 'avalanche-fuji' || 'fuji')  return 'AVAX'
     else if (network == 'fantom')  return 'FTM'
     else if (network == 'fantom-testnet')  return 'FTM'
     else return 'ETH';
