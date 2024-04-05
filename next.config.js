@@ -1,11 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    reactStrictMode: true,
-    swcMinify: false,
-    env: {
-        ENV: "production",
-        // test: "test",
-    }
+  reactStrictMode: true,
+  swcMinify: false,
+  env: {
+    ENV: "production",
+    // test: "test",
+  }
 };
 
 module.exports = nextConfig;
@@ -14,9 +14,17 @@ module.exports = nextConfig;
 // Injected content via Sentry wizard below
 
 const { withSentryConfig } = require("@sentry/nextjs");
+const moduleExports = {
+  sentry: {
+    hideSourceMaps: true,
+    disableServerWebpackPlugin: false,
+    disableClientWebpackPlugin: false,
+  },
+};
 
 module.exports = withSentryConfig(
   module.exports,
+  moduleExports,
   {
     // For all available options, see:
     // https://github.com/getsentry/sentry-webpack-plugin#options
