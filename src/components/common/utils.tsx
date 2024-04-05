@@ -15,13 +15,19 @@ export const getDate = (daySinceEpoch: number): string => {
 };
 
 export function getSymbol(network: string): string {
-  if (network == 'goerli') return 'ETH';
-  else if (network == 'mainnet') return 'ETH';
-  else if (network == 'mumbai') return 'MATIC';
-  else if (network == 'optimism-goerli') return 'ETH';
-  else if (network == 'matic') return 'MATIC';
-  else if (network == 'fuse') return 'FUSE';
-  else return 'ETH';
+    if (network == 'goerli') return 'ETH';
+    else if (network == 'mainnet') return 'ETH';
+    else if (network == 'mumbai') return 'MATIC';
+    else if (network == 'optimism-goerli') return 'ETH';
+    else if (network == 'matic') return 'MATIC';
+    else if (network == 'fuse') return 'FUSE';
+    else if (network == 'bsc')  return 'BNB'
+    else if (network == 'bnb-testnet')  return 'BNB'
+    else if (network == 'avalanche')  return 'AVAX'
+    else if (network == 'avalanche-fuji' || 'fuji')  return 'AVAX'
+    else if (network == 'fantom')  return 'FTM'
+    else if (network == 'fantom-testnet')  return 'FTM'
+    else return 'ETH';
 }
 
 export const getExplorerLogo = (network: string) => {

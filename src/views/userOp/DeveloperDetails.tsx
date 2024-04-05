@@ -29,7 +29,7 @@ const getFormat = (callData: string) => {
     return '';
 };
 
-export default function DeveloperDetails({
+ function DeveloperDetails({
     tableLoading,
     skeletonCards1,
     item,
@@ -584,3 +584,4 @@ export default function DeveloperDetails({
         </div>
     );
 }
+export default React.memo(DeveloperDetails);

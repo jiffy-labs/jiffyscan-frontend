@@ -37,3 +37,19 @@ function RecentUserOps() {
 export default RecentUserOps;
 
 RecentUserOps.getLayout = (page: ReactElement) => <Layout>{page}</Layout>;
+
+// export const getServerSideProps = async (context) => {
+//     const { params, query } = context;
+//     const userOpHash = params?.slug as string;
+//     const network = query.network as string || 'mainnet'; 
+//      console.log("in get server side prop", userOpHash[0], network,"end here")     
+//     const userOpsData = await getUserOp(userOpHash[0], network, '');
+//     const metaData = await getUserOpMetadata(userOpHash[0], network, '')
+//   console.log("data fetched in serverside prop:",userOpsData[0].userOpHash)
+//     return {
+//       props: {
+//         userOpsData,
+//         metaData,
+//       },
+//     };
+//   };

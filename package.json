@@ -49,6 +49,7 @@
     "react-modern-drawer": "^1.2.0",
     "react-simple-toasts": "^3.2.5",
     "react-toastify": "^9.1.2",
+    "swr": "^2.2.5",
     "typescript": "4.9.5"
   },
   "devDependencies": {

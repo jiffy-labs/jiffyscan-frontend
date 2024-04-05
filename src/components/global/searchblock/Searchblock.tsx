@@ -24,7 +24,7 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
     const [searching, setSearching] = useState(false);
     const [term, setTerm] = useState('');
     const [animateState, setAnimateState] = useState(false);
-    const [networkValue, setNetworkValue] = useState<number>(2);
+    const [networkValue, setNetworkValue] = useState<number>(-1);
     const searchRef: any = useRef(null);
 
     const handleChange = (e: any) => setTerm(e.target.value.trim());
@@ -58,7 +58,7 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
     const handleSubmit = async () => {
         if (checkIfValidTerm(term)) {
             setSearching(true);
-            const res = await fetch(`https://api.jiffyscan.xyz/v0/searchEntry?entry=${term.toLocaleLowerCase()}&network=${NETWORK_LIST[networkValue].key}`);
+            const res = await fetch(`https://api.jiffyscan.xyz/v0/searchEntry?entry=${term.toLocaleLowerCase()}${networkValue != -1 ? `&network=${NETWORK_LIST[networkValue].key}`:""}`);
             if (res.status === 200) {
                 const data = await res.json();
                 console.log(data)
@@ -92,7 +92,7 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
             >
                 <label className="flex justify-center">
                     
-                    <div className="flex items-center gap-2.5 pr-3 flex-grow focus-within:shadow-xl">
+                    <div className="flex items-center gap-0 pr-3 flex-grow focus-within:shadow-xl">
                     <Options networkValue={networkValue} setNetworkValue={setNetworkValue} />
                         <input
                             type="text"
@@ -103,10 +103,10 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
                             onKeyDown={handleKeyPress}
                             ref={searchRef}
                         />
-                        <span className="flex items-center justify-center h-5 px-3 rounded-full bg-dark-400">
+                        <span className="flex items-center justify-center h-5 px-3 mr-[0.5rem] rounded-full bg-dark-400">
                             <img className="" src="/images/span (1).svg" alt="" />
                         </span>
-                        <span onClick={handleSubmit} className="p-2.5 border-l border-dark-200" role="button">
+                        <span onClick={handleSubmit} className="p-2.5 border-l border-dark-200 " role="button">
                         <img src="/images/search.svg" alt="" />
                     </span>
                     </div>

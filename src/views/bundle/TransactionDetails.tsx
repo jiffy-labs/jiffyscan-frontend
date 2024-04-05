@@ -8,10 +8,39 @@ import { getFee, getTimePassed, shortenString } from '@/components/common/utils'
 import { Link, Tooltip } from '@mui/material';
 import moment from 'moment';
 import { useRouter } from 'next/router';
-
+import { formatUnits } from 'ethers/lib/utils';
 import React, { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton-2';
+
+type TokenPrices = {
+    ETH: number;
+    MATIC: number;
+    FUSE: number;
+    BNB: number;
+    AVAX: number;
+    FTM: number;
+    OP?: number;
+};
+ 
 export default function TransactionDetails({ item, network, tableLoading, block }: any) {
+    const [tokenPrices, setTokenPrices] = useState<TokenPrices>({
+        ETH: 0,
+        MATIC: 0,
+        FUSE: 0,
+        BNB: 0,
+        AVAX: 0,
+        FTM: 0,
+
+    });
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const storedTokenPrices = localStorage.getItem('tokenPrices');
+            if (storedTokenPrices) {
+                setTokenPrices(JSON.parse(storedTokenPrices));
+            }
+        }
+    }, []);
     
     let skeletonCards = Array(3).fill(0);
     const router = useRouter();
@@ -222,7 +251,28 @@ export default function TransactionDetails({ item, network, tableLoading, block 
                                                     <div className="flex items-center gap-[10px]">
                                                         <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
                                                             <DisplayFee item={item?.transactionFee} network={item?.network} />
+                                                            
                                                         </span>
+                                                        <div className="px-2 mt-2 bg-gray-200 rounded-lg">
+                                                        <span className="text-sm">
+                                                            {(
+                                                                tokenPrices[item?.network === 'mainnet' ? 'ETH' :
+                                                                    item?.network === 'mumbai' ? 'MATIC' :
+                                                                        item?.network === 'optimism-goerli' ? 'ETH' :
+                                                                            item?.network === 'matic' ? 'MATIC' :
+                                                                                item?.network === 'fuse' ? 'FUSE' :
+                                                                                    item?.network === 'bsc' ? 'BNB' :
+                                                                                        item?.network === 'bnb-testnet' ? 'BNB' :
+                                                                                            item?.network === 'avalanche' ? 'AVAX' :
+                                                                                                item?.network === 'avalanche-fuji' || 'fuji' ? 'AVAX' :
+                                                                                                    item?.network === 'fantom' ? 'FTM' :
+                                                                                                        item?.network === 'fantom-testnet' ? 'FTM' : 'ETH'] *
+                                                                parseFloat(formatUnits(item?.actualGasCost || '0', 'ether'))
+                                                            ).toFixed(3)} USD
+                                                        </span>
+
+
+                                                    </div>
                                                     </div>
                                                 </div>
                                             </div>

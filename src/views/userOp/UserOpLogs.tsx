@@ -152,4 +152,4 @@ const UserOpLogs: React.FC<UserOpLogsProps> = ({ item ,network}: any) => {
     );
 };
 
-export default UserOpLogs;
+export default React.memo(UserOpLogs);
