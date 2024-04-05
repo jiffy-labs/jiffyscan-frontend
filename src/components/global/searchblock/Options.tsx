@@ -15,7 +15,7 @@ function Options({ networkValue, setNetworkValue }: { networkValue: number; setN
             <div className="py-3 px-4 border-r border-dark-200 bg-white flex items-center gap-1 text-md" role="button" onClick={toggler}>
                 {/* {/* <img src={NETWORK_LIST[value].img} alt="" /> */}
 
-                <img src={networkValue != -1 ? NETWORK_LIST[networkValue].iconPathInverted : "/zap.svg"} alt="" style={{ width: '20px', height: 'auto' }} />
+                <img src={networkValue != -1 ? NETWORK_LIST[networkValue].iconPathInverted : "/zap2.svg"} alt="" style={{ width: '20px', height: 'auto' }} />
                 {/* <span>{NETWORK_LIST[networkValue].name}</span> */}
                 <img className={`duration-100 ${open ? 'rotate-180' : ''}`} src="/images/chevron-down.svg" alt="" />
             </div>
@@ -30,7 +30,7 @@ function Options({ networkValue, setNetworkValue }: { networkValue: number; setN
                                 role="button"
 
                             >
-                                <img src={"/zap.svg"} alt="" style={{ width: '20px', height: 'auto' }} />
+                                <img src={"/zap2.svg"} alt="" style={{ width: '20px', height: 'auto' }} />
                                 <span>Quick search</span>
                             </div>
                             {NETWORK_LIST.map(({ name, key, iconPath, iconPathInverted }, index) => (
