@@ -20,8 +20,8 @@ const FORMAT_MAP: { [key: string]: string } = {
     '0xb61d27f6': 'executeCall(address target,uint256 value, bytes data)',
     '0x51945447': 'executeCall(address target,uint256 value, bytes data)',
     '0xf34308ef': 'executeCall(address target,uint256 value, bytes data)',
-    '0xabc5345e': 'executeCall(address target,uint256 value, bytes data)',//executeBySender((address,uint256,bytes)[])
-    '0xa2ea6766': 'executeCall(address target,uint256 value, bytes data)', //executeMultiple(((address,uint256,bytes)[],bytes)[])
+    '0xabc5345e': 'executeBySender((address target,uint256 value,bytes data)[])',//executeBySender((address,uint256,bytes)[])
+    '0xa2ea6766': 'executeMultiple(((address target,uint256 value,bytes data)[],bytes)[])', //executeMultiple(((address,uint256,bytes)[],bytes)[])
 };
 
 const getFormat = (callData: string) => {
