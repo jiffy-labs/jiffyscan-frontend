@@ -130,6 +130,7 @@ function Home() {
         });
         bundlesTables[network] = { ...bundlesTables[network], rows: newRows.slice(0, 5) };
         setBundlesTables(bundlesTables);
+        // console.log("bundlesTables",{ ...bundlesTables[network], rows: newRows.slice(0, 5) })
         setBundleTableLoading(false);
     };
 
@@ -170,6 +171,7 @@ function Home() {
         });
         bundlersTables[network] = { ...bundlersTables[network], rows: newRows.slice(0, 5) };
         setBundlersTables(bundlersTables);
+        // console.log('bundlersTables',{ ...bundlersTables[network], rows: newRows.slice(0, 5) })
         setBundlerTableLoading(false);
     };
 
@@ -267,7 +269,7 @@ function Home() {
                         <div>
                             <Table
                                 {...(bundlersTables[selectedNetwork] as tableDataT)}
-                                columns={BundlesTable['columns']}
+                                columns={BundlersTable['columns']}
                                 loading={bundlerTableLoading}
                                 caption={{
                                     children: 'Top Bundlers',
