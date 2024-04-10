@@ -218,8 +218,8 @@ export const POWERED_BY_LOGO_MAP: { [id: string]: { [id: string]: string } } = {
         wide: '/images/candide.svg',
     },
     ambire: {
-        small: '/images/ambire.svg',
-        wide: '/images/ambire.svg',
+        small: '/images/ambire-logo.svg',
+        wide: '/images/ambire-logo.svg',
     },
 };
 
