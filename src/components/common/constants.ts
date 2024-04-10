@@ -90,6 +90,12 @@ export const NETWORK_LIST = [
         iconPathInverted: '/images/avalanche-logo-red.svg',
     },
     {
+        name: 'Degen',
+        key: 'degen',
+        iconPath: '/images/degen-logo.png',
+        iconPathInverted: '/images/degen-logo.png',
+    },
+    {
         name: 'Fantom',
         key: 'fantom',
         iconPath: '/images/fantom-logo.svg',
@@ -133,14 +139,7 @@ export const NETWORK_LIST = [
     // },
 ];
 
-export const NETWORKS_WHITELISTED_FOR_NO_LOGIN = [
-    "mainnet",
-    "goerli",
-    "sepolia",
-    "optimism-goerli",
-    "optimism",
-    "fuse"
-];
+export const NETWORKS_WHITELISTED_FOR_NO_LOGIN = ['mainnet', 'goerli', 'sepolia', 'optimism-goerli', 'optimism', 'fuse'];
 
 export const PAGE_SIZE_LIST: number[] = [10, 25, 50, 100];
 
@@ -159,18 +158,19 @@ export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
     'arbitrum-one': '/images/arbitrum-logo.svg',
     'arbitrum-goerli': '/images/arbitrum-logo.svg',
     'arbitrum-sepolia': '/images/arbitrum-logo.svg',
-    'avalanche': '/images/avalanche-logo-red.svg',
+    avalanche: '/images/avalanche-logo-red.svg',
     'avalanche-fuji': '/images/avalanche-logo-red.svg',
-    'fantom': '/images/fantom-logo.svg',
+    fantom: '/images/fantom-logo.svg',
     'fantom-testnet': '/images/fantom-logo.svg',
     'base-testnet': '/images/base-logo.svg',
-    'base': '/images/base-logo.svg',
+    base: '/images/base-logo.svg',
     'base-sepolia': '/images/base-logo.svg',
-    'gnosis': '/images/gnosis-logo.svg',
-    'bsc': '/images/bsc-logo.svg',
+    gnosis: '/images/gnosis-logo.svg',
+    bsc: '/images/bsc-logo.svg',
     'bnb-testnet': '/images/bsc-logo.svg',
-    'fuse': '/images/fuse-logo.svg',
+    fuse: '/images/fuse-logo.svg',
     'celo-alfajores': '/images/Celo_logo_black.svg',
+    degen: '/images/degen-logo.png',
 };
 
 export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
@@ -185,25 +185,25 @@ export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
     'arbitrum-sepolia': 'https://sepolia.arbiscan.io',
     optimism: 'https://optimistic.etherscan.io',
     avalanche: 'https://snowtrace.io',
-    "base-testnet": 'https://goerli.basescan.org',
-    "base-sepolia": 'https://sepolia.basescan.org/',
+    'base-testnet': 'https://goerli.basescan.org',
+    'base-sepolia': 'https://sepolia.basescan.org/',
     fantom: 'https://ftmscan.com/',
-    "fantom-testnet": 'https://testnet.ftmscan.com',
+    'fantom-testnet': 'https://testnet.ftmscan.com',
     gnosis: 'https://gnosisscan.io',
     bsc: 'https://bscscan.com',
-    "bnb-testnet": "https://testnet.bscscan.com",
-    "avalanche-fuji": 'https://testnet.snowtrace.io',
-    "fuse": 'https://explorer.fuse.io',
-    'base': 'https://basescan.org',
-    "celo-alfajores": 'https://alfajores.celoscan.io',
+    'bnb-testnet': 'https://testnet.bscscan.com',
+    'avalanche-fuji': 'https://testnet.snowtrace.io',
+    fuse: 'https://explorer.fuse.io',
+    base: 'https://basescan.org',
+    'celo-alfajores': 'https://alfajores.celoscan.io',
+    degen: 'https://explorer.degen.tips',
 };
 
-
 export const ENTRY_POINT_ADDRESS_MAP: { [key: string]: string } = {
-    "V5": "0x0576a174D229E3cFA37253523E645A78A0C91B57",
-    "V6": "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
-    "V7": "0x0000000071727de22e5e9d8baf0edac6f37da032"
-}
+    V5: '0x0576a174D229E3cFA37253523E645A78A0C91B57',
+    V6: '0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789',
+    V7: '0x0000000071727de22e5e9d8baf0edac6f37da032',
+};
 export const POWERED_BY_LOGO_MAP: { [id: string]: { [id: string]: string } } = {
     pimlico: {
         small: '/images/pimlico.svg',
