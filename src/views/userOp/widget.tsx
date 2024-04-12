@@ -22,6 +22,8 @@ const iconList = {
     revert: { icon: 'cube', label: 'Block' },
     erc20: { icon: 'cube', label: 'ERC-20 Tokens Transferred' },
     erc721: { icon: 'cube', label: 'ERC-721 Tokens Transferred' },
+    seenBundler: { icon: 'clock', label: 'Seen In Bundler' },
+    seenMempool: { icon: 'clock', label: 'Seen In Mempool' },
 };
 
 const RenderIconWithText = ({ name }: { name: keyof typeof iconList }) => {
@@ -52,17 +54,28 @@ export function InfoSection({ icon, title, content, isFlex }: any) {
 export const RenderTextCopyLink = ({ text, network, type, active = true }: any) => {
     return (
         <div className="flex items-center gap-[10px]">
-            <Link
-                underline="hover"
-                href={`/${type}/${text}?network=${network || ''}`}
-                aria-current="page"
-                className={`text-blue-200 ${active ? 'active-link' : ''}`}
-            >
-                <span className="text-[#1976D2] md:text-[14px] text-[16px] break-all leading-5">
-                    <Address text={text}></Address>
-                </span>
-            </Link>
-            {active && (
+            <>
+      {text === "not mined" ? (
+        <span className="text-[#1976D2] md:text-[14px] text-[16px] break-all leading-5">
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Address text={text} />
+            <img src={`/loading.webp`} alt="Loading..." style={{ marginLeft: '4px', width: "15px" }} />
+          </div>
+        </span>
+      ) : (
+        <Link
+          underline="hover"
+          href={`/${type}/${text}?network=${network || ''}`}
+          aria-current="page"
+          className={`text-blue-200 ${active ? 'active-link' : ''}`}
+        >
+          <span className="text-[#1976D2] md:text-[14px] text-[16px] break-all leading-5">
+            <Address text={text} />
+          </span>
+        </Link>
+      )}
+    </>
+            {active && text != "not mined" && (
                 <>
                     <div className="w-[30px] flex">
                         <CopyButton text={text} />
