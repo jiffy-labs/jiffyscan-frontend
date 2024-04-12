@@ -187,15 +187,76 @@ function TransactionDetails({ tableLoading, skeletonCards, item, addressMapping,
                                                 isFlex={true}
                                             />
                                         )}
+
+{item?.timeSeenInAltMempool
+                                                     &&
+<InfoSection
+                                            icon="seenBundler"
+                                            title="Seen in Bundler"
+                                            content={
+                                                (item?.timeSeenInAltMempool ?
+                                                    <div className="flex items-center gap-[10px]">
+                                                        <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
+                                                            { `${moment.unix(item?.timeSeenInAltMempool!).local().format()} (${moment.unix(item?.timeSeenInAltMempool).fromNow()} ago)`}
+                                                        </span>
+                                                    </div> :
+                                                    <span className="text-[#1976D2] md:text-[14px] text-[16px] break-all leading-5">
+                                                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                            not in alt mempool yet
+                                                            <img src={`/loading.webp`} alt="Loading..." style={{ marginLeft: '4px', width: "15px" }} />
+
+                                                        </div>
+                                                    </span>
+
+                                                )
+                                            }
+                                        />}
+
+                                        {item?.timeSeenInMainMempool
+                                                     && <InfoSection
+                                                     icon="seenMempool"
+                                                     title="Seen in Mempool"
+                                                     content={
+                                                         (item?.
+                                                             timeSeenInMainMempool
+                                                              ?
+                                                             <div className="flex items-center gap-[10px]">
+                                                                 <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
+                                                                 { `${moment.unix(item?.timeSeenInMainMempool!).local().format()} (${moment.unix(item?.timeSeenInMainMempool).fromNow()} ago)`}
+                                                                 </span>
+                                                             </div> :
+                                                             <span className="text-[#1976D2] md:text-[14px] text-[16px] break-all leading-5">
+                                                                 <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                                     not in main mempool yet
+                                                                     <img src={`/loading.webp`} alt="Loading..." style={{ marginLeft: '4px', width: "15px" }} />
+         
+                                                                 </div>
+                                                             </span>
+         
+                                                         )
+                                                     }
+                                                 />}
+
+
                                         <InfoSection
                                             icon="blockTime"
                                             title="Block Time"
                                             content={
-                                                <div className="flex items-center gap-[10px]">
-                                                    <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
-                                                        {moment.unix(item?.blockTime!).local().format()}
+                                                (item?.blockTime ?
+                                                    <div className="flex items-center gap-[10px]">
+                                                        <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
+                                                        { `${moment.unix(item?.blockTime!).local().format()} (${moment.unix(item?.blockTime).fromNow()} )`}
+                                                        </span>
+                                                    </div> :
+                                                    <span className="text-[#1976D2] md:text-[14px] text-[16px] break-all leading-5">
+                                                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                            not mined
+                                                            <img src={`/loading.webp`} alt="Loading..." style={{ marginLeft: '4px', width: "15px" }} />
+
+                                                        </div>
                                                     </span>
-                                                </div>
+
+                                                )
                                             }
                                         />
                                         <InfoSection
@@ -208,7 +269,13 @@ function TransactionDetails({ tableLoading, skeletonCards, item, addressMapping,
                                                         placement="top"
                                                         title={`A Status code indicating if the top level call is succeeded or failed(applicable for Post BYZANTIUM blocks only)`}
                                                     >
-                                                        <Status type={item?.success} />
+                                                        <Status type={item?.success} status={item?.success ?
+                                                            "successuserop" :
+                                                            item?.timeSeenInMainMempool ?
+                                                                "mainmempool" :
+                                                                item?.timeSeenInAltMempool ?
+                                                                    "altmempool" :
+                                                                    "failed"} />
                                                     </Tooltip>
                                                 </div>
                                             }
@@ -241,8 +308,9 @@ function TransactionDetails({ tableLoading, skeletonCards, item, addressMapping,
                                             icon="gasFee"
                                             title="Gas Fee"
                                             content={
+                                                item?.actualGasCost ? (
                                                 <div className="flex items-center gap-[10px]">
-                                                    <DisplayFee item={item?.actualGasCost!} network={item?.network} />
+                                                    <DisplayFee item={item?.actualGasCost ? item.actualGasCost : "not mined"} network={item?.network} />
                                                     <div className="px-2 mt-2 bg-gray-200 rounded-lg">
                                                         <span className="text-sm">
                                                             {(
@@ -263,13 +331,37 @@ function TransactionDetails({ tableLoading, skeletonCards, item, addressMapping,
 
 
                                                     </div>
-                                                </div>
+                                                </div> ): (
+    <div className="flex items-center gap-[10px]">
+      <span className="text-[#1976D2] md:text-[14px] text-[16px] break-all leading-5">
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          not mined
+          <img src={`/loading.webp`} alt="Loading..." style={{ marginLeft: '4px', width: "15px" }} />
+        </div>
+      </span>
+    </div>
+  )
                                             }
                                         />
                                         <InfoSection
                                             icon="gasUsed"
                                             title="Gas Used"
-                                            content={<div className="flex items-center gap-[10px]">{item?.actualGasUsed}</div>}
+                                            content={
+                                                item?.actualGasUsed ? (
+                                                  <div className="flex items-center gap-[10px]">
+                                                    {item.actualGasUsed}
+                                                  </div>
+                                                ) : (
+                                                  <div className="flex items-center gap-[10px]">
+                                                    <span className="text-[#1976D2] md:text-[14px] text-[16px] break-all leading-5">
+                                                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                        not mined
+                                                        <img src={`/loading.webp`} alt="Loading..." style={{ marginLeft: '4px', width: "15px" }} />
+                                                      </div>
+                                                    </span>
+                                                  </div>
+                                                )
+                                              }
                                         />
                                         <InfoSection
                                             icon="paymaster"
@@ -293,7 +385,7 @@ function TransactionDetails({ tableLoading, skeletonCards, item, addressMapping,
                                             title="Beneficiary"
                                             content={
                                                 <>
-                                                    <RenderTextCopyLink text={item?.beneficiary} network={item?.network} type="bundler" />
+                                                    <RenderTextCopyLink text={item?.beneficiary ? item.beneficiary : "not mined"} network={item?.network} type="bundler" />
                                                     <PowerButton item={item?.beneficiary?.toLowerCase()} addressMapping={addressMapping} />
                                                 </>
                                             }
@@ -302,13 +394,13 @@ function TransactionDetails({ tableLoading, skeletonCards, item, addressMapping,
                                             icon="transactionHash"
                                             title="Transaction Hash"
                                             content={
-                                                <RenderTextCopyLink text={item?.transactionHash} network={item?.network} type="bundle" />
+                                                <RenderTextCopyLink text={item?.transactionHash ? item.transactionHash : "not mined"} network={item?.network} type="bundle" />
                                             }
                                         />
                                         <InfoSection
                                             icon="block"
                                             title="Block"
-                                            content={<RenderTextCopyLink text={item?.blockNumber} network={item?.network} type="block" />}
+                                            content={<RenderTextCopyLink text={item?.blockNumber ? item.blockNumber : "not mined"} network={item?.network} type="block" />}
                                         />
                                         {item?.paymasterRevertReason && (
                                             <InfoSection
