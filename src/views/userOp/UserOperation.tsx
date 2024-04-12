@@ -163,31 +163,37 @@ function RecentUserOps(props: any) {
         return userOp;
     }
 
-    const refreshUserOpsTable = async (name: string) => {
-        if (userOpsData === undefined) {
-            setTableLoading(true);
-        }
-        // setShowUserOpId(-1)
-        // const userOps = await getUserOp(name, toast);
-        const userOps = await returnUserOpData(name, toast);
-
-        setuserOpsData(userOps);
-        let rows: tableDataT['rows'] = createDuplicateUserOpsRows(userOps, handleDuplicateRowClick);
-        setDuplicateUserOpsRows(rows);
-        if (userOps.length > 1) setShowUserOpId(-1);
-        // else {
-        //     if (userOps[0].block) setBlock(true);
-        // }
-
-        if (userOps[0] && userOps[0].network) {
-            setSelectedNetwork(userOps[0].network);
-        }
-
-        setTimeout(() => {
-            setTableLoading(false);
-        }, 1000);
+    const refreshUserOpsTable = async (name : string) => {
+        setTableLoading(true); 
+    
+        const pollUserOpData = async () => {
+            let userOps = await returnUserOpData(name, toast);
+            setuserOpsData(userOps); // Update the UI with the latest data
+    
+            // Create and set the rows for the table
+            let rows = createDuplicateUserOpsRows(userOps, handleDuplicateRowClick);
+            setDuplicateUserOpsRows(rows);
+    
+            
+            if (userOps.length > 1) {
+                setShowUserOpId(-1);
+            }
+    
+            if (userOps[0] && userOps[0].network) {
+                setSelectedNetwork(userOps[0].network);
+            }
+    
+            // Continue polling if timeSeenInAltMempool exists
+            if (userOps[0]?.timeSeenInAltMempool || userOps[0]?.timeSeenInMainMempool) {
+                setTimeout(pollUserOpData, 20000); // Poll every 20 seconds
+            } else {
+                setTableLoading(false); // Stop polling and loading once the field is undefined
+            }
+        };
+    
+        await pollUserOpData(); // Start the polling process
     };
-
+    
     const handleDuplicateRowClick = (id: number) => {
         setShowUserOpId(id);
     };

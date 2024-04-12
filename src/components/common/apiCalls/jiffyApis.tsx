@@ -18,6 +18,8 @@ export interface UserOp {
     success: Boolean;
     revertReason: string | null;
     blockTime: number | null;
+    timeSeenInAltMempool: number | null;
+    timeSeenInMainMempool: number | null;
     blockNumber: number | null;
     network: string;
     input: string | null;
@@ -617,10 +619,12 @@ export const getUserOp = async (userOpHash: string, toast: any, Authorization?: 
     const response = await fetch(API_URL + '/v0/getUserOp?hash=' + userOpHash, {
         headers: header,
     });
+    console.log(API_URL)
     if (response.status != 200) {
         showToast(toast, 'Error fetching data');
     }
     const data = await response.json();
+    console.log("userop fetched :", data)
     if ('userOps' in data) {
         // if (data.userOps.length == 0) {
         //     showToast(toast, 'Error fetching data');
