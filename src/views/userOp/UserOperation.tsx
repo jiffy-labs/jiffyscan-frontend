@@ -181,14 +181,13 @@ function RecentUserOps(props: any) {
     
             if (userOps[0] && userOps[0].network) {
                 setSelectedNetwork(userOps[0].network);
+                setTableLoading(false); 
             }
     
             // Continue polling if timeSeenInAltMempool exists
             if (userOps[0]?.timeSeenInAltMempool || userOps[0]?.timeSeenInMainMempool) {
                 setTimeout(pollUserOpData, 20000); // Poll every 20 seconds
-            } else {
-                setTableLoading(false); // Stop polling and loading once the field is undefined
-            }
+            } 
         };
     
         await pollUserOpData(); // Start the polling process
