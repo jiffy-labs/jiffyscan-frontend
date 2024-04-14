@@ -66,6 +66,12 @@ export const NETWORK_LIST = [
         iconPathInverted: '/images/polygon-mumbai-inverted.svg',
     },
     {
+        name: 'Polygon Amoy',
+        key: 'polygon-amoy',
+        iconPath: '/images/polygon-mumbai-icon.svg',
+        iconPathInverted: '/images/polygon-mumbai-inverted.svg',
+    },
+    {
         name: 'Arbitrum Goerli',
         key: 'arbitrum-goerli',
         iconPath: '/images/arbitrum-logo.svg',
@@ -171,6 +177,7 @@ export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
     fuse: '/images/fuse-logo.svg',
     'celo-alfajores': '/images/Celo_logo_black.svg',
     degen: '/images/degen-logo.png',
+    'polygon-amoy': '/images/polygon-mumbai-icon.svg',
 };
 
 export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
@@ -197,6 +204,7 @@ export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
     base: 'https://basescan.org',
     'celo-alfajores': 'https://alfajores.celoscan.io',
     degen: 'https://explorer.degen.tips',
+    'polygon-amoy': 'https://www.oklink.com/amoy',
 };
 
 export const ENTRY_POINT_ADDRESS_MAP: { [key: string]: string } = {
