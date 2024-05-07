@@ -96,12 +96,6 @@ export const NETWORK_LIST = [
         iconPathInverted: '/images/avalanche-logo-red.svg',
     },
     {
-        name: 'Degen',
-        key: 'degen',
-        iconPath: '/images/degen-logo.png',
-        iconPathInverted: '/images/degen-logo.png',
-    },
-    {
         name: 'Fantom',
         key: 'fantom',
         iconPath: '/images/fantom-logo.svg',
