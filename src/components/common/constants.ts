@@ -187,7 +187,7 @@ export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
     optimism: 'https://optimistic.etherscan.io',
     avalanche: 'https://snowtrace.io',
     'base-testnet': 'https://goerli.basescan.org',
-    'base-sepolia': 'https://sepolia.basescan.org/',
+    'base-sepolia': 'https://sepolia.basescan.org',
     fantom: 'https://ftmscan.com/',
     'fantom-testnet': 'https://testnet.ftmscan.com',
     gnosis: 'https://gnosisscan.io',
