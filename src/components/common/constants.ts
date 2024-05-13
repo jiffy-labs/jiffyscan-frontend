@@ -1,5 +1,11 @@
 export const NETWORK_LIST = [
     {
+        name: 'Cyber Mainnet',
+        key: 'cyber-mainnet',
+        iconPath: '/images/cyber-logo.svg',
+        iconPathInverted: '/images/cyber-logo.svg',
+    },
+    {
         name: 'Polygon',
         key: 'matic',
         iconPath: '/images/polygon-icon.svg',
@@ -172,6 +178,7 @@ export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
     'celo-alfajores': '/images/Celo_logo_black.svg',
     degen: '/images/degen-logo.png',
     'polygon-amoy': '/images/polygon-mumbai-icon.svg',
+    'cyber-mainnet': '/images/cyber-logo.svg',
 };
 
 export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
@@ -199,6 +206,7 @@ export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
     'celo-alfajores': 'https://alfajores.celoscan.io',
     degen: 'https://explorer.degen.tips',
     'polygon-amoy': 'https://www.oklink.com/amoy',
+    'cyber-mainnet': 'https://cyber-explorer.alt.technology',
 };
 
 export const ENTRY_POINT_ADDRESS_MAP: { [key: string]: string } = {
