@@ -215,7 +215,7 @@ export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
     degen: 'https://explorer.degen.tips',
     'polygon-amoy': 'https://www.oklink.com/amoy',
     'cyber-mainnet': 'https://cyber-explorer.alt.technology',
-    'vanar-testnet': 'https://explorer-vanguard.vanarchain.com/'
+    'vanar-testnet': 'https://explorer-vanguard.vanarchain.com'
 };
 
 export const ENTRY_POINT_ADDRESS_MAP: { [key: string]: string } = {
