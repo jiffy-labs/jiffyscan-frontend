@@ -18,6 +18,18 @@ export const NETWORK_LIST = [
         iconPathInverted: '/images/ethereum-logo-rainbow.svg',
     },
     {
+        name: 'Base',
+        key: 'base',
+        iconPath: '/images/base-logo.svg',
+        iconPathInverted: '/images/base-logo.svg',
+    },
+    {
+        name: 'Vanar Testnet',
+        key: 'vanar-testnet',
+        iconPath: '/images/vanarlogo.svg',
+        iconPathInverted: '/images/vanarlogo.svg',
+    },
+    {
         name: 'Cyber Mainnet',
         key: 'cyber-mainnet',
         iconPath: '/images/cyber-logo.svg',
@@ -137,12 +149,7 @@ export const NETWORK_LIST = [
         iconPath: '/images/bsc-logo.svg',
         iconPathInverted: '/images/bsc-logo.svg',
     },
-    {
-        name: 'Vanar Testnet',
-        key: 'vanar-testnet',
-        iconPath: '/images/vanarlogo.svg',
-        iconPathInverted: '/images/vanarlogo.svg',
-    },
+
     // {
     //     name: 'Celo Alfajores',
     //     key: 'celo-alfajores',
@@ -186,7 +193,6 @@ export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
     'polygon-amoy': '/images/polygon-mumbai-icon.svg',
     'cyber-mainnet': '/images/cyber-logo.svg',
     'vanar-testnet': '/images/vanarlogo.svg',
-
 };
 
 export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
@@ -215,7 +221,7 @@ export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
     degen: 'https://explorer.degen.tips',
     'polygon-amoy': 'https://www.oklink.com/amoy',
     'cyber-mainnet': 'https://cyber-explorer.alt.technology',
-    'vanar-testnet': 'https://explorer-vanguard.vanarchain.com'
+    'vanar-testnet': 'https://explorer-vanguard.vanarchain.com',
 };
 
 export const ENTRY_POINT_ADDRESS_MAP: { [key: string]: string } = {
