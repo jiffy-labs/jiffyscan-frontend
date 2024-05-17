@@ -98,7 +98,7 @@ function Bundler(props: any) {
     const [captionText, setCaptionText] = useState('N/A User Ops found');
 
     const { isLoggedIn } = useUserSession();
-
+      
     // const [block, setBlock] = useState(!isLoggedIn());
 
     // useEffect(() => {
