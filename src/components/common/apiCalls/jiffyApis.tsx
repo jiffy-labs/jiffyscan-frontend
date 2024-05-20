@@ -309,6 +309,39 @@ const performApiCall = (network: string): boolean => {
     return true;
 };
 
+export interface GasDetails {
+    gasUsed: string;
+    gasLimit: string;
+    gasPrice: string;
+    baseFee: string;
+    maxPriorityFeePerGas: string;
+    maxFeePerGas: string;
+  }
+  
+  export interface LogsDetails {
+    numberOfUserOps: number;
+    internalTransactions: string;
+  }
+  
+  export interface TransactionDetails {
+    txHash: string;
+    timestamp: string;
+    from: string;
+    to: string;
+    blockNumber: number;
+    trxFee: string;
+    gasDetails: GasDetails;
+    callData: string;
+    revenue: string;
+    profit: string;
+    logsDetails: LogsDetails;
+  }
+  
+  export interface ApiResponse {
+    transactionDetails: TransactionDetails;
+    responseTime: number;
+  }
+
 const PRO_API = 'https://api.jiffyscan.xyz';
 const DEV_API = 'https://api-dev.jiffyscan.xyz';
 const API_URL = process.env.NEXT_PUBLIC_APP_ENV === 'production' ? PRO_API : DEV_API;
@@ -997,6 +1030,32 @@ export const getBundleDetails = async (
     }
     return {} as Bundle;
 };
+
+export const getBundleDetailsRpc = async (
+    txHash: string,
+    selectedNetwork: string,
+  ): Promise<ApiResponse> => {
+    const response = await fetch(
+      `https://api-dev.jiffyscan.xyz/v0/getBundleDetails?txHash=${txHash}&network=eth_sepolia`, 
+      {
+        headers: {
+          'x-api-key': 'TestAPIKeyDontUseInCode',
+        },
+      }
+    ).catch((e) => {
+      console.log(e);
+      throw new Error('Error fetching transaction details');
+    });
+  
+    if (!response.ok) {
+      throw new Error('Error fetching transaction details');
+    }
+  
+    const data: ApiResponse = await response.json();
+    console.log(data);
+  
+    return data;
+  };
 
 export const getBundlerDetails = async (
     userOpHash: string,
