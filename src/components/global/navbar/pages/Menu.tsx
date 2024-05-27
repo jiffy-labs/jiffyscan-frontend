@@ -59,7 +59,11 @@ function Menu(props: { name: string | any ; dropdown: string[][] | undefined; id
                     <ul>
                         {props.dropdown?.map((menuItem, index) => (
                             <li key={index}>
-                                <a className="text-gray-700 block px-4 py-2 text-sm" href={menuItem[1]} target={menuItem[2]}>
+                                <a
+                                    className="text-gray-700 block px-4 py-2 text-sm whitespace-nowrap"
+                                    href={menuItem[1]}
+                                    target={menuItem[2]}
+                                >
                                     {menuItem[0]}
                                 </a>
                             </li>
