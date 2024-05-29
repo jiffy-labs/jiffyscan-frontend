@@ -193,6 +193,7 @@ export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
     'polygon-amoy': '/images/polygon-mumbai-icon.svg',
     'cyber-mainnet': '/images/cyber-logo.svg',
     'vanar-testnet': '/images/vanarlogo.svg',
+    testnet: '/images/vanar-testnet',
 };
 
 export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
@@ -222,6 +223,7 @@ export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
     'polygon-amoy': 'https://www.oklink.com/amoy',
     'cyber-mainnet': 'https://cyber-explorer.alt.technology',
     'vanar-testnet': 'https://explorer-vanguard.vanarchain.com',
+    testnet: 'https://explorer-vanguard.vanarchain.com',
 };
 
 export const ENTRY_POINT_ADDRESS_MAP: { [key: string]: string } = {
