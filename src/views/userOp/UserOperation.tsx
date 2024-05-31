@@ -1,7 +1,8 @@
 import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
-
+import { Box, Tab, Tabs, Typography } from '@mui/material';
+import Status from '@/components/common/status/Status';
 import {
     getPoweredBy,
     getUserOp,
@@ -12,11 +13,13 @@ import {
     UserOp,
     showToast,
 } from '@/components/common/apiCalls/jiffyApis';
+import { NETWORK_SCANNER_MAP } from '@/components/common/constants';
 import UserOpLogs from './UserOpLogs';
+import CopyButton from '@/components/common/copy_button/CopyButton';
 import { Breadcrumbs, Link } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
-import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
+import { getExplorerLogo, getFee, getTimePassed, shortenString } from '@/components/common/utils';
 import { NETWORKS_WHITELISTED_FOR_NO_LOGIN, NETWORK_ICON_MAP } from '@/components/common/constants';
 
 import HeaderSection from './HeaderSection';
@@ -28,7 +31,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LoginModal from '@/components/global/LoginModal';
 import { useUserSession } from '@/context/userSession';
-
+import { ethers } from 'ethers';
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const passedTime = (time: number) => {
     let currentTime = new Date().getTime();
@@ -80,6 +83,43 @@ const getBlockCondition = (expTime: number | null | undefined): boolean => {
     return expTime ? expTime < Date.now() / 1000 : true;
 };
 
+
+interface TabPanelProps {
+    children?: React.ReactNode;
+    index: number;
+    value: number;
+}
+// import Skeleton from '@/components/Skeleton';
+
+function CustomTabPanel(props: TabPanelProps) {
+    const { children, value, index, ...other } = props;
+
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            {...other}
+            className='xl:pl-[240px] xl:pr-[240px]'
+        >
+            {value === index && (
+                <Box sx={{ p: 3 }}>
+                    <Typography>{children}</Typography>
+                </Box>
+            )}
+        </div>
+    );
+}
+
+function a11yProps(index: number) {
+    return {
+        id: `simple-tab-${index}`,
+        'aria-controls': `simple-tabpanel-${index}`,
+    };
+}
+
+
 function RecentUserOps(props: any) {
     const router = useRouter();
     const [tableLoading, setTableLoading] = useState(true);
@@ -97,6 +137,7 @@ function RecentUserOps(props: any) {
     const [duplicateUserOpsRows, setDuplicateUserOpsRows] = useState<tableDataT['rows']>([] as tableDataT['rows']);
     const { isLoggedIn } = useUserSession();
     const [activeTab, setActiveTab] = useState(section || 'overview');
+    const [value, setValue] = React.useState(0);
     useEffect(() => {
         if (section) setActiveTab(section);
     }, [section]);
@@ -163,36 +204,36 @@ function RecentUserOps(props: any) {
         return userOp;
     }
 
-    const refreshUserOpsTable = async (name : string) => {
-        setTableLoading(true); 
-    
+    const refreshUserOpsTable = async (name: string) => {
+        setTableLoading(true);
+
         const pollUserOpData = async () => {
             let userOps = await returnUserOpData(name, toast);
             setuserOpsData(userOps); // Update the UI with the latest data
-    
+
             // Create and set the rows for the table
             let rows = createDuplicateUserOpsRows(userOps, handleDuplicateRowClick);
             setDuplicateUserOpsRows(rows);
-    
-            
+
+
             if (userOps.length > 1) {
                 setShowUserOpId(-1);
             }
-    
+
             if (userOps[0] && userOps[0].network) {
                 setSelectedNetwork(userOps[0].network);
-                setTableLoading(false); 
+                setTableLoading(false);
             }
-    
+
             // Continue polling if timeSeenInAltMempool exists
             if (userOps[0]?.timeSeenInAltMempool || userOps[0]?.timeSeenInMainMempool) {
                 setTimeout(pollUserOpData, 20000); // Poll every 20 seconds
-            } 
+            }
         };
-    
+
         await pollUserOpData(); // Start the polling process
     };
-    
+
     const handleDuplicateRowClick = (id: number) => {
         setShowUserOpId(id);
     };
@@ -238,10 +279,27 @@ function RecentUserOps(props: any) {
 
     let skeletonCards = Array(13).fill(0);
     let skeletonCards1 = Array(2).fill(0);
+
+    const [activeTab2, setActiveTab2] = useState<number>(1);
+
+    const handleTabClick = (tabIndex: number) => {
+        setActiveTab2(tabIndex);
+    };
+
+
+    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+        setValue(newValue);
+    };
+
+    const formatAddress = (address: string) => {
+        if (!address) return '';
+        return `${address.slice(0, 6)}...${address.slice(-6)}`;
+    };
+    console.log("targets", userOpsData)
     return (
         <div className="">
             <Navbar searchbar />
-            <section className="px-3 py-10">
+            <section className="px-3 py-10 xl:pl-[230px]">
                 <div className="container">
                     <div className="flex flex-row">
                         <Link href="/" className="text-gray-500">
@@ -287,8 +345,8 @@ function RecentUserOps(props: any) {
                 >
                     {showUserOpId >= 0 ? (
                         <>
-                            <HeaderSection item={userOpsData?.[showUserOpId]} network={network} loading={tableLoading} />
-                            <div className="mt-[28px] px-3 ">
+                            {/* <HeaderSection item={userOpsData?.[showUserOpId]} network={network} loading={tableLoading} /> */}
+                            {/* <div className="mt-[28px] px-3 ">
                                 <div className="container px-0 ">
                                     <div className="flex flex-row gap-[1rem]">
                                         <button
@@ -318,7 +376,246 @@ function RecentUserOps(props: any) {
                                     </div>
                                     <div className="mb-[2rem]">{renderContent()}</div>
                                 </div>
-                            </div>
+                            </div> */}
+
+                            <Box sx={{ width: '100%' }}>
+                                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" className='xl:pl-[270px]'>
+                                        <Tab label="UserOp Overview" {...a11yProps(0)} />
+                                     
+                                        <Tab label="Developer Details" {...a11yProps(1)} />
+                                        <Tab label="UserOp Logs" {...a11yProps(2)} />
+                                           {/* <Tab label="CallData" {...a11yProps(4)} /> */}
+                                    </Tabs>
+                                </Box>
+                                <CustomTabPanel value={value} index={0} >
+                                    <div className='xl:w-[840px] flex flex-col gap-[40px]'>
+                                        <div>
+                                            <div className='flex flex-row gap-[16px] px-[20px] xl:px-[32px] py-[20px]'>
+                                                <img src="/images/summary.svg" className='w-[24px]' />
+                                                <p className='text-[22px] font-medium self-center'>
+                                                    Summary
+
+                                                </p>
+                                            </div>
+                                            <div className='px-[24px] xl:px-[72px]'>
+                                                <div className='w-full flex flex-col gap-[24px]'>
+                                                    <div className='w-full flex flex-col gap-[4px]'>
+                                                        <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>UserOp Hash</p>
+                                                        <div className="md:flex  items-center gap-[8px]  ">
+                                                            {/* <div className="flex items-center gap-2">
+                                                <img src={NETWORK_ICON_MAP[network as string]} alt="" className="h-[20px]" />
+
+                                            </div> */}
+                                                            <div className="flex items-center flex-1 gap-2 break-words font-medium">
+                                                                <img src={NETWORK_ICON_MAP[network as string]} alt="" className="h-[20px]" />
+                                                                <span className="text-[16px] leading-[24px] break-all text-[#195BDF]  max-xl:hidden">{userOpsData?.[showUserOpId]?.userOpHash}</span>
+                                                                <span className="text-[16px] leading-[24px] break-all text-[#195BDF]  xl:hidden">{formatAddress(userOpsData?.[showUserOpId]?.userOpHash)}</span>
+                                                                <CopyButton text={userOpsData?.[showUserOpId]?.userOpHash || ""} />
+                                                                <button className="outline-none focus:outline-none ring-0 focus:ring-0">
+                                                                    <Link
+                                                                        // underline="hover"
+                                                                        // color="text.primary"
+                                                                        href={`${NETWORK_SCANNER_MAP[selectedNetwork]}/tx/${userOpsData?.[showUserOpId]?.transactionHash}`}
+                                                                        aria-current="page"
+                                                                        className="text-blue-200"
+                                                                        target="_blank"
+                                                                    >
+                                                                        <img src={getExplorerLogo(selectedNetwork)} style={{ height: '16px', width: '16px' }} alt="" />
+                                                                    </Link>
+                                                                </button>
+                                                            </div>
+
+
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div className='w-full flex flex-col gap-[4px]'>
+                                                        <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Transaction Hash</p>
+                                                        <div className="md:flex  items-center gap-[8px]  ">
+                                                            {/* <div className="flex items-center gap-2">
+                                                <img src={NETWORK_ICON_MAP[network as string]} alt="" className="h-[20px]" />
+
+                                            </div> */}
+                                                            <div className="flex items-center flex-1 gap-2 break-words font-medium">
+                                                                <img src={NETWORK_ICON_MAP[network as string]} alt="" className="h-[20px]" />
+                                                                <span className="text-[16px] leading-[24px] break-all text-[#195BDF]  max-xl:hidden">{userOpsData?.[showUserOpId]?.transactionHash}</span>
+                                                                <span className="text-[16px] leading-[24px] break-all text-[#195BDF]  xl:hidden">{formatAddress(userOpsData?.[showUserOpId]?.transactionHash || "")}</span>
+                                                                <CopyButton text={userOpsData?.[showUserOpId]?.transactionHash || ""} />
+                                                                <button className="outline-none focus:outline-none ring-0 focus:ring-0">
+                                                                    <Link
+                                                                        // underline="hover"
+                                                                        // color="text.primary"
+                                                                        href={`${NETWORK_SCANNER_MAP[selectedNetwork]}/tx/${userOpsData?.[showUserOpId]?.transactionHash}`}
+                                                                        aria-current="page"
+                                                                        className="text-blue-200"
+                                                                        target="_blank"
+                                                                    >
+                                                                        <img src={getExplorerLogo(selectedNetwork)} style={{ height: '16px', width: '16px' }} alt="" />
+                                                                    </Link>
+                                                                </button>
+                                                            </div>
+
+
+
+                                                        </div>
+                                                    </div>
+                                                    <div className='w-full  flex xl:flex-row flex-col max-xl:gap-[24px] gap-[8px]'>
+                                                        <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
+                                                            <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Status</p>
+                                                            <div className='w-[92px]'>
+                                                                {/* @ts-ignore  */}
+                                                                <Status type={userOpsData?.[showUserOpId]?.success} />
+                                                            </div>
+                                                        </div>
+                                                        <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
+                                                            <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Timestamp</p>
+                                                            <div className='flex flex-row gap-[8px] font-medium'>
+                                                                <img src="/images/clock2.svg" alt="timestamp" />
+                                                                <p className='text-[#1F1F1F] font-medium leading-[24px] text-[16px]'>{userOpsData?.[showUserOpId]?.blockTime || " "}</p>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div className='w-full flex gap-[8px] xl:flex-row flex-col max-xl:gap-[24px]'>
+                                                        <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
+                                                            <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Sender</p>
+                                                            <div className='flex flex-row gap-[8px] font-medium'>
+                                                                <img src="/images/from.svg" alt="timestamp" />
+
+                                                                {/* @ts-ignore  */}
+                                                                <p className=' text-[#195BDF]'>{formatAddress(userOpsData?.[showUserOpId]?.sender)}</p>
+                                                                <CopyButton text={userOpsData?.[showUserOpId]?.sender || ""} />
+                                                                <Link href={`https://etherscan.io/address/${userOpsData?.[showUserOpId]?.sender}`} target="_blank">
+                                                                    <img src="/images/link.svg" alt="link" />
+                                                                </Link>
+                                                            </div>
+                                                        </div>
+                                                        <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
+                                                            <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>{`Targets`}</p>
+                                                            <div>
+                                                                {/* @ts-ignore  */}
+                                                                {userOpsData?.[showUserOpId]?.target && userOpsData[showUserOpId].target.length > 0 ? (
+                                                                    // @ts-ignore 
+                                                                    userOpsData[showUserOpId].target.map((target, index) => (
+                                                                        <div key={index} className='flex flex-row gap-[8px] font-medium'>
+                                                                            <img src="/images/to.svg" alt="target" />
+                                                                            <p className='text-[#195BDF]'>{formatAddress(target)}</p>
+                                                                            <CopyButton text={target || ""} />
+                                                                            <Link href={`https://etherscan.io/address/${target}`} target="_blank">
+                                                                                <img src="/images/link.svg" alt="link" />
+                                                                            </Link>
+                                                                        </div>
+                                                                    ))
+                                                                ) : (
+                                                                    <div className='flex flex-row gap-[8px] font-medium'>
+                                                                        <p className='text-[#195BDF]'>None</p>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+
+
+                                                        </div>
+
+                                                    </div>
+                                                    <div className='w-full flex gap-[8px] xl:flex-row flex-col max-xl:gap-[24px]'>
+                                                        <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
+                                                            <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Beneficiary</p>
+                                                            <div className='flex flex-row gap-[8px] font-medium'>
+                                                                <img src="/images/beneficiary.svg" alt="timestamp" />
+
+                                                                {/* @ts-ignore  */}
+                                                                <p className=' text-[#195BDF]'>{formatAddress(userOpsData?.[showUserOpId]?.beneficiary)}</p>
+                                                                <CopyButton text={userOpsData?.[showUserOpId]?.beneficiary || ""} />
+                                                                <Link href={`https://etherscan.io/address/${userOpsData?.[showUserOpId]?.beneficiary}`} target="_blank">
+                                                                    <img src="/images/link.svg" alt="link" />
+                                                                </Link>
+                                                            </div>
+                                                        </div>
+                                                        <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
+                                                            <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Paymaster</p>
+                                                            <div className='flex flex-row gap-[8px] font-medium'>
+                                                                <img src="/images/paymaster.svg" alt="paymaster" />
+
+                                                                {/* @ts-ignore  */}
+                                                                <p className='text-[#195BDF]'>{formatAddress(userOpsData?.[showUserOpId]?.paymaster)}</p>
+                                                                <CopyButton text={userOpsData?.[showUserOpId]?.paymaster || ""} />
+                                                                <Link href={`https://etherscan.io/address/${userOpsData?.[showUserOpId]?.paymaster}`} target="_blank">
+                                                                    <img src="/images/link.svg" alt="link" />
+                                                                </Link>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div className='w-full xl:flex-row flex-col max-xl:gap-[24px] flex gap-[8px]'>
+                                                        <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
+                                                            <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Block Number</p>
+                                                            <div className='flex flex-row gap-[8px] font-medium'>
+                                                                <img src="/images/blocknum.svg" alt="timestamp" />
+
+                                                                {/* @ts-ignore  */}
+                                                                <p className=' text-[#1F1F1F]'>{userOpsData?.[showUserOpId]?.blockNumber}</p>
+                                                                {/* @ts-ignore  */}
+                                                                <CopyButton text={userOpsData?.[showUserOpId]?.blockNumber.toString() || " "} />
+
+                                                            </div>
+                                                        </div>
+                                                        <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
+                                                            <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Value</p>
+                                                            <div className='flex flex-row gap-[8px] font-medium'>
+                                                                <img src="/images/dollar.svg" alt="value" />
+
+                                                                {/* @ts-ignore  */}
+                                                                <p className='text-[#1F1F1F]'>{userOpsData?.[showUserOpId]?.value}{` WEI`}</p>
+
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div className='w-full flex flex-col gap-[4px]'>
+                                                        <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Transaction Fee</p>
+                                                        <div className='flex flex-row gap-[8px] font-medium'>
+                                                            <img src="/images/dollar.svg" alt="timestamp" />
+
+                                                            {/* @ts-ignore  */}
+                                                            <p className='text-[#1F1F1F]'>{ethers.utils.formatEther((userOpsData?.[showUserOpId]?.actualGasCost?.toString() || "0"))} ETH</p>
+
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+
+                                </CustomTabPanel>
+                                <CustomTabPanel value={value} index={1} >
+                                <DeveloperDetails
+                        tableLoading={tableLoading}
+                        skeletonCards1={skeletonCards1}
+                        item={userOpsData?.[showUserOpId]}
+                        selectedColor={selectedColor}
+                        BUTTON_LIST={BUTTON_LIST}
+                        setSelectedColor={setSelectedColor}
+                        selectedNetwork={selectedNetwork}
+                        metaData={metaData}
+                    />
+                                </CustomTabPanel>
+                                <CustomTabPanel value={value} index={2} >
+                                <UserOpLogs item={userOpsData?.[showUserOpId]} />
+                                </CustomTabPanel>
+
+                            </Box>
                         </>
                     ) : (
                         showUserOpId === -1 && (

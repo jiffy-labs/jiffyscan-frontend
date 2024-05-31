@@ -43,7 +43,7 @@ function CustomTabPanel(props: TabPanelProps) {
             id={`simple-tabpanel-${index}`}
             aria-labelledby={`simple-tab-${index}`}
             {...other}
-            className='xl:pl-[240px]'
+            className='xl:pl-[240px] xl:pr-[240px]'
         >
             {value === index && (
                 <Box sx={{ p: 3 }}>
@@ -660,7 +660,10 @@ function BundlerNew(props: any) {
                     </div>
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={2}>
-                    Item Three
+                   logs
+                </CustomTabPanel>
+                <CustomTabPanel value={value} index={3}>
+                   UserOps
                 </CustomTabPanel>
             </Box>
 

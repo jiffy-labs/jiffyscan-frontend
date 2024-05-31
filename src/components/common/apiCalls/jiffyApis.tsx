@@ -3,7 +3,7 @@ import { fallBack } from '../constants';
 import cache from 'memory-cache';
 import { BigNumber } from 'ethers';
 import { fetchRetry } from '../utils';
-import { NETWORK_LIST } from '../constants';
+import { NETWORK_LIST ,ANKR_API_NETWORKS } from '../constants';
 export interface UserOp {
     id: string | null;
     transactionHash: string | null;
@@ -1035,11 +1035,13 @@ export const getBundleDetailsRpc = async (
     txHash: string,
     selectedNetwork: string,
   ): Promise<ApiResponse> => {
+    console.log("selectednetwork :" , selectedNetwork , ANKR_API_NETWORKS[selectedNetwork])
+
     const response = await fetch(
-      `https://api-dev.jiffyscan.xyz/v0/getBundleDetails?txHash=${txHash}&network=eth_sepolia`, 
+      `https://api-dev.jiffyscan.xyz/v0/getBundleDetails?txHash=${txHash}&network=${ANKR_API_NETWORKS[selectedNetwork]}`, 
       {
         headers: {
-          'x-api-key': 'TestAPIKeyDontUseInCode',
+          'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5',
         },
       }
     ).catch((e) => {
