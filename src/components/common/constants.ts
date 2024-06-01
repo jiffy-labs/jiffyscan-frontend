@@ -1,11 +1,5 @@
 export const NETWORK_LIST = [
     {
-        name: 'Cyber Mainnet',
-        key: 'cyber-mainnet',
-        iconPath: '/images/cyber-logo.svg',
-        iconPathInverted: '/images/cyber-logo.svg',
-    },
-    {
         name: 'Polygon',
         key: 'matic',
         iconPath: '/images/polygon-icon.svg',
@@ -22,6 +16,24 @@ export const NETWORK_LIST = [
         key: 'mainnet',
         iconPath: '/images/ethereum-logo-rainbow.svg',
         iconPathInverted: '/images/ethereum-logo-rainbow.svg',
+    },
+    {
+        name: 'Base',
+        key: 'base',
+        iconPath: '/images/base-logo.svg',
+        iconPathInverted: '/images/base-logo.svg',
+    },
+    {
+        name: 'Vanar Testnet',
+        key: 'vanar-testnet',
+        iconPath: '/images/vanarlogo.svg',
+        iconPathInverted: '/images/vanarlogo.svg',
+    },
+    {
+        name: 'Cyber Mainnet',
+        key: 'cyber-mainnet',
+        iconPath: '/images/cyber-logo.svg',
+        iconPathInverted: '/images/cyber-logo.svg',
     },
     {
         name: 'Fuse',
@@ -137,12 +149,7 @@ export const NETWORK_LIST = [
         iconPath: '/images/bsc-logo.svg',
         iconPathInverted: '/images/bsc-logo.svg',
     },
-    {
-        name: 'Vanar Testnet',
-        key: 'vanar-testnet',
-        iconPath: '/images/vanarlogo.svg',
-        iconPathInverted: '/images/vanarlogo.svg',
-    },
+
     // {
     //     name: 'Celo Alfajores',
     //     key: 'celo-alfajores',
@@ -186,7 +193,7 @@ export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
     'polygon-amoy': '/images/polygon-mumbai-icon.svg',
     'cyber-mainnet': '/images/cyber-logo.svg',
     'vanar-testnet': '/images/vanarlogo.svg',
-
+    testnet: '/images/vanar-testnet',
 };
 
 export const ANKR_API_NETWORKS:{ [key: string]: string } = {
@@ -245,7 +252,8 @@ export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
     degen: 'https://explorer.degen.tips',
     'polygon-amoy': 'https://www.oklink.com/amoy',
     'cyber-mainnet': 'https://cyber-explorer.alt.technology',
-    'vanar-testnet': 'https://explorer-vanguard.vanarchain.com'
+    'vanar-testnet': 'https://explorer-vanguard.vanarchain.com',
+    testnet: 'https://explorer-vanguard.vanarchain.com',
 };
 
 export const ENTRY_POINT_ADDRESS_MAP: { [key: string]: string } = {
