@@ -3,7 +3,7 @@ import Navbar from '@/components/global/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
 import { getBundleDetails, UserOp, AccountDetail, Bundle, getBundleDetailsRpc } from '@/components/common/apiCalls/jiffyApis';
 import { Breadcrumbs, Link } from '@mui/material';
-import { formatDistanceToNow,format } from 'date-fns';
+import { formatDistanceToNow, format } from 'date-fns';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
 import { ethers } from 'ethers';
@@ -426,10 +426,10 @@ function BundlerNew(props: any) {
                                                 <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
                                                     <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Timestamp</p>
                                                     <div className='flex flex-row gap-[8px] font-medium'>
-                                                        <img src="/images/clock2.svg" alt="timestamp" className='w-[24px]'/>
+                                                        <img src="/images/clock2.svg" alt="timestamp" className='w-[24px]' />
                                                         {!isLoading ? (
                                                             <p className='text-[#1F1F1F] font-medium leading-[24px] text-[16px]'>
-                                                                {`${formatDistanceToNow(new Date(transactionDetails?.timestamp || 0), { addSuffix: true })} (${format(transactionDetails?.timestamp ?? 0,'dd MMM yyyy, HH:mm:ss') || "-"})`}
+                                                                {`${formatDistanceToNow(new Date(transactionDetails?.timestamp || 0), { addSuffix: true })} (${format(transactionDetails?.timestamp ?? 0, 'dd MMM yyyy, HH:mm:ss') || "-"})`}
                                                             </p>
                                                         ) : (
                                                             <Skeleton width={150} height={24} />
@@ -442,7 +442,7 @@ function BundlerNew(props: any) {
                                                 <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
                                                     <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>From</p>
                                                     <div className='flex flex-row gap-[8px] font-medium'>
-                                                        <img src="/images/from.svg" alt="from" className='w-[24px]'/>
+                                                        <img src="/images/from.svg" alt="from" className='w-[24px]' />
                                                         {!isLoading ? (
                                                             <>
                                                                 <p className='text-[#195BDF]'>{formatAddress(transactionDetails?.from || "")}</p>
@@ -459,7 +459,7 @@ function BundlerNew(props: any) {
                                                 <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
                                                     <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>To</p>
                                                     <div className='flex flex-row gap-[8px] font-medium'>
-                                                        <img src="/images/to.svg" alt="to" className='w-[24px]'/>
+                                                        <img src="/images/to.svg" alt="to" className='w-[24px]' />
                                                         {!isLoading ? (
                                                             <>
                                                                 <p className='text-[#195BDF]'>{formatAddress(transactionDetails?.to || "")}</p>
@@ -493,7 +493,7 @@ function BundlerNew(props: any) {
                                                 <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
                                                     <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Number of UserOps</p>
                                                     <div className='flex flex-row gap-[8px] font-medium'>
-                                                        <img src="/images/count.svg" alt="number of userOps"  className='w-[24px]'/>
+                                                        <img src="/images/count.svg" alt="number of userOps" className='w-[24px]' />
                                                         {!isLoading ? (
                                                             <p className='text-[#1F1F1F]'>{transactionDetails?.logsDetails.numberOfUserOps}</p>
                                                         ) : (
@@ -506,7 +506,7 @@ function BundlerNew(props: any) {
                                             <div className='w-full flex flex-col gap-[4px]'>
                                                 <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Transaction Fee</p>
                                                 <div className='flex flex-row gap-[8px] font-medium'>
-                                                    <img src="/images/dollar.svg" alt="transaction fee" className='w-[24px]'/>
+                                                    <img src="/images/dollar.svg" alt="transaction fee" className='w-[24px]' />
                                                     {!isLoading ? (
                                                         <p className='text-[#1F1F1F]'>{transactionDetails?.trxFee} ETH</p>
                                                     ) : (
@@ -530,12 +530,14 @@ function BundlerNew(props: any) {
                                                     <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Profit Earned</p>
                                                     <div className='flex flex-row gap-[8px] font-medium'>
                                                         {!isLoading ? (
-                                                            <p className='text-[#1F1F1F]'>
+                                                            <div className='text-[#1F1F1F] flex flex-row gap-[2px]'>
                                                                 {transactionDetails?.profit} ETH
+                                                                <p className='text-[#9E9E9E]'>
                                                                 ({transactionDetails?.revenue ?
                                                                     `${(parseFloat(transactionDetails.profit || '0') >= 0 ? '+ ' : '- ')}${Math.abs((parseFloat(transactionDetails.profit || '0') / parseFloat(transactionDetails.revenue || '0')) * 100).toFixed(2)}`
                                                                     : '0.00'}%)
-                                                            </p>
+                                                                    </p>
+                                                            </div>
                                                         ) : (
                                                             <Skeleton width={150} height={24} />
                                                         )}
@@ -543,8 +545,97 @@ function BundlerNew(props: any) {
                                                 </div>
                                             </div>
 
+
                                         </div>
 
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div className='flex flex-row gap-[16px] px-[20px] xl:px-[32px] py-[20px]'>
+                                        <img src="/images/gas.svg" className='w-[24px]' />
+                                        <p className='text-[22px] font-medium self-center'>Gas Details</p>
+                                    </div>
+                                    <div className='px-[24px] xl:px-[72px]'>
+                                        <div className='w-full flex flex-col gap-[24px]'>
+                                            <div className='w-full xl:flex-row flex-col max-xl:gap-[24px] flex gap-[8px]'>
+                                                <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
+                                                    <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Gas Used</p>
+                                                    <div className='flex flex-row gap-[8px]'>
+                                                        <div className='flex flex-row gap-[4px]'>
+                                                            {isLoading ? (
+                                                                <Skeleton width={100} />
+                                                            ) : (
+                                                                <>
+                                                                    <p className=' text-[#1F1F1F]  font-medium'>{transactionDetails?.gasDetails.gasUsed} </p>
+                                                                    <p className='text-[#9E9E9E] '>{`${calculateGasUsagePercentage(
+                                                                        transactionDetails?.gasDetails.gasUsed || "",
+                                                                        transactionDetails?.gasDetails.gasLimit || ""
+                                                                    )}`}</p>
+                                                                </>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
+                                                    <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Gas Limit</p>
+                                                    <div className='flex flex-row gap-[8px] font-medium'>
+                                                        {isLoading ? (
+                                                            <Skeleton width={100} />
+                                                        ) : (
+                                                            <p className='text-[#1F1F1F]'>{transactionDetails?.gasDetails.gasLimit}</p>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className='w-full flex flex-col gap-[4px]'>
+                                                <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Gas Price</p>
+                                                <div className='flex flex-row gap-[8px] font-medium'>
+                                                    {isLoading ? (
+                                                        <Skeleton width={100} />
+                                                    ) : (
+                                                        <p className='text-[#1F1F1F]'>{transactionDetails?.gasDetails.gasPrice} Gwei</p>
+                                                    )}
+                                                </div>
+                                            </div>
+
+                                            <div className='w-full flex flex-col gap-[4px] text-[14px]'>
+                                                <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Gas Fees</p>
+                                                <div className='flex flex-row w-full gap-[4px]'>
+                                                    <div className='flex flex-row text-[#9E9E9E] w-[84px] justify-between'>
+                                                        <p>Base </p> :
+                                                    </div>
+                                                    {isLoading ? (
+                                                        <Skeleton width={100} />
+                                                    ) : (
+                                                        <p className='text-[#1F1F1F] font-medium'>{transactionDetails?.gasDetails.baseFee} Gwei</p>
+                                                    )}
+                                                </div>
+
+                                                <div className='flex flex-row w-full gap-[4px]'>
+                                                    <div className='flex flex-row text-[#9E9E9E] w-[84px] justify-between'>
+                                                        <p>Max </p> :
+                                                    </div>
+                                                    {isLoading ? (
+                                                        <Skeleton width={100} />
+                                                    ) : (
+                                                        <p className='text-[#1F1F1F] font-medium'>{transactionDetails?.gasDetails.maxFeePerGas} Gwei</p>
+                                                    )}
+                                                </div>
+
+                                                <div className='flex flex-row w-full gap-[4px]'>
+                                                    <div className='flex flex-row text-[#9E9E9E] w-[84px] justify-between'>
+                                                        <p>Max Priority </p> :
+                                                    </div>
+                                                    {isLoading ? (
+                                                        <Skeleton width={100} />
+                                                    ) : (
+                                                        <p className='text-[#1F1F1F] font-medium'>{transactionDetails?.gasDetails.maxPriorityFeePerGas} Gwei</p>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -554,7 +645,7 @@ function BundlerNew(props: any) {
                             <div className='flex flex-col rounded-8px bg-white border-[#DADCE0] border-sm w-full' >
                                 <div className='w-full px-[32px] py-[30px] flex flex-row   justify-between items-center h-[72px]'>
                                     <div className='flex flex-row gap-[8px] h-[32px] items-center'>
-                                        <img src="/images/format.svg" alt="format" className='w-[24px]'/>
+                                        <img src="/images/format.svg" alt="format" className='w-[24px]' />
                                         <p className='text-black text-center text-[22px]'>Format</p>
                                     </div>
                                     <div className='h-[32px] max-xl:hidden'>
