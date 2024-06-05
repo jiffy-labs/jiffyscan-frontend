@@ -3,6 +3,7 @@ import { NETWORK_ICON_MAP, NETWORK_LIST, NETWORK_SCANNER_MAP } from '@/component
 import Skeleton from 'react-loading-skeleton-2';
 import Caption from '@/components/common/Caption';
 import { useEffect, useState } from 'react';
+import CopyButton from '@/components/common/copy_button/CopyButton';
 import { fetchData } from '@/components/common/apiCalls/jiffyApis';
 import Link from 'next/link';
 type LogEntry = {
@@ -24,31 +25,75 @@ interface ItemProps {
 }
 
 interface UserOpLogsProps {
-    item: ItemProps;
+    logs: LogEntry[];
+    network:string;
 }
 
+// @ts-ignore 
+const formatEventString = (eventString) => {
+    // Extract the event name and the arguments string
+    const eventNameEndIndex = eventString.indexOf('(');
+    const eventName = eventString.substring(0, eventNameEndIndex).trim();
+    const argsString = eventString.substring(eventNameEndIndex + 1, eventString.length - 1);
+  
+    // Split the arguments string into individual arguments
+    // @ts-ignore 
+    const argsArray = argsString.split(',').map(arg => arg.trim());
+  
+    return { eventName, argsArray };
+  };
+//   @ts-ignore 
+  const EventFormatter = ({ eventString }) => {
+    const { eventName, argsArray } = formatEventString(eventString);
+  
+    return (
+      <div className='text-black'>
+        <strong className='font-500'>{eventName}</strong>
+        {' ('} 
+        {/* @ts-ignore  */}
+        {argsArray.map((arg, index) => {
+          const [type, field] = arg.split(' ').filter(Boolean);
+          return (
+            <span key={index}>
+              <span style={{ color: '#4CAF50' }}>{type}</span> {field}
+              {index < argsArray.length - 1 ? ', ' : ''}
+            </span>
+          );
+        })}
+        {')'}
+      </div>
+    );
+  };
+  
+const UserOpLogs: React.FC<UserOpLogsProps> = ({ logs,network }: any) => {
 
-
-const UserOpLogs: React.FC<UserOpLogsProps> = ({ item ,network}: any) => {
-
-    const [logs, setLogs] = useState<LogEntry[]>([]);
+    // const [logs, setLogs] = useState<LogEntry[]>([]);
     const [loading, setLoading] = useState(true)
 
+    // useEffect(() => {
+
+    //     const functionCall = async () => {
+    //         const data = await fetchData(item);
+    //         // setLogs(data.logs || []);
+    //         setLoading(false)
+
+    //     }
+
+    //     if (item && loading && isLoading) {
+    //         console.log("making fetch call again", loading,item,logs)
+    //         console.log(isLoading)
+    //         functionCall()
+    //     }
+
+
+    // }, [item]);
     useEffect(() => {
 
-        const functionCall = async () => {
-            const data = await fetchData(item);
-            setLogs(data.logs || []);
-            setLoading(false)
-
-        }
-
-        if (item) {
-            functionCall()
-        }
+       if(logs)
+          setLoading(false)
 
 
-    }, [item]);
+    }, [logs]);
 
     // console.log(item)
 
@@ -82,38 +127,54 @@ const UserOpLogs: React.FC<UserOpLogsProps> = ({ item ,network}: any) => {
                     </Caption>
                 </div>
                 <div className="my-4  flex flex-col gap-[2rem]">
-
+{/* @ts-ignore  */}
                     {logs.map((log, index) => (
                         <div key={index} className="bg-white shadow rounded-lg p-4">
                             <div className="flex flex-col gap-4">
 
-                                <div className="flex flex-row md:gap-[2.2rem] max-md:flex-col">
-                                    <strong className='md:w-[8%] '>Address:</strong>
+                                <div className="flex flex-row md:gap-[16px] max-md:flex-col">
+                                <div className='flex flex-row justify-between w-[139px]'>
+                                <p className=' text-[#9E9E9E] uppercase  '>Address</p>
+                               <p className=' text-[#9E9E9E] uppercase '>:</p>
+                               </div>
 
 
-                                    <Link href={`${NETWORK_SCANNER_MAP[item.network]}/address/${log.address}`} target='_blank'>
-                                        <div className="text-indigo-600 hover:text-indigo-800 w-full px-1 py-1">{log.address}</div>
+                                    <Link href={`${NETWORK_SCANNER_MAP[network]}/address/${log.address}`} target='_blank'>
+                                        <div className="text-[#195BDF] hover:text-indigo-800 w-full px-1 py-1 text-[16px] font-medium">{log.address}</div>
                                     </Link>
 
                                 </div>
 
-                                <div className="flex flex-row gap-[2rem] max-md:flex-col">
-                                    <strong className='md:w-[8%]  '>Event Name:</strong>
+                                <div className="flex flex-row gap-[16px] max-md:flex-col">
+                                <div className='flex flex-row justify-between w-[139px]'>
+                                <p className=' text-[#9E9E9E] uppercase  '>Event Name</p>
+                               <p className=' text-[#9E9E9E] uppercase '>:</p>
+                               </div>
                                     <span className="rounded px-2 py-1 md:w-[80%] text-gray-500">
-                                        {log.event_name || 'Unknown Event'}
+                                        {/* {log.event_name || 'Unknown Event'} */}
+                                        <EventFormatter eventString={log.event_name || 'Unknown Event'} />
                                     </span>
                                 </div>
 
-                                <div className="flex flex-row gap-[2rem] max-md:flex-col">
-                                    <strong className='md:w-[8%] '>Topics:</strong>
+                                <div className="flex flex-row gap-[16px] max-md:flex-col">
+                                <div className='flex flex-row justify-between w-[139px]'>
+                                <p className=' text-[#9E9E9E] uppercase  '>Topics</p>
+                               <p className=' text-[#9E9E9E] uppercase '>:</p>
+                               </div>
+                               
                                     <div className="flex flex-col gap-2md: w-[80%]">
                                         {log.topicsDecoded ? (
                                             Object.entries(log.topicsDecoded).map(([key, value]) => (
-                                                <div key={key} className=" rounded px-1 py-1 flex flex-row gap-[5px]">
-                                                    <div className='bg-gray-100 px-[7px] py-[1px] rounded-[3px] text-[12px]'>{key}</div>  {value}
+                                                <div key={key} className=" rounded px-1 py-1 flex flex-row gap-[5px] text-[16px] ">
+                                                    <div className='bg-gray-100 px-[7px] py-[1px] rounded-[4px] text-[12px] w-[104px] h-[24px] text-[12px] text-center text-[#0000008A]'>{key}</div>  
+                                                   {/* @ts-ignore  */}
+                                                    <div className='flex flex-row'>{value}
+                                                    {/* @ts-ignore  */}
+                                                    <CopyButton text={value || ""} /></div>
                                                 </div>
                                             ))
                                         ) : (
+                                            // @ts-ignore 
                                             log.topics.map((topic, index) => (
                                                 <div key={index} className=" rounded px-2 py-1">
                                                     {index}: {topic}
@@ -123,9 +184,13 @@ const UserOpLogs: React.FC<UserOpLogsProps> = ({ item ,network}: any) => {
                                     </div>
                                 </div>
 
-                                <div className="flex flex-row gap-[2rem] max-md:flex-col">
-                                    <strong className='md:w-[8%]'>Data:</strong>
-                                    <div className="bg-gray-100 rounded px-2 py-1 md:w-[80%]">
+                                <div className="flex flex-row gap-[16px] max-md:flex-col">
+                               <div className='flex flex-row justify-between w-[139px]'>
+                                <p className=' text-[#9E9E9E] uppercase '>Data</p>
+                               <p className=' text-[#9E9E9E] uppercase '>:</p>
+                               </div>
+                               
+                                    <div className="bg-gray-100 rounded p-4  md:w-[80%]">
                                         {log.dataDecoded && Object.keys(log.dataDecoded).length ? (
                                             <div className="flex flex-col gap-2">
                                                 {Object.entries(log.dataDecoded).map(([key, value]) => (

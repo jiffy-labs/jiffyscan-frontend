@@ -3,7 +3,7 @@ import { fallBack } from '../constants';
 import cache from 'memory-cache';
 import { BigNumber } from 'ethers';
 import { fetchRetry } from '../utils';
-import { NETWORK_LIST } from '../constants';
+import { NETWORK_LIST ,ANKR_API_NETWORKS } from '../constants';
 export interface UserOp {
     id: string | null;
     transactionHash: string | null;
@@ -308,6 +308,61 @@ const performApiCall = (network: string): boolean => {
     if (!network && network != fallBack) return false;
     return true;
 };
+
+export interface GasDetails {
+    gasUsed: string;
+    gasLimit: string;
+    gasPrice: string;
+    baseFee: string;
+    maxPriorityFeePerGas: string;
+    maxFeePerGas: string;
+  }
+  
+  export interface LogsDetails {
+    numberOfUserOps: number;
+    internalTransactions: string;
+  }
+  export type LogEntry = {
+    logIndex: number | null;
+    transactionHash: string;
+    transactionLogIndex: number | null;
+    topics: string[];
+    removed: boolean | null;
+    data: string;
+    address: string;
+    event_name: string;
+    eventName: string;
+    topicsDecoded: { [key: string]: string };
+    dataDecoded: { [key: string]: string | number };
+};
+
+  interface UserOpData{
+    hash: string;
+    age: string;
+    sender: string;
+    target: string;
+    fee: string;
+    success: boolean;
+    actualGasUsed: number;
+  }
+interface TransactionDetails {
+    txHash: string;
+    timestamp: string;
+    from: string;
+    to: string;
+    blockNumber: number;
+    trxFee: string;
+    gasDetails: GasDetails;
+    callData: string;
+    revenue: string;
+    profit: string;
+    logsDetails: LogsDetails;
+    userOps: UserOpData[]
+}
+  export interface ApiResponse {
+    transactionDetails: TransactionDetails;
+    responseTime: number;
+  }
 
 const PRO_API = 'https://api.jiffyscan.xyz';
 const DEV_API = 'https://api-dev.jiffyscan.xyz';
@@ -997,6 +1052,34 @@ export const getBundleDetails = async (
     }
     return {} as Bundle;
 };
+
+export const getBundleDetailsRpc = async (
+    txHash: string,
+    selectedNetwork: string,
+  ): Promise<ApiResponse> => {
+    console.log("selectednetwork :" , selectedNetwork , ANKR_API_NETWORKS[selectedNetwork])
+
+    const response = await fetch(
+      `https://api-dev.jiffyscan.xyz/v0/getBundleDetails?txHash=${txHash}&network=${ANKR_API_NETWORKS[selectedNetwork]}`, 
+      {
+        headers: {
+          'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5',
+        },
+      }
+    ).catch((e) => {
+      console.log(e);
+      throw new Error('Error fetching transaction details');
+    });
+  
+    if (!response.ok) {
+      throw new Error('Error fetching transaction details');
+    }
+  
+    const data: ApiResponse = await response.json();
+    console.log(data);
+  
+    return data;
+  };
 
 export const getBundlerDetails = async (
     userOpHash: string,

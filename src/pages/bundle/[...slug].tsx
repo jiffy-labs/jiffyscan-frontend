@@ -3,6 +3,7 @@ import { getNetworkParam } from '@/components/common/utils';
 import Layout from '@/components/global/Layout';
 import { useConfig } from '@/context/config';
 import Bundler from '@/views/bundle/Bundle';
+import BundlerNew from '@/views/bundle/BundleNew';
 import { useRouter } from 'next/router';
 import React, { ReactElement, useEffect } from 'react';
 import ReactGA from 'react-ga4';
@@ -18,7 +19,7 @@ function RecentAccount() {
     return (
         <div>
             <SEO/>
-            <Bundler slug={slug} />
+            <BundlerNew slug={slug} />
         </div>
     );
 }
