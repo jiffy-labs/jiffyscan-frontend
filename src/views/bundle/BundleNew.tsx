@@ -3,8 +3,10 @@ import Navbar from '@/components/global/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
 import { getBundleDetails, UserOp, AccountDetail, Bundle, getBundleDetailsRpc } from '@/components/common/apiCalls/jiffyApis';
 import { Breadcrumbs, Link } from '@mui/material';
+import { formatDistanceToNow } from 'date-fns';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
+import { ethers } from 'ethers';
 import Status from '@/components/common/status/Status';
 import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
 import Token from '@/components/common/Token';
@@ -127,7 +129,7 @@ interface LogsDetails {
     numberOfUserOps: number;
     internalTransactions: string;
 }
-interface UserOpData{
+interface UserOpData {
     hash: string;
     age: string;
     sender: string;
@@ -135,7 +137,7 @@ interface UserOpData{
     fee: string;
     success: boolean;
     actualGasUsed: number;
-  }
+}
 interface TransactionDetails {
     txHash: string;
     timestamp: string;
@@ -189,7 +191,7 @@ function BundlerNew(props: any) {
     const [transactionDetails, setTransactionDetails] = useState<TransactionDetails | null>(null);
     const [loading, setLoading] = useState(true);
     const [userOps, setUserOps] = useState<UserOpData[]>([]);
-   
+
 
     useEffect(() => {
         const fetchTransactionDetails = async () => {
@@ -349,57 +351,57 @@ function BundlerNew(props: any) {
                 />
             </div> */}
             <div className='w-full flex flex-col'>
-            <Box sx={{  }}>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }} >
-                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" className=' container xl:px-[5rem] min-[1450px]:px-[0rem]' >
-                        <Tab label="Bundle Overview" {...a11yProps(0)} />
-                        <Tab label="CallData" {...a11yProps(1)} />
-                        {/* <Tab label="logs" {...a11yProps(2)} /> */}
-                        <Tab label="UserOps" {...a11yProps(2)} />
-                    </Tabs>
-                </Box>
-                <div className='container xl:px-[5rem] min-[1450px]:px-[0rem]'>
-                <CustomTabPanel value={value} index={0}  >
-                    <div className='xl:w-[840px] flex flex-col gap-[40px]'>
-                        <div>
-                            <div className='flex flex-row gap-[16px] px-[20px] xl:px-[32px] py-[20px]'>
-                                <img src="/images/summary.svg" className='w-[24px]' />
-                                <p className='text-[22px] font-medium self-center'>
-                                    Summary
+                <Box sx={{}}>
+                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }} >
+                        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" className=' container xl:px-[5rem] min-[1450px]:px-[0rem]' >
+                            <Tab label="Bundle Overview" {...a11yProps(0)} />
+                            <Tab label="CallData" {...a11yProps(1)} />
+                            {/* <Tab label="logs" {...a11yProps(2)} /> */}
+                            <Tab label="UserOps" {...a11yProps(2)} />
+                        </Tabs>
+                    </Box>
+                    <div className='container xl:px-[5rem] min-[1450px]:px-[0rem]'>
+                        <CustomTabPanel value={value} index={0}  >
+                            <div className='xl:w-[840px] flex flex-col gap-[40px]'>
+                                <div>
+                                    <div className='flex flex-row gap-[16px] px-[20px] xl:px-[32px] py-[20px]'>
+                                        <img src="/images/summary.svg" className='w-[24px]' />
+                                        <p className='text-[22px] font-medium self-center'>
+                                            Summary
 
-                                </p>
-                            </div>
-                            <div className='px-[24px] xl:px-[72px]'>
-                                <div className='w-full flex flex-col gap-[24px]'>
-                                    <div className='w-full flex flex-col gap-[4px]'>
-                                        <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Transaction Hash</p>
-                                        <div className="md:flex  items-center gap-[8px]  ">
-                                            {/* <div className="flex items-center gap-2">
+                                        </p>
+                                    </div>
+                                    <div className='px-[24px] xl:px-[72px]'>
+                                        <div className='w-full flex flex-col gap-[24px]'>
+                                            <div className='w-full flex flex-col gap-[4px]'>
+                                                <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Transaction Hash</p>
+                                                <div className="md:flex  items-center gap-[8px]  ">
+                                                    {/* <div className="flex items-center gap-2">
                                                 <img src={NETWORK_ICON_MAP[network as string]} alt="" className="h-[20px]" />
 
                                             </div> */}
-                                            <div className="flex items-center flex-1 gap-2 break-words font-medium">
-                                                <img src={NETWORK_ICON_MAP[network as string]} alt="" className="h-[20px]" />
-                                                <span className="text-[16px] leading-[24px] break-all text-[#195BDF]  max-xl:hidden">{hash}</span>
-                                                <span className="text-[16px] leading-[24px] break-all text-[#195BDF]  xl:hidden">{formatAddress(hash)}</span>
-                                                <CopyButton text={bundleInfo?.transactionHash || ""} />
-                                                <button className="outline-none focus:outline-none ring-0 focus:ring-0">
-                                                    <Link
-                                                        // underline="hover"
-                                                        // color="text.primary"
-                                                        href={`${NETWORK_SCANNER_MAP[network]}/tx/${bundleInfo?.transactionHash}`}
-                                                        aria-current="page"
-                                                        className="text-blue-200"
-                                                        target="_blank"
-                                                    >
-                                                        <img src={getExplorerLogo(network)} style={{ height: '16px', width: '16px' }} alt="" />
-                                                    </Link>
-                                                </button>
-                                            </div>
+                                                    <div className="flex items-center flex-1 gap-2 break-words font-medium">
+                                                        <img src={NETWORK_ICON_MAP[network as string]} alt="" className="h-[20px]" />
+                                                        <span className="text-[16px] leading-[24px] break-all text-[#195BDF]  max-xl:hidden">{hash}</span>
+                                                        <span className="text-[16px] leading-[24px] break-all text-[#195BDF]  xl:hidden">{formatAddress(hash)}</span>
+                                                        <CopyButton text={bundleInfo?.transactionHash || ""} />
+                                                        <button className="outline-none focus:outline-none ring-0 focus:ring-0">
+                                                            <Link
+                                                                // underline="hover"
+                                                                // color="text.primary"
+                                                                href={`${NETWORK_SCANNER_MAP[network]}/tx/${bundleInfo?.transactionHash}`}
+                                                                aria-current="page"
+                                                                className="text-blue-200"
+                                                                target="_blank"
+                                                            >
+                                                                <img src={getExplorerLogo(network)} style={{ height: '16px', width: '16px' }} alt="" />
+                                                            </Link>
+                                                        </button>
+                                                    </div>
 
-                                        </div>
-                                    </div>
-                                    {/* <div className='w-full flex-row flex gap-[8px]'>
+                                                </div>
+                                            </div>
+                                            {/* <div className='w-full flex-row flex gap-[8px]'>
                                         <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
 
                                         </div>
@@ -408,111 +410,115 @@ function BundlerNew(props: any) {
                                         </div>
 
                                     </div> */}
-                                    <div className='w-full  flex xl:flex-row flex-col max-xl:gap-[24px] gap-[8px]'>
-                                        <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
-                                            <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Status</p>
-                                            <div className='w-[92px]'>
-                                                <Status type={true} />
-                                            </div>
-                                        </div>
-                                        <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
-                                            <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Timestamp</p>
-                                            <div className='flex flex-row gap-[8px] font-medium'>
-                                                <img src="/images/clock2.svg" alt="timestamp" />
-                                                <p className='text-[#1F1F1F] font-medium leading-[24px] text-[16px]'>1 day ago</p>
-                                                {/* @ts-ignore  */}
-                                                {/* <p className='text-[#9E9E9E]'>{transactionDetails?.timestamp}</p> */}
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div className='w-full flex gap-[8px] xl:flex-row flex-col max-xl:gap-[24px]'>
-                                        <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
-                                            <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>From</p>
-                                            <div className='flex flex-row gap-[8px] font-medium'>
-                                                <img src="/images/from.svg" alt="timestamp" />
-
-                                                {/* @ts-ignore  */}
-                                                <p className=' text-[#195BDF]'>{formatAddress(transactionDetails?.from)}</p>
-                                                <CopyButton text={transactionDetails?.from || ""} />
-                                                <Link href={`https://jiffyscan.xyz/account/${transactionDetails?.from}?network=${network}`} target="_blank">
-                                                    <img src="/images/link.svg" alt="link" />
-                                                </Link>
-                                            </div>
-                                        </div>
-                                        <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
-                                            <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>To</p>
-                                            <div className='flex flex-row gap-[8px] font-medium'>
-                                                <img src="/images/to.svg" alt="timestamp" />
-
-                                                {/* @ts-ignore  */}
-                                                <p className='text-[#195BDF]'>{formatAddress(transactionDetails?.to)}</p>
-                                                <CopyButton text={transactionDetails?.to || ""} />
-                                                <Link href={`https://jiffyscan.xyz/account/${transactionDetails?.from}?network=${network}`} target="_blank">
-                                                    <img src="/images/link.svg" alt="link" />
-                                                </Link>
+                                            <div className='w-full  flex xl:flex-row flex-col max-xl:gap-[24px] gap-[8px]'>
+                                                <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
+                                                    <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Status</p>
+                                                    <div className='w-[92px]'>
+                                                        <Status type={true} />
+                                                    </div>
+                                                </div>
+                                                <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
+                                                    <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Timestamp</p>
+                                                    <div className='flex flex-row gap-[8px] font-medium'>
+                                                        <img src="/images/clock2.svg" alt="timestamp" />
+                                                        <p className='text-[#1F1F1F] font-medium leading-[24px] text-[16px]'>{`${formatDistanceToNow(transactionDetails?.timestamp || "0", { addSuffix: true })} (${transactionDetails?.timestamp || "-"})`}</p>
+                                                        {/* @ts-ignore  */}
+                                                        {/* <p className='text-[#9E9E9E]'>{transactionDetails?.timestamp}</p> */}
+                                                    </div>
+                                                </div>
 
                                             </div>
-                                        </div>
+                                            <div className='w-full flex gap-[8px] xl:flex-row flex-col max-xl:gap-[24px]'>
+                                                <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
+                                                    <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>From</p>
+                                                    <div className='flex flex-row gap-[8px] font-medium'>
+                                                        <img src="/images/from.svg" alt="timestamp" />
 
-                                    </div>
+                                                        {/* @ts-ignore  */}
+                                                        <p className=' text-[#195BDF]'>{formatAddress(transactionDetails?.from)}</p>
+                                                        <CopyButton text={transactionDetails?.from || ""} />
+                                                        <Link href={`https://jiffyscan.xyz/account/${transactionDetails?.from}?network=${network}`} target="_blank">
+                                                            <img src="/images/link.svg" alt="link" />
+                                                        </Link>
+                                                    </div>
+                                                </div>
+                                                <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
+                                                    <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>To</p>
+                                                    <div className='flex flex-row gap-[8px] font-medium'>
+                                                        <img src="/images/to.svg" alt="timestamp" />
 
-                                    <div className='w-full xl:flex-row flex-col max-xl:gap-[24px] flex gap-[8px]'>
-                                        <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
-                                            <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Block Number</p>
-                                            <div className='flex flex-row gap-[8px] font-medium'>
-                                                <img src="/images/blocknum.svg" alt="timestamp" />
+                                                        {/* @ts-ignore  */}
+                                                        <p className='text-[#195BDF]'>{formatAddress(transactionDetails?.to)}</p>
+                                                        <CopyButton text={transactionDetails?.to || ""} />
+                                                        <Link href={`https://jiffyscan.xyz/account/${transactionDetails?.from}?network=${network}`} target="_blank">
+                                                            <img src="/images/link.svg" alt="link" />
+                                                        </Link>
 
-                                                {/* @ts-ignore  */}
-                                                <p className=' text-[#1F1F1F]'>{transactionDetails?.blockNumber}</p>
-                                                <CopyButton text={transactionDetails?.blockNumber.toString() || ""} />
-
-                                            </div>
-                                        </div>
-                                        <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
-                                            <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Number of UserOps</p>
-                                            <div className='flex flex-row gap-[8px] font-medium'>
-                                                <img src="/images/count.svg" alt="timestamp" />
-
-                                                {/* @ts-ignore  */}
-                                                <p className='text-[#1F1F1F]'>{transactionDetails?.logsDetails.numberOfUserOps}</p>
-
-
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div className='w-full flex flex-col gap-[4px]'>
-                                        <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Transaction Fee</p>
-                                        <div className='flex flex-row gap-[8px] font-medium'>
-                                            <img src="/images/dollar.svg" alt="timestamp" />
-
-                                            {/* @ts-ignore  */}
-                                            <p className='text-[#1F1F1F]'>{transactionDetails?.trxFee} ETH</p>
-
-
-                                        </div>
-                                    </div>
-                                    <div className='w-full xl:flex-row flex-col max-xl:gap-[24px] flex gap-[8px]'>
-                                        <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
-                                            <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Revenue Earned</p>
-                                            <div className='flex flex-row gap-[8px] font-medium'>
-
-
-                                                {/* @ts-ignore  */}
-                                                <p className=' text-[#1F1F1F]'>{transactionDetails?.revenue} ETH</p>
-
+                                                    </div>
+                                                </div>
 
                                             </div>
-                                        </div>
-                                        <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
-                                            <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Profit Earned</p>
-                                            <div className='flex flex-row gap-[8px] font-medium'>
+
+                                            <div className='w-full xl:flex-row flex-col max-xl:gap-[24px] flex gap-[8px]'>
+                                                <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
+                                                    <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Block Number</p>
+                                                    <div className='flex flex-row gap-[8px] font-medium'>
+                                                        <img src="/images/blocknum.svg" alt="timestamp" />
+
+                                                        {/* @ts-ignore  */}
+                                                        <p className=' text-[#1F1F1F]'>{transactionDetails?.blockNumber}</p>
+                                                        <CopyButton text={transactionDetails?.blockNumber.toString() || ""} />
+
+                                                    </div>
+                                                </div>
+                                                <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
+                                                    <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Number of UserOps</p>
+                                                    <div className='flex flex-row gap-[8px] font-medium'>
+                                                        <img src="/images/count.svg" alt="timestamp" />
+
+                                                        {/* @ts-ignore  */}
+                                                        <p className='text-[#1F1F1F]'>{transactionDetails?.logsDetails.numberOfUserOps}</p>
 
 
-                                                {/* @ts-ignore  */}
-                                                <p className='text-[#1F1F1F]'>{transactionDetails?.profit} ETH</p>
+                                                    </div>
+                                                </div>
 
+                                            </div>
+                                            <div className='w-full flex flex-col gap-[4px]'>
+                                                <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Transaction Fee</p>
+                                                <div className='flex flex-row gap-[8px] font-medium'>
+                                                    <img src="/images/dollar.svg" alt="timestamp" />
+
+                                                    {/* @ts-ignore  */}
+                                                    <p className='text-[#1F1F1F]'>{transactionDetails?.trxFee} ETH</p>
+
+
+                                                </div>
+                                            </div>
+                                            <div className='w-full xl:flex-row flex-col max-xl:gap-[24px] flex gap-[8px]'>
+                                                <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
+                                                    <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Revenue Earned</p>
+                                                    <div className='flex flex-row gap-[8px] font-medium'>
+
+
+                                                        {/* @ts-ignore  */}
+                                                        <p className=' text-[#1F1F1F]'>{transactionDetails?.revenue} ETH</p>
+
+
+                                                    </div>
+                                                </div>
+                                                <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
+                                                    <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Profit Earned</p>
+                                                    <div className='flex flex-row gap-[8px] font-medium'>
+                                                        {/* @ts-ignore */}
+                                                        <p className='text-[#1F1F1F]'>
+                                                            {transactionDetails?.profit} ETH
+                                                            ({transactionDetails?.revenue ?
+                                                                `${(parseFloat(transactionDetails.profit || '0') >= 0 ? '+ ' : '- ')}${Math.abs((parseFloat(transactionDetails.profit || '0') / parseFloat(transactionDetails.revenue || '0')) * 100).toFixed(2)}`
+                                                                : '0.00'}%)
+                                                        </p>
+                                                    </div>
+                                                </div>
 
                                             </div>
                                         </div>
@@ -520,168 +526,165 @@ function BundlerNew(props: any) {
                                     </div>
                                 </div>
 
-                            </div>
-                        </div>
+                                <div>
+                                    <div className='flex flex-row gap-[16px] px-[20px] xl:px-[32px] py-[20px]'>
+                                        <img src="/images/gas.svg" className='w-[24px]' />
+                                        <p className='text-[22px] font-medium self-center'>
+                                            Gas Details
 
-                        <div>
-                            <div className='flex flex-row gap-[16px] px-[20px] xl:px-[32px] py-[20px]'>
-                                <img src="/images/gas.svg" className='w-[24px]' />
-                                <p className='text-[22px] font-medium self-center'>
-                                    Gas Details
-
-                                </p>
-                            </div>
-                            <div className='px-[24px] xl:px-[72px]'>
-                                <div className='w-full flex flex-col gap-[24px]'>
+                                        </p>
+                                    </div>
+                                    <div className='px-[24px] xl:px-[72px]'>
+                                        <div className='w-full flex flex-col gap-[24px]'>
 
 
 
-                                    <div className='w-full xl:flex-row flex-col max-xl:gap-[24px] flex gap-[8px]'>
-                                        <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
-                                            <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Gas Used</p>
-                                            <div className='flex flex-row gap-[8px]'>
+                                            <div className='w-full xl:flex-row flex-col max-xl:gap-[24px] flex gap-[8px]'>
+                                                <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
+                                                    <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Gas Used</p>
+                                                    <div className='flex flex-row gap-[8px]'>
 
 
-                                                {/* @ts-ignore  */}
-                                                <div className='flex flex-row gap-[4px]'>
-                                                    <p className=' text-[#1F1F1F]  font-medium'>{transactionDetails?.gasDetails.gasUsed} </p>
-                                                    <p className='text-[#9E9E9E] '>{`${calculateGasUsagePercentage(
-                                                        transactionDetails?.gasDetails.gasUsed || "",
-                                                        transactionDetails?.gasDetails.gasLimit || ""
-                                                    )}`}
-                                                    </p>
+                                                        {/* @ts-ignore  */}
+                                                        <div className='flex flex-row gap-[4px]'>
+                                                            <p className=' text-[#1F1F1F]  font-medium'>{transactionDetails?.gasDetails.gasUsed} </p>
+                                                            <p className='text-[#9E9E9E] '>{`${calculateGasUsagePercentage(
+                                                                transactionDetails?.gasDetails.gasUsed || "",
+                                                                transactionDetails?.gasDetails.gasLimit || ""
+                                                            )}`}
+                                                            </p>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                                <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
+                                                    <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Gas Limit</p>
+                                                    <div className='flex flex-row gap-[8px] font-medium'>
+
+
+                                                        {/* @ts-ignore  */}
+                                                        <p className='text-[#1F1F1F]'>{transactionDetails?.gasDetails.gasLimit}</p>
+
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div className='w-full flex flex-col gap-[4px]'>
+                                                <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Gas Price</p>
+                                                <div className='flex flex-row gap-[8px] font-medium'>
+
+
+                                                    {/* @ts-ignore  */}
+                                                    <p className='text-[#1F1F1F]'>{transactionDetails?.gasDetails.gasPrice} Gwei</p>
+
+
+                                                </div>
+                                            </div>
+
+
+                                            <div className='w-full flex flex-col gap-[4px] text-[14px]'>
+                                                <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Gas Fees</p>
+
+
+                                                <div className='flex flex-row w-full gap-[4px]'>
+
+                                                    <div className='flex flex-row text-[#9E9E9E] w-[84px] justify-between'>
+
+                                                        <p>Base </p>
+                                                        :
+
+                                                    </div>
+                                                    <p className='text-[#1F1F1F] font-medium'>{transactionDetails?.gasDetails.baseFee} Gwei</p>
+                                                </div>
+
+                                                <div className='flex flex-row w-full gap-[4px]'>
+
+                                                    <div className='flex flex-row text-[#9E9E9E] w-[84px] justify-between'>
+
+                                                        <p>Max </p>
+                                                        :
+
+                                                    </div>
+                                                    <p className='text-[#1F1F1F] font-medium'>{transactionDetails?.gasDetails.maxFeePerGas} Gwei</p>
+                                                </div>
+
+                                                <div className='flex flex-row w-full gap-[4px]'>
+
+                                                    <div className='flex flex-row text-[#9E9E9E] w-[84px] justify-between'>
+
+                                                        <p>Max Priority </p>
+                                                        :
+
+                                                    </div>
+                                                    <p className='text-[#1F1F1F] font-medium'>{transactionDetails?.gasDetails.maxPriorityFeePerGas} Gwei</p>
                                                 </div>
 
 
-                                            </div>
-                                        </div>
-                                        <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
-                                            <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Gas Limit</p>
-                                            <div className='flex flex-row gap-[8px] font-medium'>
-
-
-                                                {/* @ts-ignore  */}
-                                                <p className='text-[#1F1F1F]'>{transactionDetails?.gasDetails.gasLimit}</p>
-
 
                                             </div>
+
                                         </div>
 
                                     </div>
-
-                                    <div className='w-full flex flex-col gap-[4px]'>
-                                        <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Gas Price</p>
-                                        <div className='flex flex-row gap-[8px] font-medium'>
-
-
-                                            {/* @ts-ignore  */}
-                                            <p className='text-[#1F1F1F]'>{transactionDetails?.gasDetails.gasPrice} Gwei</p>
-
-
-                                        </div>
-                                    </div>
-
-
-                                    <div className='w-full flex flex-col gap-[4px] text-[14px]'>
-                                        <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Gas Fees</p>
-
-
-                                        <div className='flex flex-row w-full gap-[4px]'>
-
-                                            <div className='flex flex-row text-[#9E9E9E] w-[84px] justify-between'>
-
-                                                <p>Base </p>
-                                                :
-
-                                            </div>
-                                            <p className='text-[#1F1F1F] font-medium'>{transactionDetails?.gasDetails.baseFee} Gwei</p>
-                                        </div>
-
-                                        <div className='flex flex-row w-full gap-[4px]'>
-
-                                            <div className='flex flex-row text-[#9E9E9E] w-[84px] justify-between'>
-
-                                                <p>Max </p>
-                                                :
-
-                                            </div>
-                                            <p className='text-[#1F1F1F] font-medium'>{transactionDetails?.gasDetails.maxFeePerGas} Gwei</p>
-                                        </div>
-
-                                        <div className='flex flex-row w-full gap-[4px]'>
-
-                                            <div className='flex flex-row text-[#9E9E9E] w-[84px] justify-between'>
-
-                                                <p>Max Priority </p>
-                                                :
-
-                                            </div>
-                                            <p className='text-[#1F1F1F] font-medium'>{transactionDetails?.gasDetails.maxPriorityFeePerGas} Gwei</p>
-                                        </div>
-
-
-
-                                    </div>
-
                                 </div>
 
                             </div>
-                        </div>
+                        </CustomTabPanel>
+                        <CustomTabPanel value={value} index={1}>
+                            <div className='flex flex-col rounded-8px bg-white border-[#DADCE0] border-sm w-full' >
+                                <div className='w-full px-[32px] py-[30px] flex flex-row   justify-between items-center h-[72px]'>
+                                    <div className='flex flex-row gap-[8px] h-[32px] items-center'>
+                                        <img src="/images/format.svg" alt="format" />
+                                        <p className='text-black text-center text-[22px]'>Format</p>
+                                    </div>
+                                    <div className='h-[32px] max-xl:hidden'>
+                                        <ul className="grid grid-flow-col text-center text-gray-500 gap-1 bg-gray-100 rounded-lg p-1 h-[32px]">
+                                            <li className='px-0'>
+                                                <button
+                                                    onClick={() => handleTabClick(3)}
+                                                    className={`flex items-center justify-center h-full text-[14px] w-[80px] ${activeTab === 3 ? 'bg-white rounded-lg shadow text-indigo-900' : ''}`}
+                                                >
+                                                    Original
+                                                </button>
+                                            </li>
+                                            <li className='px-0'>
+                                                <button
+                                                    onClick={() => handleTabClick(2)}
+                                                    className={`flex items-center justify-center h-full text-[14px] w-[80px] ${activeTab === 2 ? 'bg-white rounded-lg shadow text-indigo-900' : ''}`}
+                                                >
+                                                    JSON
+                                                </button>
+                                            </li>
+                                            <li className='px-0'>
+                                                <button
+                                                    onClick={() => handleTabClick(1)}
+                                                    className={`flex items-center justify-center h-full text-[14px] w-[80px] ${activeTab === 1 ? 'bg-white rounded-lg shadow text-indigo-900' : ''}`}
+                                                >
+                                                    Detailed
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
 
-                    </div>
-                </CustomTabPanel>
-                <CustomTabPanel value={value} index={1}>
-                    <div className='flex flex-col rounded-8px bg-white border-[#DADCE0] border-sm w-full' >
-                        <div className='w-full px-[32px] py-[30px] flex flex-row   justify-between items-center h-[72px]'>
-                            <div className='flex flex-row gap-[8px] h-[32px] items-center'>
-                                <img src="/images/format.svg" alt="format" />
-                                <p className='text-black text-center text-[22px]'>Format</p>
+                                <div className='bg-[#F5F5F5] py-[16px] px-[32px] break-words'>
+
+                                    {activeTab === 3 && transactionDetails?.callData}
+                                </div>
+
                             </div>
-                            <div className='h-[32px] max-xl:hidden'>
-                                <ul className="grid grid-flow-col text-center text-gray-500 gap-1 bg-gray-100 rounded-lg p-1 h-[32px]">
-                                    <li className='px-0'>
-                                        <button
-                                            onClick={() => handleTabClick(3)}
-                                            className={`flex items-center justify-center h-full text-[14px] w-[80px] ${activeTab === 3 ? 'bg-white rounded-lg shadow text-indigo-900' : ''}`}
-                                        >
-                                            Original
-                                        </button>
-                                    </li>
-                                    <li className='px-0'>
-                                        <button
-                                            onClick={() => handleTabClick(2)}
-                                            className={`flex items-center justify-center h-full text-[14px] w-[80px] ${activeTab === 2 ? 'bg-white rounded-lg shadow text-indigo-900' : ''}`}
-                                        >
-                                            JSON
-                                        </button>
-                                    </li>
-                                    <li className='px-0'>
-                                        <button
-                                            onClick={() => handleTabClick(1)}
-                                            className={`flex items-center justify-center h-full text-[14px] w-[80px] ${activeTab === 1 ? 'bg-white rounded-lg shadow text-indigo-900' : ''}`}
-                                        >
-                                            Detailed
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div className='bg-[#F5F5F5] py-[16px] px-[32px] break-words'>
-
-                            {activeTab === 3 && transactionDetails?.callData}
-                        </div>
-
-                    </div>
-                </CustomTabPanel>
-                {/* <CustomTabPanel value={value} index={2}>
+                        </CustomTabPanel>
+                        {/* <CustomTabPanel value={value} index={2}>
                    logs
                 </CustomTabPanel> */}
-                <CustomTabPanel value={value} index={2}>
-                <UserOpsTable userOps={userOps} network={network}/>
-                </CustomTabPanel>
-                </div>
-            </Box>
+                        <CustomTabPanel value={value} index={2}>
+                            <UserOpsTable userOps={userOps} network={network} />
+                        </CustomTabPanel>
+                    </div>
+                </Box>
             </div>
             <ToastContainer />
             <Footer />
