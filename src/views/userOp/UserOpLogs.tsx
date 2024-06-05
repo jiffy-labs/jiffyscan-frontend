@@ -25,7 +25,8 @@ interface ItemProps {
 }
 
 interface UserOpLogsProps {
-    item: ItemProps;
+    logs: LogEntry[];
+    network:string;
 }
 
 // @ts-ignore 
@@ -64,26 +65,35 @@ const formatEventString = (eventString) => {
     );
   };
   
-const UserOpLogs: React.FC<UserOpLogsProps> = ({ item ,network}: any) => {
+const UserOpLogs: React.FC<UserOpLogsProps> = ({ logs,network }: any) => {
 
-    const [logs, setLogs] = useState<LogEntry[]>([]);
+    // const [logs, setLogs] = useState<LogEntry[]>([]);
     const [loading, setLoading] = useState(true)
 
+    // useEffect(() => {
+
+    //     const functionCall = async () => {
+    //         const data = await fetchData(item);
+    //         // setLogs(data.logs || []);
+    //         setLoading(false)
+
+    //     }
+
+    //     if (item && loading && isLoading) {
+    //         console.log("making fetch call again", loading,item,logs)
+    //         console.log(isLoading)
+    //         functionCall()
+    //     }
+
+
+    // }, [item]);
     useEffect(() => {
 
-        const functionCall = async () => {
-            const data = await fetchData(item);
-            setLogs(data.logs || []);
-            setLoading(false)
-
-        }
-
-        if (item) {
-            functionCall()
-        }
+       if(logs)
+          setLoading(false)
 
 
-    }, [item]);
+    }, [logs]);
 
     // console.log(item)
 
@@ -117,7 +127,7 @@ const UserOpLogs: React.FC<UserOpLogsProps> = ({ item ,network}: any) => {
                     </Caption>
                 </div>
                 <div className="my-4  flex flex-col gap-[2rem]">
-
+{/* @ts-ignore  */}
                     {logs.map((log, index) => (
                         <div key={index} className="bg-white shadow rounded-lg p-4">
                             <div className="flex flex-col gap-4">
@@ -129,7 +139,7 @@ const UserOpLogs: React.FC<UserOpLogsProps> = ({ item ,network}: any) => {
                                </div>
 
 
-                                    <Link href={`${NETWORK_SCANNER_MAP[item.network]}/address/${log.address}`} target='_blank'>
+                                    <Link href={`${NETWORK_SCANNER_MAP[network]}/address/${log.address}`} target='_blank'>
                                         <div className="text-[#195BDF] hover:text-indigo-800 w-full px-1 py-1 text-[16px] font-medium">{log.address}</div>
                                     </Link>
 
@@ -157,11 +167,14 @@ const UserOpLogs: React.FC<UserOpLogsProps> = ({ item ,network}: any) => {
                                             Object.entries(log.topicsDecoded).map(([key, value]) => (
                                                 <div key={key} className=" rounded px-1 py-1 flex flex-row gap-[5px] text-[16px] ">
                                                     <div className='bg-gray-100 px-[7px] py-[1px] rounded-[4px] text-[12px] w-[104px] h-[24px] text-[12px] text-center text-[#0000008A]'>{key}</div>  
+                                                   {/* @ts-ignore  */}
                                                     <div className='flex flex-row'>{value}
+                                                    {/* @ts-ignore  */}
                                                     <CopyButton text={value || ""} /></div>
                                                 </div>
                                             ))
                                         ) : (
+                                            // @ts-ignore 
                                             log.topics.map((topic, index) => (
                                                 <div key={index} className=" rounded px-2 py-1">
                                                     {index}: {topic}

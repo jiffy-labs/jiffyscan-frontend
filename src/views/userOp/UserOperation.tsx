@@ -12,6 +12,7 @@ import {
     Trace,
     UserOp,
     showToast,
+    LogEntry,fetchData
 } from '@/components/common/apiCalls/jiffyApis';
 import { NETWORK_SCANNER_MAP } from '@/components/common/constants';
 import UserOpLogs from './UserOpLogs';
@@ -126,7 +127,7 @@ function RecentUserOps(props: any) {
     const { selectedNetwork, setSelectedNetwork, addressMapping } = useConfig();
     const [isLoading, setIsLoading] = useState(true)
     const { section } = router.query;
-
+    const [logs, setLogs] = useState<LogEntry[]>([]);
     const hash = props.slug && props.slug[0];
     const network = router.query && router.query.network;
     const [selectedColor, setSelectedColor] = useState(BUTTON_LIST[0].key);
@@ -179,7 +180,7 @@ function RecentUserOps(props: any) {
                 </div>
 
                 <div className={`${activeTab === 'logs' ? 'block' : 'hidden'}`}>
-                    <UserOpLogs item={userOpsData?.[showUserOpId]} />
+                    {/* <UserOpLogs logs={logs} /> */}
                 </div>
             </div>
         );
@@ -210,7 +211,11 @@ function RecentUserOps(props: any) {
         const pollUserOpData = async () => {
             let userOps = await returnUserOpData(name, toast);
             setuserOpsData(userOps); // Update the UI with the latest data
-
+            if(logs.length === 0)
+            {const data = await fetchData(userOps?.[showUserOpId]);
+            setLogs(data.logs || []);    
+            console.log("logs fetch",data.logs)
+            }
             // Create and set the rows for the table
             let rows = createDuplicateUserOpsRows(userOps, handleDuplicateRowClick);
             setDuplicateUserOpsRows(rows);
@@ -275,6 +280,7 @@ function RecentUserOps(props: any) {
     useEffect(() => {
         if (showUserOpId >= 0 && userOpsData.length > showUserOpId) {
             fetchUserOpMetadata(userOpsData[showUserOpId].userOpHash, userOpsData[showUserOpId].network);
+          
         }
     }, [userOpsData, showUserOpId]);
 
@@ -616,7 +622,8 @@ function RecentUserOps(props: any) {
                     />
                                 </CustomTabPanel>
                                 <CustomTabPanel value={value} index={2} >
-                                <UserOpLogs item={userOpsData?.[showUserOpId]} />
+                                    {/* @ts-ignore  */}
+                                <UserOpLogs logs={logs}  network={network}/>
                                 </CustomTabPanel>
                                 </div>
                             </Box>

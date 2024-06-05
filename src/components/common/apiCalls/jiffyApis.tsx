@@ -322,7 +322,20 @@ export interface GasDetails {
     numberOfUserOps: number;
     internalTransactions: string;
   }
-  
+  export type LogEntry = {
+    logIndex: number | null;
+    transactionHash: string;
+    transactionLogIndex: number | null;
+    topics: string[];
+    removed: boolean | null;
+    data: string;
+    address: string;
+    event_name: string;
+    eventName: string;
+    topicsDecoded: { [key: string]: string };
+    dataDecoded: { [key: string]: string | number };
+};
+
   interface UserOpData{
     hash: string;
     age: string;
