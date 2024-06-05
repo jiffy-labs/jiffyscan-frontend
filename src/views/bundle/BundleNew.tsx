@@ -191,7 +191,7 @@ function BundlerNew(props: any) {
     const [transactionDetails, setTransactionDetails] = useState<TransactionDetails | null>(null);
     const [loading, setLoading] = useState(true);
     const [userOps, setUserOps] = useState<UserOpData[]>([]);
-
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         const fetchTransactionDetails = async () => {
@@ -199,6 +199,7 @@ function BundlerNew(props: any) {
                 const data: ApiResponse = await getBundleDetailsRpc(hash, network);
                 setTransactionDetails(data.transactionDetails);
                 setUserOps(data.transactionDetails.userOps);
+                setIsLoading(false)
             } catch (error) {
                 console.error('Error fetching transaction details:', error);
             } finally {
@@ -380,24 +381,29 @@ function BundlerNew(props: any) {
                                                 <img src={NETWORK_ICON_MAP[network as string]} alt="" className="h-[20px]" />
 
                                             </div> */}
-                                                    <div className="flex items-center flex-1 gap-2 break-words font-medium">
-                                                        <img src={NETWORK_ICON_MAP[network as string]} alt="" className="h-[20px]" />
-                                                        <span className="text-[16px] leading-[24px] break-all text-[#195BDF]  max-xl:hidden">{hash}</span>
-                                                        <span className="text-[16px] leading-[24px] break-all text-[#195BDF]  xl:hidden">{formatAddress(hash)}</span>
-                                                        <CopyButton text={bundleInfo?.transactionHash || ""} />
-                                                        <button className="outline-none focus:outline-none ring-0 focus:ring-0">
-                                                            <Link
-                                                                // underline="hover"
-                                                                // color="text.primary"
-                                                                href={`${NETWORK_SCANNER_MAP[network]}/tx/${bundleInfo?.transactionHash}`}
-                                                                aria-current="page"
-                                                                className="text-blue-200"
-                                                                target="_blank"
-                                                            >
-                                                                <img src={getExplorerLogo(network)} style={{ height: '16px', width: '16px' }} alt="" />
-                                                            </Link>
-                                                        </button>
-                                                    </div>
+                                                    {!isLoading ?
+                                                        <div className="flex items-center flex-1 gap-2 break-words font-medium">
+                                                            <img src={NETWORK_ICON_MAP[network as string]} alt="" className="h-[20px]" />
+                                                            <span className="text-[16px] leading-[24px] break-all text-[#195BDF]  max-xl:hidden">{hash}</span>
+                                                            <span className="text-[16px] leading-[24px] break-all text-[#195BDF]  xl:hidden">{formatAddress(hash)}</span>
+                                                            <CopyButton text={bundleInfo?.transactionHash || ""} />
+                                                            <button className="outline-none focus:outline-none ring-0 focus:ring-0">
+                                                                <Link
+                                                                    // underline="hover"
+                                                                    // color="text.primary"
+                                                                    href={`${NETWORK_SCANNER_MAP[network]}/tx/${bundleInfo?.transactionHash}`}
+                                                                    aria-current="page"
+                                                                    className="text-blue-200"
+                                                                    target="_blank"
+                                                                >
+                                                                    <img src={getExplorerLogo(network)} style={{ height: '16px', width: '16px' }} alt="" />
+                                                                </Link>
+                                                            </button>
+                                                        </div>
+                                                        :
+                                                        <Skeleton />
+
+                                                    }
 
                                                 </div>
                                             </div>
@@ -410,220 +416,131 @@ function BundlerNew(props: any) {
                                         </div>
 
                                     </div> */}
-                                            <div className='w-full  flex xl:flex-row flex-col max-xl:gap-[24px] gap-[8px]'>
+                                            <div className='w-full flex xl:flex-row flex-col max-xl:gap-[24px] gap-[8px]'>
                                                 <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
                                                     <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Status</p>
                                                     <div className='w-[92px]'>
-                                                        <Status type={true} />
+                                                        {!isLoading ? <Status type={true} /> : <Skeleton width={92} height={24} />}
                                                     </div>
                                                 </div>
                                                 <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
                                                     <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Timestamp</p>
                                                     <div className='flex flex-row gap-[8px] font-medium'>
                                                         <img src="/images/clock2.svg" alt="timestamp" />
-                                                        <p className='text-[#1F1F1F] font-medium leading-[24px] text-[16px]'>{`${formatDistanceToNow(transactionDetails?.timestamp || "0", { addSuffix: true })} (${transactionDetails?.timestamp || "-"})`}</p>
-                                                        {/* @ts-ignore  */}
-                                                        {/* <p className='text-[#9E9E9E]'>{transactionDetails?.timestamp}</p> */}
+                                                        {!isLoading ? (
+                                                            <p className='text-[#1F1F1F] font-medium leading-[24px] text-[16px]'>
+                                                                {`${formatDistanceToNow(new Date(transactionDetails?.timestamp || 0), { addSuffix: true })} (${transactionDetails?.timestamp || "-"})`}
+                                                            </p>
+                                                        ) : (
+                                                            <Skeleton width={150} height={24} />
+                                                        )}
                                                     </div>
                                                 </div>
-
                                             </div>
+
                                             <div className='w-full flex gap-[8px] xl:flex-row flex-col max-xl:gap-[24px]'>
                                                 <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
                                                     <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>From</p>
                                                     <div className='flex flex-row gap-[8px] font-medium'>
-                                                        <img src="/images/from.svg" alt="timestamp" />
-
-                                                        {/* @ts-ignore  */}
-                                                        <p className=' text-[#195BDF]'>{formatAddress(transactionDetails?.from)}</p>
-                                                        <CopyButton text={transactionDetails?.from || ""} />
-                                                        <Link href={`https://jiffyscan.xyz/account/${transactionDetails?.from}?network=${network}`} target="_blank">
-                                                            <img src="/images/link.svg" alt="link" />
-                                                        </Link>
+                                                        <img src="/images/from.svg" alt="from" />
+                                                        {!isLoading ? (
+                                                            <>
+                                                                <p className='text-[#195BDF]'>{formatAddress(transactionDetails?.from || "")}</p>
+                                                                <CopyButton text={transactionDetails?.from || ""} />
+                                                                <Link href={`https://jiffyscan.xyz/account/${transactionDetails?.from}?network=${network}`} target="_blank">
+                                                                    <img src="/images/link.svg" alt="link" />
+                                                                </Link>
+                                                            </>
+                                                        ) : (
+                                                            <Skeleton width={200} height={24} />
+                                                        )}
                                                     </div>
                                                 </div>
                                                 <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
                                                     <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>To</p>
                                                     <div className='flex flex-row gap-[8px] font-medium'>
-                                                        <img src="/images/to.svg" alt="timestamp" />
-
-                                                        {/* @ts-ignore  */}
-                                                        <p className='text-[#195BDF]'>{formatAddress(transactionDetails?.to)}</p>
-                                                        <CopyButton text={transactionDetails?.to || ""} />
-                                                        <Link href={`https://jiffyscan.xyz/account/${transactionDetails?.from}?network=${network}`} target="_blank">
-                                                            <img src="/images/link.svg" alt="link" />
-                                                        </Link>
-
+                                                        <img src="/images/to.svg" alt="to" />
+                                                        {!isLoading ? (
+                                                            <>
+                                                                <p className='text-[#195BDF]'>{formatAddress(transactionDetails?.to || "")}</p>
+                                                                <CopyButton text={transactionDetails?.to || ""} />
+                                                                <Link href={`https://jiffyscan.xyz/account/${transactionDetails?.to}?network=${network}`} target="_blank">
+                                                                    <img src="/images/link.svg" alt="link" />
+                                                                </Link>
+                                                            </>
+                                                        ) : (
+                                                            <Skeleton width={200} height={24} />
+                                                        )}
                                                     </div>
                                                 </div>
-
                                             </div>
 
                                             <div className='w-full xl:flex-row flex-col max-xl:gap-[24px] flex gap-[8px]'>
                                                 <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
                                                     <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Block Number</p>
                                                     <div className='flex flex-row gap-[8px] font-medium'>
-                                                        <img src="/images/blocknum.svg" alt="timestamp" />
-
-                                                        {/* @ts-ignore  */}
-                                                        <p className=' text-[#1F1F1F]'>{transactionDetails?.blockNumber}</p>
-                                                        <CopyButton text={transactionDetails?.blockNumber.toString() || ""} />
-
+                                                        <img src="/images/blocknum.svg" alt="block number" />
+                                                        {!isLoading ? (
+                                                            <>
+                                                                <p className='text-[#1F1F1F]'>{transactionDetails?.blockNumber}</p>
+                                                                <CopyButton text={transactionDetails?.blockNumber.toString() || ""} />
+                                                            </>
+                                                        ) : (
+                                                            <Skeleton width={100} height={24} />
+                                                        )}
                                                     </div>
                                                 </div>
                                                 <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
                                                     <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Number of UserOps</p>
                                                     <div className='flex flex-row gap-[8px] font-medium'>
-                                                        <img src="/images/count.svg" alt="timestamp" />
-
-                                                        {/* @ts-ignore  */}
-                                                        <p className='text-[#1F1F1F]'>{transactionDetails?.logsDetails.numberOfUserOps}</p>
-
-
+                                                        <img src="/images/count.svg" alt="number of userOps" />
+                                                        {!isLoading ? (
+                                                            <p className='text-[#1F1F1F]'>{transactionDetails?.logsDetails.numberOfUserOps}</p>
+                                                        ) : (
+                                                            <Skeleton width={50} height={24} />
+                                                        )}
                                                     </div>
                                                 </div>
-
                                             </div>
+
                                             <div className='w-full flex flex-col gap-[4px]'>
                                                 <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Transaction Fee</p>
                                                 <div className='flex flex-row gap-[8px] font-medium'>
-                                                    <img src="/images/dollar.svg" alt="timestamp" />
-
-                                                    {/* @ts-ignore  */}
-                                                    <p className='text-[#1F1F1F]'>{transactionDetails?.trxFee} ETH</p>
-
-
+                                                    <img src="/images/dollar.svg" alt="transaction fee" />
+                                                    {!isLoading ? (
+                                                        <p className='text-[#1F1F1F]'>{transactionDetails?.trxFee} ETH</p>
+                                                    ) : (
+                                                        <Skeleton width={100} height={24} />
+                                                    )}
                                                 </div>
                                             </div>
+
                                             <div className='w-full xl:flex-row flex-col max-xl:gap-[24px] flex gap-[8px]'>
                                                 <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
                                                     <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Revenue Earned</p>
                                                     <div className='flex flex-row gap-[8px] font-medium'>
-
-
-                                                        {/* @ts-ignore  */}
-                                                        <p className=' text-[#1F1F1F]'>{transactionDetails?.revenue} ETH</p>
-
-
+                                                        {!isLoading ? (
+                                                            <p className='text-[#1F1F1F]'>{transactionDetails?.revenue} ETH</p>
+                                                        ) : (
+                                                            <Skeleton width={100} height={24} />
+                                                        )}
                                                     </div>
                                                 </div>
                                                 <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
                                                     <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Profit Earned</p>
                                                     <div className='flex flex-row gap-[8px] font-medium'>
-                                                        {/* @ts-ignore */}
-                                                        <p className='text-[#1F1F1F]'>
-                                                            {transactionDetails?.profit} ETH
-                                                            ({transactionDetails?.revenue ?
-                                                                `${(parseFloat(transactionDetails.profit || '0') >= 0 ? '+ ' : '- ')}${Math.abs((parseFloat(transactionDetails.profit || '0') / parseFloat(transactionDetails.revenue || '0')) * 100).toFixed(2)}`
-                                                                : '0.00'}%)
-                                                        </p>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <div className='flex flex-row gap-[16px] px-[20px] xl:px-[32px] py-[20px]'>
-                                        <img src="/images/gas.svg" className='w-[24px]' />
-                                        <p className='text-[22px] font-medium self-center'>
-                                            Gas Details
-
-                                        </p>
-                                    </div>
-                                    <div className='px-[24px] xl:px-[72px]'>
-                                        <div className='w-full flex flex-col gap-[24px]'>
-
-
-
-                                            <div className='w-full xl:flex-row flex-col max-xl:gap-[24px] flex gap-[8px]'>
-                                                <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
-                                                    <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Gas Used</p>
-                                                    <div className='flex flex-row gap-[8px]'>
-
-
-                                                        {/* @ts-ignore  */}
-                                                        <div className='flex flex-row gap-[4px]'>
-                                                            <p className=' text-[#1F1F1F]  font-medium'>{transactionDetails?.gasDetails.gasUsed} </p>
-                                                            <p className='text-[#9E9E9E] '>{`${calculateGasUsagePercentage(
-                                                                transactionDetails?.gasDetails.gasUsed || "",
-                                                                transactionDetails?.gasDetails.gasLimit || ""
-                                                            )}`}
+                                                        {!isLoading ? (
+                                                            <p className='text-[#1F1F1F]'>
+                                                                {transactionDetails?.profit} ETH
+                                                                ({transactionDetails?.revenue ?
+                                                                    `${(parseFloat(transactionDetails.profit || '0') >= 0 ? '+ ' : '- ')}${Math.abs((parseFloat(transactionDetails.profit || '0') / parseFloat(transactionDetails.revenue || '0')) * 100).toFixed(2)}`
+                                                                    : '0.00'}%)
                                                             </p>
-                                                        </div>
-
-
+                                                        ) : (
+                                                            <Skeleton width={150} height={24} />
+                                                        )}
                                                     </div>
                                                 </div>
-                                                <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
-                                                    <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Gas Limit</p>
-                                                    <div className='flex flex-row gap-[8px] font-medium'>
-
-
-                                                        {/* @ts-ignore  */}
-                                                        <p className='text-[#1F1F1F]'>{transactionDetails?.gasDetails.gasLimit}</p>
-
-
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                            <div className='w-full flex flex-col gap-[4px]'>
-                                                <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Gas Price</p>
-                                                <div className='flex flex-row gap-[8px] font-medium'>
-
-
-                                                    {/* @ts-ignore  */}
-                                                    <p className='text-[#1F1F1F]'>{transactionDetails?.gasDetails.gasPrice} Gwei</p>
-
-
-                                                </div>
-                                            </div>
-
-
-                                            <div className='w-full flex flex-col gap-[4px] text-[14px]'>
-                                                <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Gas Fees</p>
-
-
-                                                <div className='flex flex-row w-full gap-[4px]'>
-
-                                                    <div className='flex flex-row text-[#9E9E9E] w-[84px] justify-between'>
-
-                                                        <p>Base </p>
-                                                        :
-
-                                                    </div>
-                                                    <p className='text-[#1F1F1F] font-medium'>{transactionDetails?.gasDetails.baseFee} Gwei</p>
-                                                </div>
-
-                                                <div className='flex flex-row w-full gap-[4px]'>
-
-                                                    <div className='flex flex-row text-[#9E9E9E] w-[84px] justify-between'>
-
-                                                        <p>Max </p>
-                                                        :
-
-                                                    </div>
-                                                    <p className='text-[#1F1F1F] font-medium'>{transactionDetails?.gasDetails.maxFeePerGas} Gwei</p>
-                                                </div>
-
-                                                <div className='flex flex-row w-full gap-[4px]'>
-
-                                                    <div className='flex flex-row text-[#9E9E9E] w-[84px] justify-between'>
-
-                                                        <p>Max Priority </p>
-                                                        :
-
-                                                    </div>
-                                                    <p className='text-[#1F1F1F] font-medium'>{transactionDetails?.gasDetails.maxPriorityFeePerGas} Gwei</p>
-                                                </div>
-
-
-
                                             </div>
 
                                         </div>
