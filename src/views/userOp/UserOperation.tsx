@@ -472,7 +472,6 @@ function RecentUserOps(props: any) {
                                                                 <div className='flex flex-row gap-[8px] font-medium'>
                                                                     <img src="/images/clock2.svg" alt="timestamp" className='w-[24px]' />
                                                                     {!isLoading ? (
-                                                                        // @ts-ignore 
                                                                         <p className='text-[#1F1F1F] font-medium leading-[24px] text-[16px]'>
                                                                             {userOpsData?.[showUserOpId]?.blockTime
                                                                                 ? formatDistanceToNow(new Date((userOpsData[showUserOpId].blockTime ?? 0) * 1000), { addSuffix: true })
