@@ -3,7 +3,7 @@ import Navbar from '@/components/global/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
 import { getBundleDetails, UserOp, AccountDetail, Bundle, getBundleDetailsRpc } from '@/components/common/apiCalls/jiffyApis';
 import { Breadcrumbs, Link } from '@mui/material';
-import { formatDistanceToNow } from 'date-fns';
+import { formatDistanceToNow,format } from 'date-fns';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
 import { ethers } from 'ethers';
@@ -429,7 +429,7 @@ function BundlerNew(props: any) {
                                                         <img src="/images/clock2.svg" alt="timestamp" className='w-[24px]'/>
                                                         {!isLoading ? (
                                                             <p className='text-[#1F1F1F] font-medium leading-[24px] text-[16px]'>
-                                                                {`${formatDistanceToNow(new Date(transactionDetails?.timestamp || 0), { addSuffix: true })} (${transactionDetails?.timestamp || "-"})`}
+                                                                {`${formatDistanceToNow(new Date(transactionDetails?.timestamp || 0), { addSuffix: true })} (${format(transactionDetails?.timestamp ?? 0,'dd MMM yyyy, HH:mm:ss') || "-"})`}
                                                             </p>
                                                         ) : (
                                                             <Skeleton width={150} height={24} />

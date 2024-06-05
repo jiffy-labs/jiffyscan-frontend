@@ -3,7 +3,7 @@ import Navbar from '@/components/global/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
 import { Box, Tab, Tabs, Typography } from '@mui/material';
 import Status from '@/components/common/status/Status';
-import { formatDistanceToNow } from 'date-fns';
+import { formatDistanceToNow ,format} from 'date-fns';
 import {
     getPoweredBy,
     getUserOp,
@@ -473,9 +473,9 @@ function RecentUserOps(props: any) {
                                                                     <img src="/images/clock2.svg" alt="timestamp" className='w-[24px]' />
                                                                     {!isLoading ? (
                                                                         <p className='text-[#1F1F1F] font-medium leading-[24px] text-[16px]'>
-                                                                            {userOpsData?.[showUserOpId]?.blockTime
-                                                                                ? formatDistanceToNow(new Date((userOpsData[showUserOpId].blockTime ?? 0) * 1000), { addSuffix: true })
-                                                                                : " "}
+                                                                          {userOpsData?.[showUserOpId]?.blockTime
+    ? `${formatDistanceToNow(new Date((userOpsData[showUserOpId].blockTime ?? 0) * 1000), { addSuffix: true })} (${format(new Date((userOpsData[showUserOpId].blockTime ?? 0) * 1000), 'dd MMM yyyy, HH:mm:ss')})`
+    : " "}
                                                                         </p>
                                                                     ) : (
                                                                         <Skeleton width={150} height={24} />
@@ -590,7 +590,7 @@ function RecentUserOps(props: any) {
                                                                 <img src="/images/dollar.svg" alt="value" className='w-[24px]' />
                                                                 {!isLoading ? (
                                                                     // @ts-ignore 
-                                                                    <p className='text-[#1F1F1F]'>{userOpsData?.[showUserOpId]?.value}{` WEI`}</p>
+                                                                    <p className='text-[#1F1F1F]'>{userOpsData?.[showUserOpId]?.value || "0"}{` WEI`}</p>
                                                                 ) : (
                                                                     <Skeleton width={100} height={24} />
                                                                 )}
