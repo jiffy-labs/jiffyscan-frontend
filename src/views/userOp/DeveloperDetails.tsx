@@ -81,7 +81,7 @@ const getFormat = (callData: string) => {
             <section className="mt-[15px] px-3 mb-10">
                 <div className="container px-0">
                     <div>
-                        <Caption icon={'/images/cube.svg'} text={''}>
+                        <Caption icon={'/images/cube.svg'} text={''} >
                             Developer Details
                         </Caption>
                     </div>
