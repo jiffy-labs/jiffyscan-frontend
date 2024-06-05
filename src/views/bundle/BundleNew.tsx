@@ -14,6 +14,7 @@ import CopyButton from '@/components/common/copy_button/CopyButton';
 import Table, { tableDataT } from '@/components/common/table/Table';
 import Pagination from '@/components/common/table/Pagination';
 import TransactionDetails from './TransactionDetails';
+import UserOpsTable from './UserOpTable';
 import HeaderSection from './HeaderSection';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -43,7 +44,7 @@ function CustomTabPanel(props: TabPanelProps) {
             id={`simple-tabpanel-${index}`}
             aria-labelledby={`simple-tab-${index}`}
             {...other}
-            className='xl:pl-[240px] xl:pr-[240px]'
+            className='xl:pl-[0px] xl:pr-[0px]  min-[1600px]:pl-[0px]  min-[1600px]:pr-[0px]'
         >
             {value === index && (
                 <Box sx={{ p: 3 }}>
@@ -126,7 +127,15 @@ interface LogsDetails {
     numberOfUserOps: number;
     internalTransactions: string;
 }
-
+interface UserOpData{
+    hash: string;
+    age: string;
+    sender: string;
+    target: string;
+    fee: string;
+    success: boolean;
+    actualGasUsed: number;
+  }
 interface TransactionDetails {
     txHash: string;
     timestamp: string;
@@ -139,6 +148,7 @@ interface TransactionDetails {
     revenue: string;
     profit: string;
     logsDetails: LogsDetails;
+    userOps: UserOpData[]
 }
 
 interface ApiResponse {
@@ -178,12 +188,15 @@ function BundlerNew(props: any) {
     const [value, setValue] = React.useState(0);
     const [transactionDetails, setTransactionDetails] = useState<TransactionDetails | null>(null);
     const [loading, setLoading] = useState(true);
+    const [userOps, setUserOps] = useState<UserOpData[]>([]);
+   
 
     useEffect(() => {
         const fetchTransactionDetails = async () => {
             try {
                 const data: ApiResponse = await getBundleDetailsRpc(hash, network);
                 setTransactionDetails(data.transactionDetails);
+                setUserOps(data.transactionDetails.userOps);
             } catch (error) {
                 console.error('Error fetching transaction details:', error);
             } finally {
@@ -272,7 +285,7 @@ function BundlerNew(props: any) {
         const percentage = (gasUsedNum / gasLimitNum) * 100;
         return `(${percentage.toFixed(2)}%)`;
     };
-    const [activeTab, setActiveTab] = useState<number>(1);
+    const [activeTab, setActiveTab] = useState<number>(3);
 
     const handleTabClick = (tabIndex: number) => {
         setActiveTab(tabIndex);
@@ -280,7 +293,7 @@ function BundlerNew(props: any) {
     return (
         <div className="">
             <Navbar searchbar />
-            <section className="px-3 py-10 xl:pl-[240px]">
+            <section className="px-3 py-10 ">
                 <div className="container px-0">
                     <div className="flex flex-row">
                         <Link href="/" className="text-gray-500">
@@ -335,16 +348,18 @@ function BundlerNew(props: any) {
                     }}
                 />
             </div> */}
-            <Box sx={{ width: '100%' }}>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" className='xl:pl-[270px]'>
+            <div className='w-full flex flex-col'>
+            <Box sx={{  }}>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider' }} >
+                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" className=' container xl:px-[5rem] min-[1450px]:px-[0rem]' >
                         <Tab label="Bundle Overview" {...a11yProps(0)} />
                         <Tab label="CallData" {...a11yProps(1)} />
-                        <Tab label="logs" {...a11yProps(2)} />
-                        <Tab label="UserOps" {...a11yProps(3)} />
+                        {/* <Tab label="logs" {...a11yProps(2)} /> */}
+                        <Tab label="UserOps" {...a11yProps(2)} />
                     </Tabs>
                 </Box>
-                <CustomTabPanel value={value} index={0} >
+                <div className='container xl:px-[5rem] min-[1450px]:px-[0rem]'>
+                <CustomTabPanel value={value} index={0}  >
                     <div className='xl:w-[840px] flex flex-col gap-[40px]'>
                         <div>
                             <div className='flex flex-row gap-[16px] px-[20px] xl:px-[32px] py-[20px]'>
@@ -420,7 +435,7 @@ function BundlerNew(props: any) {
                                                 {/* @ts-ignore  */}
                                                 <p className=' text-[#195BDF]'>{formatAddress(transactionDetails?.from)}</p>
                                                 <CopyButton text={transactionDetails?.from || ""} />
-                                                <Link href={`https://etherscan.io/address/${transactionDetails?.from}`} target="_blank">
+                                                <Link href={`https://jiffyscan.xyz/account/${transactionDetails?.from}?network=${network}`} target="_blank">
                                                     <img src="/images/link.svg" alt="link" />
                                                 </Link>
                                             </div>
@@ -433,7 +448,7 @@ function BundlerNew(props: any) {
                                                 {/* @ts-ignore  */}
                                                 <p className='text-[#195BDF]'>{formatAddress(transactionDetails?.to)}</p>
                                                 <CopyButton text={transactionDetails?.to || ""} />
-                                                <Link href={`https://etherscan.io/address/${transactionDetails?.to}`} target="_blank">
+                                                <Link href={`https://jiffyscan.xyz/account/${transactionDetails?.from}?network=${network}`} target="_blank">
                                                     <img src="/images/link.svg" alt="link" />
                                                 </Link>
 
@@ -626,10 +641,10 @@ function BundlerNew(props: any) {
                                 <ul className="grid grid-flow-col text-center text-gray-500 gap-1 bg-gray-100 rounded-lg p-1 h-[32px]">
                                     <li className='px-0'>
                                         <button
-                                            onClick={() => handleTabClick(1)}
-                                            className={`flex items-center justify-center h-full text-[14px] w-[80px] ${activeTab === 1 ? 'bg-white rounded-lg shadow text-indigo-900' : ''}`}
+                                            onClick={() => handleTabClick(3)}
+                                            className={`flex items-center justify-center h-full text-[14px] w-[80px] ${activeTab === 3 ? 'bg-white rounded-lg shadow text-indigo-900' : ''}`}
                                         >
-                                            Detailed
+                                            Original
                                         </button>
                                     </li>
                                     <li className='px-0'>
@@ -642,10 +657,10 @@ function BundlerNew(props: any) {
                                     </li>
                                     <li className='px-0'>
                                         <button
-                                            onClick={() => handleTabClick(3)}
-                                            className={`flex items-center justify-center h-full text-[14px] w-[80px] ${activeTab === 3 ? 'bg-white rounded-lg shadow text-indigo-900' : ''}`}
+                                            onClick={() => handleTabClick(1)}
+                                            className={`flex items-center justify-center h-full text-[14px] w-[80px] ${activeTab === 1 ? 'bg-white rounded-lg shadow text-indigo-900' : ''}`}
                                         >
-                                            Original
+                                            Detailed
                                         </button>
                                     </li>
                                 </ul>
@@ -659,14 +674,15 @@ function BundlerNew(props: any) {
 
                     </div>
                 </CustomTabPanel>
-                <CustomTabPanel value={value} index={2}>
+                {/* <CustomTabPanel value={value} index={2}>
                    logs
+                </CustomTabPanel> */}
+                <CustomTabPanel value={value} index={2}>
+                <UserOpsTable userOps={userOps} network={network}/>
                 </CustomTabPanel>
-                <CustomTabPanel value={value} index={3}>
-                   UserOps
-                </CustomTabPanel>
+                </div>
             </Box>
-
+            </div>
             <ToastContainer />
             <Footer />
         </div>

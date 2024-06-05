@@ -323,7 +323,16 @@ export interface GasDetails {
     internalTransactions: string;
   }
   
-  export interface TransactionDetails {
+  interface UserOpData{
+    hash: string;
+    age: string;
+    sender: string;
+    target: string;
+    fee: string;
+    success: boolean;
+    actualGasUsed: number;
+  }
+interface TransactionDetails {
     txHash: string;
     timestamp: string;
     from: string;
@@ -335,8 +344,8 @@ export interface GasDetails {
     revenue: string;
     profit: string;
     logsDetails: LogsDetails;
-  }
-  
+    userOps: UserOpData[]
+}
   export interface ApiResponse {
     transactionDetails: TransactionDetails;
     responseTime: number;

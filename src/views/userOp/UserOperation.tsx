@@ -101,7 +101,7 @@ function CustomTabPanel(props: TabPanelProps) {
             id={`simple-tabpanel-${index}`}
             aria-labelledby={`simple-tab-${index}`}
             {...other}
-            className='xl:pl-[240px] xl:pr-[240px]'
+            className='xl:pl-[0px] xl:pr-[0px]'
         >
             {value === index && (
                 <Box sx={{ p: 3 }}>
@@ -299,7 +299,7 @@ function RecentUserOps(props: any) {
     return (
         <div className="">
             <Navbar searchbar />
-            <section className="px-3 py-10 xl:pl-[230px]">
+            <section className="px-3 py-10">
                 <div className="container">
                     <div className="flex flex-row">
                         <Link href="/" className="text-gray-500">
@@ -334,7 +334,7 @@ function RecentUserOps(props: any) {
                     </div>
                 </div>
             </section>
-            <div>
+            <div >
                 {/* {!(isLoggedIn() || (selectedNetwork && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(selectedNetwork))) && (
                     <LoginModal showClose={false} block={block} setBlock={setBlock}></LoginModal>
                 )} */}
@@ -378,9 +378,9 @@ function RecentUserOps(props: any) {
                                 </div>
                             </div> */}
 
-                            <Box sx={{ width: '100%' }}>
+                            <Box sx={{ width: '100%'  }}>
                                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" className='xl:pl-[270px]'>
+                                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" className=' container xl:px-[5rem] min-[1450px]:px-[0rem]'>
                                         <Tab label="UserOp Overview" {...a11yProps(0)} />
                                      
                                         <Tab label="Developer Details" {...a11yProps(1)} />
@@ -388,6 +388,7 @@ function RecentUserOps(props: any) {
                                            {/* <Tab label="CallData" {...a11yProps(4)} /> */}
                                     </Tabs>
                                 </Box>
+                                <div className='container xl:px-[5rem] min-[1450px]:px-[0rem]'>
                                 <CustomTabPanel value={value} index={0} >
                                     <div className='xl:w-[840px] flex flex-col gap-[40px]'>
                                         <div>
@@ -614,7 +615,7 @@ function RecentUserOps(props: any) {
                                 <CustomTabPanel value={value} index={2} >
                                 <UserOpLogs item={userOpsData?.[showUserOpId]} />
                                 </CustomTabPanel>
-
+                                </div>
                             </Box>
                         </>
                     ) : (
