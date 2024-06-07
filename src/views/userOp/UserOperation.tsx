@@ -469,7 +469,7 @@ function RecentUserOps(props: any) {
                                                                     >
                                                                         {/* @ts-ignore  */}
                                                                         <Status type={userOpsData?.[showUserOpId]?.success} status={userOpsData?.[showUserOpId]?.success ?
-                                                                            "success" :
+                                                                            "successuserop" :
                                                                             userOpsData?.[showUserOpId]?.status} />
                                                                     </Tooltip>
                                                                     ) : (
