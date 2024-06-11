@@ -24,6 +24,12 @@ export const NETWORK_LIST = [
         iconPathInverted: '/images/base-logo.svg',
     },
     {
+        name: 'Vanar Mainnet',
+        key: 'vanar-mainnet',
+        iconPath: '/images/vanarlogo.svg',
+        iconPathInverted: '/images/vanarlogo.svg',
+    },
+    {
         name: 'Vanar Testnet',
         key: 'vanar-testnet',
         iconPath: '/images/vanarlogo.svg',
@@ -193,6 +199,7 @@ export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
     'polygon-amoy': '/images/polygon-mumbai-icon.svg',
     'cyber-mainnet': '/images/cyber-logo.svg',
     'vanar-testnet': '/images/vanarlogo.svg',
+    'vanar-mainnet': '/images/vanarlogo.svg',
     testnet: '/images/vanar-testnet',
 };
 
@@ -223,6 +230,7 @@ export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
     'polygon-amoy': 'https://www.oklink.com/amoy',
     'cyber-mainnet': 'https://cyber-explorer.alt.technology',
     'vanar-testnet': 'https://explorer-vanguard.vanarchain.com',
+    'vanar-mainnet': 'https://explorer.vanarchain.com',
     testnet: 'https://explorer-vanguard.vanarchain.com',
 };
 
