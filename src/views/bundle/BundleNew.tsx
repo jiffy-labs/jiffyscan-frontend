@@ -296,7 +296,7 @@ function BundlerNew(props: any) {
     return (
         <div className="">
             <Navbar searchbar />
-            <section className="px-3 py-10 ">
+            <section className="px-3 py-[24px] ">
                 <div className="container px-0">
                     <div className="flex flex-row">
                         <Link href="/" className="text-gray-500">
@@ -352,13 +352,13 @@ function BundlerNew(props: any) {
                 />
             </div> */}
             <div className='w-full flex flex-col'>
-                <Box sx={{}}>
+                <Box sx={{paddingBottom: "80px"}}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }} >
                         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" className=' container xl:px-[5rem] min-[1450px]:px-[0rem]' >
-                            <Tab label="Bundle Overview" {...a11yProps(0)} />
-                            <Tab label="CallData" {...a11yProps(1)} />
+                            <Tab label="Bundle Overview" className='normal-case text-[22px]' {...a11yProps(0)} />
+                            <Tab label="CallData"  className='normal-case text-[22px]' {...a11yProps(1)} />
                             {/* <Tab label="logs" {...a11yProps(2)} /> */}
-                            <Tab label="UserOps" {...a11yProps(2)} />
+                            <Tab label="UserOps"  className='normal-case text-[22px]' {...a11yProps(2)} />
                         </Tabs>
                     </Box>
                     <div className='container xl:px-[5rem] min-[1450px]:px-[0rem]'>
@@ -428,9 +428,12 @@ function BundlerNew(props: any) {
                                                     <div className='flex flex-row gap-[8px] font-medium'>
                                                         <img src="/images/clock2.svg" alt="timestamp" className='w-[24px]' />
                                                         {!isLoading ? (
-                                                            <p className='text-[#1F1F1F] font-medium leading-[24px] text-[16px]'>
-                                                                {`${formatDistanceToNow(new Date(transactionDetails?.timestamp || 0), { addSuffix: true })} (${format(transactionDetails?.timestamp ?? 0, 'dd MMM yyyy, HH:mm:ss') || "-"})`}
-                                                            </p>
+                                                           <span>
+                                                           {`${formatDistanceToNow(new Date(transactionDetails?.timestamp || 0), { addSuffix: true })} `}
+                                                           <span className="text-[#9E9E9E]">{`(`}{format(transactionDetails?.timestamp ?? 0, 'dd MMM yyyy, HH:mm:ss') || "-"}   {`)`}</span>
+                                                        
+                                                         </span>
+                                                         
                                                         ) : (
                                                             <Skeleton width={150} height={24} />
                                                         )}
@@ -446,7 +449,7 @@ function BundlerNew(props: any) {
                                                         {!isLoading ? (
                                                             <>
                                                                 <p className='text-[#195BDF]'>{formatAddress(transactionDetails?.from || "")}</p>
-                                                                <CopyButton text={transactionDetails?.from || ""} />
+                                                                <CopyButton text={transactionDetails?.from || ""}  />
                                                                 <Link href={`https://jiffyscan.xyz/account/${transactionDetails?.from}?network=${network}`} target="_blank">
                                                                     <img src="/images/link.svg" alt="link" className='w-[24px]' />
                                                                 </Link>
@@ -534,7 +537,7 @@ function BundlerNew(props: any) {
                                                                 {transactionDetails?.profit} ETH
                                                                 <p className='text-[#9E9E9E]'>
                                                                 ({transactionDetails?.revenue ?
-                                                                    `${(parseFloat(transactionDetails.profit || '0') >= 0 ? '+ ' : '- ')}${Math.abs((parseFloat(transactionDetails.profit || '0') / parseFloat(transactionDetails.revenue || '0')) * 100).toFixed(2)}`
+                                                                    `${(parseFloat(transactionDetails.profit || '0') >= 0 ? '+' : '- ')}${Math.abs((parseFloat(transactionDetails.profit || '0') / parseFloat(transactionDetails.revenue || '0')) * 100).toFixed(2)}`
                                                                     : '0.00'}%)
                                                                     </p>
                                                             </div>
@@ -551,7 +554,7 @@ function BundlerNew(props: any) {
                                     </div>
                                 </div>
 
-                                <div>
+                                <div className=''>
                                     <div className='flex flex-row gap-[16px] px-[20px] xl:px-[32px] py-[20px]'>
                                         <img src="/images/gas.svg" className='w-[24px]' />
                                         <p className='text-[22px] font-medium self-center'>Gas Details</p>

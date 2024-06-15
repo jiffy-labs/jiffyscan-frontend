@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Tab, Tabs, Typography } from '@mui/material';
 import Status from '@/components/common/status/Status';
 import { formatDistanceToNow ,format} from 'date-fns';
+import { Tooltip } from '@mui/material';
 import {
     getPoweredBy,
     getUserOp,
@@ -307,7 +308,7 @@ function RecentUserOps(props: any) {
     return (
         <div className="">
             <Navbar searchbar />
-            <section className="px-3 py-10">
+            <section className="px-3 py-[24px]">
                 <div className="container">
                     <div className="flex flex-row">
                         <Link href="/" className="text-gray-500">
@@ -386,14 +387,14 @@ function RecentUserOps(props: any) {
                                 </div>
                             </div> */}
 
-                            <Box sx={{ width: '100%' }}>
+                            <Box sx={{ width: '100%', paddingBottom: "80px" }}>
                                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" className=' container xl:px-[5rem] min-[1450px]:px-[0rem]'>
-                                        <Tab label="UserOp Overview" {...a11yProps(0)} />
+                                        <Tab label="UserOp Overview" className='normal-case text-[22px]' {...a11yProps(0)} />
 
-                                        <Tab label="Developer Details" {...a11yProps(1)} />
-                                        <Tab label="UserOp Logs" {...a11yProps(2)} />
-                                        {/* <Tab label="CallData" {...a11yProps(4)} /> */}
+                                        <Tab label="Developer Details"  className='normal-case text-[22px]' {...a11yProps(1)} />
+                                        <Tab label="UserOp Logs" className='normal-case text-[22px]' {...a11yProps(2)} />
+                                        {/* <Tab label="CallData" className='normal-case text-[22px]' {...a11yProps(4)} /> */}
                                     </Tabs>
                                 </Box>
                                 <div className='container xl:px-[5rem] min-[1450px]:px-[0rem]'>
@@ -461,7 +462,16 @@ function RecentUserOps(props: any) {
                                                                 <div className='w-[92px]'>
                                                                     {!isLoading ? (
                                                                         // @ts-ignore
-                                                                        <Status type={userOpsData?.[showUserOpId]?.success} />
+                                                                        <Tooltip
+                                                                        arrow={true}
+                                                                        placement="top"
+                                                                        title={`A Status code indicating if the top level call is succeeded or failed(applicable for Post BYZANTIUM blocks only)`}
+                                                                    >
+                                                                        {/* @ts-ignore  */}
+                                                                        <Status type={userOpsData?.[showUserOpId]?.success} status={userOpsData?.[showUserOpId]?.success ?
+                                                                            "successuserop" :
+                                                                            userOpsData?.[showUserOpId]?.status} />
+                                                                    </Tooltip>
                                                                     ) : (
                                                                         <Skeleton width={92} height={24} />
                                                                     )}
@@ -472,11 +482,21 @@ function RecentUserOps(props: any) {
                                                                 <div className='flex flex-row gap-[8px] font-medium'>
                                                                     <img src="/images/clock2.svg" alt="timestamp" className='w-[24px]' />
                                                                     {!isLoading ? (
-                                                                        <p className='text-[#1F1F1F] font-medium leading-[24px] text-[16px]'>
-                                                                          {userOpsData?.[showUserOpId]?.blockTime
-    ? `${formatDistanceToNow(new Date((userOpsData[showUserOpId].blockTime ?? 0) * 1000), { addSuffix: true })} (${format(new Date((userOpsData[showUserOpId].blockTime ?? 0) * 1000), 'dd MMM yyyy, HH:mm:ss')})`
-    : " "}
-                                                                        </p>
+                                                        <p className='text-[#1F1F1F] font-medium leading-[24px] text-[16px]'>
+                                                        {userOpsData?.[showUserOpId]?.blockTime
+                                                          ? (
+                                                            <>
+                                                              {`${formatDistanceToNow(new Date((userOpsData[showUserOpId].blockTime ?? 0) * 1000), { addSuffix: true })} `}
+                                                              <span className="text-[#9E9E9E]">
+                                                                {`(`}
+                                                                {format(new Date((userOpsData[showUserOpId].blockTime ?? 0) * 1000), 'dd MMM yyyy, HH:mm:ss')}
+                                                                {`)`}
+                                                              </span>
+                                                            </>
+                                                          )
+                                                          : " "}
+                                                      </p>
+                                                      
                                                                     ) : (
                                                                         <Skeleton width={150} height={24} />
                                                                     )}
@@ -568,7 +588,8 @@ function RecentUserOps(props: any) {
                                                             </div>
                                                         </div>
 
-                                                        <div className='w-full flex flex-col gap-[4px]'>
+                                                        <div className='w-full flex gap-[8px] xl:flex-row flex-col max-xl:gap-[24px]'>
+                                                            <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
                                                             <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Block Number</p>
                                                             <div className='flex flex-row gap-[8px] font-medium'>
                                                                 <img src="/images/blocknum.svg" alt="timestamp" className='w-[24px]' />
@@ -576,13 +597,28 @@ function RecentUserOps(props: any) {
                                                                     <>
                                                                         <p className='text-[#1F1F1F]'>{userOpsData?.[showUserOpId]?.blockNumber}</p>
                                                                         {/* @ts-ignore  */}
-                                                                        <CopyButton text={userOpsData?.[showUserOpId]?.blockNumber.toString() || " "} />
+                                                                        <CopyButton text={userOpsData?.[showUserOpId]?.blockNumber?.toString() || " "} />
                                                                     </>
                                                                 ) : (
                                                                     <Skeleton width={100} height={24} />
                                                                 )}
                                                             </div>
+                                                            </div>
+                                                            <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
+                                                            <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Transaction Fee</p>
+                                                            <div className='flex flex-row gap-[8px] font-medium'>
+                                                                <img src="/images/dollar.svg" alt="dollar" className='w-[24px]' />
+                                                                {!isLoading ? (
+                                                                    <p className='text-[#1F1F1F]'>{ethers.utils.formatEther((userOpsData?.[showUserOpId]?.actualGasCost?.toString() || "0"))} ETH</p>
+                                                                ) : (
+                                                                    <Skeleton width={100} height={24} />
+                                                                )}
+                                                            </div>
+                                                            </div>
                                                         </div>
+                                                        {/* <div className='w-full flex flex-col gap-[4px]'>
+                                                            
+                                                        </div> */}
 
                                                         <div className='w-full flex flex-col gap-[4px]'>
                                                             <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Value</p>
@@ -595,19 +631,12 @@ function RecentUserOps(props: any) {
                                                                     <Skeleton width={100} height={24} />
                                                                 )}
                                                             </div>
+
                                                         </div>
 
-                                                        <div className='w-full flex flex-col gap-[4px]'>
-                                                            <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Transaction Fee</p>
-                                                            <div className='flex flex-row gap-[8px] font-medium'>
-                                                                <img src="/images/dollar.svg" alt="dollar" className='w-[24px]' />
-                                                                {!isLoading ? (
-                                                                    <p className='text-[#1F1F1F]'>{ethers.utils.formatEther((userOpsData?.[showUserOpId]?.actualGasCost?.toString() || "0"))} ETH</p>
-                                                                ) : (
-                                                                    <Skeleton width={100} height={24} />
-                                                                )}
-                                                            </div>
-                                                        </div>
+                                                        {/* <div className='w-full flex flex-col gap-[4px]'>
+                                                            
+                                                        </div> */}
 
                                                     </div>
                                                 </div>

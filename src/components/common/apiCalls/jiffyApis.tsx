@@ -38,6 +38,7 @@ export interface UserOp {
     signature: string | null;
     entryPoint: string;
     block: true;
+    status: string;
     erc20Transfers: {
         contractAddress: string;
         from: string;

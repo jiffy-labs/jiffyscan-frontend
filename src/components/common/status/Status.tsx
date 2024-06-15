@@ -9,7 +9,9 @@ export default function Status({ type, status, ago }: { type?: boolean; status?:
                     <span className="font-normal text-[12px] leading-5 text-dark-600">Success</span>
                 </span>
             )}
-            {type === false && (status == 'failed' || status == 'FAILED') && (
+
+            {type === false && (status  == "failed" || status == "FAILED") && (
+
                 <span className="flex items-center px-3 py-px  gap-2 rounded-full border border-[#d81a14]">
                     <img src="/images/failed.svg" alt="" />
                     <span className="font-normal text-[12px] leading-5 text-dark-600">Failed</span>
@@ -21,13 +23,17 @@ export default function Status({ type, status, ago }: { type?: boolean; status?:
                     <span className="font-normal text-[12px] leading-5 text-dark-600">Failed</span>
                 </span>
             )}
-            {status === 'IN_BUNDLER_MEMPOOL' && (
+
+             {status === 'IN_BUNDLER_MEMPOOL'  && (
+
                 <span className="flex items-center px-3 py-[0.3rem] w-[150px]   gap-2 rounded-full border border-[#FB8C00]">
                     <img src="/images/pending.svg" alt="" />
                     <span className="font-normal text-[12px] leading-5 text-dark-600">In Alt Mempool</span>
                 </span>
             )}
-            {status === 'IN_EVM_MEMPOOL' && (
+
+              {status === 'IN_EVM_MEMPOOL'  && (
+
                 <span className="flex items-center px-3 py-[0.3rem] w-[150px]  gap-2 rounded-full border border-[#FB8C00]">
                     <img src="/images/pending.svg" alt="" />
                     <span className="font-normal text-[12px] leading-5 text-dark-600">In Main Mempool</span>
