@@ -2,6 +2,10 @@ import moment from 'moment';
 import { NETWORK_ICON_MAP } from './constants';
 import { fee } from './table/Table';
 
+interface NetworkTokenMapping {
+    [key: string]: string;
+  }
+
 export const getTimePassed = (timestamp: number): string => {
     let timePassedInEpoch = new Date().getTime() - timestamp * 1000;
     let timePassedMoment = moment.duration(timePassedInEpoch);
@@ -29,6 +33,7 @@ export function getSymbol(network: string): string {
     else if (network == 'fantom') return 'FTM';
     else if (network == 'fantom-testnet') return 'FTM';
     else if (network == 'degen') return 'DEGEN';
+    else if (network == 'vanar-mainnet' || network == 'vanar-testnet' ) return 'VANRY';
     else return 'ETH';
 }
 
@@ -137,3 +142,36 @@ export const fetchRetry = async (url: string, options: any, n = 3): Promise<any>
         return await fetchRetry(url, options, n - 1);
     }
 };
+
+
+
+
+
+const networkTokenMapping = {
+    'mainnet': 'ETH',
+    'mumbai': 'MATIC',
+    'optimism-goerli': 'ETH',
+    'matic': 'MATIC',
+    'fuse': 'FUSE',
+    'bsc': 'BNB',
+    'bnb-testnet': 'BNB',
+    'avalanche': 'AVAX',
+    'avalanche-fuji': 'AVAX',
+    'fuji': 'AVAX',
+    'fantom': 'FTM',
+    'fantom-testnet': 'FTM',
+    'vanar-testnet': 'VANRY',
+    'vanar-mainnet': 'VANRY',
+  } as const;
+  
+
+  type Network = keyof typeof networkTokenMapping;
+  
+
+  type TokenSymbol = typeof networkTokenMapping[Network];
+  
+  
+  export const getTokenSymbolByNetwork = (network: string): TokenSymbol => {
+    return networkTokenMapping[network as Network] || 'ETH';
+  };
+  

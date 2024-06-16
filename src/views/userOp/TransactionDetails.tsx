@@ -5,6 +5,7 @@ import LinkAndCopy from '@/components/common/LinkAndCopy';
 import Status from '@/components/common/status/Status';
 import Caption from '@/components/common/Caption';
 import { Tooltip } from '@mui/material';
+import { getTokenSymbolByNetwork } from '@/components/common/utils';
 import { InfoSection, RenderTextCopyLink, PowerButton, RenderDisplayFee } from '@/views/userOp/widget';
 import moment from 'moment';
 import { parseEther, formatUnits } from 'ethers/lib/utils';
@@ -27,6 +28,7 @@ export interface ExecutionTraceType {
     };
     next: Array<ExecutionTraceType> | null;
 }
+
 type TokenPrices = {
     ETH: number;
     MATIC: number;
@@ -35,6 +37,7 @@ type TokenPrices = {
     AVAX: number;
     FTM: number;
     OP?: number;
+    VANRY: number;
 };
 import React, { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton-2';
@@ -53,6 +56,7 @@ function TransactionDetails({ tableLoading, skeletonCards, item, addressMapping,
         BNB: 0,
         AVAX: 0,
         FTM: 0,
+        VANRY: 0,
 
     });
 
@@ -188,54 +192,54 @@ function TransactionDetails({ tableLoading, skeletonCards, item, addressMapping,
                                             />
                                         )}
 
-{item?.timeSeenInAltMempool
-                                                     &&
-<InfoSection
-                                            icon="seenBundler"
-                                            title="Seen in Bundler"
-                                            content={
-                                                (item?.timeSeenInAltMempool ?
-                                                    <div className="flex items-center gap-[10px]">
-                                                        <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
-                                                            { `${moment.unix(item?.timeSeenInAltMempool!).local().format()} (${moment.unix(item?.timeSeenInAltMempool).fromNow()} ago)`}
+                                        {item?.timeSeenInAltMempool
+                                            &&
+                                            <InfoSection
+                                                icon="seenBundler"
+                                                title="Seen in Bundler"
+                                                content={
+                                                    (item?.timeSeenInAltMempool ?
+                                                        <div className="flex items-center gap-[10px]">
+                                                            <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
+                                                                {`${moment.unix(item?.timeSeenInAltMempool!).local().format()} (${moment.unix(item?.timeSeenInAltMempool).fromNow()} ago)`}
+                                                            </span>
+                                                        </div> :
+                                                        <span className="text-[#1976D2] md:text-[14px] text-[16px] break-all leading-5">
+                                                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                                not in alt mempool yet
+                                                                <img src={`/loading.webp`} alt="Loading..." style={{ marginLeft: '4px', width: "15px" }} />
+
+                                                            </div>
                                                         </span>
-                                                    </div> :
-                                                    <span className="text-[#1976D2] md:text-[14px] text-[16px] break-all leading-5">
-                                                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                            not in alt mempool yet
-                                                            <img src={`/loading.webp`} alt="Loading..." style={{ marginLeft: '4px', width: "15px" }} />
 
-                                                        </div>
-                                                    </span>
-
-                                                )
-                                            }
-                                        />}
+                                                    )
+                                                }
+                                            />}
 
                                         {item?.timeSeenInMainMempool
-                                                     && <InfoSection
-                                                     icon="seenMempool"
-                                                     title="Seen in Mempool"
-                                                     content={
-                                                         (item?.
-                                                             timeSeenInMainMempool
-                                                              ?
-                                                             <div className="flex items-center gap-[10px]">
-                                                                 <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
-                                                                 { `${moment.unix(item?.timeSeenInMainMempool!).local().format()} (${moment.unix(item?.timeSeenInMainMempool).fromNow()} ago)`}
-                                                                 </span>
-                                                             </div> :
-                                                             <span className="text-[#1976D2] md:text-[14px] text-[16px] break-all leading-5">
-                                                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                                     not in main mempool yet
-                                                                     <img src={`/loading.webp`} alt="Loading..." style={{ marginLeft: '4px', width: "15px" }} />
-         
-                                                                 </div>
-                                                             </span>
-         
-                                                         )
-                                                     }
-                                                 />}
+                                            && <InfoSection
+                                                icon="seenMempool"
+                                                title="Seen in Mempool"
+                                                content={
+                                                    (item?.
+                                                        timeSeenInMainMempool
+                                                        ?
+                                                        <div className="flex items-center gap-[10px]">
+                                                            <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
+                                                                {`${moment.unix(item?.timeSeenInMainMempool!).local().format()} (${moment.unix(item?.timeSeenInMainMempool).fromNow()} ago)`}
+                                                            </span>
+                                                        </div> :
+                                                        <span className="text-[#1976D2] md:text-[14px] text-[16px] break-all leading-5">
+                                                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                                not in main mempool yet
+                                                                <img src={`/loading.webp`} alt="Loading..." style={{ marginLeft: '4px', width: "15px" }} />
+
+                                                            </div>
+                                                        </span>
+
+                                                    )
+                                                }
+                                            />}
 
 
                                         <InfoSection
@@ -245,7 +249,7 @@ function TransactionDetails({ tableLoading, skeletonCards, item, addressMapping,
                                                 (item?.blockTime ?
                                                     <div className="flex items-center gap-[10px]">
                                                         <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
-                                                        { `${moment.unix(item?.blockTime!).local().format()} (${moment.unix(item?.blockTime).fromNow()} )`}
+                                                            {`${moment.unix(item?.blockTime!).local().format()} (${moment.unix(item?.blockTime).fromNow()} )`}
                                                         </span>
                                                     </div> :
                                                     <span className="text-[#1976D2] md:text-[14px] text-[16px] break-all leading-5">
@@ -309,38 +313,28 @@ function TransactionDetails({ tableLoading, skeletonCards, item, addressMapping,
                                             title="Gas Fee"
                                             content={
                                                 item?.actualGasCost ? (
-                                                <div className="flex items-center gap-[10px]">
-                                                    <DisplayFee item={item?.actualGasCost ? item.actualGasCost : "not mined"} network={item?.network} />
-                                                    <div className="px-2 mt-2 bg-gray-200 rounded-lg">
-                                                        <span className="text-sm">
-                                                            {(
-                                                                tokenPrices[item?.network === 'mainnet' ? 'ETH' :
-                                                                    item?.network === 'mumbai' ? 'MATIC' :
-                                                                        item?.network === 'optimism-goerli' ? 'ETH' :
-                                                                            item?.network === 'matic' ? 'MATIC' :
-                                                                                item?.network === 'fuse' ? 'FUSE' :
-                                                                                    item?.network === 'bsc' ? 'BNB' :
-                                                                                        item?.network === 'bnb-testnet' ? 'BNB' :
-                                                                                            item?.network === 'avalanche' ? 'AVAX' :
-                                                                                                item?.network === 'avalanche-fuji' || 'fuji' ? 'AVAX' :
-                                                                                                    item?.network === 'fantom' ? 'FTM' :
-                                                                                                        item?.network === 'fantom-testnet' ? 'FTM' : 'ETH'] *
-                                                                parseFloat(formatUnits(item?.actualGasCost || '0', 'ether'))
-                                                            ).toFixed(3)} USD
+                                                    <div className="flex items-center gap-[10px]">
+                                                        <DisplayFee item={item?.actualGasCost ? item.actualGasCost : "not mined"} network={item?.network} />
+                                                        <div className="px-2 mt-2 bg-gray-200 rounded-lg">
+                                                            <span className="text-sm">
+                                                                {(
+                                                                    tokenPrices[getTokenSymbolByNetwork(item?.network)] *
+                                                                    parseFloat(formatUnits(item?.actualGasCost || '0', 'ether'))
+                                                                ).toFixed(3)} USD
+                                                            </span>
+
+
+                                                        </div>
+                                                    </div>) : (
+                                                    <div className="flex items-center gap-[10px]">
+                                                        <span className="text-[#1976D2] md:text-[14px] text-[16px] break-all leading-5">
+                                                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                                not mined
+                                                                <img src={`/loading.webp`} alt="Loading..." style={{ marginLeft: '4px', width: "15px" }} />
+                                                            </div>
                                                         </span>
-
-
                                                     </div>
-                                                </div> ): (
-    <div className="flex items-center gap-[10px]">
-      <span className="text-[#1976D2] md:text-[14px] text-[16px] break-all leading-5">
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          not mined
-          <img src={`/loading.webp`} alt="Loading..." style={{ marginLeft: '4px', width: "15px" }} />
-        </div>
-      </span>
-    </div>
-  )
+                                                )
                                             }
                                         />
                                         <InfoSection
@@ -348,20 +342,20 @@ function TransactionDetails({ tableLoading, skeletonCards, item, addressMapping,
                                             title="Gas Used"
                                             content={
                                                 item?.actualGasUsed ? (
-                                                  <div className="flex items-center gap-[10px]">
-                                                    {item.actualGasUsed}
-                                                  </div>
+                                                    <div className="flex items-center gap-[10px]">
+                                                        {item.actualGasUsed}
+                                                    </div>
                                                 ) : (
-                                                  <div className="flex items-center gap-[10px]">
-                                                    <span className="text-[#1976D2] md:text-[14px] text-[16px] break-all leading-5">
-                                                      <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                        not mined
-                                                        <img src={`/loading.webp`} alt="Loading..." style={{ marginLeft: '4px', width: "15px" }} />
-                                                      </div>
-                                                    </span>
-                                                  </div>
+                                                    <div className="flex items-center gap-[10px]">
+                                                        <span className="text-[#1976D2] md:text-[14px] text-[16px] break-all leading-5">
+                                                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                                not mined
+                                                                <img src={`/loading.webp`} alt="Loading..." style={{ marginLeft: '4px', width: "15px" }} />
+                                                            </div>
+                                                        </span>
+                                                    </div>
                                                 )
-                                              }
+                                            }
                                         />
                                         <InfoSection
                                             icon="paymaster"
