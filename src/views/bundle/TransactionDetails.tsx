@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 import { formatUnits } from 'ethers/lib/utils';
 import React, { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton-2';
-
+import { getTokenSymbolByNetwork } from '@/components/common/utils';
 type TokenPrices = {
     ETH: number;
     MATIC: number;
@@ -20,6 +20,7 @@ type TokenPrices = {
     AVAX: number;
     FTM: number;
     OP?: number;
+    VANRY: number;
 };
  
 export default function TransactionDetails({ item, network, tableLoading, block }: any) {
@@ -30,6 +31,7 @@ export default function TransactionDetails({ item, network, tableLoading, block 
         BNB: 0,
         AVAX: 0,
         FTM: 0,
+        VANRY:0
 
     });
 
@@ -256,17 +258,7 @@ export default function TransactionDetails({ item, network, tableLoading, block 
                                                         <div className="px-2 mt-2 bg-gray-200 rounded-lg">
                                                         <span className="text-sm">
                                                             {(
-                                                                tokenPrices[item?.network === 'mainnet' ? 'ETH' :
-                                                                    item?.network === 'mumbai' ? 'MATIC' :
-                                                                        item?.network === 'optimism-goerli' ? 'ETH' :
-                                                                            item?.network === 'matic' ? 'MATIC' :
-                                                                                item?.network === 'fuse' ? 'FUSE' :
-                                                                                    item?.network === 'bsc' ? 'BNB' :
-                                                                                        item?.network === 'bnb-testnet' ? 'BNB' :
-                                                                                            item?.network === 'avalanche' ? 'AVAX' :
-                                                                                                item?.network === 'avalanche-fuji' || 'fuji' ? 'AVAX' :
-                                                                                                    item?.network === 'fantom' ? 'FTM' :
-                                                                                                        item?.network === 'fantom-testnet' ? 'FTM' : 'ETH'] *
+                                                              tokenPrices[getTokenSymbolByNetwork(item?.network)] *
                                                                 parseFloat(formatUnits(item?.actualGasCost || '0', 'ether'))
                                                             ).toFixed(3)} USD
                                                         </span>
