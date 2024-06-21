@@ -62,6 +62,7 @@ function ChipDropdown(props: ChipProps) {
                     leaveTo="transform opacity-0 scale-95"
                 >
                     <Menu.Items className="absolute right-0 z-10 mt-2 origin-top-right bg-white rounded-md shadow-lg w-36 ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <div className='max-h-40 overflow-y-auto rounded-md p-2'>
                         <div className="flex flex-col py-1">
                             {dropdownNetworkList.map(({ name, key, iconPath }, index) => (
                                 <Menu.Item key={key}>
@@ -90,6 +91,7 @@ function ChipDropdown(props: ChipProps) {
                                     )}
                                 </Menu.Item>
                             ))}
+                        </div>
                         </div>
                     </Menu.Items>
                 </Transition>

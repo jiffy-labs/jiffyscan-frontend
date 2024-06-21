@@ -33,6 +33,7 @@ function Options({ networkValue, setNetworkValue }: { networkValue: number; setN
                                 <img src={"/zap2.svg"} alt="" style={{ width: '20px', height: 'auto' }} />
                                 <span>Quick search</span>
                             </div>
+                            <div className='max-h-40 overflow-y-auto rounded-md p-2'>
                             {NETWORK_LIST.map(({ name, key, iconPath, iconPathInverted }, index) => (
                                 <div
                                     onClick={() => handleValue(index)}
@@ -44,7 +45,7 @@ function Options({ networkValue, setNetworkValue }: { networkValue: number; setN
                                     <span>{name}</span>
                                 </div>
                             ))}
-
+                        </div>
                         </div>
                     </div>
                 </div>
