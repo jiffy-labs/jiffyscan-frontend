@@ -26,11 +26,24 @@ function ChipDropdown(props: ChipProps) {
 
     const color = isMoreSelected ? 'dark-700' : 'white';
     const [icon, setIcon] = useState<string | null>(NETWORK_ICON_MAP[selectedNetwork]);
+    const [searchTerm, setSearchTerm] = useState<string>('');
+    const [filteredNetworks, setFilteredNetworks] = useState(props.dropdownNetworkList);
 
     useEffect(() => {
         setIcon(NETWORK_ICON_MAP[selectedNetwork]);
     },[selectedNetwork]);
 
+    // Filtering networks based on search term
+    useEffect(() => {
+        if (searchTerm.trim() === '') {
+            setFilteredNetworks(dropdownNetworkList); 
+        } else {
+            const filtered = dropdownNetworkList.filter(network =>
+                network.name.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            setFilteredNetworks(filtered);
+        }
+    }, [searchTerm, dropdownNetworkList]);
     return (
         <div className="text-sm">
             <Menu as="div" className="relative inline-block text-left ">
@@ -61,36 +74,45 @@ function ChipDropdown(props: ChipProps) {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                 >
-                    <Menu.Items className="absolute right-0 z-10 mt-2 origin-top-right bg-white rounded-md shadow-lg w-36 ring-1 ring-black ring-opacity-5 focus:outline-none">
-                    <div className='max-h-40 overflow-y-auto rounded-md p-2'>
+                    <Menu.Items className="absolute right-0 z-10 mt-2 origin-top-right bg-white rounded-md shadow-lg w-52 ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <div className='max-h-44 overflow-y-auto rounded-md p-2'>
                         <div className="flex flex-col py-1">
-                            {dropdownNetworkList.map(({ name, key, iconPath }, index) => (
-                                <Menu.Item key={key}>
-                                    {({ active }) => (
-                                        <a
-                                            onClick={() => {
-                                                setIsMoreSelected(true);
-                                                onClickFcn(key);
-                                                setIcon(iconPath);
-                                            }}
-                                            className={`
-												${active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'} + 
-												'block flex items-center gap-3 px-4 py-2 text-sm'
-												`}
-                                        >
-                                            <img
-                                                src={iconPath}
-                                                alt=""
-                                                style={{
-                                                    height: '12px',
-                                                    width: '12px',
+                             <input
+                                    type="text"
+                                    className="px-3 py-1 rounded-md mb-2 focus:outline-none focus:border-primary-400 w-40 text-sm"
+                                    placeholder="Search Chains..."
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                />
+
+                            {/* Rendering filtered network items */}
+                            {filteredNetworks.map(({ name, key, iconPath }, index) => (
+                                    <Menu.Item key={key}>
+                                        {({ active }) => (
+                                            <a
+                                                onClick={() => {
+                                                    setIsMoreSelected(true);
+                                                    onClickFcn(key);
+                                                    setIcon(iconPath);
                                                 }}
-                                            />
-                                            {name}
-                                        </a>
-                                    )}
-                                </Menu.Item>
-                            ))}
+                                                className={`
+                                                    ${active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'} 
+                                                    block flex items-center gap-3 px-4 py-2 text-sm
+                                                `}
+                                            >
+                                                <img
+                                                    src={iconPath}
+                                                    alt=""
+                                                    style={{
+                                                        height: '12px',
+                                                        width: '12px',
+                                                    }}
+                                                />
+                                                {name}
+                                            </a>
+                                        )}
+                                    </Menu.Item>
+                                ))}
                         </div>
                         </div>
                     </Menu.Items>
