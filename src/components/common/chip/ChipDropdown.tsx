@@ -75,7 +75,7 @@ function ChipDropdown(props: ChipProps) {
                     leaveTo="transform opacity-0 scale-95"
                 >
                     <Menu.Items className="absolute right-0 z-10 mt-2 origin-top-right bg-white rounded-md shadow-lg w-52 ring-1 ring-black ring-opacity-5 focus:outline-none">
-                    <div className='max-h-44 overflow-y-auto rounded-md p-2'>
+                    <div className='max-h-56 overflow-y-auto rounded-md p-2'>
                         <div className="flex flex-col py-1">
                              <input
                                     type="text"
