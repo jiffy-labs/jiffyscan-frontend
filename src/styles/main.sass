@@ -54,7 +54,14 @@ body
     &:hover
       background: #555
 
+.no-scrollbar
+  scrollbar-width: none
+  -ms-overflow-style: none
+  overflow-y: scroll
 
+.no-scrollbar::-webkit-scrollbar
+  display: none
+  
 .wordbrack
   word-break: break-all
   word-break: break-word 
