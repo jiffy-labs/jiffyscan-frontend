@@ -72,34 +72,16 @@ export const NETWORK_LIST = [
         iconPathInverted: '/images/arbitrum-logo.svg',
     },
     {
-        name: 'Goerli',
-        key: 'goerli',
-        iconPath: '/images/eth-diamond-purple.svg',
-        iconPathInverted: '/images/eth-diamond-purple.svg',
-    },
-    {
         name: 'Avalanche',
         key: 'avalanche',
         iconPath: '/images/avalanche-logo-red.svg',
         iconPathInverted: '/images/avalanche-logo-red.svg',
     },
     {
-        name: 'Mumbai',
-        key: 'mumbai',
-        iconPath: '/images/polygon-mumbai-icon.svg',
-        iconPathInverted: '/images/polygon-mumbai-inverted.svg',
-    },
-    {
         name: 'Polygon Amoy',
         key: 'polygon-amoy',
         iconPath: '/images/polygon-mumbai-icon.svg',
         iconPathInverted: '/images/polygon-mumbai-inverted.svg',
-    },
-    {
-        name: 'Arbitrum Goerli',
-        key: 'arbitrum-goerli',
-        iconPath: '/images/arbitrum-logo.svg',
-        iconPathInverted: '/images/arbitrum-logo.svg',
     },
     {
         name: 'Arbitrum Sepolia',
