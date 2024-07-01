@@ -55,7 +55,7 @@ If you've found a bug in Jiffyscan, please open a new issue on GitHub. Be sure t
 If you want to contribute to the project by fixing a bug or adding a new feature, please submit a pull request. Here's how:
 
 -   Fork the repository.
--   Create a new branch from the `ui-work` branch.
+-   Create a new branch from the `development` branch.
 -   Make your changes and commit them.
 -   Push your branch to your forked repository.
 -   Open a pull request from your branch to the main branch of the original repository.
