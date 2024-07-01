@@ -58,7 +58,7 @@ If you want to contribute to the project by fixing a bug or adding a new feature
 -   Create a new branch from the `development` branch.
 -   Make your changes and commit them.
 -   Push your branch to your forked repository.
--   Open a pull request from your branch to the main branch of the original repository.
+-   Open a pull request from your branch to the development branch of the original repository.
 
 When submitting a pull request, please include a clear description of your changes and why you made them. Please make sure your code follows our coding standards and is well-documented.
 
