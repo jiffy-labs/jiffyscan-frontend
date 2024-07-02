@@ -9,9 +9,11 @@ bash
 
 `git clone https://github.com/jiffy-labs/jiffyscan-frontend.git`
 
-and switch to the branch `ui-work`
+and switch to the branch `development`
 
-`git switch ui-work && git pull`
+`git switch development && git pull`
+
+work on development branch and raise a PR to develpoment branch
 
 Once you have the code, you can install the dependencies by running:
 
@@ -53,10 +55,10 @@ If you've found a bug in Jiffyscan, please open a new issue on GitHub. Be sure t
 If you want to contribute to the project by fixing a bug or adding a new feature, please submit a pull request. Here's how:
 
 -   Fork the repository.
--   Create a new branch from the `ui-work` branch.
+-   Create a new branch from the `development` branch.
 -   Make your changes and commit them.
 -   Push your branch to your forked repository.
--   Open a pull request from your branch to the main branch of the original repository.
+-   Open a pull request from your branch to the development branch of the original repository.
 
 When submitting a pull request, please include a clear description of your changes and why you made them. Please make sure your code follows our coding standards and is well-documented.
 
