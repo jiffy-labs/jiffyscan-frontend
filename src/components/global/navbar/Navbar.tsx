@@ -57,6 +57,10 @@ function Navbar(props: NavbarProps) {
                     <div className="w-[1px] h-[40px] hidden md:block bg-black/[12%]" />
                     <div className="hidden lg:flex lg:flex-grow lg:items-center lg:justify-between">
                         <Pages />
+                        
+                    </div>
+                    <div className="items-center justify-end flex-grow hidden gap-3 md:flex">
+                        {searchbar && <Searchblock isNavbar={true} />}
                         <Link legacyBehavior href="https://dashboard.jiffyscan.xyz/" passHref>
                             <a
                                 target="_blank"
@@ -66,9 +70,6 @@ function Navbar(props: NavbarProps) {
                                 Visit Dashboard
                             </a>
                         </Link>
-                    </div>
-                    <div className="items-center justify-end flex-grow hidden gap-3 md:flex lg:hidden">
-                        {searchbar && <Searchblock isNavbar={true} />}
                         {/* <User /> */}
                     </div>
                     <div className="flex items-center md:hidden">
