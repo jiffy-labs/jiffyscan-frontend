@@ -16,6 +16,7 @@ export interface UserOp {
     actualGasPrice: number;
     actualGasUsed: number | null;
     success: Boolean;
+    status: true;
     revertReason: string | null;
     blockTime: number | null;
     timeSeenInAltMempool: number | null;
