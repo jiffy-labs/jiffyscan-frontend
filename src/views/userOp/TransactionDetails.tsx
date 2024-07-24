@@ -49,6 +49,12 @@ function TransactionDetails({ tableLoading, skeletonCards, item, addressMapping,
     const [invokes, setInvokes] = useState([] as Array<string>);
     const [values, setValues] = useState([] as Array<number>);
     const [type, setType] = useState('');
+    useEffect(() => {
+        if (item && item.status !== undefined) {
+            item.status = true;
+        }
+    }, [item]);
+
     const [tokenPrices, setTokenPrices] = useState<TokenPrices>({
         ETH: 0,
         MATIC: 0,
@@ -246,7 +252,7 @@ function TransactionDetails({ tableLoading, skeletonCards, item, addressMapping,
                                             icon="blockTime"
                                             title="Block Time"
                                             content={
-                                                (item?.blockTime ?
+                                                (item?.status ?
                                                     <div className="flex items-center gap-[10px]">
                                                         <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
                                                             {`${moment.unix(item?.blockTime!).local().format()} (${moment.unix(item?.blockTime).fromNow()} )`}
@@ -312,7 +318,7 @@ function TransactionDetails({ tableLoading, skeletonCards, item, addressMapping,
                                             icon="gasFee"
                                             title="Gas Fee"
                                             content={
-                                                item?.actualGasCost ? (
+                                                item?.status ? (
                                                     <div className="flex items-center gap-[10px]">
                                                         <DisplayFee item={item?.actualGasCost ? item.actualGasCost : "not mined"} network={item?.network} />
                                                         <div className="px-2 mt-2 bg-gray-200 rounded-lg">
@@ -341,7 +347,7 @@ function TransactionDetails({ tableLoading, skeletonCards, item, addressMapping,
                                             icon="gasUsed"
                                             title="Gas Used"
                                             content={
-                                                item?.actualGasUsed ? (
+                                                item?.status ? (
                                                     <div className="flex items-center gap-[10px]">
                                                         {item.actualGasUsed}
                                                     </div>
@@ -379,7 +385,7 @@ function TransactionDetails({ tableLoading, skeletonCards, item, addressMapping,
                                             title="Beneficiary"
                                             content={
                                                 <>
-                                                    <RenderTextCopyLink text={item?.beneficiary ? item.beneficiary : "not mined"} network={item?.network} type="bundler" />
+                                                    <RenderTextCopyLink text={item?.status ? item.beneficiary : "not mined"} network={item?.network} type="bundler" />
                                                     <PowerButton item={item?.beneficiary?.toLowerCase()} addressMapping={addressMapping} />
                                                 </>
                                             }
@@ -388,13 +394,13 @@ function TransactionDetails({ tableLoading, skeletonCards, item, addressMapping,
                                             icon="transactionHash"
                                             title="Transaction Hash"
                                             content={
-                                                <RenderTextCopyLink text={item?.transactionHash ? item.transactionHash : "not mined"} network={item?.network} type="bundle" />
+                                                <RenderTextCopyLink text={item?.status ? item.transactionHash : "not mined"} network={item?.network} type="bundle" />
                                             }
                                         />
                                         <InfoSection
                                             icon="block"
                                             title="Block"
-                                            content={<RenderTextCopyLink text={item?.blockNumber ? item.blockNumber : "not mined"} network={item?.network} type="block" />}
+                                            content={<RenderTextCopyLink text={item?.status ? item.blockNumber : "not mined"} network={item?.network} type="block" />}
                                         />
                                         {item?.paymasterRevertReason && (
                                             <InfoSection
