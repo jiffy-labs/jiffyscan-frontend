@@ -48,12 +48,6 @@ export const NETWORK_LIST = [
         iconPathInverted: '/images/fuse-logo.svg',
     },
     {
-        name: 'Base',
-        key: 'base',
-        iconPath: '/images/base-logo.svg',
-        iconPathInverted: '/images/base-logo.svg',
-    },
-    {
         name: 'Base Sepolia',
         key: 'base-sepolia',
         iconPath: '/images/base-logo.svg',
