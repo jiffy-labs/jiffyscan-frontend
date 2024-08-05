@@ -11,7 +11,7 @@ const DiagonalArrowIcon = () => (
 );
 
 const Product = () => {
-    const [hoveredCard, setHoveredCard] = useState(null);
+    const [hoveredCard, setHoveredCard] = useState<'paymaster' | 'bundler' | 'dataapis' | null>(null);
 
     return (
         <div className="md:mt-36  container mx-auto p-8 relative">
