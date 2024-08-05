@@ -7,6 +7,9 @@ module.exports = {
     extend: {
       fontFamily: {
         roboto: ["Roboto", ...fontFamily.sans],
+        poppins: ['Poppins', ...fontFamily.sans],
+        sans: ['Space Grotesk', ...fontFamily.sans],
+        inter: ['Inter', 'sans-serif'],
       },
       colors: {
         red: {
@@ -56,5 +59,7 @@ module.exports = {
       xl: '1264px',
     },
   },
-  plugins: [],
+  plugins: [
+    require('flowbite/plugin')
+  ],
 };
