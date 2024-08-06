@@ -17,28 +17,28 @@ const Product = () => {
         <div className="md:mt-36  container mx-auto p-8 relative">
             <div className="hidden md:block relative h-80">
                 <img
-                    src="/Initial.svg"
+                    src="/Default.svg"
                     alt="Initial Flow Diagram"
                     className={`absolute top-0 left-0 w-full h-full transition-opacity duration-300 ${
                         !hoveredCard ? 'opacity-100' : 'opacity-0'
                     }`}
                 />
                 <img
-                    src="/2.svg"
+                    src="/Paymaster2.svg"
                     alt="Paymaster Hover Flow Diagram"
                     className={`absolute top-0 left-0 w-full h-full transition-opacity duration-300 ${
                         hoveredCard === 'paymaster' ? 'opacity-100' : 'opacity-0'
                     }`}
                 />
                 <img
-                    src="/3.svg"
+                    src="/Bundler2.svg"
                     alt="Bundler Hover Flow Diagram"
                     className={`absolute top-0 left-0 w-full h-full transition-opacity duration-300 ${
                         hoveredCard === 'bundler' ? 'opacity-100' : 'opacity-0'
                     }`}
                 />
                 <img
-                    src="/4.svg"
+                    src="/DataAPI2.svg"
                     alt="DataAPIs Hover Flow Diagram"
                     className={`absolute top-0 left-0 w-full h-full transition-opacity duration-300 ${
                         hoveredCard === 'dataapis' ? 'opacity-100' : 'opacity-0'
@@ -46,7 +46,7 @@ const Product = () => {
                 />
             </div>
 
-            <div className={`mt-28 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 ${hoveredCard ? 'hovered' : ''}`}>
+            <div className={`mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 ${hoveredCard ? 'hovered' : ''}`}>
                 <div
                     className={`group relative bg-[#E3E8FE] border-[#B9AEF8] border p-6 rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-full md:w-[340px] md:h-[233px] mx-auto ${
                         hoveredCard && hoveredCard !== 'paymaster' ? 'grayscale' : ''
@@ -84,7 +84,7 @@ const Product = () => {
                         <img src="/Bundler.svg" alt="Paymaster Gif" className="w-8 h-8 mr-2 hidden group-hover:block" />
                         <h2 className="text-2xl text-[#D25712] md:text-[32px] font-poppins font-medium">Bundler</h2>
                     </div>
-                    <p className="text-[#4913E4] text-md font-poppins">
+                    <p className="text-[#5B5976] text-md font-poppins">
                         Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry
                     </p>
                     <Link
@@ -109,7 +109,7 @@ const Product = () => {
                         <img src="/DataAPI.svg" alt="Paymaster Gif" className="w-8 h-8 mr-2 hidden group-hover:block" />
                         <h2 className="text-2xl md:text-[32px] text-[#0D952B] font-poppins font-medium">DataAPIs</h2>
                     </div>
-                    <p className="text-[#4913E4] text-md font-poppins">
+                    <p className="text-[#5B5976] text-md font-poppins">
                         Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry
                     </p>
                     <Link
