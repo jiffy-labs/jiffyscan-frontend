@@ -57,7 +57,9 @@ const Navbar = () => {
                             "
                     >
                         <Link href='https://dashboard.jiffyscan.xyz/'>
+                        <button>
                         View API Key
+                        </button>
                         </Link>
                     </button>
                     <button
@@ -66,7 +68,7 @@ const Navbar = () => {
                         md:block
                         hidden
                             text-[#6C47FF] 
-                            bg-[#d1c7f8] 
+                            bg-[#DCD4FF] 
                             hover:bg-blue-800 
                             focus:ring-4 
                             focus:outline-none 
@@ -90,7 +92,9 @@ const Navbar = () => {
                             "
                     >
                         <Link href='https://dashboard.jiffyscan.xyz/'>
+                        <button>
                         Explorer
+                        </button>
                         </Link>
                     </button>
 
@@ -168,11 +172,13 @@ const Navbar = () => {
                             )}
                         </li>
                         <li>
-                            <a
+                            <Link
                                 href="https://jiffyscan.mintlify.app/welcome"
                                 className="flex py-2 px-3 text-[#5A5A62] rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                             >
+                                <button>
                                 Docs
+                                </button>
                                 <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path
                                         d="M4.5 7.5C6.9375 7.5 8 6.4745 8 4C8 6.4745 9.055 7.5 11.5 7.5C9.055 7.5 8 8.555 8 11C8 8.555 6.9375 7.5 4.5 7.5ZM1.5 3.25C3.067 3.25 3.75 2.591 3.75 1C3.75 2.591 4.4285 3.25 6 3.25C4.4285 3.25 3.75 3.9285 3.75 5.5C3.75 3.9285 3.067 3.25 1.5 3.25Z"
@@ -182,14 +188,16 @@ const Navbar = () => {
                                         stroke-linejoin="round"
                                     />
                                 </svg>
-                            </a>
+                            </Link>
                         </li>
                         <li>
                             <a
                                 href="#"
                                 className="block py-2 px-3 text-[#5A5A62] rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                             >
+                                <button>
                                 Stories
+                                </button>
                             </a>
                         </li>
                         <li>
@@ -197,7 +205,9 @@ const Navbar = () => {
                                 href="/pricing"
                                 className="block py-2 px-3 text-[#5A5A62] rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                             >
+                                <button>
                                 Pricing
+                                </button>
                             </Link>
                         </li>
                         <button
@@ -239,7 +249,7 @@ const Navbar = () => {
                         md:hidden
                         block
                             text-[#6C47FF] 
-                            bg-[#d1c7f8] 
+                            bg-[#DCD4FF] 
                             hover:bg-blue-800 
                             focus:ring-4 
                             focus:outline-none 
