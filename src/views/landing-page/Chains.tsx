@@ -16,22 +16,22 @@ const Chains = () => {
 
                         <span className="text-xl text-[#340CD2] font-poppins font-medium text-center block ">SUPPORTED CHAINS</span>
                     </div>
-                    <h2 className="md:text-[48px] sm:text-[24px] tracking-tight text-[32px] text-center font-medium font-poppins text-gray-900">
+                    <h2 className="md:text-[48px] sm:text-[24px] leading-2 tracking-tight text-[32px] text-center font-medium font-poppins text-gray-900">
                         And many more to come...
                     </h2>
                 </div>
                 <section className="py-4 lg:px-8 container">
-                    <div className="grid gap-8 grid-cols-2 md:gap-y-16 md:grid-cols-7">
+                    <div className="grid gap-8 grid-cols-2 md:gap-y-16 md:grid-cols-6">
                         {[
                             { src: "/Ethereum.png", alt: "Ethereum" },
                             { src: "/Polygon.png", alt: "Polygon" },
                             { src: "/Optimisum.png", alt: "Optimism" },
                             { src: "/Base.png", alt: "Base" },
                             { src: "/Avalanche.png", alt: "Avalanche" },
-                            { src: "/Frame 550.png", alt: "Frame 550" },
+                            
                             { src: "/Arbitrium.png", alt: "Arbitrium" },
                             { src: "/Group 112.png", alt: "Slack logo" },
-                            { src: "/Vector.png", alt: "Vector logo" },
+                            
                             { src: "/Group 110.png", alt: "Lilly logo" },
                             { src: "/Group 109.png", alt: "Group 109" },
                             { src: "/Group 108.png", alt: "Starbucks logo" },
