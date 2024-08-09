@@ -7,6 +7,9 @@ module.exports = {
     extend: {
       fontFamily: {
         roboto: ["Roboto", ...fontFamily.sans],
+        poppins: ['Poppins', ...fontFamily.sans],
+        sans: ['Space Grotesk', ...fontFamily.sans],
+        inter: ['Inter', 'sans-serif'],
       },
       colors: {
         red: {
@@ -38,6 +41,7 @@ module.exports = {
     },
     fontSize: {
       sm: ['12px', {lineHeight: '20px', letterSpacing: '0.4px'}],
+      ph: ['13px', {lineHeight: '16px', letterSpacing: '0px'}],
       md: ['14px', {lineHeight: '20px', letterSpacing: '0em'}],
       lg: ['15px', {lineHeight: '28px', letterSpacing: '0.15px'}],
       base: ['16px', {lineHeight: '24px', letterSpacing: '0.5px'}],
@@ -56,5 +60,7 @@ module.exports = {
       xl: '1264px',
     },
   },
-  plugins: [],
+  plugins: [
+    require('flowbite/plugin')
+  ],
 };
