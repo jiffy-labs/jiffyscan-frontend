@@ -1,4 +1,5 @@
 import React from 'react';
+import Faq from './Faq';
 
 const PricingSection = () => {
     return (
@@ -17,7 +18,7 @@ const PricingSection = () => {
                         </p>
                         <a
                             href="#"
-                            className="mt-8 block h-[50px] w-full bg-[#6C47FF] rounded-md py-2 text-xl font-semibold text-white text-center"
+                            className="mt-8 block h-[50px] w-full bg-[#6C47FF] rounded-md py-2 text-xl font-semibold text-white text-center content-center"
                         >
                             <button>
                             Get Free API Key
@@ -60,7 +61,7 @@ const PricingSection = () => {
                         </p>
                         <a
                             href="#"
-                            className="mt-4 block font-poppins h-[50px] w-full bg-[#6C47FF] rounded-md py-2 text-xl font-semibold text-white text-center"
+                            className="mt-4 block font-poppins h-[50px] w-full bg-[#6C47FF] rounded-md py-2  text-xl font-semibold text-white text-center content-center"
                         >
                             <button>
                             Continue
@@ -116,7 +117,7 @@ const PricingSection = () => {
                         </p>
                         <a
                             href="#"
-                            className="mt-4 block font-poppins h-[50px] w-full bg-[#6C47FF] rounded-md py-2 text-xl font-semibold text-white text-center"
+                            className="mt-4 block font-poppins h-[50px] w-full bg-[#6C47FF] rounded-md py-2 text-xl font-semibold text-white text-center content-center"
                         >
                             <button>
                             Continue
@@ -259,6 +260,10 @@ const PricingSection = () => {
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div>
+                <Faq/>
             </div>
         </div>
     );

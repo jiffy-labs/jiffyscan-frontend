@@ -34,7 +34,7 @@ const Navbar = () => {
                         hidden
                             text-white 
                             bg-[#6C47FF] 
-                            hover:bg-blue-800 
+                            
                             focus:ring-4 
                             focus:outline-none 
                             focus:ring-blue-300 
@@ -69,7 +69,7 @@ const Navbar = () => {
                         hidden
                             text-[#6C47FF] 
                             bg-[#DCD4FF] 
-                            hover:bg-blue-800 
+                           
                             focus:ring-4 
                             focus:outline-none 
                             focus:ring-blue-300 
@@ -217,7 +217,7 @@ const Navbar = () => {
                         block
                             text-white 
                             bg-[#6C47FF] 
-                            hover:bg-blue-800 
+                            
                             focus:ring-4 
                             focus:outline-none 
                             focus:ring-blue-300 
@@ -240,7 +240,9 @@ const Navbar = () => {
                             "
                     >
                         <Link href='https://dashboard.jiffyscan.xyz/'>
+                        <button>
                         View API Key
+                        </button>
                         </Link>
                     </button>
                     <button
@@ -272,7 +274,9 @@ const Navbar = () => {
                             "
                     >
                         <Link href='https://www.jiffyscan.xyz/'>
+                        <button>
                         Explorer
+                        </button>
                         </Link>
                     </button>
                         
