@@ -15,7 +15,7 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="bg-[#F8F8F8] opacity-100 dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600 shadow-md">
+        <nav className="bg-[#F8F8F8] backdrop-blur-lg bg-white/30 opacity-100 dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600 shadow-md">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <a href="" className="flex items-center space-x-3 rtl:space-x-reverse">
                     <svg width="52" height="35" viewBox="0 0 52 35" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -34,7 +34,7 @@ const Navbar = () => {
                         hidden
                             text-white 
                             bg-[#6C47FF] 
-                            hover:bg-blue-800 
+                            
                             focus:ring-4 
                             focus:outline-none 
                             focus:ring-blue-300 
@@ -69,7 +69,7 @@ const Navbar = () => {
                         hidden
                             text-[#6C47FF] 
                             bg-[#DCD4FF] 
-                            hover:bg-blue-800 
+                           
                             focus:ring-4 
                             focus:outline-none 
                             focus:ring-blue-300 
@@ -122,7 +122,7 @@ const Navbar = () => {
                     className={`items-center justify-between ${isOpen ? 'block' : 'hidden'} w-full md:flex md:w-auto md:order-1`}
                     id="navbar-sticky"
                 >
-                    <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-16 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-[F8F8F8] dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+                    <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg md:space-x-16 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-[F8F8F8] dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                         <li className="relative">
                             <button
                                 className="flex items-center py-2 px-3 text-[#5A5A62] rounded md:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:text-blue-500"
@@ -217,7 +217,7 @@ const Navbar = () => {
                         block
                             text-white 
                             bg-[#6C47FF] 
-                            hover:bg-blue-800 
+                            
                             focus:ring-4 
                             focus:outline-none 
                             focus:ring-blue-300 
@@ -240,7 +240,9 @@ const Navbar = () => {
                             "
                     >
                         <Link href='https://dashboard.jiffyscan.xyz/'>
+                        <button>
                         View API Key
+                        </button>
                         </Link>
                     </button>
                     <button
@@ -272,7 +274,9 @@ const Navbar = () => {
                             "
                     >
                         <Link href='https://www.jiffyscan.xyz/'>
+                        <button>
                         Explorer
+                        </button>
                         </Link>
                     </button>
                         

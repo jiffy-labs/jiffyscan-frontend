@@ -44,7 +44,6 @@ const SearchBar = () => {
     const refreshBundlesTable = async (network: string) => {
         setBundleTableLoading(true);
         const bundles = await getLatestBundles(network, 5, 0, toast);
-        console.log(bundles);
         let newRows = [] as tableDataT['rows'];
         bundles.forEach((bundle) => {
             newRows.push({
@@ -58,12 +57,11 @@ const SearchBar = () => {
                 status: true,
             });
         });
-        bundlesTables[network] = { ...bundlesTables[network], rows: newRows.slice(0, 5) };
+        bundlesTables[network] = { ...bundlesTables[network], rows: newRows.slice(0, 3) }; // Slicing to 3 rows
         setBundlesTables(bundlesTables);
-        // console.log("bundlesTables",{ ...bundlesTables[network], rows: newRows.slice(0, 5) })
         setBundleTableLoading(false);
     };
-
+    
     const refreshPaymastersTable = async (network: string) => {
         setPaymasterTableLoading(true);
         const paymasters = await getTopPaymasters(network, 5, 0, toast);
@@ -79,11 +77,11 @@ const SearchBar = () => {
                 fee: getFee(parseInt(paymaster.gasSponsored), network),
             });
         });
-        paymastersTables[network] = { ...paymastersTables[network], rows: newRows.slice(0, 10) };
+        paymastersTables[network] = { ...paymastersTables[network], rows: newRows.slice(0, 3) }; // Slicing to 3 rows
         setPaymastersTables(paymastersTables);
         setPaymasterTableLoading(false);
     };
-
+    
     const refreshBundlersTable = async (network: string) => {
         setBundlerTableLoading(true);
         const bundlers = await getTopBundlers(network, 5, 0, toast);
@@ -99,12 +97,11 @@ const SearchBar = () => {
                 fee: getFee(parseInt(bundler.actualGasCostSum), network),
             });
         });
-        bundlersTables[network] = { ...bundlersTables[network], rows: newRows.slice(0, 5) };
+        bundlersTables[network] = { ...bundlersTables[network], rows: newRows.slice(0, 3) }; // Slicing to 3 rows
         setBundlersTables(bundlersTables);
-        // console.log('bundlersTables',{ ...bundlersTables[network], rows: newRows.slice(0, 5) })
         setBundlerTableLoading(false);
     };
-
+    
     const refreshUserOpsTable = async (network: string) => {
         setUserOpTableLoading(true);
         const userOps = await getLatestUserOps(network, 5, 0, toast);
@@ -122,11 +119,11 @@ const SearchBar = () => {
                 status: userOp.success!,
             });
         });
-        setLoading(false);
-        operationsTables[network] = { ...operationsTables[network], rows: newRows.slice(0, 5) };
+        operationsTables[network] = { ...operationsTables[network], rows: newRows.slice(0, 3) }; // Slicing to 3 rows
         setOperationsTables(operationsTables);
         setUserOpTableLoading(false);
     };
+    
 
     useEffect(() => {
         const networkName = networkValue !== -1 ? NETWORK_LIST[networkValue].key : 'mainnet';
