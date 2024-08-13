@@ -60,8 +60,7 @@ const Product = () => {
                         <h2 className="text-2xl text-[#4913E4] md:text-[32px] font-poppins font-medium">Paymaster</h2>
                     </div>
                     <p className="text-[#5B5976] text-md font-poppins">
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry
-                    </p>
+                    Unlock seamless user experiences with Paymaster by sponsoring transaction fees.                    </p>
                     <Link
                         href="https://jiffyscan.mintlify.app/Quickstart/paymaster"
                         target="_blank"
@@ -85,8 +84,7 @@ const Product = () => {
                         <h2 className="text-2xl text-[#D25712] md:text-[32px] font-poppins font-medium">Bundler</h2>
                     </div>
                     <p className="text-[#5B5976] text-md font-poppins">
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry
-                    </p>
+                    Batch multiple transactions into one with Bundler, making dApp operations faster and economical. </p>
                     <Link
                         href="https://jiffyscan.mintlify.app/Quickstart/bundler"
                         target="_blank"
@@ -110,8 +108,7 @@ const Product = () => {
                         <h2 className="text-2xl md:text-[32px] text-[#0D952B] font-poppins font-medium">DataAPIs</h2>
                     </div>
                     <p className="text-[#5B5976] text-md font-poppins">
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry
-                    </p>
+                    Enhance your application’s functionality by leveraging real-time data and analytics from diverse sources.</p>
                     <Link
                         href="https://jiffyscan.mintlify.app/Quickstart/dataapis"
                         target="_blank"
