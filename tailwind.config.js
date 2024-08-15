@@ -10,6 +10,7 @@ module.exports = {
         poppins: ['Poppins', ...fontFamily.sans],
         sans: ['Space Grotesk', ...fontFamily.sans],
         inter: ['Inter', 'sans-serif'],
+        playfair: ['Playfair Display', 'serif'],
       },
       colors: {
         red: {
@@ -63,4 +64,7 @@ module.exports = {
   plugins: [
     require('flowbite/plugin')
   ],
+  letterSpacing: {
+    tightest: '-0.02em', // -2% letter spacing
+  },
 };
