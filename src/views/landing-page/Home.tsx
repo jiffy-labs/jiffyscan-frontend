@@ -8,7 +8,7 @@ import Footer from './Footer';
 
 const Home = () => {
   return (
-    <div className="relative bg-center bg-transparent min-h-screen" style={{ backgroundImage: "url('/Bg.svg')" }}>
+    <div className="relative bg-center bg-transparent min-h-screen" style={{ backgroundImage: "url('/Lbg.svg')" }}>
       <Navbar />
       <div className="pt-16"> {/* Adjust the padding-top value according to the height of the Navbar */}
         <SearchBar />

@@ -5,7 +5,7 @@ const PricingSection = () => {
     return (
         <div className="sm:flex sm:flex-col sm:align-center p-10">
             <div className="relative self-center items-center align-center font-poppins font-medium text-xl md:text-[40px] p-0.5 flex">
-                <h1>Choose the Perfect Plan for Your Data API Needs</h1>
+                <h1>Get access to Premium APIs</h1>
             </div>
             <div className="mt-12 space-y-3 object-fit sm:mt-16 sm:space-y-0 sm:grid sm:grid-cols-1 sm:gap-6  md:mx-auto xl:grid-cols-3">
                 <div className="border bg-gradient-to-b from-[#E7ECFE] to-[#F9F9FA] border-slate-200 md:w-[324px] h-[355px] rounded-2xl shadow-lg  divide-slate-200">

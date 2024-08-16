@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import Link from 'next/link';
 import React, { useState } from 'react';
 import { FaCopy } from 'react-icons/fa';
 
@@ -98,22 +99,22 @@ const Footer = () => {
                         <h4 className="text-xl text-[#F0F0F0] font-inter font-medium mb-3">Product</h4>
                         <ul className="text-sm transition-all duration-500 whitespace-nowrap">
                             <li className="mb-2">
-                                <a href="javascript:;" className="text-[#9E9E9E] text-lg hover:text-white">
+                                <a href="https://jiffyscan.xyz/" className="text-[#9E9E9E] text-lg hover:text-white">
                                     Explorer as a Service
                                 </a>
                             </li>
                             <li className="mb-2">
-                                <a href="javascript:;" className="text-[#9E9E9E] text-lg hover:text-white">
+                                <a href="https://jiffyscan.mintlify.app/Quickstart/bundler" className="text-[#9E9E9E] text-lg hover:text-white">
                                     Bundler API
                                 </a>
                             </li>
                             <li className="mb-2">
-                                <a href="javascript:;" className="text-[#9E9E9E] text-lg hover:text-white">
+                                <a href="https://jiffyscan.mintlify.app/Quickstart/paymaster" className="text-[#9E9E9E] text-lg hover:text-white">
                                     Paymaster API
                                 </a>
                             </li>
                             <li className="mb-2">
-                                <a href="javascript:;" className="text-[#9E9E9E] text-lg hover:text-white">
+                                <a href="https://jiffyscan.mintlify.app/Quickstart/dataapis" className="text-[#9E9E9E] text-lg hover:text-white">
                                     Data API
                                 </a>
                             </li>
@@ -129,9 +130,9 @@ const Footer = () => {
                         <h4 className="text-xl text-[#F0F0F0] font-inter font-medium mb-3">Company</h4>
                         <ul className="text-sm transition-all duration-500 whitespace-nowrap">
                             <li className="mb-2">
-                                <a href="javascript:;" className="text-[#9E9E9E] text-lg hover:text-white">
-                                    Our Team
-                                </a>
+                                <Link href="/about-us" className="text-[#9E9E9E] text-lg hover:text-white">
+                                    About Us
+                                </Link>
                             </li>
                             <li className="mb-2">
                                 <a href="javascript:;" className="text-[#9E9E9E] text-lg hover:text-white">
@@ -180,9 +181,9 @@ const Footer = () => {
                                 </a>
                             </li>
                             <li>
-                                <a href="javascript:;" className="text-[#9E9E9E] text-lg hover:text-white">
+                                <Link href="/pricing" className="text-[#9E9E9E] text-lg hover:text-white">
                                     FAQ
-                                </a>
+                                </Link>
                             </li>
                         </ul>
                     </div>
