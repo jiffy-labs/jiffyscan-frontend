@@ -7,7 +7,7 @@ const Pricing = () => {
   return (
     <div>
         <Navbar/>
-        <div className="pt-20 bg-cover bg-transparent" style={{ backgroundImage: "url('/pricingbg.svg')" }}>
+        <div className="pt-20 bg-center bg-auto bg-no-repeat bg-origin-content " style={{ backgroundImage: "url('/op.svg')",}}>
         <PricingSection/>
         </div>
         <Footer/>
