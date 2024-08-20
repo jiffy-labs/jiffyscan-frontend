@@ -30,7 +30,7 @@ function Options({ networkValue, setNetworkValue }: { networkValue: number; setN
         setSearchTerm(e.target.value);
     };
     return (
-        <div className="relative z-0">
+        <div className="relative z-10">
             <div className="py-3 px-4 border-r border-dark-200 bg-white flex items-center gap-1 text-md" role="button" onClick={toggler}>
                 {/* {/* <img src={NETWORK_LIST[value].img} alt="" /> */}
 
