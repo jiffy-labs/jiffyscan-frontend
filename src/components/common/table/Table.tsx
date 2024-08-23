@@ -188,7 +188,7 @@ function Table(props: tableDataT) {
 
                                                 {fee && (
                                                     <td className="">
-                                                        <div className="flex items-center justify-center gap-2 ">
+                                                        <div className="flex items-center justify-center gap-2.5 ">
                                                             {fee.value ? (
                                                                 <span>
                                                                     {typeof fee.value == 'string' ? fee.value : parseInt(fee.value.hex)}
