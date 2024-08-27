@@ -207,7 +207,7 @@ export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
 };
 
 export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
-    'open-campus-test': '/images/EduchainLogo.svg',
+    'open-campus-test': 'https://opencampus-codex.blockscout.com/',
     mainnet: 'https://etherscan.io',
     goerli: 'https://goerli.etherscan.io',
     sepolia: 'https://sepolia.etherscan.io',
@@ -236,7 +236,7 @@ export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
     'vanar-testnet': 'https://explorer-vanguard.vanarchain.com',
     'vanar-mainnet': 'https://explorer.vanarchain.com',
     testnet: 'https://explorer-vanguard.vanarchain.com',
-    educhain: 'https://opencampus-codex.blockscout.com/'
+    
 };
 
 export const ENTRY_POINT_ADDRESS_MAP: { [key: string]: string } = {
