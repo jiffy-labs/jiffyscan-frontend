@@ -1,5 +1,11 @@
 export const NETWORK_LIST = [
     {
+        name: 'EDU Chain',
+        key: 'open-campus-test',
+        iconPath: '/images/EduchainLogo.svg',
+        iconPathInverted: '/images/EduchainLogo.svg',
+    },
+    {
         name: 'Polygon',
         key: 'matic',
         iconPath: '/images/polygon-icon.svg',
@@ -149,12 +155,7 @@ export const NETWORK_LIST = [
         iconPath: '/images/bsc-logo.svg',
         iconPathInverted: '/images/bsc-logo.svg',
     },
-    {
-        name: 'EDU Chain',
-        key: 'educhain',
-        iconPath: '/images/EduchainLogo.svg',
-        iconPathInverted: '/images/EduchainLogo.svg',
-    },
+    
 
     // {
     //     name: 'Celo Alfajores',
@@ -173,6 +174,7 @@ interface NETWORK_ICON_MAP {
 }
 
 export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
+    'open-campus-test': '/images/EduchainLogo.svg',
     mainnet: '/images/ethereum-logo-rainbow.svg',
     goerli: '/images/eth-diamond-purple.svg',
     sepolia: '/images/eth-diamond-purple.svg',
@@ -200,11 +202,12 @@ export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
     'cyber-mainnet': '/images/cyber-logo.svg',
     'vanar-testnet': '/images/vanarlogo.svg',
     'vanar-mainnet': '/images/vanarlogo.svg',
-    testnet: '/images/vanar-testnet',
-    educhain: '/images/EduchainLogo.svg'
+    testnet: '/images/vanar-testnet.svg',
+    
 };
 
 export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
+    'open-campus-test': '/images/EduchainLogo.svg',
     mainnet: 'https://etherscan.io',
     goerli: 'https://goerli.etherscan.io',
     sepolia: 'https://sepolia.etherscan.io',
