@@ -149,6 +149,12 @@ export const NETWORK_LIST = [
         iconPath: '/images/bsc-logo.svg',
         iconPathInverted: '/images/bsc-logo.svg',
     },
+    {
+        name: 'EDU Chain',
+        key: 'educhain',
+        iconPath: '/images/EduchainLogo.svg',
+        iconPathInverted: '/images/EduchainLogo.svg',
+    },
 
     // {
     //     name: 'Celo Alfajores',
@@ -195,6 +201,7 @@ export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
     'vanar-testnet': '/images/vanarlogo.svg',
     'vanar-mainnet': '/images/vanarlogo.svg',
     testnet: '/images/vanar-testnet',
+    educhain: '/images/EduchainLogo.svg'
 };
 
 export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
@@ -226,6 +233,7 @@ export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
     'vanar-testnet': 'https://explorer-vanguard.vanarchain.com',
     'vanar-mainnet': 'https://explorer.vanarchain.com',
     testnet: 'https://explorer-vanguard.vanarchain.com',
+    educhain: 'https://opencampus-codex.blockscout.com/'
 };
 
 export const ENTRY_POINT_ADDRESS_MAP: { [key: string]: string } = {
