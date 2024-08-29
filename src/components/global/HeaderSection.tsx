@@ -107,18 +107,21 @@ const HeaderSectionGlobal: React.FC<HeaderSectionProps> = ({
                                 )}
                             </div>
                         </div>
-                        {item?.address !== '' && addressMapping && addressMapping[item?.address.toLowerCase()] && POWERED_BY_LOGO_MAP[addressMapping[item?.address.toLowerCase()].company.toLowerCase()] && (
-                            <div className="md:px-[16px] px-0 md:py-[8px] py-0">
-                                <span className="text-bluegrey-300 text-[10px] leading-5 flex items-center gap-2 font-normal">
-                                    Powered By{' '}
-                                    <img
-                                        src={POWERED_BY_LOGO_MAP[addressMapping[item?.address.toLowerCase()].company.toLowerCase()].small}
-                                        style={{ height: 20, width: 20 }}
-                                        alt=""
-                                    />
-                                </span>
-                            </div>
-                        )}
+                        {item?.address && typeof item.address === 'string' && addressMapping && 
+    addressMapping[item.address.toLowerCase()] && 
+    addressMapping[item.address.toLowerCase()].company &&
+    POWERED_BY_LOGO_MAP[addressMapping[item.address.toLowerCase()].company.toLowerCase()] && (
+    <div className="md:px-[16px] px-0 md:py-[8px] py-0">
+        <span className="text-bluegrey-300 text-[10px] leading-5 flex items-center gap-2 font-normal">
+            Powered By{' '}
+            <img
+                src={POWERED_BY_LOGO_MAP[addressMapping[item.address.toLowerCase()].company.toLowerCase()].small}
+                style={{ height: 20, width: 20 }}
+                alt=""
+            />
+        </span>
+    </div>
+)}
                     </div>
                 </div>
             </section>
