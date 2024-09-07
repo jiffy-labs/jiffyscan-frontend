@@ -7,9 +7,13 @@ import Copyright from './Copyright';
 import Donations from './Donations';
 import pages from './pages.json';
 import socials from './social.json';
+import FeedbackCard from './FeedbackCard';
+
 
 function Footer() {
     return (
+        <>
+        <FeedbackCard/>
         <footer className="bg-dark-600 py-8 md:py-12 text-white">
             <div className="container flex flex-col gap-8 md:gap-12">
                 <div className=" flex md:flex-row flex-col md:justify-between md:items-center">
@@ -66,6 +70,7 @@ function Footer() {
                 </div>
             </div>
         </footer>
+        </>
     );
 }
 
