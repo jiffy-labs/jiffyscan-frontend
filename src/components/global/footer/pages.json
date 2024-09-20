@@ -5,7 +5,7 @@
         "lists": [
             [
                 "About Us",
-                "https://adityaagarwal.notion.site/JiffyLabs-Pages-3d508d91ba414fa590c335b3dc1f64d7#a46942a916f048478c901cbf4c766e42"
+                "https://www.jiffylabs.xyz/about-us"
             ],
             [
                 "Contact Us",
@@ -20,8 +20,8 @@
         "id": 456,
         "name": "Community",
         "lists": [
-            ["Blog", "https://medium.com/jiffylabs"],
-            ["API Documentation", "https://jiffyscan.readme.io/reference/getting-started-1"],
+            ["Blog", "https://jiffylabs.hashnode.dev/"],
+            ["API Documentation", "https://jiffyscan.mintlify.app/welcome"],
             ["Knowledge Base", "https://www.notion.so/Knowledge-Base-c8b7f786de5141a7baaffd30cef8fe30"],
             ["FAQ", "https://www.notion.so/5b080715834745ff82339c8ca73a76cb"],
             ["Submit an Issue", "https://github.com/jiffy-labs/jiffyscan-frontend/issues"]
@@ -31,7 +31,7 @@
         "id": 567,
         "name": "Products & Services",
         "lists": [
-            ["API Plans", "https://www.notion.so/c3633ff3f9ea4aeeb1892ae1303439ba"],
+            ["API Plans", "https://www.jiffylabs.xyz/pricing"],
             ["Explorer-as-a-service", "https://www.notion.so/c3633ff3f9ea4aeeb1892ae1303439ba"],
             ["GasFee Infrastructure", "https://www.notion.so/c3633ff3f9ea4aeeb1892ae1303439ba"]
         ]
