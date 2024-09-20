@@ -20,7 +20,7 @@
         "id": 456,
         "name": "Community",
         "lists": [
-            ["Blog", "https://medium.com/jiffylabs"],
+            ["Blog", "https://jiffylabs.hashnode.dev/"],
             ["API Documentation", "https://jiffyscan.mintlify.app/welcome"],
             ["Knowledge Base", "https://www.notion.so/Knowledge-Base-c8b7f786de5141a7baaffd30cef8fe30"],
             ["FAQ", "https://www.notion.so/5b080715834745ff82339c8ca73a76cb"],
