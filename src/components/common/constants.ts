@@ -131,12 +131,12 @@ export const NETWORK_LIST = [
     //     iconPath: '/images/gnosis-logo.svg',
     //     iconPathInverted: '/images/gnosis-logo.svg',
     // },
-    {
-        name: 'Base Testnet',
-        key: 'base-testnet',
-        iconPath: '/images/base-logo.svg',
-        iconPathInverted: '/images/base-logo.svg',
-    },
+    // {
+    //     name: 'Base Testnet',
+    //     key: 'base-testnet',
+    //     iconPath: '/images/base-logo.svg',
+    //     iconPathInverted: '/images/base-logo.svg',
+    // },
     // {
     //     name: 'Binance Smart Chain',
     //     key: 'bsc',
@@ -227,7 +227,6 @@ export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
     'vanar-mainnet': 'https://explorer.vanarchain.com',
     testnet: 'https://explorer-vanguard.vanarchain.com',
     'open-campus-test': 'https://opencampus-codex.blockscout.com/',
-
 };
 
 export const ENTRY_POINT_ADDRESS_MAP: { [key: string]: string } = {
