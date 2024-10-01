@@ -113,6 +113,12 @@ export const NETWORK_LIST = [
         iconPath: '/images/avalanche-logo-red.svg',
         iconPathInverted: '/images/avalanche-logo-red.svg',
     },
+    {
+        name: 'EDU Chain',
+        key: 'open-campus-test',
+        iconPath: '/images/EduchainLogo.svg',
+        iconPathInverted: '/images/EduchainLogo.svg',
+    },
     // {
     //     name: 'Fantom',
     //     key: 'fantom',
@@ -192,6 +198,7 @@ export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
     // degen: '/images/degen-logo.png',
     'polygon-amoy': '/images/polygon-mumbai-icon.svg',
     'cyber-mainnet': '/images/cyber-logo.svg',
+    'open-campus-test': '/images/EduchainLogo.svg',
     // 'vanar-testnet': '/images/vanarlogo.svg',
     // 'vanar-mainnet': '/images/vanarlogo.svg',
     // testnet: '/images/vanar-testnet',
