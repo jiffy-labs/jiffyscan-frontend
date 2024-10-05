@@ -13,6 +13,29 @@ import NameServiceStore from '@/context/nameServiceContext';
 import PHProvider from '@/context/postHogProvider';
 import { useTokenPrices } from '@/hooks/useTokenPrices';
 import TopBanner from '@/components/global/navbar/TopBanner';
+import localFont from 'next/font/local';
+
+const GeistSans = localFont({
+  src: [
+    {
+      path: '../../public/fonts/Geist-Regular.otf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../../public/fonts/Geist-Bold.otf',
+      weight: '700',
+      style: 'bold',
+    },
+  ],
+  variable: '--font-geist-sans',
+});
+
+const GeistMono = localFont({
+  src: '../../public/fonts/GeistMono-Regular.otf',
+  variable: '--font-geist-mono',
+});
+
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
     getLayout?: (page: ReactElement) => ReactNode;
 };
@@ -29,7 +52,7 @@ export default function MyApp({ Component, pageProps: { session, ...pageProps } 
     useTokenPrices();
     const getLayout = Component.getLayout ?? ((page) => page);
     return (
-        <div>
+        <div className={`${GeistSans.variable} ${GeistMono.variable}`}>
             <PHProvider>
                 <SessionProvider session={session}>
                     <UserSessionStore>
