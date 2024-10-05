@@ -11,6 +11,8 @@ module.exports = {
         sans: ['Space Grotesk', ...fontFamily.sans],
         inter: ['Inter', 'sans-serif'],
         playfair: ['Playfair Display', 'serif'],
+        gsans: ['var(--font-geist-sans)', 'sans-serif'],
+        gmono: ['var(--font-geist-mono)', 'monospace'],
       },
       colors: {
         red: {
