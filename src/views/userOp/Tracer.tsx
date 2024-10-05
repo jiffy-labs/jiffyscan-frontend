@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { FaArrowRight, FaCopy } from 'react-icons/fa'; // Import icons
 import { MdArrowForwardIos } from 'react-icons/md';
 import { FaArrowUpFromBracket } from 'react-icons/fa6';
-import { RiArrowRightSLine } from "react-icons/ri";
+import { RiArrowRightSLine } from 'react-icons/ri';
 // Interfaces for TypeScript
 interface TracerProps {
     item: {
@@ -49,124 +49,10 @@ interface TracerData {
     relevantTraces: Trace[];
 }
 
-// TraceDetails component for displaying individual trace details
-// const TraceDetails: React.FC<{ trace: Trace }> = ({ trace }) => {
-//     const { type, result, action, subtraces, stage } = trace;
-//     const { output, gasUsed } = result || {};
-//     const { from, to, input, method, decodedInput, value, callType } = action || {};
-
-//     const [showDetails, setShowDetails] = useState(false);
-//     const [showSubtraces, setShowSubtraces] = useState(false);
-
-//     const toggleDetails = () => setShowDetails(!showDetails);
-//     const toggleSubtraces = () => setShowSubtraces(!showSubtraces);
-
-//     return (
-//         <div className="rounded-b-x">
-//             <div className="flex space-x-4 bg-white p-4 text-md">
-//                 <span className="bg-gray-100 text-gray-900 text-sm  me-2 px-2.5 py-0.5 rounded dark:text-gray-400 border border-gray-200">
-//                     {callType}
-//                 </span>
-//                 <span className="bg-gray-100 text-gray-900 text-sm  me-2 px-2.5 py-0.5 rounded dark:text-gray-400 border border-gray-200">
-//                     {gasUsed}
-//                 </span>
-
-//                 {/* Arrow to indicate subtrace expansion */}
-//                 {subtraces && subtraces.length > 0 && (
-//                     <IoIosArrowForward
-//                         className={`w-4 h-4 mt-1 transition-transform duration-200 cursor-pointer ${showSubtraces ? 'rotate-90' : ''}`}
-//                         onClick={toggleSubtraces}
-//                     />
-//                 )}
-
-//                 <strong>From:&nbsp;</strong> {from || 'N/A'}
-//                 <FaArrowRight className="mt-1" />
-//                 <strong>To:&nbsp;</strong> {to || 'N/A'}
-//                 <span onClick={toggleDetails} className="text-end justify-end text-blue-600 cursor-pointer">
-//                     {showDetails ? 'Hide details' : 'More details'}
-//                 </span>
-//             </div>
-
-//             {showDetails && (
-//                 <div className="flex flex-col space-y-2 p-4">
-//                     <div className="flex">
-//                         <div className="w-1/4">
-//                             <strong>Type:</strong>
-//                         </div>
-//                         <div className="w-3/4">{type || 'N/A'}</div>
-//                     </div>
-//                     <div className="flex">
-//                         <div className="w-1/4">
-//                             <strong>Stage:</strong>
-//                         </div>
-//                         <div className="w-3/4">{stage || 'N/A'}</div>
-//                     </div>
-//                     <div className="flex">
-//                         <div className="w-1/4">
-//                             <strong>Method:</strong>
-//                         </div>
-//                         <div className="w-3/4">{method || 'N/A'}</div>
-//                     </div>
-//                     <div className="flex">
-//                         <div className="w-1/4">
-//                             <strong>Gas Used:</strong>
-//                         </div>
-//                         <div className="w-3/4">{gasUsed || 'N/A'}</div>
-//                     </div>
-//                     <div className="flex">
-//                         <div className="w-1/4">
-//                             <strong>Input:</strong>
-//                         </div>
-//                         <div className="w-3/4 max-h-32 overflow-y-auto border p-2 rounded">{input || 'N/A'}</div>
-//                     </div>
-//                     <div className="flex">
-//                         <div className="w-1/4">
-//                             <strong>Decoded Input:</strong>
-//                         </div>
-//                         <div className="w-3/4 max-h-32 overflow-y-auto border p-2 rounded">
-//                             {decodedInput ? JSON.stringify(decodedInput, null, 2) : 'N/A'}
-//                         </div>
-//                     </div>
-//                     <div className="flex">
-//                         <div className="w-1/4">
-//                             <strong>Value:</strong>
-//                         </div>
-//                         <div className="w-3/4">{value || 'N/A'}</div>
-//                     </div>
-//                     <div className="flex">
-//                         <div className="w-1/4">
-//                             <strong>Calltype:</strong>
-//                         </div>
-//                         <div className="w-3/4">{callType || 'N/A'}</div>
-//                     </div>
-//                     <div className="flex">
-//                         <div className="w-1/4">
-//                             <strong>Output:</strong>
-//                         </div>
-//                         <div className="w-3/4">{output || 'N/A'}</div>
-//                     </div>
-//                 </div>
-//             )}
-
-//             {/* Render subtraces if they exist */}
-//             {showSubtraces && subtraces && subtraces.length > 0 && (
-//                 <div className="">
-//                     {/* <strong>Subtraces:</strong> */}
-//                     <div className="">
-//                         {subtraces.map((subtrace, index) => (
-//                             <TraceDetails key={index} trace={subtrace} />
-//                         ))}
-//                     </div>
-//                 </div>
-//             )}
-//         </div>
-//     );
-// };
-
 const TraceDetails: React.FC<{ trace: Trace; depth?: number }> = ({ trace, depth = 0 }) => {
     const { type, result, action, subtraces, stage } = trace;
     const { output, gasUsed } = result || {};
-    const { from, to,gas, input, method, decodedInput, value, callType } = action || {};
+    const { from, to, gas, input, method, decodedInput, value, callType } = action || {};
     const [fromCopied, setFromCopied] = useState(false);
     const [toCopied, setToCopied] = useState(false);
 
@@ -286,7 +172,13 @@ const TraceDetails: React.FC<{ trace: Trace; depth?: number }> = ({ trace, depth
                         <div className="w-1/4">
                             <span className="text-[#646D8F] font-gsans">GAS USED</span>
                         </div>
-                        <div className="w-3/4 font-gsans text-[#20294C] text-md">{gasUsed ? Number(gasUsed).toLocaleString() : 'N/A'}</div>
+                        <div className="w-3/4 font-gsans text-[#20294C] text-md">
+                            {gasUsed ? Number(gasUsed).toLocaleString() : 'N/A'}
+                            {/* Calculate and display the percentage if both gasUsed and gas are available */}
+                            {gasUsed && gas ? (
+                                <span className="text-sm text-gray-500 ml-2">({((Number(gasUsed) / Number(gas)) * 100).toFixed(2)}%)</span>
+                            ) : null}
+                        </div>
                     </div>
                     <div className="flex">
                         <div className="w-1/4">
@@ -294,6 +186,7 @@ const TraceDetails: React.FC<{ trace: Trace; depth?: number }> = ({ trace, depth
                         </div>
                         <div className="w-3/4 font-gsans text-[#20294C] text-md">{gas ? Number(gas).toLocaleString() : 'N/A'}</div>
                     </div>
+
                     <div className="flex">
                         <div className="w-1/4">
                             <span className="text-[#646D8F] font-gsans">INPUT</span>
