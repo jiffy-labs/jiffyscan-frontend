@@ -378,7 +378,7 @@ const Tracer: React.FC<TracerProps> = ({ item, network }) => {
     }
 
     if (!tracer || !tracer.relevantTraces.length) {
-        return <div className="text-gray-500 text-center my-4">No logs available.</div>;
+        return <Skeleton count={5} />;
     }
 
     return (
