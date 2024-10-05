@@ -28,6 +28,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LoginModal from '@/components/global/LoginModal';
 import { useUserSession } from '@/context/userSession';
+import Tracer from './Tracer';
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const passedTime = (time: number) => {
@@ -140,6 +141,11 @@ function RecentUserOps(props: any) {
                 <div className={`${activeTab === 'logs' ? 'block' : 'hidden'}`}>
                     <UserOpLogs item={userOpsData?.[showUserOpId]} />
                 </div>
+                {network === 'base' && (
+                    <div className={`${activeTab === 'tracer' ? 'block' : 'hidden'}`}>
+                        <Tracer item={userOpsData?.[showUserOpId]} network={''} />
+                    </div>
+                )}
             </div>
         );
     };
@@ -163,36 +169,35 @@ function RecentUserOps(props: any) {
         return userOp;
     }
 
-    const refreshUserOpsTable = async (name : string) => {
-        setTableLoading(true); 
-    
+    const refreshUserOpsTable = async (name: string) => {
+        setTableLoading(true);
+
         const pollUserOpData = async () => {
             let userOps = await returnUserOpData(name, toast);
             setuserOpsData(userOps); // Update the UI with the latest data
-    
+
             // Create and set the rows for the table
             let rows = createDuplicateUserOpsRows(userOps, handleDuplicateRowClick);
             setDuplicateUserOpsRows(rows);
-    
-            
+
             if (userOps.length > 1) {
                 setShowUserOpId(-1);
             }
-    
+
             if (userOps[0] && userOps[0].network) {
                 setSelectedNetwork(userOps[0].network);
-                setTableLoading(false); 
+                setTableLoading(false);
             }
-    
+
             // Continue polling if timeSeenInAltMempool exists
             if (userOps[0]?.timeSeenInAltMempool || userOps[0]?.timeSeenInMainMempool) {
                 setTimeout(pollUserOpData, 20000); // Poll every 20 seconds
-            } 
+            }
         };
-    
+
         await pollUserOpData(); // Start the polling process
     };
-    
+
     const handleDuplicateRowClick = (id: number) => {
         setShowUserOpId(id);
     };
@@ -315,6 +320,16 @@ function RecentUserOps(props: any) {
                                         >
                                             UserOp Logs
                                         </button>
+                                        {network === 'base' && (
+                                            <button
+                                                onClick={() => handleTabChange('tracer')}
+                                                className={`py-2 px-4 rounded-[6px] ${
+                                                    activeTab === 'tracer' ? 'bg-gray-800  text-white' : 'bg-gray-200'
+                                                }`}
+                                            >
+                                                Tracer
+                                            </button>
+                                        )}
                                     </div>
                                     <div className="mb-[2rem]">{renderContent()}</div>
                                 </div>
