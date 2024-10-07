@@ -7,6 +7,8 @@ module.exports = {
     extend: {
       fontFamily: {
         roboto: ["Roboto", ...fontFamily.sans],
+        gsans: ['var(--font-geist-sans)', 'sans-serif'],
+        gmono: ['var(--font-geist-mono)', 'monospace'],
       },
       colors: {
         red: {

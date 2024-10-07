@@ -35,6 +35,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import LoginModal from '@/components/global/LoginModal';
 import { useUserSession } from '@/context/userSession';
 import { ethers } from 'ethers';
+import Tracer from './Tracer';
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const passedTime = (time: number) => {
     let currentTime = new Date().getTime();
@@ -183,6 +184,10 @@ function RecentUserOps(props: any) {
 
                 <div className={`${activeTab === 'logs' ? 'block' : 'hidden'}`}>
                     {/* <UserOpLogs logs={logs} /> */}
+                </div>
+
+                <div className={`${activeTab === 'tracer' ? 'block' : 'hidden'}`}>
+                    <Tracer item={userOpsData?.[showUserOpId]} network={''} />
                 </div>
             </div>
         );
@@ -382,6 +387,14 @@ function RecentUserOps(props: any) {
                                         >
                                             UserOp Logs
                                         </button>
+                                        <button
+                                            onClick={() => handleTabChange('tracer')}
+                                            className={`py-2 px-4 rounded-[6px] ${
+                                                activeTab === 'tracer' ? 'bg-gray-800  text-white' : 'bg-gray-200'
+                                            }`}
+                                        >
+                                            Tracer
+                                        </button>
                                     </div>
                                     <div className="mb-[2rem]">{renderContent()}</div>
                                 </div>
@@ -394,6 +407,7 @@ function RecentUserOps(props: any) {
 
                                         <Tab label="Developer Details"  className='normal-case text-[22px]' {...a11yProps(1)} />
                                         <Tab label="UserOp Logs" className='normal-case text-[22px]' {...a11yProps(2)} />
+                                        {network === 'base' && (<Tab label="Tracer" className='normal-case text-[22px]' {...a11yProps(3)}/>)}
                                         {/* <Tab label="CallData" className='normal-case text-[22px]' {...a11yProps(4)} /> */}
                                     </Tabs>
                                 </Box>
@@ -659,6 +673,24 @@ function RecentUserOps(props: any) {
                                         {/* @ts-ignore  */}
                                         <UserOpLogs logs={logs} network={network} />
                                     </CustomTabPanel>
+                                    {network === 'base' && (
+                    <>
+                        {/* Show the Tracer component only on medium (md) screens and larger */}
+                        <div className={`${activeTab === 'tracer' ? 'block' : 'hidden'} hidden md:block`}>
+                        <CustomTabPanel value={value} index={3} >
+                    {/* @ts-ignore  */}
+                    
+<Tracer item={userOpsData?.[showUserOpId]} />
+
+                </CustomTabPanel>
+                        </div>
+                        {/* Show the title on screens smaller than md */}
+                        <div className="block md:hidden text-center p-8 text-xl text-gray-500 font-medium">Best Viewed on Larger Screens</div>
+                    </>
+                )}                       
+
+                                  
+                                    
                                 </div>
                             </Box>
                         </>
