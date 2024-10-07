@@ -141,17 +141,22 @@ function RecentUserOps(props: any) {
                 <div className={`${activeTab === 'logs' ? 'block' : 'hidden'}`}>
                     <UserOpLogs item={userOpsData?.[showUserOpId]} />
                 </div>
-                {network === 'base' && (
-                    <>
-                        {/* Show the Tracer component only on medium (md) screens and larger */}
-                        <div className={`${activeTab === 'tracer' ? 'block' : 'hidden'} hidden md:block`}>
-                            <Tracer item={userOpsData?.[showUserOpId]} network={''} />
-                        </div>
+                {network === 'base' &&activeTab === 'tracer' && (
+    <>
+        {/* Show the Tracer component only on medium (md) screens and larger */}
+        <div className={`${activeTab === 'tracer' ? 'block' : 'hidden'} hidden md:block`}>
+            <Tracer item={userOpsData?.[showUserOpId]} network={''} />
+        </div>
 
-                        {/* Show the title on screens smaller than md */}
-                        <div className="block md:hidden text-center p-8 text-xl text-gray-500 font-medium">Best Viewed on Larger Screens</div>
-                    </>
-                )}
+        {/* Show the title on screens smaller than md, but only for the 'tracer' tab */}
+        
+            <div className="block md:hidden text-center p-8 text-xl text-gray-500 font-medium">
+                Best Viewed on Larger Screens
+            </div>
+        
+    </>
+)}
+
             </div>
         );
     };
