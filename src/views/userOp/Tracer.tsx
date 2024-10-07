@@ -92,7 +92,7 @@ const TraceDetails: React.FC<{ trace: Trace; depth?: number }> = ({ trace, depth
                     <span className="bg-[#F0F1F5] font-gsans text-[#646D8F] w-[72px] h-[24px] text-center text-sm me-2 px-2.5 py-0.5 rounded dark:text-gray-400 border border-gray-200">
                         {callType === 'delegatecall' ? 'D-CALL' : callType === 'staticcall' ? 'S-CALL' : 'CALL'}
                     </span>
-                    <span className="bg-[#F0F1F5] font-gsans text-[#646D8F] w-[72px] h-[24px] text-center text-sm me-2 px-2.5 py-0.5 rounded dark:text-gray-400 border border-gray-200">
+                    <span className="bg-[#F0F1F5] font-gsans text-[#646D8F] tracking-[0.4] w-[74px] h-[24px] text-center text-sm text-nowrap px-2 py-0.5 rounded dark:text-gray-400 border border-gray-200">
                         {gasUsed ? Number(gasUsed).toLocaleString() : 'N/A'}
                     </span>
                 </div>
@@ -111,8 +111,9 @@ const TraceDetails: React.FC<{ trace: Trace; depth?: number }> = ({ trace, depth
                     <span className="font-gsans mt-[2px] font-medium text-md text-[#20294C]"> {formatAddress(from)}</span>
                     <FaArrowRight className="mt-1" />
                     <span className="font-gsans mt-[2px] font-medium text-md text-[#20294C]">{formatAddress(to)}</span>
+                    <span className="text-sm text-[#646D8F] font-gmono ml-2 text-center align-middle mt-[2px]">({input ? `${input.slice(0, 10)}...` : 'N/A'})</span>
                 </div>
-                <span onClick={toggleDetails} className="text-end font-gsans justify-between text-[#195BDF] cursor-pointer">
+                <span onClick={toggleDetails} className="text-end font-gsans justify-between text-[#195BDF] cursor-pointer mt-[2px]">
                     {showDetails ? 'Hide details' : 'More details'}
                 </span>
             </div>
