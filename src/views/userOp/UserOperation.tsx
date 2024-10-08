@@ -141,11 +141,22 @@ function RecentUserOps(props: any) {
                 <div className={`${activeTab === 'logs' ? 'block' : 'hidden'}`}>
                     <UserOpLogs item={userOpsData?.[showUserOpId]} />
                 </div>
-                {network === 'base' && (
-                    <div className={`${activeTab === 'tracer' ? 'block' : 'hidden'}`}>
-                        <Tracer item={userOpsData?.[showUserOpId]} network={''} />
-                    </div>
-                )}
+                {network === 'base' &&activeTab === 'tracer' && (
+    <>
+        {/* Show the Tracer component only on medium (md) screens and larger */}
+        <div className={`${activeTab === 'tracer' ? 'block' : 'hidden'} hidden md:block`}>
+            <Tracer item={userOpsData?.[showUserOpId]} network={''} />
+        </div>
+
+        {/* Show the title on screens smaller than md, but only for the 'tracer' tab */}
+        
+            <div className="block md:hidden text-center p-8 text-xl text-gray-500 font-medium">
+                Best Viewed on Larger Screens
+            </div>
+        
+    </>
+)}
+
             </div>
         );
     };
@@ -295,7 +306,7 @@ function RecentUserOps(props: any) {
                             <HeaderSection item={userOpsData?.[showUserOpId]} network={network} loading={tableLoading} />
                             <div className="mt-[28px] px-3 ">
                                 <div className="container px-0 ">
-                                    <div className="flex flex-row gap-[1rem]">
+                                    <div className="flex flex-row gap-[1rem] overflow-x-auto">
                                         <button
                                             onClick={() => handleTabChange('overview')}
                                             className={`py-2 px-4 rounded-[6px] ${
