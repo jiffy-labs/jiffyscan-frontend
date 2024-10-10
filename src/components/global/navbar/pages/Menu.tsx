@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
+import { RiArrowDownSLine } from 'react-icons/ri';
 
 function Menu(props: { name: string | any ; dropdown: string[][] | undefined; id: string; url?: string }) {
     const { pathname, push } = useRouter();
@@ -38,8 +39,8 @@ function Menu(props: { name: string | any ; dropdown: string[][] | undefined; id
     return (
         <div className="relative" id={props.id} ref={menuRef}>
             <button
-                className={`flex items-center gap-1 text-md tracking-[0.25px] underline-offset-[10px] decoration-2 ${
-                    current ? 'underline' : 'hover:no-underline'
+                className={`flex items-center gap-1 text-xl tracking-[0.25px] underline-offset-[10px] decoration-2 font-gsans ${
+                    current ? 'text-blue-200' : 'hover:no-underline'
                 }`}
                 onClick={props.url ? redirectHome : handleToggleDropdown}
             >
@@ -51,7 +52,9 @@ function Menu(props: { name: string | any ; dropdown: string[][] | undefined; id
                     props.name
                 )}
 
-                {props.dropdown != undefined ? <img src="/images/icon-container.svg" alt="" /> : null}
+                {props.dropdown != undefined ? <img src="/images/icon-container.svg" alt="" className='dark:hidden'/> : null}
+                {props.dropdown != undefined ? <RiArrowDownSLine className='dark:block hidden w-5 h-5 ' /> : null}
+                
             </button>
 
             {isOpen && (

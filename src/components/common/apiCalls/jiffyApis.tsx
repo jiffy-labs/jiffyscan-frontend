@@ -1177,18 +1177,33 @@ export const createAPIKey = async (Authorization: string, toast: any) => {
     }
 };
 
-export const resolveBNSAddress = async (address: String, network: string): Promise<String> => {
+export const resolveBNSAddress = async (address: string, network: string): Promise<string> => {
     let name = '';
 
-    if (address && address.length > 2 && address.slice(0, 2) == '0x' && address.length == 42) {
-        const BnsResponse = await axios.get('https://resolver-api.basename.app/v1/addresses/' + address.toString(), {
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Content-Type': 'application/json',
-            },
-        });
-        name = BnsResponse?.data?.name ? BnsResponse.data.name : '';
+    try {
+        // Check if the address is a valid Ethereum-like address
+        if (address && address.length === 42 && address.slice(0, 2) === '0x') {
+            const BnsResponse = await axios.get(
+                `https://resolver-api.basename.app/v1/addresses/${address}`, 
+                {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+
+            // Check if the API returned a valid name
+            if (BnsResponse?.data?.name) {
+                name = BnsResponse.data.name;
+            }
+        } else {
+            console.warn('Invalid address format');
+        }
+    } catch (error) {
+        console.error('Error resolving BNS address:', error);
     }
+
     return name;
 };
 

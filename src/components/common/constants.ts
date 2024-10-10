@@ -23,30 +23,30 @@ export const NETWORK_LIST = [
         iconPath: '/images/base-logo.svg',
         iconPathInverted: '/images/base-logo.svg',
     },
-    {
-        name: 'Vanar Testnet',
-        key: 'vanar-testnet',
-        iconPath: '/images/vanarlogo.svg',
-        iconPathInverted: '/images/vanarlogo.svg',
-    },
+    // {
+    //     name: 'Vanar Mainnet',
+    //     key: 'vanar-mainnet',
+    //     iconPath: '/images/vanarlogo.svg',
+    //     iconPathInverted: '/images/vanarlogo.svg',
+    // },
+    // {
+    //     name: 'Vanar Testnet',
+    //     key: 'vanar-testnet',
+    //     iconPath: '/images/vanarlogo.svg',
+    //     iconPathInverted: '/images/vanarlogo.svg',
+    // },
     {
         name: 'Cyber Mainnet',
         key: 'cyber-mainnet',
         iconPath: '/images/cyber-logo.svg',
         iconPathInverted: '/images/cyber-logo.svg',
     },
-    {
-        name: 'Fuse',
-        key: 'fuse',
-        iconPath: '/images/fuse-logo.svg',
-        iconPathInverted: '/images/fuse-logo.svg',
-    },
-    {
-        name: 'Base',
-        key: 'base',
-        iconPath: '/images/base-logo.svg',
-        iconPathInverted: '/images/base-logo.svg',
-    },
+    // {
+    //     name: 'Fuse',
+    //     key: 'fuse',
+    //     iconPath: '/images/fuse-logo.svg',
+    //     iconPathInverted: '/images/fuse-logo.svg',
+    // },
     {
         name: 'Base Sepolia',
         key: 'base-sepolia',
@@ -114,41 +114,47 @@ export const NETWORK_LIST = [
         iconPathInverted: '/images/avalanche-logo-red.svg',
     },
     {
-        name: 'Fantom',
-        key: 'fantom',
-        iconPath: '/images/fantom-logo.svg',
-        iconPathInverted: '/images/fantom-logo.svg',
+        name: 'EDU Chain',
+        key: 'open-campus-test',
+        iconPath: '/images/EduchainLogo.svg',
+        iconPathInverted: '/images/EduchainLogo.svg',
     },
-    {
-        name: 'Fantom Testnet',
-        key: 'fantom-testnet',
-        iconPath: '/images/fantom-logo.svg',
-        iconPathInverted: '/images/fantom-logo.svg',
-    },
-    {
-        name: 'Gnosis',
-        key: 'gnosis',
-        iconPath: '/images/gnosis-logo.svg',
-        iconPathInverted: '/images/gnosis-logo.svg',
-    },
+    // {
+    //     name: 'Fantom',
+    //     key: 'fantom',
+    //     iconPath: '/images/fantom-logo.svg',
+    //     iconPathInverted: '/images/fantom-logo.svg',
+    // },
+    // {
+    //     name: 'Fantom Testnet',
+    //     key: 'fantom-testnet',
+    //     iconPath: '/images/fantom-logo.svg',
+    //     iconPathInverted: '/images/fantom-logo.svg',
+    // },
+    // {
+    //     name: 'Gnosis',
+    //     key: 'gnosis',
+    //     iconPath: '/images/gnosis-logo.svg',
+    //     iconPathInverted: '/images/gnosis-logo.svg',
+    // },
     // {
     //     name: 'Base Testnet',
     //     key: 'base-testnet',
     //     iconPath: '/images/base-logo.svg',
     //     iconPathInverted: '/images/base-logo.svg',
     // },
-    {
-        name: 'Binance Smart Chain',
-        key: 'bsc',
-        iconPath: '/images/bsc-logo.svg',
-        iconPathInverted: '/images/bsc-logo.svg',
-    },
-    {
-        name: 'BNB Testnet',
-        key: 'bnb-testnet',
-        iconPath: '/images/bsc-logo.svg',
-        iconPathInverted: '/images/bsc-logo.svg',
-    },
+    // {
+    //     name: 'Binance Smart Chain',
+    //     key: 'bsc',
+    //     iconPath: '/images/bsc-logo.svg',
+    //     iconPathInverted: '/images/bsc-logo.svg',
+    // },
+    // {
+    //     name: 'BNB Testnet',
+    //     key: 'bnb-testnet',
+    //     iconPath: '/images/bsc-logo.svg',
+    //     iconPathInverted: '/images/bsc-logo.svg',
+    // },
 
     // {
     //     name: 'Celo Alfajores',
@@ -194,6 +200,7 @@ export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
     'cyber-mainnet': '/images/cyber-logo.svg',
     'vanar-testnet': '/images/vanarlogo.svg',
     testnet: '/images/vanar-testnet',
+    'open-campus-test': '/images/EduchainLogo.svg',
 };
 
 export const ANKR_API_NETWORKS:{ [key: string]: string } = {
@@ -254,6 +261,7 @@ export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
     'cyber-mainnet': 'https://cyber-explorer.alt.technology',
     'vanar-testnet': 'https://explorer-vanguard.vanarchain.com',
     testnet: 'https://explorer-vanguard.vanarchain.com',
+    'open-campus-test': 'https://opencampus-codex.blockscout.com/',
 };
 
 export const ENTRY_POINT_ADDRESS_MAP: { [key: string]: string } = {

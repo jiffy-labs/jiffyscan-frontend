@@ -43,14 +43,14 @@ function Token({ icon, text, copyIcon, type, onTokenClicked, value, eyes }: Toke
     const renderString = showText ? text : shortenString(text, eyes);
 
     return (
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-1 px-2 ">
             {icon && <img src={icon} alt="" style={{ width: '20px', height: '20px' }} />}
             {onTokenClicked ? (
-                <a onClick={() => onTokenClicked(value ? value : 0)} className="text-blue-200 cursor-pointer">
+                <a onClick={() => onTokenClicked(value ? value : 0)} className="text-blue-200 dark:text-[#B589F1] cursor-pointer w-[112px] text-left px-1">
                     {resolvedAddress ? resolvedAddress : renderString}
                 </a>
             ) : (
-                <Link href={getHrefLink(type, text, selectedNetwork)} target={getTarget(type)} className="text-blue-200">
+                <Link href={getHrefLink(type, text, selectedNetwork)} target={getTarget(type)} className="w-[112px] text-blue-200 dark:text-[#B589F1] text-left px-1">
                     {resolvedAddress ? resolvedAddress : renderString}
                 </Link>
             )}

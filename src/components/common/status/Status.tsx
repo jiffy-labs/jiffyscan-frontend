@@ -5,7 +5,7 @@ export default function Status({ type, status, ago }: { type?: boolean; status?:
         <div>
             {type === true && (
                 <span className="flex items-center px-3 py-px  gap-2 rounded-full border border-[#4CAF50]">
-                    <img src="/images/Success.svg" alt="" />
+                    <img src="/images/Success.svg" alt=""className='' />
                     <span className="font-normal text-[12px] leading-5 text-dark-600">Success</span>
                 </span>
             )}

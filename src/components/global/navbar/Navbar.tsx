@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import Link from 'next/link';
 import IconButton from '@/components/common/icon_button/IconButton';
 import Searchblock from '../searchblock/Searchblock';
@@ -19,7 +19,7 @@ import Donations from '../footer/Donations';
 import CloseIcon from '@mui/icons-material/Close';
 import { ChevronRightIcon, HomeIcon } from '@heroicons/react/20/solid';
 import { Button } from '@mui/material';
-
+import { MdOutlineDarkMode, MdOutlineLightMode } from 'react-icons/md';
 interface NavbarProps {
     searchbar?: boolean;
 }
@@ -29,14 +29,35 @@ function Navbar(props: NavbarProps) {
 
     const [isOpen, setIsOpen] = React.useState(false);
     const [closeBanner, setCloseBanner] = React.useState(false);
+    const [isDarkMode, setIsDarkMode] = useState(false);
 
+    // Function to toggle theme
+    const toggleTheme = () => {
+        setIsDarkMode(!isDarkMode);
+        const newTheme = !isDarkMode ? 'dark' : 'light';
+        document.documentElement.classList.toggle('dark', !isDarkMode); // Apply or remove 'dark' class
+        localStorage.setItem('theme', newTheme); // Save the theme preference
+    };
+
+    // Set initial theme based on saved preference or system preference
+    useEffect(() => {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            setIsDarkMode(savedTheme === 'dark');
+            document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+        } else {
+            // If no saved theme, check for system preference
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            setIsDarkMode(prefersDark);
+            document.documentElement.classList.toggle('dark', prefersDark);
+        }
+    }, []);
     const toggleDrawer = () => {
         setIsOpen((prevState) => !prevState);
     };
 
     return (
         <Fragment>
-      
             {/* {!closeBanner && <div className="relative isolate flex items-center gap-x-6 overflow-hidden bg-dark-600 px-6 py-2.5 sm:px-3.5 sm:before:flex-1" >
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                     <p className="text-sm leading-6 text-white">
@@ -50,18 +71,27 @@ function Navbar(props: NavbarProps) {
                     </button>
                 </div>
             </div>} */}
-            <nav className="py-3 px-[16px]">
-                <div className="container flex items-center justify-between gap-8 px-0">
+            <nav className="py-3 px-4 bg-white h-[80px]  border-b-2 shadow-100 dark:bg-[#1D1E1F] dark:border-[#444444]">
+                <div className="container flex h-full items-center justify-between gap-8 px-0 space-x-4 ">
                     <div className="">
                         <Logo />
                     </div>
-                    <div className="w-[1px] h-[40px] hidden md:block bg-black/[12%]" />
-                    <div className="hidden lg:block">
+                    {/* <div className="w-[1px] h-[40px] hidden md:block bg-black/[12%]" /> */}
+                    <div className={`hidden lg:block ${searchbar? "" : "pl-28"}`}>
                         <Pages />
                     </div>
                     <div className="items-center justify-end flex-grow hidden gap-3 md:flex">
                         {searchbar && <Searchblock isNavbar={true} />}
                         {/* <User /> */}
+                    </div>
+                    <div className="items-center justify-end flex-grow hidden gap-3 md:flex">
+                        <button onClick={toggleTheme} className=" p-2 rounded-full focus:outline-none">
+                            {isDarkMode ? (
+                                <MdOutlineLightMode className="w-6 h-6 fill-white" /> // Dark mode icon
+                            ) : (
+                                <MdOutlineDarkMode className="w-6 h-6" /> // Light mode icon
+                            )}
+                        </button>
                     </div>
                     <div className="flex items-center md:hidden">
                         <button type="button" onClick={toggleDrawer}>
