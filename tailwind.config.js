@@ -3,10 +3,14 @@ const {fontFamily} = require('tailwindcss/defaultTheme');
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
+  darkMode: 'class',
   theme: {
     extend: {
       fontFamily: {
         roboto: ["Roboto", ...fontFamily.sans],
+        gsans: ['var(--font-geist-sans)', 'sans-serif'],
+        gmono: ['var(--font-geist-mono)', 'monospace'],
+        dmsans: ['DM Sans', 'sans-serif'],
       },
       colors: {
         red: {
