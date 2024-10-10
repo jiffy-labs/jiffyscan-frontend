@@ -246,7 +246,7 @@ const TraceDetails: React.FC<{ trace: Trace; depth?: number }> = ({ trace, depth
 const Tracer: React.FC<TracerProps> = ({ item, network }) => {
     const [tracer, setTracer] = useState<TracerData | null>(null);
     const [loading, setLoading] = useState(true);
-    const [activeAccordion, setActiveAccordion] = useState<number | null>(null);
+    const [activeAccordion, setActiveAccordion] = useState<number[]>([]); // Initialize as an array
 
     useEffect(() => {
         const fetchTracerData = async () => {
@@ -264,7 +264,13 @@ const Tracer: React.FC<TracerProps> = ({ item, network }) => {
     }, [item, network]);
 
     const toggleAccordion = (index: number) => {
-        setActiveAccordion(activeAccordion === index ? null : index);
+        if (activeAccordion.includes(index)) {
+            // Remove the index if it's already open
+            setActiveAccordion(activeAccordion.filter((i) => i !== index));
+        } else {
+            // Add the index if it's not open
+            setActiveAccordion([...activeAccordion, index]);
+        }
     };
 
     if (loading) {
@@ -285,11 +291,9 @@ const Tracer: React.FC<TracerProps> = ({ item, network }) => {
                                 <h2>
                                     <button
                                         type="button"
-                                        className={`flex ${
-                                            activeAccordion === index ? 'rounded-t-xl' : 'rounded-xl'
-                                        } items-center justify-between bg-white w-full lg:w-1240 p-4 lg:px-8 font-medium rtl:text-right text-gray-500 dark:text-gray-400 gap-3 min-h-20`}
+                                        className={`flex ${activeAccordion.includes(index) ? 'rounded-t-xl' : 'rounded-xl'} items-center justify-between bg-white w-full lg:w-1240 p-4 lg:px-8 font-medium rtl:text-right text-gray-500 dark:text-gray-400 gap-3 min-h-20`}
                                         onClick={() => toggleAccordion(index)}
-                                        aria-expanded={activeAccordion === index}
+                                        aria-expanded={activeAccordion.includes(index)}
                                         aria-controls={`accordion-collapse-body-${index}`}
                                     >
                                         <div className="flex justify-between gap-4">
@@ -312,7 +316,7 @@ const Tracer: React.FC<TracerProps> = ({ item, network }) => {
                                             </span>
                                         </div>
                                         <svg
-                                            className={`w-4 h-4 rotate-${activeAccordion === index ? '0' : '180'} shrink-0`}
+                                            className={`w-4 h-4 rotate-${activeAccordion.includes(index) ? '0' : '180'} shrink-0`}
                                             aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg"
                                             fill="none"
@@ -330,9 +334,7 @@ const Tracer: React.FC<TracerProps> = ({ item, network }) => {
                                 </h2>
                                 <div
                                     id={`accordion-collapse-body-${index}`}
-                                    className={`border rounded-b-xl border-gray-200 no-wrap ${
-                                        activeAccordion === index ? 'block' : 'hidden'
-                                    }`}
+                                    className={`border rounded-b-xl border-gray-200 no-wrap ${activeAccordion.includes(index) ? 'block' : 'hidden'}`}
                                     aria-labelledby={`accordion-collapse-heading-${index}`}
                                 >
                                     <TraceDetails trace={trace} />
