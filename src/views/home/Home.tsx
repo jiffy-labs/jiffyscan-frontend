@@ -50,6 +50,7 @@ const getBlockCondition = (expTime: number | null | undefined): boolean => {
 
 function Home() {
     const { selectedNetwork, setSelectedNetwork } = useConfig();
+    const isCyberMainnet = selectedNetwork === 'cyber-mainnet';
     const { isLoggedIn } = useUserSession();
 
     const [block, setBlock] = useState(false);
@@ -264,6 +265,7 @@ function Home() {
                         </div>
                     </div>
                 </section>
+                {!isCyberMainnet && (
                 <section className={`mb-12 ${block && 'blur'}`}>
                     <div className="container grid grid-cols-1 gap-10 md:grid-cols-2">
                         <div>
@@ -301,6 +303,7 @@ function Home() {
                         </div>
                     </div>
                 </section>
+                )}
             </div>
             <ToastContainer />
             <Footer />
