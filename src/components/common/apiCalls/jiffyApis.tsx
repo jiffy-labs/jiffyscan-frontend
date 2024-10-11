@@ -1146,24 +1146,26 @@ export const resolveBNSAddress = async (address: String, network: string): Promi
 };
 
 
-export const fetchData = async (item : ItemProps) => {
-    let data;
+export const fetchData = async (item: ItemProps) => {
+    let config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: `${API_URL}/v0/getUserOpLogs?userOpHash=${item.userOpHash}&network=${item.network}`,
+        headers: {
+            Authorization: Authorization,  
+            'x-api-key': X_API_Key ?? '',  
+        },
+    };
+
     try {
-        const res = await fetch(`${API_URL}/v0/getUserOpLogs?userOpHash=${item.userOpHash}&network=${item.network}`, {
-            headers: {
-                'x-api-key': X_API_Key ?? '', 
-            },
-        });
-        if (!res.ok) {
-            throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        data = await res.json();
+        const res = await axios.request(config);
+        return res.data;  // Automatically parse and return the JSON response
     } catch (error) {
         console.error("Error fetching data: ", error);
-        data = {};  //failed - empty logs 
+        return {};  // Return empty data in case of error
     }
-    return data;
 };
+
 
 export const fetchNetworkData = async (term: string): Promise<NetworkResponse[]> => {
     return Promise.all(
