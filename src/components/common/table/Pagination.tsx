@@ -1,9 +1,8 @@
-import { set, size } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { PAGE_SIZE_LIST } from '@/components/common/constants';
+import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 
 interface PaginationProps {
-    // table: tableDataT;
     pageDetails: {
         pageNo: number;
         setPageNo: React.Dispatch<React.SetStateAction<number>>;
@@ -15,11 +14,11 @@ interface PaginationProps {
 }
 
 function Pagination({ pageDetails: { pageNo, setPageNo, pageSize, setPageSize, totalRows, fixedPageSize } }: PaginationProps) {
-    // console.log("🚀 ~ file: Pagination.tsx:15 ~ Pagination ~ pageNo:", pageNo,pageSize,totalRows)
     const [isMaxPage, setIsMaxPage] = useState(false);
     const [isMinPage, setIsMinPage] = useState(false);
     const [fromPage, setFromPage] = useState(0);
     const [toPage, setToPage] = useState(0);
+    const [totalPages, setTotalPages] = useState<number>(0);
 
     useEffect(() => {
         if (fixedPageSize) {
@@ -29,48 +28,89 @@ function Pagination({ pageDetails: { pageNo, setPageNo, pageSize, setPageSize, t
             setFromPage(1);
             setToPage(totalRows);
         } else {
-            let isMaxPage = (pageNo + 1) * pageSize >= totalRows; //
+            let isMaxPage = (pageNo + 1) * pageSize >= totalRows;
             setIsMaxPage(isMaxPage);
             setIsMinPage(pageNo <= 0);
             setFromPage(pageNo * pageSize + 1);
             setToPage(isMaxPage ? totalRows : (pageNo + 1) * pageSize);
+            setTotalPages(Math.ceil(totalRows / pageSize));
         }
-    }, [pageNo, totalRows, totalRows]);
-    // console.log("Pgaesss-------->",isMaxPage,isMinPage,fromPage,toPage)
+    }, [pageNo, totalRows, pageSize, fixedPageSize]);
 
     const handleShow = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value = event.target.value;
         setPageSize(parseInt(value));
     };
 
-    const hanlePrevBackward = () => {
-        setPageNo(0);
-    };
+    const handlePrevBackward = () => setPageNo(0);
+    const handlePrev = () => setPageNo(pageNo > 0 ? pageNo - 1 : 0);
+    const handleNext = () => setPageNo(pageNo + 1 < totalPages ? pageNo + 1 : pageNo);
+    const handleNextForward = () => setPageNo(totalPages - 1);
 
-    const hanlePrev = () => {
-        const newPageNo = isMinPage ? 1 : pageNo - 1;
-        setPageNo(newPageNo);
-    };
+    const generatePageNumbers = () => {
+        const pageNumbers = [];
+        const startPage = Math.max(0, pageNo - 2);
+        const endPage = Math.min(totalPages - 1, pageNo + 2);
 
-    const hanleNext = () => {
-        const newPageNo = isMaxPage ? totalRows / pageSize : pageNo + 1;
-        setPageNo(newPageNo);
-    };
+        for (let i = startPage; i <= endPage; i++) {
+            pageNumbers.push(i);
+        }
 
-    const hanleNextForward = () => {
-        const newPageNo = Math.max(1, Math.ceil(totalRows / pageSize)) - 1;
-        setPageNo(newPageNo);
+        if (startPage > 1) {
+            pageNumbers.unshift('...');
+        }
+        if (startPage > 0) {
+            pageNumbers.unshift(0);
+        }
+        if (endPage < totalPages - 2) {
+            pageNumbers.push('...');
+        }
+        if (endPage < totalPages - 1) {
+            pageNumbers.push(totalPages - 1);
+        }
+
+        return pageNumbers;
     };
 
     return (
-        <div className="flex flex-wrap items-center justify-end gap-2 mt-4 mb-6 text-sm md:gap-4">
-            <div className="flex items-center">
-                <p>Rows per page:</p>
+        <div className="flex flex-wrap items-center font-gsans justify-between mt-4 mb-6 text-sm md:gap-4">
+            {/* Previous button on the left */}
+            <button
+                onClick={handlePrev}
+                disabled={isMinPage}
+                className={`${isMinPage ? 'opacity-40' : ''} gap-2 flex items-center bg-[#F0F1F5] dark:bg-[#191A23] text-[#646D8F] hover:text-white border border-[#D7DAE0] dark:border-[#3B3C40] hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg font-gsans text-md px-5 py-2.5`}
+                type="button"
+            >
+                <GoArrowLeft className='w-4 h-4'/>
+                PREVIOUS
+            </button>
+
+            {/* Page numbers in the middle */}
+            <div className="flex items-center gap-1 dark:text-[#666B80]">
+                {generatePageNumbers().map((page, index) =>
+                    typeof page === 'string' ? (
+                        <span key={index} className="px-4 gap-4 text-md ">
+                            {page}
+                        </span>
+                    ) : (
+                        <button
+                            key={index}
+                            className={`py-2 px-4 ${pageNo === page ? 'font-bold text-md dark:text-[#598AEB] rounded-full bg-[#969CB2]/40' : ''}`}
+                            onClick={() => setPageNo(page)}
+                        >
+                            {page + 1}
+                        </button>
+                    )
+                )}
+            </div>
+
+            {/* Next button on the right */}
+            <div className="flex items-center gap-2">
+                <p className='text-nowrap font-gsans text-[#969CB2] text-sm'>Rows per page:</p>
                 {fixedPageSize ? (
                     fixedPageSize
                 ) : (
-                    <select onChange={handleShow} value={pageSize} name="" id="" className="pl-3 pr-1">
-                        {/* <option value="5">5</option> */}
+                    <select onChange={handleShow} value={pageSize} name="" id="" className="ml-2 pr-1 text-[#646D8F] dark:bg-[#191A23] border border-[#D7DAE0] bg-[#F0F1F5] dark:border-[#3B3C40] p-1 rounded-md">
                         {PAGE_SIZE_LIST.map((size: number) => (
                             <option key={size} value={size}>
                                 {size}
@@ -78,23 +118,15 @@ function Pagination({ pageDetails: { pageNo, setPageNo, pageSize, setPageSize, t
                         ))}
                     </select>
                 )}
-            </div>
-            <p>
-                {fromPage}–{toPage} of {totalRows}
-            </p>
-            <div className="flex items-center gap-1">
-                <button onClick={hanlePrevBackward} disabled={isMinPage} className={`${isMinPage ? 'opacity-40' : ''}`} type="button">
-                    <img src="/images/icon-container (27).svg" alt="" />
-                </button>
-                <button onClick={hanlePrev} disabled={isMinPage} className={`${isMinPage ? 'opacity-40' : ''}`} type="button">
-                    <img src="/images/icon-container (26).svg" alt="" />
-                </button>
-                <button onClick={hanleNext} disabled={isMaxPage} className={`${isMaxPage ? 'opacity-40' : ''}`} type="button">
-                    <img src="/images/icon-container (20).svg" alt="" />
-                </button>
-                <button onClick={hanleNextForward} disabled={isMaxPage} className={`${isMaxPage ? 'opacity-40' : ''}`} type="button">
-                    <img src="/images/icon-container (21).svg" alt="" />
-                </button>
+            <button
+                onClick={handleNext}
+                disabled={isMaxPage}
+                className={`${isMaxPage ? 'opacity-40' : ''} gap-2 flex items-center bg-[#F0F1F5] text-[#646D8F] dark:bg-[#191A23] hover:text-white border border-[#D7DAE0] dark:border-[#3B3C40] hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg font-gsans text-md px-5 py-2.5`}
+                type="button"
+            >
+                NEXT
+                <GoArrowRight className='w-4 h-4'/>
+            </button>
             </div>
         </div>
     );
