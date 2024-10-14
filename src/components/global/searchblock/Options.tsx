@@ -11,8 +11,8 @@ function Options({ networkValue, setNetworkValue }: { networkValue: number; setN
     };
 
     return (
-        <div className="relative z-0 dark:bg-[#1D1E1F] dark:border-[#444444] rounded-full">
-            <div className="py-3 rounded-full px-6 border-l h-[64px]  flex items-center gap-1 text-md dark:border-[#444444]" role="button" onClick={toggler}>
+        <div className="relative z-10 dark:bg-[#1D1E1F] dark:border-[#444444] rounded-full h-full">
+            <div className="py-3 rounded-full px-6 border-l h-full  flex items-center gap-1 text-md dark:border-[#444444]" role="button" onClick={toggler}>
                 {/* {/* <img src={NETWORK_LIST[value].img} alt="" /> */}
 
                 <img src={networkValue != -1 ? NETWORK_LIST[networkValue].iconPathInverted : "/zap2.svg"} alt="" style={{ width: '20px', height: 'auto' }} />
@@ -21,8 +21,8 @@ function Options({ networkValue, setNetworkValue }: { networkValue: number; setN
             </div>
             {open && (
                 <div className="">
-                    <div onClick={toggler} className="fixed inset-0 z-100 bg-transparent" />
-                    <div className="absolute left-0 bg-white dark:bg-[#1D1E1F] w-[200%] py-1 border-dark-200 shadow-200">
+                    <div onClick={toggler} className="fixed inset-0 z-50 bg-transparent" />
+                    <div className="absolute left-0 bg-white dark:bg-[#1D1E1F] w-[200%] py-1 border-dark-200 shadow-200 dark:text-white">
                         <div className="flex flex-col">
                             <div
                                 onClick={() => handleValue(-1)}

@@ -3,7 +3,8 @@ import { fallBack } from '../constants';
 import cache from 'memory-cache';
 import { BigNumber } from 'ethers';
 import { fetchRetry } from '../utils';
-import { NETWORK_LIST ,ANKR_API_NETWORKS } from '../constants';
+import { NETWORK_LIST } from '../constants';
+import * as Sentry from '@sentry/react';
 export interface UserOp {
     id: string | null;
     transactionHash: string | null;
@@ -16,6 +17,7 @@ export interface UserOp {
     actualGasPrice: number;
     actualGasUsed: number | null;
     success: Boolean;
+    status: true;
     revertReason: string | null;
     blockTime: number | null;
     timeSeenInAltMempool: number | null;
@@ -38,7 +40,6 @@ export interface UserOp {
     signature: string | null;
     entryPoint: string;
     block: true;
-    status: string;
     erc20Transfers: {
         contractAddress: string;
         from: string;
@@ -310,61 +311,6 @@ const performApiCall = (network: string): boolean => {
     return true;
 };
 
-export interface GasDetails {
-    gasUsed: string;
-    gasLimit: string;
-    gasPrice: string;
-    baseFee: string;
-    maxPriorityFeePerGas: string;
-    maxFeePerGas: string;
-  }
-  
-  export interface LogsDetails {
-    numberOfUserOps: number;
-    internalTransactions: string;
-  }
-  export type LogEntry = {
-    logIndex: number | null;
-    transactionHash: string;
-    transactionLogIndex: number | null;
-    topics: string[];
-    removed: boolean | null;
-    data: string;
-    address: string;
-    event_name: string;
-    eventName: string;
-    topicsDecoded: { [key: string]: string };
-    dataDecoded: { [key: string]: string | number };
-};
-
-  interface UserOpData{
-    hash: string;
-    age: string;
-    sender: string;
-    target: string;
-    fee: string;
-    success: boolean;
-    actualGasUsed: number;
-  }
-interface TransactionDetails {
-    txHash: string;
-    timestamp: string;
-    from: string;
-    to: string;
-    blockNumber: number;
-    trxFee: string;
-    gasDetails: GasDetails;
-    callData: string;
-    revenue: string;
-    profit: string;
-    logsDetails: LogsDetails;
-    userOps: UserOpData[]
-}
-  export interface ApiResponse {
-    transactionDetails: TransactionDetails;
-    responseTime: number;
-  }
-
 const PRO_API = 'https://api.jiffyscan.xyz';
 const DEV_API = 'https://api-dev.jiffyscan.xyz';
 const API_URL = process.env.NEXT_PUBLIC_APP_ENV === 'production' ? PRO_API : DEV_API;
@@ -522,29 +468,36 @@ export const getTopPaymasters = async (
 
 export const getTopBundlers = async (selectedNetwork: string, pageSize: number, pageNo: number, toast: any): Promise<Bundler[]> => {
     if (!performApiCall(selectedNetwork)) return [] as Bundler[];
-    const response = await fetch(
-        API_URL +
-            '/v0/getTopBundlers?network=' +
-            selectedNetwork +
-            '&first=' +
-            pageSize +
-            '&skip=' +
-            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
-        {
-            headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
-        },
-    );
-    if (response.status != 200) {
-        showToast(toast, 'Error fetching data');
-    }
-    const data = await response.json();
-    if ('bundlers' in data) {
-        if (data.bundlers.length == 0) {
-            showToast(toast, 'No data found');
+    try{
+        const response = await fetch(
+            API_URL +
+                '/v0/getTopBundlers?network=' +
+                selectedNetwork +
+                '&first=' +
+                pageSize +
+                '&skip=' +
+                (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
+            {
+                headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
+            },
+        );
+        if (response.status != 200) {
+            showToast(toast, 'Error fetching data');
         }
-        return data.bundlers as Bundler[];
+        const data = await response.json();
+        if ('bundlers' in data) {
+            if (data.bundlers.length == 0) {
+                showToast(toast, 'No data found');
+            }
+            return data.bundlers as Bundler[];
+        }
+        return [] as Bundler[];
     }
-    return [] as Bundler[];
+    catch(error){
+        showToast(toast, 'An unexpected error occurred');
+        console.error('Error fetching top bundlers:', error);
+        return [] as Bundler[];// Return empty array in case of a network error
+    }
 };
 
 export const getTopFactories = async (selectedNetwork: string, pageSize: number, pageNo: number, toast: any): Promise<FactoryDetails[]> => {
@@ -601,31 +554,45 @@ export const getLatestUserOps = async (selectedNetwork: string, pageSize: number
     return [] as UserOp[];
 };
 
-export const getLatestBundles = async (selectedNetwork: string, pageSize: number, pageNo: number, toast: any): Promise<Bundle[]> => {
+export const getLatestBundles = async (
+    selectedNetwork: string,
+    pageSize: number,
+    pageNo: number,
+    toast: any,
+): Promise<Bundle[]> => {
     if (!performApiCall(selectedNetwork)) return [] as Bundle[];
-    const response = await fetch(
-        API_URL +
-            '/v0/getLatestBundles?network=' +
-            selectedNetwork +
-            '&first=' +
-            pageSize +
-            '&skip=' +
-            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
-        {
-            headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
-        },
-    );
-    if (response.status != 200) {
-        showToast(toast, 'Error fetching data');
-    }
-    const data = await response.json();
-    if ('bundles' in data) {
-        if (data.bundles.length == 0) {
+
+    try {
+        const response = await fetch(
+            `${API_URL}/v0/getLatestBundles?network=${selectedNetwork}&first=${pageSize}&skip=${
+                pageNo * pageSize >= 0 ? pageNo * pageSize : 0
+            }`,
+            {
+                headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
+            },
+        );
+
+        if (response.status !== 200) {
             showToast(toast, 'Error fetching data');
+            return [] as Bundle[]; // Return an empty array if the response status is not 200
         }
+
+        const data = await response.json();
+
+        if (data.bundles && data.bundles.length === 0) {
+            showToast(toast, 'No bundles found');
+        }
+
         return data.bundles as Bundle[];
+    } catch (error) {
+        if (error instanceof TypeError && error.message === 'Failed to fetch') {
+            showToast(toast, 'Network error: Unable to fetch data');
+        } else {
+            showToast(toast, 'An unexpected error occurred');
+        }
+        console.error('Error fetching latest bundles:', error);
+        return [] as Bundle[]; // Return an empty array in case of a network error
     }
-    return [] as Bundle[];
 };
 
 export const getDailyMetrics = async (selectedNetwork: string, noOfDays: number, toast: any): Promise<DailyMetric[]> => {
@@ -1077,34 +1044,6 @@ export const getBundleDetails = async (
     return {} as Bundle;
 };
 
-export const getBundleDetailsRpc = async (
-    txHash: string,
-    selectedNetwork: string,
-  ): Promise<ApiResponse> => {
-    console.log("selectednetwork :" , selectedNetwork , ANKR_API_NETWORKS[selectedNetwork])
-
-    const response = await fetch(
-      `https://api-dev.jiffyscan.xyz/v0/getBundleDetails?txHash=${txHash}&network=${ANKR_API_NETWORKS[selectedNetwork]}`, 
-      {
-        headers: {
-          'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5',
-        },
-      }
-    ).catch((e) => {
-      console.log(e);
-      throw new Error('Error fetching transaction details');
-    });
-  
-    if (!response.ok) {
-      throw new Error('Error fetching transaction details');
-    }
-  
-    const data: ApiResponse = await response.json();
-    console.log(data);
-  
-    return data;
-  };
-
 export const getBundlerDetails = async (
     userOpHash: string,
     selectedNetwork: string,
@@ -1113,32 +1052,39 @@ export const getBundlerDetails = async (
     toast: any,
 ): Promise<Bundle> => {
     if (!performApiCall(selectedNetwork)) return {} as Bundle;
-    const response = await fetch(
-        API_URL +
-            '/v0/getBundlerActivity?address=' +
-            userOpHash +
-            '&network=' +
-            selectedNetwork +
-            '&first=' +
-            pageSize +
-            '&skip=' +
-            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
-        {
-            headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
-        },
-    );
-    // if (response == null) return {} as Bundle;
-    if (response.status != 200) {
-        showToast(toast, 'Error fetching data');
-    }
-    const data = await response.json();
-    if ('bundlerDetails' in data) {
-        if (Object.keys(data.bundlerDetails).length == 0) {
+    try{
+        const response = await fetch(
+            API_URL +
+                '/v0/getBundlerActivity?address=' +
+                userOpHash +
+                '&network=' +
+                selectedNetwork +
+                '&first=' +
+                pageSize +
+                '&skip=' +
+                (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
+            {
+                headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
+            },
+        );
+        // if (response == null) return {} as Bundle;
+        if (response.status != 200) {
             showToast(toast, 'Error fetching data');
         }
-        return data.bundlerDetails as Bundle;
+        const data = await response.json();
+        if ('bundlerDetails' in data) {
+            if (Object.keys(data.bundlerDetails).length == 0) {
+                showToast(toast, 'Error fetching data');
+            }
+            return data.bundlerDetails as Bundle;
+        }
+        return {} as Bundle;
     }
-    return {} as Bundle;
+    catch(error){
+        showToast(toast, 'An unexpected error occurred');
+        console.error('Error fetching bundler details:', error);
+        return {} as Bundle; // Return an empty object in case of a network error
+    }
 };
 
 export const fetchAPIKeyList = async (Authorization: string, sub: string) => {
@@ -1181,6 +1127,7 @@ export const resolveBNSAddress = async (address: String, network: string): Promi
     let name = '';
 
     if (address && address.length > 2 && address.slice(0, 2) == '0x' && address.length == 42) {
+        try{
         const BnsResponse = await axios.get('https://resolver-api.basename.app/v1/addresses/' + address.toString(), {
             headers: {
                 'Access-Control-Allow-Origin': '*',
@@ -1188,17 +1135,23 @@ export const resolveBNSAddress = async (address: String, network: string): Promi
             },
         });
         name = BnsResponse?.data?.name ? BnsResponse.data.name : '';
+        }
+        catch(error){
+            // console.error('Error resolving BNS address:',error);
+            Sentry.captureException(error); // Report error to Sentry
+            name = ''; // or return a default value if needed
+        }
     }
     return name;
 };
 
 
-export const fetchData = async (item : ItemProps) => {
+export const fetchData = async (item: ItemProps) => {
     let data;
     try {
         const res = await fetch(`${API_URL}/v0/getUserOpLogs?userOpHash=${item.userOpHash}&network=${item.network}`, {
             headers: {
-                'x-api-key': X_API_Key || 'TestAPIKeyDontUseInCode', 
+                'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5',  
             },
         });
         if (!res.ok) {
@@ -1207,10 +1160,12 @@ export const fetchData = async (item : ItemProps) => {
         data = await res.json();
     } catch (error) {
         console.error("Error fetching data: ", error);
-        data = {};  //failed - empty logs 
+        data = {};  // failed - empty logs
     }
     return data;
 };
+
+
 
 export const fetchNetworkData = async (term: string): Promise<NetworkResponse[]> => {
     return Promise.all(

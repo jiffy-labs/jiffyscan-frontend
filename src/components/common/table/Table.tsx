@@ -97,7 +97,7 @@ function Table(props: tableDataT) {
                     {caption?.children}
                 </Caption>
             )} */}
-            <ScrollContainer className="rounded-b-lg border border-[#D7DAE0] dark:border-[#444444]">
+            <ScrollContainer className="rounded-lg border border-[#D7DAE0] dark:border-[#444444]">
                 <div className="">
                     <table className="md:table-fixed w-full bg-white dark:bg-[#1D1E1F] text-md shadow-200">
                         {/* Table head */}
@@ -108,7 +108,7 @@ function Table(props: tableDataT) {
                                     name === 'TARGET' && isHomepage ? null : (
                                         <th
                                             key={key}
-                                            className="py-4 px-4 border-b dark:border-[#444444] font-gsans text-[#646D8F] text-md tracking-wide font-medium bg-[#F0F1F5] dark:bg-[#19191A] border-[#D7DAE0] text-center"
+                                            className="py-4 px-4 border-b dark:border-[#444444] font-gsans dark:text-[#BCBFCC] text-[#646D8F] text-md tracking-wide font-medium bg-[#F0F1F5] dark:bg-[#19191A] border-[#D7DAE0] text-center"
                                         >
                                             <div
                                                 role={sort ? 'button' : undefined}
@@ -189,7 +189,7 @@ function Table(props: tableDataT) {
 
                                             {/* Conditionally render 'target' field only if not on the homepage */}
                                             {!isHomepage && target && (
-                                                <td className="py-3 px-4 pl-20 text-left">
+                                                <td className="py-3 px-2 pl-[64px] text-left">
                                                     {target.length > 0 &&
                                                         target.map((item, index) => {
                                                             return <Token key={index} text={item} type="address" />;

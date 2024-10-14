@@ -90,7 +90,7 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
                 //     focus-within:translate-y-2 focus-within:-translate-x-2   focus-within:scale-125
                 // duration-150`}
             >
-                <label className="flex justify-center h-[40px] border rounded-full dark:border-[#444444]">
+                <label className="flex justify-center h-[45px] border rounded-full dark:border-[#444444]">
                     
                     <div className="flex items-center gap-0 pr-3 flex-grow focus-within:shadow-xl rounded-full ">
                     <Options networkValue={networkValue} setNetworkValue={setNetworkValue} />
