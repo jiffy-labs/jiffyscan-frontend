@@ -1168,7 +1168,7 @@ export const resolveBNSAddress = async (address: String, network: string): Promi
 };
 
 
-export const fetchData = async (item : ItemProps) => {
+export const fetchData = async (item: ItemProps) => {
     let data;
     try {
         const res = await fetch(`${API_URL}/v0/getUserOpLogs?userOpHash=${item.userOpHash}&network=${item.network}`, {
@@ -1182,10 +1182,12 @@ export const fetchData = async (item : ItemProps) => {
         data = await res.json();
     } catch (error) {
         console.error("Error fetching data: ", error);
-        data = {};  //failed - empty logs 
+        data = {};  // failed - empty logs
     }
     return data;
 };
+
+
 
 export const fetchNetworkData = async (term: string): Promise<NetworkResponse[]> => {
     return Promise.all(
