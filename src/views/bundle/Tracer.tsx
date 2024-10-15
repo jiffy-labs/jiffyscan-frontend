@@ -37,42 +37,6 @@ interface TracerData {
     trace: Trace[];
 }
 
-// const TraceDetails: React.FC<{ trace: Trace; depth?: number }> = ({ trace, depth = 0 }) => {
-//     const { type, result, action, subtraces } = trace;
-//     const { output, gasUsed } = result || {};
-//     const { from, to, gas, input, value, callType } = action || {};
-//     const [showDetails, setShowDetails] = useState(false);
-//     const [showSubtraces, setShowSubtraces] = useState(false);
-
-//     const toggleDetails = () => setShowDetails(!showDetails);
-//     const toggleSubtraces = () => setShowSubtraces(!showSubtraces);
-
-//     const indentation = depth * 20; // Indent subtraces
-
-//     return (
-//         <div style={{ marginLeft: `${indentation}px` }} className="border-l pl-4">
-//             <div onClick={toggleDetails} className="cursor-pointer">
-//                 <strong>{callType}:</strong> {from} ➡️ {to} ({value} ETH)
-//             </div>
-//             {showDetails && (
-//                 <div>
-//                     <p><strong>Gas:</strong> {gas} | <strong>Gas Used:</strong> {gasUsed}</p>
-//                     <p><strong>Input:</strong> {input}</p>
-//                     <p><strong>Output:</strong> {output}</p>
-//                     {subtraces.length > 0 && (
-//                         <div onClick={toggleSubtraces} className="cursor-pointer">
-//                             {showSubtraces ? 'Hide' : 'Show'} Subtraces ({subtraces.length})
-//                         </div>
-//                     )}
-//                     {showSubtraces && subtraces.map((subtrace, index) => (
-//                         <TraceDetails key={index} trace={subtrace} depth={depth + 1} />
-//                     ))}
-//                 </div>
-//             )}
-//         </div>
-//     );
-// };
-
 const TraceDetails: React.FC<{ trace: Trace; depth?: number }> = ({ trace, depth = 0 }) => {
     const { type, result, action, subtraces, stage } = trace;
     const { output, gasUsed } = result || {};
@@ -281,7 +245,7 @@ const Tracer: React.FC<{ trxHash: string; network: string }> = ({ trxHash, netwo
     }, [trxHash, network]);
 
     if (!tracerData) {
-        return <p>Loading Traces...</p>;
+        return <p className='p-4'>Loading Traces...</p>;
     }
 
     return (

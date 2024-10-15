@@ -127,8 +127,8 @@ function Bundler(props: any) {
     return (
         <div className="">
             <Navbar searchbar />
-            <section className="px-3 py-10">
-                <div className="container px-0">
+            <section className="px-4 py-10">
+                <div className="container px-4">
                     <div className="flex flex-row">
                         <Link href="/" className="text-gray-500">
                             <ArrowBackIcon style={{ height: '15px', width: '15px', marginRight: '20px', marginLeft: '10px', marginBottom: '3px' }} />
@@ -145,20 +145,21 @@ function Bundler(props: any) {
                             </Link>
                         </Breadcrumbs>
                     </div>
-                    <h1 className="text-3xl font-bold">Bundle</h1>
+                    <h1 className="text-3xl font-bold px-4 py-2">Bundle</h1>
+                    <HeaderSection item={bundleInfo} network={network} />
                 </div>
+                
             </section>
-
-            <div className="container px-0">
+            
+            <div className="container px-4">
                 {/* Tabs for toggling between details and tracer */}
-                <Tabs className='p-4' value={activeTab} onChange={(event, newValue) => setActiveTab(newValue)}>
+                <Tabs className='px-4' value={activeTab} onChange={(event, newValue) => setActiveTab(newValue)}>
                     <Tab label="Bundle Details" value="details" />
                     <Tab label="Transaction Tracer" value="tracer" />
                 </Tabs>
                 
                 {activeTab === 'details' && (
-                    <>
-                        <HeaderSection item={bundleInfo} network={network} />
+                    <>  
                         <TransactionDetails item={bundleInfo} network={network} tableLoading={tableLoading} />
                         <div className="container px-4">
                             <div className='shadow-300 rounded-md'>
