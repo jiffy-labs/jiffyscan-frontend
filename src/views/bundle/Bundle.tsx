@@ -2,7 +2,7 @@ import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
 import { getBundleDetails, UserOp, AccountDetail, Bundle } from '@/components/common/apiCalls/jiffyApis';
-import { Breadcrumbs, Link } from '@mui/material';
+import { Breadcrumbs, Link, Tab, Tabs } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
 import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
@@ -18,8 +18,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useUserSession } from '@/context/userSession';
 import LoginModal from '@/components/global/LoginModal';
+import Tracer from './Tracer';
 
-// import Skeleton from '@/components/Skeleton';
 export const BUTTON_LIST = [
     {
         name: 'Default View',
@@ -40,8 +40,8 @@ const columns = [
     { name: 'Target', sort: false },
     { name: 'Fee', sort: true },
 ];
+
 const createUserOpsTableRows = (userOps: UserOp[]): tableDataT['rows'] => {
-    console.log('🚀 ~ file: recentAddressActivity.tsx:39 ~ createUserOpsTableRows ~ userOps:', userOps);
     let newRows = [] as tableDataT['rows'];
     if (!userOps) return newRows;
     userOps.forEach((userOp) => {
@@ -96,16 +96,9 @@ function Bundler(props: any) {
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE);
     const [captionText, setCaptionText] = useState('N/A User Ops found');
-
+    const [tabValue, setTabValue] = useState(0); // State for tab value
     const { isLoggedIn } = useUserSession();
-      
-    // const [block, setBlock] = useState(!isLoggedIn());
 
-    // useEffect(() => {
-    //     setBlock(!isLoggedIn());
-    // }, [isLoggedIn]);
-
-    // handling table page change. Everytime the pageNo change, or pageSize change this function will fetch new data and update it.
     const updateRowsData = async (network: string, pageNo: number, pageSize: number) => {
         setTableLoading(true);
         if (bundleInfo == undefined) {
@@ -117,16 +110,13 @@ function Bundler(props: any) {
         setTableLoading(false);
     };
 
-    // update the page No after changing the pageSize
     const setPageSize = (size: number) => {
         _setPageSize(size);
         setPageNo(0);
     };
 
-    // load the account details.
     const loadBundleDetails = async (name: string, network: string) => {
         setTableLoading(true);
-
         const bundleDetail = await getBundleDetails(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo, toast);
         const bundleInfo = createBundleInfoObject(bundleDetail);
         setBundleInfo(bundleInfo);
@@ -148,15 +138,12 @@ function Bundler(props: any) {
     let prevHash = hash;
     let prevNetwork = network;
     useEffect(() => {
-        // Check if hash or network have changed
         if (prevHash !== undefined || prevNetwork !== undefined) {
             prevHash = hash;
             prevNetwork = network;
             loadBundleDetails(hash as string, network as string);
         }
     }, [hash, network]);
-
-    let skeletonCards = Array(5).fill(0);
 
     return (
         <div className="">
@@ -189,33 +176,49 @@ function Bundler(props: any) {
                     <h1 className="text-3xl font-bold">Bundle</h1>
                 </div>
             </section>
-            {/* {!(isLoggedIn() || (network && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(network))) && <LoginModal showClose={false} block={block} setBlock={setBlock}></LoginModal>} */}
-            {/* <HeaderSection block={!(isLoggedIn() || (network && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(network)))} item={bundleInfo} network={network} />
-            <TransactionDetails block={!(isLoggedIn() || (network && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(network)))} item={bundleInfo} network={network} tableLoading={tableLoading}/>
-            <div className={`${!(isLoggedIn() || (network && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(network))) && 'blur'} container px-0`}> */}
+            
             <HeaderSection item={bundleInfo} network={network} />
-            <TransactionDetails item={bundleInfo} network={network} tableLoading={tableLoading} />
-            <div className="container px-0">
-                <Table
-                    rows={rows}
-                    columns={columns}
-                    loading={tableLoading}
-                    caption={{
-                        children: captionText,
-                        icon: '/images/cube.svg',
-                        text: 'Approx Number of Operations Processed in the selected chain',
-                    }}
-                />
-                <Pagination
-                    pageDetails={{
-                        pageNo,
-                        setPageNo,
-                        pageSize,
-                        setPageSize,
-                        totalRows: bundleInfo?.userOpsLength != null ? bundleInfo.userOpsLength : 0,
-                    }}
-                />
-            </div>
+            {/* Tabs for Bundle Details and Tracer */}
+            <Tabs value={tabValue} onChange={(event, newValue) => setTabValue(newValue)} className='px-32 overflow-x-auto' w-full>
+                <Tab label="Bundle Details" />
+                {network === 'base' && <Tab label="Tracer" />}
+            </Tabs>
+            {tabValue === 0 && (
+                <div className="container px-0">
+                    <TransactionDetails item={bundleInfo} network={network} tableLoading={tableLoading} />
+                    <div className="shadow-300 rounded-md">
+                        <Table
+                            rows={rows}
+                            columns={columns}
+                            loading={tableLoading}
+                            caption={{
+                                children: captionText,
+                                icon: '/images/cube.svg',
+                                text: 'Approx Number of Operations Processed in the selected chain',
+                            }}
+                        />
+                    </div>
+                    <Pagination
+                        pageDetails={{
+                            pageNo,
+                            setPageNo,
+                            pageSize,
+                            setPageSize,
+                            totalRows: bundleInfo?.userOpsLength != null ? bundleInfo.userOpsLength : 0,
+                        }}
+                    />
+                </div>
+            )}
+            {tabValue === 1 && network === 'base' && (
+                <div className="container px-4 md:block hidden">
+                    <Tracer trxHash={hash} network={network} />
+                </div>
+            )}
+            {tabValue === 1 && network === 'base' && (
+                <div className='md:hidden shadow-300 p-4'>
+                   Transaction Traces Best Viewed on Larger Screens
+                </div>
+            )}
             <ToastContainer />
             <Footer />
         </div>
