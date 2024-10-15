@@ -18,6 +18,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useUserSession } from '@/context/userSession';
 import LoginModal from '@/components/global/LoginModal';
+import Tracer from './Tracer';
 
 // import Skeleton from '@/components/Skeleton';
 export const BUTTON_LIST = [
@@ -98,7 +99,7 @@ function Bundler(props: any) {
     const [captionText, setCaptionText] = useState('N/A User Ops found');
 
     const { isLoggedIn } = useUserSession();
-      
+
     // const [block, setBlock] = useState(!isLoggedIn());
 
     // useEffect(() => {
@@ -195,7 +196,8 @@ function Bundler(props: any) {
             <div className={`${!(isLoggedIn() || (network && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(network))) && 'blur'} container px-0`}> */}
             <HeaderSection item={bundleInfo} network={network} />
             <TransactionDetails item={bundleInfo} network={network} tableLoading={tableLoading} />
-            <div className="container px-0">
+            <div className="container px-0 ">
+                <div className='shadow-300 rounded-md'>
                 <Table
                     rows={rows}
                     columns={columns}
@@ -206,6 +208,7 @@ function Bundler(props: any) {
                         text: 'Approx Number of Operations Processed in the selected chain',
                     }}
                 />
+                </div>
                 <Pagination
                     pageDetails={{
                         pageNo,
@@ -216,6 +219,17 @@ function Bundler(props: any) {
                     }}
                 />
             </div>
+            {/* Tracer Component below the Table */}
+            {hash && network == 'base' && (
+                <>
+                <div className="container px-0 md:block hidden">
+                    <Tracer trxHash={hash} network={network} />
+                </div>
+                <div className='md:hidden shadow-300 p-4'>
+                   Transaction Traces Best Viewed on Larger Screens
+                </div>
+                </>
+            )}
             <ToastContainer />
             <Footer />
         </div>
