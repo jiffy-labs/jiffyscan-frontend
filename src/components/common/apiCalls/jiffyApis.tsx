@@ -405,6 +405,28 @@ export const getUsserOpTrace = async (userOpHash: string, network: string, toast
     return data;
 };
 
+export const getTrxTraces = async (trxHash: string, network: string, toast: any): Promise<metadata> => {
+    let response;
+    try {
+        response = await fetch(`https://api-dev.jiffyscan.xyz/v0/getTrxTraces?network=${network}&trxHash=${trxHash}`, {
+            method: 'GET',
+            headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
+        });
+    } catch (e) {
+        showToast(toast, 'Error fetching transaction traces');
+        return {} as metadata;
+    }
+
+    if (response.status !== 200) {
+        showToast(toast, 'Error fetching transaction traces');
+        return {} as metadata;
+    }
+
+    const data = await response.json();
+    return data;
+};
+
+
 export const populateERC20TransfersWithTokenInfo = async (metaData: metadata): Promise<metadata> => {
     let populatedMetaData = metaData;
     await Promise.all(
