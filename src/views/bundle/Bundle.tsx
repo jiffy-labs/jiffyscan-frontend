@@ -2,7 +2,7 @@ import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
 import { getBundleDetails, UserOp, AccountDetail, Bundle } from '@/components/common/apiCalls/jiffyApis';
-import { Breadcrumbs, Link, Tabs, Tab } from '@mui/material';
+import { Breadcrumbs, Link, Tab, Tabs } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
 import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
@@ -19,6 +19,17 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useUserSession } from '@/context/userSession';
 import LoginModal from '@/components/global/LoginModal';
 import Tracer from './Tracer';
+
+export const BUTTON_LIST = [
+    {
+        name: 'Default View',
+        key: 'Default View',
+    },
+    {
+        name: 'Original',
+        key: 'Original',
+    },
+];
 
 const DEFAULT_PAGE_SIZE = 10;
 
@@ -81,12 +92,11 @@ function Bundler(props: any) {
     const network = router.query && (router.query.network as string);
     const [rows, setRows] = useState([] as tableDataT['rows']);
     const [bundleInfo, setBundleInfo] = useState<BundleInfo>();
-    const [userOps, setUserOps] = useState<UserOp[]>();
+    const [useOps, setuserOps] = useState<UserOp[]>();
     const [pageNo, setPageNo] = useState(0);
-    const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
+    const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE);
     const [captionText, setCaptionText] = useState('N/A User Ops found');
-    const [activeTab, setActiveTab] = useState('details');
-
+    const [tabValue, setTabValue] = useState(0); // State for tab value
     const { isLoggedIn } = useUserSession();
 
     const updateRowsData = async (network: string, pageNo: number, pageSize: number) => {
@@ -100,6 +110,11 @@ function Bundler(props: any) {
         setTableLoading(false);
     };
 
+    const setPageSize = (size: number) => {
+        _setPageSize(size);
+        setPageNo(0);
+    };
+
     const loadBundleDetails = async (name: string, network: string) => {
         setTableLoading(true);
         const bundleDetail = await getBundleDetails(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo, toast);
@@ -108,7 +123,7 @@ function Bundler(props: any) {
     };
 
     useEffect(() => {
-        updateRowsData(network ? network : '', pageNo, pageSize);
+        updateRowsData(network ? network : '', pageSize, pageNo);
         const urlParams = new URLSearchParams(window.location.search);
         urlParams.set('pageNo', pageNo.toString());
         urlParams.set('pageSize', pageSize.toString());
@@ -120,18 +135,26 @@ function Bundler(props: any) {
         setCaptionText(captionText);
     }, [bundleInfo]);
 
+    let prevHash = hash;
+    let prevNetwork = network;
     useEffect(() => {
-        loadBundleDetails(hash as string, network as string);
+        if (prevHash !== undefined || prevNetwork !== undefined) {
+            prevHash = hash;
+            prevNetwork = network;
+            loadBundleDetails(hash as string, network as string);
+        }
     }, [hash, network]);
 
     return (
         <div className="">
             <Navbar searchbar />
-            <section className="px-4 py-10">
-                <div className="container px-4">
+            <section className="px-3 py-10">
+                <div className="container px-0">
                     <div className="flex flex-row">
                         <Link href="/" className="text-gray-500">
-                            <ArrowBackIcon style={{ height: '15px', width: '15px', marginRight: '20px', marginLeft: '10px', marginBottom: '3px' }} />
+                            <ArrowBackIcon
+                                style={{ height: '15px', width: '15px', marginRight: '20px', marginLeft: '10px', marginBottom: '3px' }}
+                            />
                         </Link>
                         <Breadcrumbs aria-label="breadcrumb">
                             <Link underline="hover" color="inherit" href={`/?network=${network ? network : ''}`}>
@@ -140,67 +163,62 @@ function Bundler(props: any) {
                             <Link underline="hover" color="inherit" href={`/block/${hash}?network=${network ? network : ''}`}>
                                 Block
                             </Link>
-                            <Link underline="hover" color="text.primary" href={`/address/${hash}?network=${network ? network : ''}`} aria-current="page">
+                            <Link
+                                underline="hover"
+                                color="text.primary"
+                                href={`/address/${hash}?network=${network ? network : ''}`}
+                                aria-current="page"
+                            >
                                 {shortenString(hash as string)}
                             </Link>
                         </Breadcrumbs>
                     </div>
-                    <h1 className="text-3xl font-bold px-4 py-2">Bundle</h1>
-                    <HeaderSection item={bundleInfo} network={network} />
+                    <h1 className="text-3xl font-bold">Bundle</h1>
                 </div>
-                
             </section>
             
-            <div className="container px-4">
-                {/* Tabs for toggling between details and tracer */}
-                <Tabs className='px-4' value={activeTab} onChange={(event, newValue) => setActiveTab(newValue)}>
-                    <Tab label="Bundle Details" value="details" />
-                    <Tab label="Transaction Tracer" value="tracer" />
-                </Tabs>
-                
-                {activeTab === 'details' && (
-                    <>  
-                        <TransactionDetails item={bundleInfo} network={network} tableLoading={tableLoading} />
-                        <div className="container px-4">
-                            <div className='shadow-300 rounded-md'>
-                                <Table
-                                    rows={rows}
-                                    columns={columns}
-                                    loading={tableLoading}
-                                    caption={{
-                                        children: captionText,
-                                        icon: '/images/cube.svg',
-                                        text: 'Approx Number of Operations Processed in the selected chain',
-                                    }}
-                                />
-                            </div>
-                            <Pagination
-                                pageDetails={{
-                                    pageNo,
-                                    setPageNo,
-                                    pageSize,
-                                    setPageSize,
-                                    totalRows: bundleInfo?.userOpsLength != null ? bundleInfo.userOpsLength : 0,
-                                }}
-                            />
-                        </div>
-                    </>
-                )}
-
-                {activeTab === 'tracer' && (
-                    <>
-                        {hash && network === 'base' && (
-                            <div className="container px-4 md:block hidden">
-                                <Tracer trxHash={hash} network={network} />
-                            </div>
-                        )}
-                        <div className='md:hidden shadow-300 p-4'>
-                            Transaction Traces Best Viewed on Larger Screens
-                        </div>
-                    </>
-                )}
-            </div>
-
+            <HeaderSection item={bundleInfo} network={network} />
+            {/* Tabs for Bundle Details and Tracer */}
+            <Tabs value={tabValue} onChange={(event, newValue) => setTabValue(newValue)} className='px-32 overflow-x-auto' w-full>
+                <Tab label="Bundle Details" />
+                {network === 'base' && <Tab label="Tracer" />}
+            </Tabs>
+            {tabValue === 0 && (
+                <div className="container px-0">
+                    <TransactionDetails item={bundleInfo} network={network} tableLoading={tableLoading} />
+                    <div className="shadow-300 rounded-md">
+                        <Table
+                            rows={rows}
+                            columns={columns}
+                            loading={tableLoading}
+                            caption={{
+                                children: captionText,
+                                icon: '/images/cube.svg',
+                                text: 'Approx Number of Operations Processed in the selected chain',
+                            }}
+                        />
+                    </div>
+                    <Pagination
+                        pageDetails={{
+                            pageNo,
+                            setPageNo,
+                            pageSize,
+                            setPageSize,
+                            totalRows: bundleInfo?.userOpsLength != null ? bundleInfo.userOpsLength : 0,
+                        }}
+                    />
+                </div>
+            )}
+            {tabValue === 1 && network === 'base' && (
+                <div className="container px-4 md:block hidden">
+                    <Tracer trxHash={hash} network={network} />
+                </div>
+            )}
+            {tabValue === 1 && network === 'base' && (
+                <div className='md:hidden shadow-300 p-4'>
+                   Transaction Traces Best Viewed on Larger Screens
+                </div>
+            )}
             <ToastContainer />
             <Footer />
         </div>
