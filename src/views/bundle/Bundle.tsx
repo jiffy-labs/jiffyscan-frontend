@@ -179,10 +179,15 @@ function Bundler(props: any) {
             
             <HeaderSection item={bundleInfo} network={network} />
             {/* Tabs for Bundle Details and Tracer */}
-            <Tabs value={tabValue} onChange={(event, newValue) => setTabValue(newValue)} className='px-32 overflow-x-auto' w-full>
-                <Tab label="Bundle Details" />
-                {network === 'base' && <Tab label="Tracer" />}
-            </Tabs>
+            <Tabs
+  value={tabValue}
+  onChange={(event, newValue) => setTabValue(newValue)}
+  className="overflow-x-auto w-full md:px-32 px-4" // Adjust padding for mobile
+>
+  <Tab label="Bundle Details" />
+  {network === 'base' && <Tab label="Tracer" />}
+</Tabs>
+
             {tabValue === 0 && (
                 <div className="container px-0">
                     <TransactionDetails item={bundleInfo} network={network} tableLoading={tableLoading} />
