@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { FaArrowRight, FaCopy } from 'react-icons/fa'; // Import icons
 import { MdArrowForwardIos } from 'react-icons/md';
 import { FaArrowUpFromBracket } from 'react-icons/fa6';
-import { RiArrowRightSLine } from "react-icons/ri";
+import { RiArrowRightSLine } from 'react-icons/ri';
 // Interfaces for TypeScript
 interface TracerProps {
     item: {
@@ -49,11 +49,10 @@ interface TracerData {
     relevantTraces: Trace[];
 }
 
-
 const TraceDetails: React.FC<{ trace: Trace; depth?: number }> = ({ trace, depth = 0 }) => {
     const { type, result, action, subtraces, stage } = trace;
     const { output, gasUsed } = result || {};
-    const { from, to, input, gas, method, decodedInput, value, callType } = action || {};
+    const { from, to, gas, input, method, decodedInput, value, callType } = action || {};
     const [fromCopied, setFromCopied] = useState(false);
     const [toCopied, setToCopied] = useState(false);
 
@@ -87,13 +86,13 @@ const TraceDetails: React.FC<{ trace: Trace; depth?: number }> = ({ trace, depth
     const indentation = depth * 20; // Increase space based on depth
 
     return (
-        <div className="rounded-b-x border-[#D7DAE0] border-t-2">
-            <div className="flex space-x-4 rounded-lg bg-white  p-3 px-8 text-md justify-between">
+        <div className="rounded-b-lg border-[#D7DAE0] border-t-2 dark:border-[#3B3C40] dark:bg-[#1F202B]">
+            <div className="flex space-x-4 rounded-lg bg-white  p-3 px-8 text-md justify-between  dark:bg-[#1F202B]">
                 <div className="flex space-x-4 w-48 text-center">
-                    <span className="bg-[#F0F1F5] font-gsans text-[#646D8F] w-[72px] h-[24px] text-center text-sm me-2 px-2.5 py-0.5 rounded dark:text-gray-400 border border-gray-200">
+                    <span className="bg-[#F0F1F5] dark:border-[#3B3C40] dark:bg-[#191A23] font-gsans text-[#646D8F] w-[72px] h-[24px] text-center text-sm me-2 px-2.5 py-0.5 rounded dark:text-gray-400 border border-gray-200">
                         {callType === 'delegatecall' ? 'D-CALL' : callType === 'staticcall' ? 'S-CALL' : 'CALL'}
                     </span>
-                    <span className="bg-[#F0F1F5] font-gsans text-[#646D8F] tracking-[0.4] w-[74px] h-[24px] text-center text-sm text-nowrap  px-2 py-0.5 rounded dark:text-gray-400 border border-gray-200">
+                    <span className="bg-[#F0F1F5] dark:border-[#3B3C40] dark:bg-[#191A23] font-gsans text-[#646D8F] tracking-[0.4] w-[74px] h-[24px] text-center text-sm text-nowrap px-2 py-0.5 rounded dark:text-gray-400 border border-gray-200">
                         {gasUsed ? Number(gasUsed).toLocaleString() : 'N/A'}
                     </span>
                 </div>
@@ -109,12 +108,12 @@ const TraceDetails: React.FC<{ trace: Trace; depth?: number }> = ({ trace, depth
                     />
 
                     <strong>&nbsp; &nbsp;</strong>
-                    <span className="font-gsans mt-[2px] font-medium text-md text-[#20294C]"> {formatAddress(from)}</span>
-                    <FaArrowRight className="mt-1" />
-                    <span className="font-gsans mt-[2px] font-medium text-md text-[#20294C]">{formatAddress(to)}</span>
+                    <span className="font-gsans mt-[2px] font-medium text-md text-[#20294C] dark:text-[#DADEF1]"> {formatAddress(from)}</span>
+                    <FaArrowRight className="mt-1 dark:fill-[#DADEF1]" />
+                    <span className="font-gsans mt-[2px] font-medium text-md text-[#20294C] dark:text-[#DADEF1]">{formatAddress(to)}</span>
                     <span className="text-sm text-[#646D8F] font-gmono ml-2 text-center align-middle mt-[2px]">({input ? `${input.slice(0, 10)}...` : 'N/A'})</span>
                 </div>
-                <span onClick={toggleDetails} className="text-end font-gsans justify-between mt-[2px] text-[#195BDF] cursor-pointer">
+                <span onClick={toggleDetails} className="text-end font-gsans justify-between text-[#195BDF] cursor-pointer mt-[2px]">
                     {showDetails ? 'Hide details' : 'More details'}
                 </span>
             </div>
@@ -188,6 +187,7 @@ const TraceDetails: React.FC<{ trace: Trace; depth?: number }> = ({ trace, depth
                         </div>
                         <div className="w-3/4 font-gsans text-[#20294C] text-md">{gas ? Number(gas).toLocaleString() : 'N/A'}</div>
                     </div>
+
                     <div className="flex">
                         <div className="w-1/4">
                             <span className="text-[#646D8F] font-gsans">INPUT</span>
@@ -246,7 +246,7 @@ const TraceDetails: React.FC<{ trace: Trace; depth?: number }> = ({ trace, depth
 const Tracer: React.FC<TracerProps> = ({ item, network }) => {
     const [tracer, setTracer] = useState<TracerData | null>(null);
     const [loading, setLoading] = useState(true);
-    const [activeAccordion, setActiveAccordion] = useState<number | null>(null);
+    const [activeAccordion, setActiveAccordion] = useState<number[]>([]); // Initialize as an array
 
     useEffect(() => {
         const fetchTracerData = async () => {
@@ -264,15 +264,21 @@ const Tracer: React.FC<TracerProps> = ({ item, network }) => {
     }, [item, network]);
 
     const toggleAccordion = (index: number) => {
-        setActiveAccordion(activeAccordion === index ? null : index);
+        if (activeAccordion.includes(index)) {
+            // Remove the index if it's already open
+            setActiveAccordion(activeAccordion.filter((i) => i !== index));
+        } else {
+            // Add the index if it's not open
+            setActiveAccordion([...activeAccordion, index]);
+        }
     };
 
     if (loading) {
         return <Skeleton count={5} />;
     }
 
-    if (!tracer || !tracer.relevantTraces.length) {
-        return <Skeleton count={5} />;
+    if (!tracer || !tracer.relevantTraces?.length) {
+        return  <div className="block text-center p-8 text-xl text-gray-500 font-medium">No Data Available</div>;
     }
 
     return (
@@ -281,15 +287,13 @@ const Tracer: React.FC<TracerProps> = ({ item, network }) => {
                 <div className="my-4">
                     <div id="accordion-collapse" data-accordion="collapse">
                         {tracer.relevantTraces.map((trace, index) => (
-                            <div className="mb-6 border-[#D7DAE0] border-2 rounded-xl" key={index}>
+                            <div className="mb-6 border-[#D7DAE0] border-2 rounded-xl dark:border-[#3B3C40] dark:bg-[#1F202B]" key={index}>
                                 <h2>
                                     <button
                                         type="button"
-                                        className={`flex ${
-                                            activeAccordion === index ? 'rounded-t-xl' : 'rounded-xl'
-                                        } items-center justify-between bg-white w-full lg:w-1240 p-4 lg:px-8 font-medium rtl:text-right text-gray-500 dark:text-gray-400 gap-3 min-h-20`}
+                                        className={`dark:border-[#3B3C40] dark:bg-[#1F202B] flex ${activeAccordion.includes(index) ? 'rounded-t-xl' : 'rounded-xl'} items-center justify-between bg-white w-full lg:w-1240 p-4 lg:px-8 font-medium rtl:text-right text-gray-500 dark:text-gray-400 gap-3 min-h-20`}
                                         onClick={() => toggleAccordion(index)}
-                                        aria-expanded={activeAccordion === index}
+                                        aria-expanded={activeAccordion.includes(index)}
                                         aria-controls={`accordion-collapse-body-${index}`}
                                     >
                                         <div className="flex justify-between gap-4">
@@ -307,12 +311,12 @@ const Tracer: React.FC<TracerProps> = ({ item, network }) => {
                                                 />
                                             </svg>
 
-                                            <span className="lg:text-[20px] font-gsans font-medium text-[#1F1F1F]">
+                                            <span className="lg:text-[20px] dark:text-[#DADEF1] font-gsans font-medium text-[#1F1F1F]">
                                                 {trace.stage || `Trace ${index + 1}`}
                                             </span>
                                         </div>
                                         <svg
-                                            className={`w-4 h-4 rotate-${activeAccordion === index ? '0' : '180'} shrink-0`}
+                                            className={`w-4 h-4 rotate-${activeAccordion.includes(index) ? '0' : '180'} shrink-0`}
                                             aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg"
                                             fill="none"
@@ -330,9 +334,7 @@ const Tracer: React.FC<TracerProps> = ({ item, network }) => {
                                 </h2>
                                 <div
                                     id={`accordion-collapse-body-${index}`}
-                                    className={`border rounded-b-xl border-gray-200 no-wrap ${
-                                        activeAccordion === index ? 'block' : 'hidden'
-                                    }`}
+                                    className={`border rounded-b-xl border-gray-200 no-wrap dark:border-[#3B3C40] dark:bg-[#1F202B] ${activeAccordion.includes(index) ? 'block' : 'hidden'}`}
                                     aria-labelledby={`accordion-collapse-heading-${index}`}
                                 >
                                     <TraceDetails trace={trace} />

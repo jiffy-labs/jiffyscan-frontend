@@ -1198,7 +1198,7 @@ export const fetchData = async (item : ItemProps) => {
     try {
         const res = await fetch(`${API_URL}/v0/getUserOpLogs?userOpHash=${item.userOpHash}&network=${item.network}`, {
             headers: {
-                'x-api-key': X_API_Key || 'TestAPIKeyDontUseInCode', 
+                'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5',  
             },
         });
         if (!res.ok) {

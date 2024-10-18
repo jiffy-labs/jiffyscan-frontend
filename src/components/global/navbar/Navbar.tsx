@@ -79,12 +79,11 @@ function Navbar(props: NavbarProps) {
                     {/* <div className="w-[1px] h-[40px] hidden md:block bg-black/[12%]" /> */}
                     <div className={`hidden lg:block ${searchbar? "" : "pl-28"}`}>
                         <Pages />
+                        
                     </div>
                     <div className="items-center justify-end flex-grow hidden gap-3 md:flex">
                         {searchbar && <Searchblock isNavbar={true} />}
                         {/* <User /> */}
-                    </div>
-                    <div className="items-center justify-end flex-grow hidden gap-3 md:flex">
                         <button onClick={toggleTheme} className=" p-2 rounded-full focus:outline-none">
                             {isDarkMode ? (
                                 <MdOutlineLightMode className="w-6 h-6 fill-white" /> // Dark mode icon
@@ -93,9 +92,17 @@ function Navbar(props: NavbarProps) {
                             )}
                         </button>
                     </div>
+                    
                     <div className="flex items-center md:hidden">
                         <button type="button" onClick={toggleDrawer}>
                             <img src="/images/menu.svg" alt="" />
+                        </button>
+                        <button onClick={toggleTheme} className=" p-2 rounded-full focus:outline-none">
+                            {isDarkMode ? (
+                                <MdOutlineLightMode className="w-6 h-6 fill-white" /> // Dark mode icon
+                            ) : (
+                                <MdOutlineDarkMode className="w-6 h-6" /> // Light mode icon
+                            )}
                         </button>
                     </div>
                 </div>
@@ -124,6 +131,7 @@ function Navbar(props: NavbarProps) {
                         <div className="mb-3">
                             <Pages />
                         </div>
+                        
                         <hr className="mb-2" />
                         {/* <div className="-ml-2">
                             <User />
