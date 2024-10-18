@@ -659,7 +659,7 @@ function RecentUserOps(props: any) {
                                                                     <div className="flex flex-col gap-[10px]">
                                                                         {!isLoading ? (
                                                                             userOpsData?.[showUserOpId]?.target &&
-                                                                            userOpsData[showUserOpId].target.length > 0 ? (
+                                                                            userOpsData[showUserOpId]?.target?.length > 0 ? (
                                                                                 <>
                                                                                     <div className="flex items-center gap-[8px] font-medium">
                                                                                         <img
@@ -685,7 +685,7 @@ function RecentUserOps(props: any) {
                                                                                                 className="w-6 h-6"
                                                                                             />
                                                                                         </Link>
-                                                                                        {userOpsData[showUserOpId].target.length > 1 && (
+                                                                                        {userOpsData[showUserOpId]?.target?.length > 1 && (
                                                                                             <button
                                                                                             className="text-[#969CB2] text-md flex items-center ml-2 border rounded-full px-3 dark:text-[#ADB0BC] border-[#ccc] dark:border-[#3B3C40]"
                                                                                             onClick={() => setShowAllTargets(!showAllTargets)}
@@ -695,7 +695,7 @@ function RecentUserOps(props: any) {
                                                                                                 showAllTargets ? 'rotate-180' : ''
                                                                                               }`}
                                                                                             />
-                                                                                            {userOpsData[showUserOpId].target.length - 1} more
+                                                                                            {userOpsData[showUserOpId]?.target?.length - 1} more
                                                                                           </button>
                                                                                           
                                                                                         )}
@@ -703,7 +703,7 @@ function RecentUserOps(props: any) {
 
                                                                                     {showAllTargets && (
                                                                                         <div className="flex flex-col gap-[8px] mt-2">
-                                                                                            {userOpsData[showUserOpId].target
+                                                                                            {userOpsData[showUserOpId]?.target
                                                                                                 .slice(1)
                                                                                                 .map((target, index) => (
                                                                                                     <div
