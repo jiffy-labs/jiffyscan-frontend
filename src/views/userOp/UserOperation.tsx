@@ -658,8 +658,8 @@ function RecentUserOps(props: any) {
                                                                 <div className="justify-between block md:flex">
                                                                     <div className="flex flex-col gap-[10px]">
                                                                         {!isLoading ? (
-                                                                            userOpsData?.[showUserOpId]?.target &&
-                                                                            userOpsData[showUserOpId]?.target?.length > 0 ? (
+                                                                            // @ts-ignore
+                                                                            userOpsData?.[showUserOpId]?.target && userOpsData[showUserOpId]?.target?.length > 0 ? (
                                                                                 <>
                                                                                     <div className="flex items-center gap-[8px] font-medium">
                                                                                         <img
@@ -668,15 +668,15 @@ function RecentUserOps(props: any) {
                                                                                             className="w-6 h-6"
                                                                                         />
                                                                                         <span className="text-[#195BDF]">
-                                                                                            {formatAddress(
-                                                                                                userOpsData[showUserOpId].target[0],
+                                                                                            {/* @ts-ignore */}
+                                                                                            {formatAddress(userOpsData[showUserOpId]?.target[0]
                                                                                             )}
                                                                                         </span>
-                                                                                        <CopyButton
-                                                                                            text={userOpsData[showUserOpId].target[0] || ''}
+                                                                                        {/* @ts-ignore */}
+                                                                                        <CopyButton text={userOpsData[showUserOpId]?.target[0] || ''}
                                                                                         />
-                                                                                        <Link
-                                                                                            href={`https://etherscan.io/address/${userOpsData[showUserOpId].target[0]}`}
+                                                                                        {/* @ts-ignore */}
+                                                                                        <Link href={`https://etherscan.io/address/${userOpsData[showUserOpId]?.target[0]}`}
                                                                                             target="_blank"
                                                                                         >
                                                                                             <img
@@ -685,6 +685,7 @@ function RecentUserOps(props: any) {
                                                                                                 className="w-6 h-6"
                                                                                             />
                                                                                         </Link>
+                                                                                        {/* @ts-ignore */}
                                                                                         {userOpsData[showUserOpId]?.target?.length > 1 && (
                                                                                             <button
                                                                                             className="text-[#969CB2] text-md flex items-center ml-2 border rounded-full px-3 dark:text-[#ADB0BC] border-[#ccc] dark:border-[#3B3C40]"
@@ -695,6 +696,7 @@ function RecentUserOps(props: any) {
                                                                                                 showAllTargets ? 'rotate-180' : ''
                                                                                               }`}
                                                                                             />
+                                                                                            {/* @ts-ignore */}
                                                                                             {userOpsData[showUserOpId]?.target?.length - 1} more
                                                                                           </button>
                                                                                           
@@ -703,6 +705,7 @@ function RecentUserOps(props: any) {
 
                                                                                     {showAllTargets && (
                                                                                         <div className="flex flex-col gap-[8px] mt-2">
+                                                                                            {/* @ts-ignore */}
                                                                                             {userOpsData[showUserOpId]?.target
                                                                                                 .slice(1)
                                                                                                 .map((target, index) => (
