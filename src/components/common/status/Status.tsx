@@ -4,33 +4,33 @@ export default function Status({ type, status, ago }: { type?: boolean; status?:
     return (
         <div>
             {type === true && (
-                <span className="flex items-center px-3 py-px  gap-2 rounded-full border border-[#4CAF50]">
-                    <img src="/images/Success.svg" alt="" />
-                    <span className="font-normal text-[12px] leading-5 text-dark-600">Success</span>
+                <span className="flex items-center px-3 py-px  gap-2 rounded-full ">
+                    <img src="/images/Success.svg" alt=""className='' />
+                    <span className="font-normal dark:text-[#ADB0BC] text-[12px] leading-5 text-dark-600"></span>
                 </span>
             )}
             {type === false && (status  == "failed" || status == "FAILED") && (
-                <span className="flex items-center px-3 py-px  gap-2 rounded-full border border-[#d81a14]">
+                <span className="flex items-center px-3 py-px  gap-2 rounded-full border ">
                     <img src="/images/failed.svg" alt="" />
-                    <span className="font-normal text-[12px] leading-5 text-dark-600">Failed</span>
+                    <span className="font-normal dark:text-[#ADB0BC] text-[12px] leading-5 text-dark-600"></span>
                 </span>
             )}
             {status === 'pending'  && (
                 <span className="flex items-center px-3 py-px  gap-2 rounded-full border border-[#d81a14]">
                     <img src="/images/pending.svg" alt="" />
-                    <span className="font-normal text-[12px] leading-5 text-dark-600">Failed</span>
+                    <span className="font-normal dark:text-[#ADB0BC] text-[12px] leading-5 text-dark-600">Failed</span>
                 </span>
             )}
              {status === 'IN_BUNDLER_MEMPOOL'  && (
                 <span className="flex items-center px-3 py-[0.3rem] w-[150px]   gap-2 rounded-full border border-[#FB8C00]">
                     <img src="/images/pending.svg" alt="" />
-                    <span className="font-normal text-[12px] leading-5 text-dark-600">In Alt Mempool</span>
+                    <span className="font-normal dark:text-[#ADB0BC] text-[12px] leading-5 text-dark-600">In Alt Mempool</span>
                 </span>
             )}
               {status === 'IN_EVM_MEMPOOL'  && (
                 <span className="flex items-center px-3 py-[0.3rem] w-[150px]  gap-2 rounded-full border border-[#FB8C00]">
                     <img src="/images/pending.svg" alt="" />
-                    <span className="font-normal text-[12px] leading-5 text-dark-600">In Main Mempool</span>
+                    <span className="font-normal dark:text-[#ADB0BC] text-[12px] leading-5 text-dark-600">In Main Mempool</span>
                 </span>
             )}
             {status === 'success' && (
