@@ -11,6 +11,8 @@ interface TracerProps {
     item: {
         userOpHash: string;
         network: string;
+        sender?: string; // Added sender for Odyssey network
+        trxHash?: string; // Added trxHash for Odyssey network
     };
     network: string;
 }
@@ -248,10 +250,31 @@ const Tracer: React.FC<TracerProps> = ({ item, network }) => {
     const [loading, setLoading] = useState(true);
     const [activeAccordion, setActiveAccordion] = useState<number[]>([]); // Initialize as an array
 
+    interface TracerProps {
+        item: {
+            userOpHash: string;
+            network: string;
+            sender?: string; // Added sender for Odyssey network
+            transactionHash?: string; // Added trxHash for Odyssey network
+        };
+        network: string;
+    }
+    
     useEffect(() => {
         const fetchTracerData = async () => {
             try {
-                const response = await getUsserOpTrace(item.userOpHash, item.network, toast);
+                const { userOpHash, network, sender, trxHash } = item;
+                console.log("ITEMMM",item)
+    
+                // Check if the network is 'odyssey' and only pass 'sender' and 'trxHash' if they exist
+                const response = await getUsserOpTrace(
+                    userOpHash,
+                    network,
+                    toast,
+                    network === 'odyssey' && sender ? sender : undefined,
+                    network === 'odyssey' && trxHash ? trxHash : undefined
+                );
+    
                 setTracer(response as unknown as TracerData);
             } catch (error) {
                 console.error('Error fetching tracer data:', error);
@@ -259,9 +282,10 @@ const Tracer: React.FC<TracerProps> = ({ item, network }) => {
                 setLoading(false);
             }
         };
-
+    
         fetchTracerData();
     }, [item, network]);
+    
 
     const toggleAccordion = (index: number) => {
         if (activeAccordion.includes(index)) {
