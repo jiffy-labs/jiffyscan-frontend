@@ -23,6 +23,12 @@ export const NETWORK_LIST = [
         iconPath: '/images/base-logo.svg',
         iconPathInverted: '/images/base-logo.svg',
     },
+    {
+        name: "Odyssey",
+        key: 'odyssey',
+        iconPath: '/images/odyssey-logo.png',
+        iconPathInverted: '/images/odyssey-logo.png'
+    },
     // {
     //     name: 'Vanar Mainnet',
     //     key: 'vanar-mainnet',
@@ -177,6 +183,7 @@ export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
     goerli: '/images/eth-diamond-purple.svg',
     sepolia: '/images/eth-diamond-purple.svg',
     matic: '/images/polygon-icon.svg',
+    odyssey: '/images/odyssey-logo.png',
     // mumbai: '/images/polygon-mumbai-icon.svg',
     'optimism-sepolia': '/images/icon-container (6).svg',
     optimism: '/images/icon-container (6).svg',
@@ -233,7 +240,8 @@ export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
     'vanar-testnet': 'https://explorer-vanguard.vanarchain.com',
     'vanar-mainnet': 'https://explorer.vanarchain.com',
     testnet: 'https://explorer-vanguard.vanarchain.com',
-    'open-campus-test': 'https://opencampus-codex.blockscout.com/',
+    'open-campus-test': 'https://opencampus-codex.blockscout.com',
+    odyssey: 'https://odyssey-explorer.ithaca.xyz'
 };
 
 export const ENTRY_POINT_ADDRESS_MAP: { [key: string]: string } = {
