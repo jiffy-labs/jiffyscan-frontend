@@ -9,7 +9,8 @@ export interface UserOp {
     id: string | null;
     transactionHash: string | null;
     userOpHash: string;
-    sender: string;
+    sender?: string; // Added sender for Odyssey network
+    trxHash?: string; // Added trxHash for Odyssey network
     accountSender: { factory: string };
     paymaster: string;
     nonce: number;
@@ -382,28 +383,34 @@ export const getUserOpMetadata = async (userOpHash: string, network: string, toa
     return data;
 };
 
-export const getUsserOpTrace = async (userOpHash: string, network: string, toast: any): Promise<metadata> => {
-    // if (!performApiCall(network)) return {} as metadata;
-    // if (network != 'mainnet') return {} as metadata;
+export const getUsserOpTrace = async (userOpHash: string, network: string, toast: any, sender?: string, trxHash?: string): Promise<metadata> => {
     let response;
     try {
-        response = await fetch(`https://api-dev.jiffyscan.xyz/v0/getUserOpTraces?userOpHash=${userOpHash}&network=${network}`, {
-            method : 'GET',
+        let apiUrl = `https://api-dev.jiffyscan.xyz/v0/getUserOpTraces?userOpHash=${userOpHash}&network=${network}`;
+        
+        // If the network is 'odyssey', add 'sender' and 'trxHash' to the API call
+        if (network === 'odyssey') {
+            apiUrl += `&sender=${sender}&trxHash=${trxHash}`;
+        }
+
+        response = await fetch(apiUrl, {
+            method: 'GET',
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         });
     } catch (e) {
-        //alert(e.message)
         showToast(toast, 'Error fetching metadata');
         return {} as metadata;
     }
-    if (response.status != 200) {
-        showToast(toast, 'Error fetching metadata');
-        return {} as metadata;
-    }
-    const data = await response.json();
     
+    if (response.status !== 200) {
+        showToast(toast, 'Error fetching metadata');
+        return {} as metadata;
+    }
+
+    const data = await response.json();
     return data;
 };
+
 
 export const getTrxTraces = async (trxHash: string, network: string, toast: any): Promise<metadata> => {
     let response;
