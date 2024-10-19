@@ -185,7 +185,7 @@ function Bundler(props: any) {
   className="overflow-x-auto w-full md:px-32 px-4" // Adjust padding for mobile
 >
   <Tab label="Bundle Details" />
-  {network === 'base' && <Tab label="Tracer" />}
+  {network === 'base' || network === 'odyssey' ? <Tab label="Tracer" /> : null}
 </Tabs>
 
             {tabValue === 0 && (
@@ -214,16 +214,17 @@ function Bundler(props: any) {
                     />
                 </div>
             )}
-            {tabValue === 1 && network === 'base' && (
-                <div className="container px-4 md:block hidden">
-                    <Tracer trxHash={hash} network={network} />
-                </div>
-            )}
-            {tabValue === 1 && network === 'base' && (
-                <div className='md:hidden shadow-300 p-4'>
-                   Transaction Traces Best Viewed on Larger Screens
-                </div>
-            )}
+           {tabValue === 1 && (network === 'base' || network === 'odyssey') && (
+    <div className="container px-4 md:block hidden">
+        <Tracer trxHash={hash} network={network} />
+    </div>
+)}
+{tabValue === 1 && (network === 'base' || network === 'odyssey') && (
+    <div className='md:hidden shadow-300 p-4'>
+        Transaction Traces Best Viewed on Larger Screens
+    </div>
+)}
+
             <ToastContainer />
             <Footer />
         </div>
