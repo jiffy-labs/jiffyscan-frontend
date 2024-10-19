@@ -141,22 +141,26 @@ function RecentUserOps(props: any) {
                 <div className={`${activeTab === 'logs' ? 'block' : 'hidden'}`}>
                     <UserOpLogs item={userOpsData?.[showUserOpId]} />
                 </div>
-                {(network === 'base'||network==='odyssey') &&activeTab === 'tracer' && (
-    <>
-        {/* Show the Tracer component only on medium (md) screens and larger */}
-        <div className={`${activeTab === 'tracer' ? 'block' : 'hidden'} hidden md:block`}>
-            <Tracer item={userOpsData?.[showUserOpId]} network={''} />
-        </div>
+                {(network === 'base' || network === 'odyssey') && activeTab === 'tracer' && (
+                    <>
+                        {/* Show the Tracer component only on medium (md) screens and larger */}
+                        <div className={`${activeTab === 'tracer' ? 'block' : 'hidden'} hidden md:block`}>
+                            <Tracer
+                                item={{
+                                    ...userOpsData?.[showUserOpId],
+                                    transactionHash: userOpsData?.[showUserOpId]?.transactionHash ?? undefined, // Convert null to undefined
+                                }}
+                                network={''}
+                            />
+                        </div>
 
-        {/* Show the title on screens smaller than md, but only for the 'tracer' tab */}
-        
-            <div className="block md:hidden text-center p-8 text-xl text-gray-500 font-medium">
-                Best Viewed on Larger Screens
-            </div>
-        
-    </>
-)}
+                        {/* Show the title on screens smaller than md, but only for the 'tracer' tab */}
 
+                        <div className="block md:hidden text-center p-8 text-xl text-gray-500 font-medium">
+                            Best Viewed on Larger Screens
+                        </div>
+                    </>
+                )}
             </div>
         );
     };
@@ -331,7 +335,7 @@ function RecentUserOps(props: any) {
                                         >
                                             UserOp Logs
                                         </button>
-                                        {(network === 'base'||network==='odyssey') && (
+                                        {(network === 'base' || network === 'odyssey') && (
                                             <button
                                                 onClick={() => handleTabChange('tracer')}
                                                 className={`py-2 px-4 rounded-[6px] ${
