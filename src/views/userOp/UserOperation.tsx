@@ -659,8 +659,7 @@ function RecentUserOps(props: any) {
                                                                     <div className="flex flex-col gap-[10px]">
                                                                         {!isLoading ? (
                                                                             // @ts-ignore
-                                                                            userOpsData?.[showUserOpId]?.target &&
-                                                                            userOpsData[showUserOpId]?.target?.length > 0 ? (
+                                                                            userOpsData?.[showUserOpId]?.target &&userOpsData[showUserOpId]?.target?.length > 0 ? (
                                                                                 <>
                                                                                     <div className="flex items-center gap-[8px] font-medium">
                                                                                         <img
