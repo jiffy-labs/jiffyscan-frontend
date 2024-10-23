@@ -669,19 +669,15 @@ function RecentUserOps(props: any) {
                                                                                         />
                                                                                         <span className="text-[#195BDF]">
                                                                                             {/* @ts-ignore */}
-                                                                                            {formatAddress(
-                                                                                                userOpsData[showUserOpId]?.target[0],
+                                                                                            {formatAddress( userOpsData[showUserOpId]?.target[0],
                                                                                             )}
                                                                                         </span>
                                                                                         {/* @ts-ignore */}
-                                                                                        <CopyButton
-                                                                                            text={
-                                                                                                userOpsData[showUserOpId]?.target[0] || ''
+                                                                                        <CopyButton text={userOpsData[showUserOpId]?.target[0] || ''
                                                                                             }
                                                                                         />
                                                                                         {/* @ts-ignore */}
-                                                                                        <Link
-                                                                                            href={`https://etherscan.io/address/${userOpsData[showUserOpId]?.target[0]}`}
+                                                                                        <Link  href={`https://etherscan.io/address/${userOpsData[showUserOpId]?.target[0]}`}
                                                                                             target="_blank"
                                                                                         >
                                                                                             <img
