@@ -166,54 +166,54 @@ function RecentUserOps(props: any) {
         });
     };
 
-    const renderContent = () => {
-        return (
-            <div>
-                <div className={`${activeTab === 'overview' ? 'block' : 'hidden'}`}>
-                    <TransactionDetails
-                        tableLoading={tableLoading}
-                        skeletonCards={skeletonCards}
-                        item={userOpsData?.[showUserOpId]}
-                        responseData={responseData}
-                        addressMapping={addressMapping}
-                        metaData={metaData}
-                        setMetadata={setMetaData}
-                        selectedNetwork={selectedNetwork}
-                    />
-                </div>
+    // const renderContent = () => {
+    //     return (
+    //         <div>
+    //             <div className={`${activeTab === 'overview' ? 'block' : 'hidden'}`}>
+    //                 <TransactionDetails
+    //                     tableLoading={tableLoading}
+    //                     skeletonCards={skeletonCards}
+    //                     item={userOpsData?.[showUserOpId]}
+    //                     responseData={responseData}
+    //                     addressMapping={addressMapping}
+    //                     metaData={metaData}
+    //                     setMetadata={setMetaData}
+    //                     selectedNetwork={selectedNetwork}
+    //                 />
+    //             </div>
 
-                <div className={`${activeTab === 'dev_details' ? 'block' : 'hidden'}`}>
-                    <DeveloperDetails
-                        tableLoading={tableLoading}
-                        skeletonCards1={skeletonCards1}
-                        item={userOpsData?.[showUserOpId]}
-                        selectedColor={selectedColor}
-                        BUTTON_LIST={BUTTON_LIST}
-                        setSelectedColor={setSelectedColor}
-                        selectedNetwork={selectedNetwork}
-                        metaData={metaData}
-                    />
-                </div>
+    //             <div className={`${activeTab === 'dev_details' ? 'block' : 'hidden'}`}>
+    //                 <DeveloperDetails
+    //                     tableLoading={tableLoading}
+    //                     skeletonCards1={skeletonCards1}
+    //                     item={userOpsData?.[showUserOpId]}
+    //                     selectedColor={selectedColor}
+    //                     BUTTON_LIST={BUTTON_LIST}
+    //                     setSelectedColor={setSelectedColor}
+    //                     selectedNetwork={selectedNetwork}
+    //                     metaData={metaData}
+    //                 />
+    //             </div>
 
-                <div className={`${activeTab === 'logs' ? 'block' : 'hidden'}`}>{/* <UserOpLogs logs={logs} /> */}</div>
+    //             <div className={`${activeTab === 'logs' ? 'block' : 'hidden'}`}>{/* <UserOpLogs logs={logs} /> */}</div>
 
-                {network === 'base' && activeTab === 'tracer' && (
-                    <>
-                        {/* Show the Tracer component only on medium (md) screens and larger */}
-                        <div className={`${activeTab === 'tracer' ? 'block' : 'hidden'} hidden md:block`}>
-                            <Tracer item={userOpsData?.[showUserOpId]} network={''} />
-                        </div>
+    //             {network === 'base' && activeTab === 'tracer' && (
+    //                 <>
+    //                     {/* Show the Tracer component only on medium (md) screens and larger */}
+    //                     <div className={`${activeTab === 'tracer' ? 'block' : 'hidden'} hidden md:block`}>
+    //                         <Tracer item={userOpsData?.[showUserOpId]} network={''} />
+    //                     </div>
 
-                        {/* Show the title on screens smaller than md, but only for the 'tracer' tab */}
+    //                     {/* Show the title on screens smaller than md, but only for the 'tracer' tab */}
 
-                        <div className="block md:hidden text-center p-8 text-xl text-gray-500 font-medium">
-                            Best Viewed on Larger Screens
-                        </div>
-                    </>
-                )}
-            </div>
-        );
-    };
+    //                     <div className="block md:hidden text-center p-8 text-xl text-gray-500 font-medium">
+    //                         Best Viewed on Larger Screens
+    //                     </div>
+    //                 </>
+    //             )}
+    //         </div>
+    //     );
+    // };
     // const [block, setBlock] = useState(!isLoggedIn());
 
     // useEffect(() => {
@@ -464,7 +464,7 @@ function RecentUserOps(props: any) {
                                                     UserOp Logs
                                                 </button>
                                             </li>
-                                            {network === 'base' && (
+                                            {(network === 'base' || network === 'odyssey'||network==='open-campus-test') && (
                                                 <li className="flex-none w-1/2 text-center md:flex-auto">
                                                     <button
                                                         onClick={() => handleToggle(3)} // Show Tracer
@@ -659,7 +659,8 @@ function RecentUserOps(props: any) {
                                                                     <div className="flex flex-col gap-[10px]">
                                                                         {!isLoading ? (
                                                                             // @ts-ignore
-                                                                            userOpsData?.[showUserOpId]?.target && userOpsData[showUserOpId]?.target?.length > 0 ? (
+                                                                            userOpsData?.[showUserOpId]?.target &&
+                                                                            userOpsData[showUserOpId]?.target?.length > 0 ? (
                                                                                 <>
                                                                                     <div className="flex items-center gap-[8px] font-medium">
                                                                                         <img
@@ -669,14 +670,19 @@ function RecentUserOps(props: any) {
                                                                                         />
                                                                                         <span className="text-[#195BDF]">
                                                                                             {/* @ts-ignore */}
-                                                                                            {formatAddress(userOpsData[showUserOpId]?.target[0]
+                                                                                            {formatAddress(
+                                                                                                userOpsData[showUserOpId]?.target[0],
                                                                                             )}
                                                                                         </span>
                                                                                         {/* @ts-ignore */}
-                                                                                        <CopyButton text={userOpsData[showUserOpId]?.target[0] || ''}
+                                                                                        <CopyButton
+                                                                                            text={
+                                                                                                userOpsData[showUserOpId]?.target[0] || ''
+                                                                                            }
                                                                                         />
                                                                                         {/* @ts-ignore */}
-                                                                                        <Link href={`https://etherscan.io/address/${userOpsData[showUserOpId]?.target[0]}`}
+                                                                                        <Link
+                                                                                            href={`https://etherscan.io/address/${userOpsData[showUserOpId]?.target[0]}`}
                                                                                             target="_blank"
                                                                                         >
                                                                                             <img
@@ -688,18 +694,21 @@ function RecentUserOps(props: any) {
                                                                                         {/* @ts-ignore */}
                                                                                         {userOpsData[showUserOpId]?.target?.length > 1 && (
                                                                                             <button
-                                                                                            className="text-[#969CB2] text-md flex items-center ml-2 border rounded-full px-3 dark:text-[#ADB0BC] border-[#ccc] dark:border-[#3B3C40]"
-                                                                                            onClick={() => setShowAllTargets(!showAllTargets)}
-                                                                                          >
-                                                                                            <MdArrowDropDown
-                                                                                              className={`transition-transform duration-300 w-4 h-4 ${
-                                                                                                showAllTargets ? 'rotate-180' : ''
-                                                                                              }`}
-                                                                                            />
-                                                                                            {/* @ts-ignore */}
-                                                                                            {userOpsData[showUserOpId]?.target?.length - 1} more
-                                                                                          </button>
-                                                                                          
+                                                                                                className="text-[#969CB2] text-md flex items-center ml-2 border rounded-full px-3 dark:text-[#ADB0BC] border-[#ccc] dark:border-[#3B3C40]"
+                                                                                                onClick={() =>
+                                                                                                    setShowAllTargets(!showAllTargets)
+                                                                                                }
+                                                                                            >
+                                                                                                <MdArrowDropDown
+                                                                                                    className={`transition-transform duration-300 w-4 h-4 ${
+                                                                                                        showAllTargets ? 'rotate-180' : ''
+                                                                                                    }`}
+                                                                                                />
+                                                                                                {/* @ts-ignore */}
+                                                                                                {userOpsData[showUserOpId]?.target?.length -
+                                                                                                    1}{' '}
+                                                                                                more
+                                                                                            </button>
                                                                                         )}
                                                                                     </div>
 
@@ -997,18 +1006,22 @@ function RecentUserOps(props: any) {
                                             {/* @ts-ignore  */}
                                             <UserOpLogs logs={logs} network={network} />
                                         </CustomTabPanel>
-                                        {network === 'base' && (
+                                        {(network === 'base' || network === 'odyssey'||network === 'open-campus-test') && (
                                             <>
                                                 {/* Show the Tracer component only on medium (md) screens and larger */}
                                                 <div className={`${activeTab === 'tracer' ? 'block' : 'hidden'} hidden md:block`}>
                                                     <CustomTabPanel value={value} index={3}>
-                                                        <Tracer item={userOpsData?.[showUserOpId]} network={''} />
+                                                        <Tracer
+                                                            item={{
+                                                                ...userOpsData?.[showUserOpId],
+                                                                transactionHash: userOpsData?.[showUserOpId]?.transactionHash ?? undefined, // Convert null to undefined
+                                                            }}
+                                                            network={''}
+                                                        />
                                                     </CustomTabPanel>
                                                 </div>
                                                 {/* Show the title on screens smaller than md */}
-                                                <div
-                                                    className={`block md:hidden text-center p-8 text-xl text-gray-500 font-medium`}
-                                                >
+                                                <div className={`block md:hidden text-center p-8 text-xl text-gray-500 font-medium`}>
                                                     Best Viewed on Larger Screens
                                                 </div>
                                             </>

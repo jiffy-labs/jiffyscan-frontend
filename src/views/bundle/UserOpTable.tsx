@@ -20,11 +20,11 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-  { id: 'hash', label: 'UserOp Hash', minWidth: 170 },
-  { id: 'age', label: 'Age', minWidth: 100 },
-  { id: 'sender', label: 'Sender', minWidth: 170 },
-  { id: 'target', label: 'Target', minWidth: 170 },
-  { id: 'fee', label: 'Fee (ETH)', minWidth: 170, align: 'right' },
+  { id: 'hash', label: 'USEROP HASH', minWidth: 170 },
+  { id: 'age', label: 'AGE', minWidth: 100 },
+  { id: 'sender', label: 'SENDER', minWidth: 170 },
+  { id: 'target', label: 'TARGET', minWidth: 170 },
+  { id: 'fee', label: 'FEE (ETH)', minWidth: 170, align: 'right' },
 ];
 
 interface UserOpData {

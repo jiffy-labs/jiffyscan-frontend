@@ -164,7 +164,7 @@ function ChipDropdown(props: ChipProps) {
                 network.key,
             );
         } else {
-            return ['cyber-mainnet', 'arbitrum-one', 'avalanche', 'mainnet', 'open-campus-test', 'polygon', 'base'].includes(network.key);
+            return ['cyber-mainnet', 'arbitrum-one', 'avalanche', 'mainnet', 'open-campus-test', 'polygon', 'base', 'odyssey'].includes(network.key);
         }
     });
 

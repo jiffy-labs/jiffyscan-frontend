@@ -1,8 +1,9 @@
+/* eslint-disable @next/next/no-img-element */
 import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
 import { getBundleDetails, UserOp, AccountDetail, Bundle, getBundleDetailsRpc } from '@/components/common/apiCalls/jiffyApis';
-import { Breadcrumbs, Link } from '@mui/material';
+import { Breadcrumbs, IconButton, Link, Tooltip } from '@mui/material';
 import { formatDistanceToNow, format } from 'date-fns';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
@@ -29,6 +30,11 @@ import Box from '@mui/material/Box';
 import { NETWORK_LIST, NETWORK_SCANNER_MAP } from '@/components/common/constants';
 
 import { getExplorerLogo } from '@/components/common/utils';
+import { SlHome } from 'react-icons/sl';
+import { MdContentCopy } from 'react-icons/md';
+import { BsClockHistory } from 'react-icons/bs';
+import { HiHashtag } from 'react-icons/hi';
+import Tracer from './Tracer';
 interface TabPanelProps {
     children?: React.ReactNode;
     index: number;
@@ -46,10 +52,10 @@ function CustomTabPanel(props: TabPanelProps) {
             id={`simple-tabpanel-${index}`}
             aria-labelledby={`simple-tab-${index}`}
             {...other}
-            className='xl:pl-[0px] xl:pr-[0px]  min-[1600px]:pl-[0px]  min-[1600px]:pr-[0px]'
+            className="xl:pl-[0px] xl:pr-[0px]  min-[1600px]:pl-[0px]  min-[1600px]:pr-[0px]"
         >
             {value === index && (
-                <Box sx={{ p: 3 }}>
+                <Box className="py-3 md:p-8">
                     <Typography>{children}</Typography>
                 </Box>
             )}
@@ -150,7 +156,7 @@ interface TransactionDetails {
     revenue: string;
     profit: string;
     logsDetails: LogsDetails;
-    userOps: UserOpData[]
+    userOps: UserOpData[];
 }
 
 interface ApiResponse {
@@ -191,15 +197,21 @@ function BundlerNew(props: any) {
     const [transactionDetails, setTransactionDetails] = useState<TransactionDetails | null>(null);
     const [loading, setLoading] = useState(true);
     const [userOps, setUserOps] = useState<UserOpData[]>([]);
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(true);
+    const [copyTooltip, setCopyTooltip] = useState('Copy'); // Tooltip state for copy action
 
+    const handleCopy = () => {
+        navigator.clipboard.writeText(hash); // Copy the hash to clipboard
+        setCopyTooltip('Copied!'); // Change tooltip to indicate success
+        setTimeout(() => setCopyTooltip('Copy'), 1500); // Reset tooltip after 1.5s
+    };
     useEffect(() => {
         const fetchTransactionDetails = async () => {
             try {
                 const data: ApiResponse = await getBundleDetailsRpc(hash, network);
                 setTransactionDetails(data.transactionDetails);
                 setUserOps(data.transactionDetails.userOps);
-                setIsLoading(false)
+                setIsLoading(false);
             } catch (error) {
                 console.error('Error fetching transaction details:', error);
             } finally {
@@ -215,7 +227,6 @@ function BundlerNew(props: any) {
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
-
 
     // const [block, setBlock] = useState(!isLoggedIn());
 
@@ -293,20 +304,24 @@ function BundlerNew(props: any) {
     const handleTabClick = (tabIndex: number) => {
         setActiveTab(tabIndex);
     };
+
+    const handleToggle = (index: React.SetStateAction<number>) => {
+        setValue(index); // Update the active tab index
+    };
     return (
-        <div className="">
+        <div className="dark:bg-[#191A23]">
             <Navbar searchbar />
-            <section className="px-3 py-[24px] ">
+            <section className="px-3 container mx-auto my-6 py-6 bg-white dark:bg-[#1F202B] shadow-lg rounded-xl border border-[#D7DAE0] dark:border-[#3B3C40] ">
                 <div className="container px-0">
-                    <div className="flex flex-row">
-                        <Link href="/" className="text-gray-500">
+                    <div className="flex flex-row sm:px-8 items-center dark:text-[#DADEF1]">
+                        <Link href="/" className="font-gsans text-[#646D8F] text-md sm:text-base dark:text-[#DADEF1]">
                             <ArrowBackIcon
                                 style={{ height: '15px', width: '15px', marginRight: '20px', marginLeft: '10px', marginBottom: '3px' }}
                             />
                         </Link>
-                        <Breadcrumbs aria-label="breadcrumb">
+                        <Breadcrumbs aria-label="breadcrumb" className="dark:text-[#DADEF1]">
                             <Link underline="hover" color="inherit" href={`/?network=${network ? network : ''}`}>
-                                Home
+                                <SlHome />
                             </Link>
                             <Link underline="hover" color="inherit" href={`/block/${hash}?network=${network ? network : ''}`}>
                                 Block
@@ -316,21 +331,28 @@ function BundlerNew(props: any) {
                                 color="text.primary"
                                 href={`/address/${hash}?network=${network ? network : ''}`}
                                 aria-current="page"
+                                className="text-[#195BDF]"
                             >
                                 {shortenString(hash as string)}
+                                <Tooltip title={copyTooltip}>
+                                    <IconButton onClick={handleCopy} size="small" style={{ marginLeft: '8px' }}>
+                                        <MdContentCopy className="w-4 h-4 dark:fill-[#ADB0BC]" />
+                                    </IconButton>
+                                </Tooltip>
                             </Link>
                         </Breadcrumbs>
+                        {!isLoading ? <Status type={true} /> : <Skeleton width={92} height={24} />}
                     </div>
                     {/* <h1 className="text-3xl font-bold">Bundle</h1> */}
                 </div>
-            </section>
-            {/* {!(isLoggedIn() || (network && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(network))) && <LoginModal showClose={false} block={block} setBlock={setBlock}></LoginModal>} */}
-            {/* <HeaderSection block={!(isLoggedIn() || (network && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(network)))} item={bundleInfo} network={network} /> */}
-            {/* <TransactionDetails block={!(isLoggedIn() || (network && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(network)))} item={bundleInfo} network={network} tableLoading={tableLoading}/>
+
+                {/* {!(isLoggedIn() || (network && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(network))) && <LoginModal showClose={false} block={block} setBlock={setBlock}></LoginModal>} */}
+                {/* <HeaderSection block={!(isLoggedIn() || (network && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(network)))} item={bundleInfo} network={network} /> */}
+                {/* <TransactionDetails block={!(isLoggedIn() || (network && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(network)))} item={bundleInfo} network={network} tableLoading={tableLoading}/>
             <div className={`${!(isLoggedIn() || (network && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(network))) && 'blur'} container px-0`}> */}
-            {/* <HeaderSection item={bundleInfo} network={network} /> */}
-            {/* <TransactionDetails item={bundleInfo} network={network} tableLoading={tableLoading} /> */}
-            {/* <div className="container px-0">
+                {/* <HeaderSection item={bundleInfo} network={network} /> */}
+                {/* <TransactionDetails item={bundleInfo} network={network} tableLoading={tableLoading} /> */}
+                {/* <div className="container px-0">
                 <Table
                     rows={rows}
                     columns={columns}
@@ -351,352 +373,551 @@ function BundlerNew(props: any) {
                     }}
                 />
             </div> */}
-            <div className='w-full flex flex-col'>
-                <Box sx={{paddingBottom: "80px"}}>
-                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }} >
-                        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" className=' container xl:px-[5rem] min-[1450px]:px-[0rem]' >
-                            <Tab label="Bundle Overview" className='normal-case text-[22px]' {...a11yProps(0)} />
-                            <Tab label="CallData"  className='normal-case text-[22px]' {...a11yProps(1)} />
-                            {/* <Tab label="logs" {...a11yProps(2)} /> */}
-                            <Tab label="UserOps"  className='normal-case text-[22px]' {...a11yProps(2)} />
-                        </Tabs>
-                    </Box>
-                    <div className='container xl:px-[5rem] min-[1450px]:px-[0rem]'>
-                        <CustomTabPanel value={value} index={0}  >
-                            <div className='xl:w-[840px] flex flex-col gap-[40px]'>
-                                <div>
-                                    <div className='flex flex-row gap-[16px] px-[20px] xl:px-[32px] py-[20px]'>
-                                        <img src="/images/summary.svg" className='w-[24px]' />
-                                        <p className='text-[22px] font-medium self-center'>
-                                            Summary
-
-                                        </p>
-                                    </div>
-                                    <div className='px-[24px] xl:px-[72px]'>
-                                        <div className='w-full flex flex-col gap-[24px]'>
-                                            <div className='w-full flex flex-col gap-[4px]'>
-                                                <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Transaction Hash</p>
-                                                <div className="md:flex  items-center gap-[8px]  ">
-                                                    {/* <div className="flex items-center gap-2">
-                                                <img src={NETWORK_ICON_MAP[network as string]} alt="" className="h-[20px]" />
-
-                                            </div> */}
-                                                    {!isLoading ?
-                                                        <div className="flex items-center flex-1 gap-2 break-words font-medium">
-                                                            <img src={NETWORK_ICON_MAP[network as string]} alt="" className="h-[20px]" />
-                                                            <span className="text-[16px] leading-[24px] break-all text-[#195BDF]  max-xl:hidden">{hash}</span>
-                                                            <span className="text-[16px] leading-[24px] break-all text-[#195BDF]  xl:hidden">{formatAddress(hash)}</span>
-                                                            <CopyButton text={bundleInfo?.transactionHash || ""} />
-                                                            <button className="outline-none focus:outline-none ring-0 focus:ring-0">
-                                                                <Link
-                                                                    // underline="hover"
-                                                                    // color="text.primary"
-                                                                    href={`${NETWORK_SCANNER_MAP[network]}/tx/${bundleInfo?.transactionHash}`}
-                                                                    aria-current="page"
-                                                                    className="text-blue-200"
-                                                                    target="_blank"
-                                                                >
-                                                                    <img src={getExplorerLogo(network)} style={{ height: '16px', width: '16px' }} alt="" />
-                                                                </Link>
-                                                            </button>
-                                                        </div>
-                                                        :
-                                                        <Skeleton />
-
-                                                    }
-
+                <div className="w-full flex flex-col">
+                    <Box sx={{ paddingBottom: '80px' }}>
+                        <div className="relative mt-4 md:px-10 py-4 border-b border-[#D7DAE0] dark:border-[#3B3C40] font-gsans">
+                            <ul className="flex items-center px-1.5 py-1.5 list-none rounded-md bg-[#F0F1F5] dark:bg-[#191A23] border dark:border-[#3B3C40] border-[#D7DAE0] overflow-x-auto md:overflow-visible scrollbar-hide">
+                                <li className="flex-none w-1/2 text-center md:flex-auto">
+                                    <button
+                                        onClick={() => handleToggle(0)} // Show UserOp Overview
+                                        className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-md ${
+                                            value === 0 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit'
+                                        }`}
+                                    >
+                                        Overview
+                                    </button>
+                                </li>
+                                <li className="flex-none w-1/2 text-center md:flex-auto">
+                                    <button
+                                        onClick={() => handleToggle(1)} // Show Developer Details
+                                        className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-md ${
+                                            value === 1 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit'
+                                        }`}
+                                    >
+                                        Call Data
+                                    </button>
+                                </li>
+                                <li className="flex-none w-1/2 text-center md:flex-auto">
+                                    <button
+                                        onClick={() => handleToggle(2)} // Show UserOp Logs
+                                        className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-md ${
+                                            value === 2 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit'
+                                        }`}
+                                    >
+                                        UserOps
+                                    </button>
+                                </li>
+                                {(network === 'base'||network === 'odyssey'||network==='open-campus-test') && (
+                                    <li className="flex-none w-1/2 text-center md:flex-auto">
+                                        <button
+                                            onClick={() => handleToggle(3)} // Show Tracer
+                                            className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-md ${
+                                                value === 3 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit'
+                                            }`}
+                                        >
+                                            Tracer
+                                        </button>
+                                    </li>
+                                )}
+                            </ul>
+                        </div>
+                        <div className="container xl:px-[5rem] min-[1450px]:px-[0rem]">
+                            <CustomTabPanel value={value} index={0}>
+                                <div className=" flex flex-col gap-[40px]">
+                                    <div>
+                                        <div className="container px-0 font-gsans space-y-6 dark:bg-[#1F202B]">
+                                            {/* Trx Hash */}
+                                            <div className="flex md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
+                                                <div className="md:w-[280px] md:px-[16px] py-[8px] flex items-center gap-2">
+                                                    <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-gsans font-normal leading-5">
+                                                        TRANSACTION HASH
+                                                    </span>
                                                 </div>
-                                            </div>
-                                            {/* <div className='w-full flex-row flex gap-[8px]'>
-                                        <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
-
-                                        </div>
-                                        <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
-
-                                        </div>
-
-                                    </div> */}
-                                            <div className='w-full flex xl:flex-row flex-col max-xl:gap-[24px] gap-[8px]'>
-                                                <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
-                                                    <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Status</p>
-                                                    <div className='w-[92px]'>
-                                                        {!isLoading ? <Status type={true} /> : <Skeleton width={92} height={24} />}
-                                                    </div>
-                                                </div>
-                                                <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
-                                                    <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Timestamp</p>
-                                                    <div className='flex flex-row gap-[8px] font-medium'>
-                                                        <img src="/images/clock2.svg" alt="timestamp" className='w-[24px]' />
-                                                        {!isLoading ? (
-                                                           <span>
-                                                           {`${formatDistanceToNow(new Date(transactionDetails?.timestamp || 0), { addSuffix: true })} `}
-                                                           <span className="text-[#9E9E9E]">{`(`}{format(transactionDetails?.timestamp ?? 0, 'dd MMM yyyy, HH:mm:ss') || "-"}   {`)`}</span>
-                                                        
-                                                         </span>
-                                                         
-                                                        ) : (
-                                                            <Skeleton width={150} height={24} />
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div className='w-full flex gap-[8px] xl:flex-row flex-col max-xl:gap-[24px]'>
-                                                <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
-                                                    <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>From</p>
-                                                    <div className='flex flex-row gap-[8px] font-medium'>
-                                                        <img src="/images/from.svg" alt="from" className='w-[24px]' />
-                                                        {!isLoading ? (
-                                                            <>
-                                                                <p className='text-[#195BDF]'>{formatAddress(transactionDetails?.from || "")}</p>
-                                                                <CopyButton text={transactionDetails?.from || ""}  />
-                                                                <Link href={`https://jiffyscan.xyz/account/${transactionDetails?.from}?network=${network}`} target="_blank">
-                                                                    <img src="/images/link.svg" alt="link" className='w-[24px]' />
-                                                                </Link>
-                                                            </>
-                                                        ) : (
-                                                            <Skeleton width={200} height={24} />
-                                                        )}
-                                                    </div>
-                                                </div>
-                                                <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
-                                                    <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>To</p>
-                                                    <div className='flex flex-row gap-[8px] font-medium'>
-                                                        <img src="/images/to.svg" alt="to" className='w-[24px]' />
-                                                        {!isLoading ? (
-                                                            <>
-                                                                <p className='text-[#195BDF]'>{formatAddress(transactionDetails?.to || "")}</p>
-                                                                <CopyButton text={transactionDetails?.to || ""} />
-                                                                <Link href={`https://jiffyscan.xyz/account/${transactionDetails?.to}?network=${network}`} target="_blank">
-                                                                    <img src="/images/link.svg" alt="link" className='w-[24px]' />
-                                                                </Link>
-                                                            </>
-                                                        ) : (
-                                                            <Skeleton width={200} height={24} />
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div className='w-full xl:flex-row flex-col max-xl:gap-[24px] flex gap-[8px]'>
-                                                <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
-                                                    <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Block Number</p>
-                                                    <div className='flex flex-row gap-[8px] font-medium'>
-                                                        <img src="/images/blocknum.svg" alt="block number" className='w-[24px]' />
-                                                        {!isLoading ? (
-                                                            <>
-                                                                <p className='text-[#1F1F1F]'>{transactionDetails?.blockNumber}</p>
-                                                                <CopyButton text={transactionDetails?.blockNumber.toString() || ""} />
-                                                            </>
-                                                        ) : (
-                                                            <Skeleton width={100} height={24} />
-                                                        )}
-                                                    </div>
-                                                </div>
-                                                <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
-                                                    <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Number of UserOps</p>
-                                                    <div className='flex flex-row gap-[8px] font-medium'>
-                                                        <img src="/images/count.svg" alt="number of userOps" className='w-[24px]' />
-                                                        {!isLoading ? (
-                                                            <p className='text-[#1F1F1F]'>{transactionDetails?.logsDetails.numberOfUserOps}</p>
-                                                        ) : (
-                                                            <Skeleton width={50} height={24} />
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div className='w-full flex flex-col gap-[4px]'>
-                                                <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Transaction Fee</p>
-                                                <div className='flex flex-row gap-[8px] font-medium'>
-                                                    <img src="/images/dollar.svg" alt="transaction fee" className='w-[24px]' />
-                                                    {!isLoading ? (
-                                                        <p className='text-[#1F1F1F]'>{transactionDetails?.trxFee} ETH</p>
-                                                    ) : (
-                                                        <Skeleton width={100} height={24} />
-                                                    )}
-                                                </div>
-                                            </div>
-
-                                            <div className='w-full xl:flex-row flex-col max-xl:gap-[24px] flex gap-[8px]'>
-                                                <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
-                                                    <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Revenue Earned</p>
-                                                    <div className='flex flex-row gap-[8px] font-medium'>
-                                                        {!isLoading ? (
-                                                            <p className='text-[#1F1F1F]'>{transactionDetails?.revenue} ETH</p>
-                                                        ) : (
-                                                            <Skeleton width={100} height={24} />
-                                                        )}
-                                                    </div>
-                                                </div>
-                                                <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
-                                                    <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Profit Earned</p>
-                                                    <div className='flex flex-row gap-[8px] font-medium'>
-                                                        {!isLoading ? (
-                                                            <div className='text-[#1F1F1F] flex flex-row gap-[2px]'>
-                                                                {transactionDetails?.profit} ETH
-                                                                <p className='text-[#9E9E9E]'>
-                                                                ({transactionDetails?.revenue ?
-                                                                    `${(parseFloat(transactionDetails.profit || '0') >= 0 ? '+' : '- ')}${Math.abs((parseFloat(transactionDetails.profit || '0') / parseFloat(transactionDetails.revenue || '0')) * 100).toFixed(2)}`
-                                                                    : '0.00'}%)
-                                                                    </p>
-                                                            </div>
-                                                        ) : (
-                                                            <Skeleton width={150} height={24} />
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div className=''>
-                                    <div className='flex flex-row gap-[16px] px-[20px] xl:px-[32px] py-[20px]'>
-                                        <img src="/images/gas.svg" className='w-[24px]' />
-                                        <p className='text-[22px] font-medium self-center'>Gas Details</p>
-                                    </div>
-                                    <div className='px-[24px] xl:px-[72px]'>
-                                        <div className='w-full flex flex-col gap-[24px]'>
-                                            <div className='w-full xl:flex-row flex-col max-xl:gap-[24px] flex gap-[8px]'>
-                                                <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
-                                                    <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Gas Used</p>
-                                                    <div className='flex flex-row gap-[8px]'>
-                                                        <div className='flex flex-row gap-[4px]'>
-                                                            {isLoading ? (
-                                                                <Skeleton width={100} />
-                                                            ) : (
+                                                <div className="flex-1 break-words">
+                                                    <div className="justify-between block md:flex">
+                                                        <div className="flex items-start md:items-center gap-[10px]">
+                                                            {' '}
+                                                            {/* Change to items-start */}
+                                                            {network && (
+                                                                <img
+                                                                    src={NETWORK_ICON_MAP[network as string]}
+                                                                    alt={`${network} icon`}
+                                                                    className="w-5 h-5"
+                                                                />
+                                                            )}
+                                                            {!isLoading ? (
                                                                 <>
-                                                                    <p className=' text-[#1F1F1F]  font-medium'>{transactionDetails?.gasDetails.gasUsed} </p>
-                                                                    <p className='text-[#9E9E9E] '>{`${calculateGasUsagePercentage(
-                                                                        transactionDetails?.gasDetails.gasUsed || "",
-                                                                        transactionDetails?.gasDetails.gasLimit || ""
-                                                                    )}`}</p>
+                                                                    <span className="text-base text-[#195BDF] dark:text-[#598AEB] break-all leading-5">
+                                                                        {formatAddress(hash)}
+                                                                    </span>
+                                                                    <CopyButton text={bundleInfo?.transactionHash || ''} />
+                                                                    <Link
+                                                                        href={`${NETWORK_SCANNER_MAP[network]}/tx/${bundleInfo?.transactionHash}`}
+                                                                        target="_blank"
+                                                                    >
+                                                                        <img
+                                                                            src={getExplorerLogo(network)}
+                                                                            alt="Explorer"
+                                                                            className="w-4 h-4"
+                                                                        />
+                                                                    </Link>
                                                                 </>
+                                                            ) : (
+                                                                <Skeleton width={200} height={24} />
                                                             )}
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
-                                                    <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Gas Limit</p>
-                                                    <div className='flex flex-row gap-[8px] font-medium'>
+                                            </div>
+
+                                            {/* Timestamp */}
+                                            <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
+                                                <div className="md:w-[280px] md:px-[16px] py-[8px] flex items-center gap-2">
+                                                    <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-gsans font-normal leading-5">
+                                                        TIMESTAMP
+                                                    </span>
+                                                </div>
+                                                <div className="flex-1 break-words">
+                                                    <div className="justify-between block md:flex">
+                                                        <div className="flex items-center gap-[10px]">
+                                                            <BsClockHistory className="w-5 h-5 dark:fill-white" />
+                                                            {!isLoading ? (
+                                                                <p className="text-[#1F1F1F] dark:text-[#ADB0BC] font-medium leading-[24px] text-[16px]">
+                                                                    {`${formatDistanceToNow(new Date(transactionDetails?.timestamp || 0), {
+                                                                        addSuffix: true,
+                                                                    })} `}
+                                                                    <span className="text-[#9E9E9E]">
+                                                                        {`(`}
+                                                                        {format(
+                                                                            transactionDetails?.timestamp ?? 0,
+                                                                            'dd MMM yyyy, HH:mm:ss',
+                                                                        ) || '-'}{' '}
+                                                                        {`)`}
+                                                                    </span>
+                                                                </p>
+                                                            ) : (
+                                                                <Skeleton width={150} height={24} />
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* Sender */}
+                                            <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
+                                                <div className="md:w-[280px] md:px-[16px] py-[8px] flex items-center gap-2">
+                                                    <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-gsans font-normal leading-5">
+                                                        FROM
+                                                    </span>
+                                                </div>
+                                                <div className="flex-1 break-words">
+                                                    <div className="justify-between block md:flex">
+                                                        <div className="flex items-center gap-[10px]">
+                                                            <img src="/images/from.svg" alt="target" className="w-6 h-6" />
+                                                            {!isLoading ? (
+                                                                <>
+                                                                    <span className="text-[#195BDF]">
+                                                                        {formatAddress(transactionDetails?.from || '')}
+                                                                    </span>
+                                                                    <CopyButton text={transactionDetails?.from || ''} />
+                                                                    <Link
+                                                                        href={`/account/${transactionDetails?.from}?network=${network}`}
+                                                                        target="_blank"
+                                                                    >
+                                                                        <img src="/images/link.svg" alt="link" className="w-6 h-6" />
+                                                                    </Link>
+                                                                </>
+                                                            ) : (
+                                                                <Skeleton width={200} height={24} />
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
+                                                <div className="md:w-[280px] md:px-[16px] py-[8px] flex items-center gap-2">
+                                                    <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-gsans font-normal leading-5">
+                                                        TO
+                                                    </span>
+                                                </div>
+                                                <div className="flex-1 break-words">
+                                                    <div className="justify-between block md:flex">
+                                                        <div className="flex items-center gap-[10px]">
+                                                            <img src="/images/from.svg" alt="target" className="w-6 h-6" />
+                                                            {!isLoading ? (
+                                                                <>
+                                                                    <span className="text-[#195BDF]">
+                                                                        {formatAddress(transactionDetails?.to || '')}
+                                                                    </span>
+                                                                    <CopyButton text={transactionDetails?.to || ''} />
+                                                                    <Link
+                                                                        href={`/account/${transactionDetails?.to}?network=${network}`}
+                                                                        target="_blank"
+                                                                    >
+                                                                        <img src="/images/link.svg" alt="link" className="w-6 h-6" />
+                                                                    </Link>
+                                                                </>
+                                                            ) : (
+                                                                <Skeleton width={200} height={24} />
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
+                                                <div className="md:w-[280px] md:px-[16px] py-[8px] flex items-center gap-2">
+                                                    <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-gsans font-normal leading-5">
+                                                        BLOCK NUMBER
+                                                    </span>
+                                                </div>
+                                                <div className="flex-1 break-words">
+                                                    <div className="justify-between block md:flex">
+                                                        <div className="flex items-center gap-[10px]">
+                                                            <HiHashtag className="w-6 h-6 dark:fill-slate-600" />
+                                                            {!isLoading ? (
+                                                                <span className="text-base text-[#195BDF] dark:text-[#598AEB] break-all leading-5">
+                                                                    {transactionDetails?.blockNumber}
+                                                                </span>
+                                                            ) : (
+                                                                <Skeleton width={200} height={24} />
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
+                                                <div className="md:w-[280px] md:px-[16px] py-[8px] flex items-center gap-2">
+                                                    <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-gsans font-normal leading-5">
+                                                        NUMBER OF USEROPS
+                                                    </span>
+                                                </div>
+                                                <div className="flex-1 break-words">
+                                                    <div className="justify-between block md:flex">
+                                                        <div className="flex items-center gap-[10px]">
+                                                            <HiHashtag className="w-6 h-6 dark:fill-slate-600" />
+                                                            {!isLoading ? (
+                                                                <span className="text-base text-[#195BDF] dark:text-[#598AEB] break-all leading-5">
+                                                                    {transactionDetails?.logsDetails.numberOfUserOps}
+                                                                </span>
+                                                            ) : (
+                                                                <Skeleton width={200} height={24} />
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* Transaction Fee */}
+                                            <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
+                                                <div className="md:w-[280px] md:px-[16px] py-[8px] flex items-center gap-2">
+                                                    <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-normal leading-5">
+                                                        TRANSACTION FEE
+                                                    </span>
+                                                </div>
+                                                <div className="flex-1 break-words">
+                                                    <div className="justify-between block md:flex">
+                                                        <div className="flex items-center gap-[8px]">
+                                                            <img
+                                                                src="/images/dollar.svg"
+                                                                alt="transaction fee"
+                                                                className="w-6 h-6 dark:fill-white"
+                                                            />
+                                                            {!isLoading ? (
+                                                                <p className="text-[#1F1F1F] leading-5 text-base dark:text-[#ADB0BC]">
+                                                                    {transactionDetails?.trxFee} ETH
+                                                                </p>
+                                                            ) : (
+                                                                <Skeleton width={100} height={24} />
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
+                                                <div className="md:w-[280px] md:px-[16px] py-[8px] flex items-center gap-2">
+                                                    <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-normal leading-5">
+                                                        REVENUE EARNED
+                                                    </span>
+                                                </div>
+                                                <div className="flex-1 break-words">
+                                                    <div className="justify-between block md:flex">
+                                                        <div className="flex items-center gap-[8px]">
+                                                            <img
+                                                                src="/images/dollar.svg"
+                                                                alt="transaction fee"
+                                                                className="w-6 h-6 dark:fill-white"
+                                                            />
+                                                            {!isLoading ? (
+                                                                <p className="text-[#1F1F1F] leading-5 text-base dark:text-[#ADB0BC]">
+                                                                    {transactionDetails?.revenue} ETH
+                                                                </p>
+                                                            ) : (
+                                                                <Skeleton width={100} height={24} />
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
+                                                <div className="md:w-[280px] md:px-[16px] py-[8px] flex items-center gap-2">
+                                                    <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-normal leading-5">
+                                                        PROFIT EARNED
+                                                    </span>
+                                                </div>
+                                                <div className="flex-1 break-words">
+                                                    <div className="justify-between block md:flex">
+                                                        <div className="flex items-center gap-[8px]">
+                                                            <img
+                                                                src="/images/dollar.svg"
+                                                                alt="transaction fee"
+                                                                className="w-6 h-6 dark:fill-white"
+                                                            />
+                                                            {!isLoading ? (
+                                                                <p className="text-[#1F1F1F] leading-5 flex flex-row gap-2 text-base dark:text-[#ADB0BC]">
+                                                                    {transactionDetails?.profit} ETH
+                                                                    <p className="text-[#9E9E9E]">
+                                                                        (
+                                                                        {transactionDetails?.revenue
+                                                                            ? `${
+                                                                                  parseFloat(transactionDetails.profit || '0') >= 0
+                                                                                      ? '+'
+                                                                                      : '- '
+                                                                              }${Math.abs(
+                                                                                  (parseFloat(transactionDetails.profit || '0') /
+                                                                                      parseFloat(transactionDetails.revenue || '0')) *
+                                                                                      100,
+                                                                              ).toFixed(2)}`
+                                                                            : '0.00'}
+                                                                        %)
+                                                                    </p>
+                                                                </p>
+                                                            ) : (
+                                                                <Skeleton width={100} height={24} />
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="border-b w-full border-[#D7DAE0] dark:border-[#3B3C40]"></div>
+
+                                            <span className="text-[20px] flex items-center py-4 px-4 gap-2 text-[#20294C] dark:text-[#ADB0BC] font-medium leading-5">
+                                                <img src="/images/gas.svg" alt="gas used" className="w-[24px]" />
+                                                GAS DETAILS
+                                            </span>
+
+                                            {/* Gas Used */}
+                                            <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
+                                                <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
+                                                    <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-normal leading-5">
+                                                        GAS USED
+                                                    </span>
+                                                </div>
+                                                <div className="flex-1 break-words">
+                                                    <div className="justify-between block md:flex">
+                                                        <div className="flex items-center gap-[10px]">
+                                                            {!isLoading ? (
+                                                                <>
+                                                                    <p className="text-[#1F1F1F] dark:text-[#ADB0BC] leading-5 text-base">
+                                                                        {transactionDetails?.gasDetails.gasUsed}{' '}
+                                                                    </p>
+                                                                    <p className="text-[#9E9E9E] ">{`${calculateGasUsagePercentage(
+                                                                        transactionDetails?.gasDetails.gasUsed || '',
+                                                                        transactionDetails?.gasDetails.gasLimit || '',
+                                                                    )}`}</p>
+                                                                </>
+                                                            ) : (
+                                                                <Skeleton width={100} height={24} />
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* Gas Limit */}
+                                            <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
+                                                <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
+                                                    <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-normal leading-5">
+                                                        GAS LIMIT
+                                                    </span>
+                                                </div>
+                                                <div className="flex-1 break-words">
+                                                    <div className="justify-between block md:flex">
+                                                        <div className="flex items-center gap-[10px]">
+                                                            {!isLoading ? (
+                                                                <>
+                                                                    <p className="text-[#1F1F1F] dark:text-[#ADB0BC] leading-5 text-base">
+                                                                        {transactionDetails?.gasDetails.gasLimit}
+                                                                    </p>
+                                                                </>
+                                                            ) : (
+                                                                <Skeleton width={100} height={24} />
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* Gas Price */}
+                                            <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
+                                                <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
+                                                    <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-normal leading-5">
+                                                        GAS PRICE
+                                                    </span>
+                                                </div>
+                                                <div className="flex-1 break-words">
+                                                    <div className="justify-between block md:flex">
+                                                        <div className="flex items-center gap-[10px]">
+                                                            {!isLoading ? (
+                                                                <>
+                                                                    <p className="text-[#1F1F1F] dark:text-[#ADB0BC] leading-5 text-base">
+                                                                        {transactionDetails?.gasDetails.gasPrice} Gwei
+                                                                    </p>
+                                                                </>
+                                                            ) : (
+                                                                <Skeleton width={100} height={24} />
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* Gas FEES */}
+                                            <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
+                                                <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
+                                                    <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-normal leading-5">
+                                                        GAS FEES
+                                                    </span>
+                                                </div>
+                                                <div className="flex-col break-words gap-8">
+                                                    <div className="flex flex-row w-full gap-[4px] space-x-4">
+                                                        <div className="flex flex-row text-nowrap text-[#9E9E9E] dark:text-[#ADB0BC] w-full justify-between">
+                                                            <p>Base Fee</p> :
+                                                        </div>
                                                         {isLoading ? (
                                                             <Skeleton width={100} />
                                                         ) : (
-                                                            <p className='text-[#1F1F1F]'>{transactionDetails?.gasDetails.gasLimit}</p>
+                                                            <p className="text-[#1F1F1F] dark:text-[#ADB0BC] font-medium text-nowrap">
+                                                                {transactionDetails?.gasDetails.baseFee} Gwei
+                                                            </p>
                                                         )}
                                                     </div>
-                                                </div>
-                                            </div>
 
-                                            <div className='w-full flex flex-col gap-[4px]'>
-                                                <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Gas Price</p>
-                                                <div className='flex flex-row gap-[8px] font-medium'>
-                                                    {isLoading ? (
-                                                        <Skeleton width={100} />
-                                                    ) : (
-                                                        <p className='text-[#1F1F1F]'>{transactionDetails?.gasDetails.gasPrice} Gwei</p>
-                                                    )}
-                                                </div>
-                                            </div>
-
-                                            <div className='w-full flex flex-col gap-[4px] text-[14px]'>
-                                                <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Gas Fees</p>
-                                                <div className='flex flex-row w-full gap-[4px]'>
-                                                    <div className='flex flex-row text-[#9E9E9E] w-[84px] justify-between'>
-                                                        <p>Base </p> :
+                                                    <div className="flex flex-row w-full gap-[4px] space-x-4">
+                                                        <div className="flex flex-row text-nowrap text-[#9E9E9E] w-full justify-between">
+                                                            <p>Max Fee Per Gas</p> :
+                                                        </div>
+                                                        {isLoading ? (
+                                                            <Skeleton width={100} />
+                                                        ) : (
+                                                            <p className="text-[#1F1F1F] dark:text-[#ADB0BC] font-medium text-nowrap">
+                                                                {transactionDetails?.gasDetails.maxFeePerGas} Gwei
+                                                            </p>
+                                                        )}
                                                     </div>
-                                                    {isLoading ? (
-                                                        <Skeleton width={100} />
-                                                    ) : (
-                                                        <p className='text-[#1F1F1F] font-medium'>{transactionDetails?.gasDetails.baseFee} Gwei</p>
-                                                    )}
-                                                </div>
 
-                                                <div className='flex flex-row w-full gap-[4px]'>
-                                                    <div className='flex flex-row text-[#9E9E9E] w-[84px] justify-between'>
-                                                        <p>Max </p> :
+                                                    <div className="flex flex-row w-full gap-[4px] space-x-4">
+                                                        <div className="flex flex-row text-[#9E9E9E] w-full justify-between">
+                                                            <p>Max Priority Fee Per Gas</p> :
+                                                        </div>
+                                                        {isLoading ? (
+                                                            <Skeleton width={100} />
+                                                        ) : (
+                                                            <p className="text-[#1F1F1F] dark:text-[#ADB0BC] font-medium text-nowrap">
+                                                                {transactionDetails?.gasDetails.maxPriorityFeePerGas} Gwei
+                                                            </p>
+                                                        )}
                                                     </div>
-                                                    {isLoading ? (
-                                                        <Skeleton width={100} />
-                                                    ) : (
-                                                        <p className='text-[#1F1F1F] font-medium'>{transactionDetails?.gasDetails.maxFeePerGas} Gwei</p>
-                                                    )}
-                                                </div>
-
-                                                <div className='flex flex-row w-full gap-[4px]'>
-                                                    <div className='flex flex-row text-[#9E9E9E] w-[84px] justify-between'>
-                                                        <p>Max Priority </p> :
-                                                    </div>
-                                                    {isLoading ? (
-                                                        <Skeleton width={100} />
-                                                    ) : (
-                                                        <p className='text-[#1F1F1F] font-medium'>{transactionDetails?.gasDetails.maxPriorityFeePerGas} Gwei</p>
-                                                    )}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-                            </div>
-                        </CustomTabPanel>
-                        <CustomTabPanel value={value} index={1}>
-                            <div className='flex flex-col rounded-8px bg-white border-[#DADCE0] border-sm w-full' >
-                                <div className='w-full px-[32px] py-[30px] flex flex-row   justify-between items-center h-[72px]'>
-                                    <div className='flex flex-row gap-[8px] h-[32px] items-center'>
-                                        <img src="/images/format.svg" alt="format" className='w-[24px]' />
-                                        <p className='text-black text-center text-[22px]'>Format</p>
+                            </CustomTabPanel>
+                            <CustomTabPanel value={value} index={1}>
+                                <div className="flex flex-col rounded-t-xl bg-white dark:border-[#3B3C40] dark:bg-[#1F202B] border-[#DADCE0] border-sm w-full">
+                                    <div className="w-full px-4 py-5 flex flex-col sm:flex-row rounded-t-xl border justify-between items-center h-auto sm:h-[72px] dark:border-[#3B3C40] dark:bg-[#1F202B]">
+                                        <div className="flex flex-row gap-2 sm:gap-4 h-[32px] items-center">
+                                            <img src="/images/format.svg" alt="format" className="w-[24px] dark:fill-[#DADEF1]" />
+                                            <p className="text-black font-semibold font-gsans text-center text-lg sm:text-xl dark:text-[#DADEF1]">
+                                                Format
+                                            </p>
+                                        </div>
+                                        <div className="h-[32px] mt-3 sm:mt-0">
+                                            <ul className="grid grid-flow-col text-center dark:bg-[#191A23] dark:border-[#3B3C40] text-gray-500 gap-1 bg-gray-100 rounded-md border p-1 items-center h-[32px]">
+                                                <li className="px-0">
+                                                    <button
+                                                        onClick={() => handleTabClick(3)}
+                                                        className={`flex items-center  justify-center h-full text-sm sm:text-base w-[80px] ${
+                                                            activeTab === 3
+                                                                ? 'bg-white rounded-md text-indigo-900 dark:bg-[#1F202B] dark:text-blue-500 dark:border-[#3B3C40] border'
+                                                                : ''
+                                                        }`}
+                                                    >
+                                                        Detailed
+                                                    </button>
+                                                </li>
+                                                <li className="px-0">
+                                                    <button
+                                                        onClick={() => handleTabClick(2)}
+                                                        className={`flex items-center justify-center h-full text-sm sm:text-base w-[80px] ${
+                                                            activeTab === 2
+                                                                ? 'bg-white rounded-md  dark:bg-[#1F202B] dark:text-blue-500 dark:border-[#3B3C40] border'
+                                                                : ''
+                                                        }`}
+                                                    >
+                                                        JSON
+                                                    </button>
+                                                </li>
+                                                <li className="px-0">
+                                                    <button
+                                                        onClick={() => handleTabClick(1)}
+                                                        className={`flex items-center justify-center h-full text-sm sm:text-base w-[80px] ${
+                                                            activeTab === 1
+                                                                ? 'bg-white rounded-md dark:bg-[#1F202B] dark:text-blue-500 dark:border-[#3B3C40] border'
+                                                                : ''
+                                                        }`}
+                                                    >
+                                                        Original
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <div className='h-[32px] max-xl:hidden'>
-                                        <ul className="grid grid-flow-col text-center text-gray-500 gap-1 bg-gray-100 rounded-lg p-1 h-[32px]">
-                                            <li className='px-0'>
-                                                <button
-                                                    onClick={() => handleTabClick(3)}
-                                                    className={`flex items-center justify-center h-full text-[14px] w-[80px] ${activeTab === 3 ? 'bg-white rounded-lg shadow text-indigo-900' : ''}`}
-                                                >
-                                                    Original
-                                                </button>
-                                            </li>
-                                            <li className='px-0'>
-                                                <button
-                                                    onClick={() => handleTabClick(2)}
-                                                    className={`flex items-center justify-center h-full text-[14px] w-[80px] ${activeTab === 2 ? 'bg-white rounded-lg shadow text-indigo-900' : ''}`}
-                                                >
-                                                    JSON
-                                                </button>
-                                            </li>
-                                            <li className='px-0'>
-                                                <button
-                                                    onClick={() => handleTabClick(1)}
-                                                    className={`flex items-center justify-center h-full text-[14px] w-[80px] ${activeTab === 1 ? 'bg-white rounded-lg shadow text-indigo-900' : ''}`}
-                                                >
-                                                    Detailed
-                                                </button>
-                                            </li>
-                                        </ul>
+
+                                    <div className="bg-[#F5F5F5] py-[16px] px-[32px] break-words">
+                                        {activeTab === 3 && transactionDetails?.callData}
+                                    </div>
+                                    <div className="bg-[#F5F5F5] py-[16px] px-[32px] break-words">
+                                        {activeTab === 2 && <pre className="text-wrap">{JSON.stringify(transactionDetails, null, 2)}</pre>}
                                     </div>
                                 </div>
-
-                                <div className='bg-[#F5F5F5] py-[16px] px-[32px] break-words'>
-
-                                    {activeTab === 3 && transactionDetails?.callData}
-                                </div>
-
-                            </div>
-                        </CustomTabPanel>
-                        {/* <CustomTabPanel value={value} index={2}>
+                            </CustomTabPanel>
+                            {/* <CustomTabPanel value={value} index={2}>
                    logs
                 </CustomTabPanel> */}
-                        <CustomTabPanel value={value} index={2}>
-                            <UserOpsTable userOps={userOps} network={network} />
-                        </CustomTabPanel>
-                    </div>
-                </Box>
-            </div>
+                            <CustomTabPanel value={value} index={2}>
+                                <UserOpsTable userOps={userOps} network={network} />
+                            </CustomTabPanel>
+                            <CustomTabPanel value={value} index={3}>
+                                {(network === 'base' || network === 'odyssey'||network==='open-campus-test') && (
+                                    <div className="container px-4 md:block hidden">
+                                        <Tracer trxHash={hash} network={network} />
+                                    </div>
+                                )}
+                                {(network === 'base' || network === 'odyssey'||network==='open-campus-test') && (
+                                    <div className="md:hidden shadow-300 p-4 dark:text-[#ADB0BC] text-center">Transaction Traces Best Viewed on Larger Screens</div>
+                                )}
+                            </CustomTabPanel>
+                        </div>
+                    </Box>
+                </div>
+            </section>
             <ToastContainer />
             <Footer />
         </div>
