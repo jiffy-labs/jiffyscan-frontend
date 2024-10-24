@@ -52,7 +52,12 @@ export default function MyApp({ Component, pageProps: { session, ...pageProps } 
     useTokenPrices();
     const getLayout = Component.getLayout ?? ((page) => page);
     return (
-        <div className={`${GeistSans.variable} ${GeistMono.variable}`}>
+        <div className={`${GeistSans.variable} ${GeistMono.variable}`} style={{
+          transform: 'scale(0.85)',        // Scale down to 85%
+                transformOrigin: 'top left',    // Keep the transform origin at the top left
+                width: '117.65%',                // Set width to 117.65% to maintain layout
+                height: '100vh', 
+      }}>
             <PHProvider>
                 <SessionProvider session={session}>
                     <UserSessionStore>
