@@ -840,7 +840,7 @@ function BundlerNew(props: any) {
                                 </div>
                             </CustomTabPanel>
                             <CustomTabPanel value={value} index={1}>
-                                <div className="flex flex-col rounded-t-xl bg-white dark:border-[#3B3C40] dark:bg-[#1F202B] border-[#DADCE0] border-sm w-full">
+                                <div className="flex flex-col rounded-t-xl bg-white border dark:border-[#3B3C40] dark:bg-[#1F202B] border-[#DADCE0] border-sm w-full">
                                     <div className="w-full px-4 py-5 flex flex-col sm:flex-row rounded-t-xl border justify-between items-center h-auto sm:h-[72px] dark:border-[#3B3C40] dark:bg-[#1F202B]">
                                         <div className="flex flex-row gap-2 sm:gap-4 h-[32px] items-center">
                                             <img src="/images/format.svg" alt="format" className="w-[24px] dark:fill-[#DADEF1]" />
@@ -890,10 +890,10 @@ function BundlerNew(props: any) {
                                         </div>
                                     </div>
 
-                                    <div className="bg-[#F5F5F5] py-[16px] px-[32px] break-words">
+                                    <div className="bg-[#F5F5F5] py-[16px] px-[32px] break-words dark:bg-[#1F202B] dark:text-[#DADEF1] dark:border-[#3B3C40]">
                                         {activeTab === 3 && transactionDetails?.callData}
                                     </div>
-                                    <div className="bg-[#F5F5F5] py-[16px] px-[32px] break-words">
+                                    <div className="bg-[#F5F5F5] py-[16px] px-[32px] break-words dark:bg-[#1F202B] dark:text-[#DADEF1] dark:border-[#3B3C40]">
                                         {activeTab === 2 && <pre className="text-wrap">{JSON.stringify(transactionDetails, null, 2)}</pre>}
                                     </div>
                                 </div>
