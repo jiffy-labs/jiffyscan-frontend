@@ -99,7 +99,8 @@ function Table(props: tableDataT) {
             )} */}
             <ScrollContainer className="rounded-lg border border-[#D7DAE0] dark:border-[#444444]">
                 <div className="">
-                    <table className="md:table-fixed w-full bg-white dark:bg-[#1D1E1F] text-md shadow-200">
+                <table className={`w-full bg-white dark:bg-[#1D1E1F] text-md shadow-200 ${!props.loading ? 'md:table-fixed' : ''}`}>
+
                         {/* Table head */}
                         <thead>
                             <tr>

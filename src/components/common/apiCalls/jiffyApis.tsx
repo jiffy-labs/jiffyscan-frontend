@@ -1091,12 +1091,12 @@ export const getBundleDetails = async (
 
     if (response == null) return {} as Bundle;
     if (response.status != 200) {
-        showToast(toast, 'Error fetching data');
+        // showToast(toast, 'Error fetching data');
     }
     const data = await response.json();
     if ('bundleDetails' in data) {
         if (Object.keys(data.bundleDetails).length == 0) {
-            showToast(toast, 'Error fetching data');
+            // showToast(toast, 'Error fetching data');
         }
         return data.bundleDetails as Bundle;
     }
