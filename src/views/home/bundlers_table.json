@@ -1,7 +1,7 @@
 {
     "columns": [
-        { "name": "Address", "sort": true },
-        { "name": "No. of Bundles", "sort": false },
-        { "name": "Gas Collected", "sort": false }
+        { "name": "ADDRESS", "sort": true },
+        { "name": "NUMBER OF BUNDLES", "sort": false },
+        { "name": "GAS COLLECTED", "sort": false }
     ]
 }

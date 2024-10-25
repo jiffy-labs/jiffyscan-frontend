@@ -20,11 +20,11 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-  { id: 'hash', label: 'UserOp Hash', minWidth: 170 },
-  { id: 'age', label: 'Age', minWidth: 100 },
-  { id: 'sender', label: 'Sender', minWidth: 170 },
-  { id: 'target', label: 'Target', minWidth: 170 },
-  { id: 'fee', label: 'Fee (ETH)', minWidth: 170, align: 'right' },
+  { id: 'hash', label: 'USEROP HASH', minWidth: 170 },
+  { id: 'age', label: 'AGE', minWidth: 100 },
+  { id: 'sender', label: 'SENDER', minWidth: 170 },
+  { id: 'target', label: 'TARGET', minWidth: 170 },
+  { id: 'fee', label: 'FEE (ETH)', minWidth: 170, align: 'right' },
 ];
 
 interface UserOpData {
@@ -58,9 +58,9 @@ const UserOpsTable: React.FC<UserOpsTableProps> = ({ userOps, network }) => {
   };
 
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
-        <Table stickyHeader aria-label="sticky table">
+    <Paper sx={{ width: '100%', overflow: 'hidden' }} className='border  dark:border-[#3B3C40] dark:bg-[#1F202B]'>
+      <TableContainer sx={{ maxHeight: 440 }} >
+        <Table stickyHeader aria-label="sticky table" >
         <TableHead style={{ backgroundColor: '#5A5A62' }}>
             <TableRow>
               {columns.map((column) => (
@@ -68,20 +68,21 @@ const UserOpsTable: React.FC<UserOpsTableProps> = ({ userOps, network }) => {
                   key={column.id}
                   align={column.align}
                   style={{ minWidth: column.minWidth, color: '#9E9E9E' }}
+                  className='dark:border-[#3B3C40] dark:bg-[#1F202B] font-gsans'
                 >
                   {column.label}
                 </TableCell>
               ))}
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody >
             {userOps.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.hash}>
                   {columns.map((column) => {
                     const value = row[column.id as keyof UserOpData];
                     return (
-                      <TableCell key={column.id} align={column.align}>
+                      <TableCell key={column.id} align={column.align} className='font-gsans dark:text-[#DADEF1]'>
                         {column.id === 'hash' || column.id === 'sender' || column.id === 'target' ? (
                           <div className="flex items-center">
                             <img src={NETWORK_ICON_MAP[network as string]} alt="" className="h-[20px] mr-2" />
@@ -110,6 +111,7 @@ const UserOpsTable: React.FC<UserOpsTableProps> = ({ userOps, network }) => {
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
+        className='dark:border-[#3B3C40] border dark:text-[#DADEF1]'
       />
     </Paper>
   );

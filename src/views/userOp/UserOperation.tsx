@@ -1,9 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
-import { Box, Tab, Tabs, Typography } from '@mui/material';
+import { Box, IconButton, Tab, Tabs, Typography } from '@mui/material';
 import Status from '@/components/common/status/Status';
-import { formatDistanceToNow ,format} from 'date-fns';
+import { formatDistanceToNow, format } from 'date-fns';
 import { Tooltip } from '@mui/material';
 import {
     getPoweredBy,
@@ -14,7 +15,8 @@ import {
     Trace,
     UserOp,
     showToast,
-    LogEntry, fetchData
+    LogEntry,
+    fetchData,
 } from '@/components/common/apiCalls/jiffyApis';
 import { NETWORK_SCANNER_MAP } from '@/components/common/constants';
 import UserOpLogs from './UserOpLogs';
@@ -35,6 +37,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import LoginModal from '@/components/global/LoginModal';
 import { useUserSession } from '@/context/userSession';
 import { ethers } from 'ethers';
+import { BsClockHistory } from 'react-icons/bs';
+import Tracer from './Tracer';
+import { FaArrowUpFromBracket } from 'react-icons/fa6';
+import { SlHome } from 'react-icons/sl';
+import { MdArrowDropDown, MdContentCopy } from 'react-icons/md';
+import { HiHashtag } from 'react-icons/hi';
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const passedTime = (time: number) => {
     let currentTime = new Date().getTime();
@@ -86,7 +94,6 @@ const getBlockCondition = (expTime: number | null | undefined): boolean => {
     return expTime ? expTime < Date.now() / 1000 : true;
 };
 
-
 interface TabPanelProps {
     children?: React.ReactNode;
     index: number;
@@ -104,10 +111,10 @@ function CustomTabPanel(props: TabPanelProps) {
             id={`simple-tabpanel-${index}`}
             aria-labelledby={`simple-tab-${index}`}
             {...other}
-            className='xl:pl-[0px] xl:pr-[0px]'
+            className="xl:pl-[0px] xl:pr-[0px]"
         >
             {value === index && (
-                <Box sx={{ p: 3 }}>
+                <Box className="py-3 md:p-8">
                     <Typography>{children}</Typography>
                 </Box>
             )}
@@ -122,12 +129,11 @@ function a11yProps(index: number) {
     };
 }
 
-
 function RecentUserOps(props: any) {
     const router = useRouter();
     const [tableLoading, setTableLoading] = useState(true);
     const { selectedNetwork, setSelectedNetwork, addressMapping } = useConfig();
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(true);
     const { section } = router.query;
     const [logs, setLogs] = useState<LogEntry[]>([]);
     const hash = props.slug && props.slug[0];
@@ -140,11 +146,19 @@ function RecentUserOps(props: any) {
     const [duplicateUserOpsRows, setDuplicateUserOpsRows] = useState<tableDataT['rows']>([] as tableDataT['rows']);
     const { isLoggedIn } = useUserSession();
     const [activeTab, setActiveTab] = useState(section || 'overview');
+    const [showAllTargets, setShowAllTargets] = useState(false);
     const [value, setValue] = React.useState(0);
     useEffect(() => {
         if (section) setActiveTab(section);
     }, [section]);
 
+    const [copyTooltip, setCopyTooltip] = useState('Copy'); // Tooltip state for copy action
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(hash); // Copy the hash to clipboard
+        setCopyTooltip('Copied!'); // Change tooltip to indicate success
+        setTimeout(() => setCopyTooltip('Copy'), 1500); // Reset tooltip after 1.5s
+    };
     const handleTabChange = (tabName: string) => {
         router.push({
             pathname: router.pathname,
@@ -152,41 +166,54 @@ function RecentUserOps(props: any) {
         });
     };
 
-    const renderContent = () => {
-        return (
-            <div>
-                <div className={`${activeTab === 'overview' ? 'block' : 'hidden'}`}>
-                    <TransactionDetails
-                        tableLoading={tableLoading}
-                        skeletonCards={skeletonCards}
-                        item={userOpsData?.[showUserOpId]}
-                        responseData={responseData}
-                        addressMapping={addressMapping}
-                        metaData={metaData}
-                        setMetadata={setMetaData}
-                        selectedNetwork={selectedNetwork}
-                    />
-                </div>
+    // const renderContent = () => {
+    //     return (
+    //         <div>
+    //             <div className={`${activeTab === 'overview' ? 'block' : 'hidden'}`}>
+    //                 <TransactionDetails
+    //                     tableLoading={tableLoading}
+    //                     skeletonCards={skeletonCards}
+    //                     item={userOpsData?.[showUserOpId]}
+    //                     responseData={responseData}
+    //                     addressMapping={addressMapping}
+    //                     metaData={metaData}
+    //                     setMetadata={setMetaData}
+    //                     selectedNetwork={selectedNetwork}
+    //                 />
+    //             </div>
 
-                <div className={`${activeTab === 'dev_details' ? 'block' : 'hidden'}`}>
-                    <DeveloperDetails
-                        tableLoading={tableLoading}
-                        skeletonCards1={skeletonCards1}
-                        item={userOpsData?.[showUserOpId]}
-                        selectedColor={selectedColor}
-                        BUTTON_LIST={BUTTON_LIST}
-                        setSelectedColor={setSelectedColor}
-                        selectedNetwork={selectedNetwork}
-                        metaData={metaData}
-                    />
-                </div>
+    //             <div className={`${activeTab === 'dev_details' ? 'block' : 'hidden'}`}>
+    //                 <DeveloperDetails
+    //                     tableLoading={tableLoading}
+    //                     skeletonCards1={skeletonCards1}
+    //                     item={userOpsData?.[showUserOpId]}
+    //                     selectedColor={selectedColor}
+    //                     BUTTON_LIST={BUTTON_LIST}
+    //                     setSelectedColor={setSelectedColor}
+    //                     selectedNetwork={selectedNetwork}
+    //                     metaData={metaData}
+    //                 />
+    //             </div>
 
-                <div className={`${activeTab === 'logs' ? 'block' : 'hidden'}`}>
-                    {/* <UserOpLogs logs={logs} /> */}
-                </div>
-            </div>
-        );
-    };
+    //             <div className={`${activeTab === 'logs' ? 'block' : 'hidden'}`}>{/* <UserOpLogs logs={logs} /> */}</div>
+
+    //             {network === 'base' && activeTab === 'tracer' && (
+    //                 <>
+    //                     {/* Show the Tracer component only on medium (md) screens and larger */}
+    //                     <div className={`${activeTab === 'tracer' ? 'block' : 'hidden'} hidden md:block`}>
+    //                         <Tracer item={userOpsData?.[showUserOpId]} network={''} />
+    //                     </div>
+
+    //                     {/* Show the title on screens smaller than md, but only for the 'tracer' tab */}
+
+    //                     <div className="block md:hidden text-center p-8 text-xl text-gray-500 font-medium">
+    //                         Best Viewed on Larger Screens
+    //                     </div>
+    //                 </>
+    //             )}
+    //         </div>
+    //     );
+    // };
     // const [block, setBlock] = useState(!isLoggedIn());
 
     // useEffect(() => {
@@ -216,12 +243,11 @@ function RecentUserOps(props: any) {
             if (logs.length === 0) {
                 const data = await fetchData(userOps?.[showUserOpId]);
                 setLogs(data.logs || []);
-                console.log("logs fetch", data.logs)
+                console.log('logs fetch', data.logs);
             }
             // Create and set the rows for the table
             let rows = createDuplicateUserOpsRows(userOps, handleDuplicateRowClick);
             setDuplicateUserOpsRows(rows);
-
 
             if (userOps.length > 1) {
                 setShowUserOpId(-1);
@@ -230,7 +256,7 @@ function RecentUserOps(props: any) {
             if (userOps[0] && userOps[0].network) {
                 setSelectedNetwork(userOps[0].network);
                 setTableLoading(false);
-                setIsLoading(false)
+                setIsLoading(false);
             }
 
             // Continue polling if timeSeenInAltMempool exists
@@ -282,7 +308,6 @@ function RecentUserOps(props: any) {
     useEffect(() => {
         if (showUserOpId >= 0 && userOpsData.length > showUserOpId) {
             fetchUserOpMetadata(userOpsData[showUserOpId].userOpHash, userOpsData[showUserOpId].network);
-
         }
     }, [userOpsData, showUserOpId]);
 
@@ -295,6 +320,9 @@ function RecentUserOps(props: any) {
         setActiveTab2(tabIndex);
     };
 
+    const handleToggle = (index: React.SetStateAction<number>) => {
+        setValue(index); // Update the active tab index
+    };
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
@@ -304,14 +332,14 @@ function RecentUserOps(props: any) {
         if (!address) return '';
         return `${address.slice(0, 6)}...${address.slice(-6)}`;
     };
-    console.log("targets", userOpsData)
+    console.log('targets', userOpsData);
     return (
-        <div className="">
+        <div className="dark:bg-[#191A23]">
             <Navbar searchbar />
-            <section className="px-3 py-[24px]">
+            <section className="px-3 container mx-auto my-6 py-6 bg-white dark:bg-[#1F202B] shadow-lg rounded-xl border border-[#D7DAE0] dark:border-[#3B3C40]">
                 <div className="container">
-                    <div className="flex flex-row">
-                        <Link href="/" className="text-gray-500">
+                    <div className="flex flex-row sm:px-8 items-center">
+                        {/* <Link href="/" className="text-gray-500">
                             <ArrowBackIcon
                                 style={{
                                     height: '15px',
@@ -321,11 +349,11 @@ function RecentUserOps(props: any) {
                                     marginBottom: '3px',
                                 }}
                             />
-                        </Link>
+                        </Link> */}
 
-                        <Breadcrumbs aria-label="breadcrumb" className="font-['Roboto']">
+                        <Breadcrumbs aria-label="breadcrumb" className="font-gsans text-[#646D8F] text-md sm:text-base">
                             <Link underline="hover" color="inherit" href={'/' + (selectedNetwork ? '?network=' + selectedNetwork : '')}>
-                                Home
+                                <SlHome />
                             </Link>
                             <Link underline="hover" color="inherit" href="/recentUserOps">
                                 Recent User Ops
@@ -336,26 +364,34 @@ function RecentUserOps(props: any) {
                                 // href={`/userOpHash/${hash}?network=${network ? network : ''}`}
                                 onClick={() => setShowUserOpId(-1)}
                                 aria-current="page"
+                                className="text-[#195BDF]"
                             >
                                 {shortenString(hash as string)}
+                                <Tooltip title={copyTooltip}>
+                                    <IconButton onClick={handleCopy} size="small" style={{ marginLeft: '8px' }}>
+                                        <MdContentCopy className="w-4 h-4 dark:fill-[#ADB0BC]" />
+                                    </IconButton>
+                                </Tooltip>
                             </Link>
                         </Breadcrumbs>
+                        {/* @ts-ignore */}
+                        <Status type={userOpsData?.[showUserOpId]?.success} status={userOpsData?.[showUserOpId]?.status} />
                     </div>
                 </div>
-            </section>
-            <div >
-                {/* {!(isLoggedIn() || (selectedNetwork && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(selectedNetwork))) && (
+
+                <div>
+                    {/* {!(isLoggedIn() || (selectedNetwork && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(selectedNetwork))) && (
                     <LoginModal showClose={false} block={block} setBlock={setBlock}></LoginModal>
                 )} */}
-                <div
-                // className={`${
-                //     !(isLoggedIn() || (selectedNetwork && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(selectedNetwork))) && 'blur'
-                // }`}
-                >
-                    {showUserOpId >= 0 ? (
-                        <>
-                            {/* <HeaderSection item={userOpsData?.[showUserOpId]} network={network} loading={tableLoading} /> */}
-                            {/* <div className="mt-[28px] px-3 ">
+                    <div
+                    // className={`${
+                    //     !(isLoggedIn() || (selectedNetwork && NETWORKS_WHITELISTED_FOR_NO_LOGIN.includes(selectedNetwork))) && 'blur'
+                    // }`}
+                    >
+                        {showUserOpId >= 0 ? (
+                            <>
+                                {/* <HeaderSection item={userOpsData?.[showUserOpId]} network={network} loading={tableLoading} /> */}
+                                {/* <div className="mt-[28px] px-3 ">
                                 <div className="container px-0 ">
                                     <div className="flex flex-row gap-[1rem]">
                                         <button
@@ -382,304 +418,631 @@ function RecentUserOps(props: any) {
                                         >
                                             UserOp Logs
                                         </button>
+                                        <button
+                                            onClick={() => handleTabChange('tracer')}
+                                            className={`py-2 px-4 rounded-[6px] ${
+                                                activeTab === 'tracer' ? 'bg-gray-800  text-white' : 'bg-gray-200'
+                                            }`}
+                                        >
+                                            Tracer
+                                        </button>
                                     </div>
                                     <div className="mb-[2rem]">{renderContent()}</div>
                                 </div>
                             </div> */}
 
-                            <Box sx={{ width: '100%', paddingBottom: "80px" }}>
-                                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" className=' container xl:px-[5rem] min-[1450px]:px-[0rem]'>
-                                        <Tab label="UserOp Overview" className='normal-case text-[22px]' {...a11yProps(0)} />
+                                <Box sx={{ width: '100%', paddingBottom: '80px' }}>
+                                    <div className="relative mt-4 md:px-10 py-4 border-b border-[#D7DAE0] dark:border-[#3B3C40] font-gsans">
+                                        <ul className="flex items-center px-1.5 py-1.5 list-none rounded-md bg-[#F0F1F5] dark:bg-[#191A23] border dark:border-[#3B3C40] border-[#D7DAE0] overflow-x-auto md:overflow-visible scrollbar-hide">
+                                            <li className="flex-none w-1/2 text-center md:flex-auto">
+                                                <button
+                                                    onClick={() => handleToggle(0)} // Show UserOp Overview
+                                                    className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-md ${
+                                                        value === 0 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit'
+                                                    }`}
+                                                >
+                                                    UserOp Overview
+                                                </button>
+                                            </li>
+                                            <li className="flex-none w-1/2 text-center md:flex-auto">
+                                                <button
+                                                    onClick={() => handleToggle(1)} // Show Developer Details
+                                                    className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-md ${
+                                                        value === 1 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit'
+                                                    }`}
+                                                >
+                                                    Call Data
+                                                </button>
+                                            </li>
+                                            <li className="flex-none w-1/2 text-center md:flex-auto">
+                                                <button
+                                                    onClick={() => handleToggle(2)} // Show UserOp Logs
+                                                    className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-md ${
+                                                        value === 2 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit'
+                                                    }`}
+                                                >
+                                                    UserOp Logs
+                                                </button>
+                                            </li>
+                                            {(network === 'base' || network === 'odyssey'||network==='open-campus-test') && (
+                                                <li className="flex-none w-1/2 text-center md:flex-auto">
+                                                    <button
+                                                        onClick={() => handleToggle(3)} // Show Tracer
+                                                        className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-md ${
+                                                            value === 3 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit'
+                                                        }`}
+                                                    >
+                                                        Tracer
+                                                    </button>
+                                                </li>
+                                            )}
+                                        </ul>
+                                    </div>
 
-                                        <Tab label="Developer Details"  className='normal-case text-[22px]' {...a11yProps(1)} />
-                                        <Tab label="UserOp Logs" className='normal-case text-[22px]' {...a11yProps(2)} />
-                                        {/* <Tab label="CallData" className='normal-case text-[22px]' {...a11yProps(4)} /> */}
-                                    </Tabs>
-                                </Box>
-                                <div className='container xl:px-[5rem] min-[1450px]:px-[0rem]'>
-                                    <CustomTabPanel value={value} index={0}>
-                                        <div className='xl:w-[840px] flex flex-col gap-[40px]'>
-                                            <div>
-                                                <div className='flex flex-row gap-[16px] px-[20px] xl:px-[32px] py-[20px]'>
-                                                    <img src="/images/summary.svg" className='w-[24px]' />
-                                                    <p className='text-[22px] font-medium self-center'>
-                                                        Summary
-                                                    </p>
-                                                </div>
-                                                <div className='px-[24px] xl:px-[72px]'>
-                                                    <div className='w-full flex flex-col gap-[24px]'>
-
-                                                        <div className='w-full flex flex-col gap-[4px]'>
-                                                            <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>UserOp Hash</p>
-                                                            <div className="md:flex  items-center gap-[8px]  ">
-                                                                <div className="flex items-center flex-1 gap-2 break-words font-medium">
-                                                                    <img src={NETWORK_ICON_MAP[network as string]} alt="" className="h-[20px]" />
-                                                                    {!isLoading ? (
-                                                                        <>
-                                                                            <span className="text-[16px] leading-[24px] break-all text-[#195BDF]  max-xl:hidden">{userOpsData?.[showUserOpId]?.userOpHash}</span>
-                                                                            <span className="text-[16px] leading-[24px] break-all text-[#195BDF]  xl:hidden">{formatAddress(userOpsData?.[showUserOpId]?.userOpHash)}</span>
-                                                                            <CopyButton text={userOpsData?.[showUserOpId]?.userOpHash || ""} />
-                                                                            <button className="outline-none focus:outline-none ring-0 focus:ring-0">
-                                                                                <Link href={`${NETWORK_SCANNER_MAP[selectedNetwork]}/tx/${userOpsData?.[showUserOpId]?.transactionHash}`} aria-current="page" className="text-blue-200" target="_blank">
-                                                                                    <img src={getExplorerLogo(selectedNetwork)} style={{ height: '16px', width: '16px' }} alt="" />
+                                    <div className="container xl:px-[5rem] min-[1450px]:px-[0rem]">
+                                        <CustomTabPanel value={value} index={0}>
+                                            <div className=" flex flex-col gap-[40px]">
+                                                <div>
+                                                    <div className="container px-0 font-gsans space-y-6 dark:bg-[#1F202B]">
+                                                        {/* UserOp Hash */}
+                                                        <div className="flex md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
+                                                            <div className="md:w-[280px] md:px-[16px] py-[8px] flex items-center gap-2">
+                                                                <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-gsans font-normal leading-5">
+                                                                    USEROP HASH
+                                                                </span>
+                                                            </div>
+                                                            <div className="flex-1 break-words">
+                                                                <div className="justify-between block md:flex">
+                                                                    <div className="flex items-start md:items-center gap-[10px]">
+                                                                        {' '}
+                                                                        {/* Change to items-start */}
+                                                                        {network && (
+                                                                            <img
+                                                                                src={NETWORK_ICON_MAP[network as string]}
+                                                                                alt={`${network} icon`}
+                                                                                className="w-5 h-5"
+                                                                            />
+                                                                        )}
+                                                                        {!isLoading ? (
+                                                                            <>
+                                                                                <span className="text-base text-[#195BDF] dark:text-[#598AEB] break-all leading-5">
+                                                                                    {formatAddress(userOpsData?.[showUserOpId]?.userOpHash)}
+                                                                                </span>
+                                                                                <CopyButton
+                                                                                    text={userOpsData?.[showUserOpId]?.userOpHash || ''}
+                                                                                />
+                                                                                <Link
+                                                                                    href={`${NETWORK_SCANNER_MAP[selectedNetwork]}/tx/${userOpsData?.[showUserOpId]?.transactionHash}`}
+                                                                                    target="_blank"
+                                                                                >
+                                                                                    <img
+                                                                                        src={getExplorerLogo(selectedNetwork)}
+                                                                                        alt="Explorer"
+                                                                                        className="w-4 h-4"
+                                                                                    />
                                                                                 </Link>
-                                                                            </button>
-                                                                        </>
-                                                                    ) : (
-                                                                        <Skeleton width={200} height={24} />
-                                                                    )}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div className='w-full flex flex-col gap-[4px]'>
-                                                            <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Transaction Hash</p>
-                                                            <div className="md:flex  items-center gap-[8px]  ">
-                                                                <div className="flex items-center flex-1 gap-2 break-words font-medium">
-                                                                    <img src={NETWORK_ICON_MAP[network as string]} alt="" className="h-[20px]" />
-                                                                    {!isLoading ? (
-                                                                        <>
-                                                                            <span className="text-[16px] leading-[24px] break-all text-[#195BDF]  max-xl:hidden">{userOpsData?.[showUserOpId]?.transactionHash}</span>
-                                                                            <span className="text-[16px] leading-[24px] break-all text-[#195BDF]  xl:hidden">{formatAddress(userOpsData?.[showUserOpId]?.transactionHash || "")}</span>
-                                                                            <CopyButton text={userOpsData?.[showUserOpId]?.transactionHash || ""} />
-                                                                            <button className="outline-none focus:outline-none ring-0 focus:ring-0">
-                                                                                <Link href={`${NETWORK_SCANNER_MAP[selectedNetwork]}/tx/${userOpsData?.[showUserOpId]?.transactionHash}`} aria-current="page" className="text-blue-200" target="_blank">
-                                                                                    <img src={getExplorerLogo(selectedNetwork)} style={{ height: '16px', width: '16px' }} alt="" />
-                                                                                </Link>
-                                                                            </button>
-                                                                        </>
-                                                                    ) : (
-                                                                        <Skeleton width={200} height={24} />
-                                                                    )}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div className='w-full flex xl:flex-row flex-col max-xl:gap-[24px] gap-[8px]'>
-                                                            <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
-                                                                <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Status</p>
-                                                                <div className='w-[92px]'>
-                                                                    {!isLoading ? (
-                                                                        // @ts-ignore
-                                                                        <Tooltip
-                                                                        arrow={true}
-                                                                        placement="top"
-                                                                        title={`A Status code indicating if the top level call is succeeded or failed(applicable for Post BYZANTIUM blocks only)`}
-                                                                    >
-                                                                        {/* @ts-ignore  */}
-                                                                        <Status type={userOpsData?.[showUserOpId]?.success} status={userOpsData?.[showUserOpId]?.success ?
-                                                                            "successuserop" :
-                                                                            userOpsData?.[showUserOpId]?.status} />
-                                                                    </Tooltip>
-                                                                    ) : (
-                                                                        <Skeleton width={92} height={24} />
-                                                                    )}
-                                                                </div>
-                                                            </div>
-                                                            <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
-                                                                <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Timestamp</p>
-                                                                <div className='flex flex-row gap-[8px] font-medium'>
-                                                                    <img src="/images/clock2.svg" alt="timestamp" className='w-[24px]' />
-                                                                    {!isLoading ? (
-                                                        <p className='text-[#1F1F1F] font-medium leading-[24px] text-[16px]'>
-                                                        {userOpsData?.[showUserOpId]?.blockTime
-                                                          ? (
-                                                            <>
-                                                              {`${formatDistanceToNow(new Date((userOpsData[showUserOpId].blockTime ?? 0) * 1000), { addSuffix: true })} `}
-                                                              <span className="text-[#9E9E9E]">
-                                                                {`(`}
-                                                                {format(new Date((userOpsData[showUserOpId].blockTime ?? 0) * 1000), 'dd MMM yyyy, HH:mm:ss')}
-                                                                {`)`}
-                                                              </span>
-                                                            </>
-                                                          )
-                                                          : " "}
-                                                      </p>
-                                                      
-                                                                    ) : (
-                                                                        <Skeleton width={150} height={24} />
-                                                                    )}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div className='w-full flex gap-[8px] xl:flex-row flex-col max-xl:gap-[24px]'>
-                                                            <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
-                                                                <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Sender</p>
-                                                                <div className='flex flex-row gap-[8px] font-medium'>
-                                                                    <img src="/images/from.svg" alt="timestamp" className='w-[24px]' />
-                                                                    {!isLoading ? (
-                                                                        <>
-                                                                            <p className='text-[#195BDF]'>{formatAddress(userOpsData?.[showUserOpId]?.sender)}</p>
-                                                                            <CopyButton text={userOpsData?.[showUserOpId]?.sender || ""} />
-                                                                            <Link href={`https://etherscan.io/address/${userOpsData?.[showUserOpId]?.sender}`} target="_blank">
-                                                                                <img src="/images/link.svg" alt="link" className='w-[24px]' />
-                                                                            </Link>
-                                                                        </>
-                                                                    ) : (
-                                                                        <Skeleton width={200} height={24} />
-                                                                    )}
-                                                                </div>
-                                                            </div>
-                                                            <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
-                                                                <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>{`Targets`}</p>
-                                                                <div>
-                                                                    {!isLoading ? (
-                                                                        // @ts-ignore 
-                                                                        userOpsData?.[showUserOpId]?.target && userOpsData[showUserOpId].target.length > 0 ? (
-                                                                            // @ts-ignore 
-                                                                            userOpsData[showUserOpId].target.map((target, index) => (
-                                                                                <div key={index} className='flex flex-row gap-[8px] font-medium'>
-                                                                                    <img src="/images/to.svg" alt="target" className='w-[24px]' />
-                                                                                    <p className='text-[#195BDF]'>{formatAddress(target)}</p>
-                                                                                    <CopyButton text={target || ""} />
-                                                                                    <Link href={`https://etherscan.io/address/${target}`} target="_blank">
-                                                                                        <img src="/images/link.svg" alt="link" className='w-[24px]' />
-                                                                                    </Link>
-                                                                                </div>
-                                                                            ))
+                                                                            </>
                                                                         ) : (
-                                                                            <div className='flex flex-row gap-[8px] font-medium'>
-                                                                                <p className='text-[#195BDF]'>None</p>
-                                                                            </div>
-                                                                        )
-                                                                    ) : (
-                                                                        <Skeleton width={200} height={24} />
-                                                                    )}
+                                                                            <Skeleton width={200} height={24} />
+                                                                        )}
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
 
-                                                        <div className='w-full flex gap-[8px] xl:flex-row flex-col max-xl:gap-[24px]'>
-                                                            <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
-                                                                <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Beneficiary</p>
-                                                                <div className='flex flex-row gap-[8px] font-medium'>
-                                                                    <img src="/images/beneficiary.svg" alt="timestamp" className='w-[24px]' />
-                                                                    {!isLoading ? (
-                                                                        <>
-                                                                            <p className='text-[#195BDF]'>{formatAddress(userOpsData?.[showUserOpId]?.beneficiary || "")}</p>
-                                                                            <CopyButton text={userOpsData?.[showUserOpId]?.beneficiary || ""} />
-                                                                            <Link href={`https://etherscan.io/address/${userOpsData?.[showUserOpId]?.beneficiary}`} target="_blank">
-                                                                                <img src="/images/link.svg" alt="link" className='w-[24px]' />
-                                                                            </Link>
-                                                                        </>
-                                                                    ) : (
-                                                                        <Skeleton width={200} height={24} />
-                                                                    )}
+                                                        {/* Transaction Hash */}
+                                                        <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
+                                                            <div className="md:w-[280px] md:px-[16px] py-[8px] flex items-center gap-2">
+                                                                <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-gsans font-normal leading-5">
+                                                                    TRANSACTION HASH
+                                                                </span>
+                                                            </div>
+                                                            <div className="flex-1 break-words">
+                                                                <div className="justify-between block md:flex">
+                                                                    <div className="flex items-center gap-[10px]">
+                                                                        {network && (
+                                                                            <img
+                                                                                src={NETWORK_ICON_MAP[network as string]}
+                                                                                alt={`${network} icon`}
+                                                                                className="w-5 h-5"
+                                                                            />
+                                                                        )}
+                                                                        {!isLoading ? (
+                                                                            <>
+                                                                                <span className="text-base text-[#195BDF] dark:text-[#598AEB] break-all leading-5">
+                                                                                    {formatAddress(
+                                                                                        userOpsData?.[showUserOpId]?.transactionHash || '',
+                                                                                    )}
+                                                                                </span>
+                                                                                <CopyButton
+                                                                                    text={
+                                                                                        userOpsData?.[showUserOpId]?.transactionHash || ''
+                                                                                    }
+                                                                                />
+                                                                                <Link
+                                                                                    href={`${NETWORK_SCANNER_MAP[selectedNetwork]}/tx/${userOpsData?.[showUserOpId]?.transactionHash}`}
+                                                                                    target="_blank"
+                                                                                >
+                                                                                    <img
+                                                                                        src={getExplorerLogo(selectedNetwork)}
+                                                                                        alt="Explorer"
+                                                                                        className="w-4 h-4"
+                                                                                    />
+                                                                                </Link>
+                                                                            </>
+                                                                        ) : (
+                                                                            <Skeleton width={200} height={24} />
+                                                                        )}
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                            <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
-                                                                <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Paymaster</p>
-                                                                <div className='flex flex-row gap-[8px] font-medium'>
-                                                                    <img src="/images/paymaster.svg" alt="paymaster" className='w-[24px]' />
-                                                                    {!isLoading ? (
-                                                                        <>
-                                                                            <p className='text-[#195BDF]'>{formatAddress(userOpsData?.[showUserOpId]?.paymaster)}</p>
-                                                                            <CopyButton text={userOpsData?.[showUserOpId]?.paymaster || ""} />
-                                                                            <Link href={`https://etherscan.io/address/${userOpsData?.[showUserOpId]?.paymaster}`} target="_blank">
-                                                                                <img src="/images/link.svg" alt="link" className='w-[24px]' />
-                                                                            </Link>
-                                                                        </>
-                                                                    ) : (
-                                                                        <Skeleton width={200} height={24} />
-                                                                    )}
+                                                        </div>
+
+                                                        {/* Timestamp */}
+                                                        <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
+                                                            <div className="md:w-[280px] md:px-[16px] py-[8px] flex items-center gap-2">
+                                                                <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-gsans font-normal leading-5">
+                                                                    TIMESTAMP
+                                                                </span>
+                                                            </div>
+                                                            <div className="flex-1 break-words">
+                                                                <div className="justify-between block md:flex">
+                                                                    <div className="flex items-center gap-[10px]">
+                                                                        <BsClockHistory className="w-5 h-5 dark:fill-white" />
+                                                                        {!isLoading ? (
+                                                                            <p className="text-[#1F1F1F] dark:text-[#ADB0BC] font-medium leading-[24px] text-[16px]">
+                                                                                {userOpsData?.[showUserOpId]?.blockTime
+                                                                                    ? `${formatDistanceToNow(
+                                                                                          new Date(
+                                                                                              (userOpsData[showUserOpId].blockTime ?? 0) *
+                                                                                                  1000,
+                                                                                          ),
+                                                                                          { addSuffix: true },
+                                                                                      )} 
+                                (${format(new Date((userOpsData[showUserOpId].blockTime ?? 0) * 1000), 'dd MMM yyyy, HH:mm:ss')})`
+                                                                                    : ' '}
+                                                                            </p>
+                                                                        ) : (
+                                                                            <Skeleton width={150} height={24} />
+                                                                        )}
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
 
-                                                        <div className='w-full flex gap-[8px] xl:flex-row flex-col max-xl:gap-[24px]'>
-                                                            <div className='w-full xl:w-[50%] flex flex-col gap-[4px]'>
-                                                            <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Block Number</p>
-                                                            <div className='flex flex-row gap-[8px] font-medium'>
-                                                                <img src="/images/blocknum.svg" alt="timestamp" className='w-[24px]' />
-                                                                {!isLoading ? (
-                                                                    <>
-                                                                        <p className='text-[#1F1F1F]'>{userOpsData?.[showUserOpId]?.blockNumber}</p>
-                                                                        {/* @ts-ignore  */}
-                                                                        <CopyButton text={userOpsData?.[showUserOpId]?.blockNumber?.toString() || " "} />
-                                                                    </>
-                                                                ) : (
-                                                                    <Skeleton width={100} height={24} />
-                                                                )}
+                                                        {/* Sender */}
+                                                        <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
+                                                            <div className="md:w-[280px] md:px-[16px] py-[8px] flex items-center gap-2">
+                                                                <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-gsans font-normal leading-5">
+                                                                    FROM
+                                                                </span>
                                                             </div>
-                                                            </div>
-                                                            <div className='w-full xl:w-[50%] flex flex-col gap-[1px]'>
-                                                            <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Transaction Fee</p>
-                                                            <div className='flex flex-row gap-[8px] font-medium'>
-                                                                <img src="/images/dollar.svg" alt="dollar" className='w-[24px]' />
-                                                                {!isLoading ? (
-                                                                    <p className='text-[#1F1F1F]'>{ethers.utils.formatEther((userOpsData?.[showUserOpId]?.actualGasCost?.toString() || "0"))} ETH</p>
-                                                                ) : (
-                                                                    <Skeleton width={100} height={24} />
-                                                                )}
-                                                            </div>
+                                                            <div className="flex-1 break-words">
+                                                                <div className="justify-between block md:flex">
+                                                                    <div className="flex items-center gap-[10px]">
+                                                                        <img src="/images/from.svg" alt="target" className="w-6 h-6" />
+                                                                        {!isLoading ? (
+                                                                            <>
+                                                                                <span className="text-[#195BDF]">
+                                                                                    {formatAddress(userOpsData?.[showUserOpId]?.sender)}
+                                                                                </span>
+                                                                                <CopyButton
+                                                                                    text={userOpsData?.[showUserOpId]?.sender || ''}
+                                                                                />
+                                                                                <Link
+                                                                                    href={`https://etherscan.io/address/${userOpsData?.[showUserOpId]?.sender}`}
+                                                                                    target="_blank"
+                                                                                >
+                                                                                    <img
+                                                                                        src="/images/link.svg"
+                                                                                        alt="link"
+                                                                                        className="w-6 h-6"
+                                                                                    />
+                                                                                </Link>
+                                                                            </>
+                                                                        ) : (
+                                                                            <Skeleton width={200} height={24} />
+                                                                        )}
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                        {/* <div className='w-full flex flex-col gap-[4px]'>
-                                                            
-                                                        </div> */}
 
-                                                        <div className='w-full flex flex-col gap-[4px]'>
-                                                            <p className='text-[16px] text-[#1F1F1F] leading-[24px] tracking-[2%]'>Value</p>
-                                                            <div className='flex flex-row gap-[8px] font-medium'>
-                                                                <img src="/images/dollar.svg" alt="value" className='w-[24px]' />
-                                                                {!isLoading ? (
-                                                                    // @ts-ignore 
-                                                                    <p className='text-[#1F1F1F]'>{userOpsData?.[showUserOpId]?.value || "0"}{` WEI`}</p>
-                                                                ) : (
-                                                                    <Skeleton width={100} height={24} />
-                                                                )}
+                                                        <div className="flex md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
+                                                            <div className="md:w-[280px] md:px-[16px] py-[8px] flex items-center gap-2">
+                                                                <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-gsans font-normal leading-5">
+                                                                    TO
+                                                                </span>
                                                             </div>
+                                                            <div className="flex-1 break-words">
+                                                                <div className="justify-between block md:flex">
+                                                                    <div className="flex flex-col gap-[10px]">
+                                                                        {!isLoading ? (
+                                                                            // @ts-ignore
+                                                                            userOpsData?.[showUserOpId]?.target &&userOpsData[showUserOpId]?.target?.length > 0 ? (
+                                                                                <>
+                                                                                    <div className="flex items-center gap-[8px] font-medium">
+                                                                                        <img
+                                                                                            src="/images/to.svg"
+                                                                                            alt="target"
+                                                                                            className="w-6 h-6"
+                                                                                        />
+                                                                                        <span className="text-[#195BDF]">
+                                                                                            {/* @ts-ignore */}
+                                                                                            {formatAddress( userOpsData[showUserOpId]?.target[0],
+                                                                                            )}
+                                                                                        </span>
+                                                                                        {/* @ts-ignore */}
+                                                                                        <CopyButton text={userOpsData[showUserOpId]?.target[0] || ''
+                                                                                            }
+                                                                                        />
+                                                                                        {/* @ts-ignore */}
+                                                                                        <Link  href={`https://etherscan.io/address/${userOpsData[showUserOpId]?.target[0]}`}
+                                                                                            target="_blank"
+                                                                                        >
+                                                                                            <img
+                                                                                                src="/images/link.svg"
+                                                                                                alt="link"
+                                                                                                className="w-6 h-6"
+                                                                                            />
+                                                                                        </Link>
+                                                                                        {/* @ts-ignore */}
+                                                                                        {userOpsData[showUserOpId]?.target?.length > 1 && (
+                                                                                            <button
+                                                                                                className="text-[#969CB2] text-md flex items-center ml-2 border rounded-full px-3 dark:text-[#ADB0BC] border-[#ccc] dark:border-[#3B3C40]"
+                                                                                                onClick={() =>
+                                                                                                    setShowAllTargets(!showAllTargets)
+                                                                                                }
+                                                                                            >
+                                                                                                <MdArrowDropDown
+                                                                                                    className={`transition-transform duration-300 w-4 h-4 ${
+                                                                                                        showAllTargets ? 'rotate-180' : ''
+                                                                                                    }`}
+                                                                                                />
+                                                                                                {/* @ts-ignore */}
+                                                                                                {userOpsData[showUserOpId]?.target?.length -
+                                                                                                    1}{' '}
+                                                                                                more
+                                                                                            </button>
+                                                                                        )}
+                                                                                    </div>
 
+                                                                                    {showAllTargets && (
+                                                                                        <div className="flex flex-col gap-[8px] mt-2">
+                                                                                            {/* @ts-ignore */}
+                                                                                            {userOpsData[showUserOpId]?.target
+                                                                                                .slice(1)
+                                                                                                .map((target, index) => (
+                                                                                                    <div
+                                                                                                        key={index}
+                                                                                                        className="flex items-center gap-[8px] font-medium"
+                                                                                                    >
+                                                                                                        <img
+                                                                                                            src="/images/to.svg"
+                                                                                                            alt="target"
+                                                                                                            className="w-6 h-6"
+                                                                                                        />
+                                                                                                        <span className="text-[#195BDF]">
+                                                                                                            {formatAddress(target)}
+                                                                                                        </span>
+                                                                                                        <CopyButton text={target || ''} />
+                                                                                                        <Link
+                                                                                                            href={`https://etherscan.io/address/${target}`}
+                                                                                                            target="_blank"
+                                                                                                        >
+                                                                                                            <img
+                                                                                                                src="/images/link.svg"
+                                                                                                                alt="link"
+                                                                                                                className="w-6 h-6"
+                                                                                                            />
+                                                                                                        </Link>
+                                                                                                    </div>
+                                                                                                ))}
+                                                                                        </div>
+                                                                                    )}
+                                                                                </>
+                                                                            ) : (
+                                                                                <p className="text-[#195BDF]">None</p>
+                                                                            )
+                                                                        ) : (
+                                                                            <Skeleton width={200} height={24} />
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        {/* Transaction Fee */}
+                                                        <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
+                                                            <div className="md:w-[280px] md:px-[16px] py-[8px] flex items-center gap-2">
+                                                                <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-normal leading-5">
+                                                                    TRANSACTION FEE
+                                                                </span>
+                                                            </div>
+                                                            <div className="flex-1 break-words">
+                                                                <div className="justify-between block md:flex">
+                                                                    <div className="flex items-center gap-[8px]">
+                                                                        <img
+                                                                            src="/images/dollar.svg"
+                                                                            alt="transaction fee"
+                                                                            className="w-6 h-6 dark:fill-white"
+                                                                        />
+                                                                        {!isLoading ? (
+                                                                            <p className="text-[#1F1F1F] leading-5 text-base dark:text-[#ADB0BC]">
+                                                                                {ethers.utils.formatEther(
+                                                                                    userOpsData?.[
+                                                                                        showUserOpId
+                                                                                    ]?.actualGasCost?.toString() || '0',
+                                                                                )}{' '}
+                                                                                ETH
+                                                                            </p>
+                                                                        ) : (
+                                                                            <Skeleton width={100} height={24} />
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
 
-                                                        {/* <div className='w-full flex flex-col gap-[4px]'>
-                                                            
-                                                        </div> */}
+                                                        {/* Block Number */}
+                                                        <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
+                                                            <div className="md:w-[280px] md:px-[16px] py-[8px] flex items-center gap-2">
+                                                                <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-gsans font-normal leading-5">
+                                                                    BLOCK NUMBER
+                                                                </span>
+                                                            </div>
+                                                            <div className="flex-1 break-words">
+                                                                <div className="justify-between block md:flex">
+                                                                    <div className="flex items-center gap-[10px]">
+                                                                        <HiHashtag className="w-6 h-6 dark:fill-slate-600" />
+                                                                        {!isLoading ? (
+                                                                            <span className="text-base text-[#195BDF] dark:text-[#598AEB] break-all leading-5">
+                                                                                {userOpsData?.[showUserOpId]?.blockNumber}
+                                                                            </span>
+                                                                        ) : (
+                                                                            <Skeleton width={200} height={24} />
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
+                                                        <div className="border-b w-full border-[#D7DAE0] dark:border-[#3B3C40]"></div>
+
+                                                        <span className="text-[20px] flex items-center py-4 px-4 gap-2 text-[#20294C] dark:text-[#ADB0BC] font-medium leading-5">
+                                                            <img src="/images/gas.svg" alt="gas used" className="w-[24px]" />
+                                                            GAS DETAILS
+                                                        </span>
+
+                                                        {/* Gas Used */}
+                                                        <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
+                                                            <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
+                                                                <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-normal leading-5">
+                                                                    GAS USED
+                                                                </span>
+                                                            </div>
+                                                            <div className="flex-1 break-words">
+                                                                <div className="justify-between block md:flex">
+                                                                    <div className="flex items-center gap-[10px]">
+                                                                        {!isLoading ? (
+                                                                            <p className="text-[#1F1F1F] dark:text-[#ADB0BC] leading-5 text-base">
+                                                                                {userOpsData?.[showUserOpId]?.actualGasUsed || 'N/A'}
+                                                                            </p>
+                                                                        ) : (
+                                                                            <Skeleton width={100} height={24} />
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="border-b w-full border-[#D7DAE0] dark:border-[#3B3C40]"></div>
+                                                        <span className="text-[20px] flex items-start md:items-center py-4 px-4 gap-2 text-[#20294C] dark:text-[#ADB0BC] font-medium leading-5">
+                                                            <img src="/images/gas.svg" alt="gas used" className="w-[24px]" />
+                                                            OTHER DETAILS
+                                                        </span>
+                                                        {/* EntryPoint */}
+                                                        <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
+                                                            <div className="md:w-[280px] md:px-[16px] py-[8px] flex items-center gap-2">
+                                                                <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-gsans font-normal leading-5">
+                                                                    ENTRYPOINT
+                                                                </span>
+                                                            </div>
+                                                            <div className="flex-1 break-words">
+                                                                <div className="justify-between block md:flex">
+                                                                    <div className="flex items-center gap-[10px]">
+                                                                        {network && (
+                                                                            <img
+                                                                                src={NETWORK_ICON_MAP[network as string]}
+                                                                                alt={`${network} icon`}
+                                                                                className="w-5 h-5"
+                                                                            />
+                                                                        )}
+                                                                        {!isLoading ? (
+                                                                            <>
+                                                                                <span className="text-base text-[#195BDF] dark:text-[#598AEB] break-all leading-5">
+                                                                                    {formatAddress(userOpsData?.[showUserOpId]?.entryPoint)}
+                                                                                </span>
+                                                                                <CopyButton
+                                                                                    text={userOpsData?.[showUserOpId]?.entryPoint || ''}
+                                                                                />
+                                                                                <Link
+                                                                                    href={`https://etherscan.io/address/${userOpsData?.[showUserOpId]?.entryPoint}`}
+                                                                                    target="_blank"
+                                                                                >
+                                                                                    <img
+                                                                                        src="/images/link.svg" // Make sure this path is correct
+                                                                                        alt="Explorer"
+                                                                                        className="w-6 h-6"
+                                                                                    />
+                                                                                </Link>
+                                                                            </>
+                                                                        ) : (
+                                                                            <Skeleton width={200} height={24} />
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        {/* Beneficiary */}
+                                                        <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
+                                                            <div className="md:w-[280px] md:px-[16px] py-[8px] flex items-center gap-2">
+                                                                <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-gsans font-normal leading-5">
+                                                                    BENEFICIARY
+                                                                </span>
+                                                            </div>
+                                                            <div className="flex-1 break-words">
+                                                                <div className="justify-between block md:flex">
+                                                                    <div className="flex items-center gap-[10px]">
+                                                                        {!isLoading ? (
+                                                                            <>
+                                                                                <span className="text-[#195BDF]">
+                                                                                    {formatAddress(
+                                                                                        userOpsData?.[showUserOpId]?.beneficiary || '',
+                                                                                    )}
+                                                                                </span>
+                                                                                <CopyButton
+                                                                                    text={userOpsData?.[showUserOpId]?.beneficiary || ''}
+                                                                                />
+                                                                                <Link
+                                                                                    href={`https://etherscan.io/address/${userOpsData?.[showUserOpId]?.beneficiary}`}
+                                                                                    target="_blank"
+                                                                                >
+                                                                                    <img
+                                                                                        src="/images/link.svg"
+                                                                                        alt="link"
+                                                                                        className="w-6 h-6"
+                                                                                    />
+                                                                                </Link>
+                                                                            </>
+                                                                        ) : (
+                                                                            <Skeleton width={200} height={24} />
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Paymaster */}
+                                                        <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
+                                                            <div className="md:w-[280px] md:px-[16px] py-[8px] flex items-center gap-2">
+                                                                <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-gsans font-normal leading-5">
+                                                                    PAYMASTER
+                                                                </span>
+                                                            </div>
+                                                            <div className="flex-1 break-words">
+                                                                <div className="justify-between block md:flex">
+                                                                    <div className="flex items-center gap-[10px]">
+                                                                        {!isLoading ? (
+                                                                            <>
+                                                                                <span className="text-[#195BDF]">
+                                                                                    {formatAddress(userOpsData?.[showUserOpId]?.paymaster)}
+                                                                                </span>
+                                                                                <CopyButton
+                                                                                    text={userOpsData?.[showUserOpId]?.paymaster || ''}
+                                                                                />
+                                                                                <Link
+                                                                                    href={`https://etherscan.io/address/${userOpsData?.[showUserOpId]?.paymaster}`}
+                                                                                    target="_blank"
+                                                                                >
+                                                                                    <img
+                                                                                        src="/images/link.svg"
+                                                                                        alt="link"
+                                                                                        className="w-6 h-6"
+                                                                                    />
+                                                                                </Link>
+                                                                            </>
+                                                                        ) : (
+                                                                            <Skeleton width={200} height={24} />
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Value */}
+                                                        <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
+                                                            <div className="md:w-[280px] md:px-[16px] py-[8px] flex items-center gap-2">
+                                                                <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-gsans font-normal leading-5">
+                                                                    VALUE
+                                                                </span>
+                                                            </div>
+                                                            <div className="flex-1 break-words">
+                                                                <div className="justify-between block md:flex">
+                                                                    <div className="flex items-center gap-[10px]">
+                                                                        {!isLoading ? (
+                                                                            <span className="text-base text-[#195BDF] dark:text-[#598AEB] break-all leading-5">
+                                                                                {/* @ts-ignore */}
+                                                                                {userOpsData?.[showUserOpId]?.value || '0 WEI'}
+                                                                            </span>
+                                                                        ) : (
+                                                                            <Skeleton width={200} height={24} />
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </CustomTabPanel>
-                                    <CustomTabPanel value={value} index={1} >
-                                        <DeveloperDetails
-                                            tableLoading={tableLoading}
-                                            skeletonCards1={skeletonCards1}
-                                            item={userOpsData?.[showUserOpId]}
-                                            selectedColor={selectedColor}
-                                            BUTTON_LIST={BUTTON_LIST}
-                                            setSelectedColor={setSelectedColor}
-                                            selectedNetwork={selectedNetwork}
-                                            metaData={metaData}
-                                        />
-                                    </CustomTabPanel>
-                                    <CustomTabPanel value={value} index={2} >
-                                        {/* @ts-ignore  */}
-                                        <UserOpLogs logs={logs} network={network} />
-                                    </CustomTabPanel>
+                                        </CustomTabPanel>
+                                        <CustomTabPanel value={value} index={1}>
+                                            <DeveloperDetails
+                                                tableLoading={tableLoading}
+                                                skeletonCards1={skeletonCards1}
+                                                item={userOpsData?.[showUserOpId]}
+                                                selectedColor={selectedColor}
+                                                BUTTON_LIST={BUTTON_LIST}
+                                                setSelectedColor={setSelectedColor}
+                                                selectedNetwork={selectedNetwork}
+                                                metaData={metaData}
+                                            />
+                                        </CustomTabPanel>
+                                        <CustomTabPanel value={value} index={2}>
+                                            {/* @ts-ignore  */}
+                                            <UserOpLogs logs={logs} network={network} />
+                                        </CustomTabPanel>
+                                        {(network === 'base' || network === 'odyssey'||network === 'open-campus-test') && (
+                                            <>
+                                                {/* Show the Tracer component only on medium (md) screens and larger */}
+                                                <div className={`${activeTab === 'tracer' ? 'block' : 'hidden'} hidden md:block`}>
+                                                    <CustomTabPanel value={value} index={3}>
+                                                        <Tracer
+                                                            item={{
+                                                                ...userOpsData?.[showUserOpId],
+                                                                transactionHash: userOpsData?.[showUserOpId]?.transactionHash ?? undefined, // Convert null to undefined
+                                                            }}
+                                                            network={''}
+                                                        />
+                                                    </CustomTabPanel>
+                                                </div>
+                                                {/* Show the title on screens smaller than md */}
+                                                <div className={`block md:hidden text-center p-8 text-xl text-gray-500 font-medium`}>
+                                                    Best Viewed on Larger Screens
+                                                </div>
+                                            </>
+                                        )}
+                                    </div>
+                                </Box>
+                            </>
+                        ) : (
+                            showUserOpId === -1 && (
+                                <div className="container mb-16">
+                                    <Table
+                                        columns={columns}
+                                        rows={duplicateUserOpsRows}
+                                        loading={tableLoading}
+                                        caption={{
+                                            children: 'Duplicate User Operations',
+                                            icon: '/images/cube.svg',
+                                            text: 'Approx Number of Operations Processed in the selected chain',
+                                        }}
+                                    />
                                 </div>
-                            </Box>
-                        </>
-                    ) : (
-                        showUserOpId === -1 && (
-                            <div className="container mb-16">
-                                <Table
-                                    columns={columns}
-                                    rows={duplicateUserOpsRows}
-                                    loading={tableLoading}
-                                    caption={{
-                                        children: 'Duplicate User Operations',
-                                        icon: '/images/cube.svg',
-                                        text: 'Approx Number of Operations Processed in the selected chain',
-                                    }}
-                                />
-                            </div>
-                        )
-                    )}
+                            )
+                        )}
+                    </div>
                 </div>
-            </div>
+            </section>
             <ToastContainer />
             <Footer />
         </div>

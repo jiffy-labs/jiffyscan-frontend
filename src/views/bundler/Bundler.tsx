@@ -2,7 +2,7 @@ import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
 import { UserOp, Bundle, getBundlerDetails, fetchNetworkData, NetworkResponse } from '@/components/common/apiCalls/jiffyApis';
-import { Breadcrumbs, Link } from '@mui/material';
+import { Breadcrumbs, IconButton, Link, Tooltip } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
 import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
@@ -16,6 +16,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useConfig } from '@/context/config';
 import { useUserSession } from '@/context/userSession';
 import Chip from '@/components/common/chip/Chip';
+import { SlHome } from 'react-icons/sl';
+import { MdContentCopy } from 'react-icons/md';
 export const BUTTON_LIST = [
     {
         name: 'Default View',
@@ -68,6 +70,7 @@ interface AccountInfo {
     address: string;
 }
 
+
 const createAccountInfoObject = (bundleDetails: Bundle): AccountInfo => {
     return {
         userOpsLength: bundleDetails.userOpsLength,
@@ -89,7 +92,13 @@ function Bundler(props: any) {
 
     const [displayNetworkList, setDisplayNetworkList] = useState<NetworkItem[]>([]);
     const [networkListReady, setNetworkListReady] = useState(false)
+    const [copyTooltip, setCopyTooltip] = useState('Copy'); // Tooltip state for copy action
 
+    const handleCopy = () => {
+        navigator.clipboard.writeText(hash); // Copy the hash to clipboard
+        setCopyTooltip('Copied!'); // Change tooltip to indicate success
+        setTimeout(() => setCopyTooltip('Copy'), 1500); // Reset tooltip after 1.5s
+    };
     // handling table page change. Everytime the pageNo change, or pageSize change this function will fetch new data and update it.
     const updateRowsData = async (network: string, pageNo: number, pageSize: number) => {
         setTableLoading(true);
@@ -174,9 +183,9 @@ function Bundler(props: any) {
     }, [hash, network]);
     let skeletonCards = Array(5).fill(0);
     return (
-        <div className="">
+        <div className="dark:bg-[#191A23]">
             <Navbar searchbar />
-            <section className="px-3 py-10">
+            <section className="px-3 container mx-auto my-6 py-6 bg-white dark:bg-[#1F202B] shadow-lg rounded-xl border border-[#D7DAE0] dark:border-[#3B3C40]">
                 <div className="container px-0">
                     <div className="flex flex-row">
                         <Link href="/" className="text-gray-500">
@@ -184,9 +193,9 @@ function Bundler(props: any) {
                                 style={{ height: '15px', width: '15px', marginRight: '20px', marginLeft: '10px', marginBottom: '3px' }}
                             />
                         </Link>
-                        <Breadcrumbs aria-label="breadcrumb">
+                        <Breadcrumbs aria-label="breadcrumb" className='font-gsans text-[#646D8F] text-md sm:text-base'>
                             <Link underline="hover" color="inherit" href={`/?network=${network ? network : ''}`}>
-                                Home
+                            <SlHome />
                             </Link>
                             <Link underline="hover" color="inherit" href={`/bundler/${hash}?network=${network ? network : ''}`}>
                                 Bundler
@@ -196,16 +205,22 @@ function Bundler(props: any) {
                                 color="text.primary"
                                 href={`/bundler/${hash}?network=${network ? network : ''}`}
                                 aria-current="page"
+                                className='text-[#195BDF]'
                             >
                                 {shortenString(hash as string)}
+                                <Tooltip title={copyTooltip}>
+                                    <IconButton onClick={handleCopy} size="small" style={{ marginLeft: '8px' }}>
+                                        <MdContentCopy className="w-4 h-4 dark:fill-[#ADB0BC]" />
+                                    </IconButton>
+                                </Tooltip>
                             </Link>
                         </Breadcrumbs>
                     </div>
-                    <h1 className="text-3xl font-bold">Bundler</h1>
+                    {/* <h1 className="text-3xl font-bold">Bundler</h1> */}
                 </div>
-            </section>
+            
             {/* <HeaderSection item={addressInfo} network={network} addressMapping={addressMapping} displayNetworkList={displayNetworkList} /> */}
-            <HeaderSectionGlobal item={addressInfo} network={network} addressMapping={addressMapping} displayNetworkList={displayNetworkList} headerTitle="Bundler" />
+            {/* <HeaderSectionGlobal item={addressInfo} network={network} addressMapping={addressMapping} displayNetworkList={displayNetworkList} headerTitle="Bundler" /> */}
             <div className="container px-0 mt-[23px]">
                 <Table
                     rows={rows}
@@ -227,6 +242,7 @@ function Bundler(props: any) {
                     }}
                 />
             </div>
+            </section>
             <ToastContainer />
             <Footer />
         </div>

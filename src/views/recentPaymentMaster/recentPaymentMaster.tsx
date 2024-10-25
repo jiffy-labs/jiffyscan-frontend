@@ -1,8 +1,8 @@
 import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
-import { getPayMasterDetails, PayMasterActivity, UserOp, fetchNetworkData,NetworkResponse } from '@/components/common/apiCalls/jiffyApis';
-import { Breadcrumbs, Link } from '@mui/material';
+import { getPayMasterDetails, PayMasterActivity, UserOp, fetchNetworkData, NetworkResponse } from '@/components/common/apiCalls/jiffyApis';
+import { Breadcrumbs, IconButton, Link, Tooltip } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
 import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
@@ -20,8 +20,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useConfig } from '@/context/config';
 import usePrevious from '@/hooks/usePrevious';
 import { NETWORK_LIST } from '@/components/common/constants';
+import { SlHome } from 'react-icons/sl';
+import { FaCopy } from 'react-icons/fa';
+import { MdContentCopy } from 'react-icons/md';
 // import Skeleton from '@/components/Skeleton';
-
 
 export const BUTTON_LIST = [
     {
@@ -51,7 +53,7 @@ const getEffectivePageSize = (pageSizeFromParam: string | null | undefined): num
         effectivePageSize = DEFAULT_PAGE_SIZE;
     }
     return effectivePageSize;
-}
+};
 
 const getEffectivePageNo = (pageNoFromParam: string | null | undefined, totalRows: number, pageSize: number): number => {
     let effectivePageNo;
@@ -64,7 +66,7 @@ const getEffectivePageNo = (pageNoFromParam: string | null | undefined, totalRow
         effectivePageNo = 1;
     }
     return effectivePageNo;
-}
+};
 
 const createUserOpsTableRows = (userOps: UserOp[]): tableDataT['rows'] => {
     let newRows = [] as tableDataT['rows'];
@@ -118,8 +120,17 @@ function RecentPaymentMaster(props: any) {
     const [captionText, setCaptionText] = useState('N/A User Ops found');
 
     const [displayNetworkList, setDisplayNetworkList] = useState<NetworkItem[]>([]);
-    const [networkListReady, setNetworkListReady] = useState(false)
+    const [networkListReady, setNetworkListReady] = useState(false);
 
+    const [isTransactionDetails, setIsTransactionDetails] = useState(true);
+
+    const [copyTooltip, setCopyTooltip] = useState('Copy'); // Tooltip state for copy action
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(hash); // Copy the hash to clipboard
+        setCopyTooltip('Copied!'); // Change tooltip to indicate success
+        setTimeout(() => setCopyTooltip('Copy'), 1500); // Reset tooltip after 1.5s
+    };
     // handling table page change. Everytime the pageNo change, or pageSize change this function will fetch new data and update it.
     const updateRowsData = async (network: string, pageNo: number, pageSize: number) => {
         setTableLoading(true);
@@ -149,7 +160,7 @@ function RecentPaymentMaster(props: any) {
     useEffect(() => {
         updateRowsData(network ? network : '', pageSize, pageNo);
         const urlParams = new URLSearchParams(window.location.search);
-        urlParams.set('pageNo', (pageNo).toString());
+        urlParams.set('pageNo', pageNo.toString());
         urlParams.set('pageSize', pageSize.toString());
         window.history.pushState(null, '', `${window.location.pathname}?${urlParams.toString()}`);
     }, [pageNo, addressInfo]);
@@ -182,14 +193,11 @@ function RecentPaymentMaster(props: any) {
                 }
             });
 
-
             const validNetworksWithTerm = networksWithTerm.filter(
-                (index) => typeof index === 'string' && !isNaN(Number(index)) && Number(index) < NETWORK_LIST.length
+                (index) => typeof index === 'string' && !isNaN(Number(index)) && Number(index) < NETWORK_LIST.length,
             );
 
-            setDisplayNetworkList(
-                validNetworksWithTerm.map((index) => NETWORK_LIST[Number(index)] as NetworkItem)
-            );
+            setDisplayNetworkList(validNetworksWithTerm.map((index) => NETWORK_LIST[Number(index)] as NetworkItem));
             setNetworkListReady(true);
         } catch (error) {
             console.error('Error fetching data for networks:', error);
@@ -201,61 +209,88 @@ function RecentPaymentMaster(props: any) {
             checkTermInNetworks(hash);
         }
     }, [hash, networkListReady, checkTermInNetworks]);
+
     return (
-        <div className="">
+        <div className='dark:bg-[#191A23]'>
             <Navbar searchbar />
-            <section className="px-3 py-10">
-                <div className="container">
-                    <div className="flex flex-row">
-                        <Link href="/" className="text-gray-500">
-                            <ArrowBackIcon
-                                style={{ height: '15px', width: '15px', marginRight: '20px', marginLeft: '10px', marginBottom: '3px' }}
-                            />
+            <section className="container mx-auto my-6 py-6 bg-white dark:bg-[#1F202B] shadow-lg rounded-xl border border-[#D7DAE0] dark:border-[#3B3C40]">
+                <div className="flex flex-col px-10">
+                    <Breadcrumbs aria-label="breadcrumb" className="text-[#646D8F] font-gsans">
+                        {/* <Link href="/" className="text-gray-500">
+                            <ArrowBackIcon style={{ height: '15px', width: '15px', marginRight: '20px', marginBottom: '3px' }} />
+                        </Link> */}
+                        <Link underline="hover" color="inherit" href={'/' + (network ? '?network=' + network : '')}>
+                            <SlHome />
                         </Link>
-                        <Breadcrumbs aria-label="breadcrumb">
-                            <Link underline="hover" color="inherit" href={'/' + (network ? '?network=' + network : '')}>
-                                Home
-                            </Link>
-                            <Link underline="hover" color="inherit" href="/recentUserOps">
-                                Recent User Ops
-                            </Link>
-                            <Link
-                                underline="hover"
-                                color="text.primary"
-                                href={`/address/${hash}?network=${network ? network : ''}`}
-                                aria-current="page"
+                        <Link underline="hover" color="inherit" href="/recentUserOps">
+                            Recent User Ops
+                        </Link>
+                        <Link
+                            underline="hover"
+                            color="text.primary"
+                            href={`/address/${hash}?network=${network ? network : ''}`}
+                            aria-current="page"
+                            className="text-[#195BDF]"
+                        >
+                            {shortenString(hash as string)}
+                            <Tooltip title={copyTooltip}>
+                                <IconButton onClick={handleCopy} size="small" style={{ marginLeft: '8px' }}>
+                                <MdContentCopy className='w-4 h-4 dark:fill-[#ADB0BC]'/>
+                                </IconButton>
+                            </Tooltip>
+                        </Link>
+                    </Breadcrumbs>
+                </div>
+
+                {/* <HeaderSectionGlobal item={addressInfo} network={network} displayNetworkList={displayNetworkList} headerTitle="Paymaster" /> */}
+
+                {/* Toggle Tab for Transaction Details and Table */}
+                <div className="relative mt-4 px-10 py-4 border-b border-[#D7DAE0] dark:border-[#3B3C40]  font-gsans">
+                    <ul className=" flex items-center px-1.5 py-1.5 list-none rounded-md bg-[#F0F1F5] dark:bg-[#191A23] border dark:border-[#3B3C40] border-[#D7DAE0]">
+                        <li className="flex-auto text-center ">
+                            <button
+                                onClick={() => setIsTransactionDetails(true)} // Show Transaction Details
+                                className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-md ${
+                                    isTransactionDetails ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit'
+                                }`}
                             >
-                                {shortenString(hash as string)}
-                            </Link>
-                        </Breadcrumbs>
-                    </div>
-                    <h1 className="text-3xl font-bold">Paymaster</h1>
+                                Overview
+                            </button>
+                        </li>
+                        <li className="flex-auto text-center">
+                            <button
+                                onClick={() => setIsTransactionDetails(false)} // Show Table
+                                className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40]  rounded-md ${
+                                    !isTransactionDetails ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit'
+                                }`}
+                            >
+                                User Operations
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                                        
+                {/* Toggle between Transaction Details and Table */}
+                <div className="mt-6 px-10">
+                    {isTransactionDetails ? (
+                        <TransactionDetails item={addressInfo} network={network} />
+                    ) : (
+                        <>
+                            <Table rows={rows} columns={columns} loading={tableLoading} />
+                                <div className='border-b mt-5 z-50 border-[#D7DAE0] dark:border-[#3B3C40]'></div>
+                            <Pagination
+                                pageDetails={{
+                                    pageNo,
+                                    setPageNo,
+                                    pageSize,
+                                    setPageSize,
+                                    totalRows: addressInfo?.userOpsLength || 0,
+                                }}
+                            />
+                        </>
+                    )}
                 </div>
             </section>
-            {/* <HeaderSection item={addressInfo} network={network} addressMapping={addressMapping} displayNetworkList={displayNetworkList} /> */}
-            <HeaderSectionGlobal item={addressInfo} network={network} displayNetworkList={displayNetworkList} headerTitle="Paymaster" />
-            <TransactionDetails item={addressInfo} network={network} />
-            <div className="container px-0">
-                <Table
-                    rows={rows}
-                    columns={columns}
-                    loading={tableLoading}
-                    caption={{
-                        children: captionText,
-                        icon: '/images/cube.svg',
-                        text: 'Approx Number of Operations Processed in the selected chain',
-                    }}
-                />
-                <Pagination
-                    pageDetails={{
-                        pageNo,
-                        setPageNo,
-                        pageSize,
-                        setPageSize,
-                        totalRows: addressInfo?.userOpsLength != null ? addressInfo.userOpsLength : 0,
-                    }}
-                />
-            </div>
             <ToastContainer />
             <Footer />
         </div>

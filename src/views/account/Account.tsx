@@ -12,9 +12,10 @@ import {
     tokenTransferAlchemy,
     getAddressTransactions,
     Transaction,
-    fetchNetworkData, NetworkResponse
+    fetchNetworkData,
+    NetworkResponse,
 } from '@/components/common/apiCalls/jiffyApis';
-import { Breadcrumbs, Link, Box, Tab, Tabs, Typography, Tooltip } from '@mui/material';
+import { Breadcrumbs, Link, Box, Tab, Tabs, Typography, Tooltip, IconButton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
 import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
@@ -32,6 +33,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useConfig } from '@/context/config';
 import { set } from 'lodash';
 import LinkAndCopy from '@/components/common/LinkAndCopy';
+import { SlHome } from 'react-icons/sl';
+import { MdContentCopy } from 'react-icons/md';
 
 // import Skeleton from '@/components/Skeleton';
 export const BUTTON_LIST = [
@@ -44,7 +47,6 @@ export const BUTTON_LIST = [
         key: 'Original',
     },
 ];
-
 
 const DEFAULT_PAGE_SIZE = 10;
 
@@ -217,7 +219,7 @@ const createAccountInfoObject = (addressActivity: AddressActivity, address: stri
         return {
             address: address,
             totalDeposit: parseInt(addressActivity.accountDetail.totalDeposits),
-            userOpsCount: parseInt(addressActivity.accountDetail.userOpsCount),
+            userOpsCount: addressActivity.accountDetail.userOps.length,
             userOpHash: addressActivity.accountDetail.userOpHash,
             blockTime: parseInt(addressActivity.accountDetail.blockTime),
             factory: addressActivity.accountDetail.factory,
@@ -295,9 +297,14 @@ function Account(props: any) {
     const [mounted, setMounted] = useState(false);
 
     const [displayNetworkList, setDisplayNetworkList] = useState<NetworkItem[]>([]);
-    const [networkListReady, setNetworkListReady] = useState(false)
+    const [networkListReady, setNetworkListReady] = useState(false);
+    const [copyTooltip, setCopyTooltip] = useState('Copy'); // Tooltip state for copy action
 
-
+    const handleCopy = () => {
+        navigator.clipboard.writeText(hash); // Copy the hash to clipboard
+        setCopyTooltip('Copied!'); // Change tooltip to indicate success
+        setTimeout(() => setCopyTooltip('Copy'), 1500); // Reset tooltip after 1.5s
+    };
     useEffect(() => {
         setMounted(true);
     }, []);
@@ -403,25 +410,20 @@ function Account(props: any) {
         const networkKeys = Object.keys(NETWORK_LIST);
 
         try {
-           
-
             const data: NetworkResponse[] = await fetchNetworkData(term);
 
             data.forEach((networkData: NetworkResponse, index: number) => {
-              if (!networkData.message) {
-                const networkValue = networkKeys[index];
-                networksWithTerm.push(networkValue);
-              }
+                if (!networkData.message) {
+                    const networkValue = networkKeys[index];
+                    networksWithTerm.push(networkValue);
+                }
             });
 
-
             const validNetworksWithTerm = networksWithTerm.filter(
-                (index) => typeof index === 'string' && !isNaN(Number(index)) && Number(index) < NETWORK_LIST.length
+                (index) => typeof index === 'string' && !isNaN(Number(index)) && Number(index) < NETWORK_LIST.length,
             );
 
-            setDisplayNetworkList(
-                validNetworksWithTerm.map((index) => NETWORK_LIST[Number(index)] as NetworkItem)
-            );
+            setDisplayNetworkList(validNetworksWithTerm.map((index) => NETWORK_LIST[Number(index)] as NetworkItem));
 
             setNetworkListReady(true);
         } catch (error) {
@@ -438,19 +440,19 @@ function Account(props: any) {
     if (!mounted) return <></>;
 
     return (
-        <div className="">
+        <div className="dark:bg-[#191A23]">
             <Navbar searchbar />
-            <section className="px-3 py-10">
-                <div className="container px-0">
+            <section className="px-3 container mx-auto my-6 py-6 bg-white dark:bg-[#1F202B] shadow-lg rounded-xl border border-[#D7DAE0] dark:border-[#3B3C40]">
+                <div className="container px-0 sm:px-8 items-center dark:text-[#DADEF1]">
                     <div className="flex flex-row">
                         <Link href="/" className="text-gray-500">
                             <ArrowBackIcon
                                 style={{ height: '15px', width: '15px', marginRight: '20px', marginLeft: '10px', marginBottom: '3px' }}
                             />
                         </Link>
-                        <Breadcrumbs aria-label="breadcrumb">
+                        <Breadcrumbs aria-label="breadcrumb" className="dark:text-[#DADEF1]">
                             <Link underline="hover" color="inherit" href={`/?network=${network ? network : ''}`}>
-                                Home
+                            <SlHome />
                             </Link>
                             <Link underline="hover" color="inherit" href="/recentUserOps">
                                 Recent User Ops
@@ -460,97 +462,158 @@ function Account(props: any) {
                                 color="text.primary"
                                 href={`/address/${hash}?network=${network ? network : ''}`}
                                 aria-current="page"
+                                className="text-[#195BDF]"
                             >
                                 {shortenString(hash as string)}
+                                <Tooltip title={copyTooltip}>
+                                    <IconButton onClick={handleCopy} size="small" style={{ marginLeft: '8px' }}>
+                                        <MdContentCopy className="w-4 h-4 dark:fill-[#ADB0BC]" />
+                                    </IconButton>
+                                </Tooltip>
                             </Link>
                         </Breadcrumbs>
                     </div>
-                    <h1 className="text-3xl font-bold">Account</h1>
+                    <h1 className="text-3xl font-bold p-4 font-gsans">Account</h1>
+                </div>
+
+                <div className="container px-0">
+                    <div className="relative mt-4 md:px-10 py-4 border-b border-[#D7DAE0] dark:border-[#3B3C40] font-gsans">
+                        <ul className="flex items-center px-1.5 py-1.5 list-none rounded-md bg-[#F0F1F5] dark:bg-[#191A23] border dark:border-[#3B3C40] border-[#D7DAE0] overflow-x-auto md:overflow-visible scrollbar-hide">
+                            <li className="flex-none w-1/2 text-center md:flex-auto">
+                                <button
+                                    onClick={() => setTabNo(0)}
+                                    className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-md ${
+                                        tabNo === 0 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit'
+                                    }`}
+                                >
+                                    Account Details
+                                </button>
+                            </li>
+
+                            <li className="flex-none w-1/2 text-center md:flex-auto">
+                                <button
+                                    onClick={() => setTabNo(1)}
+                                    className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-md ${
+                                        tabNo === 1 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit'
+                                    }`}
+                                >
+                                    User Ops ({addressInfo?.userOpsCount || 0})
+                                </button>
+                            </li>
+
+                            <li className="flex-none w-1/2 text-center md:flex-auto">
+                                <button
+                                    onClick={() => setTabNo(2)}
+                                    className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-md ${
+                                        tabNo === 2 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit'
+                                    }`}
+                                >
+                                    Transactions ({transactions.length})
+                                </button>
+                            </li>
+
+                            <li className="flex-none w-1/2 text-center md:flex-auto">
+                                <button
+                                    onClick={() => setTabNo(3)}
+                                    className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-md ${
+                                        tabNo === 3 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit'
+                                    }`}
+                                >
+                                    Token Transfers ({erc20Transfers.length})
+                                </button>
+                            </li>
+
+                            <li className="flex-none w-1/2 text-center md:flex-auto">
+                                <button
+                                    onClick={() => setTabNo(4)}
+                                    className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-md ${
+                                        tabNo === 4 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit'
+                                    }`}
+                                >
+                                    NFT Transfers ({erc721Transfers.length})
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        {tabNo === 0 && (
+                            <TabPanel value={tabNo} index={0}>
+                                {/* <HeaderSectionGlobal
+                                    item={addressInfo}
+                                    network={network}
+                                    displayNetworkList={displayNetworkList}
+                                    headerTitle="Account"
+                                /> */}
+                                <TransactionDetails
+                                    item={addressInfo}
+                                    network={network}
+                                    addressMapping={addressMapping}
+                                    tokenBalances={tokenBalances}
+                                    tableLoading={tableLoading}
+                                />
+                            </TabPanel>
+                        )}
+                        {tabNo === 1 && (
+                            <TabPanel value={tabNo} index={1}>
+                                <Table rows={rows} columns={userOpColumns} loading={tableLoading} />
+                                <Pagination
+                                    pageDetails={{
+                                        pageNo,
+                                        setPageNo,
+                                        pageSize,
+                                        setPageSize,
+                                        totalRows: addressInfo?.userOpsCount || 0,
+                                    }}
+                                />
+                            </TabPanel>
+                        )}
+                        {tabNo === 2 && (
+                            <TabPanel value={tabNo} index={2}>
+                                <Table rows={transactionsTableRows} columns={TransactionColumns} loading={tableLoading} />
+                                <Pagination
+                                    pageDetails={{
+                                        pageNo: transactionsPageNo,
+                                        setPageNo: setTransactionsPageNo,
+                                        pageSize,
+                                        setPageSize,
+                                        totalRows: transactions.length,
+                                        fixedPageSize: 100,
+                                    }}
+                                />
+                            </TabPanel>
+                        )}
+                        {tabNo === 3 && (
+                            <TabPanel value={tabNo} index={3}>
+                                <Table rows={erc20TransfersTableRows} columns={erc20TransferColumns} loading={tableLoading} />
+                                <Pagination
+                                    pageDetails={{
+                                        pageNo: erc20PageNo,
+                                        setPageNo: setErc20PageNo,
+                                        pageSize,
+                                        setPageSize,
+                                        totalRows: erc20Transfers.length,
+                                    }}
+                                />
+                            </TabPanel>
+                        )}
+                        {tabNo === 4 && (
+                            <TabPanel value={tabNo} index={4}>
+                                <Table rows={erc721TransfersTableRows} columns={erc721TransferColumns} loading={tableLoading} />
+                                <Pagination
+                                    pageDetails={{
+                                        pageNo: erc721PageNo,
+                                        setPageNo: setErc721PageNo,
+                                        pageSize,
+                                        setPageSize,
+                                        totalRows: erc721Transfers.length,
+                                    }}
+                                />
+                            </TabPanel>
+                        )}
+                    </div>
                 </div>
             </section>
-            {/* <HeaderSection item={addressInfo} network={network} displayNetworkList={displayNetworkList} /> */}
-            <HeaderSectionGlobal item={addressInfo} network={network} displayNetworkList={displayNetworkList} headerTitle="Account" />
-            <TransactionDetails
-                item={addressInfo}
-                network={network}
-                addressMapping={addressMapping}
-                tokenBalances={tokenBalances}
-                tableLoading={tableLoading}
-            />
-
-            <div className="container px-0">
-                <Box sx={{ width: '100%' }}>
-                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                        <Tabs value={tabNo} onChange={(e, newTabNo) => setTabNo(newTabNo)} aria-label="basic tabs example">
-                            <Tooltip title="ERC-4337 Transactions of user" placement="top">
-                                <Tab
-                                    label={`User Ops (${addressInfo?.userOpsCount ? addressInfo?.userOpsCount : 0})`}
-                                    tabIndex={0}
-                                    {...a11yProps(0)}
-                                />
-                            </Tooltip>
-                            <Tooltip title="Internal + External transactions" placement="top">
-                                <Tab label={`Transactions (${transactions.length})`} tabIndex={3} {...a11yProps(2)} />
-                            </Tooltip>
-                            <Tooltip title="ERC-20 Transfers" placement="top">
-                                <Tab label={`Token Transfers (${erc20Transfers.length})`} tabIndex={1} {...a11yProps(1)} />
-                            </Tooltip>
-                            <Tooltip title="ERC721 + ERC1155 Transfers" placement="top">
-                                <Tab label={`NFT Transfers (${erc721Transfers.length})`} tabIndex={2} {...a11yProps(2)} />
-                            </Tooltip>
-                        </Tabs>
-                    </Box>
-                    <TabPanel value={tabNo} index={0}>
-                        <Table rows={rows} columns={userOpColumns} loading={tableLoading} />
-                        <Pagination
-                            pageDetails={{
-                                pageNo,
-                                setPageNo,
-                                pageSize,
-                                setPageSize,
-                                totalRows: addressInfo?.userOpsCount != null ? addressInfo.userOpsCount : 0,
-                            }}
-                        />
-                    </TabPanel>
-                    <TabPanel value={tabNo} index={1}>
-                        <Table rows={transactionsTableRows} columns={TransactionColumns} loading={tableLoading} />
-                        <Pagination
-                            pageDetails={{
-                                pageNo: transactionsPageNo,
-                                setPageNo: setTransactionsPageNo,
-                                pageSize,
-                                setPageSize,
-                                totalRows: transactions.length,
-                                fixedPageSize: 100,
-                            }}
-                        />
-                    </TabPanel>
-                    <TabPanel value={tabNo} index={2}>
-                        <Table rows={erc20TransfersTableRows} columns={erc20TransferColumns} loading={tableLoading} />
-                        <Pagination
-                            pageDetails={{
-                                pageNo: erc20PageNo,
-                                setPageNo: setErc20PageNo,
-                                pageSize,
-                                setPageSize,
-                                totalRows: erc20Transfers.length,
-                            }}
-                        />
-                    </TabPanel>
-                    <TabPanel value={tabNo} index={3}>
-                        <Table rows={erc721TransfersTableRows} columns={erc721TransferColumns} loading={tableLoading} />
-                        <Pagination
-                            pageDetails={{
-                                pageNo: erc721PageNo,
-                                setPageNo: setErc721PageNo,
-                                pageSize,
-                                setPageSize,
-                                totalRows: erc721Transfers.length,
-                            }}
-                        />
-                    </TabPanel>
-                </Box>
-            </div>
             <ToastContainer />
             <Footer />
         </div>

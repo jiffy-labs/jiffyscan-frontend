@@ -9,6 +9,7 @@ export interface UserOp {
     transactionHash: string | null;
     userOpHash: string;
     sender: string;
+    trxHash: string;
     accountSender: { factory: string };
     paymaster: string;
     nonce: number;
@@ -432,6 +433,54 @@ export const getUserOpMetadata = async (userOpHash: string, network: string, toa
         showToast(toast, 'Error fetching metadata');
         return {} as metadata;
     }
+    const data = await response.json();
+    return data;
+};
+
+export const getUsserOpTrace = async (userOpHash: string, network: string, toast: any, sender?: string, trxHash?: string): Promise<metadata> => {
+    let response;
+    try {
+        let apiUrl = `https://api-dev.jiffyscan.xyz/v0/getUserOpTraces?userOpHash=${userOpHash}&network=${network}`;
+        
+        // If the network is 'odyssey', add 'sender' and 'trxHash' to the API call
+        if (network === 'odyssey' || network === 'open-campus-test') {
+            apiUrl += `&sender=${sender}&trxHash=${trxHash}`;
+        }
+
+        response = await fetch(apiUrl, {
+            method: 'GET',
+            headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
+        });
+    } catch (e) {
+        showToast(toast, 'Error fetching metadata');
+        return {} as metadata;
+    }
+    
+    if (response.status !== 200) {
+        showToast(toast, 'Error fetching metadata');
+        return {} as metadata;
+    }
+
+    const data = await response.json();
+    return data;
+};
+export const getTrxTraces = async (trxHash: string, network: string, toast: any): Promise<metadata> => {
+    let response;
+    try {
+        response = await fetch(`https://api-dev.jiffyscan.xyz/v0/getTrxTraces?network=${network}&trxHash=${trxHash}`, {
+            method: 'GET',
+            headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
+        });
+    } catch (e) {
+        showToast(toast, 'Error fetching transaction traces');
+        return {} as metadata;
+    }
+
+    if (response.status !== 200) {
+        showToast(toast, 'Error fetching transaction traces');
+        return {} as metadata;
+    }
+
     const data = await response.json();
     return data;
 };
@@ -1042,12 +1091,12 @@ export const getBundleDetails = async (
 
     if (response == null) return {} as Bundle;
     if (response.status != 200) {
-        showToast(toast, 'Error fetching data');
+        // showToast(toast, 'Error fetching data');
     }
     const data = await response.json();
     if ('bundleDetails' in data) {
         if (Object.keys(data.bundleDetails).length == 0) {
-            showToast(toast, 'Error fetching data');
+            // showToast(toast, 'Error fetching data');
         }
         return data.bundleDetails as Bundle;
     }
@@ -1175,7 +1224,7 @@ export const fetchData = async (item : ItemProps) => {
     try {
         const res = await fetch(`${API_URL}/v0/getUserOpLogs?userOpHash=${item.userOpHash}&network=${item.network}`, {
             headers: {
-                'x-api-key': X_API_Key || 'TestAPIKeyDontUseInCode', 
+                'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5',  
             },
         });
         if (!res.ok) {

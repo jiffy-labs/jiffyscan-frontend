@@ -26,6 +26,9 @@ import LoginModal from '@/components/global/LoginModal';
 import { useSessionContext, SessionContextType } from '@/context/auth0Context';
 import { DefaultSession } from 'next-auth';
 import { useUserSession } from '@/context/userSession';
+import Link from 'next/link';
+import { MdArrowForwardIos } from 'react-icons/md';
+import Chains from './Chains';
 
 declare module 'next-auth' {
     interface User {
@@ -124,7 +127,7 @@ function Home() {
                     type: 'bundle',
                 },
                 ago: getTimePassed(bundle.blockTime),
-                userOps: bundle.userOpsLength + ' ops',
+                userOps: bundle.userOpsLength + '',
                 status: true,
             });
         });
@@ -145,7 +148,7 @@ function Home() {
                     icon: NETWORK_ICON_MAP[network],
                     type: 'paymaster',
                 },
-                userOps: `${paymaster.userOpsLength} ops`,
+                userOps: `${paymaster.userOpsLength}`,
                 fee: getFee(parseInt(paymaster.gasSponsored), network),
             });
         });
@@ -165,7 +168,7 @@ function Home() {
                     icon: NETWORK_ICON_MAP[network],
                     type: 'bundler',
                 },
-                userOps: `${bundler.bundleLength} bundles`,
+                userOps: `${bundler.bundleLength}`,
                 fee: getFee(parseInt(bundler.actualGasCostSum), network),
             });
         });
@@ -199,28 +202,30 @@ function Home() {
     };
 
     return (
-        <div>
+        <div className='bg-[#F0F1F5] dark:bg-[#19191A]'>
             <Navbar />
-            <section className="py-6">
-                <div className="container">
-                    <h1 className="mb-2 text-xl font-bold leading-8 md:text-3xl md:mb-4">
+            <section className="py-16 ">
+                <div className="container px-24">
+                    {/* <h1 className="mb-2 text-xl font-bold leading-8 md:text-3xl md:mb-4">
                         UserOp Explorer for{' '}
                         <a href="https://eips.ethereum.org/EIPS/eip-4337" target="_blank" style={{ textDecoration: 'underline' }}>
                             4337
                         </a>
-                    </h1>
-                    <div>
+                    </h1> */}
+                    <div className=''>
                         <Searchblock isNavbar={false} />
                     </div>
                 </div>
             </section>
             <div className="container">
-                <div className="flex flex-wrap items-center justify-between gap-3 py-2 mb-4 md:gap-10">
-                    <Header
+                <div className="flex flex-col items-center justify-center gap-3 py-1 mb-4 md:gap-4">
+                    {/* <Header
                         icon="/images/cube-unfolded.svg"
                         headerText="Select network to explore"
                         infoText="Shows latest Activity for different entities in a chain"
-                    />
+                    /> */}
+                    <h1 className='font-gsans font-semibold text-base text-[#195BDF]'>EXPLORE</h1>
+                    <h2 className='text-[28px] md:text-[32px] font-dmsans text-[#1F1F1F] dark:text-[#BCBFCC] font-medium py-2'>What&apos;s Happening On...</h2>
                     <NetworkSelector selectedNetwork={selectedNetwork} handleNetworkChange={setSelectedNetwork} disabled={loading} />
                 </div>
             </div>
@@ -228,8 +233,15 @@ function Home() {
             <div>
                 <section className={`mb-12`}>
                     {block ? <LoginModal showClose={true} block={block} setBlock={setBlock} /> : null}
-                    <div className={`container grid grid-cols-1 gap-10 md:grid-cols-2 ${block && 'blur'}`}>
+                    <div className={`container grid grid-cols-1 gap-10 lg:grid-cols-2 ${block && 'blur'}`}>
                         <div>
+                            <div className="mt-4 border-t bg-white dark:bg-[#1D1E1F] dark:text-[#989BA6] border-l border-r dark:border-[#444444] border-[#D7DAE0]  px-10 py-6 flex items-center justify-between rounded-t-lg font-semibold font-dmsans sm:text-base md:text-xl">
+                                {/* <Button href="/recentBundles">View all bundles</Button> */}
+                                <p>Bundles</p>
+                                <Link href="/recentBundles" className="text-[#195BDF] dark:text-[#0052FF] flex items-center gap-2">
+                                    View Bundles <MdArrowForwardIos className="w-4 h-4" />
+                                </Link>
+                            </div>
                             <Table
                                 {...(bundlesTables[selectedNetwork] as tableDataT)}
                                 columns={BundlesTable['columns']}
@@ -241,12 +253,14 @@ function Home() {
                                 }}
                                 key="recentBundlesTable"
                             />
-
-                            <div className="mt-4">
-                                <Button href="/recentBundles">View all bundles</Button>
-                            </div>
                         </div>
                         <div>
+                            <div className="mt-4 border-t border-l border-r bg-white dark:text-[#989BA6] dark:bg-[#1D1E1F] dark:border-[#444444] border-[#D7DAE0] px-10 py-6 flex items-center justify-between rounded-t-lg font-semibold font-dmsans sm:text-base md:text-xl">
+                                <p>UserOps</p>
+                                <Link href="/recentUserOps" className="text-[#195BDF] dark:text-[#0052FF] flex items-center gap-2">
+                                    View UserOps <MdArrowForwardIos className="w-4 h-4" />
+                                </Link>
+                            </div>
                             <Table
                                 {...(operationsTables[selectedNetwork] as tableDataT)}
                                 columns={OperationsTable['columns']}
@@ -258,15 +272,21 @@ function Home() {
                                 }}
                                 key="recentUserOpsTables"
                             />
-                            <div className="mt-4">
+                            {/* <div className="mt-4">
                                 <Button href="/recentUserOps">View all User operations</Button>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </section>
                 <section className={`mb-12 ${block && 'blur'}`}>
-                    <div className="container grid grid-cols-1 gap-10 md:grid-cols-2">
+                    <div className="container grid grid-cols-1 gap-10 lg:grid-cols-2">
                         <div>
+                            <div className="mt-4 border-t border-l border-r bg-white dark:text-[#989BA6] dark:bg-[#1D1E1F] dark:border-[#444444] border-[#D7DAE0] px-10 py-6 flex items-center justify-between rounded-t-lg font-semibold font-dmsans sm:text-base md:text-xl">
+                                <p>Top Bundlers</p>
+                                <Link href="/bundlers" className="text-[#195BDF] dark:text-[#0052FF] flex items-center gap-2">
+                                    View Bundlers<MdArrowForwardIos className="w-4 h-4" />
+                                </Link>
+                            </div>
                             <Table
                                 {...(bundlersTables[selectedNetwork] as tableDataT)}
                                 columns={BundlersTable['columns']}
@@ -279,11 +299,17 @@ function Home() {
                                 key="topBundlersTable"
                             />
 
-                            <div className="mt-4">
+                            {/* <div className="mt-4">
                                 <Button href="/bundlers">View all Bundlers</Button>
-                            </div>
+                            </div> */}
                         </div>
                         <div>
+                        <div className="mt-4 border-t border-l border-r bg-white dark:text-[#989BA6]  dark:bg-[#1D1E1F] dark:border-[#444444] border-[#D7DAE0] px-10 py-6 flex items-center justify-between rounded-t-lg font-semibold font-dmsans sm:text-base md:text-xl">
+                                <p>Top Paymasters</p>
+                                <Link href="/paymasters" className="text-[#195BDF] dark:text-[#0052FF] flex items-center gap-2">
+                                    View Paymasters<MdArrowForwardIos className="w-4 h-4" />
+                                </Link>
+                            </div>
                             <Table
                                 {...(paymastersTables[selectedNetwork] as tableDataT)}
                                 columns={PaymastersTable['columns']}
@@ -295,13 +321,14 @@ function Home() {
                                 }}
                                 key="topPaymastersTable"
                             />
-                            <div className="mt-4">
+                            {/* <div className="mt-4">
                                 <Button href="/paymasters">View all Paymasters</Button>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </section>
             </div>
+            <Chains/>
             <ToastContainer />
             <Footer />
         </div>
