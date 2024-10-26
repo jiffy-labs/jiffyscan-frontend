@@ -43,6 +43,7 @@ import { FaArrowUpFromBracket } from 'react-icons/fa6';
 import { SlHome } from 'react-icons/sl';
 import { MdArrowDropDown, MdContentCopy } from 'react-icons/md';
 import { HiHashtag } from 'react-icons/hi';
+import { useTheme } from '@/context/ThemeContext';
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const passedTime = (time: number) => {
     let currentTime = new Date().getTime();
@@ -148,6 +149,7 @@ function RecentUserOps(props: any) {
     const [activeTab, setActiveTab] = useState(section || 'overview');
     const [showAllTargets, setShowAllTargets] = useState(false);
     const [value, setValue] = React.useState(0);
+    const { isDarkMode } = useTheme();// Access theme context
     useEffect(() => {
         if (section) setActiveTab(section);
     }, [section]);
@@ -338,7 +340,7 @@ function RecentUserOps(props: any) {
   useEffect(() => {
     setIsMounted(true);  // Now rendering only happens on the client
   }, []);
-
+  
   if (!isMounted) return null; // Skip rendering on server
     return (
         <div className="dark:bg-[#191A23]">
@@ -531,12 +533,11 @@ function RecentUserOps(props: any) {
                                                                             </>
                                                                         ) : (
                                                                             // @ts-ignore
-                                                                            <SkeletonTheme
-                                                                                color="#1D1E1F" // Dark mode background color
-                                                                                highlightColor="#444" // Dark mode highlight color
-                                                                            >
-                                                                                <Skeleton width={200} height={24} />
-                                                                            </SkeletonTheme>
+                                                                            <div
+    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+    style={{ width: 200 }} // Optional: set specific width if needed
+/>
+
                                                                         )}
                                                                     </div>
                                                                 </div>
@@ -585,12 +586,11 @@ function RecentUserOps(props: any) {
                                                                             </>
                                                                         ) : (
                                                                             // @ts-ignore
-                                                                            <SkeletonTheme
-                                                                                color="#1D1E1F" // Dark mode background color
-                                                                                highlightColor="#444" // Dark mode highlight color
-                                                                            >
-                                                                                <Skeleton width={200} height={24} />
-                                                                            </SkeletonTheme>
+                                                                            <div
+    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+    style={{ width: 200 }} // Optional: set specific width if needed
+/>
+
                                                                         )}
                                                                     </div>
                                                                 </div>
@@ -623,12 +623,11 @@ function RecentUserOps(props: any) {
                                                                             </p>
                                                                         ) : (
                                                                             // @ts-ignore
-                                                                            <SkeletonTheme
-                                                                                color="#1D1E1F" // Dark mode background color
-                                                                                highlightColor="#444" // Dark mode highlight color
-                                                                            >
-                                                                                <Skeleton width={200} height={24} />
-                                                                            </SkeletonTheme>
+                                                                            <div
+    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+    style={{ width: 200 }} // Optional: set specific width if needed
+/>
+
                                                                         )}
                                                                     </div>
                                                                 </div>
@@ -667,12 +666,11 @@ function RecentUserOps(props: any) {
                                                                             </>
                                                                         ) : (
                                                                             // @ts-ignore
-                                                                            <SkeletonTheme
-                                                                                color="#1D1E1F" // Dark mode background color
-                                                                                highlightColor="#444" // Dark mode highlight color
-                                                                            >
-                                                                                <Skeleton width={200} height={24} />
-                                                                            </SkeletonTheme>
+                                                                            <div
+    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+    style={{ width: 200 }} // Optional: set specific width if needed
+/>
+
                                                                         )}
                                                                     </div>
                                                                 </div>
@@ -777,12 +775,11 @@ function RecentUserOps(props: any) {
                                                                             )
                                                                         ) : (
                                                                             // @ts-ignore
-                                                                            <SkeletonTheme
-                                                                                color="#1D1E1F" // Dark mode background color
-                                                                                highlightColor="#444" // Dark mode highlight color
-                                                                            >
-                                                                                <Skeleton width={200} height={24} />
-                                                                            </SkeletonTheme>
+                                                                            <div
+    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+    style={{ width: 200 }} // Optional: set specific width if needed
+/>
+
                                                                         )}
                                                                     </div>
                                                                 </div>
@@ -814,12 +811,11 @@ function RecentUserOps(props: any) {
                                                                             </p>
                                                                         ) : (
                                                                             // @ts-ignore
-                                                                            <SkeletonTheme
-                                                                                color="#1D1E1F" // Dark mode background color
-                                                                                highlightColor="#444" // Dark mode highlight color
-                                                                            >
-                                                                                <Skeleton width={200} height={24} />
-                                                                            </SkeletonTheme>
+                                                                            <div
+    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+    style={{ width: 200 }} // Optional: set specific width if needed
+/>
+
                                                                         )}
                                                                     </div>
                                                                 </div>
@@ -843,12 +839,11 @@ function RecentUserOps(props: any) {
                                                                             </span>
                                                                         ) : (
                                                                             // @ts-ignore
-                                                                            <SkeletonTheme
-                                                                                color="#1D1E1F" // Dark mode background color
-                                                                                highlightColor="#444" // Dark mode highlight color
-                                                                            >
-                                                                                <Skeleton width={200} height={24} />
-                                                                            </SkeletonTheme>
+                                                                            <div
+    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+    style={{ width: 200 }} // Optional: set specific width if needed
+/>
+
                                                                         )}
                                                                     </div>
                                                                 </div>
@@ -878,12 +873,11 @@ function RecentUserOps(props: any) {
                                                                             </p>
                                                                         ) : (
                                                                             // @ts-ignore
-                                                                           <SkeletonTheme
-                                                                                color="#1D1E1F" // Dark mode background color
-                                                                                highlightColor="#444" // Dark mode highlight color
-                                                                            >
-                                                                                <Skeleton width={200} height={24} />
-                                                                            </SkeletonTheme>
+                                                                            <div
+    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+    style={{ width: 200 }} // Optional: set specific width if needed
+/>
+
                                                                         )}
                                                                     </div>
                                                                 </div>
@@ -933,12 +927,11 @@ function RecentUserOps(props: any) {
                                                                             </>
                                                                         ) : (
                                                                             // @ts-ignore
-                                                                            <SkeletonTheme
-                                                                            color="#1D1E1F" // Dark mode background color
-                                                                            highlightColor="#444" // Dark mode highlight color
-                                                                        >
-                                                                            <Skeleton width={200} height={24} />
-                                                                        </SkeletonTheme>
+                                                                            <div
+    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+    style={{ width: 200 }} // Optional: set specific width if needed
+/>
+
                                                                         )}
                                                                     </div>
                                                                 </div>
@@ -977,12 +970,11 @@ function RecentUserOps(props: any) {
                                                                             </>
                                                                         ) : (
                                                                             // @ts-ignore
-                                                                            <SkeletonTheme
-                                                                                color="#1D1E1F" // Dark mode background color
-                                                                                highlightColor="#444" // Dark mode highlight color
-                                                                            >
-                                                                                <Skeleton width={200} height={24} />
-                                                                            </SkeletonTheme>
+                                                                            <div
+    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+    style={{ width: 200 }} // Optional: set specific width if needed
+/>
+
                                                                         )}
                                                                     </div>
                                                                 </div>
@@ -1020,12 +1012,11 @@ function RecentUserOps(props: any) {
                                                                             </>
                                                                         ) : (
                                                                             // @ts-ignore
-                                                                            <SkeletonTheme
-                                                                                color="#1D1E1F" // Dark mode background color
-                                                                                highlightColor="#444" // Dark mode highlight color
-                                                                            >
-                                                                                <Skeleton width={200} height={24} />
-                                                                            </SkeletonTheme>
+                                                                            <div
+    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+    style={{ width: 200 }} // Optional: set specific width if needed
+/>
+
                                                                         )}
                                                                     </div>
                                                                 </div>
@@ -1049,12 +1040,11 @@ function RecentUserOps(props: any) {
                                                                             </span>
                                                                         ) : (
                                                                             // @ts-ignore
-                                                                            <SkeletonTheme
-                                                                            color="#1D1E1F" // Dark mode background color
-                                                                            highlightColor="#444" // Dark mode highlight color
-                                                                        >
-                                                                            <Skeleton width={200} height={24} />
-                                                                        </SkeletonTheme>
+                                                                            <div
+    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+    style={{ width: 200 }} // Optional: set specific width if needed
+/>
+
                                                                         )}
                                                                     </div>
                                                                 </div>

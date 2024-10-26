@@ -10,6 +10,7 @@ import Status from '../status/Status';
 import { POWERED_BY_LOGO_MAP } from '../constants';
 // import Skeleton from '@/components/Skeleton';
 import { useRouter } from 'next/router';
+import { useTheme } from '@/context/ThemeContext';
 
 export interface tableDataTCollection {
     [key: string]: tableDataT;
@@ -57,7 +58,9 @@ function Table(props: tableDataT) {
     const width = useWidth();
     const router = useRouter();  // Get current route information
     const isHomepage = router.pathname === '/';  // Check if it's the homepage
+    const { isDarkMode } = useTheme();// Access theme context
 
+    
     let skeletonCards = Array(5).fill(0);
 
     const convertAgoToNumber = (ago: string): number => {
@@ -89,7 +92,11 @@ function Table(props: tableDataT) {
     useEffect(() => {
         setSortedRows(rows);
     }, [rows]);
-
+    useEffect(() => {
+        setSortedRows(rows);
+    }, [rows]);
+    
+    
     return (
         <div className="w-full">
             {/* {!hideHeader && caption?.text && (
@@ -133,12 +140,9 @@ function Table(props: tableDataT) {
                                         <tr>
                                             <td colSpan={5}>
                                                 {/* @ts-ignore */}
-                                            <SkeletonTheme
-                                                color="#1D1E1F" // Dark mode background color
-                                                highlightColor="#444" // Dark mode highlight color
-                                            >
-                                                <Skeleton height={40} className="dark:bg-black" />
-                                            </SkeletonTheme>
+                                                <div
+                        className={`h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+                    />
                                             </td>
                                         </tr>
                                     </>

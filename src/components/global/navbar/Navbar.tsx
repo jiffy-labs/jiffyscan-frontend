@@ -20,6 +20,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { ChevronRightIcon, HomeIcon } from '@heroicons/react/20/solid';
 import { Button } from '@mui/material';
 import { MdOutlineDarkMode, MdOutlineLightMode } from 'react-icons/md';
+import { useTheme } from '@/context/ThemeContext';
 interface NavbarProps {
     searchbar?: boolean;
 }
@@ -29,29 +30,9 @@ function Navbar(props: NavbarProps) {
 
     const [isOpen, setIsOpen] = React.useState(false);
     const [closeBanner, setCloseBanner] = React.useState(false);
-    const [isDarkMode, setIsDarkMode] = useState(false);
+    const { isDarkMode, toggleTheme } = useTheme(); // Access theme context
 
-    // Function to toggle theme
-    const toggleTheme = () => {
-        setIsDarkMode(!isDarkMode);
-        const newTheme = !isDarkMode ? 'dark' : 'light';
-        document.documentElement.classList.toggle('dark', !isDarkMode); // Apply or remove 'dark' class
-        localStorage.setItem('theme', newTheme); // Save the theme preference
-    };
-
-    // Set initial theme based on saved preference or system preference
-    useEffect(() => {
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-            setIsDarkMode(savedTheme === 'dark');
-            document.documentElement.classList.toggle('dark', savedTheme === 'dark');
-        } else {
-            // If no saved theme, check for system preference
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            setIsDarkMode(prefersDark);
-            document.documentElement.classList.toggle('dark', prefersDark);
-        }
-    }, []);
+    
     const toggleDrawer = () => {
         setIsOpen((prevState) => !prevState);
     };

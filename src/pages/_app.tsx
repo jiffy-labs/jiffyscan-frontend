@@ -14,6 +14,7 @@ import PHProvider from '@/context/postHogProvider';
 import { useTokenPrices } from '@/hooks/useTokenPrices';
 import TopBanner from '@/components/global/navbar/TopBanner';
 import localFont from 'next/font/local';
+import { ThemeProvider } from '@/context/ThemeContext';
 
 const GeistSans = localFont({
   src: [
@@ -62,7 +63,7 @@ export default function MyApp({ Component, pageProps: { session, ...pageProps } 
                 <SessionProvider session={session}>
                     <UserSessionStore>
                         <NameServiceStore>
-                            <ConfigProvider>{getLayout(<div><TopBanner/><Component {...pageProps} /></div>)}</ConfigProvider>
+                            <ConfigProvider><ThemeProvider>{getLayout(<div><TopBanner/><Component {...pageProps} /></div>)}</ThemeProvider></ConfigProvider>
                             <HeapAnalytics />
                         </NameServiceStore>
                     </UserSessionStore>
