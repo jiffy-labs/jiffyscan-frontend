@@ -35,6 +35,7 @@ import { MdContentCopy } from 'react-icons/md';
 import { BsClockHistory } from 'react-icons/bs';
 import { HiHashtag } from 'react-icons/hi';
 import Tracer from './Tracer';
+import { useTheme } from '@/context/ThemeContext';
 interface TabPanelProps {
     children?: React.ReactNode;
     index: number;
@@ -199,6 +200,7 @@ function BundlerNew(props: any) {
     const [userOps, setUserOps] = useState<UserOpData[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [copyTooltip, setCopyTooltip] = useState('Copy'); // Tooltip state for copy action
+    const { isDarkMode } = useTheme();// Access theme context
 
     const handleCopy = () => {
         navigator.clipboard.writeText(hash); // Copy the hash to clipboard
@@ -350,9 +352,11 @@ function BundlerNew(props: any) {
                         </Breadcrumbs>
                         {!isLoading ? <Status type={true} /> : // @ts-ignore
                                                             <SkeletonTheme
-                                                                color="#1D1E1F" // Dark mode background color
-                                                                highlightColor="#444" // Dark mode highlight color
-                                                            ><Skeleton width={92} height={24} /></SkeletonTheme>}
+                                                            lightColor="#F0F1F5" // Light mode background color
+                                                            darkColor="#1D1E1F" // Dark mode background color
+                                                            lightHighlightColor="#D7DAE0" // Light mode highlight color
+                                                            darkHighlightColor="#444" // Dark mode highlight color
+                                                        ><Skeleton width={92} height={24} /></SkeletonTheme>}
                     </div>
                     {/* <h1 className="text-3xl font-bold">Bundle</h1> */}
                 </div>
@@ -475,12 +479,11 @@ function BundlerNew(props: any) {
                                                                 </>
                                                             ) : (
                                                                 // @ts-ignore
-                                                                <SkeletonTheme
-                                                                    color="#1D1E1F" // Dark mode background color
-                                                                    highlightColor="#444" // Dark mode highlight color
-                                                                >
-                                                                    <Skeleton width={200} height={24} />
-                                                                </SkeletonTheme>
+                                                                <div
+    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+    style={{ width: 200 }} // Optional: set specific width if needed
+/>
+
                                                             )}
                                                         </div>
                                                     </div>
@@ -514,12 +517,11 @@ function BundlerNew(props: any) {
                                                                 </p>
                                                             ) : (
                                                                 // @ts-ignore
-                                                                <SkeletonTheme
-                                                                    color="#1D1E1F" // Dark mode background color
-                                                                    highlightColor="#444" // Dark mode highlight color
-                                                                >
-                                                                    <Skeleton width={150} height={24} />
-                                                                </SkeletonTheme>
+                                                                <div
+    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+    style={{ width: 200 }} // Optional: set specific width if needed
+/>
+
                                                             )}
                                                         </div>
                                                     </div>
@@ -552,12 +554,11 @@ function BundlerNew(props: any) {
                                                                 </>
                                                             ) : (
                                                                 // @ts-ignore
-                                                                <SkeletonTheme
-                                                                    color="#1D1E1F" // Dark mode background color
-                                                                    highlightColor="#444" // Dark mode highlight color
-                                                                >
-                                                                    <Skeleton width={200} height={24} />
-                                                                </SkeletonTheme>
+                                                                <div
+    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+    style={{ width: 200 }} // Optional: set specific width if needed
+/>
+
                                                             )}
                                                         </div>
                                                     </div>
@@ -589,12 +590,11 @@ function BundlerNew(props: any) {
                                                                 </>
                                                             ) : (
                                                                 // @ts-ignore
-                                                                <SkeletonTheme
-                                                                    color="#1D1E1F" // Dark mode background color
-                                                                    highlightColor="#444" // Dark mode highlight color
-                                                                >
-                                                                    <Skeleton width={200} height={24} />
-                                                                </SkeletonTheme>
+                                                                <div
+    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+    style={{ width: 200 }} // Optional: set specific width if needed
+/>
+
                                                             )}
                                                         </div>
                                                     </div>
@@ -617,12 +617,11 @@ function BundlerNew(props: any) {
                                                                 </span>
                                                             ) : (
                                                                 // @ts-ignore
-                                                                <SkeletonTheme
-                                                                    color="#1D1E1F" // Dark mode background color
-                                                                    highlightColor="#444" // Dark mode highlight color
-                                                                >
-                                                                    <Skeleton width={200} height={24} />
-                                                                </SkeletonTheme>
+                                                                <div
+    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+    style={{ width: 200 }} // Optional: set specific width if needed
+/>
+
                                                             )}
                                                         </div>
                                                     </div>
@@ -645,12 +644,11 @@ function BundlerNew(props: any) {
                                                                 </span>
                                                             ) : (
                                                                 // @ts-ignore
-                                                                <SkeletonTheme
-                                                                    color="#1D1E1F" // Dark mode background color
-                                                                    highlightColor="#444" // Dark mode highlight color
-                                                                >
-                                                                    <Skeleton width={200} height={24} />
-                                                                </SkeletonTheme>
+                                                                <div
+    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+    style={{ width: 200 }} // Optional: set specific width if needed
+/>
+
                                                             )}
                                                         </div>
                                                     </div>
@@ -678,12 +676,11 @@ function BundlerNew(props: any) {
                                                                 </p>
                                                             ) : (
                                                                 // @ts-ignore
-                                                                <SkeletonTheme
-                                                                    color="#1D1E1F" // Dark mode background color
-                                                                    highlightColor="#444" // Dark mode highlight color
-                                                                >
-                                                                    <Skeleton width={100} height={24} />
-                                                                </SkeletonTheme>
+                                                                <div
+    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+    style={{ width: 200 }} // Optional: set specific width if needed
+/>
+
                                                             )}
                                                         </div>
                                                     </div>
@@ -710,12 +707,11 @@ function BundlerNew(props: any) {
                                                                 </p>
                                                             ) : (
                                                                 // @ts-ignore
-                                                                <SkeletonTheme
-                                                                    color="#1D1E1F" // Dark mode background color
-                                                                    highlightColor="#444" // Dark mode highlight color
-                                                                >
-                                                                    <Skeleton width={100} height={24} />
-                                                                </SkeletonTheme>
+                                                                <div
+    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+    style={{ width: 200 }} // Optional: set specific width if needed
+/>
+
                                                             )}
                                                         </div>
                                                     </div>
@@ -757,12 +753,11 @@ function BundlerNew(props: any) {
                                                                 </p>
                                                             ) : (
                                                                 // @ts-ignore
-                                                                <SkeletonTheme
-                                                                    color="#1D1E1F" // Dark mode background color
-                                                                    highlightColor="#444" // Dark mode highlight color
-                                                                >
-                                                                    <Skeleton width={100} height={24} />
-                                                                </SkeletonTheme>
+                                                                <div
+    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+    style={{ width: 200 }} // Optional: set specific width if needed
+/>
+
                                                             )}
                                                         </div>
                                                     </div>
@@ -798,12 +793,11 @@ function BundlerNew(props: any) {
                                                                 </>
                                                             ) : (
                                                                 // @ts-ignore
-                                                                <SkeletonTheme
-                                                                    color="#1D1E1F" // Dark mode background color
-                                                                    highlightColor="#444" // Dark mode highlight color
-                                                                >
-                                                                    <Skeleton width={100} height={24} />
-                                                                </SkeletonTheme>
+                                                                <div
+    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+    style={{ width: 200 }} // Optional: set specific width if needed
+/>
+
                                                             )}
                                                         </div>
                                                     </div>
@@ -828,12 +822,11 @@ function BundlerNew(props: any) {
                                                                 </>
                                                             ) : (
                                                                 // @ts-ignore
-                                                                <SkeletonTheme
-                                                                    color="#1D1E1F" // Dark mode background color
-                                                                    highlightColor="#444" // Dark mode highlight color
-                                                                >
-                                                                    <Skeleton width={100} height={24} />
-                                                                </SkeletonTheme>
+                                                                <div
+    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+    style={{ width: 200 }} // Optional: set specific width if needed
+/>
+
                                                             )}
                                                         </div>
                                                     </div>
@@ -858,12 +851,11 @@ function BundlerNew(props: any) {
                                                                 </>
                                                             ) : (
                                                                 // @ts-ignore
-                                                                <SkeletonTheme
-                                                                    color="#1D1E1F" // Dark mode background color
-                                                                    highlightColor="#444" // Dark mode highlight color
-                                                                >
-                                                                    <Skeleton width={100} height={24} />
-                                                                </SkeletonTheme>
+                                                                <div
+    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+    style={{ width: 200 }} // Optional: set specific width if needed
+/>
+
                                                             )}
                                                         </div>
                                                     </div>
@@ -884,12 +876,11 @@ function BundlerNew(props: any) {
                                                         </div>
                                                         {isLoading ? (
                                                             // @ts-ignore
-                                                            <SkeletonTheme
-                                                                color="#1D1E1F" // Dark mode background color
-                                                                highlightColor="#444" // Dark mode highlight color
-                                                            >
-                                                                <Skeleton width={100} />
-                                                            </SkeletonTheme>
+                                                            <div
+    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+    style={{ width: 200 }} // Optional: set specific width if needed
+/>
+
                                                         ) : (
                                                             <p className="text-[#1F1F1F] dark:text-[#ADB0BC] font-medium text-nowrap">
                                                                 {transactionDetails?.gasDetails.baseFee} Gwei
@@ -903,12 +894,11 @@ function BundlerNew(props: any) {
                                                         </div>
                                                         {isLoading ? (
                                                             // @ts-ignore
-                                                            <SkeletonTheme
-                                                                color="#1D1E1F" // Dark mode background color
-                                                                highlightColor="#444" // Dark mode highlight color
-                                                            >
-                                                                <Skeleton width={100} />
-                                                            </SkeletonTheme>
+                                                            <div
+    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+    style={{ width: 200 }} // Optional: set specific width if needed
+/>
+
                                                         ) : (
                                                             <p className="text-[#1F1F1F] dark:text-[#ADB0BC] font-medium text-nowrap">
                                                                 {transactionDetails?.gasDetails.maxFeePerGas} Gwei
@@ -922,12 +912,11 @@ function BundlerNew(props: any) {
                                                         </div>
                                                         {isLoading ? (
                                                             // @ts-ignore
-                                                            <SkeletonTheme
-                                                                color="#1D1E1F" // Dark mode background color
-                                                                highlightColor="#444" // Dark mode highlight color
-                                                            >
-                                                                <Skeleton width={100} />
-                                                            </SkeletonTheme>
+                                                            <div
+    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+    style={{ width: 200 }} // Optional: set specific width if needed
+/>
+
                                                         ) : (
                                                             <p className="text-[#1F1F1F] dark:text-[#ADB0BC] font-medium text-nowrap">
                                                                 {transactionDetails?.gasDetails.maxPriorityFeePerGas} Gwei

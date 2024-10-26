@@ -52,9 +52,13 @@ export default function TransactionDetails({ item, network }: any) {
         <div>
             <section className="mt-[48px]">
                 <div className="container px-0">
-                    <div className="bg-white overflow-auto mb-[20px] ">
+                    <div className="bg-white  mb-[20px] ">
                         {tableLoading1 ? (
-                            skeletonCards.map((_, index: number) => <Skeleton height={55} key={index} />)
+                            skeletonCards.map((_, index: number) => <div
+                            key={index}
+                            className="h-[55px] bg-gray-200 dark:bg-gray-900 rounded animate-pulse"
+                         />
+                        )
                         ) : (
                             <div>
                                 <section>
