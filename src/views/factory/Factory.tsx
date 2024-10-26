@@ -178,7 +178,7 @@ function Factory(props: any) {
             
             {/* <HeaderSection item={factoryInfo} network={network} addressMapping={addressMapping}/> */}
             {/* <TransactionDetails item={factoryInfo} network={network} /> */}
-            <div className="container px-0">
+            <div className="container px-10">
                 <Table
                     rows={rows}
                     columns={columns}

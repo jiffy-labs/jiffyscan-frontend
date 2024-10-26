@@ -5,7 +5,7 @@ import Caption, { CaptionProps } from '../Caption';
 import ScrollContainer from 'react-indiana-drag-scroll';
 import useWidth from '@/hooks/useWidth';
 import { getCurrencySymbol } from '../utils';
-import Skeleton from 'react-loading-skeleton-2';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton-2';
 import Status from '../status/Status';
 import { POWERED_BY_LOGO_MAP } from '../constants';
 // import Skeleton from '@/components/Skeleton';
@@ -132,7 +132,13 @@ function Table(props: tableDataT) {
                                     <>
                                         <tr>
                                             <td colSpan={5}>
-                                                <Skeleton height={40} key={index} />
+                                                {/* @ts-ignore */}
+                                            <SkeletonTheme
+                                                color="#1D1E1F" // Dark mode background color
+                                                highlightColor="#444" // Dark mode highlight color
+                                            >
+                                                <Skeleton height={40} className="dark:bg-black" />
+                                            </SkeletonTheme>
                                             </td>
                                         </tr>
                                     </>
