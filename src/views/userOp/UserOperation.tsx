@@ -26,7 +26,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
 import { getExplorerLogo, getFee, getTimePassed, shortenString } from '@/components/common/utils';
 import { NETWORKS_WHITELISTED_FOR_NO_LOGIN, NETWORK_ICON_MAP } from '@/components/common/constants';
-import Skeleton from 'react-loading-skeleton-2';
+import Skeleton, {SkeletonTheme} from 'react-loading-skeleton-2';
 import HeaderSection from './HeaderSection';
 import TransactionDetails from './TransactionDetails';
 import DeveloperDetails from './DeveloperDetails';
@@ -333,6 +333,13 @@ function RecentUserOps(props: any) {
         return `${address.slice(0, 6)}...${address.slice(-6)}`;
     };
     console.log('targets', userOpsData);
+    const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);  // Now rendering only happens on the client
+  }, []);
+
+  if (!isMounted) return null; // Skip rendering on server
     return (
         <div className="dark:bg-[#191A23]">
             <Navbar searchbar />
@@ -464,7 +471,7 @@ function RecentUserOps(props: any) {
                                                     UserOp Logs
                                                 </button>
                                             </li>
-                                            {(network === 'base' || network === 'odyssey'||network==='open-campus-test') && (
+                                            {(network === 'base' || network === 'odyssey' || network === 'open-campus-test') && (
                                                 <li className="flex-none w-1/2 text-center md:flex-auto">
                                                     <button
                                                         onClick={() => handleToggle(3)} // Show Tracer
@@ -523,7 +530,12 @@ function RecentUserOps(props: any) {
                                                                                 </Link>
                                                                             </>
                                                                         ) : (
-                                                                            <Skeleton width={200} height={24} />
+                                                                            <SkeletonTheme
+                                                                                color="#1D1E1F" // Dark mode background color
+                                                                                highlightColor="#444" // Dark mode highlight color
+                                                                            >
+                                                                                <Skeleton width={200} height={24} />
+                                                                            </SkeletonTheme>
                                                                         )}
                                                                     </div>
                                                                 </div>
@@ -571,7 +583,12 @@ function RecentUserOps(props: any) {
                                                                                 </Link>
                                                                             </>
                                                                         ) : (
-                                                                            <Skeleton width={200} height={24} />
+                                                                            <SkeletonTheme
+                                                                                color="#1D1E1F" // Dark mode background color
+                                                                                highlightColor="#444" // Dark mode highlight color
+                                                                            >
+                                                                                <Skeleton width={200} height={24} />
+                                                                            </SkeletonTheme>
                                                                         )}
                                                                     </div>
                                                                 </div>
@@ -603,7 +620,12 @@ function RecentUserOps(props: any) {
                                                                                     : ' '}
                                                                             </p>
                                                                         ) : (
-                                                                            <Skeleton width={150} height={24} />
+                                                                            <SkeletonTheme
+                                                                                color="#1D1E1F" // Dark mode background color
+                                                                                highlightColor="#444" // Dark mode highlight color
+                                                                            >
+                                                                                <Skeleton width={200} height={24} />
+                                                                            </SkeletonTheme>
                                                                         )}
                                                                     </div>
                                                                 </div>
@@ -641,7 +663,12 @@ function RecentUserOps(props: any) {
                                                                                 </Link>
                                                                             </>
                                                                         ) : (
-                                                                            <Skeleton width={200} height={24} />
+                                                                            <SkeletonTheme
+                                                                                color="#1D1E1F" // Dark mode background color
+                                                                                highlightColor="#444" // Dark mode highlight color
+                                                                            >
+                                                                                <Skeleton width={200} height={24} />
+                                                                            </SkeletonTheme>
                                                                         )}
                                                                     </div>
                                                                 </div>
@@ -659,7 +686,7 @@ function RecentUserOps(props: any) {
                                                                     <div className="flex flex-col gap-[10px]">
                                                                         {!isLoading ? (
                                                                             // @ts-ignore
-                                                                            userOpsData?.[showUserOpId]?.target &&userOpsData[showUserOpId]?.target?.length > 0 ? (
+                                                                            userOpsData?.[showUserOpId]?.target && userOpsData[showUserOpId]?.target?.length > 0 ? (
                                                                                 <>
                                                                                     <div className="flex items-center gap-[8px] font-medium">
                                                                                         <img
@@ -669,7 +696,7 @@ function RecentUserOps(props: any) {
                                                                                         />
                                                                                         <span className="text-[#195BDF]">
                                                                                             {/* @ts-ignore */}
-                                                                                            {formatAddress( userOpsData[showUserOpId]?.target[0],
+                                                                                            {formatAddress(userOpsData[showUserOpId]?.target[0],
                                                                                             )}
                                                                                         </span>
                                                                                         {/* @ts-ignore */}
@@ -677,7 +704,7 @@ function RecentUserOps(props: any) {
                                                                                             }
                                                                                         />
                                                                                         {/* @ts-ignore */}
-                                                                                        <Link  href={`https://etherscan.io/address/${userOpsData[showUserOpId]?.target[0]}`}
+                                                                                        <Link href={`https://etherscan.io/address/${userOpsData[showUserOpId]?.target[0]}`}
                                                                                             target="_blank"
                                                                                         >
                                                                                             <img
@@ -745,7 +772,12 @@ function RecentUserOps(props: any) {
                                                                                 <p className="text-[#195BDF]">None</p>
                                                                             )
                                                                         ) : (
-                                                                            <Skeleton width={200} height={24} />
+                                                                            <SkeletonTheme
+                                                                                color="#1D1E1F" // Dark mode background color
+                                                                                highlightColor="#444" // Dark mode highlight color
+                                                                            >
+                                                                                <Skeleton width={200} height={24} />
+                                                                            </SkeletonTheme>
                                                                         )}
                                                                     </div>
                                                                 </div>
@@ -776,7 +808,12 @@ function RecentUserOps(props: any) {
                                                                                 ETH
                                                                             </p>
                                                                         ) : (
-                                                                            <Skeleton width={100} height={24} />
+                                                                            <SkeletonTheme
+                                                                                color="#1D1E1F" // Dark mode background color
+                                                                                highlightColor="#444" // Dark mode highlight color
+                                                                            >
+                                                                                <Skeleton width={200} height={24} />
+                                                                            </SkeletonTheme>
                                                                         )}
                                                                     </div>
                                                                 </div>
@@ -799,7 +836,12 @@ function RecentUserOps(props: any) {
                                                                                 {userOpsData?.[showUserOpId]?.blockNumber}
                                                                             </span>
                                                                         ) : (
-                                                                            <Skeleton width={200} height={24} />
+                                                                            <SkeletonTheme
+                                                                                color="#1D1E1F" // Dark mode background color
+                                                                                highlightColor="#444" // Dark mode highlight color
+                                                                            >
+                                                                                <Skeleton width={200} height={24} />
+                                                                            </SkeletonTheme>
                                                                         )}
                                                                     </div>
                                                                 </div>
@@ -828,7 +870,12 @@ function RecentUserOps(props: any) {
                                                                                 {userOpsData?.[showUserOpId]?.actualGasUsed || 'N/A'}
                                                                             </p>
                                                                         ) : (
-                                                                            <Skeleton width={100} height={24} />
+                                                                           <SkeletonTheme
+                                                                                color="#1D1E1F" // Dark mode background color
+                                                                                highlightColor="#444" // Dark mode highlight color
+                                                                            >
+                                                                                <Skeleton width={200} height={24} />
+                                                                            </SkeletonTheme>
                                                                         )}
                                                                     </div>
                                                                 </div>
@@ -877,7 +924,12 @@ function RecentUserOps(props: any) {
                                                                                 </Link>
                                                                             </>
                                                                         ) : (
+                                                                            <SkeletonTheme
+                                                                            color="#1D1E1F" // Dark mode background color
+                                                                            highlightColor="#444" // Dark mode highlight color
+                                                                        >
                                                                             <Skeleton width={200} height={24} />
+                                                                        </SkeletonTheme>
                                                                         )}
                                                                     </div>
                                                                 </div>
@@ -915,7 +967,12 @@ function RecentUserOps(props: any) {
                                                                                 </Link>
                                                                             </>
                                                                         ) : (
-                                                                            <Skeleton width={200} height={24} />
+                                                                            <SkeletonTheme
+                                                                                color="#1D1E1F" // Dark mode background color
+                                                                                highlightColor="#444" // Dark mode highlight color
+                                                                            >
+                                                                                <Skeleton width={200} height={24} />
+                                                                            </SkeletonTheme>
                                                                         )}
                                                                     </div>
                                                                 </div>
@@ -952,7 +1009,12 @@ function RecentUserOps(props: any) {
                                                                                 </Link>
                                                                             </>
                                                                         ) : (
-                                                                            <Skeleton width={200} height={24} />
+                                                                            <SkeletonTheme
+                                                                                color="#1D1E1F" // Dark mode background color
+                                                                                highlightColor="#444" // Dark mode highlight color
+                                                                            >
+                                                                                <Skeleton width={200} height={24} />
+                                                                            </SkeletonTheme>
                                                                         )}
                                                                     </div>
                                                                 </div>
@@ -975,7 +1037,12 @@ function RecentUserOps(props: any) {
                                                                                 {userOpsData?.[showUserOpId]?.value || '0 WEI'}
                                                                             </span>
                                                                         ) : (
+                                                                            <SkeletonTheme
+                                                                            color="#1D1E1F" // Dark mode background color
+                                                                            highlightColor="#444" // Dark mode highlight color
+                                                                        >
                                                                             <Skeleton width={200} height={24} />
+                                                                        </SkeletonTheme>
                                                                         )}
                                                                     </div>
                                                                 </div>
@@ -1001,7 +1068,7 @@ function RecentUserOps(props: any) {
                                             {/* @ts-ignore  */}
                                             <UserOpLogs logs={logs} network={network} />
                                         </CustomTabPanel>
-                                        {(network === 'base' || network === 'odyssey'||network === 'open-campus-test') && (
+                                        {(network === 'base' || network === 'odyssey' || network === 'open-campus-test') && (
                                             <>
                                                 {/* Show the Tracer component only on medium (md) screens and larger */}
                                                 <div className={`${activeTab === 'tracer' ? 'block' : 'hidden'} hidden md:block`}>

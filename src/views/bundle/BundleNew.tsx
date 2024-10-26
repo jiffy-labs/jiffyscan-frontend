@@ -12,7 +12,7 @@ import Status from '@/components/common/status/Status';
 import { getFee, getTimePassed, shortenString } from '@/components/common/utils';
 import Token from '@/components/common/Token';
 import { NETWORKS_WHITELISTED_FOR_NO_LOGIN, NETWORK_ICON_MAP } from '@/components/common/constants';
-import Skeleton from 'react-loading-skeleton-2';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton-2';
 import CopyButton from '@/components/common/copy_button/CopyButton';
 import Table, { tableDataT } from '@/components/common/table/Table';
 import Pagination from '@/components/common/table/Pagination';
@@ -308,6 +308,13 @@ function BundlerNew(props: any) {
     const handleToggle = (index: React.SetStateAction<number>) => {
         setValue(index); // Update the active tab index
     };
+    const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);  // Now rendering only happens on the client
+  }, []);
+
+  if (!isMounted) return null; // Skip rendering on server
     return (
         <div className="dark:bg-[#191A23]">
             <Navbar searchbar />
@@ -407,7 +414,7 @@ function BundlerNew(props: any) {
                                         UserOps
                                     </button>
                                 </li>
-                                {(network === 'base'||network === 'odyssey'||network==='open-campus-test') && (
+                                {(network === 'base' || network === 'odyssey' || network === 'open-campus-test') && (
                                     <li className="flex-none w-1/2 text-center md:flex-auto">
                                         <button
                                             onClick={() => handleToggle(3)} // Show Tracer
@@ -463,7 +470,12 @@ function BundlerNew(props: any) {
                                                                     </Link>
                                                                 </>
                                                             ) : (
-                                                                <Skeleton width={200} height={24} />
+                                                                <SkeletonTheme
+                                                                    color="#1D1E1F" // Dark mode background color
+                                                                    highlightColor="#444" // Dark mode highlight color
+                                                                >
+                                                                    <Skeleton width={200} height={24} />
+                                                                </SkeletonTheme>
                                                             )}
                                                         </div>
                                                     </div>
@@ -496,7 +508,12 @@ function BundlerNew(props: any) {
                                                                     </span>
                                                                 </p>
                                                             ) : (
-                                                                <Skeleton width={150} height={24} />
+                                                                <SkeletonTheme
+                                                                    color="#1D1E1F" // Dark mode background color
+                                                                    highlightColor="#444" // Dark mode highlight color
+                                                                >
+                                                                    <Skeleton width={150} height={24} />
+                                                                </SkeletonTheme>
                                                             )}
                                                         </div>
                                                     </div>
@@ -528,7 +545,12 @@ function BundlerNew(props: any) {
                                                                     </Link>
                                                                 </>
                                                             ) : (
-                                                                <Skeleton width={200} height={24} />
+                                                                <SkeletonTheme
+                                                                    color="#1D1E1F" // Dark mode background color
+                                                                    highlightColor="#444" // Dark mode highlight color
+                                                                >
+                                                                    <Skeleton width={200} height={24} />
+                                                                </SkeletonTheme>
                                                             )}
                                                         </div>
                                                     </div>
@@ -559,7 +581,12 @@ function BundlerNew(props: any) {
                                                                     </Link>
                                                                 </>
                                                             ) : (
-                                                                <Skeleton width={200} height={24} />
+                                                                <SkeletonTheme
+                                                                    color="#1D1E1F" // Dark mode background color
+                                                                    highlightColor="#444" // Dark mode highlight color
+                                                                >
+                                                                    <Skeleton width={200} height={24} />
+                                                                </SkeletonTheme>
                                                             )}
                                                         </div>
                                                     </div>
@@ -581,7 +608,12 @@ function BundlerNew(props: any) {
                                                                     {transactionDetails?.blockNumber}
                                                                 </span>
                                                             ) : (
-                                                                <Skeleton width={200} height={24} />
+                                                                <SkeletonTheme
+                                                                    color="#1D1E1F" // Dark mode background color
+                                                                    highlightColor="#444" // Dark mode highlight color
+                                                                >
+                                                                    <Skeleton width={200} height={24} />
+                                                                </SkeletonTheme>
                                                             )}
                                                         </div>
                                                     </div>
@@ -603,7 +635,12 @@ function BundlerNew(props: any) {
                                                                     {transactionDetails?.logsDetails.numberOfUserOps}
                                                                 </span>
                                                             ) : (
-                                                                <Skeleton width={200} height={24} />
+                                                                <SkeletonTheme
+                                                                    color="#1D1E1F" // Dark mode background color
+                                                                    highlightColor="#444" // Dark mode highlight color
+                                                                >
+                                                                    <Skeleton width={200} height={24} />
+                                                                </SkeletonTheme>
                                                             )}
                                                         </div>
                                                     </div>
@@ -630,7 +667,12 @@ function BundlerNew(props: any) {
                                                                     {transactionDetails?.trxFee} ETH
                                                                 </p>
                                                             ) : (
-                                                                <Skeleton width={100} height={24} />
+                                                                <SkeletonTheme
+                                                                    color="#1D1E1F" // Dark mode background color
+                                                                    highlightColor="#444" // Dark mode highlight color
+                                                                >
+                                                                    <Skeleton width={100} height={24} />
+                                                                </SkeletonTheme>
                                                             )}
                                                         </div>
                                                     </div>
@@ -656,7 +698,12 @@ function BundlerNew(props: any) {
                                                                     {transactionDetails?.revenue} ETH
                                                                 </p>
                                                             ) : (
-                                                                <Skeleton width={100} height={24} />
+                                                                <SkeletonTheme
+                                                                    color="#1D1E1F" // Dark mode background color
+                                                                    highlightColor="#444" // Dark mode highlight color
+                                                                >
+                                                                    <Skeleton width={100} height={24} />
+                                                                </SkeletonTheme>
                                                             )}
                                                         </div>
                                                     </div>
@@ -697,7 +744,12 @@ function BundlerNew(props: any) {
                                                                     </p>
                                                                 </p>
                                                             ) : (
-                                                                <Skeleton width={100} height={24} />
+                                                                <SkeletonTheme
+                                                                    color="#1D1E1F" // Dark mode background color
+                                                                    highlightColor="#444" // Dark mode highlight color
+                                                                >
+                                                                    <Skeleton width={100} height={24} />
+                                                                </SkeletonTheme>
                                                             )}
                                                         </div>
                                                     </div>
@@ -732,7 +784,12 @@ function BundlerNew(props: any) {
                                                                     )}`}</p>
                                                                 </>
                                                             ) : (
-                                                                <Skeleton width={100} height={24} />
+                                                                <SkeletonTheme
+                                                                    color="#1D1E1F" // Dark mode background color
+                                                                    highlightColor="#444" // Dark mode highlight color
+                                                                >
+                                                                    <Skeleton width={100} height={24} />
+                                                                </SkeletonTheme>
                                                             )}
                                                         </div>
                                                     </div>
@@ -756,7 +813,12 @@ function BundlerNew(props: any) {
                                                                     </p>
                                                                 </>
                                                             ) : (
-                                                                <Skeleton width={100} height={24} />
+                                                                <SkeletonTheme
+                                                                    color="#1D1E1F" // Dark mode background color
+                                                                    highlightColor="#444" // Dark mode highlight color
+                                                                >
+                                                                    <Skeleton width={100} height={24} />
+                                                                </SkeletonTheme>
                                                             )}
                                                         </div>
                                                     </div>
@@ -780,7 +842,12 @@ function BundlerNew(props: any) {
                                                                     </p>
                                                                 </>
                                                             ) : (
-                                                                <Skeleton width={100} height={24} />
+                                                                <SkeletonTheme
+                                                                    color="#1D1E1F" // Dark mode background color
+                                                                    highlightColor="#444" // Dark mode highlight color
+                                                                >
+                                                                    <Skeleton width={100} height={24} />
+                                                                </SkeletonTheme>
                                                             )}
                                                         </div>
                                                     </div>
@@ -800,7 +867,12 @@ function BundlerNew(props: any) {
                                                             <p>Base Fee</p> :
                                                         </div>
                                                         {isLoading ? (
-                                                            <Skeleton width={100} />
+                                                            <SkeletonTheme
+                                                                color="#1D1E1F" // Dark mode background color
+                                                                highlightColor="#444" // Dark mode highlight color
+                                                            >
+                                                                <Skeleton width={100} />
+                                                            </SkeletonTheme>
                                                         ) : (
                                                             <p className="text-[#1F1F1F] dark:text-[#ADB0BC] font-medium text-nowrap">
                                                                 {transactionDetails?.gasDetails.baseFee} Gwei
@@ -813,7 +885,12 @@ function BundlerNew(props: any) {
                                                             <p>Max Fee Per Gas</p> :
                                                         </div>
                                                         {isLoading ? (
-                                                            <Skeleton width={100} />
+                                                            <SkeletonTheme
+                                                                color="#1D1E1F" // Dark mode background color
+                                                                highlightColor="#444" // Dark mode highlight color
+                                                            >
+                                                                <Skeleton width={100} />
+                                                            </SkeletonTheme>
                                                         ) : (
                                                             <p className="text-[#1F1F1F] dark:text-[#ADB0BC] font-medium text-nowrap">
                                                                 {transactionDetails?.gasDetails.maxFeePerGas} Gwei
@@ -826,7 +903,12 @@ function BundlerNew(props: any) {
                                                             <p>Max Priority Fee Per Gas</p> :
                                                         </div>
                                                         {isLoading ? (
-                                                            <Skeleton width={100} />
+                                                            <SkeletonTheme
+                                                                color="#1D1E1F" // Dark mode background color
+                                                                highlightColor="#444" // Dark mode highlight color
+                                                            >
+                                                                <Skeleton width={100} />
+                                                            </SkeletonTheme>
                                                         ) : (
                                                             <p className="text-[#1F1F1F] dark:text-[#ADB0BC] font-medium text-nowrap">
                                                                 {transactionDetails?.gasDetails.maxPriorityFeePerGas} Gwei
@@ -905,13 +987,15 @@ function BundlerNew(props: any) {
                                 <UserOpsTable userOps={userOps} network={network} />
                             </CustomTabPanel>
                             <CustomTabPanel value={value} index={3}>
-                                {(network === 'base' || network === 'odyssey'||network==='open-campus-test') && (
+                                {(network === 'base' || network === 'odyssey' || network === 'open-campus-test') && (
                                     <div className="container px-4 md:block hidden">
                                         <Tracer trxHash={hash} network={network} />
                                     </div>
                                 )}
-                                {(network === 'base' || network === 'odyssey'||network==='open-campus-test') && (
-                                    <div className="md:hidden shadow-300 p-4 dark:text-[#ADB0BC] text-center">Transaction Traces Best Viewed on Larger Screens</div>
+                                {(network === 'base' || network === 'odyssey' || network === 'open-campus-test') && (
+                                    <div className="md:hidden shadow-300 p-4 dark:text-[#ADB0BC] text-center">
+                                        Transaction Traces Best Viewed on Larger Screens
+                                    </div>
                                 )}
                             </CustomTabPanel>
                         </div>

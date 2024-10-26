@@ -19,8 +19,12 @@ const Modal: React.FC<ModalProps> = ({ onClose, children }) => {
         <div
             className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
             onClick={handleOverlayClick} // Attach the click handler
+            style={{
+                height: '200vh', // Ensure it covers the full viewport height
+            }}
+            
         >
-            <div className="relative bg-white py-6  rounded-lg  shadow-lg w-full max-w-4xl">
+            <div className="-mt-[500px] relative bg-white py-6  rounded-lg  shadow-lg w-full max-w-4xl mx-auto">
                 {/* Close button in the top right corner */}
                 <h1 className='font-gsans px-6 text-base'>Networks</h1>
                 <button
