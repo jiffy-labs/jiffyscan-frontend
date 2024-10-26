@@ -132,6 +132,7 @@ function Table(props: tableDataT) {
                                     <>
                                         <tr>
                                             <td colSpan={5}>
+                                                {/* @ts-ignore */}
                                             <SkeletonTheme
                                                 color="#1D1E1F" // Dark mode background color
                                                 highlightColor="#444" // Dark mode highlight color
