@@ -196,12 +196,12 @@ function ChipDropdown(props: ChipProps) {
                             <div className="w-full mb-4 px-6">
                                 <div className="relative ">
                                     
-                                    <ul className="flex items-center px-1.5 py-1.5 list-none rounded-md bg-[#F0F1F5] border border-[#D7DAE0]">
+                                    <ul className="flex items-center px-1.5 py-1.5 dark:border-[#3B3C40] list-none rounded-md bg-[#F0F1F5] dark:bg-[#191A23] border border-[#D7DAE0]">
                                         <li className="z-30 flex-auto text-center">
                                             <button
                                                 onClick={() => setIsTestnet(false)} // Set to Mainnet
-                                                className={`z-30 flex items-center justify-center font-gsans w-full px-0 py-2 text-base border border-[#D7DAE0] mb-0 transition-all duration-200 ease-in-out border-0 rounded-md cursor-pointer text-slate-600 ${
-                                                    !isTestnet ? 'bg-white border-2 border-[#D7DAE0]  rounded-md' : 'bg-inherit'
+                                                className={`z-30 flex items-center dark:text-[#DADEF1] justify-center font-gsans w-full px-0 py-2 text-base border border-[#D7DAE0] mb-0 transition-all duration-200 ease-in-out border-0 rounded-md cursor-pointer text-slate-600 ${
+                                                    !isTestnet ? 'bg-white dark:border-[#3B3C40] dark:bg-[#1F202B] border-2 border-[#D7DAE0]  rounded-md' : 'bg-inherit'
                                                 }`}
                                                 aria-selected={!isTestnet}
                                             >
@@ -211,8 +211,8 @@ function ChipDropdown(props: ChipProps) {
                                         <li className="z-30 flex-auto text-center">
                                             <button
                                                 onClick={() => setIsTestnet(true)} // Set to Testnet
-                                                className={`z-30 flex items-center justify-center font-gsans w-full px-0 py-2 text-base border border-[#D7DAE0] mb-0 transition-all duration-200 ease-in-out border-0 rounded-md cursor-pointer text-slate-600 ${
-                                                    isTestnet ? 'bg-white border-2 border-[#D7DAE0]  rounded-md' : 'bg-inherit'
+                                                className={`z-30 flex items-center dark:text-[#DADEF1] justify-center font-gsans w-full px-0 py-2 text-base border border-[#D7DAE0] mb-0 transition-all duration-200 ease-in-out border-0 rounded-md cursor-pointer text-slate-600 ${
+                                                    isTestnet ? 'bg-white border-2 dark:border-[#3B3C40] dark:bg-[#1F202B] border-[#D7DAE0]  rounded-md' : 'bg-inherit'
                                                 }`}
                                                 aria-selected={isTestnet}
                                             >
@@ -222,7 +222,7 @@ function ChipDropdown(props: ChipProps) {
                                     </ul>
                                 </div>
                             </div>
-                             <div className='border w-full'></div>                       
+                             <div className='border w-full dark:border-[#3B3C40]'></div>                       
                             {/* Display Networks */}
                             <div className="flex flex-wrap justify-center gap-4 py-6">
                                 {filteredNetworkList.map(({ name, key, iconPath }) => (
@@ -234,7 +234,7 @@ function ChipDropdown(props: ChipProps) {
                                             setIcon(iconPath);
                                             closeModal();
                                         }}
-                                        className="w-[156px] h-[36px] flex text-center text-md font-gsans border-[#DAD7E0] text-[#646D8F] items-center p-2 border rounded-lg shadow-sm hover:bg-gray-100"
+                                        className="w-[156px] h-[36px] flex text-center text-md dark:text-[#DADEF1] dark:border-[#3B3C40] font-gsans border-[#DAD7E0] text-[#646D8F] items-center p-2 border rounded-lg shadow-sm hover:bg-gray-100"
                                     >
                                         <img src={iconPath} alt={name} className="h-4 w-4 mr-2" />
                                         {name}
