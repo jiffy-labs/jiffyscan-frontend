@@ -530,6 +530,7 @@ function RecentUserOps(props: any) {
                                                                                 </Link>
                                                                             </>
                                                                         ) : (
+                                                                            // @ts-ignore
                                                                             <SkeletonTheme
                                                                                 color="#1D1E1F" // Dark mode background color
                                                                                 highlightColor="#444" // Dark mode highlight color
@@ -583,6 +584,7 @@ function RecentUserOps(props: any) {
                                                                                 </Link>
                                                                             </>
                                                                         ) : (
+                                                                            // @ts-ignore
                                                                             <SkeletonTheme
                                                                                 color="#1D1E1F" // Dark mode background color
                                                                                 highlightColor="#444" // Dark mode highlight color
@@ -620,6 +622,7 @@ function RecentUserOps(props: any) {
                                                                                     : ' '}
                                                                             </p>
                                                                         ) : (
+                                                                            // @ts-ignore
                                                                             <SkeletonTheme
                                                                                 color="#1D1E1F" // Dark mode background color
                                                                                 highlightColor="#444" // Dark mode highlight color
@@ -663,6 +666,7 @@ function RecentUserOps(props: any) {
                                                                                 </Link>
                                                                             </>
                                                                         ) : (
+                                                                            // @ts-ignore
                                                                             <SkeletonTheme
                                                                                 color="#1D1E1F" // Dark mode background color
                                                                                 highlightColor="#444" // Dark mode highlight color
@@ -772,6 +776,7 @@ function RecentUserOps(props: any) {
                                                                                 <p className="text-[#195BDF]">None</p>
                                                                             )
                                                                         ) : (
+                                                                            // @ts-ignore
                                                                             <SkeletonTheme
                                                                                 color="#1D1E1F" // Dark mode background color
                                                                                 highlightColor="#444" // Dark mode highlight color
@@ -808,6 +813,7 @@ function RecentUserOps(props: any) {
                                                                                 ETH
                                                                             </p>
                                                                         ) : (
+                                                                            // @ts-ignore
                                                                             <SkeletonTheme
                                                                                 color="#1D1E1F" // Dark mode background color
                                                                                 highlightColor="#444" // Dark mode highlight color
@@ -836,6 +842,7 @@ function RecentUserOps(props: any) {
                                                                                 {userOpsData?.[showUserOpId]?.blockNumber}
                                                                             </span>
                                                                         ) : (
+                                                                            // @ts-ignore
                                                                             <SkeletonTheme
                                                                                 color="#1D1E1F" // Dark mode background color
                                                                                 highlightColor="#444" // Dark mode highlight color
@@ -870,6 +877,7 @@ function RecentUserOps(props: any) {
                                                                                 {userOpsData?.[showUserOpId]?.actualGasUsed || 'N/A'}
                                                                             </p>
                                                                         ) : (
+                                                                            // @ts-ignore
                                                                            <SkeletonTheme
                                                                                 color="#1D1E1F" // Dark mode background color
                                                                                 highlightColor="#444" // Dark mode highlight color
@@ -924,6 +932,7 @@ function RecentUserOps(props: any) {
                                                                                 </Link>
                                                                             </>
                                                                         ) : (
+                                                                            // @ts-ignore
                                                                             <SkeletonTheme
                                                                             color="#1D1E1F" // Dark mode background color
                                                                             highlightColor="#444" // Dark mode highlight color
@@ -967,6 +976,7 @@ function RecentUserOps(props: any) {
                                                                                 </Link>
                                                                             </>
                                                                         ) : (
+                                                                            // @ts-ignore
                                                                             <SkeletonTheme
                                                                                 color="#1D1E1F" // Dark mode background color
                                                                                 highlightColor="#444" // Dark mode highlight color
@@ -1009,6 +1019,7 @@ function RecentUserOps(props: any) {
                                                                                 </Link>
                                                                             </>
                                                                         ) : (
+                                                                            // @ts-ignore
                                                                             <SkeletonTheme
                                                                                 color="#1D1E1F" // Dark mode background color
                                                                                 highlightColor="#444" // Dark mode highlight color
@@ -1037,6 +1048,7 @@ function RecentUserOps(props: any) {
                                                                                 {userOpsData?.[showUserOpId]?.value || '0 WEI'}
                                                                             </span>
                                                                         ) : (
+                                                                            // @ts-ignore
                                                                             <SkeletonTheme
                                                                             color="#1D1E1F" // Dark mode background color
                                                                             highlightColor="#444" // Dark mode highlight color

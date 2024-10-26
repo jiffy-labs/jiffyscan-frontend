@@ -348,7 +348,11 @@ function BundlerNew(props: any) {
                                 </Tooltip>
                             </Link>
                         </Breadcrumbs>
-                        {!isLoading ? <Status type={true} /> : <Skeleton width={92} height={24} />}
+                        {!isLoading ? <Status type={true} /> : // @ts-ignore
+                                                            <SkeletonTheme
+                                                                color="#1D1E1F" // Dark mode background color
+                                                                highlightColor="#444" // Dark mode highlight color
+                                                            ><Skeleton width={92} height={24} /></SkeletonTheme>}
                     </div>
                     {/* <h1 className="text-3xl font-bold">Bundle</h1> */}
                 </div>
@@ -470,6 +474,7 @@ function BundlerNew(props: any) {
                                                                     </Link>
                                                                 </>
                                                             ) : (
+                                                                // @ts-ignore
                                                                 <SkeletonTheme
                                                                     color="#1D1E1F" // Dark mode background color
                                                                     highlightColor="#444" // Dark mode highlight color
@@ -508,6 +513,7 @@ function BundlerNew(props: any) {
                                                                     </span>
                                                                 </p>
                                                             ) : (
+                                                                // @ts-ignore
                                                                 <SkeletonTheme
                                                                     color="#1D1E1F" // Dark mode background color
                                                                     highlightColor="#444" // Dark mode highlight color
@@ -545,6 +551,7 @@ function BundlerNew(props: any) {
                                                                     </Link>
                                                                 </>
                                                             ) : (
+                                                                // @ts-ignore
                                                                 <SkeletonTheme
                                                                     color="#1D1E1F" // Dark mode background color
                                                                     highlightColor="#444" // Dark mode highlight color
@@ -581,6 +588,7 @@ function BundlerNew(props: any) {
                                                                     </Link>
                                                                 </>
                                                             ) : (
+                                                                // @ts-ignore
                                                                 <SkeletonTheme
                                                                     color="#1D1E1F" // Dark mode background color
                                                                     highlightColor="#444" // Dark mode highlight color
@@ -608,6 +616,7 @@ function BundlerNew(props: any) {
                                                                     {transactionDetails?.blockNumber}
                                                                 </span>
                                                             ) : (
+                                                                // @ts-ignore
                                                                 <SkeletonTheme
                                                                     color="#1D1E1F" // Dark mode background color
                                                                     highlightColor="#444" // Dark mode highlight color
@@ -635,6 +644,7 @@ function BundlerNew(props: any) {
                                                                     {transactionDetails?.logsDetails.numberOfUserOps}
                                                                 </span>
                                                             ) : (
+                                                                // @ts-ignore
                                                                 <SkeletonTheme
                                                                     color="#1D1E1F" // Dark mode background color
                                                                     highlightColor="#444" // Dark mode highlight color
@@ -667,6 +677,7 @@ function BundlerNew(props: any) {
                                                                     {transactionDetails?.trxFee} ETH
                                                                 </p>
                                                             ) : (
+                                                                // @ts-ignore
                                                                 <SkeletonTheme
                                                                     color="#1D1E1F" // Dark mode background color
                                                                     highlightColor="#444" // Dark mode highlight color
@@ -698,6 +709,7 @@ function BundlerNew(props: any) {
                                                                     {transactionDetails?.revenue} ETH
                                                                 </p>
                                                             ) : (
+                                                                // @ts-ignore
                                                                 <SkeletonTheme
                                                                     color="#1D1E1F" // Dark mode background color
                                                                     highlightColor="#444" // Dark mode highlight color
@@ -744,6 +756,7 @@ function BundlerNew(props: any) {
                                                                     </p>
                                                                 </p>
                                                             ) : (
+                                                                // @ts-ignore
                                                                 <SkeletonTheme
                                                                     color="#1D1E1F" // Dark mode background color
                                                                     highlightColor="#444" // Dark mode highlight color
@@ -784,6 +797,7 @@ function BundlerNew(props: any) {
                                                                     )}`}</p>
                                                                 </>
                                                             ) : (
+                                                                // @ts-ignore
                                                                 <SkeletonTheme
                                                                     color="#1D1E1F" // Dark mode background color
                                                                     highlightColor="#444" // Dark mode highlight color
@@ -813,6 +827,7 @@ function BundlerNew(props: any) {
                                                                     </p>
                                                                 </>
                                                             ) : (
+                                                                // @ts-ignore
                                                                 <SkeletonTheme
                                                                     color="#1D1E1F" // Dark mode background color
                                                                     highlightColor="#444" // Dark mode highlight color
@@ -842,6 +857,7 @@ function BundlerNew(props: any) {
                                                                     </p>
                                                                 </>
                                                             ) : (
+                                                                // @ts-ignore
                                                                 <SkeletonTheme
                                                                     color="#1D1E1F" // Dark mode background color
                                                                     highlightColor="#444" // Dark mode highlight color
@@ -867,6 +883,7 @@ function BundlerNew(props: any) {
                                                             <p>Base Fee</p> :
                                                         </div>
                                                         {isLoading ? (
+                                                            // @ts-ignore
                                                             <SkeletonTheme
                                                                 color="#1D1E1F" // Dark mode background color
                                                                 highlightColor="#444" // Dark mode highlight color
@@ -885,6 +902,7 @@ function BundlerNew(props: any) {
                                                             <p>Max Fee Per Gas</p> :
                                                         </div>
                                                         {isLoading ? (
+                                                            // @ts-ignore
                                                             <SkeletonTheme
                                                                 color="#1D1E1F" // Dark mode background color
                                                                 highlightColor="#444" // Dark mode highlight color
@@ -903,6 +921,7 @@ function BundlerNew(props: any) {
                                                             <p>Max Priority Fee Per Gas</p> :
                                                         </div>
                                                         {isLoading ? (
+                                                            // @ts-ignore
                                                             <SkeletonTheme
                                                                 color="#1D1E1F" // Dark mode background color
                                                                 highlightColor="#444" // Dark mode highlight color
