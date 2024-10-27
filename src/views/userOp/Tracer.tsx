@@ -110,10 +110,15 @@ const TraceDetails: React.FC<{ trace: Trace; depth?: number }> = ({ trace, depth
                     />
 
                     <strong>&nbsp; &nbsp;</strong>
-                    <span className="font-gsans mt-[2px] font-medium text-md text-[#20294C] dark:text-[#DADEF1]"> {formatAddress(from)}</span>
+                    <span className="font-gsans mt-[2px] font-medium text-md text-[#20294C] dark:text-[#DADEF1]">
+                        {' '}
+                        {formatAddress(from)}
+                    </span>
                     <FaArrowRight className="mt-1 dark:fill-[#DADEF1]" />
                     <span className="font-gsans mt-[2px] font-medium text-md text-[#20294C] dark:text-[#DADEF1]">{formatAddress(to)}</span>
-                    <span className="text-sm text-[#646D8F] font-gmono ml-2 text-center align-middle mt-[2px]">({input ? `${input.slice(0, 10)}...` : 'N/A'})</span>
+                    <span className="text-sm text-[#646D8F] font-gmono ml-2 text-center align-middle mt-[2px]">
+                        ({input ? `${input.slice(0, 10)}...` : 'N/A'})
+                    </span>
                 </div>
                 <span onClick={toggleDetails} className="text-end font-gsans justify-between text-[#195BDF] cursor-pointer mt-[2px]">
                     {showDetails ? 'Hide details' : 'More details'}
@@ -254,17 +259,17 @@ const Tracer: React.FC<TracerProps> = ({ item, network }) => {
         const fetchTracerData = async () => {
             try {
                 const { userOpHash, network, sender, transactionHash: trxHash } = item;
-                console.log("ITEMMM",trxHash)
-    
+                console.log('ITEMMM', trxHash);
+
                 // Check if the network is 'odyssey' and only pass 'sender' and 'trxHash' if they exist
                 const response = await getUsserOpTrace(
                     userOpHash,
                     network,
                     toast,
                     (network === 'odyssey' || network === 'open-campus-test') && sender ? sender : undefined,
-                    (network === 'odyssey' || network === 'open-campus-test') && trxHash ? trxHash : undefined
+                    (network === 'odyssey' || network === 'open-campus-test') && trxHash ? trxHash : undefined,
                 );
-    
+
                 setTracer(response as unknown as TracerData);
             } catch (error) {
                 console.error('Error fetching tracer data:', error);
@@ -272,7 +277,7 @@ const Tracer: React.FC<TracerProps> = ({ item, network }) => {
                 setLoading(false);
             }
         };
-    
+
         fetchTracerData();
     }, [item, network]);
 
@@ -287,11 +292,21 @@ const Tracer: React.FC<TracerProps> = ({ item, network }) => {
     };
 
     if (loading) {
-        return <Skeleton count={5} />;
+        return (
+            <>
+                <div className="h-[24px] bg-gray-200 dark:bg-gray-700 rounded animate-pulse my-2" />
+                <div className="h-[24px] bg-gray-200 dark:bg-gray-700 rounded animate-pulse my-2" />
+                <div className="h-[24px] bg-gray-200 dark:bg-gray-700 rounded animate-pulse my-2" />
+                <div className="h-[24px] bg-gray-200 dark:bg-gray-700 rounded animate-pulse my-2" />
+                <div className="h-[24px] bg-gray-200 dark:bg-gray-700 rounded animate-pulse my-2" />
+                <div className="h-[24px] bg-gray-200 dark:bg-gray-700 rounded animate-pulse my-2" />
+
+            </>
+        );
     }
 
     if (!tracer || !tracer.relevantTraces?.length) {
-        return  <div className="block text-center p-8 text-xl text-gray-500 font-medium">No Data Available</div>;
+        return <div className="block text-center p-8 text-xl text-gray-500 font-medium">No Data Available</div>;
     }
 
     return (
@@ -299,12 +314,14 @@ const Tracer: React.FC<TracerProps> = ({ item, network }) => {
             <div className="container px-0">
                 <div className="my-4">
                     <div id="accordion-collapse" data-accordion="collapse">
-                        {tracer.relevantTraces.map((trace, index) => (
+                        {tracer.relevantTraces?.map((trace, index) => (
                             <div className="mb-6 border-[#D7DAE0] border-2 rounded-xl dark:border-[#3B3C40] dark:bg-[#1F202B]" key={index}>
                                 <h2>
                                     <button
                                         type="button"
-                                        className={`dark:border-[#3B3C40] dark:bg-[#1F202B] flex ${activeAccordion.includes(index) ? 'rounded-t-xl' : 'rounded-xl'} items-center justify-between bg-white w-full lg:w-1240 p-4 lg:px-8 font-medium rtl:text-right text-gray-500 dark:text-gray-400 gap-3 min-h-20`}
+                                        className={`dark:border-[#3B3C40] dark:bg-[#1F202B] flex ${
+                                            activeAccordion.includes(index) ? 'rounded-t-xl' : 'rounded-xl'
+                                        } items-center justify-between bg-white w-full lg:w-1240 p-4 lg:px-8 font-medium rtl:text-right text-gray-500 dark:text-gray-400 gap-3 min-h-20`}
                                         onClick={() => toggleAccordion(index)}
                                         aria-expanded={activeAccordion.includes(index)}
                                         aria-controls={`accordion-collapse-body-${index}`}
@@ -347,7 +364,9 @@ const Tracer: React.FC<TracerProps> = ({ item, network }) => {
                                 </h2>
                                 <div
                                     id={`accordion-collapse-body-${index}`}
-                                    className={`border rounded-b-xl border-gray-200 no-wrap dark:border-[#3B3C40] dark:bg-[#1F202B] ${activeAccordion.includes(index) ? 'block' : 'hidden'}`}
+                                    className={`border rounded-b-xl border-gray-200 no-wrap dark:border-[#3B3C40] dark:bg-[#1F202B] ${
+                                        activeAccordion.includes(index) ? 'block' : 'hidden'
+                                    }`}
                                     aria-labelledby={`accordion-collapse-heading-${index}`}
                                 >
                                     <TraceDetails trace={trace} />
