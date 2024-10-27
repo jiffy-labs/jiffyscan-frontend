@@ -218,13 +218,23 @@ const Tracer: React.FC<{ trxHash: string; network: string }> = ({ trxHash, netwo
     }, [trxHash, network]);
 
     if (!tracerData) {
-        return <p className='p-4 dark:text-[#ADB0BC]'>Loading Traces...</p>;
+        return (
+            <>
+                <div className="h-[24px] bg-gray-200 dark:bg-gray-700 rounded animate-pulse my-2" />
+                <div className="h-[24px] bg-gray-200 dark:bg-gray-700 rounded animate-pulse my-2" />
+                <div className="h-[24px] bg-gray-200 dark:bg-gray-700 rounded animate-pulse my-2" />
+                <div className="h-[24px] bg-gray-200 dark:bg-gray-700 rounded animate-pulse my-2" />
+                <div className="h-[24px] bg-gray-200 dark:bg-gray-700 rounded animate-pulse my-2" />
+                <div className="h-[24px] bg-gray-200 dark:bg-gray-700 rounded animate-pulse my-2" />
+
+            </>
+        );
     }
 
     return (
         <div className="w-full">
             <div className='shadow-300 '>
-            {tracerData.trace.map((trace, index) => (
+            {tracerData?.trace?.map((trace, index) => (
                 <TraceDetails key={index} trace={trace} />
             ))}
             </div>

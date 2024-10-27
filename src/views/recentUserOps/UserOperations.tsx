@@ -18,6 +18,7 @@ import usePrevious from '@/hooks/usePrevious';
 import { PAGE_SIZE_LIST } from '@/components/common/constants';
 import NetworkSelector from '@/components/common/NetworkSelector';
 import Header from '@/components/common/Header';
+import { SlHome } from 'react-icons/sl';
 
 const DEFAULT_PAGE_SIZE = 10;
 
@@ -132,7 +133,7 @@ function UserOperations() {
     };
 
     return (
-        <div className="">
+        <div className="dark:bg-[#191A23]">
             <Navbar searchbar />
             <section className="py-10">
                 <div className="container">
@@ -142,16 +143,16 @@ function UserOperations() {
                                 style={{ height: '15px', width: '15px', marginRight: '20px', marginLeft: '10px', marginBottom: '3px' }}
                             />
                         </Link>
-                        <Breadcrumbs aria-label="breadcrumb">
+                        <Breadcrumbs aria-label="breadcrumb" className="font-gsans text-[#646D8F] text-md sm:text-base">
                             <Link underline="hover" color="inherit" href="/">
-                                Home
+                            <SlHome />
                             </Link>
-                            <Link underline="hover" color="text.primary" href="/recentUserOps" aria-current="page">
+                            <Link underline="hover" color="text.primary" href="/recentUserOps" aria-current="page" className='dark:text-white'>
                                 User Operations
                             </Link>
                         </Breadcrumbs>
                     </div>
-                    <h1 className="text-3xl font-bold">User Operations</h1>
+                    <h1 className="text-3xl font-bold font-gsans dark:text-white p-4">User Operations</h1>
                 </div>
             </section>
             <div className="container">

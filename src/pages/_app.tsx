@@ -63,7 +63,7 @@ export default function MyApp({ Component, pageProps: { session, ...pageProps } 
                 <SessionProvider session={session}>
                     <UserSessionStore>
                         <NameServiceStore>
-                            <ConfigProvider><ThemeProvider>{getLayout(<div><TopBanner/><Component {...pageProps} /></div>)}</ThemeProvider></ConfigProvider>
+                            <ConfigProvider><ThemeProvider>{getLayout(<div><Component {...pageProps} /></div>)}</ThemeProvider></ConfigProvider>
                             <HeapAnalytics />
                         </NameServiceStore>
                     </UserSessionStore>
