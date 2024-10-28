@@ -54,11 +54,12 @@ export default function MyApp({ Component, pageProps: { session, ...pageProps } 
     const getLayout = Component.getLayout ?? ((page) => page);
     return (
         <div className={`${GeistSans.variable} ${GeistMono.variable}`} style={{
-          transform: 'scale(0.85)',        // Scale down to 85%
-                transformOrigin: 'top left',    // Keep the transform origin at the top left
-                width: '117.65%',                // Set width to 117.65% to maintain layout
-                height: '100vh', 
-      }}>
+    transform: 'scale(0.9)',           // Scale down to 90%
+    transformOrigin: 'top left',       // Keep the transform origin at the top left
+    width: '111.11%',                  // Set width to 111.11% for 90% scaling
+    height: '100vh',
+}}
+>
             <PHProvider>
                 <SessionProvider session={session}>
                     <UserSessionStore>
