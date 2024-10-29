@@ -442,12 +442,12 @@ function RecentUserOps(props: any) {
 
                                 <Box sx={{ width: '100%', paddingBottom: '80px' }}>
                                     <div className="relative mt-4 md:px-10 py-4 border-b border-[#D7DAE0] dark:border-[#3B3C40] font-gsans">
-                                        <ul className="flex items-center px-1.5 py-1.5 list-none rounded-md bg-[#F0F1F5] dark:bg-[#191A23] border dark:border-[#3B3C40] border-[#D7DAE0] overflow-x-auto md:overflow-visible scrollbar-hide">
+                                        <ul className="flex items-center px-1.5 py-1.5 list-none rounded-md bg-[#F0F1F5] dark:bg-[#191A23] border-2 dark:border-[#3B3C40] border-[#D7DAE0] overflow-x-auto md:overflow-visible scrollbar-hide">
                                             <li className="flex-none w-1/2 text-center md:flex-auto">
                                                 <button
                                                     onClick={() => handleToggle(0)} // Show UserOp Overview
                                                     className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-md ${
-                                                        value === 0 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit'
+                                                        value === 0 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit text-[#646D8F] dark:text-[#646D8F]'
                                                     }`}
                                                 >
                                                     UserOp Overview
@@ -457,7 +457,7 @@ function RecentUserOps(props: any) {
                                                 <button
                                                     onClick={() => handleToggle(1)} // Show Developer Details
                                                     className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-md ${
-                                                        value === 1 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit'
+                                                        value === 1 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit text-[#646D8F] dark:text-[#646D8F]'
                                                     }`}
                                                 >
                                                     Call Data
@@ -467,7 +467,7 @@ function RecentUserOps(props: any) {
                                                 <button
                                                     onClick={() => handleToggle(2)} // Show UserOp Logs
                                                     className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-md ${
-                                                        value === 2 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit'
+                                                        value === 2 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit text-[#646D8F] dark:text-[#646D8F]'
                                                     }`}
                                                 >
                                                     UserOp Logs
@@ -478,7 +478,7 @@ function RecentUserOps(props: any) {
                                                     <button
                                                         onClick={() => handleToggle(3)} // Show Tracer
                                                         className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-md ${
-                                                            value === 3 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit'
+                                                            value === 3 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit text-[#646D8F] dark:text-[#646D8F]'
                                                         }`}
                                                     >
                                                         Tracer
@@ -492,7 +492,7 @@ function RecentUserOps(props: any) {
                                         <CustomTabPanel value={value} index={0}>
                                             <div className=" flex flex-col gap-[40px]">
                                                 <div>
-                                                    <div className="container px-0 font-gsans space-y-6 dark:bg-[#1F202B]">
+                                                    <div className="container px-0 font-gsans space-y-4 dark:bg-[#1F202B]">
                                                         {/* UserOp Hash */}
                                                         <div className="flex md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
                                                             <div className="md:w-[280px] md:px-[16px] py-[8px] flex items-center gap-2">
@@ -607,7 +607,7 @@ function RecentUserOps(props: any) {
                                                             <div className="flex-1 break-words">
                                                                 <div className="justify-between block md:flex">
                                                                     <div className="flex items-center gap-[10px]">
-                                                                        <BsClockHistory className="w-5 h-5 dark:fill-white" />
+                                                                        <img src="/images/progress-clock.svg" alt="" />
                                                                         {!isLoading ? (
                                                                             <p className="text-[#1F1F1F] dark:text-[#ADB0BC] font-medium leading-[24px] text-[16px]">
                                                                                 {userOpsData?.[showUserOpId]?.blockTime
@@ -886,7 +886,7 @@ function RecentUserOps(props: any) {
 
                                                         <div className="border-b w-full border-[#D7DAE0] dark:border-[#3B3C40]"></div>
                                                         <span className="text-[20px] flex items-start md:items-center py-4 px-4 gap-2 text-[#20294C] dark:text-[#ADB0BC] font-medium leading-5">
-                                                            <img src="/images/gas.svg" alt="gas used" className="w-[24px]" />
+                                                            <img src="/images/Details.svg" alt="gas used" className="w-[24px]" />
                                                             OTHER DETAILS
                                                         </span>
                                                         {/* EntryPoint */}
