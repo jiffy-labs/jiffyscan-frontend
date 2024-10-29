@@ -16,6 +16,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import usePrevious from '@/hooks/usePrevious';
 import NetworkSelector from '@/components/common/NetworkSelector';
 import Header from '@/components/common/Header';
+import { SlHome } from 'react-icons/sl';
 
 const METRIC_DATA_POINT_SIZE = 14;
 const DEFAULT_PAGE_SIZE = 10;
@@ -134,9 +135,9 @@ function TopBundlers(props: any) {
     };
 
     return (
-        <div className="">
+        <div className="dark:bg-[#191A23]">
             <Navbar searchbar />
-            <section className="py-10">
+            <section className="px-3 container mx-auto my-6 py-6 bg-white dark:bg-[#1F202B] shadow-lg rounded-xl border border-[#D7DAE0] dark:border-[#3B3C40]">
                 <div className="container">
                     <div className="flex flex-row">
                         <Link href="/" className="text-gray-500">
@@ -146,7 +147,7 @@ function TopBundlers(props: any) {
                         </Link>
                         <Breadcrumbs aria-label="breadcrumb">
                             <Link underline="hover" color="inherit" href={`/?network=${selectedNetwork ? selectedNetwork : ''}`}>
-                                Home
+                            <SlHome />
                             </Link>
                             <Link underline="hover" color="text.primary" href="/bundler" aria-current="page">
                                 Bundlers
@@ -156,7 +157,7 @@ function TopBundlers(props: any) {
 
                     <h1 className="text-3xl font-bold">Bundlers</h1>
                 </div>
-            </section>
+            
             <div className="container">
                 <div className="flex flex-wrap items-center justify-between gap-3 py-2 mb-4 md:gap-10">
                     <Header
@@ -193,6 +194,7 @@ function TopBundlers(props: any) {
                         />
                     </div>
                 </div>
+            </section>
             </section>
             <ToastContainer />
             <Footer />
