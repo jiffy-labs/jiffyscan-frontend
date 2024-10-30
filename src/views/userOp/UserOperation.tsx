@@ -440,13 +440,13 @@ function RecentUserOps(props: any) {
                                 </div>
                             </div> */}
 
-                                <Box sx={{ width: '100%', paddingBottom: '80px' }}>
-                                    <div className="relative mt-4 md:px-10 py-4 border-b border-[#D7DAE0] dark:border-[#3B3C40] font-gsans">
-                                        <ul className="flex items-center px-1.5 py-1.5 list-none rounded-md bg-[#F0F1F5] dark:bg-[#191A23] border-2 dark:border-[#3B3C40] border-[#D7DAE0] overflow-x-auto md:overflow-visible scrollbar-hide">
+                                <Box sx={{ width: '100%' }}>
+                                    <div className="relative mt-4 md:px-10 py-4  font-gsans">
+                                        <ul className="flex items-center px-1.5 py-1.5 list-none rounded-xl bg-[#F0F1F5] dark:bg-[#191A23] border-2 dark:border-[#3B3C40] border-[#D7DAE0] overflow-x-auto md:overflow-visible scrollbar-hide">
                                             <li className="flex-none w-1/2 text-center md:flex-auto">
                                                 <button
                                                     onClick={() => handleToggle(0)} // Show UserOp Overview
-                                                    className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-md ${
+                                                    className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
                                                         value === 0 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit text-[#646D8F] dark:text-[#646D8F]'
                                                     }`}
                                                 >
@@ -456,7 +456,7 @@ function RecentUserOps(props: any) {
                                             <li className="flex-none w-1/2 text-center md:flex-auto">
                                                 <button
                                                     onClick={() => handleToggle(1)} // Show Developer Details
-                                                    className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-md ${
+                                                    className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
                                                         value === 1 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit text-[#646D8F] dark:text-[#646D8F]'
                                                     }`}
                                                 >
@@ -466,7 +466,7 @@ function RecentUserOps(props: any) {
                                             <li className="flex-none w-1/2 text-center md:flex-auto">
                                                 <button
                                                     onClick={() => handleToggle(2)} // Show UserOp Logs
-                                                    className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-md ${
+                                                    className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
                                                         value === 2 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit text-[#646D8F] dark:text-[#646D8F]'
                                                     }`}
                                                 >
@@ -477,7 +477,7 @@ function RecentUserOps(props: any) {
                                                 <li className="flex-none w-1/2 text-center md:flex-auto">
                                                     <button
                                                         onClick={() => handleToggle(3)} // Show Tracer
-                                                        className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-md ${
+                                                        className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
                                                             value === 3 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit text-[#646D8F] dark:text-[#646D8F]'
                                                         }`}
                                                     >
@@ -487,6 +487,7 @@ function RecentUserOps(props: any) {
                                             )}
                                         </ul>
                                     </div>
+                                    <div className="-mx-3 border-b border-[#D7DAE0] dark:border-[#3B3C40] my-4"></div>
 
                                     <div className="container xl:px-[5rem] min-[1450px]:px-[0rem]">
                                         <CustomTabPanel value={value} index={0}>
@@ -607,7 +608,7 @@ function RecentUserOps(props: any) {
                                                             <div className="flex-1 break-words">
                                                                 <div className="justify-between block md:flex">
                                                                     <div className="flex items-center gap-[10px]">
-                                                                        <img src="/images/progress-clock.svg" alt="" />
+                                                                        <img src="/images/progress-clock.svg" alt="" className='fill-[#969CB2] dark:fill-[#666B80]'/>
                                                                         {!isLoading ? (
                                                                             <p className="text-[#1F1F1F] dark:text-[#ADB0BC] font-medium leading-[24px] text-[16px]">
                                                                                 {userOpsData?.[showUserOpId]?.blockTime
@@ -644,7 +645,7 @@ function RecentUserOps(props: any) {
                                                             <div className="flex-1 break-words">
                                                                 <div className="justify-between block md:flex">
                                                                     <div className="flex items-center gap-[10px]">
-                                                                        <img src="/images/from.svg" alt="target" className="w-6 h-6" />
+                                                                        <img src="/images/from.svg" alt="target" className="w-6 h-6 fill-[#969CB2] dark:fill-[#666B80]" />
                                                                         {!isLoading ? (
                                                                             <>
                                                                                 <span className="text-[#195BDF]">
@@ -694,7 +695,7 @@ function RecentUserOps(props: any) {
                                                                                         <img
                                                                                             src="/images/to.svg"
                                                                                             alt="target"
-                                                                                            className="w-6 h-6"
+                                                                                            className="w-6 h-6 fill-[#969CB2] dark:fill-[#666B80]"
                                                                                         />
                                                                                         <span className="text-[#195BDF]">
                                                                                             {/* @ts-ignore */}
@@ -798,7 +799,7 @@ function RecentUserOps(props: any) {
                                                                         <img
                                                                             src="/images/dollar.svg"
                                                                             alt="transaction fee"
-                                                                            className="w-6 h-6 dark:fill-white"
+                                                                            className="w-6 h-6 fill-[#969CB2] dark:fill-[#666B80]"
                                                                         />
                                                                         {!isLoading ? (
                                                                             <p className="text-[#1F1F1F] leading-5 text-base dark:text-[#ADB0BC]">
@@ -832,7 +833,7 @@ function RecentUserOps(props: any) {
                                                             <div className="flex-1 break-words">
                                                                 <div className="justify-between block md:flex">
                                                                     <div className="flex items-center gap-[10px]">
-                                                                        <HiHashtag className="w-6 h-6 dark:fill-slate-600" />
+                                                                        <HiHashtag className="w-6 h-6 fill-[#969CB2] dark:fill-[#666B80]" />
                                                                         {!isLoading ? (
                                                                             <span className="text-base text-[#195BDF] dark:text-[#598AEB] break-all leading-5">
                                                                                 {userOpsData?.[showUserOpId]?.blockNumber}

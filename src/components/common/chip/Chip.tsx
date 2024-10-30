@@ -18,12 +18,12 @@ function Chip(props: ChipProps) {
 
     return (
         <div
-            className={`${sx.wrapper} ${sx[variant]} ${sx[color]} ${className || ''} ${disabled ? sx.disabled : ''}`}
+            className={`w-[116px] h-[36px] items-center font-gsans border border-[#D7DAE0] dark:border-[#D7DAE0] ${sx.wrapper} ${sx[variant]} ${sx[color]} ${className || ''} ${disabled ? sx.disabled : ''}`}
             role="button"
             onClick={!disabled ? onClick : undefined}
         >
-            {startIcon && <img src={startIcon} alt="" style={{ height: '12px', width: '12px' }} />}
-            <span className="flex-1">{children}</span>
+            {startIcon && <img src={startIcon} alt="" style={{ height: '16px', width: '16px' }} />}
+            <span className="flex-1 text-base">{children}</span>
             {endIcon && <img src={endIcon} alt="" />}
         </div>
     );

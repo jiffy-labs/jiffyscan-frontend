@@ -45,7 +45,7 @@ function NetworkSelector({
     }, [selectedNetwork, endIndex]);
 
     return (
-        <div className="flex flex-wrap items-center gap-1">
+        <div className="flex flex-wrap items-center gap-1 text-base">
             {displayNetworkList.map(({ name, key, iconPath, iconPathInverted }, index) => (
                 <Chip
                     key={index}

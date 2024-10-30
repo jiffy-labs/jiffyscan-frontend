@@ -101,69 +101,61 @@ function UserOperations(props: any) {
     return (
         <div className="dark:bg-[#191A23]">
             <Navbar searchbar />
-            <section className="py-10">
+            <section className="px-3 container mx-auto my-6 py-6 bg-white dark:bg-[#1F202B] shadow-lg rounded-xl border border-[#D7DAE0] dark:border-[#3B3C40]">
                 <div className="container">
-                    <div className="flex flex-row">
-                        <Link href="/" className="text-gray-500">
-                            <ArrowBackIcon
-                                style={{ height: '15px', width: '15px', marginRight: '20px', marginLeft: '10px', marginBottom: '3px' }}
-                            />
-                        </Link>
+                    <div className="flex flex-row px-10">
                         <Breadcrumbs aria-label="breadcrumb" className="font-gsans text-[#646D8F] text-md sm:text-base">
                             <Link underline="hover" color="inherit" href={`/?network=${selectedNetwork ? selectedNetwork : ''}`}>
-                            <SlHome />
+                                <SlHome className='dark:fill-white'/>
                             </Link>
                             <Link underline="hover" color="text.primary" href="/recentBundles" aria-current="page" className='dark:text-white'>
                                 Bundles
                             </Link>
                         </Breadcrumbs>
                     </div>
-
-                    <h1 className="text-3xl font-bold font-gsans dark:text-white p-4">Bundles</h1>
                 </div>
-            </section>
-            <div className="container">
-                <div className="flex flex-wrap items-center justify-between gap-3 py-2 mb-4 md:gap-10">
-                    <Header
-                        icon="/images/cube.svg"
-                        headerText={tableLoading ? 'Loading' : captionText}
-                        infoText="Approx Number of Bundles Processed in the selected chain"
-                    />
-                    <NetworkSelector selectedNetwork={selectedNetwork} handleNetworkChange={setSelectedNetwork} disabled={tableLoading}/>
-                </div>
-            </div>
-            {/* <RecentMetrics selectedNetwork={selectedNetwork} setLoading={setLoading} loading={loading} /> */}
-
-            <section className="mb-10">
-                <div className="container">
-                    <div>
-                        <Table
-                            {...latestBundlesTable}
-                            loading={tableLoading}
-                            hideHeader={true}
-                            caption={{
-                                children: captionText,
-                                icon: '/images/cube.svg',
-                                text: 'Approx Number of Bundles Processed in the selected chain',
-                            }}
-                        />
-                        <Pagination
-                            // table={latestBundlesTable as tableDataT}
-                            pageDetails={{
-                                pageNo,
-                                setPageNo,
-                                pageSize,
-                                setPageSize,
-                                totalRows,
-                            }}
-                        />
+    
+                <div className="container px-10 ">
+                    <div className="flex flex-wrap items-center justify-between gap-3 md:gap-10">
+                        <h1 className="text-3xl font-bold font-gsans dark:text-white p-4">Bundles</h1>
+                        <NetworkSelector selectedNetwork={selectedNetwork} handleNetworkChange={setSelectedNetwork} disabled={tableLoading}/>
                     </div>
                 </div>
+                <div className="-mx-3 border-t border-gray-300 dark:border-gray-600 my-4"></div>
+
+                <section className="px-10 my-6">
+                    <div className="container">
+                        <div>
+                            <Table
+                                {...latestBundlesTable}
+                                loading={tableLoading}
+                                hideHeader={true}
+                                caption={{
+                                    children: captionText,
+                                    icon: '/images/cube.svg',
+                                    text: 'Approx Number of Bundles Processed in the selected chain',
+                                }}
+                            />
+                            {/* Full-width Line Separator */}
+                            <div className="-mx-[68px] border-t border-gray-300 dark:border-gray-600 my-6"></div>
+                            <Pagination
+                                pageDetails={{
+                                    pageNo,
+                                    setPageNo,
+                                    pageSize,
+                                    setPageSize,
+                                    totalRows,
+                                }}
+                            />
+                        </div>
+                    </div>
+                </section>
             </section>
             <ToastContainer />
             <Footer />
         </div>
     );
+    
 }
 
 export default UserOperations;

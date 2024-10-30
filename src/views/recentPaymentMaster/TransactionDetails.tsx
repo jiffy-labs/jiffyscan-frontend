@@ -64,7 +64,7 @@ export default function TransactionDetails({ item, network }: any) {
                                 <section>
                                     <div className="container px-0 font-gsans space-y-6 dark:bg-[#1F202B]">
                                         {/* Paymaster Address */}
-                                        <div className="flex items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
+                                        <div className="flex md:flex-row flex-col items-left md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
                                             <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
                                                 <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-gsans font-normal leading-5 ">
                                                     PAYMASTER ADDRESS

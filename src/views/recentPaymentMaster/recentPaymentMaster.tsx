@@ -245,7 +245,7 @@ function RecentPaymentMaster(props: any) {
                 {/* <HeaderSectionGlobal item={addressInfo} network={network} displayNetworkList={displayNetworkList} headerTitle="Paymaster" /> */}
 
                 {/* Toggle Tab for Transaction Details and Table */}
-                <div className="relative mt-4 px-10 py-4 border-b border-[#D7DAE0] dark:border-[#3B3C40]  font-gsans">
+                <div className="relative mt-4 px-10 py-4 font-gsans">
                     <ul className=" flex items-center px-1.5 py-1.5 list-none rounded-md bg-[#F0F1F5] dark:bg-[#191A23] border dark:border-[#3B3C40] border-[#D7DAE0]">
                         <li className="flex-auto text-center ">
                             <button
@@ -269,6 +269,7 @@ function RecentPaymentMaster(props: any) {
                         </li>
                     </ul>
                 </div>
+            <div className="-mx-4 border-b border-[#D7DAE0] dark:border-[#3B3C40] my-4"></div>
                                         
                 {/* Toggle between Transaction Details and Table */}
                 <div className="mt-6 px-10">

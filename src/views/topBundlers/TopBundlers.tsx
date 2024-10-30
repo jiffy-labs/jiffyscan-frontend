@@ -138,16 +138,12 @@ function TopBundlers(props: any) {
         <div className="dark:bg-[#191A23]">
             <Navbar searchbar />
             <section className="px-3 container mx-auto my-6 py-6 bg-white dark:bg-[#1F202B] shadow-lg rounded-xl border border-[#D7DAE0] dark:border-[#3B3C40]">
-                <div className="container">
-                    <div className="flex flex-row">
-                        <Link href="/" className="text-gray-500">
-                            <ArrowBackIcon
-                                style={{ height: '15px', width: '15px', marginRight: '20px', marginLeft: '10px', marginBottom: '3px' }}
-                            />
-                        </Link>
+                <div className="container ">
+                    <div className="flex flex-row px-10">
+                        
                         <Breadcrumbs aria-label="breadcrumb">
                             <Link underline="hover" color="inherit" href={`/?network=${selectedNetwork ? selectedNetwork : ''}`}>
-                            <SlHome />
+                            <SlHome className='dark:fill-white'/>
                             </Link>
                             <Link underline="hover" color="text.primary" href="/bundler" aria-current="page">
                                 Bundlers
@@ -155,21 +151,21 @@ function TopBundlers(props: any) {
                         </Breadcrumbs>
                     </div>
 
-                    <h1 className="text-3xl font-bold">Bundlers</h1>
                 </div>
             
-            <div className="container">
-                <div className="flex flex-wrap items-center justify-between gap-3 py-2 mb-4 md:gap-10">
-                    <Header
-                        icon="/images/cube.svg"
-                        headerText={tableLoading ? 'Loading' : captionText}
-                        infoText="Approx Number of Bundler in the selected chain"
-                    />
+            <div className="container ">
+                <div className="flex px-10 flex-wrap items-center justify-between gap-3 py-2 mb-4 md:gap-10">
+                    
+                    <h1 className="text-3xl font-bold">Bundlers</h1>
+
                     <NetworkSelector selectedNetwork={selectedNetwork} handleNetworkChange={setSelectedNetwork} disabled={tableLoading}/>
                 </div>
             </div>
 
-            <section className="mb-10">
+            <div className="-mx-3 border-t border-gray-300 dark:border-gray-600 my-4"></div>
+
+
+            <section className="my-6 px-10">
                 <div className="container">
                     <div>
                         <Table
@@ -182,6 +178,8 @@ function TopBundlers(props: any) {
                                 text: 'Approx Number of Bundler in the selected chain',
                             }}
                         />
+                            <div className="-mx-[68px] border-t border-gray-300 dark:border-gray-600 my-6"></div>
+                        
                         <Pagination
                             // table={latestBundlesTable as tableDataT}
                             pageDetails={{

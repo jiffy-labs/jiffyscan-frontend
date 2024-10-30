@@ -50,17 +50,15 @@ export interface fee {
     component?: React.ReactNode;
 }
 
-
 function Table(props: tableDataT) {
     const { rows, columns, caption, onRowClick, hideHeader } = props;
     const [sortedRows, setSortedRows] = useState(rows);
     const [sortOrder, setSortOrder] = useState('asc');
     const width = useWidth();
-    const router = useRouter();  // Get current route information
-    const isHomepage = router.pathname === '/';  // Check if it's the homepage
-    const { isDarkMode } = useTheme();// Access theme context
+    const router = useRouter(); // Get current route information
+    const isHomepage = router.pathname === '/'; // Check if it's the homepage
+    const { isDarkMode } = useTheme(); // Access theme context
 
-    
     let skeletonCards = Array(5).fill(0);
 
     const convertAgoToNumber = (ago: string): number => {
@@ -95,8 +93,8 @@ function Table(props: tableDataT) {
     useEffect(() => {
         setSortedRows(rows);
     }, [rows]);
-    
-    
+
+    const currentPath = router.pathname;
     return (
         <div className="w-full">
             {/* {!hideHeader && caption?.text && (
@@ -104,14 +102,13 @@ function Table(props: tableDataT) {
                     {caption?.children}
                 </Caption>
             )} */}
-            <ScrollContainer className="rounded-lg border border-[#D7DAE0] dark:border-[#444444]">
+            <ScrollContainer className="rounded-b-lg border border-[#D7DAE0] dark:border-[#444444]">
                 <div className="">
-                <table className={`w-full bg-white dark:bg-[#1D1E1F] text-md shadow-200 ${!props.loading ? 'md:table-fixed' : ''}`}>
-
+                    <table className={`w-full bg-white dark:bg-[#1D1E1F] text-md shadow-200 ${!props.loading ? 'md:table-fixed' : ''}`}>
                         {/* Table head */}
                         <thead>
                             <tr>
-                                {columns?.map(({ name, sort }, key) => (
+                                {columns?.map(({ name, sort }, key) =>
                                     // Conditionally render 'target' column only if not on the homepage
                                     name === 'TARGET' && isHomepage ? null : (
                                         <th
@@ -126,29 +123,27 @@ function Table(props: tableDataT) {
                                                 <span>{name}</span>
                                             </div>
                                         </th>
-                                    )
-                                ))}
+                                    ),
+                                )}
                             </tr>
                         </thead>
 
                         {/* Loading state */}
                         {props.loading ? (
                             <tbody>
-                            {skeletonCards.map((index: number) => {
-                                return (
-                                    <>
-                                        <tr>
-                                            <td colSpan={5}>
-                                                {/* @ts-ignore */}
-                                                <div
-                        className={`h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
-                    />
-                                            </td>
-                                        </tr>
-                                    </>
-                                );
-                            })}
-                        </tbody>
+                                {skeletonCards.map((index: number) => {
+                                    return (
+                                        <>
+                                            <tr>
+                                                <td colSpan={5}>
+                                                    {/* @ts-ignore */}
+                                                    <div className={`h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`} />
+                                                </td>
+                                            </tr>
+                                        </>
+                                    );
+                                })}
+                            </tbody>
                         ) : (
                             <tbody>
                                 {sortedRows?.map(
@@ -159,14 +154,22 @@ function Table(props: tableDataT) {
                                         >
                                             {/* Token column */}
                                             {token && (
-                                                <td className="py-3 px-4">
+                                                <td
+                                                    className={`py-3 px-4 ${
+                                                        !isHomepage && (currentPath === '/recentBundles'|| '/paymasters') && (currentPath !== '/recentUserOps'|| '/paymaster') ? 'pl-24' : ''
+                                                    }`}
+                                                >
                                                     <Token {...token} />
                                                 </td>
                                             )}
 
                                             {/* Ago/status column */}
                                             {ago && (
-                                                <td className="py-3 px-12 text-[#20294C] dark:text-[#989BA6]">
+                                                <td
+                                                    className={`py-3 px-12 text-[#20294C] dark:text-[#989BA6] ${
+                                                        !isHomepage&& currentPath === '/recentBundles' ? 'pl-32' : ''
+                                                    }`}
+                                                >
                                                     {status === true ? (
                                                         <Status status="success" ago={ago} />
                                                     ) : status === false ? (
@@ -242,6 +245,5 @@ function Table(props: tableDataT) {
         </div>
     );
 }
-
 
 export default Table;

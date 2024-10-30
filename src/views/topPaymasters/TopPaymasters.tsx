@@ -16,6 +16,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import usePrevious from '@/hooks/usePrevious';
 import Header from '@/components/common/Header';
 import NetworkSelector from '@/components/common/NetworkSelector';
+import { SlHome } from 'react-icons/sl';
 
 const METRIC_DATA_POINT_SIZE = 14;
 const DEFAULT_PAGE_SIZE = 10;
@@ -127,40 +128,34 @@ function TopPaymasters(props: any) {
     };
 
     return (
-        <div className="">
+        <div className="dark:bg-[#191A23]">
             <Navbar searchbar />
-            <section className="py-10">
+            <section className="px-3 container mx-auto my-6 py-6 bg-white dark:bg-[#1F202B] shadow-lg rounded-xl border border-[#D7DAE0] dark:border-[#3B3C40]">
                 <div className="container">
-                    <div className="flex flex-row">
-                        <Link href="/" className="text-gray-500">
-                            <ArrowBackIcon
-                                style={{ height: '15px', width: '15px', marginRight: '20px', marginLeft: '10px', marginBottom: '3px' }}
-                            />
-                        </Link>
-                        <Breadcrumbs aria-label="breadcrumb">
+                    <div className="flex flex-row px-10">
+                        
+                        <Breadcrumbs aria-label="breadcrumb" >
                             <Link underline="hover" color="inherit" href={`/?network=${selectedNetwork ? selectedNetwork : ''}`}>
-                                Home
+                            <SlHome className='dark:fill-white'/>
                             </Link>
-                            <Link underline="hover" color="text.primary" href="/paymasters" aria-current="page">
+                            <Link underline="hover" color="text.primary" href="/paymasters" aria-current="page" className='dark:text-white'>
                                 Paymasters
                             </Link>
                         </Breadcrumbs>
                     </div>
 
-                    <h1 className="text-3xl font-bold">Paymasters</h1>
                 </div>
-            </section>
+            
             <div className="container">
-                <div className="flex flex-wrap items-center justify-between gap-3 py-2 mb-4 md:gap-10">
-                    <Header
-                        icon="/images/cube.svg"
-                        headerText={tableLoading ? 'Loading' : captionText}
-                        infoText="Approx Number of Paymasters in the selected chain"
-                    />
+                <div className="flex  px-10 flex-wrap items-center justify-between gap-3 py-2 mb-4 md:gap-10">
+                <h1 className="text-3xl font-bold dark:text-white">Paymasters</h1>
+
                     <NetworkSelector selectedNetwork={selectedNetwork} handleNetworkChange={setSelectedNetwork} disabled={tableLoading}/>
                 </div>
             </div>
-            <section className="mb-10">
+            <div className="-mx-3 border-t border-gray-300 dark:border-gray-600 my-4"></div>
+
+            <section className="px-10 my-6">
                 <div className="container">
                     <div>
                         <Table
@@ -173,6 +168,8 @@ function TopPaymasters(props: any) {
                                 text: 'Approx Number of Paymasters in the selected chain',
                             }}
                         />
+                            <div className="-mx-[68px] border-t border-gray-300 dark:border-gray-600 my-6"></div>
+
                         <Pagination
                             // table={latestBundlesTable as tableDataT}
                             pageDetails={{
@@ -185,6 +182,7 @@ function TopPaymasters(props: any) {
                         />
                     </div>
                 </div>
+            </section>
             </section>
             <ToastContainer />
             <Footer />
