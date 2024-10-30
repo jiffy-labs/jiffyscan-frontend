@@ -128,7 +128,7 @@ const UserOpLogs: React.FC<UserOpLogsProps> = ({ logs, network }: any) => {
                 <div className="my-4  flex flex-col gap-[2rem] font-gsans ">
                     {/* @ts-ignore  */}
                     {logs.map((log, index) => (
-                        <div key={index} className="bg-white border-b p-4 dark:bg-[#1F202B] dark:border-[#3B3C40]">
+                        <div key={index} className="bg-white border-b last:border-b-0 p-4 dark:bg-[#1F202B] dark:border-[#3B3C40]">
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-row md:gap-[16px] max-md:flex-col">
                                     <div className="flex flex-row justify-between w-[120px] sm:w-[139px] ">
