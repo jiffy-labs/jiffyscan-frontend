@@ -96,7 +96,7 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
                     <Options networkValue={networkValue} setNetworkValue={setNetworkValue} />
                         <input
                             type="text"
-                            className="flex-grow px-3 dark:border-[#444444] py-2 text-base placeholder:text-dark-500 text-dark-600 "
+                            className="flex-grow px-3 dark:border-[#444444] py-2 text-base placeholder:text-dark-500 text-dark-600 dark:text-white placeholder:dark:text-white"
                             placeholder="Search..."
                             value={term}
                             onChange={handleChange}

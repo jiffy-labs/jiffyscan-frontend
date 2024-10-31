@@ -22,7 +22,7 @@ function Options({ networkValue, setNetworkValue }: { networkValue: number; setN
             {open && (
                 <div className="">
                     <div onClick={toggler} className="fixed inset-0 z-50 bg-transparent" />
-                    <div className="absolute left-0 bg-white dark:bg-[#1D1E1F] w-[200%] py-1 border-dark-200 shadow-200 dark:text-white">
+                    <div className="absolute left-0 bg-white dark:bg-[#1D1E1F] w-[200%] py-1 border-dark-200 shadow-200 dark:text-white rounded-xl">
                         <div className="flex flex-col">
                             <div
                                 onClick={() => handleValue(-1)}
