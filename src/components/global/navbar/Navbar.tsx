@@ -61,7 +61,6 @@ function Navbar(props: NavbarProps) {
                                         href="/recentUserOps"
                                         className="block rounded-lg border  dark:border-none bg-[#E5F1E7] dark:bg-[#212D28] bg-opacity-25 p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white w-48 h-48"
                                     >
-                                        
                                         <button
                                             type="button"
                                             className="inline-block rounded font-gsans bg-primary mt-16 mr-10 text-left pb-2 pt-2.5 text-xl font-medium leading-normal text-[#29903B] dark:text-[#56B48C] shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
@@ -73,7 +72,6 @@ function Navbar(props: NavbarProps) {
                                         href="recentBundles"
                                         className="block rounded-lg border  dark:border-none bg-[#D3EDF9] dark:bg-[#21262D] bg-opacity-25 p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white w-48 h-48"
                                     >
-                                        
                                         <button
                                             type="button"
                                             className="inline-block rounded font-gsans bg-primary mt-16 mr-10 text-left  pb-2 pt-2.5 text-xs font-medium leading-normal text-[#2882A1] dark:text-[#5687B4] shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
@@ -85,7 +83,6 @@ function Navbar(props: NavbarProps) {
                                         href="/paymasters"
                                         className="block rounded-lg border  dark:border-none bg-[#F6E7ED] dark:bg-[#2D2535] bg-opacity-25 p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white w-48 h-48"
                                     >
-                                       
                                         <button
                                             type="button"
                                             className="inline-block rounded font-gsans bg-primary mt-16 mr-10 text-left  pb-2 pt-2.5 text-xs font-medium leading-normal text-[#B43E70] dark:text-[#C472B6] shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
@@ -97,8 +94,6 @@ function Navbar(props: NavbarProps) {
                                         href="/bundlers"
                                         className="block rounded-lg border  dark:border-none bg-[#ECE9DB] dark:bg-[#353125] bg-opacity-20 p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white w-48 h-48"
                                     >
-                                        
-
                                         <button
                                             type="button"
                                             className="inline-block rounded font-gsans bg-primary mt-16 mr-10 text-left  pb-2 pt-2.5 text-xs font-medium leading-normal text-[#8F6D28] dark:text-[#C4C172] shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
@@ -110,8 +105,6 @@ function Navbar(props: NavbarProps) {
                                         href="/factories"
                                         className="block rounded-lg border dark:border-none bg-[#EAE5F1] dark:bg-[#2D2420] bg-opacity-25 p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white w-48 h-48"
                                     >
-                                        
-
                                         <button
                                             type="button"
                                             className="inline-block rounded font-gsans bg-primary mt-20 mr-10 text-left pb-2 pt-2.5 text-xs font-medium leading-normal text-[#4F288F] dark:text-[#B96447] shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
@@ -128,7 +121,7 @@ function Navbar(props: NavbarProps) {
                                 className="text-[#646D8F] flex font-gsans hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400"
                             >
                                 Pricing
-                                <img src="/images/sparkle.svg" alt="" className='-mt-2'/>
+                                <img src="/images/sparkle.svg" alt="" className="-mt-2" />
                             </Link>
 
                             {/* Tools Dropdown */}
@@ -142,7 +135,7 @@ function Navbar(props: NavbarProps) {
                                 <div className="absolute z-50 -left-96 hidden group-hover:flex mt-2 w-max space-x-4 bg-white dark:bg-[#1D1E1F] p-6 shadow-lg dark:bg-surface-dark border dark:border-[#3B3C40] rounded-3xl">
                                     <Link
                                         href="https://github.com/jiffy-labs"
-                                        target='_blank'
+                                        target="_blank"
                                         className="block rounded-lg border  dark:border-none bg-[#29903B] bg-opacity-25 p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white w-72"
                                     >
                                         <FaGithub className="w-10 h-10 mt-8 fill-[#29903B]" />
@@ -184,7 +177,14 @@ function Navbar(props: NavbarProps) {
                                         href="https://t.me/+ZJejkXFlMAA4NzZl"
                                         className="block rounded-lg border dark:border-none bg-[#8F6D28] bg-opacity-25 p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white w-72"
                                     >
-                                        <svg width="35" height="45" viewBox="0 0 35 45" fill="none" xmlns="http://www.w3.org/2000/svg" className='mt-8'>
+                                        <svg
+                                            width="35"
+                                            height="45"
+                                            viewBox="0 0 35 45"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="mt-8"
+                                        >
                                             <path
                                                 d="M34.6665 5.625V45H0.666504V5.625H11.9998C11.9998 4.84863 12.1474 4.12354 12.4425 3.44971C12.7377 2.77588 13.1435 2.17529 13.66 1.64795C14.1765 1.12061 14.7741 0.717773 15.453 0.439453C16.1318 0.161133 16.8696 0.0146484 17.6665 0C18.4486 0 19.1791 0.146484 19.8579 0.439453C20.5367 0.732422 21.1418 1.13525 21.673 1.64795C22.2043 2.16064 22.6101 2.75391 22.8905 3.42773C23.1708 4.10156 23.3184 4.83398 23.3332 5.625H34.6665ZM9.1665 11.25H26.1665V8.4375H20.4998V5.625C20.4998 5.22949 20.4261 4.86328 20.2785 4.52637C20.1309 4.18945 19.9317 3.89648 19.6808 3.64746C19.43 3.39844 19.1274 3.19336 18.7733 3.03223C18.4191 2.87109 18.0502 2.79785 17.6665 2.8125C17.2681 2.8125 16.8991 2.88574 16.5597 3.03223C16.2203 3.17871 15.9252 3.37646 15.6743 3.62549C15.4234 3.87451 15.2169 4.1748 15.0545 4.52637C14.8922 4.87793 14.8184 5.24414 14.8332 5.625V8.4375H9.1665V11.25ZM17.6665 33.75H14.8332V36.5625H17.6665V33.75ZM17.6665 16.875H14.8332V30.9375H17.6665V16.875Z"
                                                 fill="#8F6D28"
@@ -204,9 +204,32 @@ function Navbar(props: NavbarProps) {
                     </div>
                     <div className="items-center justify-end flex-grow hidden gap-3 md:flex">
                         {searchbar && <Searchblock isNavbar={true} />}
-                        <button onClick={toggleTheme} className="p-2 rounded-full focus:outline-none">
-                            {isDarkMode ? <MdOutlineLightMode className="w-6 h-6 fill-white" /> : <MdOutlineDarkMode className="w-6 h-6" />}
-                        </button>
+                        <div className="flex justify-center items-center">
+                            {/* Left Icon for Light Mode */}
+                            <span>
+                                <MdOutlineLightMode className={`h-6 w-6 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} />
+                            </span>
+
+                            {/* Switch Container */}
+                            <div
+                                onClick={toggleTheme}
+                                className={`w-14 h-7 flex items-center rounded-full mx-3 px-1 cursor-pointer ${
+                                    isDarkMode ? 'bg-gray-700' : 'bg-gray-300'
+                                }`}
+                            >
+                                {/* Switch */}
+                                <div
+                                    className={`bg-white w-5 h-5 rounded-full shadow-md transform transition-transform duration-300 ${
+                                        isDarkMode ? 'translate-x-7' : ''
+                                    }`}
+                                ></div>
+                            </div>
+
+                            {/* Right Icon for Dark Mode */}
+                            <span>
+                                <MdOutlineDarkMode className={`h-6 w-6 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`} />
+                            </span>
+                        </div>
                     </div>
                     <div className="flex items-center md:hidden">
                         <button type="button" onClick={toggleDrawer}>
