@@ -137,12 +137,13 @@ function UserOperations() {
             <Navbar searchbar />
             <section className="px-3 container mx-auto my-6 py-6 bg-white dark:bg-[#1F202B] shadow-lg rounded-xl border border-[#D7DAE0] dark:border-[#3B3C40]">
                 <div className="container">
-                    <div className="flex flex-row">
-                        <Link href="/" className="text-gray-500">
-                            <ArrowBackIcon
-                                style={{ height: '15px', width: '15px', marginRight: '20px', marginLeft: '10px', marginBottom: '3px' }}
-                            />
-                        </Link>
+                    
+                </div>
+            
+            <div className="container ">
+                <div className="flex flex-wrap items-center justify-between gap-3 md:gap-10">
+                <div className="flex flex-row px-10">
+                        
                         <Breadcrumbs aria-label="breadcrumb" className="font-gsans text-[#646D8F] text-md sm:text-base">
                             <Link underline="hover" color="inherit" href="/">
                             <SlHome className='dark:fill-white'/>
@@ -152,11 +153,6 @@ function UserOperations() {
                             </Link>
                         </Breadcrumbs>
                     </div>
-                </div>
-            
-            <div className="container px-10">
-                <div className="flex flex-wrap items-center justify-between gap-3 md:gap-10">
-                <h1 className="text-3xl font-bold font-gsans dark:text-white p-4">User Operations</h1>
 
                     <NetworkSelector selectedNetwork={selectedNetwork} handleNetworkChange={setSelectedNetwork} disabled={tableLoading}/>
                 </div>
