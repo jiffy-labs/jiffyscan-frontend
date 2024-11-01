@@ -5,6 +5,18 @@ module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      backdropBlur: {
+        md: '10px',
+      },
+      keyframes: {
+        shine: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
+      },
+      animation: {
+        shine: 'shine 2s infinite linear',
+      },
       fontFamily: {
         roboto: ["Roboto", ...fontFamily.sans],
         poppins: ['Poppins', ...fontFamily.sans],
@@ -13,6 +25,7 @@ module.exports = {
         playfair: ['Playfair Display', 'serif'],
         gsans: ['var(--font-geist-sans)', 'sans-serif'],
         gmono: ['var(--font-geist-mono)', 'monospace'],
+        kaisei: ['Kaisei Opti', 'sans-serif'], // Add Kaisei Opti font
       },
       colors: {
         red: {
