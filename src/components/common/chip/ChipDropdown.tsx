@@ -174,7 +174,7 @@ function ChipDropdown(props: ChipProps) {
                 <span>
                     <Menu.Button
                         onClick={openModal}
-                        className={`h-[36px] w-[116px] font-gsans border border-[#D7DAE0] dark:border-[#D7DAE0] inline-flex items-center px-4 py-3 ${
+                        className={`h-[36px] w-[102px] font-gsans border border-[#D7DAE0]  dark:bg-[#1F202B] dark:border-[#3B3C40] dark:text-white text-base text-center inline-flex items-center px-4 py-3 ${
                             isMoreSelected ? 'bg-gray-800 text-white border-[#D7DAE0] dark:border-[#D7DAE0]' : 'bg-white text-gray-800'
                         } rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 `}
                     >
