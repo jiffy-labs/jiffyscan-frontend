@@ -56,58 +56,63 @@ function Navbar(props: NavbarProps) {
                                 >
                                     Transactions <MdKeyboardArrowDown />
                                 </Link>
-                                <div className="absolute z-50 -left-48 hidden group-hover:flex mt-2 w-max space-x-4 bg-white dark:bg-[#1D1E1F] p-6 shadow-lg dark:bg-surface-dark border dark:border-[#3B3C40] rounded-3xl">
+                                <div className="absolute z-50 -left-48 hidden group-hover:flex mt-0 w-max space-x-4 bg-white dark:bg-[#1D1E1F] p-6 shadow-lg dark:bg-surface-dark border dark:border-[#3B3C40] rounded-3xl">
                                     <Link
                                         href="/recentUserOps"
-                                        className="block rounded-lg border  dark:border-none bg-[#29903B] bg-opacity-10 dark:bg-[#212D28]  p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white w-48 h-48"
+                                        className="block rounded-lg border dark:border-none bg-[#29903B] bg-opacity-10 dark:bg-[#212D28]  p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white w-48 h-36"
                                     >
+                                        <img src="/images/UserOp.svg" alt="" />
                                         <button
                                             type="button"
-                                            className="inline-block rounded font-gsans bg-primary mt-16 mr-10 text-left pb-2 pt-2.5 text-xl font-medium leading-normal text-[#29903B] dark:text-[#56B48C] shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
+                                            className="inline-block rounded font-gsans bg-primary mt-0 mr-10 text-left pb-2 pt-2.5 text-xl font-medium leading-normal text-[#29903B] dark:text-[#56B48C] shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
                                         >
-                                            Recent User Ops
+                                            User Ops
                                         </button>
                                     </Link>
                                     <Link
                                         href="recentBundles"
-                                        className="block rounded-lg border  dark:border-none bg-[#2882A1] dark:bg-[#21262D] font-medium bg-opacity-10 p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white w-48 h-48"
+                                        className="block rounded-lg border  dark:border-none bg-[#2882A1] dark:bg-[#21262D] font-medium bg-opacity-10 p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white w-48 h-36"
                                     >
+                                        <img src="/images/Bundles.svg" alt="" />
                                         <button
                                             type="button"
-                                            className="inline-block rounded font-gsans bg-primary mt-16 mr-10 text-left  pb-2 pt-2.5 text-xs font-medium leading-normal text-[#2882A1] dark:text-[#5687B4] shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
+                                            className="inline-block rounded font-gsans bg-primary mt-0 mr-10 text-left  pb-2 pt-2.5 text-xs font-medium leading-normal text-[#2882A1] dark:text-[#5687B4] shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
                                         >
-                                            Recent Bundles
+                                            Bundles
                                         </button>
                                     </Link>
                                     <Link
                                         href="/paymasters"
-                                        className="block rounded-lg border  dark:border-none bg-[#B43E70] dark:bg-[#2D2535] bg-opacity-10 p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white w-48 h-48"
+                                        className="block rounded-lg border  dark:border-none bg-[#B43E70] dark:bg-[#2D2535] bg-opacity-10 p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white w-48 h-36"
                                     >
+                                        <img src="/images/PaymasterN.svg" alt="" />
                                         <button
                                             type="button"
-                                            className="inline-block rounded font-gsans bg-primary mt-16 mr-10 text-left  pb-2 pt-2.5 text-xs font-medium leading-normal text-[#B43E70] dark:text-[#C472B6] shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
+                                            className="inline-block rounded font-gsans bg-primary mt-0 mr-10 text-left  pb-2 pt-2.5 text-xs font-medium leading-normal text-[#B43E70] dark:text-[#C472B6] shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
                                         >
-                                            Top Paymaster
+                                            Paymasters
                                         </button>
                                     </Link>
                                     <Link
                                         href="/bundlers"
-                                        className="block rounded-lg border  dark:border-none bg-[#8F6D28] dark:bg-[#353125] bg-opacity-10 p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white w-48 h-48"
+                                        className="block rounded-lg border  dark:border-none bg-[#8F6D28] dark:bg-[#353125] bg-opacity-10 p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white w-48 h-36"
                                     >
+                                        <img src="/images/Bundlers.svg" alt="" />
                                         <button
                                             type="button"
-                                            className="inline-block rounded font-gsans bg-primary mt-16 mr-10 text-left  pb-2 pt-2.5 text-xs font-medium leading-normal text-[#8F6D28] dark:text-[#C4C172] shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
+                                            className="inline-block rounded font-gsans bg-primary mt-0 mr-10 text-left  pb-2 pt-2.5 text-xs font-medium leading-normal text-[#8F6D28] dark:text-[#C4C172] shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
                                         >
-                                            Top Bundlers
+                                            Bundlers
                                         </button>
                                     </Link>
                                     <Link
                                         href="/factories"
-                                        className="block rounded-lg border dark:border-none bg-[#4F288F] dark:bg-[#2D2420] bg-opacity-10 p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white w-48 h-48"
+                                        className="block rounded-lg border dark:border-none bg-[#4F288F] dark:bg-[#2D2420] bg-opacity-10 p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white w-48 h-36"
                                     >
+                                        <img src="/images/Factories.svg" alt="" />
                                         <button
                                             type="button"
-                                            className="inline-block rounded font-gsans bg-primary mt-24 mr-10 text-left pb-2 pt-2.5 text-xs font-medium leading-normal text-[#4F288F] dark:text-[#B96447] shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
+                                            className="inline-block rounded font-gsans bg-primary mt-0 mr-10 text-left pb-2 pt-2.5 text-xs font-medium leading-normal text-[#4F288F] dark:text-[#9059e7] shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
                                         >
                                             Factories
                                         </button>
@@ -132,7 +137,7 @@ function Navbar(props: NavbarProps) {
                                 >
                                     Tools <MdKeyboardArrowDown />
                                 </Link>
-                                <div className="absolute z-50 -left-96 hidden group-hover:flex mt-2 w-max space-x-4 bg-white dark:bg-[#1D1E1F] p-6 shadow-lg dark:bg-surface-dark border dark:border-[#3B3C40] rounded-3xl">
+                                <div className="absolute z-50 -left-96 hidden group-hover:flex mt-0 w-max space-x-4 bg-white dark:bg-[#1D1E1F] p-6 shadow-lg dark:bg-surface-dark border dark:border-[#3B3C40] rounded-3xl">
                                     <Link
                                         href="https://github.com/jiffy-labs"
                                         target="_blank"
@@ -205,30 +210,26 @@ function Navbar(props: NavbarProps) {
                     <div className="items-center justify-end flex-grow hidden gap-3 md:flex">
                         {searchbar && <Searchblock isNavbar={true} />}
                         <div className="flex justify-center items-center">
-                            {/* Left Icon for Light Mode */}
-                            <span>
-                                <MdOutlineLightMode className={`h-6 w-6 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} />
-                            </span>
-
                             {/* Switch Container */}
                             <div
                                 onClick={toggleTheme}
-                                className={`w-14 h-7 flex items-center rounded-full mx-3 px-1 cursor-pointer ${
+                                className={`w-16 h-8 flex items-center rounded-full mx-3 px-1 cursor-pointer transition-colors duration-300 ${
                                     isDarkMode ? 'bg-gray-700' : 'bg-gray-300'
                                 }`}
                             >
-                                {/* Switch */}
+                                {/* Switch with Icon */}
                                 <div
-                                    className={`bg-white w-5 h-5 rounded-full shadow-md transform transition-transform duration-300 ${
-                                        isDarkMode ? 'translate-x-7' : ''
+                                    className={`w-6 h-6 rounded-full shadow-md transform transition-transform duration-300 flex items-center justify-center ${
+                                        isDarkMode ? 'translate-x-8 bg-gray-900' : 'bg-white'
                                     }`}
-                                ></div>
+                                >
+                                    {isDarkMode ? (
+                                        <MdOutlineDarkMode className="h-5 w-5 text-gray-400" />
+                                    ) : (
+                                        <MdOutlineLightMode className="h-5 w-5 text-gray-500" />
+                                    )}
+                                </div>
                             </div>
-
-                            {/* Right Icon for Dark Mode */}
-                            <span>
-                                <MdOutlineDarkMode className={`h-6 w-6 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`} />
-                            </span>
                         </div>
                     </div>
                     <div className="flex items-center md:hidden">
