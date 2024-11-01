@@ -59,7 +59,7 @@ function Navbar(props: NavbarProps) {
                                 <div className="absolute z-50 -left-48 hidden group-hover:flex mt-2 w-max space-x-4 bg-white dark:bg-[#1D1E1F] p-6 shadow-lg dark:bg-surface-dark border dark:border-[#3B3C40] rounded-3xl">
                                     <Link
                                         href="/recentUserOps"
-                                        className="block rounded-lg border  dark:border-none bg-[#E5F1E7] dark:bg-[#212D28] bg-opacity-25 p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white w-48 h-48"
+                                        className="block rounded-lg border  dark:border-none bg-[#29903B] bg-opacity-10 dark:bg-[#212D28]  p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white w-48 h-48"
                                     >
                                         <button
                                             type="button"
@@ -70,7 +70,7 @@ function Navbar(props: NavbarProps) {
                                     </Link>
                                     <Link
                                         href="recentBundles"
-                                        className="block rounded-lg border  dark:border-none bg-[#D3EDF9] dark:bg-[#21262D] bg-opacity-25 p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white w-48 h-48"
+                                        className="block rounded-lg border  dark:border-none bg-[#2882A1] dark:bg-[#21262D] font-medium bg-opacity-10 p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white w-48 h-48"
                                     >
                                         <button
                                             type="button"
@@ -81,7 +81,7 @@ function Navbar(props: NavbarProps) {
                                     </Link>
                                     <Link
                                         href="/paymasters"
-                                        className="block rounded-lg border  dark:border-none bg-[#F6E7ED] dark:bg-[#2D2535] bg-opacity-25 p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white w-48 h-48"
+                                        className="block rounded-lg border  dark:border-none bg-[#B43E70] dark:bg-[#2D2535] bg-opacity-10 p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white w-48 h-48"
                                     >
                                         <button
                                             type="button"
@@ -92,7 +92,7 @@ function Navbar(props: NavbarProps) {
                                     </Link>
                                     <Link
                                         href="/bundlers"
-                                        className="block rounded-lg border  dark:border-none bg-[#ECE9DB] dark:bg-[#353125] bg-opacity-20 p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white w-48 h-48"
+                                        className="block rounded-lg border  dark:border-none bg-[#8F6D28] dark:bg-[#353125] bg-opacity-10 p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white w-48 h-48"
                                     >
                                         <button
                                             type="button"
@@ -103,11 +103,11 @@ function Navbar(props: NavbarProps) {
                                     </Link>
                                     <Link
                                         href="/factories"
-                                        className="block rounded-lg border dark:border-none bg-[#EAE5F1] dark:bg-[#2D2420] bg-opacity-25 p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white w-48 h-48"
+                                        className="block rounded-lg border dark:border-none bg-[#4F288F] dark:bg-[#2D2420] bg-opacity-10 p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white w-48 h-48"
                                     >
                                         <button
                                             type="button"
-                                            className="inline-block rounded font-gsans bg-primary mt-20 mr-10 text-left pb-2 pt-2.5 text-xs font-medium leading-normal text-[#4F288F] dark:text-[#B96447] shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
+                                            className="inline-block rounded font-gsans bg-primary mt-24 mr-10 text-left pb-2 pt-2.5 text-xs font-medium leading-normal text-[#4F288F] dark:text-[#B96447] shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
                                         >
                                             Factories
                                         </button>
