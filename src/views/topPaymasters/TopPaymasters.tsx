@@ -132,7 +132,13 @@ function TopPaymasters(props: any) {
             <Navbar searchbar />
             <section className="px-3 container mx-auto my-6 py-6 bg-white dark:bg-[#1F202B] shadow-lg rounded-xl border border-[#D7DAE0] dark:border-[#3B3C40]">
                 <div className="container">
-                    <div className="flex flex-row px-10">
+                   
+
+                </div>
+            
+            <div className="container">
+                <div className="flex flex-wrap items-center justify-between gap-3 py-2 mb-4 md:gap-10">
+                <div className="flex flex-row px-10">
                         
                         <Breadcrumbs aria-label="breadcrumb" >
                             <Link underline="hover" color="inherit" href={`/?network=${selectedNetwork ? selectedNetwork : ''}`}>
@@ -143,12 +149,6 @@ function TopPaymasters(props: any) {
                             </Link>
                         </Breadcrumbs>
                     </div>
-
-                </div>
-            
-            <div className="container">
-                <div className="flex  px-10 flex-wrap items-center justify-between gap-3 py-2 mb-4 md:gap-10">
-                <h1 className="text-3xl font-bold dark:text-white">Paymasters</h1>
 
                     <NetworkSelector selectedNetwork={selectedNetwork} handleNetworkChange={setSelectedNetwork} disabled={tableLoading}/>
                 </div>

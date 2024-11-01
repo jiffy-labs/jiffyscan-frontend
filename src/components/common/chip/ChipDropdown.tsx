@@ -174,9 +174,9 @@ function ChipDropdown(props: ChipProps) {
                 <span>
                     <Menu.Button
                         onClick={openModal}
-                        className={`h-[36px] w-[116px] font-gsans border border-[#D7DAE0] dark:border-[#D7DAE0] inline-flex items-center px-4 py-3 ${
+                        className={`h-[36px] w-[102px] font-gsans border border-[#D7DAE0]  dark:bg-[#1F202B] dark:border-[#3B3C40] dark:text-white text-base text-center inline-flex items-center px-4 py-3 ${
                             isMoreSelected ? 'bg-gray-800 text-white border-[#D7DAE0] dark:border-[#D7DAE0]' : 'bg-white text-gray-800'
-                        } rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 `}
+                        } rounded-lg  `}
                     >
                         {icon && isMoreSelected && <img src={icon} alt="" className="h-4 w-4 mr-2" />}
                         {isMoreSelected ? selectedNetwork : 'More'}
@@ -234,7 +234,7 @@ function ChipDropdown(props: ChipProps) {
                                             setIcon(iconPath);
                                             closeModal();
                                         }}
-                                        className="w-[156px] h-[36px] flex text-center text-md dark:text-[#DADEF1] dark:border-[#3B3C40] font-gsans border-[#DAD7E0] text-[#646D8F] items-center p-2 border rounded-lg shadow-sm hover:bg-gray-100"
+                                        className="w-[156px] h-[36px] flex text-center text-md dark:text-[#DADEF1] dark:border-[#3B3C40] font-gsans border-[#DAD7E0] text-[#646D8F] items-center p-2 border rounded-lg shadow-sm hover:bg-gray-100 dark:hover:text-black"
                                     >
                                         <img src={iconPath} alt={name} className="h-4 w-4 mr-2" />
                                         {name}

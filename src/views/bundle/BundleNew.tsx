@@ -502,7 +502,8 @@ function BundlerNew(props: any) {
                                                 <div className="flex-1 break-words">
                                                     <div className="justify-between block md:flex">
                                                         <div className="flex items-center gap-[10px]">
-                                                        <img src="/images/progress-clock.svg" alt="" className='fill-[#969CB2] dark:fill-[#666B80]'/>
+                                                            <img src="/images/timeL.svg" alt="" className='dark:hidden'/>
+                                                            <img src="/images/timeD.svg" alt="" className='dark:flex hidden'/>
                                                             {!isLoading ? (
                                                                 <p className="text-[#1F1F1F] dark:text-[#ADB0BC] font-medium leading-[24px] text-[16px]">
                                                                     {`${formatDistanceToNow(new Date(transactionDetails?.timestamp || 0), {
@@ -540,18 +541,30 @@ function BundlerNew(props: any) {
                                                 <div className="flex-1 break-words">
                                                     <div className="justify-between block md:flex">
                                                         <div className="flex items-center gap-[10px]">
-                                                            <img src="/images/from.svg" alt="target" className="w-6 h-6 fill-[#969CB2] dark:fill-[#666B80]" />
+                                                        <img src="/images/fromL.svg" alt="target" className="dark:hidden fill-[#969CB2] dark:fill-[#666B80]" />
+                                                        <img src="/images/fromD.svg" alt="target" className="dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]" />
                                                             {!isLoading ? (
                                                                 <>
+                                                                <Link href={`/account/${transactionDetails?.from}`} className='no-underline'>
                                                                     <span className="text-[#195BDF]">
                                                                         {formatAddress(transactionDetails?.from || '')}
                                                                     </span>
+                                                                    </Link>
                                                                     <CopyButton text={transactionDetails?.from || ''} />
                                                                     <Link
                                                                         href={`/account/${transactionDetails?.from}?network=${network}`}
                                                                         target="_blank"
                                                                     >
-                                                                        <img src="/images/link.svg" alt="link" className="w-6 h-6" />
+                                                                        <img
+                                                                                        src="/images/linkL.svg"
+                                                                                        alt="link"
+                                                                                        className="dark:hidden"
+                                                                                    />
+                                                                                    <img
+                                                                                        src="/images/linkD.svg"
+                                                                                        alt="link"
+                                                                                        className="dark:flex hidden"
+                                                                                    />
                                                                     </Link>
                                                                 </>
                                                             ) : (
@@ -576,18 +589,38 @@ function BundlerNew(props: any) {
                                                 <div className="flex-1 break-words">
                                                     <div className="justify-between block md:flex">
                                                         <div className="flex items-center gap-[10px]">
-                                                            <img src="/images/from.svg" alt="target" className="w-6 h-6 fill-[#969CB2] dark:fill-[#666B80]" />
+                                                        <img
+                                                                                            src="/images/toL.svg"
+                                                                                            alt="target"
+                                                                                            className="dark:hidden fill-[#969CB2] dark:fill-[#666B80]"
+                                                                                        />
+                                                                                        <img
+                                                                                            src="/images/toD.svg"
+                                                                                            alt="target"
+                                                                                            className="dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]"
+                                                                                        />
                                                             {!isLoading ? (
                                                                 <>
+                                                                <Link href={`/account/${transactionDetails?.to}`} className='no-underline'>
                                                                     <span className="text-[#195BDF]">
                                                                         {formatAddress(transactionDetails?.to || '')}
                                                                     </span>
+                                                                    </Link>
                                                                     <CopyButton text={transactionDetails?.to || ''} />
                                                                     <Link
                                                                         href={`/account/${transactionDetails?.to}?network=${network}`}
                                                                         target="_blank"
                                                                     >
-                                                                        <img src="/images/link.svg" alt="link" className="w-6 h-6" />
+                                                                       <img
+                                                                                        src="/images/linkL.svg"
+                                                                                        alt="link"
+                                                                                        className="dark:hidden"
+                                                                                    />
+                                                                                    <img
+                                                                                        src="/images/linkD.svg"
+                                                                                        alt="link"
+                                                                                        className="dark:flex hidden"
+                                                                                    />
                                                                     </Link>
                                                                 </>
                                                             ) : (
@@ -667,11 +700,16 @@ function BundlerNew(props: any) {
                                                 <div className="flex-1 break-words">
                                                     <div className="justify-between block md:flex">
                                                         <div className="flex items-center gap-[8px]">
-                                                            <img
-                                                                src="/images/dollar.svg"
-                                                                alt="transaction fee"
-                                                                className="w-6 h-6 dark:fill-white"
-                                                            />
+                                                        <img
+                                                                            src="/images/dollarL.svg"
+                                                                            alt="transaction fee"
+                                                                            className="dark:hidden fill-[#969CB2] dark:fill-[#666B80]"
+                                                                        />
+                                                                        <img
+                                                                            src="/images/dollarD.svg"
+                                                                            alt="transaction fee"
+                                                                            className="dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]"
+                                                                        />
                                                             {!isLoading ? (
                                                                 <p className="text-[#1F1F1F] leading-5 text-base dark:text-[#ADB0BC]">
                                                                     {transactionDetails?.trxFee} ETH
@@ -698,11 +736,16 @@ function BundlerNew(props: any) {
                                                 <div className="flex-1 break-words">
                                                     <div className="justify-between block md:flex">
                                                         <div className="flex items-center gap-[8px]">
-                                                            <img
-                                                                src="/images/dollar.svg"
-                                                                alt="transaction fee"
-                                                                className="w-6 h-6 fill-[#969CB2] dark:fill-[#666B80]"
-                                                            />
+                                                        <img
+                                                                            src="/images/dollarL.svg"
+                                                                            alt="transaction fee"
+                                                                            className="dark:hidden fill-[#969CB2] dark:fill-[#666B80]"
+                                                                        />
+                                                                        <img
+                                                                            src="/images/dollarD.svg"
+                                                                            alt="transaction fee"
+                                                                            className="dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]"
+                                                                        />
                                                             {!isLoading ? (
                                                                 <p className="text-[#1F1F1F] leading-5 text-base dark:text-[#ADB0BC]">
                                                                     {transactionDetails?.revenue} ETH
@@ -729,11 +772,16 @@ function BundlerNew(props: any) {
                                                 <div className="flex-1 break-words">
                                                     <div className="justify-between block md:flex">
                                                         <div className="flex items-center gap-[8px]">
-                                                            <img
-                                                                src="/images/dollar.svg"
-                                                                alt="transaction fee"
-                                                                className="w-6 h-6 fill-[#969CB2] dark:fill-[#666B80]"
-                                                            />
+                                                        <img
+                                                                            src="/images/dollarL.svg"
+                                                                            alt="transaction fee"
+                                                                            className="dark:hidden fill-[#969CB2] dark:fill-[#666B80]"
+                                                                        />
+                                                                        <img
+                                                                            src="/images/dollarD.svg"
+                                                                            alt="transaction fee"
+                                                                            className="dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]"
+                                                                        />
                                                             {!isLoading ? (
                                                                 <p className="text-[#1F1F1F] leading-5 flex flex-row gap-2 text-base dark:text-[#ADB0BC]">
                                                                     {transactionDetails?.profit} ETH
@@ -769,7 +817,9 @@ function BundlerNew(props: any) {
                                             <div className="border-b w-full border-[#D7DAE0] dark:border-[#3B3C40]"></div>
 
                                             <span className="text-[20px] flex items-center py-4 px-4 gap-2 text-[#20294C] dark:text-[#ADB0BC] font-medium leading-5">
-                                                <img src="/images/gas.svg" alt="gas used" className="w-[24px] fill-[#969CB2] dark:fill-[#666B80]" />
+                                                <img src="/images/gas.svg" alt="gas used" className="w-[24px] dark:hidden fill-[#969CB2] dark:fill-[#666B80]" />
+                                                <img src="/images/gasD.svg" alt="gas used" className="w-[24px] dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]" />
+
                                                 GAS DETAILS
                                             </span>
 

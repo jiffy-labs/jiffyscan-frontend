@@ -376,13 +376,15 @@ function RecentUserOps(props: any) {
                                 className="text-[#195BDF]"
                             >
                                 {shortenString(hash as string)}
-                                <Tooltip title={copyTooltip}>
+                                
+                            </Link>
+                            
+                        </Breadcrumbs>
+                        <Tooltip title={copyTooltip}>
                                     <IconButton onClick={handleCopy} size="small" style={{ marginLeft: '8px' }}>
-                                        <MdContentCopy className="w-4 h-4 dark:fill-[#ADB0BC]" />
+                                        <MdContentCopy className="w-4 h-4 fill-[#969CB2] dark:fill-[#666B80]" />
                                     </IconButton>
                                 </Tooltip>
-                            </Link>
-                        </Breadcrumbs>
                         {/* @ts-ignore */}
                         <Status type={userOpsData?.[showUserOpId]?.success} status={userOpsData?.[showUserOpId]?.status} />
                     </div>
@@ -608,7 +610,9 @@ function RecentUserOps(props: any) {
                                                             <div className="flex-1 break-words">
                                                                 <div className="justify-between block md:flex">
                                                                     <div className="flex items-center gap-[10px]">
-                                                                        <img src="/images/progress-clock.svg" alt="" className='fill-[#969CB2] dark:fill-[#666B80]'/>
+                                                                        <img src="/images/timeL.svg" alt="" className='dark:hidden'/>
+                                                                        <img src="/images/timeD.svg" alt="" className='dark:flex hidden'/>
+
                                                                         {!isLoading ? (
                                                                             <p className="text-[#1F1F1F] dark:text-[#ADB0BC] font-medium leading-[24px] text-[16px]">
                                                                                 {userOpsData?.[showUserOpId]?.blockTime
@@ -645,12 +649,16 @@ function RecentUserOps(props: any) {
                                                             <div className="flex-1 break-words">
                                                                 <div className="justify-between block md:flex">
                                                                     <div className="flex items-center gap-[10px]">
-                                                                        <img src="/images/from.svg" alt="target" className="w-6 h-6 fill-[#969CB2] dark:fill-[#666B80]" />
+                                                                        <img src="/images/fromL.svg" alt="target" className="dark:hidden fill-[#969CB2] dark:fill-[#666B80]" />
+                                                                        <img src="/images/fromD.svg" alt="target" className="dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]" />
+
                                                                         {!isLoading ? (
                                                                             <>
-                                                                                <span className="text-[#195BDF]">
-                                                                                    {formatAddress(userOpsData?.[showUserOpId]?.sender)}
-                                                                                </span>
+                                                                                <Link href={`/account/${userOpsData?.[showUserOpId]?.sender}`} className='no-underline'>
+                                                                                    <span className="text-[#195BDF] cursor-pointer">
+                                                                                        {formatAddress(userOpsData?.[showUserOpId]?.sender)}
+                                                                                    </span>
+                                                                                </Link>
                                                                                 <CopyButton
                                                                                     text={userOpsData?.[showUserOpId]?.sender || ''}
                                                                                 />
@@ -659,9 +667,14 @@ function RecentUserOps(props: any) {
                                                                                     target="_blank"
                                                                                 >
                                                                                     <img
-                                                                                        src="/images/link.svg"
+                                                                                        src="/images/linkL.svg"
                                                                                         alt="link"
-                                                                                        className="w-6 h-6"
+                                                                                        className="dark:hidden"
+                                                                                    />
+                                                                                    <img
+                                                                                        src="/images/linkD.svg"
+                                                                                        alt="link"
+                                                                                        className="dark:flex hidden"
                                                                                     />
                                                                                 </Link>
                                                                             </>
@@ -693,15 +706,23 @@ function RecentUserOps(props: any) {
                                                                                 <>
                                                                                     <div className="flex items-center gap-[8px] font-medium">
                                                                                         <img
-                                                                                            src="/images/to.svg"
+                                                                                            src="/images/toL.svg"
                                                                                             alt="target"
-                                                                                            className="w-6 h-6 fill-[#969CB2] dark:fill-[#666B80]"
+                                                                                            className="dark:hidden fill-[#969CB2] dark:fill-[#666B80]"
                                                                                         />
-                                                                                        <span className="text-[#195BDF]">
-                                                                                            {/* @ts-ignore */}
-                                                                                            {formatAddress(userOpsData[showUserOpId]?.target[0],
-                                                                                            )}
-                                                                                        </span>
+                                                                                        <img
+                                                                                            src="/images/toD.svg"
+                                                                                            alt="target"
+                                                                                            className="dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]"
+                                                                                        />
+                                                                                         {/* @ts-ignore */}                           
+                                                                                        <Link href={`/account/${userOpsData?.[showUserOpId]?.target[0]}`} className='no-underline'>
+                                                                                            <span className="text-[#195BDF]">
+                                                                                                {/* @ts-ignore */}
+                                                                                                {formatAddress(userOpsData[showUserOpId]?.target[0],
+                                                                                                )}
+                                                                                            </span>
+                                                                                        </Link>
                                                                                         {/* @ts-ignore */}
                                                                                         <CopyButton text={userOpsData[showUserOpId]?.target[0] || ''
                                                                                             }
@@ -711,10 +732,15 @@ function RecentUserOps(props: any) {
                                                                                             target="_blank"
                                                                                         >
                                                                                             <img
-                                                                                                src="/images/link.svg"
-                                                                                                alt="link"
-                                                                                                className="w-6 h-6"
-                                                                                            />
+                                                                                        src="/images/linkL.svg"
+                                                                                        alt="link"
+                                                                                        className="dark:hidden"
+                                                                                    />
+                                                                                    <img
+                                                                                        src="/images/linkD.svg"
+                                                                                        alt="link"
+                                                                                        className="dark:flex hidden"
+                                                                                    />
                                                                                         </Link>
                                                                                         {/* @ts-ignore */}
                                                                                         {userOpsData[showUserOpId]?.target?.length > 1 && (
@@ -752,19 +778,26 @@ function RecentUserOps(props: any) {
                                                                                                             alt="target"
                                                                                                             className="w-6 h-6"
                                                                                                         />
+                                                                                                        <Link href={`/account/${target}`} className='no-underline'>
                                                                                                         <span className="text-[#195BDF]">
                                                                                                             {formatAddress(target)}
                                                                                                         </span>
+                                                                                                        </Link>
                                                                                                         <CopyButton text={target || ''} />
                                                                                                         <Link
                                                                                                             href={`https://etherscan.io/address/${target}`}
                                                                                                             target="_blank"
                                                                                                         >
                                                                                                             <img
-                                                                                                                src="/images/link.svg"
-                                                                                                                alt="link"
-                                                                                                                className="w-6 h-6"
-                                                                                                            />
+                                                                                        src="/images/linkL.svg"
+                                                                                        alt="link"
+                                                                                        className="dark:hidden"
+                                                                                    />
+                                                                                    <img
+                                                                                        src="/images/linkD.svg"
+                                                                                        alt="link"
+                                                                                        className="dark:flex hidden"
+                                                                                    />
                                                                                                         </Link>
                                                                                                     </div>
                                                                                                 ))}
@@ -797,9 +830,14 @@ function RecentUserOps(props: any) {
                                                                 <div className="justify-between block md:flex">
                                                                     <div className="flex items-center gap-[8px]">
                                                                         <img
-                                                                            src="/images/dollar.svg"
+                                                                            src="/images/dollarL.svg"
                                                                             alt="transaction fee"
-                                                                            className="w-6 h-6 fill-[#969CB2] dark:fill-[#666B80]"
+                                                                            className="dark:hidden fill-[#969CB2] dark:fill-[#666B80]"
+                                                                        />
+                                                                        <img
+                                                                            src="/images/dollarD.svg"
+                                                                            alt="transaction fee"
+                                                                            className="dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]"
                                                                         />
                                                                         {!isLoading ? (
                                                                             <p className="text-[#1F1F1F] leading-5 text-base dark:text-[#ADB0BC]">
@@ -854,7 +892,8 @@ function RecentUserOps(props: any) {
                                                         <div className="border-b w-full border-[#D7DAE0] dark:border-[#3B3C40]"></div>
 
                                                         <span className="text-[20px] flex items-center py-4 px-4 gap-2 text-[#20294C] dark:text-[#ADB0BC] font-medium leading-5">
-                                                            <img src="/images/gas.svg" alt="gas used" className="w-[24px]" />
+                                                        <img src="/images/gas.svg" alt="gas used" className="w-[24px] dark:hidden fill-[#969CB2] dark:fill-[#666B80]" />
+                                                        <img src="/images/gasD.svg" alt="gas used" className="w-[24px] dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]" />
                                                             GAS DETAILS
                                                         </span>
 
@@ -887,7 +926,9 @@ function RecentUserOps(props: any) {
 
                                                         <div className="border-b w-full border-[#D7DAE0] dark:border-[#3B3C40]"></div>
                                                         <span className="text-[20px] flex items-start md:items-center py-4 px-4 gap-2 text-[#20294C] dark:text-[#ADB0BC] font-medium leading-5">
-                                                            <img src="/images/Details.svg" alt="gas used" className="w-[24px]" />
+                                                            <img src="/images/details.svg" alt="gas used" className="w-[24px] dark:hidden" />
+                                                            <img src="/images/detailsD.svg" alt="gas used" className="w-[24px] hidden dark:flex" />
+
                                                             OTHER DETAILS
                                                         </span>
                                                         {/* EntryPoint */}
@@ -920,9 +961,14 @@ function RecentUserOps(props: any) {
                                                                                     target="_blank"
                                                                                 >
                                                                                     <img
-                                                                                        src="/images/link.svg" // Make sure this path is correct
-                                                                                        alt="Explorer"
-                                                                                        className="w-6 h-6"
+                                                                                        src="/images/linkL.svg"
+                                                                                        alt="link"
+                                                                                        className="dark:hidden"
+                                                                                    />
+                                                                                    <img
+                                                                                        src="/images/linkD.svg"
+                                                                                        alt="link"
+                                                                                        className="dark:flex hidden"
                                                                                     />
                                                                                 </Link>
                                                                             </>
@@ -963,9 +1009,14 @@ function RecentUserOps(props: any) {
                                                                                     target="_blank"
                                                                                 >
                                                                                     <img
-                                                                                        src="/images/link.svg"
+                                                                                        src="/images/linkL.svg"
                                                                                         alt="link"
-                                                                                        className="w-6 h-6"
+                                                                                        className="dark:hidden"
+                                                                                    />
+                                                                                    <img
+                                                                                        src="/images/linkD.svg"
+                                                                                        alt="link"
+                                                                                        className="dark:flex hidden"
                                                                                     />
                                                                                 </Link>
                                                                             </>
@@ -1005,9 +1056,14 @@ function RecentUserOps(props: any) {
                                                                                     target="_blank"
                                                                                 >
                                                                                     <img
-                                                                                        src="/images/link.svg"
+                                                                                        src="/images/linkL.svg"
                                                                                         alt="link"
-                                                                                        className="w-6 h-6"
+                                                                                        className="dark:hidden"
+                                                                                    />
+                                                                                    <img
+                                                                                        src="/images/linkD.svg"
+                                                                                        alt="link"
+                                                                                        className="dark:flex hidden"
                                                                                     />
                                                                                 </Link>
                                                                             </>

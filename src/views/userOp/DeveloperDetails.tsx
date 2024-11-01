@@ -86,7 +86,7 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                     <p className="text-black font-semibold font-gsans text-center text-lg sm:text-xl dark:text-[#DADEF1]">Format</p>
                 </div>
                 <div className="h-[32px] mt-3 sm:mt-0">
-                    <ul className="grid grid-flow-col text-center font-gsans dark:bg-[#191A23] dark:border-[#3B3C40] text-gray-500 gap-1 bg-gray-100 rounded-md border-2 p-1 items-center h-[32px]">
+                    <ul className="grid grid-flow-col text-center font-gsans dark:bg-[#191A23] dark:border-[#3B3C40] text-gray-500 gap-1 bg-gray-100 rounded-md border-2 p-1 items-center h-[40px]">
                         <li className="px-0">
                             <button
                                 onClick={() => handleTabClick(3)}
@@ -133,7 +133,7 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                 <>
                     <div className="border-b border-r border-l bg-white p-3 px-4 sm:px-8 text-sm sm:text-md flex justify-between dark:border-[#3B3C40] dark:bg-[#1F202B]">
                         {/* Wrapper to allow horizontal scroll on mobile */}
-                        <div className="flex w-full overflow-x-auto  space-x-[-24px]">
+                        <div className="flex w-full overflow-x-auto  space-x-[-32px]">
                             <div className="flex space-x-4 w-48 text-center flex-shrink-0">
                                 <span className="bg-[#F0F1F5] dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40] font-gsans text-[#646D8F] w-[72px] h-[24px] text-center text-sm px-2.5 py-0.5 rounded border border-gray-200">
                                     address
@@ -155,7 +155,7 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
 
                     <div className="border-b border-r border-l bg-white p-3 px-4 sm:px-8 text-sm sm:text-md flex justify-between dark:border-[#3B3C40] dark:bg-[#1F202B]">
                         {/* Wrapper to allow horizontal scroll on mobile */}
-                        <div className="flex w-full overflow-x-auto space-x-[-24px]">
+                        <div className="flex w-full overflow-x-auto space-x-[-32px]">
                             <div className="flex space-x-4 w-48 text-center flex-shrink-0">
                                 <span className="bg-[#F0F1F5] font-gsans text-[#646D8F] dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40] w-[72px] h-[24px] text-center text-sm px-2.5 py-0.5 rounded border border-gray-200">
                                     uint256
@@ -187,7 +187,7 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
 
                     <div className="border-b border-r border-l bg-white p-3 px-4 sm:px-8 text-sm sm:text-md flex justify-between dark:border-[#3B3C40] dark:bg-[#1F202B]">
                         {/* Wrapper to allow horizontal scroll on mobile */}
-                        <div className="flex w-full overflow-x-auto space-x-[-24px]">
+                        <div className="flex w-full space-x-[-32px]">
                             <div className="flex space-x-4 w-48 text-center flex-shrink-0">
                                 <span className="bg-[#F0F1F5] font-gsans text-[#646D8F] dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40] w-[72px] h-[24px] text-center text-sm px-2.5 py-0.5 rounded border border-gray-200">
                                     bytes
@@ -200,13 +200,13 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                                 </div>
                                 <div className="">
                                     {/* Formatted initCode for both mobile and larger views */}
-                                    <span className="font-gsans font-medium text-md text-[#646D8F] dark:text-[#ADB0BC] block text-nowrap">
+                                    <div className="w-[500px] md:w-full font-gsans text-[#646D8F] text-md max-h-32 overflow-y-auto border border-[#D7DAE0] px-4 py-2 rounded bg-white dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40]">
                                         {userOpParamsExists && metaData?.userOpParams[2]
                                             ? metaData?.userOpParams[2]
                                             : item?.initCode
                                             ? item?.initCode
                                             : 'Unable to decode user op input'}
-                                    </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -214,7 +214,7 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
 
                     <div className="border-b border-r border-l bg-white p-3 px-4 sm:px-8 text-sm sm:text-md flex justify-between dark:border-[#3B3C40] dark:bg-[#1F202B]">
                         {/* Wrapper to allow horizontal scroll on mobile */}
-                        <div className="flex w-full overflow-x-auto space-x-[-24px]">
+                        <div className="flex w-full overflow-x-auto space-x-[-32px]">
                             <div className="flex align-middle space-x-8 w-48 text-center flex-shrink-0">
                                 <span className="bg-[#F0F1F5] font-gsans text-[#646D8F] dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40] w-[72px] h-[24px] text-center text-sm px-2.5 py-0.5 rounded border border-gray-200">
                                     bytes
@@ -249,13 +249,13 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                             {item?.preDecodedCallData && getFormat(item?.preDecodedCallData) != '' ? (
                                 <div className="border-b border-r border-l space-x-4 bg-[#F0F1F5] p-3 px-4 sm:px-8 text-sm sm:text-md flex justify-between dark:border-[#3B3C40] dark:bg-[#191A23] ">
                                     {/* Wrapper to allow horizontal scroll on mobile */}
-                                    <div className="flex w-full overflow-x-auto space-x-[-24px]">
+                                    <div className="flex w-full overflow-x-auto space-x-[-32px]">
                                         <div className="flex space-x-4 w-48 text-center flex-shrink-0">
                                             <span className="bg-[#F0F1F5] dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40] font-gsans text-[#646D8F] w-[72px] h-[24px] text-center text-sm px-2.5 py-0.5 rounded border border-gray-200">
                                                 bytes
                                             </span>
                                         </div>
-                                        <div className="flex flex-row space-x-16 flex-1 flex-shrink-0 pl-16">
+                                        <div className="flex flex-row space-x-16 flex-1 flex-shrink-0 pl-8">
                                             <div className="w-[132px]">
                                                 <span className="font-gsans font-medium text-md text-[#20294C] dark:text-[#DADEF1]">
                                                     format
@@ -278,13 +278,13 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                                         <>
                                             <div className="border-b border-r border-l space-x-4 bg-[#F0F1F5] p-3 px-4 sm:px-8 text-sm sm:text-md flex justify-between dark:border-[#3B3C40] dark:bg-[#191A23]">
                                                 {/* Wrapper to allow horizontal scroll on mobile */}
-                                                <div className="flex w-full overflow-x-auto space-x-[-24px]">
+                                                <div className="flex w-full overflow-x-auto space-x-[-32px]">
                                                     <div className="flex space-x-4 w-48 text-center flex-shrink-0">
                                                         <span className="bg-[#F0F1F5] dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40] font-gsans text-[#646D8F] w-[72px] h-[24px] text-center text-sm px-2.5 py-0.5 rounded border border-gray-200">
                                                             address
                                                         </span>
                                                     </div>
-                                                    <div className="flex flex-row space-x-16 flex-1 flex-shrink-0 pl-16">
+                                                    <div className="flex flex-row space-x-16 flex-1 flex-shrink-0 pl-8">
                                                         <div className="w-[132px]">
                                                             <span className="font-gsans font-medium text-md text-[#20294C] dark:text-[#DADEF1]">
                                                                 {index + 1}: target
@@ -302,13 +302,13 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                                             {item?.value && item?.value.length == item?.target.length && (
                                                 <div className="border-b border-r border-l space-x-4 bg-[#F0F1F5] p-3 px-4 sm:px-8 text-sm sm:text-md flex justify-between dark:border-[#3B3C40] dark:bg-[#191A23]">
                                                     {/* Wrapper to allow horizontal scroll on mobile */}
-                                                    <div className="flex w-full overflow-x-auto space-x-[-24px]">
+                                                    <div className="flex w-full overflow-x-auto space-x-[-32px]">
                                                         <div className="flex space-x-4 w-48 text-center flex-shrink-0">
                                                             <span className="bg-[#F0F1F5] dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40] font-gsans text-[#646D8F] w-[72px] h-[24px] text-center text-sm px-2.5 py-0.5 rounded border border-gray-200">
                                                                 uint256
                                                             </span>
                                                         </div>
-                                                        <div className="flex flex-row space-x-16 flex-1 flex-shrink-0 pl-16">
+                                                        <div className="flex flex-row space-x-16 flex-1 flex-shrink-0 pl-8">
                                                             <div className="w-[132px]">
                                                                 <span className="font-gsans font-medium text-md text-[#20294C] dark:text-[#DADEF1]">
                                                                     {index + 1}: value
@@ -328,13 +328,13 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                                             {item?.callData && item?.callData.length == item.target.length && (
                                                 <div className="border-b border-r border-l space-x-4 bg-[#F0F1F5] p-3 px-4 sm:px-8 text-sm sm:text-md flex justify-between dark:border-[#3B3C40] dark:bg-[#191A23]">
                                                 {/* Wrapper to allow horizontal scroll on mobile */}
-                                                <div className="flex w-full overflow-x-auto space-x-[-24px]">
+                                                <div className="flex w-full overflow-x-auto space-x-[-32px]">
                                                     <div className="flex space-x-4 w-48 text-center flex-shrink-0">
                                                         <span className="bg-[#F0F1F5] dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40] font-gsans text-[#646D8F] w-[72px] h-[24px] text-center text-sm px-2.5 py-0.5 rounded border border-gray-200">
                                                             bytes
                                                         </span>
                                                     </div>
-                                                    <div className="flex flex-row space-x-32 flex-1 flex-shrink-0 pl-16">
+                                                    <div className="flex flex-row space-x-32 flex-1 flex-shrink-0 pl-8">
                                                         <div className="w-full sm:w-[134px]">
                                                             <span className="font-gsans text-nowrap font-medium text-md text-[#20294C] dark:text-[#DADEF1]">
                                                                 {index + 1}: callData
@@ -360,7 +360,7 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                         <div className="border-b border-r border-l space-x-4 bg-white p-3 px-4 sm:px-8 text-sm sm:text-md flex justify-between dark:border-[#3B3C40] dark:bg-[#1F202B]">
                         {/* Wrapper to allow horizontal scroll on mobile */}
                         <div className="flex w-full overflow-x-auto space-x-0">
-                            <div className="flex space-x-4 w-48 text-center space-x-[-24px]">
+                            <div className="flex space-x-4 w-48 text-center space-x-[-32px]">
                                 <span className="bg-[#F0F1F5] font-gsans text-[#646D8F] dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40] w-[72px] h-[24px] text-center text-sm px-2.5 py-0.5 rounded border border-gray-200">
                                     uint256
                                 </span>
@@ -389,7 +389,7 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                     {ENTRY_POINT_ADDRESS_MAP.V6.toLowerCase() == item?.entryPoint && (
                         <div className="border-b border-r border-l space-x-4 bg-white p-3 px-4 sm:px-8 text-sm sm:text-md flex justify-between dark:border-[#3B3C40] dark:bg-[#1F202B]">
                         {/* Wrapper to allow horizontal scroll on mobile */}
-                        <div className="flex w-full overflow-x-auto space-x-[-24px]">
+                        <div className="flex w-full overflow-x-auto space-x-[-32px]">
                             <div className="flex space-x-4 w-48 text-center flex-shrink-0">
                                 <span className="bg-[#F0F1F5] dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40] font-gsans text-[#646D8F] w-[72px] h-[24px] text-center text-sm px-2.5 py-0.5 rounded border border-gray-200">
                                     uint256
@@ -419,7 +419,7 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                     {ENTRY_POINT_ADDRESS_MAP.V6.toLowerCase() == item?.entryPoint && (
                         <div className="border-b border-r border-l space-x-4 bg-white p-3 px-4 sm:px-8 text-sm sm:text-md flex justify-between dark:border-[#3B3C40] dark:bg-[#1F202B]">
                         {/* Wrapper to allow horizontal scroll on mobile */}
-                        <div className="flex w-full overflow-x-auto space-x-[-24px]">
+                        <div className="flex w-full overflow-x-auto space-x-[-32px]">
                             <div className="flex space-x-4 w-48 text-center flex-shrink-0">
                                 <span className="bg-[#F0F1F5] dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40] font-gsans text-[#646D8F] w-[72px] h-[24px] text-center text-sm px-2.5 py-0.5 rounded border border-gray-200">
                                     bytes32
@@ -443,7 +443,7 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                     
                     )}
                     <div className="border-b border-r border-l bg-white p-3 px-4 sm:px-8 text-sm sm:text-md flex justify-between dark:border-[#3B3C40] dark:bg-[#1F202B]">
-                        <div className="flex w-full overflow-x-auto space-x-[-24px]">
+                        <div className="flex w-full overflow-x-auto space-x-[-32px]">
                             <div className="flex align-middle space-x-8 w-48 text-center flex-shrink-0">
                                 <span className="bg-[#F0F1F5] font-gsans text-[#646D8F] dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40] w-[72px] h-[24px] text-center text-sm px-2.5 py-0.5 rounded border border-gray-200">
                                     uint256
@@ -470,13 +470,13 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                     </div>
 
                     <div className="border-b border-r border-l bg-white p-3 px-4 sm:px-8 text-sm sm:text-md flex justify-between dark:border-[#3B3C40] dark:bg-[#1F202B]">
-                        <div className="flex w-full overflow-x-auto space-x-[-24px]">
+                        <div className="flex w-full overflow-x-auto space-x-[-32px]">
                             <div className="flex align-middle space-x-8 w-48 text-center flex-shrink-0">
                                 <span className="bg-[#F0F1F5] font-gsans text-[#646D8F] dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40] w-[72px] h-[24px] text-center text-sm px-2.5 py-0.5 rounded border border-gray-200">
                                     uint256
                                 </span>
                             </div>
-                            <div className="flex flex-row space-x-16 flex-1 flex-shrink-0">
+                            <div className="flex flex-row space-x-[72px] flex-1 flex-shrink-0">
                                 <div className="w-[132px]">
                                     <span className="font-gsans font-medium text-md text-[#20294C] dark:text-[#DADEF1]">
                                         paymasterAndData
@@ -499,13 +499,13 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                     </div>
 
                     <div className="border-b border-r border-l bg-white p-3 px-4 sm:px-8 text-sm sm:text-md flex justify-between dark:border-[#3B3C40] dark:bg-[#1F202B] rounded-b-xl">
-                        <div className="flex w-full overflow-x-auto space-x-[-24px]">
+                        <div className="flex w-full overflow-x-auto space-x-[-32px]">
                             <div className="flex align-middle space-x-4 w-48 text-center flex-shrink-0">
                                 <span className="bg-[#F0F1F5] font-gsans text-[#646D8F] dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40] w-[72px] h-[24px] text-center text-sm px-2.5 py-0.5 rounded border border-gray-200">
                                     uint256
                                 </span>
                             </div>
-                            <div className="flex flex-row space-x-28 flex-1 flex-shrink-0">
+                            <div className="flex flex-row space-x-[118px] flex-1 flex-shrink-0">
                                 <div className="w-[132px]">
                                     <span className="font-gsans font-medium text-md text-[#20294C] dark:text-[#DADEF1]">signature</span>
                                 </div>

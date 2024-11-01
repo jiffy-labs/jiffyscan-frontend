@@ -95,7 +95,7 @@ function Pagination({ pageDetails: { pageNo, setPageNo, pageSize, setPageSize, t
                     ) : (
                         <button
                             key={index}
-                            className={`py-2 px-4 ${pageNo === page ? 'font-bold text-md dark:text-[#598AEB] rounded-full bg-[#969CB2]/40' : ''}`}
+                            className={`py-2.5 px-4 ${pageNo === page ? 'font-bold text-md text-[#195BDF] dark:text-[#598AEB] rounded-full bg-[#EBEDFF]' : ''}`}
                             onClick={() => setPageNo(page)}
                         >
                             {page + 1}

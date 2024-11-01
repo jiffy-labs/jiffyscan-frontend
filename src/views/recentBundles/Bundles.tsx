@@ -103,6 +103,11 @@ function UserOperations(props: any) {
             <Navbar searchbar />
             <section className="px-3 container mx-auto my-6 py-6 bg-white dark:bg-[#1F202B] shadow-lg rounded-xl border border-[#D7DAE0] dark:border-[#3B3C40]">
                 <div className="container">
+                    
+                </div>
+    
+                <div className="container px-10 ">
+                    <div className="flex flex-wrap items-center justify-between gap-3 md:gap-10">
                     <div className="flex flex-row px-10">
                         <Breadcrumbs aria-label="breadcrumb" className="font-gsans text-[#646D8F] text-md sm:text-base">
                             <Link underline="hover" color="inherit" href={`/?network=${selectedNetwork ? selectedNetwork : ''}`}>
@@ -113,11 +118,6 @@ function UserOperations(props: any) {
                             </Link>
                         </Breadcrumbs>
                     </div>
-                </div>
-    
-                <div className="container px-10 ">
-                    <div className="flex flex-wrap items-center justify-between gap-3 md:gap-10">
-                        <h1 className="text-3xl font-bold font-gsans dark:text-white p-4">Bundles</h1>
                         <NetworkSelector selectedNetwork={selectedNetwork} handleNetworkChange={setSelectedNetwork} disabled={tableLoading}/>
                     </div>
                 </div>
