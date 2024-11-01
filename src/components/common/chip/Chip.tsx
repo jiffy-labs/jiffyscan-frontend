@@ -47,7 +47,7 @@ function Chip(props: ChipProps) {
     const { children, endIcon, startIcon, variant = 'contained', color = 'dark-700', className, onClick, disabled } = props;
 
     // Define base and disabled styles
-    const baseClasses = 'flex gap-1.5 items-center px-3 py-[1px] rounded-md w-[116px] h-[36px] font-gsans border text-sm text-center items-center';
+    const baseClasses = 'flex gap-1.5 items-center px-3 py-[1px] rounded-md  h-[36px] font-gsans border text-sm text-center items-center';
     const disabledClasses = disabled ? 'opacity-50 cursor-not-allowed' : '';
 
     // Safely access the color class based on variant and color
