@@ -545,9 +545,11 @@ function BundlerNew(props: any) {
                                                         <img src="/images/fromD.svg" alt="target" className="dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]" />
                                                             {!isLoading ? (
                                                                 <>
+                                                                <Link href={`/account/${transactionDetails?.from}`} className='no-underline'>
                                                                     <span className="text-[#195BDF]">
                                                                         {formatAddress(transactionDetails?.from || '')}
                                                                     </span>
+                                                                    </Link>
                                                                     <CopyButton text={transactionDetails?.from || ''} />
                                                                     <Link
                                                                         href={`/account/${transactionDetails?.from}?network=${network}`}
@@ -599,9 +601,11 @@ function BundlerNew(props: any) {
                                                                                         />
                                                             {!isLoading ? (
                                                                 <>
+                                                                <Link href={`/account/${transactionDetails?.to}`} className='no-underline'>
                                                                     <span className="text-[#195BDF]">
                                                                         {formatAddress(transactionDetails?.to || '')}
                                                                     </span>
+                                                                    </Link>
                                                                     <CopyButton text={transactionDetails?.to || ''} />
                                                                     <Link
                                                                         href={`/account/${transactionDetails?.to}?network=${network}`}

@@ -654,9 +654,11 @@ function RecentUserOps(props: any) {
 
                                                                         {!isLoading ? (
                                                                             <>
-                                                                                <span className="text-[#195BDF]">
-                                                                                    {formatAddress(userOpsData?.[showUserOpId]?.sender)}
-                                                                                </span>
+                                                                                <Link href={`/account/${userOpsData?.[showUserOpId]?.sender}`} className='no-underline'>
+                                                                                    <span className="text-[#195BDF] cursor-pointer">
+                                                                                        {formatAddress(userOpsData?.[showUserOpId]?.sender)}
+                                                                                    </span>
+                                                                                </Link>
                                                                                 <CopyButton
                                                                                     text={userOpsData?.[showUserOpId]?.sender || ''}
                                                                                 />
@@ -713,11 +715,14 @@ function RecentUserOps(props: any) {
                                                                                             alt="target"
                                                                                             className="dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]"
                                                                                         />
-                                                                                        <span className="text-[#195BDF]">
-                                                                                            {/* @ts-ignore */}
-                                                                                            {formatAddress(userOpsData[showUserOpId]?.target[0],
-                                                                                            )}
-                                                                                        </span>
+
+                                                                                        <Link href={`/account/${userOpsData?.[showUserOpId]?.target[0]}`} className='no-underline'>
+                                                                                            <span className="text-[#195BDF]">
+                                                                                                {/* @ts-ignore */}
+                                                                                                {formatAddress(userOpsData[showUserOpId]?.target[0],
+                                                                                                )}
+                                                                                            </span>
+                                                                                        </Link>
                                                                                         {/* @ts-ignore */}
                                                                                         <CopyButton text={userOpsData[showUserOpId]?.target[0] || ''
                                                                                             }
@@ -773,9 +778,11 @@ function RecentUserOps(props: any) {
                                                                                                             alt="target"
                                                                                                             className="w-6 h-6"
                                                                                                         />
+                                                                                                        <Link href={`/account/${target}`} className='no-underline'>
                                                                                                         <span className="text-[#195BDF]">
                                                                                                             {formatAddress(target)}
                                                                                                         </span>
+                                                                                                        </Link>
                                                                                                         <CopyButton text={target || ''} />
                                                                                                         <Link
                                                                                                             href={`https://etherscan.io/address/${target}`}
