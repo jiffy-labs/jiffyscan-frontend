@@ -715,7 +715,7 @@ function RecentUserOps(props: any) {
                                                                                             alt="target"
                                                                                             className="dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]"
                                                                                         />
-
+                                                                                         {/* @ts-ignore */}                           
                                                                                         <Link href={`/account/${userOpsData?.[showUserOpId]?.target[0]}`} className='no-underline'>
                                                                                             <span className="text-[#195BDF]">
                                                                                                 {/* @ts-ignore */}
