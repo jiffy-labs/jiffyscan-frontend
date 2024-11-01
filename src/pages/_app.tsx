@@ -14,7 +14,7 @@ import PHProvider from '@/context/postHogProvider';
 import { useTokenPrices } from '@/hooks/useTokenPrices';
 import TopBanner from '@/components/global/navbar/TopBanner';
 import localFont from 'next/font/local';
-
+import { VscSparkleFilled } from "react-icons/vsc";
 const GeistSans = localFont({
   src: [
     {
@@ -51,6 +51,15 @@ export default function MyApp({ Component, pageProps: { session, ...pageProps } 
     // Use the layout defined at the page level, if available
     useTokenPrices();
     const getLayout = Component.getLayout ?? ((page) => page);
+
+    const handleSwitchToV2 = () => {
+      const currentUrl = new URL(window.location.href);
+      currentUrl.hostname = 'v2.jiffyscan.xyz';
+      window.location.href = currentUrl.toString();
+  };
+  
+  
+
     return (
         <div className={`${GeistSans.variable} ${GeistMono.variable}`}>
             <PHProvider>
@@ -63,6 +72,18 @@ export default function MyApp({ Component, pageProps: { session, ...pageProps } 
                     </UserSessionStore>
                 </SessionProvider>
                 <Analytics />
+                {/* Floating Button for Switching to v2 */}
+                <button
+    onClick={handleSwitchToV2}
+    className="fixed bottom-10 flex items-center gap-2 text-16 right-5 bg-[#EED5CD] border-2 font-kaisei font-semibold border-[#EEC3A4] text-[#3C40F1] py-2 px-4 rounded-lg transition duration-300 z-50 overflow-hidden" 
+>
+    <img src="/sparkling.svg" alt="" />
+    Switch to v2
+
+    {/* Glass Shine Effect */}
+    <span className="absolute inset-0 bg-white bg-opacity-20 backdrop-blur-xs animate-shine pointer-events-none rounded-lg"></span>
+</button>
+
             </PHProvider>
         </div>
     );
