@@ -798,20 +798,19 @@ function BundlerNew(props: any) {
                                                                 <p className="text-[#1F1F1F] leading-5 flex flex-row gap-2 text-base dark:text-[#ADB0BC]">
                                                                     {transactionDetails?.profit} ETH
                                                                     <p className="text-[#9E9E9E]">
-                                                                        (
-                                                                        {transactionDetails?.revenue
-                                                                            ? `${
-                                                                                  parseFloat(transactionDetails.profit || '0') >= 0
-                                                                                      ? '+'
-                                                                                      : '- '
-                                                                              }${Math.abs(
-                                                                                  (parseFloat(transactionDetails.profit || '0') /
-                                                                                      parseFloat(transactionDetails.revenue || '0')) *
-                                                                                      100,
-                                                                              ).toFixed(2)}`
-                                                                            : '0.00'}
-                                                                        %)
-                                                                    </p>
+    (
+    {transactionDetails?.revenue && parseFloat(transactionDetails.revenue) !== 0
+        ? `${Math.sign(parseFloat(transactionDetails.profit || '0')) >= 0 ? '+' : ''}${
+              (
+                  (parseFloat(transactionDetails.profit || '0') /
+                      parseFloat(transactionDetails.revenue || '1')) *
+                  100
+              ).toFixed(2)
+          }`
+        : '0.00'}
+    %)
+</p>
+
                                                                 </p>
                                                             ) : (
                                                                 // @ts-ignore
