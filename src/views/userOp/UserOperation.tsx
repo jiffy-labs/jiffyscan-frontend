@@ -862,7 +862,7 @@ function RecentUserOps(props: any) {
                                                         </div>
 
                                                         {/* Block Number */}
-                                                        <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
+                                                        <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[8px]">
                                                             <div className="md:w-[280px] md:px-[16px] py-[8px] flex items-center gap-2">
                                                                 <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-gsans font-normal leading-5">
                                                                     BLOCK NUMBER
@@ -871,7 +871,9 @@ function RecentUserOps(props: any) {
                                                             <div className="flex-1 break-words">
                                                                 <div className="justify-between block md:flex">
                                                                     <div className="flex items-center gap-[10px]">
-                                                                        <HiHashtag className="w-6 h-6 fill-[#969CB2] dark:fill-[#666B80]" />
+                                                                        <img src="/images/hashL.svg" alt=""className="dark:hidden fill-[#969CB2] dark:fill-[#666B80]" />
+                                                                        <img src="/images/hashD.svg" alt=""className="dark:flex hidden"/>
+
                                                                         {!isLoading ? (
                                                                             <span className="text-base text-[#195BDF] dark:text-[#598AEB] break-all leading-5">
                                                                                 {userOpsData?.[showUserOpId]?.blockNumber}
@@ -891,14 +893,14 @@ function RecentUserOps(props: any) {
 
                                                         <div className="border-b w-full border-[#D7DAE0] dark:border-[#3B3C40]"></div>
 
-                                                        <span className="text-[20px] flex items-center py-4 px-4 gap-2 text-[#20294C] dark:text-[#ADB0BC] font-medium leading-5">
-                                                        <img src="/images/gas.svg" alt="gas used" className="w-[24px] dark:hidden fill-[#969CB2] dark:fill-[#666B80]" />
-                                                        <img src="/images/gasD.svg" alt="gas used" className="w-[24px] dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]" />
+                                                        <span className="text-[20px] flex items-center py-4 px-4 gap-2 text-[#20294C] dark:text-[#DADEF1] font-medium leading-5">
+                                                        <img src="/images/gasL.svg" alt="gas used" className=" dark:hidden fill-[#969CB2] dark:fill-[#666B80]" />
+                                                        <img src="/images/gasD.svg" alt="gas used" className=" dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]" />
                                                             GAS DETAILS
                                                         </span>
 
                                                         {/* Gas Used */}
-                                                        <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
+                                                        <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[8px]">
                                                             <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
                                                                 <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-normal leading-5">
                                                                     GAS USED
@@ -925,9 +927,9 @@ function RecentUserOps(props: any) {
                                                         </div>
 
                                                         <div className="border-b w-full border-[#D7DAE0] dark:border-[#3B3C40]"></div>
-                                                        <span className="text-[20px] flex items-start md:items-center py-4 px-4 gap-2 text-[#20294C] dark:text-[#ADB0BC] font-medium leading-5">
-                                                            <img src="/images/details.svg" alt="gas used" className="w-[24px] dark:hidden" />
-                                                            <img src="/images/detailsD.svg" alt="gas used" className="w-[24px] hidden dark:flex" />
+                                                        <span className="text-[20px] flex items-start md:items-center py-4 px-4 gap-2 text-[#20294C] dark:text-[#DADEF1] font-medium leading-5">
+                                                            <img src="/images/detailsL.svg" alt="gas used" className=" dark:hidden" />
+                                                            <img src="/images/detailsLD.svg" alt="gas used" className=" hidden dark:flex" />
 
                                                             OTHER DETAILS
                                                         </span>

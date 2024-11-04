@@ -86,13 +86,13 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                     <p className="text-black font-semibold font-gsans text-center text-lg sm:text-xl dark:text-[#DADEF1]">Format</p>
                 </div>
                 <div className="h-[32px] mt-3 sm:mt-0">
-                    <ul className="grid grid-flow-col text-center font-gsans dark:bg-[#191A23] dark:border-[#3B3C40] text-gray-500 gap-1 bg-gray-100 rounded-md border-2 p-1 items-center h-[40px]">
+                    <ul className="grid grid-flow-col text-center font-gsans dark:bg-[#191A23] dark:border-[#3B3C40] text-gray-500 gap-1 bg-gray-100 rounded-lg border-2 p-1 items-center h-[40px]">
                         <li className="px-0">
                             <button
                                 onClick={() => handleTabClick(3)}
-                                className={`flex items-center  justify-center h-full text-sm sm:text-base w-[80px] ${
+                                className={`flex items-center  justify-center h-full text-sm sm:text-base w-[88px] px-2 ${
                                     activeTab === 3
-                                        ? 'bg-white rounded-md text-indigo-900 dark:bg-[#1F202B] dark:text-blue-500 dark:border-[#3B3C40] border'
+                                        ? 'bg-white rounded-[4px] text-[#195BDF] dark:bg-[#1F202B] dark:text-[#598AEB] dark:border-[#3B3C40] border'
                                         : ''
                                 }`}
                             >
@@ -102,9 +102,9 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                         <li className="px-0">
                             <button
                                 onClick={() => handleTabClick(2)}
-                                className={`flex items-center justify-center h-full text-sm sm:text-base w-[80px] ${
+                                className={`flex items-center justify-center h-full text-sm sm:text-base w-[88px]  ${
                                     activeTab === 2
-                                        ? 'bg-white rounded-md  dark:bg-[#1F202B] dark:text-blue-500 dark:border-[#3B3C40] border'
+                                        ? 'bg-white rounded-[4px] dark:bg-[#1F202B] text-[#195BDF] px-2  dark:text-[#598AEB] dark:border-[#3B3C40] border'
                                         : ''
                                 }`}
                             >
@@ -114,9 +114,9 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                         <li className="px-0">
                             <button
                                 onClick={() => handleTabClick(1)}
-                                className={`flex items-center justify-center h-full text-sm sm:text-base w-[80px] ${
+                                className={`flex items-center justify-center h-full text-sm sm:text-base w-[88px]  ${
                                     activeTab === 1
-                                        ? 'bg-white rounded-md dark:bg-[#1F202B] dark:text-blue-500 dark:border-[#3B3C40] border'
+                                        ? 'bg-white rounded-[4px] text-[#195BDF] dark:bg-[#1F202B] px-2 dark:text-[#598AEB] dark:border-[#3B3C40] border'
                                         : ''
                                 }`}
                             >
@@ -194,12 +194,11 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                                 </span>
                             </div>
                             {/* Arrow to indicate subtrace expansion */}
-                            <div className="flex flex-row space-x-16 flex-1 flex-shrink-0">
+                            <div className="flex flex-row space-x-[118px] flex-1 flex-shrink-0">
                                 <div className="w-[132px]">
                                     <span className="font-gsans font-medium text-md text-[#20294C] dark:text-[#DADEF1]">initCode</span>
                                 </div>
-                                <div className="">
-                                    {/* Formatted initCode for both mobile and larger views */}
+                                <div className="overflow-hidden text-ellipsis break-all whitespace-pre-wrap">
                                     <div className="w-[500px] md:w-full font-gsans text-[#646D8F] text-md max-h-32 overflow-y-auto border border-[#D7DAE0] px-4 py-2 rounded bg-white dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40]">
                                         {userOpParamsExists && metaData?.userOpParams[2]
                                             ? metaData?.userOpParams[2]
@@ -359,8 +358,8 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                     {ENTRY_POINT_ADDRESS_MAP.V6.toLowerCase() == item?.entryPoint && (
                         <div className="border-b border-r border-l space-x-4 bg-white p-3 px-4 sm:px-8 text-sm sm:text-md flex justify-between dark:border-[#3B3C40] dark:bg-[#1F202B]">
                         {/* Wrapper to allow horizontal scroll on mobile */}
-                        <div className="flex w-full overflow-x-auto space-x-0">
-                            <div className="flex space-x-4 w-48 text-center space-x-[-32px]">
+                        <div className="flex w-full overflow-x-auto space-x-[-32px]">
+                            <div className="flex space-x-4 w-48 text-center ">
                                 <span className="bg-[#F0F1F5] font-gsans text-[#646D8F] dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40] w-[72px] h-[24px] text-center text-sm px-2.5 py-0.5 rounded border border-gray-200">
                                     uint256
                                 </span>
