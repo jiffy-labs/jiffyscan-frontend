@@ -224,7 +224,7 @@ function Home() {
                         headerText="Select network to explore"
                         infoText="Shows latest Activity for different entities in a chain"
                     /> */}
-                    <h1 className='font-gsans font-semibold text-base text-[#195BDF]'>EXPLORE</h1>
+                    <h1 className='font-gsans font-semibold text-base text-[#195BDF] dark:text-[#598AEB]'>EXPLORE</h1>
                     <h2 className='text-[28px] md:text-[32px] font-dmsans text-[#1F1F1F] dark:text-[#BCBFCC] font-medium py-2'>What&apos;s Happening On...</h2>
                     <NetworkSelector selectedNetwork={selectedNetwork} handleNetworkChange={setSelectedNetwork} disabled={loading} />
                 </div>
@@ -238,7 +238,7 @@ function Home() {
                             <div className="mt-4 border-t bg-white dark:bg-[#1D1E1F] dark:text-[#989BA6] border-l border-r dark:border-[#444444] border-[#D7DAE0]  px-10 py-6 flex items-center justify-between rounded-t-lg font-semibold font-dmsans sm:text-base md:text-xl">
                                 {/* <Button href="/recentBundles">View all bundles</Button> */}
                                 <p>Bundles</p>
-                                <Link href="/recentBundles" className="text-[#195BDF] dark:text-[#0052FF] flex items-center gap-2">
+                                <Link href="/recentBundles" className="text-[#195BDF] dark:text-[#598AEB] flex items-center gap-2">
                                     View Bundles <MdArrowForwardIos className="w-4 h-4" />
                                 </Link>
                             </div>
@@ -257,7 +257,7 @@ function Home() {
                         <div>
                             <div className="mt-4 border-t border-l border-r bg-white dark:text-[#989BA6] dark:bg-[#1D1E1F] dark:border-[#444444] border-[#D7DAE0] px-10 py-6 flex items-center justify-between rounded-t-lg font-semibold font-dmsans sm:text-base md:text-xl">
                                 <p>UserOps</p>
-                                <Link href="/recentUserOps" className="text-[#195BDF] dark:text-[#0052FF] flex items-center gap-2">
+                                <Link href="/recentUserOps" className="text-[#195BDF] dark:text-[#598AEB] flex items-center gap-2">
                                     View UserOps <MdArrowForwardIos className="w-4 h-4" />
                                 </Link>
                             </div>
@@ -283,7 +283,7 @@ function Home() {
                         <div>
                             <div className="mt-4 border-t border-l border-r bg-white dark:text-[#989BA6] dark:bg-[#1D1E1F] dark:border-[#444444] border-[#D7DAE0] px-10 py-6 flex items-center justify-between rounded-t-lg font-semibold font-dmsans sm:text-base md:text-xl">
                                 <p>Top Bundlers</p>
-                                <Link href="/bundlers" className="text-[#195BDF] dark:text-[#0052FF] flex items-center gap-2">
+                                <Link href="/bundlers" className="text-[#195BDF] dark:text-[#598AEB] flex items-center gap-2">
                                     View Bundlers<MdArrowForwardIos className="w-4 h-4" />
                                 </Link>
                             </div>
@@ -306,7 +306,7 @@ function Home() {
                         <div>
                         <div className="mt-4 border-t border-l border-r bg-white dark:text-[#989BA6]  dark:bg-[#1D1E1F] dark:border-[#444444] border-[#D7DAE0] px-10 py-6 flex items-center justify-between rounded-t-lg font-semibold font-dmsans sm:text-base md:text-xl">
                                 <p>Top Paymasters</p>
-                                <Link href="/paymasters" className="text-[#195BDF] dark:text-[#0052FF] flex items-center gap-2">
+                                <Link href="/paymasters" className="text-[#195BDF] dark:text-[#598AEB] flex items-center gap-2">
                                     View Paymasters<MdArrowForwardIos className="w-4 h-4" />
                                 </Link>
                             </div>

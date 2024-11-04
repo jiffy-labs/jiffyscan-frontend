@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { PAGE_SIZE_LIST } from '@/components/common/constants';
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
+import { IoMdArrowDropdown } from 'react-icons/io';
 
 interface PaginationProps {
     pageDetails: {
@@ -19,7 +20,13 @@ function Pagination({ pageDetails: { pageNo, setPageNo, pageSize, setPageSize, t
     const [fromPage, setFromPage] = useState(0);
     const [toPage, setToPage] = useState(0);
     const [totalPages, setTotalPages] = useState<number>(0);
+    const [isOpen, setIsOpen] = useState(false);
 
+    const handleDropdownToggle = () => setIsOpen(!isOpen);
+    const handleSelect = (size: number) => {
+        setPageSize(size);
+        setIsOpen(false);
+    };
     useEffect(() => {
         if (fixedPageSize) {
             setPageSize(fixedPageSize);
@@ -78,11 +85,11 @@ function Pagination({ pageDetails: { pageNo, setPageNo, pageSize, setPageSize, t
             <button
                 onClick={handlePrev}
                 disabled={isMinPage}
-                className={`${isMinPage ? 'opacity-40' : ''} gap-2 flex items-center bg-[#F0F1F5] dark:bg-[#191A23] text-[#646D8F] hover:text-white border border-[#D7DAE0] dark:border-[#3B3C40] hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg font-gsans text-md px-5 py-2.5`}
+                className={`${isMinPage ? 'opacity-40' : ''} gap-2 flex items-center bg-[#F0F1F5] dark:bg-[#191A23] text-[#969CB2] hover:text-white border border-[#D7DAE0] dark:border-[#3B3C40] hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg font-gsans text-md px-5 py-2.5`}
                 type="button"
             >
                 <GoArrowLeft className='w-4 h-4'/>
-                PREVIOUS
+                Previous
             </button>
 
             {/* Page numbers in the middle */}
@@ -95,7 +102,7 @@ function Pagination({ pageDetails: { pageNo, setPageNo, pageSize, setPageSize, t
                     ) : (
                         <button
                             key={index}
-                            className={`py-2.5 px-4 ${pageNo === page ? 'font-bold text-md text-[#195BDF] dark:text-[#598AEB] rounded-full bg-[#EBEDFF]' : ''}`}
+                            className={`py-2.5 px-4 ${pageNo === page ? 'font-bold text-md text-[#195BDF] dark:text-[#598AEB] rounded-full bg-[#EBEDFF] dark:bg-[#333540]' : ''}`}
                             onClick={() => setPageNo(page)}
                         >
                             {page + 1}
@@ -107,24 +114,40 @@ function Pagination({ pageDetails: { pageNo, setPageNo, pageSize, setPageSize, t
             {/* Next button on the right */}
             <div className="flex items-center gap-2">
                 <p className='text-nowrap font-gsans text-[#969CB2] text-sm'>Rows per page:</p>
-                {fixedPageSize ? (
-                    fixedPageSize
-                ) : (
-                    <select onChange={handleShow} value={pageSize} name="" id="" className="ml-2 pr-1 text-[#646D8F] dark:bg-[#191A23] border border-[#D7DAE0] bg-[#F0F1F5] dark:border-[#3B3C40] p-1 rounded-md">
-                        {PAGE_SIZE_LIST.map((size: number) => (
-                            <option key={size} value={size}>
-                                {size}
-                            </option>
-                        ))}
-                    </select>
-                )}
+                <div className="relative inline-block ml-2">
+            {fixedPageSize ? (
+                fixedPageSize
+            ) : (
+                <div
+                    onClick={handleDropdownToggle}
+                    className="flex items-center justify-center text-[#969CB2] dark:bg-[#191A23] bg-[#F0F1F5] border border-[#D7DAE0] dark:border-[#3B3C40] p-2 px-4 rounded-md cursor-pointer select-none"
+                >
+                    <span className="px-4 text-[#969CB2]">{pageSize}</span>
+                    <IoMdArrowDropdown className="w-4 h-4 text-[#646D8F]" />
+                </div>
+            )}
+
+            {isOpen && (
+                <div className="absolute z-10 mt-2 bg-[#F0F1F5] text-[#969CB2] dark:bg-[#191A23] border border-[#D7DAE0] dark:border-[#3B3C40] rounded-md shadow-lg">
+                    {PAGE_SIZE_LIST.map((size) => (
+                        <div
+                            key={size}
+                            onClick={() => handleSelect(size)}
+                            className="px-4 py-2 cursor-pointer text-center hover:bg-[#D7DAE0] dark:hover:bg-[#3B3C40] transition"
+                        >
+                            {size}
+                        </div>
+                    ))}
+                </div>
+            )}
+        </div>
             <button
                 onClick={handleNext}
                 disabled={isMaxPage}
-                className={`${isMaxPage ? 'opacity-40' : ''} gap-2 flex items-center bg-[#F0F1F5] text-[#646D8F] dark:bg-[#191A23] hover:text-white border border-[#D7DAE0] dark:border-[#3B3C40] hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg font-gsans text-md px-5 py-2.5`}
+                className={`${isMaxPage ? 'opacity-40' : ''} gap-2 flex items-center bg-[#F0F1F5] text-[#969CB2] dark:bg-[#191A23] hover:text-white border border-[#D7DAE0] dark:border-[#3B3C40] hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg font-gsans text-md px-5 py-2.5`}
                 type="button"
             >
-                NEXT
+                Next
                 <GoArrowRight className='w-4 h-4'/>
             </button>
             </div>

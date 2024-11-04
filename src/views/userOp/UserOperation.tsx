@@ -373,7 +373,7 @@ function RecentUserOps(props: any) {
                                 // href={`/userOpHash/${hash}?network=${network ? network : ''}`}
                                 onClick={() => setShowUserOpId(-1)}
                                 aria-current="page"
-                                className="text-[#195BDF]"
+                                className="text-[#195BDF] dark:text-[#598AEB]"
                             >
                                 {shortenString(hash as string)}
                                 
@@ -448,18 +448,18 @@ function RecentUserOps(props: any) {
                                             <li className="flex-none w-1/2 text-center md:flex-auto">
                                                 <button
                                                     onClick={() => handleToggle(0)} // Show UserOp Overview
-                                                    className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
-                                                        value === 0 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit text-[#646D8F] dark:text-[#646D8F]'
+                                                    className={`w-full px-0 py-2 text-base text-[#20294C]  border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
+                                                        value === 0 ? 'bg-white border-2 dark:bg-[#1F202B] dark:text-[#DADEF1]' : 'bg-inherit text-[#646D8F] dark:text-[#ADB0BC]'
                                                     }`}
                                                 >
-                                                    UserOp Overview
+                                                    Overview
                                                 </button>
                                             </li>
                                             <li className="flex-none w-1/2 text-center md:flex-auto">
                                                 <button
                                                     onClick={() => handleToggle(1)} // Show Developer Details
-                                                    className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
-                                                        value === 1 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit text-[#646D8F] dark:text-[#646D8F]'
+                                                    className={`w-full px-0 py-2 text-base text-[#20294C]  border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
+                                                        value === 1 ? 'bg-white border-2 dark:bg-[#1F202B] dark:text-[#DADEF1]' : 'bg-inherit text-[#646D8F] dark:text-[#ADB0BC]'
                                                     }`}
                                                 >
                                                     Call Data
@@ -468,11 +468,11 @@ function RecentUserOps(props: any) {
                                             <li className="flex-none w-1/2 text-center md:flex-auto">
                                                 <button
                                                     onClick={() => handleToggle(2)} // Show UserOp Logs
-                                                    className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
-                                                        value === 2 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit text-[#646D8F] dark:text-[#646D8F]'
+                                                    className={`w-full px-0 py-2 text-base text-[#20294C]  border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
+                                                        value === 2 ? 'bg-white border-2 dark:bg-[#1F202B] dark:text-[#DADEF1]' : 'bg-inherit text-[#646D8F] dark:text-[#ADB0BC]'
                                                     }`}
                                                 >
-                                                    UserOp Logs
+                                                 Logs
                                                 </button>
                                             </li>
                                             {(network === 'base' || network === 'odyssey' || network === 'open-campus-test') && (
@@ -655,7 +655,7 @@ function RecentUserOps(props: any) {
                                                                         {!isLoading ? (
                                                                             <>
                                                                                 <Link href={`/account/${userOpsData?.[showUserOpId]?.sender}`} className='no-underline'>
-                                                                                    <span className="text-[#195BDF] cursor-pointer">
+                                                                                    <span className="text-[#195BDF] dark:text-[#598AEB] cursor-pointer">
                                                                                         {formatAddress(userOpsData?.[showUserOpId]?.sender)}
                                                                                     </span>
                                                                                 </Link>
@@ -717,7 +717,7 @@ function RecentUserOps(props: any) {
                                                                                         />
                                                                                          {/* @ts-ignore */}                           
                                                                                         <Link href={`/account/${userOpsData?.[showUserOpId]?.target[0]}`} className='no-underline'>
-                                                                                            <span className="text-[#195BDF]">
+                                                                                            <span className="text-[#195BDF] dark:text-[#598AEB]">
                                                                                                 {/* @ts-ignore */}
                                                                                                 {formatAddress(userOpsData[showUserOpId]?.target[0],
                                                                                                 )}
@@ -779,7 +779,7 @@ function RecentUserOps(props: any) {
                                                                                                             className="w-6 h-6"
                                                                                                         />
                                                                                                         <Link href={`/account/${target}`} className='no-underline'>
-                                                                                                        <span className="text-[#195BDF]">
+                                                                                                        <span className="text-[#195BDF] dark:text-[#598AEB]">
                                                                                                             {formatAddress(target)}
                                                                                                         </span>
                                                                                                         </Link>
@@ -862,7 +862,7 @@ function RecentUserOps(props: any) {
                                                         </div>
 
                                                         {/* Block Number */}
-                                                        <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
+                                                        <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[8px]">
                                                             <div className="md:w-[280px] md:px-[16px] py-[8px] flex items-center gap-2">
                                                                 <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-gsans font-normal leading-5">
                                                                     BLOCK NUMBER
@@ -871,7 +871,9 @@ function RecentUserOps(props: any) {
                                                             <div className="flex-1 break-words">
                                                                 <div className="justify-between block md:flex">
                                                                     <div className="flex items-center gap-[10px]">
-                                                                        <HiHashtag className="w-6 h-6 fill-[#969CB2] dark:fill-[#666B80]" />
+                                                                        <img src="/images/hashL.svg" alt=""className="dark:hidden fill-[#969CB2] dark:fill-[#666B80]" />
+                                                                        <img src="/images/hashD.svg" alt=""className="dark:flex hidden"/>
+
                                                                         {!isLoading ? (
                                                                             <span className="text-base text-[#195BDF] dark:text-[#598AEB] break-all leading-5">
                                                                                 {userOpsData?.[showUserOpId]?.blockNumber}
@@ -891,14 +893,14 @@ function RecentUserOps(props: any) {
 
                                                         <div className="border-b w-full border-[#D7DAE0] dark:border-[#3B3C40]"></div>
 
-                                                        <span className="text-[20px] flex items-center py-4 px-4 gap-2 text-[#20294C] dark:text-[#ADB0BC] font-medium leading-5">
-                                                        <img src="/images/gas.svg" alt="gas used" className="w-[24px] dark:hidden fill-[#969CB2] dark:fill-[#666B80]" />
-                                                        <img src="/images/gasD.svg" alt="gas used" className="w-[24px] dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]" />
+                                                        <span className="text-[20px] flex items-center py-4 px-4 gap-2 text-[#20294C] dark:text-[#DADEF1] font-medium leading-5">
+                                                        <img src="/images/gasL.svg" alt="gas used" className=" dark:hidden fill-[#969CB2] dark:fill-[#666B80]" />
+                                                        <img src="/images/gasD.svg" alt="gas used" className=" dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]" />
                                                             GAS DETAILS
                                                         </span>
 
                                                         {/* Gas Used */}
-                                                        <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
+                                                        <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[8px]">
                                                             <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
                                                                 <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-normal leading-5">
                                                                     GAS USED
@@ -925,9 +927,9 @@ function RecentUserOps(props: any) {
                                                         </div>
 
                                                         <div className="border-b w-full border-[#D7DAE0] dark:border-[#3B3C40]"></div>
-                                                        <span className="text-[20px] flex items-start md:items-center py-4 px-4 gap-2 text-[#20294C] dark:text-[#ADB0BC] font-medium leading-5">
-                                                            <img src="/images/details.svg" alt="gas used" className="w-[24px] dark:hidden" />
-                                                            <img src="/images/detailsD.svg" alt="gas used" className="w-[24px] hidden dark:flex" />
+                                                        <span className="text-[20px] flex items-start md:items-center py-4 px-4 gap-2 text-[#20294C] dark:text-[#DADEF1] font-medium leading-5">
+                                                            <img src="/images/detailsL.svg" alt="gas used" className=" dark:hidden" />
+                                                            <img src="/images/detailsLD.svg" alt="gas used" className=" hidden dark:flex" />
 
                                                             OTHER DETAILS
                                                         </span>
@@ -996,7 +998,7 @@ function RecentUserOps(props: any) {
                                                                     <div className="flex items-center gap-[10px]">
                                                                         {!isLoading ? (
                                                                             <>
-                                                                                <span className="text-[#195BDF]">
+                                                                                <span className="text-[#195BDF] dark:text-[#598AEB]">
                                                                                     {formatAddress(
                                                                                         userOpsData?.[showUserOpId]?.beneficiary || '',
                                                                                     )}
@@ -1045,7 +1047,7 @@ function RecentUserOps(props: any) {
                                                                     <div className="flex items-center gap-[10px]">
                                                                         {!isLoading ? (
                                                                             <>
-                                                                                <span className="text-[#195BDF]">
+                                                                                <span className="text-[#195BDF] dark:text-[#598AEB]">
                                                                                     {formatAddress(userOpsData?.[showUserOpId]?.paymaster)}
                                                                                 </span>
                                                                                 <CopyButton

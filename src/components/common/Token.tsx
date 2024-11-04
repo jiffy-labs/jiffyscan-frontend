@@ -39,7 +39,7 @@ function Token({ icon, text, copyIcon, type, onTokenClicked, value, eyes }: Toke
         resolveAddress();
     });
 
-    if (text == 'Unavailable!') return <div className="flex items-center gap-2.5">{text}</div>;
+    if (text == 'Unavailable!') return <div className="flex items-center gap-2.5 text-[#969CB2] ml-5">{text}</div>;
     const renderString = showText ? text : shortenString(text, eyes);
 
     return (

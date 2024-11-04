@@ -111,9 +111,9 @@ function UserOperations(props: any) {
                     <div className="flex flex-row px-10">
                         <Breadcrumbs aria-label="breadcrumb" className="font-gsans text-[#646D8F] text-md sm:text-base">
                             <Link underline="hover" color="inherit" href={`/?network=${selectedNetwork ? selectedNetwork : ''}`}>
-                                <SlHome className='dark:fill-white'/>
+                                <SlHome className='dark:fill-[#969CB2]'/>
                             </Link>
-                            <Link underline="hover" color="text.primary" href="/recentBundles" aria-current="page" className='dark:text-white'>
+                            <Link underline="hover" color="text.primary" href="/recentBundles" aria-current="page" className='dark:text-[#ADB0BC]'>
                                 Bundles
                             </Link>
                         </Breadcrumbs>

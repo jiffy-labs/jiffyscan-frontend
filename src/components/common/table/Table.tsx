@@ -102,18 +102,18 @@ function Table(props: tableDataT) {
                     {caption?.children}
                 </Caption>
             )} */}
-            <ScrollContainer className="rounded-b-lg border border-[#D7DAE0] dark:border-[#444444]">
+            <ScrollContainer className={`rounded-b-lg border border-[#D7DAE0] dark:border-[#444444] ${!isHomepage?'rounded-t-lg':''}`}>
                 <div className="">
-                    <table className={`w-full bg-white dark:bg-[#1D1E1F] text-md shadow-200 ${!props.loading ? 'md:table-fixed' : ''}`}>
+                    <table className={`w-full bg-white  text-md shadow-200 ${!props.loading ? 'md:table-fixed' : ''} ${!isHomepage? 'dark:bg-[#1F202B] ':'dark:bg-[#1D1E1F]'}`}>
                         {/* Table head */}
-                        <thead>
+                        <thead className='dark:text-[#ADB0BC]'>
                             <tr>
                                 {columns?.map(({ name, sort }, key) =>
                                     // Conditionally render 'target' column only if not on the homepage
                                     name === 'TARGET' && isHomepage ? null : (
                                         <th
                                             key={key}
-                                            className="py-4 px-4 border-b dark:border-[#444444] font-gsans dark:text-[#BCBFCC] text-[#646D8F] text-md tracking-wide font-medium bg-[#F0F1F5] dark:bg-[#19191A] border-[#D7DAE0] text-center"
+                                            className={`${!isHomepage? 'dark:bg-[#191A23]': ''} py-4 px-4 border-b dark:border-[#444444] font-gsans dark:text-[#BCBFCC] text-[#646D8F] text-md tracking-wide font-medium bg-[#F0F1F5] dark:bg-[#19191A] border-[#D7DAE0] text-center`}
                                         >
                                             <div
                                                 role={sort ? 'button' : undefined}
@@ -150,7 +150,7 @@ function Table(props: tableDataT) {
                                     ({ ago, fee, sender, target, token, userOps, status, count, poweredBy, created, keys }, index) => (
                                         <tr
                                             key={index}
-                                            className="border-b border-[#D7DAE0] dark:border-[#444444] dark:bg-[#1D1E1F] odd:bg-dark-25 hover:bg-dark-25 text-center font-gsans"
+                                            className={` border-b border-[#D7DAE0] dark:border-[#444444] dark:bg-[#1D1E1F] odd:bg-dark-25 hover:bg-dark-25 text-center font-gsans ${!isHomepage? 'dark:bg-[#1F202B]': ''}`}
                                         >
                                             {/* Token column */}
                                             {token && (
@@ -166,7 +166,7 @@ function Table(props: tableDataT) {
                                             {/* Ago/status column */}
                                             {ago && (
                                                 <td
-                                                    className={`py-3 px-12 text-[#20294C] dark:text-[#989BA6] ${
+                                                    className={`py-3 px-12 text-[#20294C] dark:text-[#DADEF1] ${
                                                         !isHomepage&& currentPath === '/recentBundles' ? 'pl-32' : ''
                                                     }`}
                                                 >
@@ -213,7 +213,7 @@ function Table(props: tableDataT) {
 
                                             {/* Fee column */}
                                             {fee && (
-                                                <td className="py-3 px-4 text-[#20294C] dark:text-[#989BA6]">
+                                                <td className="py-3 px-4 text-[#20294C] dark:text-[#DADEF1]">
                                                     <div className="flex items-center justify-center gap-2">
                                                         {fee.value ? (
                                                             <span>

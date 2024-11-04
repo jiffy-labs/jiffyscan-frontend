@@ -1,10 +1,10 @@
 {
     "columns": [
-        { "name": "UserOp Hash", "sort": true },
-        { "name": "Age", "sort": true },
-        { "name": "Sender", "sort": false },
-        { "name": "Target", "sort": false },
-        { "name": "Fee", "sort": true }
+        { "name": "USEROP HASH", "sort": true },
+        { "name": "AGE", "sort": true },
+        { "name": "SENDER", "sort": false },
+        { "name": "TARGET", "sort": false },
+        { "name": "FEE", "sort": true }
     ],
     "rows": [
         {

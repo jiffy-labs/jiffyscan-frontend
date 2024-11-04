@@ -31,7 +31,7 @@ const variantClasses: {
     contained: {
         'dark-700': 'bg-dark-700 text-white border-dark-700 dark:bg-white dark:text-black',
         'blue-700': 'bg-blue-200 text-white border-dark-200',
-        white: 'border-dark-100 bg-white text-dark-600 dark:bg-[#1F202B] dark:border-[#3B3C40] dark:text-white',
+        white: 'border-dark-100 bg-white text-dark-600 dark:bg-[#1F202B] dark:border-[#3B3C40] dark:text-[#ADB0BC]',
         'dark-400': 'border-dark-400 bg-dark-400 text-white',
     },
     outlined: {
@@ -47,8 +47,8 @@ function Chip(props: ChipProps) {
     const { children, endIcon, startIcon, variant = 'contained', color = 'dark-700', className, onClick, disabled } = props;
 
     // Define base and disabled styles
-    const baseClasses = 'flex gap-1.5 items-center px-3 py-[1px] rounded-md  h-[36px] font-gsans border text-sm text-center items-center';
-    const disabledClasses = disabled ? 'opacity-50 cursor-not-allowed' : '';
+    const baseClasses = 'flex gap-1.5 items-center px-3 py-[1px] rounded-md  h-[36px] font-gsans border text-sm  text-center items-center';
+    const disabledClasses = disabled ? 'opacity-50 cursor-not-allowed' : '  dark:text-[#969CB2]';
 
     // Safely access the color class based on variant and color
     const variantColorClasses = variantClasses[variant]?.[color as keyof typeof variantClasses[typeof variant]] || '';
