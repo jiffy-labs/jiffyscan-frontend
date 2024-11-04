@@ -120,10 +120,10 @@ function Pagination({ pageDetails: { pageNo, setPageNo, pageSize, setPageSize, t
             ) : (
                 <div
                     onClick={handleDropdownToggle}
-                    className="flex items-center justify-center text-[#969CB2] dark:bg-[#191A23] bg-[#F0F1F5] border border-[#D7DAE0] dark:border-[#3B3C40] p-2 rounded-md cursor-pointer select-none"
+                    className="flex items-center justify-center text-[#969CB2] dark:bg-[#191A23] bg-[#F0F1F5] border border-[#D7DAE0] dark:border-[#3B3C40] p-2 px-4 rounded-md cursor-pointer select-none"
                 >
                     <span className="px-4 text-[#969CB2]">{pageSize}</span>
-                    <IoMdArrowDropdown className="text-[#646D8F]" />
+                    <IoMdArrowDropdown className="w-4 h-4 text-[#646D8F]" />
                 </div>
             )}
 
