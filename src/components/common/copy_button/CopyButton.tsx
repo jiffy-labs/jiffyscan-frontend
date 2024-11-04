@@ -9,8 +9,8 @@ function CopyButton({ text, copyIcon }: { text: string; copyIcon?: string }) {
             className="active:shadow-300 pd-2"
             type="button"
         >
-            <img className="h-[20px] w-[20px] dark:hidden" src={copyIcon || '/images/copyL.svg'} alt="" />
-            <img className="h-[20px] w-[20px] hidden dark:flex" src={copyIcon || '/images/copyD.svg'} alt="" />
+            <img className="dark:hidden" src={copyIcon || '/images/copyL.svg'} alt="" />
+            <img className=" hidden dark:flex" src={copyIcon || '/images/copyD.svg'} alt="" />
 
         </button>
     );

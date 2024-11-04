@@ -167,7 +167,7 @@ const UserOpLogs: React.FC<UserOpLogsProps> = ({ logs, network }: any) => {
                                         {log.topicsDecoded
                                             ? Object.entries(log.topicsDecoded).map(([key, value]) => (
                                                   <div key={key} className=" rounded px-1 py-1 flex flex-row gap-[5px] text-[16px] ">
-                                                      <div className="bg-gray-100 dark:bg-[#5A5A62] px-[7px] py-[1px] rounded-[4px] text-[12px] w-[104px] h-[24px] text-[12px] text-center text-[#0000008A] border dark:text-[#DADEF1] dark:border-[#3B3C40]">
+                                                      <div className="bg-gray-100 dark:bg-[#191A23] px-[7px] py-[1px] rounded-[4px] text-[12px] w-[104px] h-[24px] text-[12px] text-center text-[#0000008A] border dark:text-[#DADEF1] dark:border-[#3B3C40]">
                                                           {key}
                                                       </div>
                                                       {/* @ts-ignore  */}
@@ -175,7 +175,7 @@ const UserOpLogs: React.FC<UserOpLogsProps> = ({ logs, network }: any) => {
                                                           {/* @ts-ignore  */}
                                                           <CopyButton text={value || ''} />
                                                       </div>
-                                                      <div className="flex sm:hidden flex-row dark:text-[#DADEF1]">
+                                                      <div className="flex sm:hidden flex-row dark:text-[#DADEF1] ">
                                                         {/* @ts-ignore */}
                                                           {formatAddress(value)}
                                                           {/* @ts-ignore  */}
@@ -187,7 +187,7 @@ const UserOpLogs: React.FC<UserOpLogsProps> = ({ logs, network }: any) => {
                                               log.topics.map((topic, index) => (
                                                   <><div key={index} className="sm:flex hidden rounded px-2 py-1">
                                                       {index}: {topic}
-                                                  </div><div key={index} className="flex sm:hidden rounded px-2 py-1">
+                                                  </div><div key={index} className="flex sm:hidden rounded px-2 py-1 ">
                                                           {index}: {formatAddress(topic)}
                                                       </div></>
                                               ))}
@@ -200,7 +200,7 @@ const UserOpLogs: React.FC<UserOpLogsProps> = ({ logs, network }: any) => {
                                         <p className=" text-[#9E9E9E] uppercase ">:</p>
                                     </div>
 
-                                    <div className="bg-gray-100 rounded p-4  md:w-[80%] border dark:text-[#DADEF1] dark:border-[#3B3C40] dark:bg-[#5A5A62]">
+                                    <div className="bg-gray-100 rounded p-4  md:w-[80%] border dark:text-[#DADEF1] dark:border-[#3B3C40] dark:bg-[#191A23]">
                                         {log.dataDecoded && Object.keys(log.dataDecoded).length ? (
                                             <div className="flex flex-col gap-2 ">
                                                 {Object.entries(log.dataDecoded).map(([key, value]) => (

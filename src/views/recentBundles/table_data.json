@@ -1,8 +1,8 @@
 {
     "columns": [
-        { "name": "Transaction Hash", "sort": true },
-        { "name": "Age", "sort": true },
-        { "name": "UserOps", "sort": false }
+        { "name": "TRANSACTION HASH", "sort": true },
+        { "name": "AGE", "sort": true },
+        { "name": "USEROPS", "sort": false }
     ],
     "loading": true,
     "rows": [

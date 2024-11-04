@@ -148,7 +148,7 @@ function TopFactories(props: any) {
                             <Link underline="hover" color="inherit" href={`/?network=${selectedNetwork ? selectedNetwork : ''}`}>
                             <SlHome />
                             </Link>
-                            <Link underline="hover" color="text.primary" href="/bundler" aria-current="page">
+                            <Link underline="hover" color="text.primary" href="/bundler" aria-current="page" className='dark:text-[#ADB0BC]'>
                                 Factories
                             </Link>
                         </Breadcrumbs>

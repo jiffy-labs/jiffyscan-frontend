@@ -11,6 +11,7 @@ module.exports = {
         gsans: ['var(--font-geist-sans)', 'sans-serif'],
         gmono: ['var(--font-geist-mono)', 'monospace'],
         dmsans: ['DM Sans', 'sans-serif'],
+        kaisei: ['Kaisei Opti', 'sans-serif'], 
       },
       colors: {
         red: {

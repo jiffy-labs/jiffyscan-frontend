@@ -146,9 +146,9 @@ function UserOperations() {
                         
                         <Breadcrumbs aria-label="breadcrumb" className="font-gsans text-[#646D8F] text-md sm:text-base">
                             <Link underline="hover" color="inherit" href="/">
-                            <SlHome className='dark:fill-white'/>
+                            <SlHome className='dark:fill-[#ADB0BC]'/>
                             </Link>
-                            <Link underline="hover" color="text.primary" href="/recentUserOps" aria-current="page" className='dark:text-white'>
+                            <Link underline="hover" color="text.primary" href="/recentUserOps" aria-current="page" className='dark:text-[#ADB0BC]'>
                                 User Operations
                             </Link>
                         </Breadcrumbs>

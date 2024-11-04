@@ -150,9 +150,9 @@ function TopBundlers(props: any) {
                         
                         <Breadcrumbs aria-label="breadcrumb">
                             <Link underline="hover" color="inherit" href={`/?network=${selectedNetwork ? selectedNetwork : ''}`}>
-                            <SlHome className='dark:fill-white'/>
+                            <SlHome className='dark:fill-[#969CB2]'/>
                             </Link>
-                            <Link underline="hover" color="text.primary" href="/bundler" aria-current="page" className='dark:text-white'>
+                            <Link underline="hover" color="text.primary" href="/bundler" aria-current="page" className='dark:text-[#ADB0BC]'>
                                 Bundlers
                             </Link>
                         </Breadcrumbs>

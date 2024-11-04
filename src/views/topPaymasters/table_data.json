@@ -1,7 +1,7 @@
 {
     "columns": [
-        { "name": "Paymaster Address", "sort": true },
-        { "name": "No. of UserOps", "sort": false },
-        { "name": "Gas Sponsored", "sort": false }
+        { "name": "PASYMASTER ADDRESS", "sort": true },
+        { "name": "NO. OF PAYMASTERS", "sort": false },
+        { "name": "GAS SPONSORED", "sort": false }
     ]
 }
