@@ -59,42 +59,45 @@ export default function MyApp({ Component, pageProps: { session, ...pageProps } 
     };
 
     return (
-        <div
-            className={`${GeistSans.variable} ${GeistMono.variable}`}
-            style={{
-                transform: 'scale(0.9)', // Scale down to 90%
-                transformOrigin: 'top left', // Keep the transform origin at the top left
-                width: '111.11%', // Set width to 111.11% for 90% scaling
-                height: '100vh',
-            }}
-        >
-            <PHProvider>
-                <SessionProvider session={session}>
-                    <UserSessionStore>
-                        <NameServiceStore>
-                            <ConfigProvider>
-                                <ThemeProvider>
-                                    {getLayout(
-                                        <div>
-                                            <Component {...pageProps} />
-                                        </div>,
-                                    )}
-                                </ThemeProvider>
-                            </ConfigProvider>
-                            <HeapAnalytics />
-                        </NameServiceStore>
-                    </UserSessionStore>
-                </SessionProvider>
-                <Analytics />
-                <button
-                    onClick={handleSwitchToV2}
-                    className="fixed bottom-10 flex items-center gap-2 text-16 right-5 bg-[#FFFFFF] dark:bg-[#1F202B] border-2 font-kaisei font-medium border-[#D7DAE0] dark:border-[#3B3C40] text-[#6366F1] py-2 px-4 rounded-lg transition duration-300 z-50 overflow-hidden shadow-lg"
-                >
-                    <img src="/sparkling.svg" alt="" />
-                    Back to v1
-                    
-                </button>
-            </PHProvider>
-        </div>
+        <>
+            <div
+                className={`${GeistSans.variable} ${GeistMono.variable}`}
+                style={{
+                    transform: 'scale(0.9)', // Scale down to 90%
+                    transformOrigin: 'top left', // Keep the transform origin at the top left
+                    width: '111.11%', // Set width to 111.11% for 90% scaling
+                    height: '100vh',
+                }}
+            >
+                <PHProvider>
+                    <SessionProvider session={session}>
+                        <UserSessionStore>
+                            <NameServiceStore>
+                                <ConfigProvider>
+                                    <ThemeProvider>
+                                        {getLayout(
+                                            <div>
+                                                <Component {...pageProps} />
+                                            </div>,
+                                        )}
+                                    </ThemeProvider>
+                                </ConfigProvider>
+                                <HeapAnalytics />
+                            </NameServiceStore>
+                        </UserSessionStore>
+                    </SessionProvider>
+                    <Analytics />
+                </PHProvider>
+            </div>
+            
+            {/* Floating Button */}
+            <button
+                onClick={handleSwitchToV2}
+                className="fixed bottom-10 right-5 flex items-center gap-2 text-16 bg-[#FFFFFF] dark:bg-[#1F202B] border-2 font-kaisei font-medium border-[#D7DAE0] dark:border-[#3B3C40] text-[#6366F1] py-2 px-4 rounded-lg transition duration-300 z-50 shadow-lg"
+            >
+                <img src="/sparkling.svg" alt="Sparkling Icon" />
+                Back to v1
+            </button>
+        </>
     );
 }
