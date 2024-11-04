@@ -1,11 +1,10 @@
-/* eslint-disable @next/next/no-img-element */
 import React from 'react';
 
 const Chains = () => {
     return (
-        <section className="py-4  md:mt-12">
+        <section className="py-4 md:mt-16">
             <div className="mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="mb-16 space-y-8">
+                <div className="mb-16 space-y-4 mt-8">
                     <div className="flex items-center justify-center space-x-1">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -14,29 +13,35 @@ const Chains = () => {
                             />
                         </svg>
 
-                        <span className="text-xl text-[#340CD2] font-poppins font-medium text-center block ">SUPPORTED CHAINS</span>
+                        <span className="text-xl text-[#340CD2] dark:text-[] font-poppins font-medium text-center block">SUPPORTED CHAINS</span>
                     </div>
-                    <h2 className=" md:text-[32px] dark:text-[#989BA6]  leading-tight tracking-tight text-base text-center font-medium font-dmsans text-gray-900">
+                    <h2 className="md:text-[32px] dark:text-[#989BA6] leading-tight tracking-tight text-base text-center font-medium font-dmsans text-gray-900">
                         And many more to come...
                     </h2>
                 </div>
-                <section className="py-4 lg:px-8 container">
-                    <div className="grid gap-8 grid-cols-2 md:gap-y-16 md:grid-cols-6">
+                <section className="py-4 lg:px-8 container -mt-8">
+                    <div className="grid gap-8 md:gap-y-16 grid-cols-5">
                         {[
                             { src: "/Ethereum.png", alt: "Ethereum" },
                             { src: "/Polygon.png", alt: "Polygon" },
                             { src: "/Optimisum.png", alt: "Optimism" },
                             { src: "/Base.png", alt: "Base" },
                             { src: "/Avalanche.png", alt: "Avalanche" },
-                            
+                        ].map((chain, index) => (
+                            <span key={index} className="w-full flex items-center justify-center p-2">
+                                <span className="sr-only">{chain.alt}</span>
+                                <div aria-hidden="true">
+                                    <img src={chain.src} alt={chain.alt} className="max-h-12 md:max-h-16" />
+                                </div>
+                            </span>
+                        ))}
+                    </div>
+                    <div className="grid gap-2 md:gap-y-16 grid-cols-4 justify-center mt-8 md:px-32">
+                        {[
                             { src: "/Arbitrium.png", alt: "Arbitrium" },
-                            { src: "/images/EduchainLogo.svg", alt: "Slack logo" },
-                            
-                            { src: "/Group 110.png", alt: "Lilly logo" },
-                            { src: "/Group 109.png", alt: "Group 109" },
-                            { src: "/Group 108.png", alt: "Starbucks logo" },
-                            { src: "/vanarlogo.svg", alt: "LexisNexis logo" },
-                            { src: "/Group 106.png", alt: "Newfields logo" },
+                            { src: "/images/EduchainLogo.svg", alt: "Educhain Logo" },
+                            { src: "/images/odyssey-logo.png", alt: "Odyssey Logo" },
+                            { src: "/Group 106.png", alt: "Newfields Logo" },
                         ].map((chain, index) => (
                             <span key={index} className="w-full flex items-center justify-center p-2">
                                 <span className="sr-only">{chain.alt}</span>
