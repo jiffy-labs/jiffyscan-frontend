@@ -200,7 +200,7 @@ function BundlerNew(props: any) {
     const [userOps, setUserOps] = useState<UserOpData[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [copyTooltip, setCopyTooltip] = useState('Copy'); // Tooltip state for copy action
-    const { isDarkMode } = useTheme();// Access theme context
+    const { isDarkMode } = useTheme(); // Access theme context
 
     const handleCopy = () => {
         navigator.clipboard.writeText(hash); // Copy the hash to clipboard
@@ -312,11 +312,11 @@ function BundlerNew(props: any) {
     };
     const [isMounted, setIsMounted] = useState(false);
 
-  useEffect(() => {
-    setIsMounted(true);  // Now rendering only happens on the client
-  }, []);
+    useEffect(() => {
+        setIsMounted(true); // Now rendering only happens on the client
+    }, []);
 
-  if (!isMounted) return null; // Skip rendering on server
+    if (!isMounted) return null; // Skip rendering on server
     return (
         <div className="dark:bg-[#191A23]">
             <Navbar searchbar />
@@ -350,13 +350,19 @@ function BundlerNew(props: any) {
                                 </Tooltip>
                             </Link>
                         </Breadcrumbs>
-                        {!isLoading ? <Status type={true} /> : // @ts-ignore
-                                                            <SkeletonTheme
-                                                            lightColor="#F0F1F5" // Light mode background color
-                                                            darkColor="#1D1E1F" // Dark mode background color
-                                                            lightHighlightColor="#D7DAE0" // Light mode highlight color
-                                                            darkHighlightColor="#444" // Dark mode highlight color
-                                                        ><Skeleton width={92} height={24} /></SkeletonTheme>}
+                        {!isLoading ? (
+                            <Status type={true} />
+                        ) : (
+                             // @ts-ignore
+                            <SkeletonTheme
+                                lightColor="#F0F1F5" // Light mode background color
+                                darkColor="#1D1E1F" // Dark mode background color
+                                lightHighlightColor="#D7DAE0" // Light mode highlight color
+                                darkHighlightColor="#444" // Dark mode highlight color
+                            >
+                                <Skeleton width={92} height={24} />
+                            </SkeletonTheme>
+                        )}
                     </div>
                     {/* <h1 className="text-3xl font-bold">Bundle</h1> */}
                 </div>
@@ -389,14 +395,16 @@ function BundlerNew(props: any) {
                 />
             </div> */}
                 <div className="w-full flex flex-col">
-                    <Box sx={{ }}>
+                    <Box sx={{}}>
                         <div className="relative mt-4 md:px-10 py-4 font-gsans">
                             <ul className="flex items-center px-1.5 py-1.5 list-none rounded-xl bg-[#F0F1F5] dark:bg-[#191A23] border-2 dark:border-[#3B3C40] border-[#D7DAE0] overflow-x-auto md:overflow-visible scrollbar-hide">
                                 <li className="flex-none w-1/2 text-center md:flex-auto">
                                     <button
                                         onClick={() => handleToggle(0)} // Show UserOp Overview
                                         className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
-                                            value === 0 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit text-[#646D8F] dark:text-[#646D8F]'
+                                            value === 0
+                                                ? 'bg-white border-2 dark:bg-[#1F202B]'
+                                                : 'bg-inherit text-[#646D8F] dark:text-[#646D8F]'
                                         }`}
                                     >
                                         Overview
@@ -406,7 +414,9 @@ function BundlerNew(props: any) {
                                     <button
                                         onClick={() => handleToggle(1)} // Show Developer Details
                                         className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
-                                            value === 1 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit dark:text-[#646D8F] text-[#646D8F]'
+                                            value === 1
+                                                ? 'bg-white border-2 dark:bg-[#1F202B]'
+                                                : 'bg-inherit dark:text-[#646D8F] text-[#646D8F]'
                                         }`}
                                     >
                                         Call Data
@@ -416,7 +426,9 @@ function BundlerNew(props: any) {
                                     <button
                                         onClick={() => handleToggle(2)} // Show UserOp Logs
                                         className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
-                                            value === 2 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit dark:text-[#646D8F] text-[#646D8F]'
+                                            value === 2
+                                                ? 'bg-white border-2 dark:bg-[#1F202B]'
+                                                : 'bg-inherit dark:text-[#646D8F] text-[#646D8F]'
                                         }`}
                                     >
                                         UserOps
@@ -427,7 +439,9 @@ function BundlerNew(props: any) {
                                         <button
                                             onClick={() => handleToggle(3)} // Show Tracer
                                             className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
-                                                value === 3 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit dark:text-[#646D8F] text-[#646D8F]'
+                                                value === 3
+                                                    ? 'bg-white border-2 dark:bg-[#1F202B]'
+                                                    : 'bg-inherit dark:text-[#646D8F] text-[#646D8F]'
                                             }`}
                                         >
                                             Tracer
@@ -482,10 +496,9 @@ function BundlerNew(props: any) {
                                                             ) : (
                                                                 // @ts-ignore
                                                                 <div
-    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
-    style={{ width: 200 }} // Optional: set specific width if needed
-/>
-
+                                                                    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+                                                                    style={{ width: 200 }} // Optional: set specific width if needed
+                                                                />
                                                             )}
                                                         </div>
                                                     </div>
@@ -502,8 +515,8 @@ function BundlerNew(props: any) {
                                                 <div className="flex-1 break-words">
                                                     <div className="justify-between block md:flex">
                                                         <div className="flex items-center gap-[10px]">
-                                                            <img src="/images/timeL.svg" alt="" className='dark:hidden'/>
-                                                            <img src="/images/timeD.svg" alt="" className='dark:flex hidden'/>
+                                                            <img src="/images/timeL.svg" alt="" className="dark:hidden" />
+                                                            <img src="/images/timeD.svg" alt="" className="dark:flex hidden" />
                                                             {!isLoading ? (
                                                                 <p className="text-[#1F1F1F] dark:text-[#ADB0BC] font-medium leading-[24px] text-[16px]">
                                                                     {`${formatDistanceToNow(new Date(transactionDetails?.timestamp || 0), {
@@ -521,10 +534,9 @@ function BundlerNew(props: any) {
                                                             ) : (
                                                                 // @ts-ignore
                                                                 <div
-    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
-    style={{ width: 200 }} // Optional: set specific width if needed
-/>
-
+                                                                    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+                                                                    style={{ width: 200 }} // Optional: set specific width if needed
+                                                                />
                                                             )}
                                                         </div>
                                                     </div>
@@ -541,39 +553,45 @@ function BundlerNew(props: any) {
                                                 <div className="flex-1 break-words">
                                                     <div className="justify-between block md:flex">
                                                         <div className="flex items-center gap-[10px]">
-                                                        <img src="/images/fromL.svg" alt="target" className="dark:hidden fill-[#969CB2] dark:fill-[#666B80]" />
-                                                        <img src="/images/fromD.svg" alt="target" className="dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]" />
+                                                            <img
+                                                                src="/images/fromL.svg"
+                                                                alt="target"
+                                                                className="dark:hidden fill-[#969CB2] dark:fill-[#666B80]"
+                                                            />
+                                                            <img
+                                                                src="/images/fromD.svg"
+                                                                alt="target"
+                                                                className="dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]"
+                                                            />
                                                             {!isLoading ? (
                                                                 <>
-                                                                <Link href={`/account/${transactionDetails?.from}`} className='no-underline'>
-                                                                    <span className="text-[#195BDF]">
-                                                                        {formatAddress(transactionDetails?.from || '')}
-                                                                    </span>
+                                                                    <Link
+                                                                        href={`/account/${transactionDetails?.from}`}
+                                                                        className="no-underline"
+                                                                    >
+                                                                        <span className="text-[#195BDF]">
+                                                                            {formatAddress(transactionDetails?.from || '')}
+                                                                        </span>
                                                                     </Link>
                                                                     <CopyButton text={transactionDetails?.from || ''} />
                                                                     <Link
                                                                         href={`/account/${transactionDetails?.from}?network=${network}`}
                                                                         target="_blank"
                                                                     >
+                                                                        <img src="/images/linkL.svg" alt="link" className="dark:hidden" />
                                                                         <img
-                                                                                        src="/images/linkL.svg"
-                                                                                        alt="link"
-                                                                                        className="dark:hidden"
-                                                                                    />
-                                                                                    <img
-                                                                                        src="/images/linkD.svg"
-                                                                                        alt="link"
-                                                                                        className="dark:flex hidden"
-                                                                                    />
+                                                                            src="/images/linkD.svg"
+                                                                            alt="link"
+                                                                            className="dark:flex hidden"
+                                                                        />
                                                                     </Link>
                                                                 </>
                                                             ) : (
                                                                 // @ts-ignore
                                                                 <div
-    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
-    style={{ width: 200 }} // Optional: set specific width if needed
-/>
-
+                                                                    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+                                                                    style={{ width: 200 }} // Optional: set specific width if needed
+                                                                />
                                                             )}
                                                         </div>
                                                     </div>
@@ -589,47 +607,45 @@ function BundlerNew(props: any) {
                                                 <div className="flex-1 break-words">
                                                     <div className="justify-between block md:flex">
                                                         <div className="flex items-center gap-[10px]">
-                                                        <img
-                                                                                            src="/images/toL.svg"
-                                                                                            alt="target"
-                                                                                            className="dark:hidden fill-[#969CB2] dark:fill-[#666B80]"
-                                                                                        />
-                                                                                        <img
-                                                                                            src="/images/toD.svg"
-                                                                                            alt="target"
-                                                                                            className="dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]"
-                                                                                        />
+                                                            <img
+                                                                src="/images/toL.svg"
+                                                                alt="target"
+                                                                className="dark:hidden fill-[#969CB2] dark:fill-[#666B80]"
+                                                            />
+                                                            <img
+                                                                src="/images/toD.svg"
+                                                                alt="target"
+                                                                className="dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]"
+                                                            />
                                                             {!isLoading ? (
                                                                 <>
-                                                                <Link href={`/account/${transactionDetails?.to}`} className='no-underline'>
-                                                                    <span className="text-[#195BDF]">
-                                                                        {formatAddress(transactionDetails?.to || '')}
-                                                                    </span>
+                                                                    <Link
+                                                                        href={`/account/${transactionDetails?.to}`}
+                                                                        className="no-underline"
+                                                                    >
+                                                                        <span className="text-[#195BDF]">
+                                                                            {formatAddress(transactionDetails?.to || '')}
+                                                                        </span>
                                                                     </Link>
                                                                     <CopyButton text={transactionDetails?.to || ''} />
                                                                     <Link
                                                                         href={`/account/${transactionDetails?.to}?network=${network}`}
                                                                         target="_blank"
                                                                     >
-                                                                       <img
-                                                                                        src="/images/linkL.svg"
-                                                                                        alt="link"
-                                                                                        className="dark:hidden"
-                                                                                    />
-                                                                                    <img
-                                                                                        src="/images/linkD.svg"
-                                                                                        alt="link"
-                                                                                        className="dark:flex hidden"
-                                                                                    />
+                                                                        <img src="/images/linkL.svg" alt="link" className="dark:hidden" />
+                                                                        <img
+                                                                            src="/images/linkD.svg"
+                                                                            alt="link"
+                                                                            className="dark:flex hidden"
+                                                                        />
                                                                     </Link>
                                                                 </>
                                                             ) : (
                                                                 // @ts-ignore
                                                                 <div
-    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
-    style={{ width: 200 }} // Optional: set specific width if needed
-/>
-
+                                                                    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+                                                                    style={{ width: 200 }} // Optional: set specific width if needed
+                                                                />
                                                             )}
                                                         </div>
                                                     </div>
@@ -653,10 +669,9 @@ function BundlerNew(props: any) {
                                                             ) : (
                                                                 // @ts-ignore
                                                                 <div
-    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
-    style={{ width: 200 }} // Optional: set specific width if needed
-/>
-
+                                                                    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+                                                                    style={{ width: 200 }} // Optional: set specific width if needed
+                                                                />
                                                             )}
                                                         </div>
                                                     </div>
@@ -680,10 +695,9 @@ function BundlerNew(props: any) {
                                                             ) : (
                                                                 // @ts-ignore
                                                                 <div
-    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
-    style={{ width: 200 }} // Optional: set specific width if needed
-/>
-
+                                                                    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+                                                                    style={{ width: 200 }} // Optional: set specific width if needed
+                                                                />
                                                             )}
                                                         </div>
                                                     </div>
@@ -700,16 +714,16 @@ function BundlerNew(props: any) {
                                                 <div className="flex-1 break-words">
                                                     <div className="justify-between block md:flex">
                                                         <div className="flex items-center gap-[8px]">
-                                                        <img
-                                                                            src="/images/dollarL.svg"
-                                                                            alt="transaction fee"
-                                                                            className="dark:hidden fill-[#969CB2] dark:fill-[#666B80]"
-                                                                        />
-                                                                        <img
-                                                                            src="/images/dollarD.svg"
-                                                                            alt="transaction fee"
-                                                                            className="dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]"
-                                                                        />
+                                                            <img
+                                                                src="/images/dollarL.svg"
+                                                                alt="transaction fee"
+                                                                className="dark:hidden fill-[#969CB2] dark:fill-[#666B80]"
+                                                            />
+                                                            <img
+                                                                src="/images/dollarD.svg"
+                                                                alt="transaction fee"
+                                                                className="dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]"
+                                                            />
                                                             {!isLoading ? (
                                                                 <p className="text-[#1F1F1F] leading-5 text-base dark:text-[#ADB0BC]">
                                                                     {transactionDetails?.trxFee} ETH
@@ -717,10 +731,9 @@ function BundlerNew(props: any) {
                                                             ) : (
                                                                 // @ts-ignore
                                                                 <div
-    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
-    style={{ width: 200 }} // Optional: set specific width if needed
-/>
-
+                                                                    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+                                                                    style={{ width: 200 }} // Optional: set specific width if needed
+                                                                />
                                                             )}
                                                         </div>
                                                     </div>
@@ -736,16 +749,16 @@ function BundlerNew(props: any) {
                                                 <div className="flex-1 break-words">
                                                     <div className="justify-between block md:flex">
                                                         <div className="flex items-center gap-[8px]">
-                                                        <img
-                                                                            src="/images/dollarL.svg"
-                                                                            alt="transaction fee"
-                                                                            className="dark:hidden fill-[#969CB2] dark:fill-[#666B80]"
-                                                                        />
-                                                                        <img
-                                                                            src="/images/dollarD.svg"
-                                                                            alt="transaction fee"
-                                                                            className="dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]"
-                                                                        />
+                                                            <img
+                                                                src="/images/dollarL.svg"
+                                                                alt="transaction fee"
+                                                                className="dark:hidden fill-[#969CB2] dark:fill-[#666B80]"
+                                                            />
+                                                            <img
+                                                                src="/images/dollarD.svg"
+                                                                alt="transaction fee"
+                                                                className="dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]"
+                                                            />
                                                             {!isLoading ? (
                                                                 <p className="text-[#1F1F1F] leading-5 text-base dark:text-[#ADB0BC]">
                                                                     {transactionDetails?.revenue} ETH
@@ -753,10 +766,9 @@ function BundlerNew(props: any) {
                                                             ) : (
                                                                 // @ts-ignore
                                                                 <div
-    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
-    style={{ width: 200 }} // Optional: set specific width if needed
-/>
-
+                                                                    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+                                                                    style={{ width: 200 }} // Optional: set specific width if needed
+                                                                />
                                                             )}
                                                         </div>
                                                     </div>
@@ -772,16 +784,16 @@ function BundlerNew(props: any) {
                                                 <div className="flex-1 break-words">
                                                     <div className="justify-between block md:flex">
                                                         <div className="flex items-center gap-[8px]">
-                                                        <img
-                                                                            src="/images/dollarL.svg"
-                                                                            alt="transaction fee"
-                                                                            className="dark:hidden fill-[#969CB2] dark:fill-[#666B80]"
-                                                                        />
-                                                                        <img
-                                                                            src="/images/dollarD.svg"
-                                                                            alt="transaction fee"
-                                                                            className="dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]"
-                                                                        />
+                                                            <img
+                                                                src="/images/dollarL.svg"
+                                                                alt="transaction fee"
+                                                                className="dark:hidden fill-[#969CB2] dark:fill-[#666B80]"
+                                                            />
+                                                            <img
+                                                                src="/images/dollarD.svg"
+                                                                alt="transaction fee"
+                                                                className="dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]"
+                                                            />
                                                             {!isLoading ? (
                                                                 <p className="text-[#1F1F1F] leading-5 flex flex-row gap-2 text-base dark:text-[#ADB0BC]">
                                                                     {transactionDetails?.profit} ETH
@@ -804,10 +816,9 @@ function BundlerNew(props: any) {
                                                             ) : (
                                                                 // @ts-ignore
                                                                 <div
-    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
-    style={{ width: 200 }} // Optional: set specific width if needed
-/>
-
+                                                                    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+                                                                    style={{ width: 200 }} // Optional: set specific width if needed
+                                                                />
                                                             )}
                                                         </div>
                                                     </div>
@@ -817,9 +828,16 @@ function BundlerNew(props: any) {
                                             <div className="border-b w-full border-[#D7DAE0] dark:border-[#3B3C40]"></div>
 
                                             <span className="text-[20px] flex items-center py-4 px-4 gap-2 text-[#20294C] dark:text-[#ADB0BC] font-medium leading-5">
-                                                <img src="/images/gas.svg" alt="gas used" className="w-[24px] dark:hidden fill-[#969CB2] dark:fill-[#666B80]" />
-                                                <img src="/images/gasD.svg" alt="gas used" className="w-[24px] dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]" />
-
+                                                <img
+                                                    src="/images/gas.svg"
+                                                    alt="gas used"
+                                                    className="w-[24px] dark:hidden fill-[#969CB2] dark:fill-[#666B80]"
+                                                />
+                                                <img
+                                                    src="/images/gasD.svg"
+                                                    alt="gas used"
+                                                    className="w-[24px] dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]"
+                                                />
                                                 GAS DETAILS
                                             </span>
 
@@ -846,10 +864,9 @@ function BundlerNew(props: any) {
                                                             ) : (
                                                                 // @ts-ignore
                                                                 <div
-    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
-    style={{ width: 200 }} // Optional: set specific width if needed
-/>
-
+                                                                    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+                                                                    style={{ width: 200 }} // Optional: set specific width if needed
+                                                                />
                                                             )}
                                                         </div>
                                                     </div>
@@ -875,10 +892,9 @@ function BundlerNew(props: any) {
                                                             ) : (
                                                                 // @ts-ignore
                                                                 <div
-    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
-    style={{ width: 200 }} // Optional: set specific width if needed
-/>
-
+                                                                    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+                                                                    style={{ width: 200 }} // Optional: set specific width if needed
+                                                                />
                                                             )}
                                                         </div>
                                                     </div>
@@ -904,10 +920,9 @@ function BundlerNew(props: any) {
                                                             ) : (
                                                                 // @ts-ignore
                                                                 <div
-    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
-    style={{ width: 200 }} // Optional: set specific width if needed
-/>
-
+                                                                    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+                                                                    style={{ width: 200 }} // Optional: set specific width if needed
+                                                                />
                                                             )}
                                                         </div>
                                                     </div>
@@ -915,62 +930,50 @@ function BundlerNew(props: any) {
                                             </div>
 
                                             {/* Gas FEES */}
-                                            <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
-                                                <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
-                                                    <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-normal leading-5">
+                                            <div className="flex md:flex-row flex-col items-start md:items-center border-b border-[#ccc] dark:border-[#3B3C40] gap-[70px] pb-2">
+                                                <div className="md:w-[280px] px-4 py-2 flex items-center">
+                                                    <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-normal">
                                                         GAS FEES
                                                     </span>
                                                 </div>
-                                                <div className="flex-col break-words gap-8">
-                                                    <div className="flex flex-row w-full gap-[4px] space-x-4">
-                                                        <div className="flex flex-row text-nowrap text-[#9E9E9E] dark:text-[#ADB0BC] w-full justify-between">
-                                                            <p>Base Fee</p> :
+                                                <div className="flex flex-col w-full gap-4">
+                                                    {/* Base Fee */}
+                                                    <div className="flex flex-row gap-1">
+                                                        <div className="text-[#9E9E9E] dark:text-[#ADB0BC] flex items-center">
+                                                            <p>Base Fee :</p>
                                                         </div>
                                                         {isLoading ? (
-                                                            // @ts-ignore
-                                                            <div
-    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
-    style={{ width: 200 }} // Optional: set specific width if needed
-/>
-
+                                                            <div className="w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
                                                         ) : (
-                                                            <p className="text-[#1F1F1F] dark:text-[#ADB0BC] font-medium text-nowrap">
+                                                            <p className="text-[#1F1F1F] dark:text-[#ADB0BC] font-medium">
                                                                 {transactionDetails?.gasDetails.baseFee} Gwei
                                                             </p>
                                                         )}
                                                     </div>
 
-                                                    <div className="flex flex-row w-full gap-[4px] space-x-4">
-                                                        <div className="flex flex-row text-nowrap text-[#9E9E9E] w-full justify-between">
-                                                            <p>Max Fee Per Gas</p> :
+                                                    {/* Max Fee Per Gas */}
+                                                    <div className="flex flex-row gap-1">
+                                                        <div className="text-[#9E9E9E] dark:text-[#ADB0BC] flex items-center">
+                                                            <p>Max Fee Per Gas :</p>
                                                         </div>
                                                         {isLoading ? (
-                                                            // @ts-ignore
-                                                            <div
-    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
-    style={{ width: 200 }} // Optional: set specific width if needed
-/>
-
+                                                            <div className="w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
                                                         ) : (
-                                                            <p className="text-[#1F1F1F] dark:text-[#ADB0BC] font-medium text-nowrap">
+                                                            <p className="text-[#1F1F1F] dark:text-[#ADB0BC] font-medium">
                                                                 {transactionDetails?.gasDetails.maxFeePerGas} Gwei
                                                             </p>
                                                         )}
                                                     </div>
 
-                                                    <div className="flex flex-row w-full gap-[4px] space-x-4">
-                                                        <div className="flex flex-row text-[#9E9E9E] w-full justify-between">
-                                                            <p>Max Priority Fee Per Gas</p> :
+                                                    {/* Max Priority Fee Per Gas */}
+                                                    <div className="flex flex-row gap-1">
+                                                        <div className="text-[#9E9E9E] dark:text-[#ADB0BC] flex items-center">
+                                                            <p>Max Priority Fee Per Gas :</p>
                                                         </div>
                                                         {isLoading ? (
-                                                            // @ts-ignore
-                                                            <div
-    className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
-    style={{ width: 200 }} // Optional: set specific width if needed
-/>
-
+                                                            <div className="w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
                                                         ) : (
-                                                            <p className="text-[#1F1F1F] dark:text-[#ADB0BC] font-medium text-nowrap">
+                                                            <p className="text-[#1F1F1F] dark:text-[#ADB0BC] font-medium">
                                                                 {transactionDetails?.gasDetails.maxPriorityFeePerGas} Gwei
                                                             </p>
                                                         )}
@@ -1001,7 +1004,7 @@ function BundlerNew(props: any) {
                                                                 : ''
                                                         }`}
                                                     >
-                                                        Detailed
+                                                        Original
                                                     </button>
                                                 </li>
                                                 <li className="px-0">
@@ -1025,7 +1028,7 @@ function BundlerNew(props: any) {
                                                                 : ''
                                                         }`}
                                                     >
-                                                        Original
+                                                        Detailed
                                                     </button>
                                                 </li>
                                             </ul>
