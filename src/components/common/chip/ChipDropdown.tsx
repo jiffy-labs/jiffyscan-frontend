@@ -191,7 +191,7 @@ function ChipDropdown(props: ChipProps) {
 
                 {isModalOpen && (
                     <Modal onClose={closeModal}>
-                        <div className="py-6">
+                        <div className="py-2">
                             {/* Toggle Switch for Mainnet and Testnet */}
                             <div className="w-full mb-4 px-6">
                                 <div className="relative ">
@@ -200,8 +200,8 @@ function ChipDropdown(props: ChipProps) {
                                         <li className="z-30 flex-auto text-center">
                                             <button
                                                 onClick={() => setIsTestnet(false)} // Set to Mainnet
-                                                className={`z-30 flex items-center dark:text-[#DADEF1] justify-center font-gsans w-full px-0 py-2 text-base border border-[#D7DAE0] mb-0 transition-all duration-200 ease-in-out border-0 rounded-md cursor-pointer text-slate-600 ${
-                                                    !isTestnet ? 'bg-white dark:border-[#3B3C40] dark:bg-[#1F202B] border-2 border-[#D7DAE0]  rounded-md' : 'bg-inherit'
+                                                className={`z-30 flex items-center  justify-center font-gsans w-full px-0 py-2 text-base border border-[#D7DAE0] mb-0 transition-all duration-200 ease-in-out border-0 rounded-md cursor-pointer text-slate-600 ${
+                                                    !isTestnet ? 'bg-white dark:border-[#3B3C40] dark:bg-[#1F202B] border-2 border-[#D7DAE0]  rounded-md text-[#20294C] dark:text-[#DADEF1]' : 'bg-inherit text-[#646D8F] dark:text-[#ADB0BC]'
                                                 }`}
                                                 aria-selected={!isTestnet}
                                             >
@@ -211,8 +211,8 @@ function ChipDropdown(props: ChipProps) {
                                         <li className="z-30 flex-auto text-center">
                                             <button
                                                 onClick={() => setIsTestnet(true)} // Set to Testnet
-                                                className={`z-30 flex items-center dark:text-[#DADEF1] justify-center font-gsans w-full px-0 py-2 text-base border border-[#D7DAE0] mb-0 transition-all duration-200 ease-in-out border-0 rounded-md cursor-pointer text-slate-600 ${
-                                                    isTestnet ? 'bg-white border-2 dark:border-[#3B3C40] dark:bg-[#1F202B] border-[#D7DAE0]  rounded-md' : 'bg-inherit'
+                                                className={`z-30 flex items-center  justify-center font-gsans w-full px-0 py-2 text-base border border-[#D7DAE0] mb-0 transition-all duration-200 ease-in-out border-0 rounded-md cursor-pointer text-slate-600 ${
+                                                    isTestnet ? 'bg-white border-2 dark:border-[#3B3C40] dark:bg-[#1F202B] border-[#D7DAE0]  rounded-md text-[#20294C] dark:text-[#DADEF1]' : 'bg-inherit text-[#646D8F] dark:text-[#ADB0BC]'
                                                 }`}
                                                 aria-selected={isTestnet}
                                             >
@@ -224,7 +224,7 @@ function ChipDropdown(props: ChipProps) {
                             </div>
                              <div className='border w-full dark:border-[#3B3C40]'></div>                       
                             {/* Display Networks */}
-                            <div className="flex flex-wrap justify-center gap-4 py-6">
+                            <div className="flex flex-wrap justify-center gap-4 py-4 mt-4">
                                 {filteredNetworkList.map(({ name, key, iconPath }) => (
                                     <button
                                         key={key}
