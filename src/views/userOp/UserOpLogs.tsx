@@ -123,7 +123,7 @@ const UserOpLogs: React.FC<UserOpLogsProps> = ({ logs, network }: any) => {
     }
 
     return (
-        <section className="mt-[15px] px-3 mb-10 break-all ">
+        <section className="-mt-10 px-3 mb-10 break-all ">
             <div className="container px-0">
                 <div className="my-4  flex flex-col gap-[2rem] font-gsans ">
                     {/* @ts-ignore  */}
