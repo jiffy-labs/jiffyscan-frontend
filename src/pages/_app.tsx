@@ -93,6 +93,7 @@ export default function MyApp({ Component, pageProps: { session, ...pageProps } 
             {/* Floating Button */}
             <button
                 onClick={handleSwitchToV2}
+                id="back-to-v1"
                 className="fixed bottom-10 right-5 flex justify-center items-center text-center gap-2 text-base bg-[#FFFFFF] dark:bg-[#1F202B] border-2 font-kaisei font-semibold border-[#D7DAE0] dark:border-[#3B3C40] text-[#6366F1] py-2 px-4 rounded-lg transition duration-300 z-50 shadow-xl dark:shadow-black/40 w-36"
             >
                 {/* <img src="/sparkling.svg" alt="Sparkling Icon" /> */}
