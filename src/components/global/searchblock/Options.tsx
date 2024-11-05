@@ -36,7 +36,7 @@ function Options({ networkValue, setNetworkValue }: { networkValue: number; setN
                             {NETWORK_LIST.map(({ name, key, iconPath, iconPathInverted }, index) => (
                                 <div
                                     onClick={() => handleValue(index)}
-                                    className="flex items-center whitespace-no-wrap gap-2 py-2 px-3 hover:bg-dark-600/10 text-md"
+                                    className="z-50 flex items-center whitespace-no-wrap gap-2 py-2 px-3 hover:bg-dark-600/10 text-md"
                                     role="button"
                                     key={index}
                                 >
