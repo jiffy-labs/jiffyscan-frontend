@@ -127,7 +127,7 @@ function TopFactories(props: any) {
     };
 
     return (
-        <div className="">
+        <div className="dark:bg-[#191A23]">
             <Navbar searchbar />
             <section className="px-3 container mx-auto my-6 py-6 bg-white dark:bg-[#1F202B] shadow-lg rounded-xl border border-[#D7DAE0] dark:border-[#3B3C40]">
                 <div className="container">
@@ -146,7 +146,7 @@ function TopFactories(props: any) {
                         
                         <Breadcrumbs aria-label="breadcrumb">
                             <Link underline="hover" color="inherit" href={`/?network=${selectedNetwork ? selectedNetwork : ''}`}>
-                            <SlHome />
+                            <SlHome className="dark:fill-[#ADB0BC]"/>
                             </Link>
                             <Link underline="hover" color="text.primary" href="/bundler" aria-current="page" className='dark:text-[#ADB0BC]'>
                                 Factories
