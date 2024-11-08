@@ -112,9 +112,11 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
                     </div>
 
                 </label>
+                {searching && (
                 <div className="w-full h-1 px-6">
                     <LinearProgress />
                 </div>
+            )}
                 <ToastContainer />
             </div>
         );
