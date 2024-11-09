@@ -333,7 +333,7 @@ function BundlerNew(props: any) {
                                 <SlHome />
                             </Link>
                             <Link underline="hover" color="inherit" href={`/block/${hash}?network=${network ? network : ''}`}>
-                                Block
+                                Tx
                             </Link>
                             <Link
                                 underline="hover"
@@ -740,7 +740,7 @@ function BundlerNew(props: any) {
                                                 </div>
                                             </div>
 
-                                            <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
+                                            {/* <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
                                                 <div className="md:w-[280px] md:px-[16px] py-[8px] flex items-center gap-2">
                                                     <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-normal leading-5">
                                                         REVENUE EARNED
@@ -767,7 +767,7 @@ function BundlerNew(props: any) {
                                                                 // @ts-ignore
                                                                 <div
                                                                     className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
-                                                                    style={{ width: 200 }} // Optional: set specific width if needed
+                                                                    style={{ width: 200 }} 
                                                                 />
                                                             )}
                                                         </div>
@@ -816,17 +816,17 @@ function BundlerNew(props: any) {
                                                                 // @ts-ignore
                                                                 <div
                                                                     className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
-                                                                    style={{ width: 200 }} // Optional: set specific width if needed
+                                                                    style={{ width: 200 }} 
                                                                 />
                                                             )}
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> */}
 
                                             <div className="border-b w-full border-[#D7DAE0] dark:border-[#3B3C40]"></div>
 
-                                            <span className="text-[20px] flex items-center py-4 px-4 gap-2 text-[#20294C] dark:text-[#ADB0BC] font-medium leading-5">
+                                            <span className="text-[20px] flex items-center py-4 md:px-4 gap-2 text-[#20294C] dark:text-[#ADB0BC] font-medium leading-5">
                                                 <img
                                                     src="/images/gas.svg"
                                                     alt="gas used"
@@ -842,7 +842,7 @@ function BundlerNew(props: any) {
 
                                             {/* Gas Used */}
                                             <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
-                                                <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
+                                                <div className="md:w-[280px] md:px-[16px] py-[8px] flex items-center gap-2">
                                                     <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-normal leading-5">
                                                         GAS USED
                                                     </span>
@@ -874,7 +874,7 @@ function BundlerNew(props: any) {
 
                                             {/* Gas Limit */}
                                             <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
-                                                <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
+                                                <div className="md:w-[280px] md:px-[16px] py-[8px] flex items-center gap-2">
                                                     <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-normal leading-5">
                                                         GAS LIMIT
                                                     </span>
@@ -902,7 +902,7 @@ function BundlerNew(props: any) {
 
                                             {/* Gas Price */}
                                             <div className="flex  md:flex-row flex-col items-start md:items-center border-[#ccc] dark:border-[#3B3C40] border-0 gap-[10px] pb-[2px]">
-                                                <div className="md:w-[280px] px-[16px] py-[8px] flex items-center gap-2">
+                                                <div className="md:w-[280px] md:px-[16px] py-[8px] flex items-center gap-2">
                                                     <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-normal leading-5">
                                                         GAS PRICE
                                                     </span>
@@ -929,8 +929,8 @@ function BundlerNew(props: any) {
                                             </div>
 
                                             {/* Gas FEES */}
-                                            <div className="flex md:flex-row flex-col items-start md:items-center border-b border-[#ccc] dark:border-[#3B3C40] gap-[70px] pb-2">
-                                                <div className="md:w-[280px] px-4 py-2 flex items-center">
+                                            <div className="flex md:flex-row flex-col items-start md:items-center border-b border-[#ccc] dark:border-[#3B3C40] md:gap-[70px] pb-2">
+                                                <div className="md:w-[280px] md:px-4 py-2 flex items-center">
                                                     <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-normal">
                                                         GAS FEES
                                                     </span>
