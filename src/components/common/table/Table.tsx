@@ -156,7 +156,7 @@ function Table(props: tableDataT) {
                                             {token && (
                                                 <td
                                                     className={`py-3 px-4 ${
-                                                        !isHomepage && (currentPath === '/recentBundles'|| '/paymasters') && (currentPath !== '/recentUserOps'|| '/paymaster') ? 'pl-24' : ''
+                                                        !isHomepage && (currentPath === '/recentBundles'|| '/paymasters') && (currentPath !== '/recentUserOps') ? 'pl-24' : ''
                                                     }`}
                                                 >
                                                     <Token {...token} />
