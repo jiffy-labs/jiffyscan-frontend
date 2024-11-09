@@ -133,7 +133,7 @@ function Pagination({ pageDetails: { pageNo, setPageNo, pageSize, setPageSize, t
                         <div
                             key={size}
                             onClick={() => handleSelect(size)}
-                            className="px-4 py-2 cursor-pointer text-center hover:bg-[#D7DAE0] dark:hover:bg-[#3B3C40] transition"
+                            className="px-4 z-50 py-2 cursor-pointer text-center hover:bg-[#D7DAE0] dark:hover:bg-[#3B3C40] transition"
                         >
                             {size}
                         </div>
