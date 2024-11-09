@@ -567,9 +567,11 @@ function RecentUserOps(props: any) {
                                                                         {!isLoading ? (
                                                                             <>
                                                                                 <span className="text-base text-[#195BDF] dark:text-[#598AEB] break-all leading-5">
+                                                                                    <Link href={`/bundle/${userOpsData?.[showUserOpId]?.transactionHash}`} className='no-underline'>
                                                                                     {formatAddress(
                                                                                         userOpsData?.[showUserOpId]?.transactionHash || '',
                                                                                     )}
+                                                                                    </Link>
                                                                                 </span>
                                                                                 <CopyButton
                                                                                     text={
