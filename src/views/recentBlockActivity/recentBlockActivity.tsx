@@ -15,6 +15,7 @@ import Table, { tableDataT } from '@/components/common/table/Table';
 import Pagination from '@/components/common/table/Pagination';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { SlHome } from 'react-icons/sl';
 
 const DEFAULT_PAGE_SIZE = 10;
 
@@ -108,10 +109,10 @@ function RecentBlockActivity(props: any) {
         }
     }, [block, network]);
     return (
-        <div className="">
+        <div className="dark:bg-[#191A23]">
             <Navbar searchbar />
-            <section className="px-3 py-10">
-                <div className="container">
+            <section className="px-3 container mx-auto my-6 py-6 bg-white dark:bg-[#1F202B] shadow-lg rounded-xl border border-[#D7DAE0] dark:border-[#3B3C40] ">
+                <div className="container px-10 py-4">
                     <div className="flex flex-row">
                         <Link href="/" className="text-gray-500">
                             <ArrowBackIcon
@@ -120,7 +121,7 @@ function RecentBlockActivity(props: any) {
                         </Link>
                         <Breadcrumbs aria-label="breadcrumb">
                             <Link underline="hover" color="inherit" href={`/?network=${network ? network : ''}`}>
-                                Home
+                            <SlHome />
                             </Link>
                             <Link underline="hover" color="inherit" href="/recentUserOps">
                                 Block
@@ -135,11 +136,11 @@ function RecentBlockActivity(props: any) {
                             </Link>
                         </Breadcrumbs>
                     </div>
-                    <h1 className="text-3xl font-bold">Block</h1>
+                    
                 </div>
-            </section>
+            
 
-            <div className="container px-0">
+            <div className="container px-10">
                 <Table
                     rows={rows}
                     columns={columns}
@@ -160,6 +161,7 @@ function RecentBlockActivity(props: any) {
                     }}
                 />
             </div>
+            </section>
             <ToastContainer />
             <Footer />
         </div>

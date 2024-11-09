@@ -664,7 +664,9 @@ function BundlerNew(props: any) {
                                                             <HiHashtag className="w-6 h-6 fill-[#969CB2] dark:fill-[#666B80]" />
                                                             {!isLoading ? (
                                                                 <span className="text-base text-[#195BDF] dark:text-[#598AEB] break-all leading-5">
+                                                                    <Link href={`/block/${transactionDetails?.blockNumber}`} className='no-underline'>
                                                                     {transactionDetails?.blockNumber}
+                                                                    </Link>
                                                                 </span>
                                                             ) : (
                                                                 // @ts-ignore

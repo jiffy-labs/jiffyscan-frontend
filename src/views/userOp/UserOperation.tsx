@@ -875,9 +875,11 @@ function RecentUserOps(props: any) {
                                                                         <img src="/images/hashD.svg" alt=""className="dark:flex hidden"/>
 
                                                                         {!isLoading ? (
-                                                                            <span className="text-base text-[#195BDF] dark:text-[#598AEB] break-all leading-5">
+                                                                            <span className="text-base text-[#195BDF] dark:text-[#598AEB] break-all leading-5 no-underline">
+                                                                            <Link href={`/block/${userOpsData?.[showUserOpId]?.blockNumber}`} className='no-underline'>
                                                                                 {userOpsData?.[showUserOpId]?.blockNumber}
-                                                                            </span>
+                                                                            </Link>
+                                                                        </span>
                                                                         ) : (
                                                                             // @ts-ignore
                                                                             <div
