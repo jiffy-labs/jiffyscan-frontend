@@ -84,7 +84,7 @@ function UserOperations(props: any) {
                 token: {
                     text: bundle.transactionHash,
                     icon: NETWORK_ICON_MAP[network],
-                    type: 'bundle',
+                    type: 'trx',
                 },
                 ago: getTimePassed(bundle.blockTime),
                 userOps: `${bundle.userOpsLength} ops`,
