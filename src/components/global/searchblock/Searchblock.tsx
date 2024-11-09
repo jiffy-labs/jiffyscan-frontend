@@ -112,7 +112,11 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
                     </div>
 
                 </label>
-                {searching && <LinearProgress />}
+                {searching && (
+                <div className="w-full h-1 px-6">
+                    <LinearProgress />
+                </div>
+            )}
                 <ToastContainer />
             </div>
         );
@@ -149,7 +153,11 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
                         <span className="hidden md:block">Search</span>
                     </div> */}
                 </label>
-                {searching && <LinearProgress />}
+                {searching && (
+                <div className="w-full h-1 px-6">
+                    <LinearProgress />
+                </div>
+            )}
                 <ToastContainer />
             </div>
         );
