@@ -209,13 +209,43 @@ const Tracer: React.FC<{ trxHash: string; network: string }> = ({ trxHash, netwo
 
     useEffect(() => {
         const fetchTraces = async () => {
-            const data = await getTrxTraces(trxHash, network, toast);
-            if (data) {
-                setTracerData(data as unknown as TracerData);
+            const cacheKey = `traces_${trxHash}_${network}`;
+            const cacheTTL = 5 * 60 * 1000; // Set cache expiration time to 5 minutes
+            const cachedData = localStorage.getItem(cacheKey);
+    
+            if (cachedData) {
+                const parsedData = JSON.parse(cachedData);
+    
+                // Check if cached data is expired
+                if (Date.now() - parsedData.timestamp < cacheTTL) {
+                    setTracerData(parsedData.data as TracerData);
+                    return;
+                } else {
+                    // Remove expired cache
+                    localStorage.removeItem(cacheKey);
+                }
+            }
+    
+            try {
+                const data = await getTrxTraces(trxHash, network, toast);
+    
+                if (data) {
+                    setTracerData(data as unknown as TracerData);
+    
+                    // Cache the response with a timestamp
+                    localStorage.setItem(
+                        cacheKey,
+                        JSON.stringify({ data: data, timestamp: Date.now() })
+                    );
+                }
+            } catch (error) {
+                console.error('Error fetching traces:', error);
             }
         };
+    
         fetchTraces();
     }, [trxHash, network]);
+    
 
     if (!tracerData) {
         return (
