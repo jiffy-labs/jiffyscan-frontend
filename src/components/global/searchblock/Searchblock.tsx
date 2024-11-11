@@ -58,13 +58,18 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
     const handleSubmit = async () => {
         if (checkIfValidTerm(term)) {
             setSearching(true);
-            const res = await fetch(`https://api.jiffyscan.xyz/v0/searchEntry?entry=${term.toLocaleLowerCase()}${networkValue != -1 ? `&network=${NETWORK_LIST[networkValue].key}`:""}`);
+            const res = await fetch(`https://api.jiffyscan.xyz/v0/searchEntry?entry=${term.toLocaleLowerCase()}${networkValue != -1 ? `&network=${NETWORK_LIST[networkValue].key}` : ""}`);
             if (res.status === 200) {
                 const data = await res.json();
-                console.log(data)
+                console.log(data);
+                
                 let redirectUrl;
-                if (data.foundInNetwork && data.type && data.term)
-                    redirectUrl = constructRedirectUrl(data.type, data.foundInNetwork, data.term);
+                if (data.foundInNetwork && data.type && data.term) {
+                    // If the type is 'bundle', change it to 'tx'
+                    const type = data.type === 'bundle' ? 'tx' : data.type;
+                    redirectUrl = constructRedirectUrl(type, data.foundInNetwork, data.term);
+                }
+    
                 if (redirectUrl) {
                     push(redirectUrl);
                 } else {
@@ -79,6 +84,7 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
             showToast(toast, 'Invalid search term ?');
         }
     };
+    
 
     if (isNavbar) {
         return (
