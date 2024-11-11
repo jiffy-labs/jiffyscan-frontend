@@ -234,7 +234,7 @@ function ChipDropdown(props: ChipProps) {
                                             setIcon(iconPath);
                                             closeModal();
                                         }}
-                                        className="w-[156px] h-[36px] flex text-center text-md dark:text-[#DADEF1] dark:border-[#3B3C40] font-gsans border-[#DAD7E0] text-[#646D8F] items-center p-2 border rounded-lg shadow-sm hover:bg-gray-100 dark:hover:text-black"
+                                        className="w-[156px] h-[36px] flex text-center justify-center text-md dark:text-[#DADEF1] dark:border-[#3B3C40] font-gsans border-[#DAD7E0] text-[#646D8F] items-center p-2 border rounded-lg shadow-sm hover:bg-gray-100 dark:hover:text-black"
                                     >
                                         <img src={iconPath} alt={name} className="h-4 w-4 mr-2" />
                                         {name}
