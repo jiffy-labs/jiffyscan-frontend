@@ -139,7 +139,7 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
                         <input
                             type="text"
                             className="text-base placeholder:text-dark-500 dark:placeholder:text-[#BCBFCC] rounded-full  text-dark-600 px-4 py-2 flex-grow truncate min-w-0 max-w-none w-[0px] dark:bg-[#1D1E1F] dark:text-[#BCBFCC]"
-                            placeholder="Search by block number, address, hash, or userOp hash..."
+                            placeholder="Search by Tx Hash, UserOp Hash, Address or Block Number..."
                             value={term}
                             onChange={handleChange}
                             onKeyDown={handleKeyPress}

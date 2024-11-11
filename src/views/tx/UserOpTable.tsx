@@ -78,8 +78,8 @@ const UserOpsTable: React.FC<UserOpsTableProps> = ({ userOps, network }) => {
                           <Link
                             href={
                               column.id === 'hash'
-                                ? `https://jiffyscan.xyz/userOpHash/${value}?network=${network}`
-                                : `https://jiffyscan.xyz/account/${value}?network=${network}`
+                                ? `https://v2.jiffyscan.xyz/userOpHash/${value}?network=${network}`
+                                : `https://v2.jiffyscan.xyz/account/${value}?network=${network}`
                             }
                             target="_blank"
                           >
