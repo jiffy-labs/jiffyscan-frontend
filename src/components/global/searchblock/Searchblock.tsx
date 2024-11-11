@@ -102,7 +102,7 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
                     <Options networkValue={networkValue} setNetworkValue={setNetworkValue} />
                         <input
                             type="text"
-                            className="flex-grow px-3 py-2 text-base placeholder:text-dark-500 text-dark-600"
+                            className="flex-grow px-3 py-2 text-base placeholder:text-dark-500 text-dark-600 border-none"
                             placeholder="Search..."
                             value={term}
                             onChange={handleChange}
@@ -134,7 +134,7 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
                     <div className="flex items-center gap-2.5 pr-4 flex-grow focus-within:shadow-xl ">
                         <input
                             type="text"
-                            className="text-base placeholder:text-dark-500  text-dark-600 px-4 py-2 flex-grow truncate min-w-0 max-w-none w-[0px]"
+                            className="text-base placeholder:text-dark-500  text-dark-600 px-4 py-2 flex-grow truncate min-w-0 max-w-none w-[0px] border-none"
                             placeholder="Search by block number, address, hash, or userOp hash..."
                             value={term}
                             onChange={handleChange}
