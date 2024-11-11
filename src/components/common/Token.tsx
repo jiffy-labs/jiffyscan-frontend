@@ -17,7 +17,7 @@ export interface TokenType {
     eyes?: boolean;
 }
 
-const resolveFor = ['factory', 'trx', 'address', 'bundler', 'paymaster'];
+const resolveFor = ['factory', 'tx', 'address', 'bundler', 'paymaster'];
 
 // const bns = new BNS({
 //     rpcEndpoint: 'https://mainnet.base.org'
@@ -79,9 +79,9 @@ function getHrefLink(type: string | undefined, text: string, network: string) {
             pathname: `/factory/${text}`,
             query: { network: network },
         };
-    } else if (type == 'trx') {
+    } else if (type == 'tx') {
         return {
-            pathname: `/trx/${text}`,
+            pathname: `/tx/${text}`,
             query: { network: network },
         };
     } else if (type == 'bundler') {

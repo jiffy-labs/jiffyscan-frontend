@@ -124,7 +124,7 @@ function Home() {
                 token: {
                     text: bundle.transactionHash,
                     icon: NETWORK_ICON_MAP[network],
-                    type: 'trx',
+                    type: 'tx',
                 },
                 ago: getTimePassed(bundle.blockTime),
                 userOps: bundle.userOpsLength + '',
