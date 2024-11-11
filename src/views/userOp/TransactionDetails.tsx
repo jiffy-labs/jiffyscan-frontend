@@ -394,7 +394,7 @@ function TransactionDetails({ tableLoading, skeletonCards, item, addressMapping,
                                             icon="transactionHash"
                                             title="Transaction Hash"
                                             content={
-                                                <RenderTextCopyLink text={item?.status ? item.transactionHash : "not mined"} network={item?.network} type="bundle" />
+                                                <RenderTextCopyLink text={item?.status ? item.transactionHash : "not mined"} network={item?.network} type="tx" />
                                             }
                                         />
                                         <InfoSection

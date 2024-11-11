@@ -122,7 +122,7 @@ function Home() {
                 token: {
                     text: bundle.transactionHash,
                     icon: NETWORK_ICON_MAP[network],
-                    type: 'bundle',
+                    type: 'tx',
                 },
                 ago: getTimePassed(bundle.blockTime),
                 userOps: bundle.userOpsLength + ' ops',
@@ -236,7 +236,7 @@ function Home() {
                                 columns={BundlesTable['columns']}
                                 loading={bundleTableLoading}
                                 caption={{
-                                    children: 'Recent Bundles',
+                                    children: 'Recent Transactions',
                                     icon: '/images/swap-vertical-bold (1).svg',
                                     text: 'Recent bundles Processed by selected chain',
                                 }}
