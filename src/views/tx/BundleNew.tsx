@@ -931,7 +931,7 @@ function BundlerNew(props: any) {
                                             </div>
 
                                             {/* Gas FEES */}
-                                            <div className="flex md:flex-row flex-col items-start md:items-center border-b border-[#ccc] dark:border-[#3B3C40] md:gap-[70px] pb-2">
+                                            <div className="flex md:flex-row flex-col items-start md:items-center  border-[#ccc] dark:border-[#3B3C40] md:gap-[70px] pb-2">
                                                 <div className="md:w-[280px] md:px-4 py-2 flex items-center">
                                                     <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-normal">
                                                         GAS FEES

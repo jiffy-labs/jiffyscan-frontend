@@ -51,14 +51,14 @@ const UserOpsTable: React.FC<UserOpsTableProps> = ({ userOps, network }) => {
     <Paper sx={{ width: '100%', overflow: 'hidden' }} className='border dark:border-[#3B3C40] dark:bg-[#1F202B]'>
       <TableContainer >
         <Table stickyHeader aria-label="sticky table">
-          <TableHead style={{ backgroundColor: '#5A5A62' }}>
+          <TableHead style={{ backgroundColor: '#5A5A62' }} >
             <TableRow>
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
                   align={column.align}
                   style={{ minWidth: column.minWidth, color: '#9E9E9E' }}
-                  className='dark:border-[#3B3C40] dark:bg-[#1F202B] font-gsans '
+                  className='dark:border-[#3B3C40] dark:bg-[#191A23] font-gsans '
                 >
                   {column.label}
                 </TableCell>
@@ -78,8 +78,8 @@ const UserOpsTable: React.FC<UserOpsTableProps> = ({ userOps, network }) => {
                           <Link
                             href={
                               column.id === 'hash'
-                                ? `https://jiffyscan.xyz/userOpHash/${value}?network=${network}`
-                                : `https://jiffyscan.xyz/account/${value}?network=${network}`
+                                ? `https://v2.jiffyscan.xyz/userOpHash/${value}?network=${network}`
+                                : `https://v2.jiffyscan.xyz/account/${value}?network=${network}`
                             }
                             target="_blank"
                           >

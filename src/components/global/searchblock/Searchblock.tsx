@@ -58,13 +58,18 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
     const handleSubmit = async () => {
         if (checkIfValidTerm(term)) {
             setSearching(true);
-            const res = await fetch(`https://api.jiffyscan.xyz/v0/searchEntry?entry=${term.toLocaleLowerCase()}${networkValue != -1 ? `&network=${NETWORK_LIST[networkValue].key}`:""}`);
+            const res = await fetch(`https://api.jiffyscan.xyz/v0/searchEntry?entry=${term.toLocaleLowerCase()}${networkValue != -1 ? `&network=${NETWORK_LIST[networkValue].key}` : ""}`);
             if (res.status === 200) {
                 const data = await res.json();
-                console.log(data)
+                console.log(data);
+                
                 let redirectUrl;
-                if (data.foundInNetwork && data.type && data.term)
-                    redirectUrl = constructRedirectUrl(data.type, data.foundInNetwork, data.term);
+                if (data.foundInNetwork && data.type && data.term) {
+                    // If the type is 'bundle', change it to 'tx'
+                    const type = data.type === 'bundle' ? 'tx' : data.type;
+                    redirectUrl = constructRedirectUrl(type, data.foundInNetwork, data.term);
+                }
+    
                 if (redirectUrl) {
                     push(redirectUrl);
                 } else {
@@ -79,6 +84,7 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
             showToast(toast, 'Invalid search term ?');
         }
     };
+    
 
     if (isNavbar) {
         return (
@@ -133,7 +139,7 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
                         <input
                             type="text"
                             className="text-base placeholder:text-dark-500 dark:placeholder:text-[#BCBFCC] rounded-full  text-dark-600 px-4 py-2 flex-grow truncate min-w-0 max-w-none w-[0px] dark:bg-[#1D1E1F] dark:text-[#BCBFCC]"
-                            placeholder="Search by block number, address, hash, or userOp hash..."
+                            placeholder="Search by Tx Hash, UserOp Hash, Address or Block Number..."
                             value={term}
                             onChange={handleChange}
                             onKeyDown={handleKeyPress}

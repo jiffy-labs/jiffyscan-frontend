@@ -371,7 +371,7 @@ function RecentUserOps(props: any) {
                                 underline="hover"
                                 color="text.primary"
                                 // href={`/userOpHash/${hash}?network=${network ? network : ''}`}
-                                onClick={() => setShowUserOpId(-1)}
+                                // onClick={() => setShowUserOpId(-1)}
                                 aria-current="page"
                                 className="text-[#195BDF] dark:text-[#598AEB]"
                             >
@@ -567,7 +567,7 @@ function RecentUserOps(props: any) {
                                                                         {!isLoading ? (
                                                                             <>
                                                                                 <span className="text-base text-[#195BDF] dark:text-[#598AEB] break-all leading-5">
-                                                                                    <Link href={`/bundle/${userOpsData?.[showUserOpId]?.transactionHash}`} className='no-underline'>
+                                                                                    <Link href={`/tx/${userOpsData?.[showUserOpId]?.transactionHash}`} className='no-underline'>
                                                                                     {formatAddress(
                                                                                         userOpsData?.[showUserOpId]?.transactionHash || '',
                                                                                     )}
