@@ -37,7 +37,7 @@ function Navbar(props: NavbarProps) {
                     currentPath !== '/' ? 'dark:bg-[#1F202B]' : ''
                 }`}
             >
-                <div className="container flex h-full items-center justify-between gap-8 px-0 space-x-4">
+                <div className="container flex h-full items-center justify-between px-0 space-x-3 xl:space-x-4">
                     <Logo />
                     <div className={`hidden lg:block ${searchbar ? '' : 'pl-28'}`}>
                         <div className="flex space-x-12 text-xl relative">
@@ -223,7 +223,7 @@ function Navbar(props: NavbarProps) {
                             </a>
                         </div>
                     )}
-                    <div className="items-center justify-end flex-grow hidden gap-3 md:flex">
+                    <div className="items-center justify-end flex-grow hidden md:flex xl:gap-2">
                         {searchbar && <Searchblock isNavbar={true} />}
                         <div className="flex justify-center items-center">
                             {/* Switch Container */}

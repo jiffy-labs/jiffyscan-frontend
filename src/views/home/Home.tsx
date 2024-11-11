@@ -231,7 +231,7 @@ function Home() {
             </div>
             {/* <RecentMetrics selectedNetwork={selectedNetwork} setLoading={setLoading} loading={loading} /> */}
             <div>
-                <section className={`mb-12`}>
+            <section className={`mb-12 ${block && 'blur'}`} style={{ minHeight: "calc(100vh - headerHeight)" }}>
                     {block ? <LoginModal showClose={true} block={block} setBlock={setBlock} /> : null}
                     <div className={`container grid grid-cols-1 gap-10 lg:grid-cols-2 ${block && 'blur'}`}>
                         <div>
@@ -278,7 +278,7 @@ function Home() {
                         </div>
                     </div>
                 </section>
-                <section className={`mb-12 ${block && 'blur'}`}>
+                <section className={`mb-12 ${block && 'blur'}`} style={{ minHeight: "calc(100vh - headerHeight)" }}>
                     <div className="container grid grid-cols-1 gap-10 lg:grid-cols-2">
                         <div>
                             <div className="mt-4 border-t border-l border-r bg-white dark:text-[#989BA6] dark:bg-[#1D1E1F] dark:border-[#444444] border-[#D7DAE0] px-10 py-6 flex items-center justify-between rounded-t-lg font-semibold font-dmsans sm:text-base md:text-xl">
