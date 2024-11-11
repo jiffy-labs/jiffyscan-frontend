@@ -120,8 +120,8 @@ export const constructRedirectUrl = (type: string, network: string, term: string
         return `/bundler/${term}/?network=${network}`;
     } else if (type === 'block') {
         return `/block/${term}/?network=${network}`;
-    } else if (type === 'bundle') {
-        return `/bundle/${term}/?network=${network}`;
+    } else if (type === 'tx') {
+        return `/tx/${term}/?network=${network}`;
     }
 };
 

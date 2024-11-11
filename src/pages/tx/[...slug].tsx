@@ -2,7 +2,7 @@ import SEO from '@/components/common/SEO';
 import { getNetworkParam } from '@/components/common/utils';
 import Layout from '@/components/global/Layout';
 import { useConfig } from '@/context/config';
-import Bundler from '@/views/bundle/Bundle';
+import Bundler from '@/views/tx/Bundle';
 import { useRouter } from 'next/router';
 import React, { ReactElement, useEffect } from 'react';
 import ReactGA from 'react-ga4';

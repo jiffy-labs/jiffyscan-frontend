@@ -160,8 +160,8 @@ function Bundler(props: any) {
                             <Link underline="hover" color="inherit" href={`/?network=${network ? network : ''}`}>
                                 Home
                             </Link>
-                            <Link underline="hover" color="inherit" href={`/block/${hash}?network=${network ? network : ''}`}>
-                                Block
+                            <Link underline="hover" color="inherit" >
+                                Tx
                             </Link>
                             <Link
                                 underline="hover"
