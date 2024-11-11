@@ -237,9 +237,9 @@ function Home() {
                         <div>
                             <div className="mt-4 border-t bg-white dark:bg-[#1D1E1F] dark:text-[#989BA6] border-l border-r dark:border-[#444444] border-[#D7DAE0]  px-10 py-6 flex items-center justify-between rounded-t-lg font-semibold font-dmsans sm:text-base md:text-xl">
                                 {/* <Button href="/recentBundles">View all bundles</Button> */}
-                                <p>Bundles</p>
+                                <p>Transactions</p>
                                 <Link href="/recentBundles" className="text-[#195BDF] dark:text-[#598AEB] flex items-center gap-2">
-                                    View Bundles <MdArrowForwardIos className="w-4 h-4" />
+                                    View Transactions <MdArrowForwardIos className="w-4 h-4" />
                                 </Link>
                             </div>
                             <Table
