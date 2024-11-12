@@ -31,7 +31,7 @@ const variantClasses: {
     contained: {
         'dark-700': 'bg-dark-700 text-white border-dark-700 dark:bg-white dark:text-black',
         'blue-700': 'bg-blue-200 text-white border-dark-200',
-        white: 'border-dark-100 bg-white text-dark-600 dark:bg-[#1F202B] dark:border-[#3B3C40] dark:text-[#ADB0BC]',
+        white: 'border-[#D7DAE0]  bg-white text-dark-600 dark:bg-[#1F202B] dark:border-[#3B3C40] dark:text-[#ADB0BC]',
         'dark-400': 'border-dark-400 bg-dark-400 text-white',
     },
     outlined: {
