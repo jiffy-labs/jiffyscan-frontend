@@ -5,7 +5,7 @@ import IconText from '@/components/common/IconText';
 import InfoButton from '@/components/common/InfoButton';
 import Caption from '@/components/common/Caption';
 import { getFee } from '@/components/common/utils';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Skeleton from 'react-loading-skeleton-2';
 import { BUTTON_LIST } from './UserOperation';
 import sx from './usertable.module.sass';
@@ -35,28 +35,21 @@ const getFormat = (callData: string) => {
 };
 
 function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, setSelectedColor, metaData, selectedNetwork }: any) {
-    const initialize = (key: any, initialValue: any) => {
+    const initialize = useCallback((key: string, initialValue: any) => {
         try {
-            const item = localStorage.getItem(key);
-            if (item && item !== 'undefined') {
-                return JSON.parse(item);
-            }
-
-            localStorage.setItem(key, JSON.stringify(initialValue));
-            return initialValue;
+            const storedItem = localStorage.getItem(key);
+            return storedItem && storedItem !== 'undefined' ? JSON.parse(storedItem) : initialValue;
         } catch {
             return initialValue;
         }
-    };
+    }, []);
 
     const [dropOpen, SetdropOpen] = useState(() => initialize('dropOpen', true));
     const [open, setOpen] = useState(() => initialize('open', true));
     const [userOpParamsExists, setUserOpParamsExists] = useState(false);
     const [activeTab, setActiveTab] = useState<number>(3);
 
-    const handleTabClick = (tabIndex: number) => {
-        setActiveTab(tabIndex);
-    };
+    const handleTabClick = useCallback((tabIndex: React.SetStateAction<number>) => setActiveTab(tabIndex), []);
     useEffect(() => {
         // save dropOpen state in localstorage
         if (typeof window === 'undefined') return;
@@ -74,10 +67,7 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
             setUserOpParamsExists(true);
     }, [metaData]);
 
-    const formatAddress = (address: string) => {
-        if (!address) return '';
-        return `${address.slice(0, 6)}...${address.slice(-6)}`;
-    };
+    
     return (
         <div className="flex flex-col bg-white  border-[#DADCE0] dark:border-[#3B3C40] w-full rounded-xl dark:bg-[#1F202B] px-0 md:px-10">
             <div className="w-full px-4 py-5 flex flex-col sm:flex-row rounded-t-xl border justify-between items-center h-auto sm:h-[72px] dark:border-[#3B3C40] dark:bg-[#1F202B]">
@@ -87,42 +77,20 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                 </div>
                 <div className="h-[32px] mt-3 sm:mt-0">
                     <ul className="grid grid-flow-col text-center font-gsans dark:bg-[#191A23] dark:border-[#3B3C40] text-gray-500 gap-1 bg-gray-100 rounded-lg border-2 p-1 items-center h-[40px]">
-                        <li className="px-0">
-                            <button
-                                onClick={() => handleTabClick(3)}
-                                className={`flex items-center  justify-center h-full text-sm sm:text-base w-[88px] px-2 ${
-                                    activeTab === 3
-                                        ? 'bg-white rounded-[4px] text-[#195BDF] dark:bg-[#1F202B] dark:text-[#598AEB] dark:border-[#3B3C40] border'
-                                        : ''
-                                }`}
-                            >
-                                Detailed
-                            </button>
-                        </li>
-                        <li className="px-0">
-                            <button
-                                onClick={() => handleTabClick(2)}
-                                className={`flex items-center justify-center h-full text-sm sm:text-base w-[88px]  ${
-                                    activeTab === 2
-                                        ? 'bg-white rounded-[4px] dark:bg-[#1F202B] text-[#195BDF] px-2  dark:text-[#598AEB] dark:border-[#3B3C40] border'
-                                        : ''
-                                }`}
-                            >
-                                JSON
-                            </button>
-                        </li>
-                        <li className="px-0">
-                            <button
-                                onClick={() => handleTabClick(1)}
-                                className={`flex items-center justify-center h-full text-sm sm:text-base w-[88px]  ${
-                                    activeTab === 1
-                                        ? 'bg-white rounded-[4px] text-[#195BDF] dark:bg-[#1F202B] px-2 dark:text-[#598AEB] dark:border-[#3B3C40] border'
-                                        : ''
-                                }`}
-                            >
-                                Original
-                            </button>
-                        </li>
+                    {[3, 2, 1].map(tabIndex => (
+                            <li key={tabIndex} className="px-0">
+                                <button
+                                    onClick={() => handleTabClick(tabIndex)}
+                                    className={`flex items-center justify-center h-full text-sm sm:text-base w-[88px] ${
+                                        activeTab === tabIndex
+                                            ? 'bg-white rounded-[4px] text-[#195BDF] dark:bg-[#1F202B] dark:text-[#598AEB] dark:border-[#3B3C40] border'
+                                            : 'bg-inherit dark:text-[#646D8F] text-[#646D8F]'
+                                    }`}
+                                >
+                                    {tabIndex === 3 ? 'Detailed' : tabIndex === 2 ? 'JSON' : 'Original'}
+                                </button>
+                            </li>
+                        ))}
                     </ul>
                 </div>
             </div>
@@ -187,8 +155,8 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
 
                     <div className="border-b border-r border-l bg-white p-3 px-4 sm:px-8 text-sm sm:text-md flex justify-between dark:border-[#3B3C40] dark:bg-[#1F202B]">
                         {/* Wrapper to allow horizontal scroll on mobile */}
-                        <div className="flex w-full space-x-[-32px]">
-                            <div className="flex space-x-4 w-48 text-center flex-shrink-0">
+                        <div className="flex w-full overflow-x-auto space-x-[-32px]">
+                            <div className="flex align-middle space-x-8 w-48 text-center flex-shrink-0">
                                 <span className="bg-[#F0F1F5] font-gsans text-[#646D8F] dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40] w-[72px] h-[24px] text-center text-sm px-2.5 py-0.5 rounded border border-gray-200">
                                     bytes
                                 </span>

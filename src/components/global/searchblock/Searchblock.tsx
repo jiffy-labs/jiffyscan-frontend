@@ -128,44 +128,47 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
         );
     } else {
         return (
-            <div
-                className={`shadow-xl dark:shadow-black/40 bg-white dark:bg-[#1D1E1F] rounded-full border border-[#DADCE0] dark:border-[#444444] flex-grow max-w-[1080px] h-[64px]
-                     duration-120
-                    ${animateState ? `focus-within:translate-y-2 focus-within:-translate-x-2   focus-within:scale-125` : ''} duration-150`}
-            >
-                <label className="flex justify-center h-full rouneded-full dark:border-[#444444] dark:text-[#BCBFCC]">
-                    <Options networkValue={networkValue} setNetworkValue={setNetworkValue} />
-                    <div className="flex items-center gap-2.5 pr-4 flex-grow rounded-full ">
-                        <input
-                            type="text"
-                            className="text-base placeholder:text-dark-500 dark:placeholder:text-[#BCBFCC] rounded-full  text-dark-600 px-4 py-2 flex-grow truncate min-w-0 max-w-none w-[0px] dark:bg-[#1D1E1F] dark:text-[#BCBFCC]"
-                            placeholder="Search by Tx Hash, UserOp Hash, Address or Block Number..."
-                            value={term}
-                            onChange={handleChange}
-                            onKeyDown={handleKeyPress}
-                            ref={searchRef}
-                        />
-                        <span className="items-center justify-center hidden h-5 px-3 rounded-full  md:flex">
-                            <img className="dark:hidden" src="/images/ctrl.svg" alt="" />
-                            <img src="/images/ctrld.svg" alt="" className='dark:block hidden' />
-                        </span>
-                    </div>
-                    {/* <div
-                        role="button"
-                        className="flex items-center gap-2 py-3.5 px-5  bg-dark-600 rounded-r text-white font-medium text-md tracking-[1.25px] uppercase"
-                        onClick={handleSubmit}
-                    >
-                        <img src="/images/icon-container (25).svg" alt="" />
-                        <span className="hidden md:block">Search</span>
-                    </div> */}
-                </label>
-                {searching && (
-                <div className="w-full h-1 px-6">
-                    <LinearProgress />
-                </div>
-            )}
-                <ToastContainer />
+            <div className="flex justify-center items-center">
+    <div
+        className={`shadow-xl dark:shadow-black/40 bg-white dark:bg-[#1D1E1F] rounded-full border border-[#DADCE0] dark:border-[#444444] flex-grow max-w-[1080px] min-w-[325px] h-[64px]
+            duration-120
+            ${animateState ? `focus-within:translate-y-2 focus-within:-translate-x-2 focus-within:scale-125` : ''} duration-150`}
+    >
+        <label className="flex justify-center h-full rounded-full dark:border-[#444444] dark:text-[#BCBFCC]">
+            <Options networkValue={networkValue} setNetworkValue={setNetworkValue} />
+            <div className="flex items-center gap-2.5 pr-4 flex-grow rounded-full">
+                <input
+                    type="text"
+                    className="text-base placeholder:text-dark-500 placeholder:text-md placeholder:md:text-base dark:placeholder:text-[#BCBFCC] rounded-full text-dark-600 px-4 py-2 flex-grow truncate min-w-0 max-w-none w-[0px] dark:bg-[#1D1E1F] dark:text-[#BCBFCC]"
+                    placeholder="Search by Tx Hash, UserOp Hash, Address or Block Number..."
+                    value={term}
+                    onChange={handleChange}
+                    onKeyDown={handleKeyPress}
+                    ref={searchRef}
+                />
+                <span className="items-center justify-center hidden h-5 px-3 rounded-full md:flex">
+                    <img className="dark:hidden" src="/images/ctrl.svg" alt="" />
+                    <img src="/images/ctrld.svg" alt="" className="dark:block hidden" />
+                </span>
             </div>
+            {/* <div
+                role="button"
+                className="flex items-center gap-2 py-3.5 px-5 bg-dark-600 rounded-r text-white font-medium text-md tracking-[1.25px] uppercase"
+                onClick={handleSubmit}
+            >
+                <img src="/images/icon-container (25).svg" alt="" />
+                <span className="hidden md:block">Search</span>
+            </div> */}
+        </label>
+        {searching && (
+            <div className="w-full h-1 px-6">
+                <LinearProgress />
+            </div>
+        )}
+        <ToastContainer />
+    </div>
+</div>
+
         );
     }
 }
