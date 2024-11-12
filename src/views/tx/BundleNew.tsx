@@ -422,6 +422,7 @@ function BundlerNew(props: any) {
                                         Call Data
                                     </button>
                                 </li>
+                                {transactionDetails?.logsDetails.numberOfUserOps !== 0  && 
                                 <li className="flex-none w-1/2 text-center md:flex-auto">
                                     <button
                                         onClick={() => handleToggle(2)} // Show UserOp Logs
@@ -434,6 +435,7 @@ function BundlerNew(props: any) {
                                         UserOps
                                     </button>
                                 </li>
+                                }
                                 {(network === 'base' || network === 'odyssey' || network === 'open-campus-test')&& transactionDetails?.logsDetails.numberOfUserOps !== 0  && (
                                     <li className="flex-none w-1/2 text-center md:flex-auto">
                                         <button
