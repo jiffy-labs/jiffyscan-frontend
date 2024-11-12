@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
@@ -36,6 +35,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LoginModal from '@/components/global/LoginModal';
 import { useUserSession } from '@/context/userSession';
+import Image from 'next/image';
 import { ethers } from 'ethers';
 import { BsClockHistory } from 'react-icons/bs';
 import Tracer from './Tracer';
@@ -167,60 +167,6 @@ function RecentUserOps(props: any) {
             query: { ...router.query, section: tabName },
         });
     };
-
-    // const renderContent = () => {
-    //     return (
-    //         <div>
-    //             <div className={`${activeTab === 'overview' ? 'block' : 'hidden'}`}>
-    //                 <TransactionDetails
-    //                     tableLoading={tableLoading}
-    //                     skeletonCards={skeletonCards}
-    //                     item={userOpsData?.[showUserOpId]}
-    //                     responseData={responseData}
-    //                     addressMapping={addressMapping}
-    //                     metaData={metaData}
-    //                     setMetadata={setMetaData}
-    //                     selectedNetwork={selectedNetwork}
-    //                 />
-    //             </div>
-
-    //             <div className={`${activeTab === 'dev_details' ? 'block' : 'hidden'}`}>
-    //                 <DeveloperDetails
-    //                     tableLoading={tableLoading}
-    //                     skeletonCards1={skeletonCards1}
-    //                     item={userOpsData?.[showUserOpId]}
-    //                     selectedColor={selectedColor}
-    //                     BUTTON_LIST={BUTTON_LIST}
-    //                     setSelectedColor={setSelectedColor}
-    //                     selectedNetwork={selectedNetwork}
-    //                     metaData={metaData}
-    //                 />
-    //             </div>
-
-    //             <div className={`${activeTab === 'logs' ? 'block' : 'hidden'}`}>{/* <UserOpLogs logs={logs} /> */}</div>
-
-    //             {network === 'base' && activeTab === 'tracer' && (
-    //                 <>
-    //                     {/* Show the Tracer component only on medium (md) screens and larger */}
-    //                     <div className={`${activeTab === 'tracer' ? 'block' : 'hidden'} hidden md:block`}>
-    //                         <Tracer item={userOpsData?.[showUserOpId]} network={''} />
-    //                     </div>
-
-    //                     {/* Show the title on screens smaller than md, but only for the 'tracer' tab */}
-
-    //                     <div className="block md:hidden text-center p-8 text-xl text-gray-500 font-medium">
-    //                         Best Viewed on Larger Screens
-    //                     </div>
-    //                 </>
-    //             )}
-    //         </div>
-    //     );
-    // };
-    // const [block, setBlock] = useState(!isLoggedIn());
-
-    // useEffect(() => {
-    //     setBlock(!isLoggedIn());
-    // }, [isLoggedIn]);
 
     async function returnUserOpData(hash: string, toast: any) {
         let currentTime = new Date().getTime();
@@ -509,7 +455,7 @@ function RecentUserOps(props: any) {
                                                                         {' '}
                                                                         {/* Change to items-start */}
                                                                         {network && (
-                                                                            <img
+                                                                            <Image priority width={20} height={20}
                                                                                 src={NETWORK_ICON_MAP[network as string]}
                                                                                 alt={`${network} icon`}
                                                                                 className="w-5 h-5"
@@ -527,7 +473,7 @@ function RecentUserOps(props: any) {
                                                                                     href={`${NETWORK_SCANNER_MAP[selectedNetwork]}/tx/${userOpsData?.[showUserOpId]?.transactionHash}`}
                                                                                     target="_blank"
                                                                                 >
-                                                                                    <img
+                                                                                    <Image priority width={20} height={20}
                                                                                         src={getExplorerLogo(selectedNetwork)}
                                                                                         alt="Explorer"
                                                                                         className="w-4 h-4"
@@ -558,11 +504,14 @@ function RecentUserOps(props: any) {
                                                                 <div className="justify-between block md:flex">
                                                                     <div className="flex items-center gap-[10px]">
                                                                         {network && (
-                                                                            <img
-                                                                                src={NETWORK_ICON_MAP[network as string]}
-                                                                                alt={`${network} icon`}
-                                                                                className="w-5 h-5"
-                                                                            />
+                                                                            <Image
+                                                                            src={NETWORK_ICON_MAP[network as string]}
+                                                                            alt={`${network} icon`}
+                                                                            className="w-5 h-5"
+                                                                            width={20}  
+                                                                            height={20} 
+                                                                            priority // Optionally add priority for above-the-fold images to improve LCP
+                                                                        />
                                                                         )}
                                                                         {!isLoading ? (
                                                                             <>
@@ -582,10 +531,13 @@ function RecentUserOps(props: any) {
                                                                                     href={`${NETWORK_SCANNER_MAP[selectedNetwork]}/tx/${userOpsData?.[showUserOpId]?.transactionHash}`}
                                                                                     target="_blank"
                                                                                 >
-                                                                                    <img
+                                                                                    <Image
                                                                                         src={getExplorerLogo(selectedNetwork)}
                                                                                         alt="Explorer"
                                                                                         className="w-4 h-4"
+                                                                                        width={20}  // Set width based on "w-5" (5 * 4 = 20px)
+                                                                                        height={20} // Set height based on "h-5" (5 * 4 = 20px)
+                                                                                        priority // Optionally add priority for above-the-fold images to improve LCP
                                                                                     />
                                                                                 </Link>
                                                                             </>
@@ -612,8 +564,8 @@ function RecentUserOps(props: any) {
                                                             <div className="flex-1 break-words">
                                                                 <div className="justify-between block md:flex">
                                                                     <div className="flex items-center gap-[10px]">
-                                                                        <img src="/images/timeL.svg" alt="" className='dark:hidden'/>
-                                                                        <img src="/images/timeD.svg" alt="" className='dark:flex hidden'/>
+                                                                        <Image width={20} height={20} src="/images/timeL.svg" alt="" className='dark:hidden' priority/>
+                                                                        <Image width={20} height={20} src="/images/timeD.svg" alt="" className='dark:flex hidden' priority/>
 
                                                                         {!isLoading ? (
                                                                             <p className="text-[#1F1F1F] dark:text-[#ADB0BC] font-medium leading-[24px] text-[16px]">
@@ -651,8 +603,8 @@ function RecentUserOps(props: any) {
                                                             <div className="flex-1 break-words">
                                                                 <div className="justify-between block md:flex">
                                                                     <div className="flex items-center gap-[10px]">
-                                                                        <img src="/images/fromL.svg" alt="target" className="dark:hidden fill-[#969CB2] dark:fill-[#666B80]" />
-                                                                        <img src="/images/fromD.svg" alt="target" className="dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]" />
+                                                                        <Image priority width={20} height={20} src="/images/fromL.svg" alt="target" className="dark:hidden fill-[#969CB2] dark:fill-[#666B80]" />
+                                                                        <Image priority width={20} height={20} src="/images/fromD.svg" alt="target" className="dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]" />
 
                                                                         {!isLoading ? (
                                                                             <>
@@ -668,12 +620,12 @@ function RecentUserOps(props: any) {
                                                                                     href={`https://etherscan.io/address/${userOpsData?.[showUserOpId]?.sender}`}
                                                                                     target="_blank"
                                                                                 >
-                                                                                    <img
+                                                                                    <Image priority width={20} height={20}
                                                                                         src="/images/linkL.svg"
                                                                                         alt="link"
                                                                                         className="dark:hidden"
                                                                                     />
-                                                                                    <img
+                                                                                    <Image priority width={20} height={20}
                                                                                         src="/images/linkD.svg"
                                                                                         alt="link"
                                                                                         className="dark:flex hidden"
@@ -707,12 +659,12 @@ function RecentUserOps(props: any) {
                                                                             userOpsData?.[showUserOpId]?.target && userOpsData[showUserOpId]?.target?.length > 0 ? (
                                                                                 <>
                                                                                     <div className="flex items-center gap-[8px] font-medium">
-                                                                                        <img
+                                                                                        <Image priority width={20} height={20}
                                                                                             src="/images/toL.svg"
                                                                                             alt="target"
                                                                                             className="dark:hidden fill-[#969CB2] dark:fill-[#666B80]"
                                                                                         />
-                                                                                        <img
+                                                                                        <Image priority width={20} height={20}
                                                                                             src="/images/toD.svg"
                                                                                             alt="target"
                                                                                             className="dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]"
@@ -733,12 +685,12 @@ function RecentUserOps(props: any) {
                                                                                         <Link href={`https://etherscan.io/address/${userOpsData[showUserOpId]?.target[0]}`}
                                                                                             target="_blank"
                                                                                         >
-                                                                                            <img
+                                                                                            <Image priority width={20} height={20}
                                                                                         src="/images/linkL.svg"
                                                                                         alt="link"
                                                                                         className="dark:hidden"
                                                                                     />
-                                                                                    <img
+                                                                                    <Image priority width={20} height={20}
                                                                                         src="/images/linkD.svg"
                                                                                         alt="link"
                                                                                         className="dark:flex hidden"
@@ -775,7 +727,7 @@ function RecentUserOps(props: any) {
                                                                                                         key={index}
                                                                                                         className="flex items-center gap-[8px] font-medium"
                                                                                                     >
-                                                                                                        <img
+                                                                                                        <Image priority width={20} height={20}
                                                                                                             src="/images/to.svg"
                                                                                                             alt="target"
                                                                                                             className="w-6 h-6"
@@ -790,12 +742,12 @@ function RecentUserOps(props: any) {
                                                                                                             href={`https://etherscan.io/address/${target}`}
                                                                                                             target="_blank"
                                                                                                         >
-                                                                                                            <img
+                                                                                                            <Image priority width={20} height={20}
                                                                                         src="/images/linkL.svg"
                                                                                         alt="link"
                                                                                         className="dark:hidden"
                                                                                     />
-                                                                                    <img
+                                                                                    <Image priority width={20} height={20}
                                                                                         src="/images/linkD.svg"
                                                                                         alt="link"
                                                                                         className="dark:flex hidden"
@@ -831,12 +783,12 @@ function RecentUserOps(props: any) {
                                                             <div className="flex-1 break-words">
                                                                 <div className="justify-between block md:flex">
                                                                     <div className="flex items-center gap-[8px]">
-                                                                        <img
+                                                                        <Image priority width={20} height={20}
                                                                             src="/images/dollarL.svg"
                                                                             alt="transaction fee"
                                                                             className="dark:hidden fill-[#969CB2] dark:fill-[#666B80]"
                                                                         />
-                                                                        <img
+                                                                        <Image priority width={20} height={20}
                                                                             src="/images/dollarD.svg"
                                                                             alt="transaction fee"
                                                                             className="dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]"
@@ -873,8 +825,8 @@ function RecentUserOps(props: any) {
                                                             <div className="flex-1 break-words">
                                                                 <div className="justify-between block md:flex">
                                                                     <div className="flex items-center gap-[10px]">
-                                                                        <img src="/images/hashL.svg" alt=""className="dark:hidden fill-[#969CB2] dark:fill-[#666B80]" />
-                                                                        <img src="/images/hashD.svg" alt=""className="dark:flex hidden"/>
+                                                                        <Image priority width={20} height={20} src="/images/hashL.svg" alt=""className="dark:hidden fill-[#969CB2] dark:fill-[#666B80]" />
+                                                                        <Image priority width={20} height={20} src="/images/hashD.svg" alt=""className="dark:flex hidden"/>
 
                                                                         {!isLoading ? (
                                                                             <span className="text-base text-[#195BDF] dark:text-[#598AEB] break-all leading-5 no-underline">
@@ -898,8 +850,8 @@ function RecentUserOps(props: any) {
                                                         <div className="border-b w-full border-[#D7DAE0] dark:border-[#3B3C40]"></div>
 
                                                         <span className="text-[20px] flex items-center py-4 px-4 gap-2 text-[#20294C] dark:text-[#DADEF1] font-medium leading-5">
-                                                        <img src="/images/gasL.svg" alt="gas used" className=" dark:hidden fill-[#969CB2] dark:fill-[#666B80]" />
-                                                        <img src="/images/gasD.svg" alt="gas used" className=" dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]" />
+                                                        <Image priority width={20} height={20} src="/images/gasL.svg" alt="gas used" className=" dark:hidden fill-[#969CB2] dark:fill-[#666B80]" />
+                                                        <Image priority width={20} height={20} src="/images/gasD.svg" alt="gas used" className=" dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]" />
                                                             GAS DETAILS
                                                         </span>
 
@@ -932,8 +884,8 @@ function RecentUserOps(props: any) {
 
                                                         <div className="border-b w-full border-[#D7DAE0] dark:border-[#3B3C40]"></div>
                                                         <span className="text-[20px] flex items-start md:items-center py-4 px-4 gap-2 text-[#20294C] dark:text-[#DADEF1] font-medium leading-5">
-                                                            <img src="/images/detailsL.svg" alt="gas used" className=" dark:hidden" />
-                                                            <img src="/images/detailsLD.svg" alt="gas used" className=" hidden dark:flex" />
+                                                            <Image priority width={20} height={20} src="/images/detailsL.svg" alt="gas used" className=" dark:hidden" />
+                                                            <Image priority width={20} height={20} src="/images/detailsLD.svg" alt="gas used" className=" hidden dark:flex" />
 
                                                             OTHER DETAILS
                                                         </span>
@@ -948,7 +900,7 @@ function RecentUserOps(props: any) {
                                                                 <div className="justify-between block md:flex">
                                                                     <div className="flex items-center gap-[10px]">
                                                                         {network && (
-                                                                            <img
+                                                                            <Image priority width={20} height={20}
                                                                                 src={NETWORK_ICON_MAP[network as string]}
                                                                                 alt={`${network} icon`}
                                                                                 className="w-5 h-5"
@@ -966,12 +918,12 @@ function RecentUserOps(props: any) {
                                                                                     href={`https://etherscan.io/address/${userOpsData?.[showUserOpId]?.entryPoint}`}
                                                                                     target="_blank"
                                                                                 >
-                                                                                    <img
+                                                                                    <Image priority width={20} height={20}
                                                                                         src="/images/linkL.svg"
                                                                                         alt="link"
                                                                                         className="dark:hidden"
                                                                                     />
-                                                                                    <img
+                                                                                    <Image priority width={20} height={20}
                                                                                         src="/images/linkD.svg"
                                                                                         alt="link"
                                                                                         className="dark:flex hidden"
@@ -1014,12 +966,12 @@ function RecentUserOps(props: any) {
                                                                                     href={`https://etherscan.io/address/${userOpsData?.[showUserOpId]?.beneficiary}`}
                                                                                     target="_blank"
                                                                                 >
-                                                                                    <img
+                                                                                    <Image priority width={20} height={20}
                                                                                         src="/images/linkL.svg"
                                                                                         alt="link"
                                                                                         className="dark:hidden"
                                                                                     />
-                                                                                    <img
+                                                                                    <Image priority width={20} height={20}
                                                                                         src="/images/linkD.svg"
                                                                                         alt="link"
                                                                                         className="dark:flex hidden"
@@ -1061,12 +1013,12 @@ function RecentUserOps(props: any) {
                                                                                     href={`https://etherscan.io/address/${userOpsData?.[showUserOpId]?.paymaster}`}
                                                                                     target="_blank"
                                                                                 >
-                                                                                    <img
+                                                                                    <Image priority width={20} height={20}
                                                                                         src="/images/linkL.svg"
                                                                                         alt="link"
                                                                                         className="dark:hidden"
                                                                                     />
-                                                                                    <img
+                                                                                    <Image priority width={20} height={20}
                                                                                         src="/images/linkD.svg"
                                                                                         alt="link"
                                                                                         className="dark:flex hidden"
