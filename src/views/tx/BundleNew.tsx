@@ -422,6 +422,7 @@ function BundlerNew(props: any) {
                                         Call Data
                                     </button>
                                 </li>
+                                {transactionDetails?.logsDetails.numberOfUserOps !== 0  && 
                                 <li className="flex-none w-1/2 text-center md:flex-auto">
                                     <button
                                         onClick={() => handleToggle(2)} // Show UserOp Logs
@@ -434,7 +435,8 @@ function BundlerNew(props: any) {
                                         UserOps
                                     </button>
                                 </li>
-                                {(network === 'base' || network === 'odyssey' || network === 'open-campus-test') && (
+                                }
+                                {(network === 'base' || network === 'odyssey' || network === 'open-campus-test')&& transactionDetails?.logsDetails.numberOfUserOps !== 0  && (
                                     <li className="flex-none w-1/2 text-center md:flex-auto">
                                         <button
                                             onClick={() => handleToggle(3)} // Show Tracer
@@ -1020,7 +1022,7 @@ function BundlerNew(props: any) {
                                                         JSON
                                                     </button>
                                                 </li>
-                                                <li className="px-0">
+                                                {/* <li className="px-0">
                                                     <button
                                                         onClick={() => handleTabClick(1)}
                                                         className={`flex items-center justify-center h-full text-sm sm:text-base w-[80px] ${
@@ -1031,7 +1033,7 @@ function BundlerNew(props: any) {
                                                     >
                                                         Detailed
                                                     </button>
-                                                </li>
+                                                </li> */}
                                             </ul>
                                         </div>
                                     </div>

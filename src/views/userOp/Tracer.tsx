@@ -257,11 +257,27 @@ const Tracer: React.FC<TracerProps> = ({ item, network }) => {
 
     useEffect(() => {
         const fetchTracerData = async () => {
+            const cacheKey = `tracer_${item.userOpHash}_${network}`;
+            const cacheTTL = 5 * 60 * 1000; // Set cache expiration time to 5 minutes
+            const cachedData = localStorage.getItem(cacheKey);
+    
+            if (cachedData) {
+                const parsedData = JSON.parse(cachedData);
+                
+                // Check if cached data is expired
+                if (Date.now() - parsedData.timestamp < cacheTTL) {
+                    setTracer(parsedData.data);
+                    setLoading(false);
+                    return;
+                } else {
+                    // Remove expired cache
+                    localStorage.removeItem(cacheKey);
+                }
+            }
+    
             try {
                 const { userOpHash, network, sender, transactionHash: trxHash } = item;
-                console.log('ITEMMM', trxHash);
-
-                // Check if the network is 'odyssey' and only pass 'sender' and 'trxHash' if they exist
+    
                 const response = await getUsserOpTrace(
                     userOpHash,
                     network,
@@ -269,17 +285,24 @@ const Tracer: React.FC<TracerProps> = ({ item, network }) => {
                     (network === 'odyssey' || network === 'open-campus-test') && sender ? sender : undefined,
                     (network === 'odyssey' || network === 'open-campus-test') && trxHash ? trxHash : undefined,
                 );
-
+    
                 setTracer(response as unknown as TracerData);
+    
+                // Cache the response with a timestamp
+                localStorage.setItem(
+                    cacheKey,
+                    JSON.stringify({ data: response, timestamp: Date.now() })
+                );
             } catch (error) {
                 console.error('Error fetching tracer data:', error);
             } finally {
                 setLoading(false);
             }
         };
-
+    
         fetchTracerData();
     }, [item, network]);
+    
 
     const toggleAccordion = (index: number) => {
         if (activeAccordion.includes(index)) {
