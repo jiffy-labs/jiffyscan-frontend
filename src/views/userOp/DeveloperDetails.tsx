@@ -523,11 +523,15 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                     </div>
                 </div>
             ) : (
-                <div className="border-b border-r border-l space-x-4 bg-white dark:border-[#3B3C40] dark:bg-[#1F202B] p-3 px-4 sm:px-8 text-sm sm:text-md flex flex-col sm:flex-row justify-between">
-                    <div className="flex w-full">
+                <div className="bg-[#F5F5F5] py-[16px] px-[32px] break-words dark:bg-[#1F202B] dark:text-[#DADEF1] dark:border-[#3B3C40]">
+                    
                         {/* Original content */}
-                        <p className="text-[#646D8F]">This is the original content of the tab.</p>
-                    </div>
+                        <pre className="text-wrap">{typeof item?.callData === 'string'
+                                            ? item?.callData
+                                            : item?.preDecodedCallData
+                                            ? item?.preDecodedCallData
+                                            : 'Unable to decode user op input'}</pre>
+                    
                 </div>
             )}
         </div>

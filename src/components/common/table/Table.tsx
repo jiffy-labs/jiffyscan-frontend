@@ -96,7 +96,7 @@ function Table(props: tableDataT) {
 
     const currentPath = router.pathname;
     return (
-        <div className="w-full">
+        <div className="w-full shadow-md rounded-lg">
             {/* {!hideHeader && caption?.text && (
                 <Caption icon={caption?.icon!} text={caption?.text}>
                     {caption?.children}
@@ -156,7 +156,7 @@ function Table(props: tableDataT) {
                                             {token && (
                                                 <td
                                                     className={`py-3 px-4 ${
-                                                        !isHomepage && (currentPath === '/recentBundles'|| '/paymasters') && (currentPath !== '/recentUserOps') ? 'pl-24' : ''
+                                                        !isHomepage && (currentPath === '/recentBundles'|| '/paymasters') && (currentPath !== '/recentUserOps')  ? 'pl-24' : ''
                                                     }`}
                                                 >
                                                     <Token {...token} />

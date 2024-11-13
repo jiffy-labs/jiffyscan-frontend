@@ -39,11 +39,11 @@ export const BUTTON_LIST = [
 const DEFAULT_PAGE_SIZE = 10;
 
 const columns = [
-    { name: 'UserOp Hash', sort: true },
-    { name: 'Age', sort: true },
-    { name: 'Sender', sort: false },
-    { name: 'Target', sort: false },
-    { name: 'Fee', sort: true },
+    { name: 'USER OP HASH', sort: true },
+    { name: 'AGE', sort: true },
+    { name: 'SENDER', sort: false },
+    { name: 'TARGET', sort: false },
+    { name: 'FEE', sort: true },
 ];
 
 const getEffectivePageSize = (pageSizeFromParam: string | null | undefined): number => {

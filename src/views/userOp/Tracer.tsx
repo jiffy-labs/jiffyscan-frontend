@@ -126,16 +126,16 @@ const TraceDetails: React.FC<{ trace: Trace; depth?: number }> = ({ trace, depth
             </div>
 
             {showDetails && (
-                <div className="flex flex-col space-y-2 px-8 p-4 bg-[#F0F1F5] ">
+                <div className="flex flex-col space-y-2 px-8 p-4 bg-[#F0F1F5] dark:bg-[#191A23]">
                     <div className="flex">
                         <div className="w-1/4">
-                            <span className="text-[#646D8F] font-gsans">TYPE</span>
+                            <span className="text-[#646D8F] font-gsans dark:text-[#ADB0BC]">TYPE</span>
                         </div>
-                        <div className="w-3/4 text-[#20294C] font-gsans text-md">{type || 'N/A'}</div>
+                        <div className="w-3/4 text-[#20294C] font-gsans text-md dark:text-[#ADB0BC]">{type || 'N/A'}</div>
                     </div>
                     <div className="flex">
                         <div className="w-1/4">
-                            <span className="text-[#646D8F] font-gsans">FROM</span>
+                            <span className="text-[#646D8F] font-gsans dark:text-[#ADB0BC]">FROM</span>
                         </div>
                         <div className="w-3/4 font-gsans text-md flex gap-4 text-blue-500 items-center">
                             <FaArrowUpFromBracket className="w-4 h-4 mt-1" />
@@ -150,7 +150,7 @@ const TraceDetails: React.FC<{ trace: Trace; depth?: number }> = ({ trace, depth
                     </div>
                     <div className="flex">
                         <div className="w-1/4">
-                            <span className="text-[#646D8F] font-gsans">TO</span>
+                            <span className="text-[#646D8F] font-gsans dark:text-[#ADB0BC]">TO</span>
                         </div>
                         <div className="w-3/4 font-gsans text-md flex gap-4 text-blue-500 items-center">
                             <FaArrowUpFromBracket className="w-4 h-4 mt-1 rotate-180" />
@@ -178,9 +178,9 @@ const TraceDetails: React.FC<{ trace: Trace; depth?: number }> = ({ trace, depth
                     </div> */}
                     <div className="flex">
                         <div className="w-1/4">
-                            <span className="text-[#646D8F] font-gsans">GAS USED</span>
+                            <span className="text-[#646D8F] font-gsans dark:text-[#ADB0BC]">GAS USED</span>
                         </div>
-                        <div className="w-3/4 font-gsans text-[#20294C] text-md">
+                        <div className="w-3/4 font-gsans text-[#20294C] text-md dark:text-[#ADB0BC]">
                             {gasUsed ? Number(gasUsed).toLocaleString() : 'N/A'}
                             {/* Calculate and display the percentage if both gasUsed and gas are available */}
                             {gasUsed && gas ? (
@@ -190,16 +190,16 @@ const TraceDetails: React.FC<{ trace: Trace; depth?: number }> = ({ trace, depth
                     </div>
                     <div className="flex">
                         <div className="w-1/4">
-                            <span className="text-[#646D8F] font-gsans">GAS LIMIT</span>
+                            <span className="text-[#646D8F] font-gsans dark:text-[#ADB0BC]">GAS LIMIT</span>
                         </div>
-                        <div className="w-3/4 font-gsans text-[#20294C] text-md">{gas ? Number(gas).toLocaleString() : 'N/A'}</div>
+                        <div className="w-3/4 font-gsans text-[#20294C] text-md dark:text-[#ADB0BC]">{gas ? Number(gas).toLocaleString() : 'N/A'}</div>
                     </div>
 
                     <div className="flex">
                         <div className="w-1/4">
-                            <span className="text-[#646D8F] font-gsans">INPUT</span>
+                            <span className="text-[#646D8F] font-gsans dark:text-[#ADB0BC]">INPUT</span>
                         </div>
-                        <div className="w-3/4 font-gmono text-[#9E9E9E] text-md max-h-32 overflow-y-auto border border-[#D7DAE0] px-4 py-2 rounded bg-white">
+                        <div className="w-3/4 font-gmono text-[#9E9E9E] dark:text-[#ADB0BC] dark:border-[#3B3C40] dark:bg-[#1F202B] text-md max-h-32 overflow-y-auto border border-[#D7DAE0] px-4 py-2 rounded bg-white">
                             {input || 'N/A'}
                         </div>
                     </div>
@@ -213,21 +213,21 @@ const TraceDetails: React.FC<{ trace: Trace; depth?: number }> = ({ trace, depth
                     </div> */}
                     <div className="flex">
                         <div className="w-1/4">
-                            <span className="text-[#646D8F] font-gsans">VALUE</span>
+                            <span className="text-[#646D8F] font-gsans dark:text-[#ADB0BC]">VALUE</span>
                         </div>
-                        <div className="w-3/4 text-[#20294C] font-gsans text-md">{value || 'N/A'}</div>
+                        <div className="w-3/4 text-[#20294C] font-gsans text-md dark:text-[#ADB0BC]">{value || 'N/A'}</div>
                     </div>
                     <div className="flex">
                         <div className="w-1/4">
-                            <span className="text-[#646D8F] font-gsans">CALLTYPE</span>
+                            <span className="text-[#646D8F] font-gsans dark:text-[#ADB0BC]">CALLTYPE</span>
                         </div>
-                        <div className="w-3/4 text-[#20294C] font-gsans text-md">{callType || 'N/A'}</div>
+                        <div className="w-3/4 text-[#20294C] font-gsans text-md dark:text-[#ADB0BC]">{callType || 'N/A'}</div>
                     </div>
                     <div className="flex">
                         <div className="w-1/4">
-                            <span className="text-[#646D8F] font-gsans">OUTPUT</span>
+                            <span className="text-[#646D8F] font-gsans dark:text-[#ADB0BC]">OUTPUT</span>
                         </div>
-                        <div className="w-3/4 max-h-32 font-gmono text-md text-[#9E9E9E] overflow-y-auto border border-[#D7DAE px-4 py-2 rounded bg-white">
+                        <div className="w-3/4 max-h-32 font-gmono text-md text-[#9E9E9E] dark:bg-[#1F202B] dark:border-[#3B3C40] overflow-y-auto border border-[#D7DAE px-4 py-2 rounded bg-white">
                             {output || 'N/A'}
                         </div>
                     </div>
