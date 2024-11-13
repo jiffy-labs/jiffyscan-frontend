@@ -621,6 +621,7 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                                             nonce: parseInt(item?.nonce, 16) || 'N/A',
                                             initCode: item?.initCode || '0x',
                                             callData: item?.callData || '0x',
+                                            gasFees: item?.gasFees || 'N/A',
                                             callGasLimit: parseInt(item?.callGasLimit, 16) || 'N/A',
                                             verificationGasLimit: parseInt(item?.verificationGasLimit, 16) || 'N/A',
                                             preVerificationGas: parseInt(item?.preVerificationGas, 16) || 'N/A',
