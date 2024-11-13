@@ -171,7 +171,7 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                                             ? metaData?.userOpParams[2]
                                             : item?.initCode
                                             ? item?.initCode
-                                            : 'Unable to decode user op input'}
+                                            : '0x'}
                                     </div>
                                 </div>
                             </div>
