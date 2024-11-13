@@ -281,7 +281,7 @@ function Home() {
                 <section className={`mb-12 ${block && 'blur'}`} style={{ minHeight: "calc(100vh - headerHeight)" }}>
                     <div className="container grid grid-cols-1 gap-10 lg:grid-cols-2">
                         <div>
-                            <div className="mt-4 border-t border-l border-r bg-white dark:text-[#989BA6] dark:bg-[#1D1E1F] dark:border-[#444444] border-[#D7DAE0] px-10 py-6 flex items-center justify-between rounded-t-lg font-semibold font-dmsans sm:text-base md:text-xl">
+                            <div className="mt-4 border bg-white dark:text-[#989BA6] dark:bg-[#1D1E1F] dark:border-[#444444] border-[#D7DAE0] px-10 py-6 flex items-center justify-between rounded-t-lg font-semibold font-dmsans sm:text-base md:text-xl">
                                 <p>Top Bundlers</p>
                                 <Link href="/bundlers" className="text-[#195BDF] dark:text-[#598AEB] flex items-center gap-2">
                                     View Bundlers<MdArrowForwardIos className="w-4 h-4" />
@@ -304,7 +304,7 @@ function Home() {
                             </div> */}
                         </div>
                         <div>
-                        <div className="mt-4 border-t border-l border-r bg-white dark:text-[#989BA6]  dark:bg-[#1D1E1F] dark:border-[#444444] border-[#D7DAE0] px-10 py-6 flex items-center justify-between rounded-t-lg font-semibold font-dmsans sm:text-base md:text-xl">
+                        <div className="mt-4 border bg-white dark:text-[#989BA6]  dark:bg-[#1D1E1F] dark:border-[#444444] border-[#D7DAE0] px-10 py-6 flex items-center justify-between rounded-t-lg font-semibold font-dmsans sm:text-base md:text-xl">
                                 <p>Top Paymasters</p>
                                 <Link href="/paymasters" className="text-[#195BDF] dark:text-[#598AEB] flex items-center gap-2">
                                     View Paymasters<MdArrowForwardIos className="w-4 h-4" />
