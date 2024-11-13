@@ -67,7 +67,6 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
             setUserOpParamsExists(true);
     }, [metaData]);
 
-    
     return (
         <div className="flex flex-col bg-white  border-[#DADCE0] dark:border-[#3B3C40] w-full rounded-xl dark:bg-[#1F202B] px-0 md:px-10">
             <div className="w-full px-4 py-5 flex flex-col sm:flex-row rounded-t-xl border justify-between items-center h-auto sm:h-[72px] dark:border-[#3B3C40] dark:bg-[#1F202B]">
@@ -77,7 +76,7 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                 </div>
                 <div className="h-[32px] mt-3 sm:mt-0">
                     <ul className="grid grid-flow-col text-center font-gsans dark:bg-[#191A23] dark:border-[#3B3C40] text-gray-500 gap-1 bg-gray-100 rounded-lg border-2 p-1 items-center h-[40px]">
-                    {[3, 2, 1].map(tabIndex => (
+                        {[3, 2, 1].map((tabIndex) => (
                             <li key={tabIndex} className="px-0">
                                 <button
                                     onClick={() => handleTabClick(tabIndex)}
@@ -162,7 +161,7 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                                 </span>
                             </div>
                             {/* Arrow to indicate subtrace expansion */}
-                            <div className="flex flex-row space-x-[118px] flex-1 flex-shrink-0">
+                            <div className="flex flex-row space-x-36 flex-1 flex-shrink-0">
                                 <div className="w-[132px]">
                                     <span className="font-gsans font-medium text-md text-[#20294C] dark:text-[#DADEF1]">initCode</span>
                                 </div>
@@ -187,10 +186,10 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                                     bytes
                                 </span>
                                 {/* Arrow icon */}
-                                <RiArrowRightSLine
+                                {/* <RiArrowRightSLine
                                     className={`w-6 h-6 ${open ? 'rotate-90' : ''} text-blue-500`}
                                     onClick={() => setOpen(!open)}
-                                />
+                                /> */}
                             </div>
                             {/* Arrow to indicate subtrace expansion */}
                             <div className="flex flex-row space-x-36 flex-1 flex-shrink-0">
@@ -205,6 +204,39 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                                             : item?.preDecodedCallData
                                             ? item?.preDecodedCallData
                                             : 'Unable to decode user op input'}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="border-b border-r border-l bg-white p-3 px-4 sm:px-8 text-sm sm:text-md flex justify-between dark:border-[#3B3C40] dark:bg-[#1F202B]">
+                        {/* Wrapper to allow horizontal scroll on mobile */}
+                        <div className="flex w-full overflow-x-auto space-x-[-32px]">
+                            <div className="flex align-middle space-x-8 w-48 text-center flex-shrink-0">
+                                <span className="bg-[#F0F1F5] font-gsans text-[#646D8F] dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40] w-[72px] h-[24px] text-center text-sm px-2.5 py-0.5 rounded border border-gray-200">
+                                    bytes
+                                </span>
+                                {/* Arrow icon */}
+                                <RiArrowRightSLine
+                                    className={`w-6 h-6 ${open ? 'rotate-90' : ''} text-blue-500`}
+                                    onClick={() => setOpen(!open)}
+                                />
+                            </div>
+                            {/* Arrow to indicate subtrace expansion */}
+                            <div className="flex flex-row space-x-24 lg:space-x-12 flex-1 flex-shrink-0">
+                                <div className="w-[132px]">
+                                    <span className="font-gsans font-medium text-md text-[#20294C] dark:text-[#DADEF1]">
+                                        decoded callData
+                                    </span>
+                                </div>
+                                <div className="overflow-hidden text-ellipsis break-all whitespace-pre-wrap">
+                                    {/* Formatted callData */}
+                                    <div className="w-full font-gsans text-[#646D8F] text-md max-h-32 overflow-y-auto border-[#D7DAE0] px-4 py-2 rounded bg-white dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40]">
+                                        {!(item?.preDecodedCallData && getFormat(item?.preDecodedCallData) != '') && (
+                                            <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-red-700 rounded-md bg-gray-50 ring-1 ring-inset ring-gray-500/10">
+                                                {item?.callData == '0x' ? 'No call data' : 'Unknown callData signature'}
+                                            </span>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -294,29 +326,28 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                                             )}
                                             {item?.callData && item?.callData.length == item.target.length && (
                                                 <div className="border-b border-r border-l space-x-4 bg-[#F0F1F5] p-3 px-4 sm:px-8 text-sm sm:text-md flex justify-between dark:border-[#3B3C40] dark:bg-[#191A23]">
-                                                {/* Wrapper to allow horizontal scroll on mobile */}
-                                                <div className="flex w-full overflow-x-auto space-x-[-32px]">
-                                                    <div className="flex space-x-4 w-48 text-center flex-shrink-0">
-                                                        <span className="bg-[#F0F1F5] dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40] font-gsans text-[#646D8F] w-[72px] h-[24px] text-center text-sm px-2.5 py-0.5 rounded border border-gray-200">
-                                                            bytes
-                                                        </span>
-                                                    </div>
-                                                    <div className="flex flex-row space-x-32 flex-1 flex-shrink-0 pl-8">
-                                                        <div className="w-full sm:w-[134px]">
-                                                            <span className="font-gsans text-nowrap font-medium text-md text-[#20294C] dark:text-[#DADEF1]">
-                                                                {index + 1}: callData
+                                                    {/* Wrapper to allow horizontal scroll on mobile */}
+                                                    <div className="flex w-full overflow-x-auto space-x-[-32px]">
+                                                        <div className="flex space-x-4 w-48 text-center flex-shrink-0">
+                                                            <span className="bg-[#F0F1F5] dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40] font-gsans text-[#646D8F] w-[72px] h-[24px] text-center text-sm px-2.5 py-0.5 rounded border border-gray-200">
+                                                                bytes
                                                             </span>
                                                         </div>
-                                                        <div className="overflow-hidden text-ellipsis break-all whitespace-pre-wrap">
-                                                            {/* Formatted callData */}
-                                                            <div className="w-full font-gsans text-[#646D8F] dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40] text-md max-h-32 overflow-y-auto border border-[#D7DAE0] px-4 py-2 rounded bg-white">
-                                                                {item?.callData[index]}
+                                                        <div className="flex flex-row space-x-32 flex-1 flex-shrink-0 pl-8">
+                                                            <div className="w-full sm:w-[134px]">
+                                                                <span className="font-gsans text-nowrap font-medium text-md text-[#20294C] dark:text-[#DADEF1]">
+                                                                    {index + 1}: callData
+                                                                </span>
+                                                            </div>
+                                                            <div className="overflow-hidden text-ellipsis break-all whitespace-pre-wrap">
+                                                                {/* Formatted callData */}
+                                                                <div className="w-full font-gsans text-[#646D8F] dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40] text-md max-h-32 overflow-y-auto border border-[#D7DAE0] px-4 py-2 rounded bg-white">
+                                                                    {item?.callData[index]}
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            
                                             )}
                                         </>
                                     );
@@ -325,90 +356,88 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                     )}
                     {ENTRY_POINT_ADDRESS_MAP.V6.toLowerCase() == item?.entryPoint && (
                         <div className="border-b border-r border-l space-x-4 bg-white p-3 px-4 sm:px-8 text-sm sm:text-md flex justify-between dark:border-[#3B3C40] dark:bg-[#1F202B]">
-                        {/* Wrapper to allow horizontal scroll on mobile */}
-                        <div className="flex w-full overflow-x-auto space-x-[-32px]">
-                            <div className="flex space-x-4 w-48 text-center ">
-                                <span className="bg-[#F0F1F5] font-gsans text-[#646D8F] dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40] w-[72px] h-[24px] text-center text-sm px-2.5 py-0.5 rounded border border-gray-200">
-                                    uint256
-                                </span>
-                            </div>
-                            <div className="flex flex-row space-x-16 flex-1 flex-shrink-0">
-                                <div className="w-[132px]">
-                                    <span className="font-gsans font-medium text-md text-[#20294C] dark:text-[#DADEF1]">
-                                        callGasLimit
+                            {/* Wrapper to allow horizontal scroll on mobile */}
+                            <div className="flex w-full overflow-x-auto space-x-[-32px]">
+                                <div className="flex space-x-4 w-48 text-center ">
+                                    <span className="bg-[#F0F1F5] font-gsans text-[#646D8F] dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40] w-[72px] h-[24px] text-center text-sm px-2.5 py-0.5 rounded border border-gray-200">
+                                        uint256
                                     </span>
                                 </div>
-                                <div className="">
-                                    {/* Formatted callGasLimit for both mobile and larger views */}
-                                    <span className="font-gsans font-medium text-md text-[#646D8F] dark:text-[#ADB0BC] block text-nowrap">
-                                        {userOpParamsExists && metaData?.userOpParams[4]
-                                            ? parseInt(metaData?.userOpParams[4].hex)
-                                            : item?.callGasLimit
-                                            ? item?.callGasLimit
-                                            : 'Unable to decode user op input'}
-                                    </span>
+                                <div className="flex flex-row space-x-16 flex-1 flex-shrink-0">
+                                    <div className="w-[132px]">
+                                        <span className="font-gsans font-medium text-md text-[#20294C] dark:text-[#DADEF1]">
+                                            callGasLimit
+                                        </span>
+                                    </div>
+                                    <div className="">
+                                        {/* Formatted callGasLimit for both mobile and larger views */}
+                                        <span className="font-gsans font-medium text-md text-[#646D8F] dark:text-[#ADB0BC] block text-nowrap">
+                                            {userOpParamsExists && metaData?.userOpParams[4]
+                                                ? parseInt(metaData?.userOpParams[4].hex)
+                                                : item?.callGasLimit
+                                                ? item?.callGasLimit
+                                                : 'Unable to decode user op input'}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    
                     )}
                     {ENTRY_POINT_ADDRESS_MAP.V6.toLowerCase() == item?.entryPoint && (
                         <div className="border-b border-r border-l space-x-4 bg-white p-3 px-4 sm:px-8 text-sm sm:text-md flex justify-between dark:border-[#3B3C40] dark:bg-[#1F202B]">
-                        {/* Wrapper to allow horizontal scroll on mobile */}
-                        <div className="flex w-full overflow-x-auto space-x-[-32px]">
-                            <div className="flex space-x-4 w-48 text-center flex-shrink-0">
-                                <span className="bg-[#F0F1F5] dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40] font-gsans text-[#646D8F] w-[72px] h-[24px] text-center text-sm px-2.5 py-0.5 rounded border border-gray-200">
-                                    uint256
-                                </span>
-                            </div>
-                            <div className="flex flex-row space-x-16 flex-1 flex-shrink-0">
-                                <div className="w-[132px]">
-                                    <span className="font-gsans font-medium text-md text-[#20294C] dark:text-[#DADEF1]">
-                                        verificationGasLimit
+                            {/* Wrapper to allow horizontal scroll on mobile */}
+                            <div className="flex w-full overflow-x-auto space-x-[-32px]">
+                                <div className="flex space-x-4 w-48 text-center flex-shrink-0">
+                                    <span className="bg-[#F0F1F5] dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40] font-gsans text-[#646D8F] w-[72px] h-[24px] text-center text-sm px-2.5 py-0.5 rounded border border-gray-200">
+                                        uint256
                                     </span>
                                 </div>
-                                <div className="">
-                                    {/* Formatted verificationGasLimit for both mobile and larger views */}
-                                    <span className="font-gsans font-medium text-md text-[#646D8F] dark:text-[#ADB0BC] block text-nowrap">
-                                        {userOpParamsExists && metaData?.userOpParams[5]
-                                            ? parseInt(metaData?.userOpParams[5].hex)
-                                            : item?.verificationGasLimit
-                                            ? item?.verificationGasLimit
-                                            : 'Unable to decode user op input'}
-                                    </span>
+                                <div className="flex flex-row space-x-16 flex-1 flex-shrink-0">
+                                    <div className="w-[132px]">
+                                        <span className="font-gsans font-medium text-md text-[#20294C] dark:text-[#DADEF1]">
+                                            verificationGasLimit
+                                        </span>
+                                    </div>
+                                    <div className="">
+                                        {/* Formatted verificationGasLimit for both mobile and larger views */}
+                                        <span className="font-gsans font-medium text-md text-[#646D8F] dark:text-[#ADB0BC] block text-nowrap">
+                                            {userOpParamsExists && metaData?.userOpParams[5]
+                                                ? parseInt(metaData?.userOpParams[5].hex)
+                                                : item?.verificationGasLimit
+                                                ? item?.verificationGasLimit
+                                                : 'Unable to decode user op input'}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    
                     )}
-                    {ENTRY_POINT_ADDRESS_MAP.V6.toLowerCase() == item?.entryPoint && (
+                    {ENTRY_POINT_ADDRESS_MAP.V7.toLowerCase() == item?.entryPoint && (
                         <div className="border-b border-r border-l space-x-4 bg-white p-3 px-4 sm:px-8 text-sm sm:text-md flex justify-between dark:border-[#3B3C40] dark:bg-[#1F202B]">
-                        {/* Wrapper to allow horizontal scroll on mobile */}
-                        <div className="flex w-full overflow-x-auto space-x-[-32px]">
-                            <div className="flex space-x-4 w-48 text-center flex-shrink-0">
-                                <span className="bg-[#F0F1F5] dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40] font-gsans text-[#646D8F] w-[72px] h-[24px] text-center text-sm px-2.5 py-0.5 rounded border border-gray-200">
-                                    bytes32
-                                </span>
-                            </div>
-                            <div className="flex flex-row space-x-16 flex-1 flex-shrink-0">
-                                <div className="w-[132px]">
-                                    <span className="font-gsans font-medium text-md text-[#20294C] dark:text-[#DADEF1]">
-                                        accountGasFees
+                            {/* Wrapper to allow horizontal scroll on mobile */}
+                            <div className="flex w-full overflow-x-auto space-x-[-32px]">
+                                <div className="flex space-x-4 w-48 text-center flex-shrink-0">
+                                    <span className="bg-[#F0F1F5] dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40] font-gsans text-[#646D8F] w-[72px] h-[24px] text-center text-sm px-2.5 py-0.5 rounded border border-gray-200">
+                                        bytes32
                                     </span>
                                 </div>
-                                <div>
-                                    {/* Formatted accountGasLimits for both mobile and larger views */}
-                                    <span className="font-gsans font-medium text-md text-[#646D8F] dark:text-[#ADB0BC] block text-nowrap">
-                                        {item?.accountGasLimits ? item.accountGasLimits : 'Unable to decode user op input'}
-                                    </span>
+                                <div className="flex flex-row space-x-16 flex-1 flex-shrink-0">
+                                    <div className="w-[132px]">
+                                        <span className="font-gsans font-medium text-md text-[#20294C] dark:text-[#DADEF1]">
+                                            accountGasFees
+                                        </span>
+                                    </div>
+                                    <div>
+                                        {/* Formatted accountGasLimits for both mobile and larger views */}
+                                        <span className="font-gsans font-medium text-md text-[#646D8F] dark:text-[#ADB0BC] block text-nowrap">
+                                            {item?.accountGasLimits ? item.accountGasLimits : 'Unable to decode user op input'}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    
                     )}
+
                     <div className="border-b border-r border-l bg-white p-3 px-4 sm:px-8 text-sm sm:text-md flex justify-between dark:border-[#3B3C40] dark:bg-[#1F202B]">
                         <div className="flex w-full overflow-x-auto space-x-[-32px]">
                             <div className="flex align-middle space-x-8 w-48 text-center flex-shrink-0">
@@ -435,6 +464,93 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                             </div>
                         </div>
                     </div>
+                    {ENTRY_POINT_ADDRESS_MAP.V7.toLowerCase() == item?.entryPoint && (
+                        <div className="border-b border-r border-l space-x-4 bg-white p-3 px-4 sm:px-8 text-sm sm:text-md flex justify-between dark:border-[#3B3C40] dark:bg-[#1F202B]">
+                            {/* Wrapper to allow horizontal scroll on mobile */}
+                            <div className="flex w-full overflow-x-auto space-x-[-32px]">
+                                <div className="flex space-x-4 w-48 text-center flex-shrink-0">
+                                    <span className="bg-[#F0F1F5] dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40] font-gsans text-[#646D8F] w-[72px] h-[24px] text-center text-sm px-2.5 py-0.5 rounded border border-gray-200">
+                                        bytes32
+                                    </span>
+                                </div>
+                                <div className="flex flex-row space-x-16 flex-1 flex-shrink-0">
+                                    <div className="w-[132px]">
+                                        <span className="font-gsans font-medium text-md text-[#20294C] dark:text-[#DADEF1]">gasFees</span>
+                                    </div>
+                                    <div>
+                                        {/* Formatted accountGasLimits for both mobile and larger views */}
+                                        <span className="font-gsans font-medium text-md text-[#646D8F] dark:text-[#ADB0BC] block text-nowrap">
+                                            {item?.gasFees ? item.gasFees : 'Unable to decode user op input'}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    {ENTRY_POINT_ADDRESS_MAP.V6.toLowerCase() == item?.entryPoint && (
+                        <div className="border-b border-r border-l space-x-4 bg-white p-3 px-4 sm:px-8 text-sm sm:text-md flex justify-between dark:border-[#3B3C40] dark:bg-[#1F202B]">
+                            {/* Wrapper to allow horizontal scroll on mobile */}
+                            <div className="flex w-full overflow-x-auto space-x-[-32px]">
+                                <div className="flex space-x-4 w-48 text-center flex-shrink-0">
+                                    <span className="bg-[#F0F1F5] dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40] font-gsans text-[#646D8F] w-[72px] h-[24px] text-center text-sm px-2.5 py-0.5 rounded border border-gray-200">
+                                        bytes32
+                                    </span>
+                                </div>
+                                <div className="flex flex-row space-x-16 flex-1 flex-shrink-0">
+                                    <div className="w-[132px]">
+                                        <span className="font-gsans font-medium text-md text-[#20294C] dark:text-[#DADEF1]">
+                                            maxFeePerGas
+                                        </span>
+                                    </div>
+                                    <div>
+                                        {/* Formatted accountGasLimits for both mobile and larger views */}
+                                        <span className="font-gsans font-medium text-md text-[#646D8F] dark:text-[#ADB0BC] block text-nowrap">
+                                            <DisplayFee
+                                                item={
+                                                    userOpParamsExists && metaData?.userOpParams[7]
+                                                        ? parseInt(metaData?.userOpParams[7].hex)
+                                                        : item?.maxFeePerGas!
+                                                }
+                                                network={item?.network}
+                                            />
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    {ENTRY_POINT_ADDRESS_MAP.V6.toLowerCase() == item?.entryPoint && (
+                        <div className="border-b border-r border-l space-x-4 bg-white p-3 px-4 sm:px-8 text-sm sm:text-md flex justify-between dark:border-[#3B3C40] dark:bg-[#1F202B]">
+                            {/* Wrapper to allow horizontal scroll on mobile */}
+                            <div className="flex w-full overflow-x-auto space-x-[-32px]">
+                                <div className="flex space-x-4 w-48 text-center flex-shrink-0">
+                                    <span className="bg-[#F0F1F5] dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40] font-gsans text-[#646D8F] w-[72px] h-[24px] text-center text-sm px-2.5 py-0.5 rounded border border-gray-200">
+                                        bytes32
+                                    </span>
+                                </div>
+                                <div className="flex flex-row space-x-16 flex-1 flex-shrink-0">
+                                    <div className="w-[132px]">
+                                        <span className="font-gsans font-medium text-md text-[#20294C] dark:text-[#DADEF1]">
+                                            maxPriorityFeePerGas
+                                        </span>
+                                    </div>
+                                    <div>
+                                        {/* Formatted accountGasLimits for both mobile and larger views */}
+                                        <span className="font-gsans font-medium text-md text-[#646D8F] dark:text-[#ADB0BC] block text-nowrap">
+                                            <DisplayFee
+                                                item={
+                                                    userOpParamsExists && metaData?.userOpParams[8]
+                                                        ? parseInt(metaData?.userOpParams[8].hex)
+                                                        : item?.maxPriorityFeePerGas!
+                                                }
+                                                network={item?.network}
+                                            />
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
 
                     <div className="border-b border-r border-l bg-white p-3 px-4 sm:px-8 text-sm sm:text-md flex justify-between dark:border-[#3B3C40] dark:bg-[#1F202B]">
                         <div className="flex w-full overflow-x-auto space-x-[-32px]">
@@ -524,14 +640,8 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                 </div>
             ) : (
                 <div className="bg-[#F5F5F5] py-[16px] px-[32px] break-words dark:bg-[#1F202B] dark:text-[#DADEF1] dark:border-[#3B3C40]">
-                    
-                        {/* Original content */}
-                        <pre className="text-wrap">{typeof item?.callData === 'string'
-                                            ? item?.callData
-                                            : item?.preDecodedCallData
-                                            ? item?.preDecodedCallData
-                                            : 'Unable to decode user op input'}</pre>
-                    
+                    {/* Original content */}
+                    <pre className="text-wrap">{item?.input}</pre>
                 </div>
             )}
         </div>
