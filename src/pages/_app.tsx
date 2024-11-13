@@ -12,10 +12,11 @@ import UserSessionStore from '@/context/userSession';
 import NameServiceStore from '@/context/nameServiceContext';
 import PHProvider from '@/context/postHogProvider';
 import { useTokenPrices } from '@/hooks/useTokenPrices';
-import TopBanner from '@/components/global/navbar/TopBanner';
 import localFont from 'next/font/local';
 import { ThemeProvider } from '@/context/ThemeContext';
+import Link from 'next/link';
 
+// Define local fonts
 const GeistSans = localFont({
     src: [
         {
@@ -37,6 +38,7 @@ const GeistMono = localFont({
     variable: '--font-geist-mono',
 });
 
+// Define types
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
     getLayout?: (page: ReactElement) => ReactNode;
 };
@@ -45,6 +47,7 @@ type AppPropsWithLayout = AppProps & {
     Component: NextPageWithLayout;
 };
 
+// Google Analytics ID
 const TRACKING_ID = 'G-8HQ9S4Z1YF';
 ReactGA.initialize(TRACKING_ID);
 
@@ -52,6 +55,7 @@ export default function MyApp({ Component, pageProps: { session, ...pageProps } 
     // Use the layout defined at the page level, if available
     useTokenPrices();
     const getLayout = Component.getLayout ?? ((page) => page);
+
     const handleSwitchToV2 = () => {
         const currentUrl = new URL(window.location.href);
         currentUrl.hostname = 'www.jiffyscan.xyz';
@@ -60,6 +64,11 @@ export default function MyApp({ Component, pageProps: { session, ...pageProps } 
 
     return (
         <>
+            {/* Top Banner */}
+            <div className="bg-[#195BDF] h-14 flex items-center justify-center text-white text-base font-medium">
+                🚀 JiffyLabs is at Devcon! 🌐<Link href='https://t.me/lazyc0der1' className='hover:text-black underline'>Let’s Catch Up </Link> 💬
+            </div>
+            
             <div
                 className={`${GeistSans.variable} ${GeistMono.variable}`}
                 style={{
