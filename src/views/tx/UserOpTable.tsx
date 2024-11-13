@@ -50,15 +50,15 @@ const UserOpsTable: React.FC<UserOpsTableProps> = ({ userOps, network }) => {
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }} className='border dark:border-[#3B3C40] dark:bg-[#1F202B]'>
       <TableContainer >
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead style={{ backgroundColor: '#5A5A62' }} >
+        <Table stickyHeader aria-label="sticky table"className='border-none'>
+          <TableHead style={{ backgroundColor: '#5A5A62', border: 'none' }} >
             <TableRow>
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ minWidth: column.minWidth, color: '#9E9E9E' }}
-                  className='dark:border-[#3B3C40] dark:bg-[#191A23] font-gsans '
+                  style={{ minWidth: column.minWidth, color: '#9E9E9E',border: 'none'  }}
+                  className='dark:border-[#3B3C40] dark:bg-[#191A23] bg-[#F0F1F5] font-gsans '
                 >
                   {column.label}
                 </TableCell>
