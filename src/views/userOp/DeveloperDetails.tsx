@@ -644,7 +644,7 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                     </div>
                 </div>
             ) : (
-                <div className="bg-[#F5F5F5] py-[16px] px-[32px] break-words dark:bg-[#1F202B] dark:text-[#DADEF1] dark:border-[#3B3C40]">
+                <div className="bg-[#F5F5F5] py-[16px] px-[32px] break-words border dark:bg-[#1F202B] dark:text-[#DADEF1] dark:border-[#3B3C40]">
                     {/* Original content */}
                     <pre className="text-wrap">{item?.input}</pre>
                 </div>
