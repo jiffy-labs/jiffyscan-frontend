@@ -161,12 +161,12 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                                 </span>
                             </div>
                             {/* Arrow to indicate subtrace expansion */}
-                            <div className="flex flex-row space-x-36 flex-1 flex-shrink-0">
+                            <div className="flex flex-row space-x-16 flex-1 flex-shrink-0">
                                 <div className="w-[132px]">
                                     <span className="font-gsans font-medium text-md text-[#20294C] dark:text-[#DADEF1]">initCode</span>
                                 </div>
                                 <div className="overflow-hidden text-ellipsis break-all whitespace-pre-wrap">
-                                    <div className="w-[500px] md:w-full font-gsans text-[#646D8F] text-md max-h-32 overflow-y-auto border border-[#D7DAE0] px-4 py-2 rounded bg-white dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40]">
+                                    <div className="w-[500px] font-gsans text-[#646D8F] text-md max-h-32 overflow-y-auto border border-[#D7DAE0] px-4 py-2 rounded bg-white dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40]">
                                         {userOpParamsExists && metaData?.userOpParams[2]
                                             ? metaData?.userOpParams[2]
                                             : item?.initCode
@@ -192,13 +192,17 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                                 /> */}
                             </div>
                             {/* Arrow to indicate subtrace expansion */}
-                            <div className="flex flex-row space-x-36 flex-1 flex-shrink-0">
+                            <div className="flex flex-row space-x-16 flex-1 flex-shrink-0">
                                 <div className="w-[132px]">
                                     <span className="font-gsans font-medium text-md text-[#20294C] dark:text-[#DADEF1]">callData</span>
                                 </div>
                                 <div className="overflow-hidden text-ellipsis break-all whitespace-pre-wrap">
                                     {/* Formatted callData */}
-                                    <div className="w-full font-gsans text-[#646D8F] text-md max-h-32 overflow-y-auto border border-[#D7DAE0] px-4 py-2 rounded bg-white dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40]">
+                                    <div
+                                        className={`w-[500px] font-gsans text-[#646D8F] text-md max-h-32 overflow-y-auto px-4 py-2 rounded bg-white dark:text-[#ADB0BC] dark:bg-[#1F202B] ${
+                                            item?.callData ? 'border border-[#D7DAE0] dark:border-[#3B3C40]' : ''
+                                        }`}
+                                    >
                                         {typeof item?.callData === 'string'
                                             ? item?.callData
                                             : item?.preDecodedCallData
@@ -231,11 +235,11 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                                 </div>
                                 <div className="overflow-hidden text-ellipsis break-all whitespace-pre-wrap">
                                     {/* Formatted callData */}
-                                    <div className="w-full font-gsans text-[#646D8F] text-md max-h-32 overflow-y-auto border-[#D7DAE0] px-4 py-2 rounded bg-white dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40]">
+                                    <div className="w-full font-gsans text-[#646D8F] text-md max-h-32 overflow-y-auto border-[#D7DAE0] px-4 rounded bg-white dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40]">
                                         {!(item?.preDecodedCallData && getFormat(item?.preDecodedCallData) != '') && (
-                                            <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-red-700 rounded-md bg-gray-50 ring-1 ring-inset ring-gray-500/10">
-                                                {item?.callData == '0x' ? 'No call data' : 'Unknown callData signature'}
-                                            </span>
+                                            
+                                                (item?.callData == '0x' ? 'No call data' : 'Unknown callData signature')
+                                            
                                         )}
                                     </div>
                                 </div>
@@ -356,9 +360,9 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                     )}
                     {ENTRY_POINT_ADDRESS_MAP.V6.toLowerCase() == item?.entryPoint && (
                         <div className="border-b border-r border-l space-x-4 bg-white p-3 px-4 sm:px-8 text-sm sm:text-md flex justify-between dark:border-[#3B3C40] dark:bg-[#1F202B]">
-                            {/* Wrapper to allow horizontal scroll on mobile */}
-                            <div className="flex w-full overflow-x-auto space-x-[-32px]">
-                                <div className="flex space-x-4 w-48 text-center ">
+                        {/* Wrapper to allow horizontal scroll on mobile */}
+                        <div className="flex w-full overflow-x-auto space-x-[-32px]">
+                            <div className="flex space-x-4 w-48 text-center flex-shrink-0">
                                     <span className="bg-[#F0F1F5] font-gsans text-[#646D8F] dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40] w-[72px] h-[24px] text-center text-sm px-2.5 py-0.5 rounded border border-gray-200">
                                         uint256
                                     </span>
@@ -559,14 +563,14 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                                     uint256
                                 </span>
                             </div>
-                            <div className="flex flex-row space-x-[72px] flex-1 flex-shrink-0">
+                            <div className="flex flex-row space-x-16 flex-1 flex-shrink-0">
                                 <div className="w-[132px]">
                                     <span className="font-gsans font-medium text-md text-[#20294C] dark:text-[#DADEF1]">
                                         paymasterAndData
                                     </span>
                                 </div>
                                 <div className="overflow-hidden text-ellipsis break-all whitespace-pre-wrap">
-                                    <div className="w-[500px] md:w-full font-gsans text-[#646D8F] text-md max-h-32 overflow-y-auto border border-[#D7DAE0] px-4 py-2 rounded bg-white dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40]">
+                                    <div className="w-[500px] font-gsans text-[#646D8F] text-md max-h-32 overflow-y-auto border border-[#D7DAE0] px-4 py-2 rounded bg-white dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40]">
                                         {userOpParamsExists &&
                                         metaData?.userOpParams[ENTRY_POINT_ADDRESS_MAP.V6.toLowerCase() == item?.entryPoint ? 9 : 7]
                                             ? ENTRY_POINT_ADDRESS_MAP.V6.toLowerCase() == item?.entryPoint
@@ -588,12 +592,12 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                                     uint256
                                 </span>
                             </div>
-                            <div className="flex flex-row space-x-[118px] flex-1 flex-shrink-0">
+                            <div className="flex flex-row space-x-16 flex-1 flex-shrink-0">
                                 <div className="w-[132px]">
                                     <span className="font-gsans font-medium text-md text-[#20294C] dark:text-[#DADEF1]">signature</span>
                                 </div>
                                 <div className="overflow-hidden text-ellipsis break-all whitespace-pre-wrap">
-                                    <div className="w-[500px] md:w-full font-gsans text-[#646D8F] text-md max-h-32 overflow-y-auto border border-[#D7DAE0] px-4 py-2 rounded bg-white dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40]">
+                                    <div className="w-[500px]  font-gsans text-[#646D8F] text-md max-h-32 overflow-y-auto border border-[#D7DAE0] px-4 py-2 rounded bg-white dark:text-[#ADB0BC] dark:bg-[#1F202B] dark:border-[#3B3C40]">
                                         {userOpParamsExists &&
                                         metaData?.userOpParams[ENTRY_POINT_ADDRESS_MAP.V6.toLowerCase() === item?.entryPoint ? 10 : 8]
                                             ? ENTRY_POINT_ADDRESS_MAP.V6.toLowerCase() === item?.entryPoint
@@ -640,7 +644,7 @@ function DeveloperDetails({ tableLoading, skeletonCards1, item, selectedColor, s
                     </div>
                 </div>
             ) : (
-                <div className="bg-[#F5F5F5] py-[16px] px-[32px] break-words dark:bg-[#1F202B] dark:text-[#DADEF1] dark:border-[#3B3C40]">
+                <div className="bg-[#F5F5F5] py-[16px] px-[32px] break-words border dark:bg-[#1F202B] dark:text-[#DADEF1] dark:border-[#3B3C40]">
                     {/* Original content */}
                     <pre className="text-wrap">{item?.input}</pre>
                 </div>
