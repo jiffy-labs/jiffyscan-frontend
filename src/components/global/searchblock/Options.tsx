@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { NETWORK_LIST } from '@/components/common/constants';
+import { RiArrowDownSLine } from 'react-icons/ri';
 
 function Options({ networkValue, setNetworkValue }: { networkValue: number; setNetworkValue: (value: number) => void }) {
     const [open, setOpen] = useState<boolean>(false);
@@ -17,7 +18,7 @@ function Options({ networkValue, setNetworkValue }: { networkValue: number; setN
 
                 <img src={networkValue != -1 ? NETWORK_LIST[networkValue].iconPathInverted : "/zap2.svg"} alt="" style={{ width: '20px', height: 'auto' }} />
                 {/* <span>{NETWORK_LIST[networkValue].name}</span> */}
-                <img className={`duration-100 ${open ? 'rotate-180' : ''}`} src="/images/chevron-down.svg" alt="" />
+                <RiArrowDownSLine className={`duration-100 ${open ? 'rotate-180' : ''} dark:fill-white`}  />
             </div>
             {open && (
                 <div className="">

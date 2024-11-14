@@ -36,6 +36,7 @@ import { BsClockHistory } from 'react-icons/bs';
 import { HiHashtag } from 'react-icons/hi';
 import Tracer from './Tracer';
 import { useTheme } from '@/context/ThemeContext';
+import Image from 'next/image';
 interface TabPanelProps {
     children?: React.ReactNode;
     index: number;
@@ -401,10 +402,10 @@ function BundlerNew(props: any) {
                                 <li className="flex-none w-1/2 text-center md:flex-auto">
                                     <button
                                         onClick={() => handleToggle(0)} // Show UserOp Overview
-                                        className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
+                                        className={`w-full px-0 py-2 text-base text-[#20294C]  border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
                                             value === 0
-                                                ? 'bg-white border-2 dark:bg-[#1F202B]'
-                                                : 'bg-inherit text-[#646D8F] dark:text-[#646D8F]'
+                                                ? 'bg-white border-2 dark:text-[#DADEF1] dark:bg-[#1F202B]'
+                                                : 'bg-inherit text-[#646D8F] dark:text-[#ADB0BC]'
                                         }`}
                                     >
                                         Overview
@@ -413,10 +414,10 @@ function BundlerNew(props: any) {
                                 <li className="flex-none w-1/2 text-center md:flex-auto">
                                     <button
                                         onClick={() => handleToggle(1)} // Show Developer Details
-                                        className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
+                                        className={`w-full px-0 py-2 text-base text-[#20294C]  border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
                                             value === 1
-                                                ? 'bg-white border-2 dark:bg-[#1F202B]'
-                                                : 'bg-inherit dark:text-[#646D8F] text-[#646D8F]'
+                                                ? 'bg-white border-2 dark:text-[#DADEF1] dark:bg-[#1F202B]'
+                                                : 'bg-inherit dark:text-[#ADB0BC] text-[#646D8F]'
                                         }`}
                                     >
                                         Call Data
@@ -426,10 +427,10 @@ function BundlerNew(props: any) {
                                 <li className="flex-none w-1/2 text-center md:flex-auto">
                                     <button
                                         onClick={() => handleToggle(2)} // Show UserOp Logs
-                                        className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
+                                        className={`w-full px-0 py-2 text-base text-[#20294C]  border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
                                             value === 2
-                                                ? 'bg-white border-2 dark:bg-[#1F202B]'
-                                                : 'bg-inherit dark:text-[#646D8F] text-[#646D8F]'
+                                                ? 'bg-white border-2 dark:text-[#DADEF1] dark:bg-[#1F202B]'
+                                                : 'bg-inherit dark:text-[#ADB0BC] text-[#646D8F]'
                                         }`}
                                     >
                                         UserOps
@@ -520,7 +521,7 @@ function BundlerNew(props: any) {
                                                             <img src="/images/timeL.svg" alt="" className="dark:hidden" />
                                                             <img src="/images/timeD.svg" alt="" className="dark:flex hidden" />
                                                             {!isLoading ? (
-                                                                <p className="text-[#1F1F1F] dark:text-[#ADB0BC] font-medium leading-[24px] text-[16px]">
+                                                                <p className="text-[#1F1F1F] dark:text-[#DADEF1] font-medium leading-[24px] text-[16px]">
                                                                     {`${formatDistanceToNow(new Date(transactionDetails?.timestamp || 0), {
                                                                         addSuffix: true,
                                                                     })} `}
@@ -729,7 +730,7 @@ function BundlerNew(props: any) {
                                                                 className="dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]"
                                                             />
                                                             {!isLoading ? (
-                                                                <p className="text-[#1F1F1F] leading-5 text-base dark:text-[#ADB0BC]">
+                                                                <p className="text-[#1F1F1F] leading-5 text-base dark:text-[#DADEF1]">
                                                                     {transactionDetails?.trxFee} ETH
                                                                 </p>
                                                             ) : (
@@ -830,17 +831,9 @@ function BundlerNew(props: any) {
 
                                             <div className="border-b w-full border-[#D7DAE0] dark:border-[#3B3C40]"></div>
 
-                                            <span className="text-[20px] flex items-center py-4 md:px-4 gap-2 text-[#20294C] dark:text-[#ADB0BC] font-medium leading-5">
-                                                <img
-                                                    src="/images/gas.svg"
-                                                    alt="gas used"
-                                                    className="w-[24px] dark:hidden fill-[#969CB2] dark:fill-[#666B80]"
-                                                />
-                                                <img
-                                                    src="/images/gasD.svg"
-                                                    alt="gas used"
-                                                    className="w-[24px] dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]"
-                                                />
+                                            <span className="text-[20px] flex items-center py-4 md:px-4 gap-2 text-[#20294C] dark:text-[#DADEF1] font-medium leading-5">
+                                            <Image priority width={20} height={20} src="/images/gasL.svg" alt="gas used" className=" dark:hidden fill-[#969CB2] dark:fill-[#666B80]" />
+                                            <Image priority width={20} height={20} src="/images/gasD.svg" alt="gas used" className=" dark:flex hidden fill-[#969CB2] dark:fill-[#666B80]" />
                                                 GAS DETAILS
                                             </span>
 
@@ -856,7 +849,7 @@ function BundlerNew(props: any) {
                                                         <div className="flex items-center gap-[10px]">
                                                             {!isLoading ? (
                                                                 <>
-                                                                    <p className="text-[#1F1F1F] dark:text-[#ADB0BC] leading-5 text-base">
+                                                                    <p className="text-[#1F1F1F] dark:text-[#DADEF1] leading-5 text-base">
                                                                         {transactionDetails?.gasDetails.gasUsed}{' '}
                                                                     </p>
                                                                     <p className="text-[#9E9E9E] ">{`${calculateGasUsagePercentage(
@@ -888,7 +881,7 @@ function BundlerNew(props: any) {
                                                         <div className="flex items-center gap-[10px]">
                                                             {!isLoading ? (
                                                                 <>
-                                                                    <p className="text-[#1F1F1F] dark:text-[#ADB0BC] leading-5 text-base">
+                                                                    <p className="text-[#1F1F1F] dark:text-[#DADEF1] leading-5 text-base">
                                                                         {transactionDetails?.gasDetails.gasLimit}
                                                                     </p>
                                                                 </>
@@ -916,7 +909,7 @@ function BundlerNew(props: any) {
                                                         <div className="flex items-center gap-[10px]">
                                                             {!isLoading ? (
                                                                 <>
-                                                                    <p className="text-[#1F1F1F] dark:text-[#ADB0BC] leading-5 text-base">
+                                                                    <p className="text-[#1F1F1F] dark:text-[#DADEF1] leading-5 text-base">
                                                                         {transactionDetails?.gasDetails.gasPrice} Gwei
                                                                     </p>
                                                                 </>
@@ -948,7 +941,7 @@ function BundlerNew(props: any) {
                                                         {isLoading ? (
                                                             <div className="w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
                                                         ) : (
-                                                            <p className="text-[#1F1F1F] dark:text-[#ADB0BC] font-medium">
+                                                            <p className="text-[#1F1F1F] dark:text-[#DADEF1] font-medium">
                                                                 {transactionDetails?.gasDetails.baseFee} Gwei
                                                             </p>
                                                         )}
@@ -962,7 +955,7 @@ function BundlerNew(props: any) {
                                                         {isLoading ? (
                                                             <div className="w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
                                                         ) : (
-                                                            <p className="text-[#1F1F1F] dark:text-[#ADB0BC] font-medium">
+                                                            <p className="text-[#1F1F1F] dark:text-[#DADEF1] font-medium">
                                                                 {transactionDetails?.gasDetails.maxFeePerGas} Gwei
                                                             </p>
                                                         )}
@@ -976,7 +969,7 @@ function BundlerNew(props: any) {
                                                         {isLoading ? (
                                                             <div className="w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
                                                         ) : (
-                                                            <p className="text-[#1F1F1F] dark:text-[#ADB0BC] font-medium">
+                                                            <p className="text-[#1F1F1F] dark:text-[#DADEF1] font-medium">
                                                                 {transactionDetails?.gasDetails.maxPriorityFeePerGas} Gwei
                                                             </p>
                                                         )}
