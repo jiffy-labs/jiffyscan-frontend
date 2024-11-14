@@ -102,7 +102,7 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
                     <Options networkValue={networkValue} setNetworkValue={setNetworkValue} />
                         <input
                             type="text"
-                            className="flex-grow px-3 dark:border-[#444444] py-2 text-base placeholder:text-dark-500 text-dark-600 dark:text-white placeholder:dark:text-white"
+                            className="flex-grow px-3 dark:border-[#444444] py-2 text-base placeholder:text-dark-500 text-dark-600 dark:text-white placeholder:dark:text-[#ADB0BC]"
                             placeholder="Search..."
                             value={term}
                             onChange={handleChange}
@@ -139,7 +139,7 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
             <div className="flex items-center gap-2.5 pr-4 flex-grow rounded-full">
                 <input
                     type="text"
-                    className="-ml-8 z-30 text-base placeholder:text-dark-500 placeholder:text-md placeholder:md:text-base dark:placeholder:text-[#BCBFCC] rounded-full text-dark-600 px-4 py-2 flex-grow truncate min-w-0 max-w-none w-[0px] dark:bg-[#1D1E1F] dark:text-[#BCBFCC]"
+                    className="-ml-6 z-30 text-base placeholder:text-dark-500 placeholder:text-md placeholder:md:text-base dark:placeholder:text-[#BCBFCC] rounded-full text-dark-600 px-4 py-2 flex-grow truncate min-w-0 max-w-none w-[0px] dark:bg-[#1D1E1F] dark:text-[#BCBFCC]"
                     placeholder="Search by Tx Hash, UserOp Hash, Address or Block Number..."
                     value={term}
                     onChange={handleChange}
