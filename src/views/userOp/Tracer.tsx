@@ -250,58 +250,17 @@ const TraceDetails: React.FC<{ trace: Trace; depth?: number }> = ({ trace, depth
 };
 
 // Main Tracer component
-const Tracer: React.FC<TracerProps> = ({ item, network }) => {
-    const [tracer, setTracer] = useState<TracerData | null>(null);
-    const [loading, setLoading] = useState(true);
+const Tracer: React.FC<TracerProps & { tracer: TracerData | null; loading: boolean }> = ({
+    item,
+    network,
+    tracer,
+    loading,
+})=> {
+    
+    
     const [activeAccordion, setActiveAccordion] = useState<number[]>([]); // Initialize as an array
 
-    useEffect(() => {
-        const fetchTracerData = async () => {
-            const cacheKey = `tracer_${item.userOpHash}_${network}`;
-            const cacheTTL = 5 * 60 * 1000; // Set cache expiration time to 5 minutes
-            const cachedData = localStorage.getItem(cacheKey);
     
-            if (cachedData) {
-                const parsedData = JSON.parse(cachedData);
-                
-                // Check if cached data is expired
-                if (Date.now() - parsedData.timestamp < cacheTTL) {
-                    setTracer(parsedData.data);
-                    setLoading(false);
-                    return;
-                } else {
-                    // Remove expired cache
-                    localStorage.removeItem(cacheKey);
-                }
-            }
-    
-            try {
-                const { userOpHash, network, sender, transactionHash: trxHash } = item;
-    
-                const response = await getUsserOpTrace(
-                    userOpHash,
-                    network,
-                    toast,
-                    (network === 'odyssey' || network === 'open-campus-test') && sender ? sender : undefined,
-                    (network === 'odyssey' || network === 'open-campus-test') && trxHash ? trxHash : undefined,
-                );
-    
-                setTracer(response as unknown as TracerData);
-    
-                // Cache the response with a timestamp
-                localStorage.setItem(
-                    cacheKey,
-                    JSON.stringify({ data: response, timestamp: Date.now() })
-                );
-            } catch (error) {
-                console.error('Error fetching tracer data:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-    
-        fetchTracerData();
-    }, [item, network]);
     
 
     const toggleAccordion = (index: number) => {

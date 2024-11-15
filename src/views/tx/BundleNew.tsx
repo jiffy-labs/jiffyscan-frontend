@@ -2,7 +2,7 @@
 import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
-import { getBundleDetails, UserOp, AccountDetail, Bundle, getBundleDetailsRpc } from '@/components/common/apiCalls/jiffyApis';
+import { getBundleDetails, UserOp, AccountDetail, Bundle, getBundleDetailsRpc, getTrxTraces } from '@/components/common/apiCalls/jiffyApis';
 import { Breadcrumbs, IconButton, Link, Tooltip } from '@mui/material';
 import { formatDistanceToNow, format } from 'date-fns';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -182,6 +182,35 @@ const createBundleInfoObject = (bundleDetails: Bundle): BundleInfo => {
         from: bundleDetails.from,
     };
 };
+interface Result {
+    output: string;
+    gasUsed: string;
+}
+
+interface Action {
+    to: string;
+    from: string;
+    gas: string;
+    input: string;
+    value: string;
+    callType: string;
+}
+
+interface Trace {
+    type: string;
+    action: Action;
+    result: Result;
+    blockHash: string;
+    subtraces: Trace[];
+    traceAddress: number[];
+    stage: string;
+}
+
+interface TracerData {
+    transactionHash: string;
+    chainId: string;
+    trace: Trace[];
+}
 
 function BundlerNew(props: any) {
     const router = useRouter();
@@ -202,7 +231,21 @@ function BundlerNew(props: any) {
     const [isLoading, setIsLoading] = useState(true);
     const [copyTooltip, setCopyTooltip] = useState('Copy'); // Tooltip state for copy action
     const { isDarkMode } = useTheme(); // Access theme context
+    const [tracerData, setTracerData] = useState<TracerData | null>(null);
+    useEffect(() => {
+        const fetchTraces = async () => {
+            try {
+                const data = await getTrxTraces(hash, network, toast);
+                setTracerData(data as unknown as TracerData);
+            } catch (error) {
+                console.error('Error fetching traces:', error);
+            }
+        };
 
+        if (network === 'base' || network === 'odyssey' || network === 'open-campus-test') {
+            fetchTraces();
+        }
+    }, [hash, network]);
     const handleCopy = () => {
         navigator.clipboard.writeText(hash); // Copy the hash to clipboard
         setCopyTooltip('Copied!'); // Change tooltip to indicate success
@@ -1048,7 +1091,7 @@ function BundlerNew(props: any) {
                             <CustomTabPanel value={value} index={3}>
                                 {(network === 'base' || network === 'odyssey' || network === 'open-campus-test') && (
                                     <div className="container px-4 md:block hidden">
-                                        <Tracer trxHash={hash} network={network} />
+                                         <Tracer tracerData={tracerData} loading={!tracerData} />
                                     </div>
                                 )}
                                 {(network === 'base' || network === 'odyssey' || network === 'open-campus-test') && (

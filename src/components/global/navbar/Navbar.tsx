@@ -70,7 +70,7 @@ function Navbar(props: NavbarProps) {
                                         </button>
                                     </Link>
                                     <Link
-                                        href="recentBundles"
+                                        href="/recentBundles"
                                         className="block rounded-lg border  dark:border-none bg-[#2882A1] dark:bg-[#212C2D] font-medium bg-opacity-10 hover:bg-opacity-25 dark:hover:bg-[#2F3E40] p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white w-48 h-36"
                                     >
                                         <img src="/images/Bundles.svg" alt="" />
@@ -122,7 +122,7 @@ function Navbar(props: NavbarProps) {
 
                             {/* Pricing Link */}
                             <Link
-                                href="https://www.jiffylabs.xyz/pricing"
+                                href="https://www.jiffylabs.xyz/pricing" target="_blank"
                                 className="text-[#646D8F] flex font-gsans hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400"
                             >
                                 Pricing
