@@ -35,9 +35,9 @@ export const BUTTON_LIST = [
 const DEFAULT_PAGE_SIZE = 10;
 
 const columns = [
-    { name: 'Account', sort: true },
-    { name: 'Age', sort: true },
-    { name: '#User Ops', sort: false }
+    { name: 'ACCOUNT', sort: true },
+    { name: 'AGE', sort: true },
+    { name: 'USER OPS', sort: false }
 ];
 const createUserOpsTableRows = (accounts: AccountDetail[], network: string): tableDataT['rows'] => {
     console.log('🚀 ~ file: recentAddressActivity.tsx:39 ~ createUserOpsTableRows ~ userOps:', accounts);
@@ -145,18 +145,16 @@ function Factory(props: any) {
     return (
         <div className="dark:bg-[#191A23]">
             <Navbar searchbar />
-            <section className="px-3 container mx-auto my-6 py-6 bg-white dark:bg-[#1F202B] shadow-lg rounded-xl border border-[#D7DAE0] dark:border-[#3B3C40]">
+            <section className="px-10 container mx-auto my-6 py-6 bg-white dark:bg-[#1F202B] shadow-lg rounded-xl border border-[#D7DAE0] dark:border-[#3B3C40]">
                 <div className="container px-0">
                     <div className="flex flex-row">
-                        <Link href="/" className="text-gray-500">
-                            <ArrowBackIcon
-                                style={{ height: '15px', width: '15px', marginRight: '20px', marginLeft: '10px', marginBottom: '3px' }}
-                            />
-                        </Link>
-                        <Breadcrumbs aria-label="breadcrumb"  className="font-gsans text-[#646D8F] text-md sm:text-base">
+                        
+                        <Breadcrumbs aria-label="breadcrumb"  className="px-10 font-gsans text-[#646D8F] text-md sm:text-base">
                             <Link underline="hover" color="inherit" href={`/?network=${network ? network : ''}`}>
                             <SlHome />
                             </Link>
+                            <span>Factory</span>
+                            
                             <Link
                                 underline="hover"
                                 color="text.primary"
@@ -173,12 +171,12 @@ function Factory(props: any) {
                             </Link>
                         </Breadcrumbs>
                     </div>
-                    <h1 className="text-3xl font-bold p-4 font-gsans dark:text-white">Factory</h1>
+                    
                 </div>
             
             {/* <HeaderSection item={factoryInfo} network={network} addressMapping={addressMapping}/> */}
             {/* <TransactionDetails item={factoryInfo} network={network} /> */}
-            <div className="container px-10">
+            <div className="container p-10">
                 <Table
                     rows={rows}
                     columns={columns}

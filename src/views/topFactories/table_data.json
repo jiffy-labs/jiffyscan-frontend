@@ -1,6 +1,6 @@
 {
     "columns": [
-        { "name": "Factory Address", "sort": false },
-        { "name": "No. of Accounts", "sort": false }
+        { "name": "FACTORY ADDRESS", "sort": false },
+        { "name": "NO. OF ACCOUNTS", "sort": false }
     ]
 }

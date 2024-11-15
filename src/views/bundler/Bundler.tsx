@@ -39,11 +39,11 @@ interface NetworkItem {
 const DEFAULT_PAGE_SIZE = 10;
 
 const columns = [
-    { name: 'UserOp Hash', sort: true },
-    { name: 'Age', sort: true },
-    { name: 'Sender', sort: false },
-    { name: 'Target', sort: false },
-    { name: 'Fee', sort: true },
+    { name: 'USER OP HASH', sort: true },
+    { name: 'AGE', sort: true },
+    { name: 'SENDER', sort: false },
+    { name: 'TARGET', sort: false },
+    { name: 'FEE', sort: true },
 ];
 const createUserOpsTableRows = (userOps: UserOp[]): tableDataT['rows'] => {
     let newRows = [] as tableDataT['rows'];
@@ -185,7 +185,7 @@ function Bundler(props: any) {
     return (
         <div className="dark:bg-[#191A23]">
             <Navbar searchbar />
-            <section className="px-3 container mx-auto my-6 py-6 bg-white dark:bg-[#1F202B] shadow-lg rounded-xl border border-[#D7DAE0] dark:border-[#3B3C40]">
+            <section className="px-10 container mx-auto my-6 py-6 bg-white dark:bg-[#1F202B] shadow-lg rounded-xl border border-[#D7DAE0] dark:border-[#3B3C40]">
                 <div className="container px-0">
                     <div className="flex flex-row">
                         <Link href="/" className="text-gray-500">

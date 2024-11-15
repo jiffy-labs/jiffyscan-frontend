@@ -155,12 +155,17 @@ function Table(props: tableDataT) {
                                             {/* Token column */}
                                             {token && (
                                                 <td
-                                                    className={`py-3 px-4 ${
-                                                        !isHomepage && (currentPath === '/recentBundles'|| '/paymasters') && (currentPath !== '/recentUserOps')  ? 'pl-24' : ''
-                                                    }`}
-                                                >
-                                                    <Token {...token} />
-                                                </td>
+                                                className={`py-3 px-4 ${
+                                                    !isHomepage &&
+                                                    currentPath !== '/recentUserOps' &&
+                                                    currentPath !== '/bundler' &&
+                                                    (currentPath === '/recentBundles' || currentPath === '/paymasters'|| currentPath === '/bundlers' )
+                                                        ? 'pl-24'
+                                                        : 'pl-4'
+                                                } ${(currentPath === '/factories') ? 'pl-48' : ''}`}
+                                            >
+                                                <Token {...token} />
+                                            </td>
                                             )}
 
                                             {/* Ago/status column */}
@@ -182,7 +187,7 @@ function Table(props: tableDataT) {
 
                                             {/* User operations column */}
                                             {userOps && (
-                                                <td className="py-3 px-4 text-[#20294C] dark:text-[#989BA6]">
+                                                <td className="py-3 px-4 text-[#20294C] dark:text-[#DADEF1]">
                                                     <span>{userOps}</span>
                                                 </td>
                                             )}
