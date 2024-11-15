@@ -187,7 +187,7 @@ function Table(props: tableDataT) {
 
                                             {/* User operations column */}
                                             {userOps && (
-                                                <td className="py-3 px-4 text-[#20294C] dark:text-[#989BA6]">
+                                                <td className="py-3 px-4 text-[#20294C] dark:text-[#DADEF1]">
                                                     <span>{userOps}</span>
                                                 </td>
                                             )}
