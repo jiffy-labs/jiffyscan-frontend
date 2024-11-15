@@ -223,7 +223,7 @@ function RecentPaymentMaster(props: any) {
                             <SlHome />
                         </Link>
                         <Link underline="hover" color="inherit" href="/recentUserOps">
-                            Recent User Ops
+                            Recent Paymaster
                         </Link>
                         <Link
                             underline="hover"
@@ -250,8 +250,8 @@ function RecentPaymentMaster(props: any) {
                         <li className="flex-auto text-center ">
                             <button
                                 onClick={() => setIsTransactionDetails(true)} // Show Transaction Details
-                                className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-md ${
-                                    isTransactionDetails ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit'
+                                className={`w-full px-0 py-2 text-base text-[#20294C]  border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg  ${
+                                    isTransactionDetails ? 'bg-white border-2 dark:bg-[#1F202B] dark:text-[#DADEF1]' : 'bg-inherit text-[#646D8F] dark:text-[#ADB0BC]'
                                 }`}
                             >
                                 Overview
@@ -260,8 +260,8 @@ function RecentPaymentMaster(props: any) {
                         <li className="flex-auto text-center">
                             <button
                                 onClick={() => setIsTransactionDetails(false)} // Show Table
-                                className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40]  rounded-md ${
-                                    !isTransactionDetails ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit'
+                                className={`w-full px-0 py-2 text-base text-[#20294C]  border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg  ${
+                                    !isTransactionDetails ? 'bg-white border-2 dark:bg-[#1F202B] dark:text-[#DADEF1]' : 'bg-inherit text-[#646D8F] dark:text-[#ADB0BC]'
                                 }`}
                             >
                                 User Operations

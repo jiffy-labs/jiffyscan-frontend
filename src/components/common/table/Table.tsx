@@ -155,12 +155,17 @@ function Table(props: tableDataT) {
                                             {/* Token column */}
                                             {token && (
                                                 <td
-                                                    className={`py-3 px-4 ${
-                                                        !isHomepage && (currentPath === '/recentBundles'|| '/paymasters') && (currentPath !== '/recentUserOps')  ? 'pl-24' : ''
-                                                    }`}
-                                                >
-                                                    <Token {...token} />
-                                                </td>
+                                                className={`py-3 px-4 ${
+                                                    !isHomepage &&
+                                                    currentPath !== '/recentUserOps' &&
+                                                    currentPath !== '/bundler' &&
+                                                    (currentPath === '/recentBundles' || currentPath === '/paymasters'|| currentPath === '/bundlers' )
+                                                        ? 'pl-24'
+                                                        : 'pl-4'
+                                                } ${(currentPath === '/factories') ? 'pl-48' : ''}`}
+                                            >
+                                                <Token {...token} />
+                                            </td>
                                             )}
 
                                             {/* Ago/status column */}
