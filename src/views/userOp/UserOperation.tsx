@@ -11,11 +11,12 @@ import {
     getUserOpMetadata,
     metadata,
     PoweredBy,
-    Trace,
+    
     UserOp,
     showToast,
     LogEntry,
     fetchData,
+    getUsserOpTrace,
 } from '@/components/common/apiCalls/jiffyApis';
 import { NETWORK_SCANNER_MAP } from '@/components/common/constants';
 import UserOpLogs from './UserOpLogs';
@@ -129,6 +130,37 @@ function a11yProps(index: number) {
         'aria-controls': `simple-tabpanel-${index}`,
     };
 }
+interface Action {
+    to: string;
+    gas: string;
+    from: string;
+    input: string;
+    value: string;
+    callType: string;
+    method?: string; // Added method as it was missing
+    decodedInput?: any; // Added decodedInput as it was missing
+}
+
+interface Result {
+    output: string;
+    gasUsed: string;
+}
+interface Trace {
+    type: string;
+    action: Action;
+    result: Result;
+    blockHash: string;
+    blockNumber: number;
+    subtraces: Trace[];
+    traceAddress: number[];
+    stage: string;
+}
+interface TracerData {
+    userOpHash: string;
+    chainId: string;
+    transactionHash: string;
+    relevantTraces: Trace[];
+}
 
 function RecentUserOps(props: any) {
     const router = useRouter();
@@ -150,6 +182,37 @@ function RecentUserOps(props: any) {
     const [showAllTargets, setShowAllTargets] = useState(false);
     const [value, setValue] = React.useState(0);
     const { isDarkMode } = useTheme();// Access theme context
+    const [tracer, setTracer] = useState<TracerData | null>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        // Fetch tracer data if the network is valid and userOpId is defined
+        const fetchTracerData = async () => {
+            if (network === 'base' || network === 'odyssey' || network === 'open-campus-test') {
+                const currentOp = userOpsData[showUserOpId];
+                if (currentOp) {
+                    setLoading(true);
+                    try {
+                        const tracerResponse = await getUsserOpTrace(
+                            currentOp.userOpHash,
+                            network,
+                            toast,
+                            currentOp.sender,
+                            currentOp.transactionHash ?? undefined,
+                        );
+                        setTracer(tracerResponse as unknown as TracerData);
+                    } catch (error) {
+                        console.error('Error fetching tracer data:', error);
+                    } finally {
+                        setLoading(false);
+                    }
+                }
+            }
+        };
+
+        fetchTracerData();
+    }, [network, showUserOpId, userOpsData]);
+
     useEffect(() => {
         if (section) setActiveTab(section);
     }, [section]);
@@ -1090,13 +1153,15 @@ function RecentUserOps(props: any) {
                                                 {/* Show the Tracer component only on medium (md) screens and larger */}
                                                 <div className={`${activeTab === 'tracer' ? 'block' : 'hidden'} hidden md:block`}>
                                                     <CustomTabPanel value={value} index={3}>
-                                                        <Tracer
-                                                            item={{
-                                                                ...userOpsData?.[showUserOpId],
-                                                                transactionHash: userOpsData?.[showUserOpId]?.transactionHash ?? undefined, // Convert null to undefined
-                                                            }}
-                                                            network={''}
-                                                        />
+                                                    <Tracer
+                                                        item={{
+                                                            ...userOpsData?.[showUserOpId],
+                                                            transactionHash: userOpsData?.[showUserOpId]?.transactionHash ?? undefined,
+                                                        }}
+                                                        network={network || ''}
+                                                        tracer={tracer}
+                                                        loading={loading}
+                                                    />
                                                     </CustomTabPanel>
                                                 </div>
                                                 {/* Show the title on screens smaller than md */}

@@ -36,6 +36,10 @@ interface TracerData {
     chainId: string;
     trace: Trace[];
 }
+interface TracerProps {
+    tracerData: TracerData | null;
+    loading: boolean;
+}
 
 const TraceDetails: React.FC<{ trace: Trace; depth?: number }> = ({ trace, depth = 0 }) => {
     const { type, result, action, subtraces, stage } = trace;
@@ -204,50 +208,10 @@ const TraceDetails: React.FC<{ trace: Trace; depth?: number }> = ({ trace, depth
     );
 };
 
-const Tracer: React.FC<{ trxHash: string; network: string }> = ({ trxHash, network }) => {
-    const [tracerData, setTracerData] = useState<TracerData | null>(null);
-
-    useEffect(() => {
-        const fetchTraces = async () => {
-            const cacheKey = `traces_${trxHash}_${network}`;
-            const cacheTTL = 5 * 60 * 1000; // Set cache expiration time to 5 minutes
-            const cachedData = localStorage.getItem(cacheKey);
-    
-            if (cachedData) {
-                const parsedData = JSON.parse(cachedData);
-    
-                // Check if cached data is expired
-                if (Date.now() - parsedData.timestamp < cacheTTL) {
-                    setTracerData(parsedData.data as TracerData);
-                    return;
-                } else {
-                    // Remove expired cache
-                    localStorage.removeItem(cacheKey);
-                }
-            }
-    
-            try {
-                const data = await getTrxTraces(trxHash, network, toast);
-    
-                if (data) {
-                    setTracerData(data as unknown as TracerData);
-    
-                    // Cache the response with a timestamp
-                    localStorage.setItem(
-                        cacheKey,
-                        JSON.stringify({ data: data, timestamp: Date.now() })
-                    );
-                }
-            } catch (error) {
-                console.error('Error fetching traces:', error);
-            }
-        };
-    
-        fetchTraces();
-    }, [trxHash, network]);
+const Tracer: React.FC<TracerProps> = ({ tracerData, loading }) => {
     
 
-    if (!tracerData) {
+    if (loading) {
         return (
             <>
                 <div className="h-[24px] bg-gray-200 dark:bg-gray-700 rounded animate-pulse my-2" />
@@ -264,7 +228,7 @@ const Tracer: React.FC<{ trxHash: string; network: string }> = ({ trxHash, netwo
     return (
         <div className="w-full">
             <div className='shadow-300 '>
-            {tracerData?.trace?.map((trace, index) => (
+            {tracerData?.trace?.map((trace: Trace, index: React.Key | null | undefined) => (
                 <TraceDetails key={index} trace={trace} />
             ))}
             </div>

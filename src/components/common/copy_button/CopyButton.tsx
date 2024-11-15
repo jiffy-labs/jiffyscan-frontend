@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 import toast from 'react-simple-toasts';
 function CopyButton({ text, copyIcon }: { text: string; copyIcon?: string }) {
@@ -9,8 +10,8 @@ function CopyButton({ text, copyIcon }: { text: string; copyIcon?: string }) {
             className="active:shadow-300 pd-2"
             type="button"
         >
-            <img className="dark:hidden" src={copyIcon || '/images/copyL.svg'} alt="" />
-            <img className=" hidden dark:flex" src={copyIcon || '/images/copyD.svg'} alt="" />
+            <Image width={20} height={20} priority className="dark:hidden" src={copyIcon || '/images/copyL.svg'} alt="" />
+            <Image width={20} height={20} priority className=" hidden dark:flex" src={copyIcon || '/images/copyD.svg'} alt="" />
 
         </button>
     );
