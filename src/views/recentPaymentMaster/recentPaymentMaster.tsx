@@ -23,6 +23,7 @@ import { NETWORK_LIST } from '@/components/common/constants';
 import { SlHome } from 'react-icons/sl';
 import { FaCopy } from 'react-icons/fa';
 import { MdContentCopy } from 'react-icons/md';
+import Image from 'next/image';
 // import Skeleton from '@/components/Skeleton';
 
 export const BUTTON_LIST = [
@@ -125,7 +126,32 @@ function RecentPaymentMaster(props: any) {
     const [isTransactionDetails, setIsTransactionDetails] = useState(true);
 
     const [copyTooltip, setCopyTooltip] = useState('Copy'); // Tooltip state for copy action
+    const [isVisible, setIsVisible] = useState(false);
 
+// Set a 7-second timer when the component mounts
+useEffect(() => {
+    setIsVisible(true); // Show the floating element
+    const timeout = setTimeout(() => setIsVisible(false), 5000); // Hide after 7 seconds
+
+    return () => clearTimeout(timeout); // Cleanup the timeout on component unmount
+}, []);
+// Handler for keyboard events
+const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === 'a' || event.key === 'A') {
+        // Switch to Transaction Details if not already active
+        setIsTransactionDetails(true);
+    } else if (event.key === 'd' || event.key === 'D') {
+        // Switch to User Operations if not already active
+        setIsTransactionDetails(false);
+    }
+};
+
+useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+        window.removeEventListener('keydown', handleKeyDown);
+    };
+}, []);
     const handleCopy = () => {
         navigator.clipboard.writeText(hash); // Copy the hash to clipboard
         setCopyTooltip('Copied!'); // Change tooltip to indicate success
@@ -213,6 +239,20 @@ function RecentPaymentMaster(props: any) {
     return (
         <div className='dark:bg-[#191A23]'>
             <Navbar searchbar />
+            { isVisible &&  (
+                <div className="hidden lg:block fixed bottom-64 left-2 z-50 p-2  text-[#20294C] dark:text-[#DADEF1] rounded-md text-sm">
+                    <div className='flex flex-col text-md font-gsans gap-2'>
+                        <strong>PRESS</strong> 
+                        <div className='flex flex-row'>
+                            <Image width={48} height={48} src="/images/LightA.svg" alt="" className='dark:hidden block' />  
+                            <Image width={48} height={48} src="/images/LightD.svg" alt=""className='dark:hidden block' />
+                            <Image width={48} height={48} src="/images/DarkA.svg" alt="" className='dark:block hidden '/>  
+                            <Image width={48} height={48} src="/images/DarkD.svg" alt="" className='dark:block hidden '/>  
+                        </div> 
+                        to switch between tabs
+                    </div>
+                </div>
+            )}
             <section className="container mx-auto my-6 py-6 bg-white dark:bg-[#1F202B] shadow-lg rounded-xl border border-[#D7DAE0] dark:border-[#3B3C40]">
                 <div className="flex flex-col px-10">
                     <Breadcrumbs aria-label="breadcrumb" className="text-[#646D8F] font-gsans">
