@@ -538,8 +538,8 @@ function RecentUserOps(props: any) {
                     <li className="flex-none w-1/2 text-center md:flex-auto">
                         <button
                             onClick={() => handleToggle(3)}
-                            className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
-                                value === 3 ? 'bg-white border-2 dark:bg-[#1F202B]' : 'bg-inherit text-[#646D8F] dark:text-[#646D8F]'
+                            className={`w-full px-0 py-2 text-base text-[#20294C]  border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
+                                value === 3 ? 'bg-white border-2 dark:bg-[#1F202B] dark:text-[#DADEF1]' : 'bg-inherit text-[#646D8F] dark:text-[#ADB0BC]'
                             }`}
                         >
                             Tracer
