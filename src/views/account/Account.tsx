@@ -35,6 +35,7 @@ import { set } from 'lodash';
 import LinkAndCopy from '@/components/common/LinkAndCopy';
 import { SlHome } from 'react-icons/sl';
 import { MdContentCopy } from 'react-icons/md';
+import Image from 'next/image';
 
 // import Skeleton from '@/components/Skeleton';
 export const BUTTON_LIST = [
@@ -299,7 +300,15 @@ function Account(props: any) {
     const [displayNetworkList, setDisplayNetworkList] = useState<NetworkItem[]>([]);
     const [networkListReady, setNetworkListReady] = useState(false);
     const [copyTooltip, setCopyTooltip] = useState('Copy'); // Tooltip state for copy action
-    
+    const [isVisible, setIsVisible] = useState(false);
+
+// Set a 7-second timer when the component mounts
+useEffect(() => {
+    setIsVisible(true); // Show the floating element
+    const timeout = setTimeout(() => setIsVisible(false), 5000); // Hide after 7 seconds
+
+    return () => clearTimeout(timeout); // Cleanup the timeout on component unmount
+}, []);
 
     const totalTabs = 5; // Update this if the number of tabs changes
 
@@ -462,6 +471,20 @@ function Account(props: any) {
     return (
         <div className="dark:bg-[#191A23]">
             <Navbar searchbar />
+            {isVisible &&  (
+                <div className="hidden lg:block fixed bottom-64 left-2 z-50 p-2  text-[#20294C] dark:text-[#DADEF1] rounded-md text-sm">
+                    <div className='flex flex-col text-md font-gsans gap-2'>
+                        <strong>PRESS</strong> 
+                        <div className='flex flex-row'>
+                            <Image width={48} height={48} src="/images/LightA.svg" alt="" className='dark:hidden block' />  
+                            <Image width={48} height={48} src="/images/LightD.svg" alt=""className='dark:hidden block' />
+                            <Image width={48} height={48} src="/images/DarkA.svg" alt="" className='dark:block hidden '/>  
+                            <Image width={48} height={48} src="/images/DarkD.svg" alt="" className='dark:block hidden '/>  
+                        </div> 
+                        to switch between tabs
+                    </div>
+                </div>
+            )}
             <section className="px-3 container mx-auto my-6 py-6 bg-white dark:bg-[#1F202B] shadow-lg rounded-xl border border-[#D7DAE0] dark:border-[#3B3C40]">
                 <div className="container px-0 sm:px-8 items-center dark:text-[#DADEF1]">
                     <div className="flex flex-row">

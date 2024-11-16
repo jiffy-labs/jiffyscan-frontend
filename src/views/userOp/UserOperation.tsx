@@ -184,6 +184,16 @@ function RecentUserOps(props: any) {
     const { isDarkMode } = useTheme();// Access theme context
     const [tracer, setTracer] = useState<TracerData | null>(null);
     const [loading, setLoading] = useState(true);
+    const [isVisible, setIsVisible] = useState(false);
+
+    // Show floating instructions when the content is loading
+    useEffect(() => {
+        if (tableLoading) {
+            setIsVisible(true);
+            const timeout = setTimeout(() => setIsVisible(false), 7000); // Hide after 5 seconds
+            return () => clearTimeout(timeout);
+        }
+    }, [tableLoading]);
     
 
     // Handler for keyboard events
@@ -370,9 +380,24 @@ function RecentUserOps(props: any) {
   }, []);
   
   if (!isMounted) return null; // Skip rendering on server
+  
     return (
         <div className="dark:bg-[#191A23]">
             <Navbar searchbar />
+            {isLoading && isVisible &&  (
+                <div className="hidden lg:block fixed bottom-64 left-2 z-50 p-2  text-[#20294C] dark:text-[#DADEF1] rounded-md text-sm">
+                    <div className='flex flex-col text-md font-gsans gap-2'>
+                        <strong>PRESS</strong> 
+                        <div className='flex flex-row'>
+                            <Image width={48} height={48} src="/images/LightA.svg" alt="" className='dark:hidden block' />  
+                            <Image width={48} height={48} src="/images/LightD.svg" alt=""className='dark:hidden block' />
+                            <Image width={48} height={48} src="/images/DarkA.svg" alt="" className='dark:block hidden '/>  
+                            <Image width={48} height={48} src="/images/DarkD.svg" alt="" className='dark:block hidden '/>  
+                        </div> 
+                        to switch between tabs
+                    </div>
+                </div>
+            )}
             <section className="px-3 container mx-auto my-6 py-6 bg-white dark:bg-[#1F202B] shadow-lg rounded-xl border border-[#D7DAE0] dark:border-[#3B3C40]">
                 <div className="container">
                     <div className="flex flex-row sm:px-8 items-center">
