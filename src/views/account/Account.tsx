@@ -299,7 +299,27 @@ function Account(props: any) {
     const [displayNetworkList, setDisplayNetworkList] = useState<NetworkItem[]>([]);
     const [networkListReady, setNetworkListReady] = useState(false);
     const [copyTooltip, setCopyTooltip] = useState('Copy'); // Tooltip state for copy action
+    
 
+    const totalTabs = 5; // Update this if the number of tabs changes
+
+    // Handler for keyboard events
+    const handleKeyDown = (event: KeyboardEvent) => {
+        if (event.key === 'a' || event.key === 'A') {
+            // Move to the previous tab (looping back to the last tab if at the start)
+            setTabNo((prevTab) => (prevTab === 0 ? totalTabs - 1 : prevTab - 1));
+        } else if (event.key === 'd' || event.key === 'D') {
+            // Move to the next tab (looping back to the first tab if at the end)
+            setTabNo((prevTab) => (prevTab === totalTabs - 1 ? 0 : prevTab + 1));
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []);
     const handleCopy = () => {
         navigator.clipboard.writeText(hash); // Copy the hash to clipboard
         setCopyTooltip('Copied!'); // Change tooltip to indicate success
@@ -473,7 +493,7 @@ function Account(props: any) {
                             </Link>
                         </Breadcrumbs>
                     </div>
-                    <h1 className="text-3xl font-bold p-4 font-gsans">Account</h1>
+                    {/* <h1 className="text-3xl font-bold p-4 font-gsans">Account</h1> */}
                 </div>
 
                 <div className="container px-0">

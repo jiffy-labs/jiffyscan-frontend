@@ -36,12 +36,12 @@ function Searchblock({ isNavbar }: { isNavbar: boolean }) {
     };
 
     const keyDownHandler = (event: KeyboardEvent) => {
-        if (event.metaKey && event.key === 'k') {
+        if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
             event.preventDefault();
             if (searchRef.current) searchRef.current.focus();
-            // animate for 1 second
-            setAnimateState(true);
 
+            // Trigger animation for 0.5 seconds
+            setAnimateState(true);
             setTimeout(() => {
                 setAnimateState(false);
             }, 500);

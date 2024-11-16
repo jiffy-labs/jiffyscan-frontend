@@ -125,7 +125,23 @@ function RecentPaymentMaster(props: any) {
     const [isTransactionDetails, setIsTransactionDetails] = useState(true);
 
     const [copyTooltip, setCopyTooltip] = useState('Copy'); // Tooltip state for copy action
+// Handler for keyboard events
+const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === 'a' || event.key === 'A') {
+        // Switch to Transaction Details if not already active
+        setIsTransactionDetails(true);
+    } else if (event.key === 'd' || event.key === 'D') {
+        // Switch to User Operations if not already active
+        setIsTransactionDetails(false);
+    }
+};
 
+useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+        window.removeEventListener('keydown', handleKeyDown);
+    };
+}, []);
     const handleCopy = () => {
         navigator.clipboard.writeText(hash); // Copy the hash to clipboard
         setCopyTooltip('Copied!'); // Change tooltip to indicate success

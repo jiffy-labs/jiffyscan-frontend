@@ -232,6 +232,25 @@ function BundlerNew(props: any) {
     const [copyTooltip, setCopyTooltip] = useState('Copy'); // Tooltip state for copy action
     const { isDarkMode } = useTheme(); // Access theme context
     const [tracerData, setTracerData] = useState<TracerData | null>(null);
+
+    // Handler for keyboard events
+    const handleKeyDown = (event: KeyboardEvent) => {
+        if (event.key === 'a' || event.key === 'A') {
+            // Move to the left tab
+            setValue((prev) => (prev > 0 ? prev - 1 : prev));
+        } else if (event.key === 'd' || event.key === 'D') {
+            // Move to the right tab
+            const maxTabs = network === 'base' || network === 'odyssey' || network === 'open-campus-test' ? 4 : 3;
+            setValue((prev) => (prev < maxTabs - 1 ? prev + 1 : prev));
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []);
     useEffect(() => {
         const fetchTraces = async () => {
             try {
