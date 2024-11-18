@@ -64,11 +64,6 @@ export default function MyApp({ Component, pageProps: { session, ...pageProps } 
 
     return (
         <>
-            {/* Top Banner */}
-            <div className="bg-[#195BDF] h-14 flex items-center justify-center text-white text-base font-medium">
-                🚀 JiffyLabs is at Devcon! 🌐<Link href='https://t.me/lazyc0der1' className='hover:text-black underline'>Let’s Catch Up </Link> 💬
-            </div>
-            
             <div
                 className={`${GeistSans.variable} ${GeistMono.variable}`}
                 style={{

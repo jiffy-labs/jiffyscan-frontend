@@ -385,7 +385,7 @@ function RecentUserOps(props: any) {
         <div className="dark:bg-[#191A23]">
             <Navbar searchbar />
             {isLoading && isVisible &&  (
-                <div className="hidden lg:block fixed bottom-64 left-2 z-50 p-2  text-[#20294C] dark:text-[#DADEF1] rounded-md text-sm">
+                <div className="hidden lg:block fixed bottom-32 left-2 z-50 p-2  text-[#20294C] dark:text-[#DADEF1] rounded-md text-sm">
                     <div className='flex flex-col text-md font-gsans gap-2'>
                         <strong>PRESS</strong> 
                         <div className='flex flex-row'>
@@ -682,17 +682,20 @@ function RecentUserOps(props: any) {
 
                                                                         {!isLoading ? (
                                                                             <p className="text-[#1F1F1F] dark:text-[#ADB0BC] font-medium leading-[24px] text-[16px]">
-                                                                                {userOpsData?.[showUserOpId]?.blockTime
-                                                                                    ? `${formatDistanceToNow(
-                                                                                          new Date(
-                                                                                              (userOpsData[showUserOpId].blockTime ?? 0) *
-                                                                                                  1000,
-                                                                                          ),
-                                                                                          { addSuffix: true },
-                                                                                      )} 
-                                (${format(new Date((userOpsData[showUserOpId].blockTime ?? 0) * 1000), 'dd MMM yyyy, HH:mm:ss')})`
-                                                                                    : ' '}
-                                                                            </p>
+                                                                            {userOpsData?.[showUserOpId]?.blockTime
+                                                                                ? `${formatDistanceToNow(
+                                                                                      new Date(
+                                                                                          (userOpsData[showUserOpId].blockTime ?? 0) * 1000,
+                                                                                      ),
+                                                                                      { addSuffix: true },
+                                                                                  )} `
+                                                                                : ' '}
+                                                                            {userOpsData?.[showUserOpId]?.blockTime && (
+                                                                                <span className="text-[#9E9E9E]">
+                                                                                    ({format(new Date((userOpsData[showUserOpId].blockTime ?? 0) * 1000), 'dd MMM yyyy, HH:mm:ss')})
+                                                                                </span>
+                                                                            )}
+                                                                        </p>
                                                                         ) : (
                                                                             // @ts-ignore
                                                                             <div
@@ -1162,7 +1165,7 @@ function RecentUserOps(props: any) {
                                                                 <div className="justify-between block md:flex">
                                                                     <div className="flex items-center gap-[10px]">
                                                                         {!isLoading ? (
-                                                                            <span className="text-base text-[#195BDF] dark:text-[#598AEB] break-all leading-5">
+                                                                            <span className="text-base text-[#1F1F1F] dark:text-[#ADB0BC] break-all leading-5">
                                                                                 {/* @ts-ignore */}
                                                                                 {userOpsData?.[showUserOpId]?.value || '0 WEI'}
                                                                             </span>
