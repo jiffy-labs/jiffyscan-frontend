@@ -26,7 +26,7 @@ const Modal: React.FC<ModalProps> = ({ onClose, children }) => {
         >
             <div className="-mt-[700px] relative dark:bg-[#1F202B] dark:text-[#DADEF1] bg-white py-6  rounded-lg  shadow-lg w-full max-w-4xl mx-auto">
                 {/* Close button in the top right corner */}
-                <h1 className='font-gsans px-6 text-xl'>Networks</h1>
+                <h1 className='font-gsans px-6 pb-2 text-xl'>Networks</h1>
                 <button
                     onClick={onClose}
                     className="absolute top-6 right-4 text-gray-600 hover:text-gray-800"

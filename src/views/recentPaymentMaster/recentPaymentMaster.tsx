@@ -240,7 +240,7 @@ useEffect(() => {
         <div className='dark:bg-[#191A23]'>
             <Navbar searchbar />
             { isVisible &&  (
-                <div className="hidden lg:block fixed bottom-64 left-2 z-50 p-2  text-[#20294C] dark:text-[#DADEF1] rounded-md text-sm">
+                <div className="hidden lg:block fixed bottom-32 left-2 z-50 p-2  text-[#20294C] dark:text-[#DADEF1] rounded-md text-sm">
                     <div className='flex flex-col text-md font-gsans gap-2'>
                         <strong>PRESS</strong> 
                         <div className='flex flex-row'>
