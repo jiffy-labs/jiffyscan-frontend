@@ -37,6 +37,7 @@ import { HiHashtag } from 'react-icons/hi';
 import Tracer from './Tracer';
 import { useTheme } from '@/context/ThemeContext';
 import Image from 'next/image';
+import { GetServerSideProps } from 'next';
 interface TabPanelProps {
     children?: React.ReactNode;
     index: number;
@@ -212,44 +213,56 @@ interface TracerData {
     trace: Trace[];
 }
 
-function BundlerNew(props: any) {
+interface BundlerNewProps {
+    initialBundleInfo?: BundleInfo;
+    initialTransactionDetails?: TransactionDetails;
+    initialUserOps?: UserOpData[];
+    initialTracerData?: TracerData;
+    initialRows?: tableDataT['rows'];
+    slug: string[];
+}
+
+interface ApiResponse {
+    transactionDetails: TransactionDetails;
+}
+
+function BundlerNew(props: BundlerNewProps) {
     const router = useRouter();
-    const [tableLoading, setTableLoading] = useState(true);
+    const [tableLoading, setTableLoading] = useState(!props.initialBundleInfo);
     const hash = props.slug && props.slug[0];
     const network = router.query && (router.query.network as string);
-    const [rows, setRows] = useState([] as tableDataT['rows']);
-    const [bundleInfo, setBundleInfo] = useState<BundleInfo>();
-    const [useOps, setuserOps] = useState<UserOp[]>();
+    const [rows, setRows] = useState(props.initialRows || [] as tableDataT['rows']);
+    const [bundleInfo, setBundleInfo] = useState<BundleInfo | undefined>(props.initialBundleInfo);
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, _setPageSize] = useState(DEFAULT_PAGE_SIZE);
-    const [captionText, setCaptionText] = useState('N/A User Ops found');
+    const [captionText, setCaptionText] = useState(`${props.initialBundleInfo?.userOpsLength || 'N/A'} User Ops found`);
     const { isLoggedIn } = useUserSession();
     const [value, setValue] = React.useState(0);
-    const [transactionDetails, setTransactionDetails] = useState<TransactionDetails | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [userOps, setUserOps] = useState<UserOpData[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [copyTooltip, setCopyTooltip] = useState('Copy'); // Tooltip state for copy action
-    const { isDarkMode } = useTheme(); // Access theme context
-    const [tracerData, setTracerData] = useState<TracerData | null>(null);
+    const [transactionDetails, setTransactionDetails] = useState<TransactionDetails | null>(
+        props.initialTransactionDetails || null
+    );
+    const [loading, setLoading] = useState(!props.initialTransactionDetails);
+    const [userOps, setUserOps] = useState<UserOpData[]>(props.initialUserOps || []);
+    const [isLoading, setIsLoading] = useState(!props.initialTransactionDetails);
+    const [copyTooltip, setCopyTooltip] = useState('Copy');
+    const { isDarkMode } = useTheme();
+    const [tracerData, setTracerData] = useState<TracerData | null>(props.initialTracerData || null);
     const [isVisible, setIsVisible] = useState(false);
 
     // Show floating instructions when the content is loading
     useEffect(() => {
         if (tableLoading) {
             setIsVisible(true);
-            const timeout = setTimeout(() => setIsVisible(false), 7000); // Hide after 5 seconds
+            const timeout = setTimeout(() => setIsVisible(false), 7000);
             return () => clearTimeout(timeout);
         }
     }, [tableLoading]);
 
-    // Handler for keyboard events
+    // Keyboard event handler
     const handleKeyDown = (event: KeyboardEvent) => {
         if (event.key === 'a' || event.key === 'A') {
-            // Move to the left tab
             setValue((prev) => (prev > 0 ? prev - 1 : prev));
         } else if (event.key === 'd' || event.key === 'D') {
-            // Move to the right tab
             const maxTabs = network === 'base' || network === 'odyssey' || network === 'open-campus-test' ? 4 : 3;
             setValue((prev) => (prev < maxTabs - 1 ? prev + 1 : prev));
         }
@@ -261,83 +274,80 @@ function BundlerNew(props: any) {
             window.removeEventListener('keydown', handleKeyDown);
         };
     }, []);
+
+    // Only fetch traces if not provided in initial props
     useEffect(() => {
         const fetchTraces = async () => {
-            try {
-                const data = await getTrxTraces(hash, network, toast);
-                setTracerData(data as unknown as TracerData);
-            } catch (error) {
-                console.error('Error fetching traces:', error);
+            if (!props.initialTracerData && (network === 'base' || network === 'odyssey' || network === 'open-campus-test')) {
+                try {
+                    const data = await getTrxTraces(hash, network, toast);
+                    setTracerData(data as unknown as TracerData);
+                } catch (error) {
+                    console.error('Error fetching traces:', error);
+                }
             }
         };
 
-        if (network === 'base' || network === 'odyssey' || network === 'open-campus-test') {
-            fetchTraces();
-        }
-    }, [hash, network]);
+        fetchTraces();
+    }, [hash, network, props.initialTracerData]);
+
     const handleCopy = () => {
-        navigator.clipboard.writeText(hash); // Copy the hash to clipboard
-        setCopyTooltip('Copied!'); // Change tooltip to indicate success
-        setTimeout(() => setCopyTooltip('Copy'), 1500); // Reset tooltip after 1.5s
+        navigator.clipboard.writeText(hash);
+        setCopyTooltip('Copied!');
+        setTimeout(() => setCopyTooltip('Copy'), 1500);
     };
+
+    // Only fetch transaction details if not provided in initial props
     useEffect(() => {
         const fetchTransactionDetails = async () => {
-            try {
-                const data: ApiResponse = await getBundleDetailsRpc(hash, network);
-                setTransactionDetails(data.transactionDetails);
-                setUserOps(data.transactionDetails.userOps);
-                setIsLoading(false);
-            } catch (error) {
-                console.error('Error fetching transaction details:', error);
-            } finally {
-                setLoading(false);
+            if (!props.initialTransactionDetails && hash && network) {
+                try {
+                    const data: ApiResponse = await getBundleDetailsRpc(hash, network);
+                    setTransactionDetails(data.transactionDetails);
+                    setUserOps(data.transactionDetails.userOps);
+                } catch (error) {
+                    console.error('Error fetching transaction details:', error);
+                } finally {
+                    setIsLoading(false);
+                    setLoading(false);
+                }
             }
         };
 
-        if (hash && network) {
-            fetchTransactionDetails();
-        }
-    }, [hash, network]);
+        fetchTransactionDetails();
+    }, [hash, network, props.initialTransactionDetails]);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
 
-    // const [block, setBlock] = useState(!isLoggedIn());
-
-    // useEffect(() => {
-    //     setBlock(!isLoggedIn());
-    // }, [isLoggedIn]);
-
-    // handling table page change. Everytime the pageNo change, or pageSize change this function will fetch new data and update it.
     const updateRowsData = async (network: string, pageNo: number, pageSize: number) => {
         setTableLoading(true);
-        if (bundleInfo == undefined) {
+        if (!bundleInfo) {
             return;
         }
-        const addressDetail = await getBundleDetails(bundleInfo.transactionHash, network ? network : '', pageNo, pageSize, toast);
+        const addressDetail = await getBundleDetails(bundleInfo.transactionHash, network || '', pageNo, pageSize, toast);
         const rows = createUserOpsTableRows(addressDetail.userOps);
         setRows(rows);
         setTableLoading(false);
     };
 
-    // update the page No after changing the pageSize
     const setPageSize = (size: number) => {
         _setPageSize(size);
         setPageNo(0);
     };
 
-    // load the account details.
     const loadBundleDetails = async (name: string, network: string) => {
-        setTableLoading(true);
-
-        const bundleDetail = await getBundleDetails(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo, toast);
-        const bundleInfo = createBundleInfoObject(bundleDetail);
-        setBundleInfo(bundleInfo);
+        if (!props.initialBundleInfo) {
+            setTableLoading(true);
+            const bundleDetail = await getBundleDetails(name, network || '', DEFAULT_PAGE_SIZE, pageNo, toast);
+            const bundleInfo = createBundleInfoObject(bundleDetail);
+            setBundleInfo(bundleInfo);
+        }
     };
 
     useEffect(() => {
-        updateRowsData(network ? network : '', pageSize, pageNo);
+        updateRowsData(network || '', pageSize, pageNo);
         const urlParams = new URLSearchParams(window.location.search);
         urlParams.set('pageNo', pageNo.toString());
         urlParams.set('pageSize', pageSize.toString());
@@ -349,18 +359,12 @@ function BundlerNew(props: any) {
         setCaptionText(captionText);
     }, [bundleInfo]);
 
-    let prevHash = hash;
-    let prevNetwork = network;
     useEffect(() => {
-        // Check if hash or network have changed
-        if (prevHash !== undefined || prevNetwork !== undefined) {
-            prevHash = hash;
-            prevNetwork = network;
+        if (!props.initialBundleInfo && (hash !== undefined || network !== undefined)) {
             loadBundleDetails(hash as string, network as string);
         }
-    }, [hash, network]);
+    }, [hash, network, props.initialBundleInfo]);
 
-    let skeletonCards = Array(5).fill(0);
     const formatAddress = (address: string) => {
         if (!address) return '';
         return `${address.slice(0, 6)}...${address.slice(-6)}`;
@@ -374,22 +378,22 @@ function BundlerNew(props: any) {
         const percentage = (gasUsedNum / gasLimitNum) * 100;
         return `(${percentage.toFixed(2)}%)`;
     };
-    const [activeTab, setActiveTab] = useState<number>(3);
 
+    const [activeTab, setActiveTab] = useState<number>(3);
     const handleTabClick = (tabIndex: number) => {
         setActiveTab(tabIndex);
     };
 
     const handleToggle = (index: React.SetStateAction<number>) => {
-        setValue(index); // Update the active tab index
+        setValue(index);
     };
-    const [isMounted, setIsMounted] = useState(false);
 
+    const [isMounted, setIsMounted] = useState(false);
     useEffect(() => {
-        setIsMounted(true); // Now rendering only happens on the client
+        setIsMounted(true);
     }, []);
 
-    if (!isMounted) return null; // Skip rendering on server
+    if (!isMounted) return null;
     return (
         <div className="dark:bg-[#191A23]">
             <Navbar searchbar />
@@ -1152,5 +1156,55 @@ function BundlerNew(props: any) {
         </div>
     );
 }
+
+// Server-side props
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const { slug, network } = context.params || {};
+    const hashString = Array.isArray(slug) ? slug[0] : slug;
+
+    if (!hashString || !network) {
+        return { props: { slug: slug || [] } };
+    }
+
+    try {
+        // Fetch initial bundle details
+        const bundleDetail = await getBundleDetails(
+            hashString,
+            network as string,
+            DEFAULT_PAGE_SIZE,
+            0,
+            null // No toast on server
+        );
+        const bundleInfo = createBundleInfoObject(bundleDetail);
+        const rows = createUserOpsTableRows(bundleDetail.userOps);
+
+        // Fetch transaction details
+        const transactionData: ApiResponse = await getBundleDetailsRpc(hashString, network as string);
+
+        // Fetch tracer data for supported networks
+        let tracerData = null;
+        if (network === 'base' || network === 'odyssey' || network === 'open-campus-test') {
+            tracerData = await getTrxTraces(hashString, network as string, null);
+        }
+
+        return {
+            props: {
+                initialBundleInfo: bundleInfo,
+                initialTransactionDetails: transactionData.transactionDetails,
+                initialUserOps: transactionData.transactionDetails.userOps,
+                initialTracerData: tracerData,
+                initialRows: rows,
+                slug: slug || []
+            }
+        };
+    } catch (error) {
+        console.error('Server-side data fetching error:', error);
+        return {
+            props: {
+                slug: slug || []
+            }
+        };
+    }
+};
 
 export default BundlerNew;
