@@ -1,6 +1,6 @@
 import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Box, IconButton, Tab, Tabs, Typography } from '@mui/material';
 import Status from '@/components/common/status/Status';
 import { formatDistanceToNow, format } from 'date-fns';
@@ -274,43 +274,43 @@ function RecentUserOps(props: any) {
         return userOp;
     }
 
-    const refreshUserOpsTable = async (name: string) => {
-        setTableLoading(true);
+     // Performance Optimized Callbacks
+  const handleDuplicateRowClick = useCallback((id: number) => {
+    setShowUserOpId(id);
+  }, []);
 
-        const pollUserOpData = async () => {
-            let userOps = await returnUserOpData(name, toast);
-            setuserOpsData(userOps); // Update the UI with the latest data
-            if (logs.length === 0) {
-                const data = await fetchData(userOps?.[showUserOpId]);
-                setLogs(data.logs || []);
-                console.log('logs fetch', data.logs);
-            }
-            // Create and set the rows for the table
-            let rows = createDuplicateUserOpsRows(userOps, handleDuplicateRowClick);
-            setDuplicateUserOpsRows(rows);
+  const refreshUserOpsTable = useCallback(async (name: string) => {
+    setTableLoading(true);
 
-            if (userOps.length > 1) {
-                setShowUserOpId(-1);
-            }
+    const pollUserOpData = async () => {
+      let userOps = await returnUserOpData(name, toast);
+      setuserOpsData(userOps);
 
-            if (userOps[0] && userOps[0].network) {
-                setSelectedNetwork(userOps[0].network);
-                setTableLoading(false);
-                setIsLoading(false);
-            }
+      if (logs.length === 0) {
+        const data = await fetchData(userOps?.[showUserOpId]);
+        setLogs(data.logs || []);
+      }
 
-            // Continue polling if timeSeenInAltMempool exists
-            if (userOps[0]?.timeSeenInAltMempool || userOps[0]?.timeSeenInMainMempool) {
-                setTimeout(pollUserOpData, 20000); // Poll every 20 seconds
-            }
-        };
+      let rows = createDuplicateUserOpsRows(userOps, handleDuplicateRowClick);
+      setDuplicateUserOpsRows(rows);
 
-        await pollUserOpData(); // Start the polling process
+      if (userOps.length > 1) {
+        setShowUserOpId(-1);
+      }
+
+      if (userOps[0] && userOps[0].network) {
+        setSelectedNetwork(userOps[0].network);
+        setTableLoading(false);
+        setIsLoading(false);
+      }
+
+      if (userOps[0]?.timeSeenInAltMempool || userOps[0]?.timeSeenInMainMempool) {
+        setTimeout(pollUserOpData, 20000);
+      }
     };
 
-    const handleDuplicateRowClick = (id: number) => {
-        setShowUserOpId(id);
-    };
+    await pollUserOpData();
+  }, [logs, showUserOpId, handleDuplicateRowClick, setSelectedNetwork]);
 
     let prevHash = hash;
     useEffect(() => {
