@@ -264,37 +264,41 @@ export default function TransactionDetails({ item, network, addressMapping, tabl
                                                             <span className="text-base text-[#646D8F] dark:text-[#ADB0BC] font-gsans font-normal leading-5">
                                                                 {/* Display selected token balance */}
                                                                 <div className="relative ">
-                                                                    <div
-                                                                        className="cursor-pointer flex justify-between items-center dark:border-gray-600 p-2 rounded-md "
-                                                                        onClick={toggleDropdown}
-                                                                    >
-                                                                        <span>
-                                                                            {tokenBalances[selectedTokenIndex].contract_name}:{' '}
-                                                                            {(
-                                                                                parseInt(tokenBalances[selectedTokenIndex].balance) /
-                                                                                10 ** tokenBalances[selectedTokenIndex].contract_decimals
-                                                                            ).toFixed(4)}
-                                                                            ($
-                                                                            {(
-                                                                                (tokenBalances[selectedTokenIndex].quote_rate *
-                                                                                    parseInt(tokenBalances[selectedTokenIndex].balance)) /
-                                                                                10 ** tokenBalances[selectedTokenIndex].contract_decimals
-                                                                            ).toFixed()}
-                                                                            )
-                                                                            
-                                                                        </span>
-                                                                        {!isDropdownOpen && tokenBalances.length > 1? (
-                                                                            <button className="ml-2 flex rounded-full border px-2 py-1">
-                                                                                <MdArrowDropDown />
-                                                                                {tokenBalances.length - 1} more
-                                                                            </button>
-                                                                        ):(
-                                                                            <button className="ml-2 flex rounded-full border px-2 py-1">
-                                                                                <MdArrowDropUp />
-                                                                                {tokenBalances.length - 1} more
-                                                                            </button>
-                                                                        )}
-                                                                    </div>
+                                                                <div
+    className="cursor-pointer flex justify-between items-center dark:border-gray-600 p-2 rounded-md"
+    onClick={tokenBalances.length > 1 ? toggleDropdown : undefined} // Only toggle dropdown if there are more than 1 balance
+>
+    <span>
+        {tokenBalances[selectedTokenIndex].contract_name}:{' '}
+        {(
+            parseInt(tokenBalances[selectedTokenIndex].balance) /
+            10 ** tokenBalances[selectedTokenIndex].contract_decimals
+        ).toFixed(4)}
+        ($
+        {(
+            (tokenBalances[selectedTokenIndex].quote_rate *
+                parseInt(tokenBalances[selectedTokenIndex].balance)) /
+            10 ** tokenBalances[selectedTokenIndex].contract_decimals
+        ).toFixed()}
+        )
+    </span>
+    {tokenBalances.length > 1 && ( // Only show the dropdown button if there are more than 1 balance
+        <>
+            {!isDropdownOpen ? (
+                <button className="ml-2 flex rounded-full border px-2 py-1">
+                    <MdArrowDropDown />
+                    {tokenBalances.length - 1} more
+                </button>
+            ) : (
+                <button className="ml-2 flex rounded-full border px-2 py-1">
+                    <MdArrowDropUp />
+                    {tokenBalances.length - 1} more
+                </button>
+            )}
+        </>
+    )}
+</div>
+
 
                                                                     {/* Dropdown content */}
                                                                     {isDropdownOpen && (
