@@ -1,7 +1,7 @@
 import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
 import React, { useEffect, useState } from 'react';
-import { getPayMasterDetails, PayMasterActivity, UserOp, fetchNetworkData, NetworkResponse } from '@/components/common/apiCalls/jiffyApis';
+import { getPayMasterDetails, PayMasterActivity, UserOp, fetchNetworkData, NetworkResponse, getTopPaymasters } from '@/components/common/apiCalls/jiffyApis';
 import { Breadcrumbs, IconButton, Link, Tooltip } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
@@ -127,6 +127,8 @@ function RecentPaymentMaster(props: any) {
 
     const [copyTooltip, setCopyTooltip] = useState('Copy'); // Tooltip state for copy action
     const [isVisible, setIsVisible] = useState(false);
+    const [transactionDetails, setTransactionDetails] = useState<any>(null);
+
 
 // Set a 7-second timer when the component mounts
 useEffect(() => {
@@ -175,13 +177,31 @@ useEffect(() => {
         setPageNo(0);
     };
 
-    // load the account details.
+    const fetchTransactionDetails = async (network: string, address: string) => {
+        try {
+            const details = await getTopPaymasters(network, 5, 0, null);
+            const specificPaymaster = details.find((paymaster: any) => paymaster.address === address);
+            return specificPaymaster || null;
+        } catch (error) {
+            console.error('Error fetching transaction details', error);
+            return null;
+        }
+    };
+    
     const loadAccountDetails = async (name: string, network: string) => {
         setTableLoading(true);
-        const paymasterDetail = await getPayMasterDetails(name, network ? network : '', DEFAULT_PAGE_SIZE, pageNo, toast);
+    
+        const [paymasterDetail, transactionDetail] = await Promise.all([
+            getPayMasterDetails(name, network || '', DEFAULT_PAGE_SIZE, pageNo, toast),
+            fetchTransactionDetails(network, name),
+        ]);
+    
         const accountInfo = createPaymasterInfoObject(paymasterDetail);
         setAddressInfo(accountInfo);
+        setTransactionDetails(transactionDetail);
+        setTableLoading(false);
     };
+    
 
     useEffect(() => {
         updateRowsData(network ? network : '', pageSize, pageNo);
@@ -314,8 +334,11 @@ useEffect(() => {
                 {/* Toggle between Transaction Details and Table */}
                 <div className="mt-6 px-10">
                     {isTransactionDetails ? (
-                        <TransactionDetails item={addressInfo} network={network} />
-                    ) : (
+<TransactionDetails
+    item={addressInfo}
+    network={network}
+    transactionDetails={transactionDetails}
+/>                    ) : (
                         <>
                             <Table rows={rows} columns={columns} loading={tableLoading} />
                                 <div className='border-b mt-5 z-50 border-[#D7DAE0] dark:border-[#3B3C40]'></div>

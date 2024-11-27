@@ -10,10 +10,11 @@ import { getTopPaymasters } from '@/components/common/apiCalls/jiffyApis'; // En
 import { NETWORK_ICON_MAP } from '@/components/common/constants';
 import { IconButton, Tooltip } from '@mui/material';
 import { MdContentCopy } from 'react-icons/md';
+import Image from 'next/image';
 
-export default function TransactionDetails({ item, network }: any) {
-    const [tableLoading1, setTableLoading1] = useState(true);
-    const [transactionDetails, setTransactionDetails] = useState<any>(null); // State for transaction details
+export default function TransactionDetails({ item, network, transactionDetails }: any) {
+    
+    
     const [copyTooltip, setCopyTooltip] = useState('Copy'); // Tooltip state for copy action
 
     const handleCopy = () => {
@@ -21,44 +22,25 @@ export default function TransactionDetails({ item, network }: any) {
         setCopyTooltip('Copied!'); // Change tooltip to indicate success
         setTimeout(() => setCopyTooltip('Copy'), 1500); // Reset tooltip after 1.5s
     };
-    useEffect(() => {
-        setTableLoading1(true);
-        if (network && item?.address) {
-            const fetchTransactionDetails = async () => {
-                try {
-                    // Fetch paymaster details
-                    const details = await getTopPaymasters(network, 5, 0, null);
-                    const specificPaymaster = details.find((paymaster: any) => paymaster.address === item.address);
-
-                    if (specificPaymaster) {
-                        setTransactionDetails(specificPaymaster);
-                    } else {
-                        console.warn('Paymaster not found');
-                    }
-                } catch (error) {
-                    console.error('Error fetching paymaster details', error);
-                } finally {
-                    setTableLoading1(false);
-                }
-            };
-            fetchTransactionDetails();
-        }
-    }, [network, item?.address]);
+    
 
     const skeletonCards = Array(4).fill(0); // Adjusted to show 4 skeletons
-    const router = useRouter();
+   
 
     return (
         <div>
             <section className="mt-[48px]">
                 <div className="container px-0">
                     <div className="bg-white  mb-[20px] ">
-                        {tableLoading1 ? (
-                            skeletonCards.map((_, index: number) => <div
-                            key={index}
-                            className="h-[55px] bg-gray-200 dark:bg-gray-900 rounded animate-pulse"
-                         />
-                        )
+                        {!transactionDetails ? (
+                           <>
+                           <div className="h-[24px] bg-gray-200 dark:bg-gray-700 rounded animate-pulse my-2" />
+                           <div className="h-[24px] bg-gray-200 dark:bg-gray-700 rounded animate-pulse my-2" />
+                           <div className="h-[24px] bg-gray-200 dark:bg-gray-700 rounded animate-pulse my-2" />
+                           <div className="h-[24px] bg-gray-200 dark:bg-gray-700 rounded animate-pulse my-2" />
+                           <div className="h-[24px] bg-gray-200 dark:bg-gray-700 rounded animate-pulse my-2" />
+                           <div className="h-[24px] bg-gray-200 dark:bg-gray-700 rounded animate-pulse my-2" />
+                            </>
                         ) : (
                             <div>
                                 <section>
@@ -74,10 +56,9 @@ export default function TransactionDetails({ item, network }: any) {
                                                 <div className="justify-between block md:flex">
                                                     <div className="flex  items-center gap-[10px]">
                                                         {network && (
-                                                            <img
+                                                            <Image height={20} width={20}
                                                                 src={NETWORK_ICON_MAP[network]}
                                                                 alt={`${network} icon`}
-                                                                className="w-5 h-5"
                                                             />
                                                         )}
                                                         <span className="text-base text-[#195BDF] dark:text-[#598AEB]  break-all leading-5">
