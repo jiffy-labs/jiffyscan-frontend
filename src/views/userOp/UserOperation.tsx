@@ -185,7 +185,8 @@ function RecentUserOps(props: any) {
     const [tracer, setTracer] = useState<TracerData | null>(null);
     const [loading, setLoading] = useState(true);
     const [isVisible, setIsVisible] = useState(false);
-
+    const { query } = router;
+    
     // Show floating instructions when the content is loading
     useEffect(() => {
         if (tableLoading) {
@@ -198,13 +199,35 @@ function RecentUserOps(props: any) {
 
     // Handler for keyboard events
     const handleKeyDown = (event: KeyboardEvent) => {
+        const sections = ['overview', 'dev_details', 'logs', 'tracer'];
+        const maxTabs = network === 'base' || network === 'odyssey' || network === 'open-campus-test' ? 4 : 3;
+    
+        const updateURL = (index: number) => {
+            const selectedSection = sections[index];
+            router.push(
+                {
+                    pathname: router.pathname,
+                    query: { ...router.query, section: selectedSection },
+                },
+                undefined,
+                { shallow: true } // Shallow routing to avoid full page reload
+            );
+        };
+    
         if (event.key === 'a' || event.key === 'A') {
             // Move to the left tab
-            setValue((prev) => (prev > 0 ? prev - 1 : prev));
+            setValue((prev) => {
+                const newIndex = prev > 0 ? prev - 1 : prev;
+                updateURL(newIndex);
+                return newIndex;
+            });
         } else if (event.key === 'd' || event.key === 'D') {
             // Move to the right tab
-            const maxTabs = network === 'base' || network === 'odyssey' || network === 'open-campus-test' ? 4 : 3;
-            setValue((prev) => (prev < maxTabs - 1 ? prev + 1 : prev));
+            setValue((prev) => {
+                const newIndex = prev < maxTabs - 1 ? prev + 1 : prev;
+                updateURL(newIndex);
+                return newIndex;
+            });
         }
     };
 
@@ -213,7 +236,7 @@ function RecentUserOps(props: any) {
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
-    }, []);
+    }, [network, router]);
     useEffect(() => {
         // Fetch tracer data if the network is valid and userOpId is defined
         const fetchTracerData = async () => {
@@ -360,8 +383,22 @@ function RecentUserOps(props: any) {
         setActiveTab2(tabIndex);
     };
 
-    const handleToggle = (index: React.SetStateAction<number>) => {
-        setValue(index); // Update the active tab index
+    const handleToggle = (index: number) => {
+        const sections = ['overview', 'call-data', 'logs', 'tracer'];
+        const selectedSection = sections[index];
+
+        // Update the URL with the new section without reloading the page
+        router.push(
+            {
+                pathname: router.pathname,
+                query: { ...query, section: selectedSection },
+            },
+            undefined,
+            { shallow: true } // Shallow routing to avoid full page reload
+        );
+
+        // Update your state or perform other logic
+        setValue(index); // Assuming `setValue` is your state handler for `value`
     };
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -498,54 +535,27 @@ function RecentUserOps(props: any) {
                                 <Box sx={{ width: '100%' }}>
                                 <div className="relative mt-4 md:px-10 py-4 font-gsans">
             <ul className="flex items-center px-1.5 py-1.5 list-none rounded-xl bg-[#F0F1F5] dark:bg-[#191A23] border-2 dark:border-[#3B3C40] border-[#D7DAE0] overflow-x-auto md:overflow-visible scrollbar-hide">
-                <li className="flex-none w-1/2 text-center md:flex-auto">
-                    <button
-                        onClick={() => handleToggle(0)}
-                        className={`w-full px-0 py-2 text-base text-[#20294C] border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
-                            value === 0
-                                ? 'bg-white border-2 dark:bg-[#1F202B] dark:text-[#DADEF1]'
-                                : 'bg-inherit text-[#646D8F] dark:text-[#ADB0BC]'
+                {['Overview', 'Call Data', 'Logs', 'Tracer'].map((label, index) => (
+                    <li
+                        key={index}
+                        className={`flex-none w-1/2 text-center md:flex-auto ${
+                            index === 3 &&
+                            !(network === 'base' || network === 'odyssey' || network === 'open-campus-test') &&
+                            'hidden'
                         }`}
                     >
-                        Overview
-                    </button>
-                </li>
-                <li className="flex-none w-1/2 text-center md:flex-auto">
-                    <button
-                        onClick={() => handleToggle(1)}
-                        className={`w-full px-0 py-2 text-base text-[#20294C] border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
-                            value === 1
-                                ? 'bg-white border-2 dark:bg-[#1F202B] dark:text-[#DADEF1]'
-                                : 'bg-inherit text-[#646D8F] dark:text-[#ADB0BC]'
-                        }`}
-                    >
-                        Call Data
-                    </button>
-                </li>
-                <li className="flex-none w-1/2 text-center md:flex-auto">
-                    <button
-                        onClick={() => handleToggle(2)}
-                        className={`w-full px-0 py-2 text-base text-[#20294C] border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
-                            value === 2
-                                ? 'bg-white border-2 dark:bg-[#1F202B] dark:text-[#DADEF1]'
-                                : 'bg-inherit text-[#646D8F] dark:text-[#ADB0BC]'
-                        }`}
-                    >
-                        Logs
-                    </button>
-                </li>
-                {(network === 'base' || network === 'odyssey' || network === 'open-campus-test') && (
-                    <li className="flex-none w-1/2 text-center md:flex-auto">
                         <button
-                            onClick={() => handleToggle(3)}
-                            className={`w-full px-0 py-2 text-base text-[#20294C]  border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
-                                value === 3 ? 'bg-white border-2 dark:bg-[#1F202B] dark:text-[#DADEF1]' : 'bg-inherit text-[#646D8F] dark:text-[#ADB0BC]'
+                            onClick={() => handleToggle(index)}
+                            className={`w-full px-0 py-2 text-base text-[#20294C] border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
+                                value === index
+                                    ? 'bg-white border-2 dark:bg-[#1F202B] dark:text-[#DADEF1]'
+                                    : 'bg-inherit text-[#646D8F] dark:text-[#ADB0BC]'
                             }`}
                         >
-                            Tracer
+                            {label}
                         </button>
                     </li>
-                )}
+                ))}
             </ul>
         </div>
                                     <div className="-mx-3 border-b border-[#D7DAE0] dark:border-[#3B3C40] my-4"></div>
