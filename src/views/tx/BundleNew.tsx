@@ -410,7 +410,7 @@ function BundlerNew(props: BundlerNewProps) {
 
     const handleToggle = (index: number) => {
         setValue(index); // Update the current tab value
-        const sections = ['overview', 'call-data', 'userops', 'tracer'];
+        const sections = ['overview', 'dev_details', 'userops', 'tracer'];
         const selectedSection = sections[index];
     
         // Update the URL with the selected section
