@@ -260,11 +260,35 @@ function BundlerNew(props: BundlerNewProps) {
 
     // Keyboard event handler
     const handleKeyDown = (event: KeyboardEvent) => {
+        const sections = ['overview', 'dev_details', 'logs', 'tracer'];
+        const maxTabs = network === 'base' || network === 'odyssey' || network === 'open-campus-test' ? 4 : 3;
+    
+        const updateURL = (index: number) => {
+            const selectedSection = sections[index];
+            router.push(
+                {
+                    pathname: router.pathname,
+                    query: { ...router.query, section: selectedSection },
+                },
+                undefined,
+                { shallow: true } // Shallow routing to avoid full page reload
+            );
+        };
+    
         if (event.key === 'a' || event.key === 'A') {
-            setValue((prev) => (prev > 0 ? prev - 1 : prev));
+            // Move to the left tab
+            setValue((prev) => {
+                const newIndex = prev > 0 ? prev - 1 : prev;
+                updateURL(newIndex);
+                return newIndex;
+            });
         } else if (event.key === 'd' || event.key === 'D') {
-            const maxTabs = network === 'base' || network === 'odyssey' || network === 'open-campus-test' ? 4 : 3;
-            setValue((prev) => (prev < maxTabs - 1 ? prev + 1 : prev));
+            // Move to the right tab
+            setValue((prev) => {
+                const newIndex = prev < maxTabs - 1 ? prev + 1 : prev;
+                updateURL(newIndex);
+                return newIndex;
+            });
         }
     };
 
@@ -384,8 +408,20 @@ function BundlerNew(props: BundlerNewProps) {
         setActiveTab(tabIndex);
     };
 
-    const handleToggle = (index: React.SetStateAction<number>) => {
-        setValue(index);
+    const handleToggle = (index: number) => {
+        setValue(index); // Update the current tab value
+        const sections = ['overview', 'call-data', 'userops', 'tracer'];
+        const selectedSection = sections[index];
+    
+        // Update the URL with the selected section
+        router.push(
+            {
+                pathname: router.pathname,
+                query: { ...router.query, section: selectedSection },
+            },
+            undefined,
+            { shallow: true } // Avoid full page reload
+        );
     };
 
     const [isMounted, setIsMounted] = useState(false);
@@ -487,62 +523,65 @@ function BundlerNew(props: BundlerNewProps) {
             </div> */}
                 <div className="w-full flex flex-col">
                     <Box sx={{}}>
-                        <div className="relative mt-4 md:px-10 py-4 font-gsans">
-                            <ul className="flex items-center px-1.5 py-1.5 list-none rounded-xl bg-[#F0F1F5] dark:bg-[#191A23] border-2 dark:border-[#3B3C40] border-[#D7DAE0] overflow-x-auto md:overflow-visible scrollbar-hide">
-                                <li className="flex-none w-1/2 text-center md:flex-auto">
-                                    <button
-                                        onClick={() => handleToggle(0)} // Show UserOp Overview
-                                        className={`w-full px-0 py-2 text-base text-[#20294C]  border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
-                                            value === 0
-                                                ? 'bg-white border-2 dark:text-[#DADEF1] dark:bg-[#1F202B]'
-                                                : 'bg-inherit text-[#646D8F] dark:text-[#ADB0BC]'
-                                        }`}
-                                    >
-                                        Overview
-                                    </button>
-                                </li>
-                                <li className="flex-none w-1/2 text-center md:flex-auto">
-                                    <button
-                                        onClick={() => handleToggle(1)} // Show Developer Details
-                                        className={`w-full px-0 py-2 text-base text-[#20294C]  border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
-                                            value === 1
-                                                ? 'bg-white border-2 dark:text-[#DADEF1] dark:bg-[#1F202B]'
-                                                : 'bg-inherit dark:text-[#ADB0BC] text-[#646D8F]'
-                                        }`}
-                                    >
-                                        Call Data
-                                    </button>
-                                </li>
-                                {transactionDetails?.logsDetails.numberOfUserOps !== 0  && 
-                                <li className="flex-none w-1/2 text-center md:flex-auto">
-                                    <button
-                                        onClick={() => handleToggle(2)} // Show UserOp Logs
-                                        className={`w-full px-0 py-2 text-base text-[#20294C]  border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
-                                            value === 2
-                                                ? 'bg-white border-2 dark:text-[#DADEF1] dark:bg-[#1F202B]'
-                                                : 'bg-inherit dark:text-[#ADB0BC] text-[#646D8F]'
-                                        }`}
-                                    >
-                                        UserOps
-                                    </button>
-                                </li>
-                                }
-                                {(network === 'base' || network === 'odyssey' || network === 'open-campus-test')&& transactionDetails?.logsDetails.numberOfUserOps !== 0  && (
-                                    <li className="flex-none w-1/2 text-center md:flex-auto">
-                                        <button
-                                            onClick={() => handleToggle(3)} // Show Tracer
-                                            className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
-                                                value === 3
-                                                    ? 'bg-white border-2 dark:bg-[#1F202B]'
-                                                    : 'bg-inherit dark:text-[#646D8F] text-[#646D8F]'
-                                            }`}
-                                        >
-                                            Tracer
-                                        </button>
-                                    </li>
-                                )}
-                            </ul>
-                        </div>
+                    <div className="relative mt-4 md:px-10 py-4 font-gsans">
+        <ul className="flex items-center px-1.5 py-1.5 list-none rounded-xl bg-[#F0F1F5] dark:bg-[#191A23] border-2 dark:border-[#3B3C40] border-[#D7DAE0] overflow-x-auto md:overflow-visible scrollbar-hide">
+            <li className="flex-none w-1/2 text-center md:flex-auto">
+                <button
+                    onClick={() => handleToggle(0)} // Show Overview
+                    className={`w-full px-0 py-2 text-base text-[#20294C] border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
+                        value === 0
+                            ? 'bg-white border-2 dark:text-[#DADEF1] dark:bg-[#1F202B]'
+                            : 'bg-inherit text-[#646D8F] dark:text-[#ADB0BC]'
+                    }`}
+                >
+                    Overview
+                </button>
+            </li>
+            <li className="flex-none w-1/2 text-center md:flex-auto">
+                <button
+                    onClick={() => handleToggle(1)} // Show Call Data
+                    className={`w-full px-0 py-2 text-base text-[#20294C] border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
+                        value === 1
+                            ? 'bg-white border-2 dark:text-[#DADEF1] dark:bg-[#1F202B]'
+                            : 'bg-inherit text-[#646D8F] dark:text-[#ADB0BC]'
+                    }`}
+                >
+                    Call Data
+                </button>
+            </li>
+            {transactionDetails?.logsDetails.numberOfUserOps !== 0 && (
+                <li className="flex-none w-1/2 text-center md:flex-auto">
+                    <button
+                        onClick={() => handleToggle(2)} // Show UserOps
+                        className={`w-full px-0 py-2 text-base text-[#20294C] border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
+                            value === 2
+                                ? 'bg-white border-2 dark:text-[#DADEF1] dark:bg-[#1F202B]'
+                                : 'bg-inherit text-[#646D8F] dark:text-[#ADB0BC]'
+                        }`}
+                    >
+                        UserOps
+                    </button>
+                </li>
+            )}
+            {(network === 'base' ||
+                network === 'odyssey' ||
+                network === 'open-campus-test') &&
+                transactionDetails?.logsDetails.numberOfUserOps !== 0 && (
+                    <li className="flex-none w-1/2 text-center md:flex-auto">
+                        <button
+                            onClick={() => handleToggle(3)} // Show Tracer
+                            className={`w-full px-0 py-2 text-base text-[#20294C] dark:text-[#DADEF1] border-[#D7DAE0] dark:border-[#3B3C40] rounded-lg ${
+                                value === 3
+                                    ? 'bg-white border-2 dark:bg-[#1F202B]'
+                                    : 'bg-inherit text-[#646D8F] dark:text-[#ADB0BC]'
+                            }`}
+                        >
+                            Tracer
+                        </button>
+                    </li>
+                )}
+        </ul>
+    </div>
                         <div className="-mx-3 border-b border-[#D7DAE0] dark:border-[#3B3C40] my-4"></div>
 
                         <div className="container xl:px-[5rem] min-[1450px]:px-[0rem]">
