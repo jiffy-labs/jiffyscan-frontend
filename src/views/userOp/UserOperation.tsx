@@ -1,6 +1,6 @@
 import Footer from '@/components/global/footer/Footer';
 import Navbar from '@/components/global/navbar/Navbar';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Box, IconButton, Tab, Tabs, Typography } from '@mui/material';
 import Status from '@/components/common/status/Status';
 import { formatDistanceToNow, format } from 'date-fns';
@@ -45,6 +45,7 @@ import { SlHome } from 'react-icons/sl';
 import { MdArrowDropDown, MdContentCopy } from 'react-icons/md';
 import { HiHashtag } from 'react-icons/hi';
 import { useTheme } from '@/context/ThemeContext';
+import { GetServerSideProps } from 'next';
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const passedTime = (time: number) => {
     let currentTime = new Date().getTime();
@@ -162,9 +163,39 @@ interface TracerData {
     relevantTraces: Trace[];
 }
 
-function RecentUserOps(props: any) {
+interface RecentUserOpsProps {
+    initialUserOps?: UserOp[];
+    slug?: string[];
+  }
+  
+  export const getServerSideProps: GetServerSideProps = async (context) => {
+    const hash = context.params?.slug?.[0];
+    
+    try {
+      if (hash) {
+        const initialUserOps = await getUserOp(hash, null, '');
+        return {
+          props: {
+            initialUserOps,
+            slug: context.params?.slug || null,
+          },
+        };
+      }
+    } catch (error) {
+      console.error('Error in SSR data fetching:', error);
+    }
+  
+    return {
+      props: {
+        initialUserOps: null,
+        slug: context.params?.slug || null,
+      },
+    };
+  };
+
+function RecentUserOps(props: RecentUserOpsProps) {
     const router = useRouter();
-    const [tableLoading, setTableLoading] = useState(true);
+    const [tableLoading, setTableLoading] = useState(!props.initialUserOps);
     const { selectedNetwork, setSelectedNetwork, addressMapping } = useConfig();
     const [isLoading, setIsLoading] = useState(true);
     const { section } = router.query;
@@ -172,7 +203,7 @@ function RecentUserOps(props: any) {
     const hash = props.slug && props.slug[0];
     const network = router.query && router.query.network;
     const [selectedColor, setSelectedColor] = useState(BUTTON_LIST[0].key);
-    const [userOpsData, setuserOpsData] = useState<UserOp[]>([] as UserOp[]);
+    const [userOpsData, setuserOpsData] = useState<UserOp[]>(props.initialUserOps || []);
     const [showUserOpId, setShowUserOpId] = useState<number>(0);
     const [responseData, setresponseData] = useState<PoweredBy>();
     const [metaData, setMetaData] = useState<metadata>();
@@ -183,15 +214,31 @@ function RecentUserOps(props: any) {
     const [value, setValue] = React.useState(0);
     const { isDarkMode } = useTheme();// Access theme context
     const [tracer, setTracer] = useState<TracerData | null>(null);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(!props.initialUserOps);
     const [isVisible, setIsVisible] = useState(false);
     const { query } = router;
     
-    // Show floating instructions when the content is loading
+    const pollingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const lastFetchedHashRef = useRef<string | null>(null);
+    const lastTracerFetchRef = useRef<{
+        hash: string;
+        network: string;
+        id: number;
+    } | null>(null);
+
+    // Clear polling timeout on unmount
+    useEffect(() => {
+        return () => {
+            if (pollingTimeoutRef.current) {
+                clearTimeout(pollingTimeoutRef.current);
+            }
+        };
+    }, []);
+
     useEffect(() => {
         if (tableLoading) {
             setIsVisible(true);
-            const timeout = setTimeout(() => setIsVisible(false), 7000); // Hide after 5 seconds
+            const timeout = setTimeout(() => setIsVisible(false), 7000);
             return () => clearTimeout(timeout);
         }
     }, [tableLoading]);
@@ -237,33 +284,7 @@ function RecentUserOps(props: any) {
             window.removeEventListener('keydown', handleKeyDown);
         };
     }, [network, router]);
-    useEffect(() => {
-        // Fetch tracer data if the network is valid and userOpId is defined
-        const fetchTracerData = async () => {
-            if (network === 'base' || network === 'odyssey' || network === 'open-campus-test') {
-                const currentOp = userOpsData[showUserOpId];
-                if (currentOp) {
-                    setLoading(true);
-                    try {
-                        const tracerResponse = await getUsserOpTrace(
-                            currentOp.userOpHash,
-                            network,
-                            toast,
-                            currentOp.sender,
-                            currentOp.transactionHash ?? undefined,
-                        );
-                        setTracer(tracerResponse as unknown as TracerData);
-                    } catch (error) {
-                        console.error('Error fetching tracer data:', error);
-                    } finally {
-                        setLoading(false);
-                    }
-                }
-            }
-        };
-
-        fetchTracerData();
-    }, [network, showUserOpId, userOpsData]);
+    
 
     useEffect(() => {
         if (section) setActiveTab(section);
@@ -272,7 +293,7 @@ function RecentUserOps(props: any) {
     const [copyTooltip, setCopyTooltip] = useState('Copy'); // Tooltip state for copy action
 
     const handleCopy = () => {
-        navigator.clipboard.writeText(hash); // Copy the hash to clipboard
+        navigator.clipboard.writeText(hash as string); // Copy the hash to clipboard
         setCopyTooltip('Copied!'); // Change tooltip to indicate success
         setTimeout(() => setCopyTooltip('Copy'), 1500); // Reset tooltip after 1.5s
     };
@@ -283,70 +304,144 @@ function RecentUserOps(props: any) {
         });
     };
 
-    async function returnUserOpData(hash: string, toast: any) {
-        let currentTime = new Date().getTime();
-        let userOp = await getUserOp(hash, toast, '');
-        while (userOp.length === 0) {
-            await sleep(1000);
-            userOp = await getUserOp(hash, toast);
-            if (passedTime(currentTime) > 10000) {
-                showToast(toast, 'Error fetching data');
-                break;
-            }
-        }
-        return userOp;
-    }
-
-     // Performance Optimized Callbacks
-  const handleDuplicateRowClick = useCallback((id: number) => {
-    setShowUserOpId(id);
-  }, []);
-
-  const refreshUserOpsTable = useCallback(async (name: string) => {
-    setTableLoading(true);
-
-    const pollUserOpData = async () => {
-      let userOps = await returnUserOpData(name, toast);
-      setuserOpsData(userOps);
-
-      if (logs.length === 0) {
-        const data = await fetchData(userOps?.[showUserOpId]);
-        setLogs(data.logs || []);
-      }
-
-      let rows = createDuplicateUserOpsRows(userOps, handleDuplicateRowClick);
-      setDuplicateUserOpsRows(rows);
-
-      if (userOps.length > 1) {
-        setShowUserOpId(-1);
-      }
-
-      if (userOps[0] && userOps[0].network) {
-        setSelectedNetwork(userOps[0].network);
-        setTableLoading(false);
-        setIsLoading(false);
-      }
-
-      if (userOps[0]?.timeSeenInAltMempool || userOps[0]?.timeSeenInMainMempool) {
-        setTimeout(pollUserOpData, 20000);
-      }
-    };
-
-    await pollUserOpData();
-  }, [logs, showUserOpId, handleDuplicateRowClick, setSelectedNetwork]);
-
-    let prevHash = hash;
-    useEffect(() => {
-        // Check if hash or network have changed
-        if (prevHash !== undefined) {
-            prevHash = hash;
-            const refreshTable = () => {
-                refreshUserOpsTable(hash as string);
+        // Optimized tracer data fetching
+        useEffect(() => {
+            const fetchTracerData = async () => {
+                if (network === 'base' || network === 'odyssey' || network === 'open-campus-test') {
+                    const currentOp = userOpsData[showUserOpId];
+                    if (!currentOp) return;
+    
+                    // Check if we've already fetched this combination
+                    const fetchKey = {
+                        hash: currentOp.userOpHash,
+                        network: network as string,
+                        id: showUserOpId
+                    };
+    
+                    // Skip if we've already fetched this exact combination
+                    if (lastTracerFetchRef.current && 
+                        lastTracerFetchRef.current.hash === fetchKey.hash &&
+                        lastTracerFetchRef.current.network === fetchKey.network &&
+                        lastTracerFetchRef.current.id === fetchKey.id) {
+                        return;
+                    }
+    
+                    setLoading(true);
+                    try {
+                        const tracerResponse = await getUsserOpTrace(
+                            currentOp.userOpHash,
+                            network,
+                            toast,
+                            currentOp.sender,
+                            currentOp.transactionHash ?? undefined,
+                        );
+                        setTracer(tracerResponse as unknown as TracerData);
+                        lastTracerFetchRef.current = fetchKey;
+                    } catch (error) {
+                        console.error('Error fetching tracer data:', error);
+                    } finally {
+                        setLoading(false);
+                    }
+                }
             };
-
-            refreshTable();
+    
+            fetchTracerData();
+        }, [network, showUserOpId, userOpsData]);
+    
+        async function returnUserOpData(hash: string, toast: any) {
+            let currentTime = new Date().getTime();
+            let userOp = await getUserOp(hash, toast, '');
+            while (userOp.length === 0) {
+                await sleep(1000);
+                userOp = await getUserOp(hash, toast);
+                if (passedTime(currentTime) > 10000) {
+                    showToast(toast, 'Error fetching data');
+                    break;
+                }
+            }
+            return userOp;
         }
-    }, [hash]);
+    
+        const handleDuplicateRowClick = useCallback((id: number) => {
+            setShowUserOpId(id);
+        }, []);
+    
+        // Optimized polling function
+        const pollUserOpData = useCallback(async (name: string) => {
+            const userOps = await returnUserOpData(name, toast);
+            setuserOpsData(userOps);
+    
+            if (logs.length === 0) {
+                const data = await fetchData(userOps?.[showUserOpId]);
+                setLogs(data.logs || []);
+            }
+    
+            let rows = createDuplicateUserOpsRows(userOps, handleDuplicateRowClick);
+            setDuplicateUserOpsRows(rows);
+    
+            if (userOps.length > 1) {
+                setShowUserOpId(-1);
+            }
+    
+            if (userOps[0] && userOps[0].network) {
+                setSelectedNetwork(userOps[0].network);
+                setTableLoading(false);
+                setIsLoading(false);
+            }
+    
+            // Only continue polling if the operation is still in mempool
+            if (userOps[0]?.timeSeenInAltMempool || userOps[0]?.timeSeenInMainMempool) {
+                pollingTimeoutRef.current = setTimeout(() => pollUserOpData(name), 20000);
+            } else {
+                // Clear polling if operation is no longer in mempool
+                if (pollingTimeoutRef.current) {
+                    clearTimeout(pollingTimeoutRef.current);
+                    pollingTimeoutRef.current = null;
+                }
+            }
+        }, [logs, showUserOpId, handleDuplicateRowClick, setSelectedNetwork]);
+    
+        const refreshUserOpsTable = useCallback(async (name: string) => {
+            // Skip if we already have SSR data and no polling is needed
+            if (props.initialUserOps && 
+                userOpsData.length > 0 && 
+                !tableLoading && 
+                !userOpsData[0]?.timeSeenInAltMempool && 
+                !userOpsData[0]?.timeSeenInMainMempool) {
+                return;
+            }
+    
+            // Skip if we're already fetching this hash
+            if (lastFetchedHashRef.current === name) {
+                return;
+            }
+    
+            setTableLoading(true);
+            lastFetchedHashRef.current = name;
+            
+            await pollUserOpData(name);
+        }, [props.initialUserOps, userOpsData, tableLoading, pollUserOpData]);
+        let prevHash = hash
+        useEffect(() => {
+            if (prevHash !== undefined && hash !== lastFetchedHashRef.current) {
+                refreshUserOpsTable(hash as string);
+            }
+        }, [hash, refreshUserOpsTable]);
+    
+        // Initialize data from SSR
+        useEffect(() => {
+            const userOps = props.initialUserOps || [];
+            if (userOps.length > 0) {
+                const rows = createDuplicateUserOpsRows(userOps, handleDuplicateRowClick);
+                setDuplicateUserOpsRows(rows);
+        
+                if (userOps[0].network) {
+                    setSelectedNetwork(userOps[0].network);
+                }
+            }
+        }, [props.initialUserOps, handleDuplicateRowClick, setSelectedNetwork]);
+        
+    
 
     const fetchUserOpMetadata = async (hash: string, network: string) => {
         const metaData = await getUserOpMetadata(hash as string, network, toast);
@@ -438,18 +533,6 @@ function RecentUserOps(props: any) {
             <section className="px-3 container mx-auto my-6 py-6 bg-white dark:bg-[#1F202B] shadow-lg rounded-xl border border-[#D7DAE0] dark:border-[#3B3C40]">
                 <div className="container">
                     <div className="flex flex-row sm:px-8 items-center">
-                        {/* <Link href="/" className="text-gray-500">
-                            <ArrowBackIcon
-                                style={{
-                                    height: '15px',
-                                    width: '15px',
-                                    marginRight: '20px',
-                                    marginLeft: '10px',
-                                    marginBottom: '3px',
-                                }}
-                            />
-                        </Link> */}
-
                         <Breadcrumbs aria-label="breadcrumb" className="font-gsans text-[#646D8F] text-md sm:text-base">
                             <Link underline="hover" color="inherit" href={'/' + (selectedNetwork ? '?network=' + selectedNetwork : '')}>
                                 <SlHome />
