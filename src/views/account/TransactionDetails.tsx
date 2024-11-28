@@ -12,6 +12,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton-2';
 import { MdArrowDropDown, MdArrowDropUp } from 'react-icons/md';
+import Image from 'next/image';
 export default function TransactionDetails({ item, network, addressMapping, tableLoading, tokenBalances }: any) {
     console.log('🚀 ~ file: TransactionDetails.tsx:11 ~ TransactionDetails ~ item:', item);
     const [tableLoading1, setTableLoading1] = useState(true);
@@ -112,7 +113,7 @@ export default function TransactionDetails({ item, network, addressMapping, tabl
                                                                 target={'_blank'}
                                                             >
                                                                 <button className="outline-none md:block hidden focus:outline-none ring-0 focus:ring-0">
-                                                                    <img src="/images/share.svg" alt="" />
+                                                                    <Image height={12} width={12} src="/images/share.svg" alt="" />
                                                                     {/* </Link> */}
                                                                 </button>
                                                             </Link>
@@ -164,7 +165,7 @@ export default function TransactionDetails({ item, network, addressMapping, tabl
                                                                 target={'_blank'}
                                                             >
                                                                 <button className="outline-none md:block hidden focus:outline-none ring-0 focus:ring-0">
-                                                                    <img src="/images/share.svg" alt="" />
+                                                                    <Image height={12} width={12}  src="/images/share.svg" alt="" />
                                                                     {/* </Link> */}
                                                                 </button>
                                                             </Link>
@@ -180,7 +181,7 @@ export default function TransactionDetails({ item, network, addressMapping, tabl
                                                                         ] && (
                                                                             <span className="text-bluegrey-300 text-[10px] leading-5 flex items-center gap-2 font-normal">
                                                                                 Power by{' '}
-                                                                                <img
+                                                                                <Image
                                                                                     src={
                                                                                         POWERED_BY_LOGO_MAP?.[
                                                                                             addressMapping?.[

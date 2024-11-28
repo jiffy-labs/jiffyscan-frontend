@@ -26,10 +26,13 @@ function RecentUserOps() {
         ReactGA.send({ hitType: 'pageview', page: window.location.pathname });
     }, []);
 
+    // Ensure slug is of type string[]
+    const normalizedSlug = Array.isArray(slug) ? slug : slug ? [slug] : [];
+
     return (
         <div>
             <SEO/>
-            <UserOperations slug={slug} />
+            <UserOperations slug={normalizedSlug} />
         </div>
     );
 }
