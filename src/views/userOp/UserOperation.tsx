@@ -98,16 +98,36 @@ function RecentUserOps(props: any) {
     const [duplicateUserOpsRows, setDuplicateUserOpsRows] = useState<tableDataT['rows']>([] as tableDataT['rows']);
     const { isLoggedIn } = useUserSession();
     const [activeTab, setActiveTab] = useState(section || 'overview');
-    useEffect(() => {
-        if (section) setActiveTab(section);
-    }, [section]);
 
-    const handleTabChange = (tabName: string) => {
-        router.push({
+useEffect(() => {
+    // If `section` is not provided, set the default to "overview" and update the URL
+    if (!section) {
+        router.push(
+            {
+                pathname: router.pathname,
+                query: { ...router.query, section: 'overview' },
+            },
+            undefined,
+            { shallow: true } // Avoid full page reload
+        );
+    } else {
+        setActiveTab(section);
+    }
+}, [section, router]);
+
+const handleTabChange = (tabName: string) => {
+    // Update the URL and set the active tab
+    router.push(
+        {
             pathname: router.pathname,
             query: { ...router.query, section: tabName },
-        });
-    };
+        },
+        undefined,
+        { shallow: true } // Avoid full page reload
+    );
+    setActiveTab(tabName);
+};
+
 
     const renderContent = () => {
         return (
