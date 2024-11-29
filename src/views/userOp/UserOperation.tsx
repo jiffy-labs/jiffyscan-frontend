@@ -479,7 +479,7 @@ function RecentUserOps(props: RecentUserOpsProps) {
     };
 
     const handleToggle = (index: number) => {
-        const sections = ['overview', 'call-data', 'logs', 'tracer'];
+        const sections = ['overview', 'dev_details', 'logs', 'tracer'];
         const selectedSection = sections[index];
 
         // Update the URL with the new section without reloading the page
