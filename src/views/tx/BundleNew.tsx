@@ -248,6 +248,21 @@ function BundlerNew(props: BundlerNewProps) {
     const { isDarkMode } = useTheme();
     const [tracerData, setTracerData] = useState<TracerData | null>(props.initialTracerData || null);
     const [isVisible, setIsVisible] = useState(false);
+    const { section } = router.query;
+    const { query } = router;
+    useEffect(() => {
+        // Ensure the URL reflects the default tab when no section is provided
+        if (!section) {
+            router.push(
+                {
+                    pathname: router.pathname,
+                    query: { ...query, section: 'overview' },
+                },
+                undefined,
+                { shallow: true } // Avoid full page reload
+            );
+        }
+    }, [section, query, router]);
 
     // Show floating instructions when the content is loading
     useEffect(() => {
@@ -407,6 +422,7 @@ function BundlerNew(props: BundlerNewProps) {
     const handleTabClick = (tabIndex: number) => {
         setActiveTab(tabIndex);
     };
+    
 
     const handleToggle = (index: number) => {
         setValue(index); // Update the current tab value

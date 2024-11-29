@@ -211,7 +211,7 @@ function RecentUserOps(props: RecentUserOpsProps) {
     const { isLoggedIn } = useUserSession();
     const [activeTab, setActiveTab] = useState(section || 'overview');
     const [showAllTargets, setShowAllTargets] = useState(false);
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = useState(0);
     const { isDarkMode } = useTheme();// Access theme context
     const [tracer, setTracer] = useState<TracerData | null>(null);
     const [loading, setLoading] = useState(!props.initialUserOps);
@@ -287,8 +287,18 @@ function RecentUserOps(props: RecentUserOpsProps) {
     
 
     useEffect(() => {
-        if (section) setActiveTab(section);
-    }, [section]);
+        // Ensure the URL reflects the default tab when no section is provided
+        if (!section) {
+            router.push(
+                {
+                    pathname: router.pathname,
+                    query: { ...query, section: 'overview' },
+                },
+                undefined,
+                { shallow: true } // Avoid full page reload
+            );
+        }
+    }, [section, query, router]);
 
     const [copyTooltip, setCopyTooltip] = useState('Copy'); // Tooltip state for copy action
 
@@ -479,7 +489,7 @@ function RecentUserOps(props: RecentUserOpsProps) {
     };
 
     const handleToggle = (index: number) => {
-        const sections = ['overview', 'call-data', 'logs', 'tracer'];
+        const sections = ['overview', 'dev_details', 'logs', 'tracer'];
         const selectedSection = sections[index];
 
         // Update the URL with the new section without reloading the page
