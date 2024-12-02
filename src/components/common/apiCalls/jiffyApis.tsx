@@ -517,142 +517,261 @@ export const getTopPaymasters = async (
     pageNo: number,
     toast: any,
 ): Promise<PayMasterActivity[]> => {
-    if (!performApiCall(selectedNetwork)) return [] as PayMasterActivity[];
+    const API_KEY = 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5';
 
-    const topPaymastersDataUrl = API_URL +
-            '/v0/getTopPaymasters?network=' +
-            selectedNetwork +
-            '&first=' +
-            pageSize +
-            '&skip=' +
-            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0);
-    
-    const options = {
-            headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
-    };
-
-    const response = await fetchRetry(topPaymastersDataUrl, options);
-
-    if (response.status != 200) {
-        showToast(toast, 'Error fetching data');
+    // Validate the selected network
+    if (!performApiCall(selectedNetwork)) {
+        // showToast(toast, 'Invalid network selected', 'error');
+        return [];
     }
-    const data = await response.json();
-    if ('paymasters' in data) {
-        if (data.paymasters.length == 0) {
-            showToast(toast, 'Could not find any paymasters', 'warning');
+
+    try {
+        // Construct query parameters
+        const queryParams = new URLSearchParams({
+            network: selectedNetwork,
+            first: pageSize.toString(),
+            skip: Math.max(0, pageNo * pageSize).toString(),
+        });
+
+        // Define fetch options
+        const options = {
+            headers: { 'x-api-key': API_KEY },
+        };
+
+        // Call API with retry logic
+        const response = await fetchRetry(
+            `${API_URL}/v0/getTopPaymasters?${queryParams}`,
+            options
+        );
+
+        // Handle non-successful response
+        if (!response.ok) {
+            showToast(toast, `Error fetching data: ${response.statusText}`, 'error');
+            return [];
         }
-        return data.paymasters as PayMasterActivity[];
+
+        // Parse and validate response
+        const data = await response.json();
+
+        if (data.paymasters?.length) {
+            return data.paymasters as PayMasterActivity[];
+        } else {
+            showToast(toast, 'No paymasters data found', 'warning');
+            return [];
+        }
+    } catch (error) {
+        // Handle unexpected errors
+        console.error('Error fetching top paymasters:', error);
+        showToast(toast, 'An error occurred while fetching paymasters data', 'error');
+        return [];
     }
-    return [] as PayMasterActivity[];
 };
 
-export const getTopBundlers = async (selectedNetwork: string, pageSize: number, pageNo: number, toast: any): Promise<Bundler[]> => {
-    if (!performApiCall(selectedNetwork)) return [] as Bundler[];
-    const response = await fetch(
-        API_URL +
-            '/v0/getTopBundlers?network=' +
-            selectedNetwork +
-            '&first=' +
-            pageSize +
-            '&skip=' +
-            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
-        {
-            headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
-        },
-    );
-    if (response.status != 200) {
-        showToast(toast, 'Error fetching data');
+
+export const getTopBundlers = async (
+    selectedNetwork: string,
+    pageSize: number,
+    pageNo: number,
+    toast: any
+): Promise<Bundler[]> => {
+    const API_KEY = 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5';
+
+    // Validate network selection
+    if (!performApiCall(selectedNetwork)) {
+        // showToast(toast, 'Invalid network selected');
+        return [];
     }
-    const data = await response.json();
-    if ('bundlers' in data) {
-        if (data.bundlers.length == 0) {
+
+    try {
+        // Construct query parameters
+        const queryParams = new URLSearchParams({
+            network: selectedNetwork,
+            first: pageSize.toString(),
+            skip: Math.max(0, pageNo * pageSize).toString(),
+        });
+
+        const response = await fetch(`${API_URL}/v0/getTopBundlers?${queryParams}`, {
+            headers: { 'x-api-key': API_KEY },
+        });
+
+        // Handle non-success response codes
+        if (!response.ok) {
+            showToast(toast, `Error fetching data: ${response.statusText}`);
+            return [];
+        }
+
+        const data = await response.json();
+
+        // Validate and return bundlers data
+        if (data.bundlers?.length) {
+            return data.bundlers as Bundler[];
+        } else {
+            showToast(toast, 'No bundlers data found');
+            return [];
+        }
+    } catch (error) {
+        // Handle unexpected errors
+        console.error('Error fetching top bundlers:', error);
+        showToast(toast, 'An error occurred while fetching bundlers data');
+        return [];
+    }
+};
+
+
+export const getTopFactories = async (
+    selectedNetwork: string,
+    pageSize: number,
+    pageNo: number,
+    toast: any
+): Promise<FactoryDetails[]> => {
+    const API_KEY = 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5';
+
+    // Validate the selected network
+    if (!performApiCall(selectedNetwork)) {
+        // showToast(toast, 'Invalid network selected', 'error');
+        return [];
+    }
+
+    try {
+        // Construct query parameters
+        const queryParams = new URLSearchParams({
+            network: selectedNetwork,
+            first: pageSize.toString(),
+            skip: Math.max(0, pageNo * pageSize).toString(),
+        });
+
+        // Make the API call
+        const response = await fetch(`${API_URL}/v0/getTopFactories?${queryParams}`, {
+            headers: { 'x-api-key': API_KEY },
+        });
+
+        // Check if the response is successful
+        if (!response.ok) {
+            showToast(toast, `Error fetching data: ${response.statusText}`, 'error');
+            return [];
+        }
+
+        // Parse and validate the data
+        const data = await response.json();
+
+        if (data.factories?.length) {
+            return data.factories as FactoryDetails[];
+        } else {
+            showToast(toast, 'No factories data found', 'warning');
+            return [];
+        }
+    } catch (error) {
+        // Handle unexpected errors
+        console.error('Error fetching top factories:', error);
+        showToast(toast, 'An error occurred while fetching factories data', 'error');
+        return [];
+    }
+};
+
+
+export const getLatestUserOps = async (
+    selectedNetwork: string,
+    pageSize: number,
+    pageNo: number,
+    toast: any
+): Promise<UserOp[]> => {
+    // Ensure API key is stored securely in environment variables in real-world applications
+    const API_KEY = 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5';
+
+    // Early exit for invalid network
+    if (!performApiCall(selectedNetwork)) {
+        // showToast(toast, 'Invalid network selected');
+        return [];
+    }
+
+    try {
+        // Construct the URL with query parameters
+        const queryParams = new URLSearchParams({
+            network: selectedNetwork,
+            first: pageSize.toString(),
+            skip: Math.max(0, pageNo * pageSize).toString(),
+        });
+
+        const response = await fetch(`${API_URL}/v0/getLatestUserOps?${queryParams}`, {
+            headers: { 'x-api-key': API_KEY },
+        });
+
+        // Handle non-200 response codes
+        if (!response.ok) {
+            showToast(toast, `Error fetching data: ${response.statusText}`);
+            return [];
+        }
+
+        const data = await response.json();
+
+        // Validate the presence of userOps in the response
+        if (data.userOps?.length) {
+            return data.userOps as UserOp[];
+        } else {
             showToast(toast, 'No data found');
+            return [];
         }
-        return data.bundlers as Bundler[];
+    } catch (error) {
+        // Handle network or parsing errors
+        console.error('Error fetching user operations:', error);
+        showToast(toast, 'An error occurred while fetching data');
+        return [];
     }
-    return [] as Bundler[];
 };
 
-export const getTopFactories = async (selectedNetwork: string, pageSize: number, pageNo: number, toast: any): Promise<FactoryDetails[]> => {
-    if (!performApiCall(selectedNetwork)) return [] as FactoryDetails[];
-    const response = await fetch(
-        API_URL +
-            '/v0/getTopFactories?network=' +
-            selectedNetwork +
-            '&first=' +
-            pageSize +
-            '&skip=' +
-            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
-        {
-            headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
-        },
-    );
-    if (response.status != 200) {
-        showToast(toast, 'Error fetching data');
+
+
+export const getLatestBundles = async (
+    selectedNetwork: string,
+    pageSize: number,
+    pageNo: number,
+    toast: any
+): Promise<Bundle[]> => {
+    const API_KEY = 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5';
+
+    // Validate network
+    if (!performApiCall(selectedNetwork)) {
+        // showToast(toast, 'Invalid network selected', 'error');
+        return [];
     }
-    const data = await response.json();
-    if ('factories' in data) {
-        if (data.factories.length == 0) {
-            showToast(toast, 'No data found');
+
+    try {
+        // Construct query parameters
+        const queryParams = new URLSearchParams({
+            network: selectedNetwork,
+            first: pageSize.toString(),
+            skip: Math.max(0, pageNo * pageSize).toString(),
+        });
+
+        // Fetch data
+        const response = await fetch(`${API_URL}/v0/getLatestBundles?${queryParams}`, {
+            headers: { 'x-api-key': API_KEY },
+        });
+
+        // Check for non-200 status
+        if (!response.ok) {
+            showToast(toast, `Error fetching bundles: ${response.statusText}`, 'error');
+            return [];
         }
-        return data.factories as FactoryDetails[];
+
+        // Parse JSON response
+        const data = await response.json();
+
+        // Validate response structure
+        if (data.bundles?.length) {
+            return data.bundles as Bundle[];
+        } else {
+            showToast(toast, 'No bundles data found', 'warning');
+            return [];
+        }
+    } catch (error) {
+        // Handle unexpected errors
+        console.error('Error fetching latest bundles:', error);
+        showToast(toast, 'An error occurred while fetching bundles data', 'error');
+        return [];
     }
-    return [] as FactoryDetails[];
 };
 
-export const getLatestUserOps = async (selectedNetwork: string, pageSize: number, pageNo: number, toast: any): Promise<UserOp[]> => {
-    if (!performApiCall(selectedNetwork)) return [] as UserOp[];
-    const response = await fetch(
-        API_URL +
-            '/v0/getLatestUserOps?network=' +
-            selectedNetwork +
-            '&first=' +
-            pageSize +
-            '&skip=' +
-            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
-        {
-            headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
-        },
-    );
-    if (response.status != 200) {
-        showToast(toast, 'Error fetching data');
-    }
-    const data = await response.json();
-    if ('userOps' in data) {
-        if (data.userOps.length == 0) {
-            showToast(toast, 'No data found');
-        }
-        return data.userOps as UserOp[];
-    }
-    return [] as UserOp[];
-};
-
-export const getLatestBundles = async (selectedNetwork: string, pageSize: number, pageNo: number, toast: any): Promise<Bundle[]> => {
-    if (!performApiCall(selectedNetwork)) return [] as Bundle[];
-    const response = await fetch(
-        API_URL +
-            '/v0/getLatestBundles?network=' +
-            selectedNetwork +
-            '&first=' +
-            pageSize +
-            '&skip=' +
-            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
-        {
-            headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
-        },
-    );
-    if (response.status != 200) {
-        showToast(toast, 'Error fetching data');
-    }
-    const data = await response.json();
-    if ('bundles' in data) {
-        if (data.bundles.length == 0) {
-            showToast(toast, 'Error fetching data');
-        }
-        return data.bundles as Bundle[];
-    }
-    return [] as Bundle[];
-};
 
 export const getDailyMetrics = async (selectedNetwork: string, noOfDays: number, toast: any): Promise<DailyMetric[]> => {
     if (!performApiCall(selectedNetwork)) return [] as DailyMetric[];
