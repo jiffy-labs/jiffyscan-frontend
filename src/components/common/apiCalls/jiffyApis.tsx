@@ -501,15 +501,30 @@ export const populateERC20TransfersWithTokenInfo = async (metaData: metadata): P
 };
 
 export const getAddressMapping = async (): Promise<AddressMapping> => {
-    const response = await fetch('https://xe2kr8t49e.execute-api.us-east-2.amazonaws.com/default/getAAAddressMapping', {
-        headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
-    });
-    if (response.status != 200) {
+    try {
+        // Make API call to get address mapping
+        const response = await fetch('https://xe2kr8t49e.execute-api.us-east-2.amazonaws.com/default/getAAAddressMapping', {
+            headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
+        });
+
+        // Check if the response is successful (status 200)
+        if (!response.ok) {
+            console.error('Error fetching address mapping:', response.statusText);
+            return {} as AddressMapping;  // Return empty object in case of error
+        }
+
+        // Parse the JSON response
+        const data = await response.json();
+
+        // Ensure the data is in the expected format
+        return data as AddressMapping;
+    } catch (error) {
+        // Log any unexpected errors and return an empty object
+        console.error('Error resolving address mapping:', error);
         return {} as AddressMapping;
     }
-    const data = await response.json();
-    return data;
 };
+
 
 export const getTopPaymasters = async (
     selectedNetwork: string,
@@ -1322,20 +1337,31 @@ export const createAPIKey = async (Authorization: string, toast: any) => {
     }
 };
 
-export const resolveBNSAddress = async (address: String, network: string): Promise<String> => {
-    let name = '';
 
-    if (address && address.length > 2 && address.slice(0, 2) == '0x' && address.length == 42) {
-        const BnsResponse = await axios.get('https://resolver-api.basename.app/v1/addresses/' + address.toString(), {
+export const resolveBNSAddress = async (address: String, network: string): Promise<string> => {
+    // Validate address
+    if (!address || address.length !== 42 || !address.startsWith('0x')) {
+        console.error('Invalid Ethereum address');
+        return '';  // Return empty string if address is invalid
+    }
+
+    try {
+        // Make API call to resolve the address
+        const BnsResponse = await axios.get(`https://resolver-api.basename.app/v1/addresses/${address}`, {
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
             },
         });
-        name = BnsResponse?.data?.name ? BnsResponse.data.name : '';
+
+        // Return the resolved name or empty string if not found
+        return BnsResponse?.data?.name || '';
+    } catch (error) {
+        console.error('Error resolving BNS address:', error);
+        return '';  // Return empty string in case of an error
     }
-    return name;
 };
+
 
 
 export const fetchData = async (item : ItemProps) => {
