@@ -497,14 +497,10 @@ function BundlerNew(props: BundlerNewProps) {
                             <Status type={true} />
                         ) : (
                              // @ts-ignore
-                            <SkeletonTheme
-                                lightColor="#F0F1F5" // Light mode background color
-                                darkColor="#1D1E1F" // Dark mode background color
-                                lightHighlightColor="#D7DAE0" // Light mode highlight color
-                                darkHighlightColor="#444" // Dark mode highlight color
-                            >
-                                <Skeleton width={92} height={24} />
-                            </SkeletonTheme>
+                             <div
+                             className={`w-52 h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse`}
+                             style={{ width: 50 }} // Optional: set specific width if needed
+                         />
                         )}
                     </div>
                     {/* <h1 className="text-3xl font-bold">Bundle</h1> */}
