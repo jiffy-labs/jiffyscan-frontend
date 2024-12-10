@@ -58,7 +58,7 @@ export default function MyApp({ Component, pageProps: { session, ...pageProps } 
 
     const handleSwitchToV2 = () => {
         const currentUrl = new URL(window.location.href);
-        currentUrl.hostname = 'www.jiffyscan.xyz';
+        currentUrl.hostname = 'https://v1.jiffyscan.xyz/';
         window.location.href = currentUrl.toString();
     };
 
