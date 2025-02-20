@@ -210,7 +210,7 @@ export interface tokenTransferAlchemy {
 // }
 export interface NetworkResponse {
     message?: string;
-  }
+}
 
 export interface FactoryDetails {
     id: string;
@@ -383,11 +383,17 @@ export const getUserOpMetadata = async (userOpHash: string, network: string, toa
     return data;
 };
 
-export const getUsserOpTrace = async (userOpHash: string, network: string, toast: any, sender?: string, trxHash?: string): Promise<metadata> => {
+export const getUsserOpTrace = async (
+    userOpHash: string,
+    network: string,
+    toast: any,
+    sender?: string,
+    trxHash?: string,
+): Promise<metadata> => {
     let response;
     try {
-        let apiUrl = `https://api-dev.jiffyscan.xyz/v0/getUserOpTraces?userOpHash=${userOpHash}&network=${network}`;
-        
+        let apiUrl = `https://api.jiffyscan.xyz/v0/getUserOpTraces?userOpHash=${userOpHash}&network=${network}`;
+
         // If the network is 'odyssey', add 'sender' and 'trxHash' to the API call
         if (network === 'odyssey') {
             apiUrl += `&sender=${sender}&trxHash=${trxHash}`;
@@ -401,7 +407,7 @@ export const getUsserOpTrace = async (userOpHash: string, network: string, toast
         showToast(toast, 'Error fetching metadata');
         return {} as metadata;
     }
-    
+
     if (response.status !== 200) {
         showToast(toast, 'Error fetching metadata');
         return {} as metadata;
@@ -411,11 +417,10 @@ export const getUsserOpTrace = async (userOpHash: string, network: string, toast
     return data;
 };
 
-
 export const getTrxTraces = async (trxHash: string, network: string, toast: any): Promise<metadata> => {
     let response;
     try {
-        response = await fetch(`https://api-dev.jiffyscan.xyz/v0/getTrxTraces?network=${network}&trxHash=${trxHash}`, {
+        response = await fetch(`https://api.jiffyscan.xyz/v0/getTrxTraces?network=${network}&trxHash=${trxHash}`, {
             method: 'GET',
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         });
@@ -432,7 +437,6 @@ export const getTrxTraces = async (trxHash: string, network: string, toast: any)
     const data = await response.json();
     return data;
 };
-
 
 export const populateERC20TransfersWithTokenInfo = async (metaData: metadata): Promise<metadata> => {
     let populatedMetaData = metaData;
@@ -468,16 +472,17 @@ export const getTopPaymasters = async (
 ): Promise<PayMasterActivity[]> => {
     if (!performApiCall(selectedNetwork)) return [] as PayMasterActivity[];
 
-    const topPaymastersDataUrl = API_URL +
-            '/v0/getTopPaymasters?network=' +
-            selectedNetwork +
-            '&first=' +
-            pageSize +
-            '&skip=' +
-            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0);
-    
+    const topPaymastersDataUrl =
+        API_URL +
+        '/v0/getTopPaymasters?network=' +
+        selectedNetwork +
+        '&first=' +
+        pageSize +
+        '&skip=' +
+        (pageNo * pageSize >= 0 ? pageNo * pageSize : 0);
+
     const options = {
-            headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
+        headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
     };
 
     const response = await fetchRetry(topPaymastersDataUrl, options);
@@ -497,7 +502,7 @@ export const getTopPaymasters = async (
 
 export const getTopBundlers = async (selectedNetwork: string, pageSize: number, pageNo: number, toast: any): Promise<Bundler[]> => {
     if (!performApiCall(selectedNetwork)) return [] as Bundler[];
-    try{
+    try {
         const response = await fetch(
             API_URL +
                 '/v0/getTopBundlers?network=' +
@@ -521,11 +526,10 @@ export const getTopBundlers = async (selectedNetwork: string, pageSize: number, 
             return data.bundlers as Bundler[];
         }
         return [] as Bundler[];
-    }
-    catch(error){
+    } catch (error) {
         showToast(toast, 'An unexpected error occurred');
         console.error('Error fetching top bundlers:', error);
-        return [] as Bundler[];// Return empty array in case of a network error
+        return [] as Bundler[]; // Return empty array in case of a network error
     }
 };
 
@@ -583,12 +587,7 @@ export const getLatestUserOps = async (selectedNetwork: string, pageSize: number
     return [] as UserOp[];
 };
 
-export const getLatestBundles = async (
-    selectedNetwork: string,
-    pageSize: number,
-    pageNo: number,
-    toast: any,
-): Promise<Bundle[]> => {
+export const getLatestBundles = async (selectedNetwork: string, pageSize: number, pageNo: number, toast: any): Promise<Bundle[]> => {
     if (!performApiCall(selectedNetwork)) return [] as Bundle[];
 
     try {
@@ -687,25 +686,24 @@ export const getUserOp = async (userOpHash: string, toast: any, Authorization?: 
     const header = {
         'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5',
     } as Headers;
- 
+
     if (Authorization) {
         header['Authorization'] = Authorization;
     }
     const response = await fetch(API_URL + '/v0/getUserOp?hash=' + userOpHash, {
         headers: header,
     });
-    console.log(API_URL)
+    console.log(API_URL);
     if (response.status != 200) {
         showToast(toast, 'Error fetching data');
     }
     const data = await response.json();
-    console.log("userop fetched :", data)
+    console.log('userop fetched :', data);
     if ('userOps' in data) {
         // if (data.userOps.length == 0) {
         //     showToast(toast, 'Error fetching data');
         // }
-        
-      
+
         return data.userOps as UserOp[];
     }
 
@@ -1081,7 +1079,7 @@ export const getBundlerDetails = async (
     toast: any,
 ): Promise<Bundle> => {
     if (!performApiCall(selectedNetwork)) return {} as Bundle;
-    try{
+    try {
         const response = await fetch(
             API_URL +
                 '/v0/getBundlerActivity?address=' +
@@ -1108,8 +1106,7 @@ export const getBundlerDetails = async (
             return data.bundlerDetails as Bundle;
         }
         return {} as Bundle;
-    }
-    catch(error){
+    } catch (error) {
         showToast(toast, 'An unexpected error occurred');
         console.error('Error fetching bundler details:', error);
         return {} as Bundle; // Return an empty object in case of a network error
@@ -1156,16 +1153,15 @@ export const resolveBNSAddress = async (address: String, network: string): Promi
     let name = '';
 
     if (address && address.length > 2 && address.slice(0, 2) == '0x' && address.length == 42) {
-        try{
-        const BnsResponse = await axios.get('https://resolver-api.basename.app/v1/addresses/' + address.toString(), {
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Content-Type': 'application/json',
-            },
-        });
-        name = BnsResponse?.data?.name ? BnsResponse.data.name : '';
-        }
-        catch(error){
+        try {
+            const BnsResponse = await axios.get('https://resolver-api.basename.app/v1/addresses/' + address.toString(), {
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Type': 'application/json',
+                },
+            });
+            name = BnsResponse?.data?.name ? BnsResponse.data.name : '';
+        } catch (error) {
             // console.error('Error resolving BNS address:',error);
             Sentry.captureException(error); // Report error to Sentry
             name = ''; // or return a default value if needed
@@ -1174,13 +1170,12 @@ export const resolveBNSAddress = async (address: String, network: string): Promi
     return name;
 };
 
-
 export const fetchData = async (item: ItemProps) => {
     let data;
     try {
         const res = await fetch(`${API_URL}/v0/getUserOpLogs?userOpHash=${item.userOpHash}&network=${item.network}`, {
             headers: {
-                'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5', 
+                'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5',
             },
         });
         if (!res.ok) {
@@ -1188,23 +1183,23 @@ export const fetchData = async (item: ItemProps) => {
         }
         data = await res.json();
     } catch (error) {
-        console.error("Error fetching data: ", error);
-        data = {};  // failed - empty logs
+        console.error('Error fetching data: ', error);
+        data = {}; // failed - empty logs
     }
     return data;
 };
 
-
-
 export const fetchNetworkData = async (term: string): Promise<NetworkResponse[]> => {
     return Promise.all(
-      Object.entries(NETWORK_LIST).map(async ([_, networkItem]) => {
-        if (typeof networkItem === 'object' && networkItem !== null && 'key' in networkItem) {
-          const response = await fetch(`https://api.jiffyscan.xyz/v0/searchEntry?entry=${encodeURIComponent(term)}&network=${networkItem.key}`);
-          return response.json();
-        } else {
-          throw new Error(`Invalid network item`);
-        }
-      })
+        Object.entries(NETWORK_LIST).map(async ([_, networkItem]) => {
+            if (typeof networkItem === 'object' && networkItem !== null && 'key' in networkItem) {
+                const response = await fetch(
+                    `https://api.jiffyscan.xyz/v0/searchEntry?entry=${encodeURIComponent(term)}&network=${networkItem.key}`,
+                );
+                return response.json();
+            } else {
+                throw new Error(`Invalid network item`);
+            }
+        }),
     );
-  };
+};
