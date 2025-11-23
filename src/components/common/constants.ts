@@ -258,6 +258,11 @@ export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
     monad: 'http://monadvision.com'
 };
 
+export const NETWORK_RPC_MAP: { [key: string]: string } = {
+    'monad-testnet': 'https://testnet-rpc.monad.xyz',
+    // Add more RPC URLs as needed for other networks
+};
+
 export const ENTRY_POINT_ADDRESS_MAP: { [key: string]: string } = {
     V5: '0x0576a174D229E3cFA37253523E645A78A0C91B57',
     V6: '0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789',

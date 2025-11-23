@@ -1,8 +1,9 @@
 import LinkAndCopy from '@/components/common/LinkAndCopy';
 import { NETWORK_SCANNER_MAP } from '@/components/common/constants';
-import { getFee, shortenString } from '@/components/common/utils';
+import { shortenString } from '@/components/common/utils';
 import { Divider } from '@mui/material';
 import React from 'react';
+import { useERC20Metadata } from '@/hooks/useTokenMetadata';
 
 export interface ERC20Transfer {
     key: number;
@@ -32,39 +33,11 @@ function getValue(value: string, decimals: number | null) {
     }
 }
 
-// TODO: Implement serverless function to fetch token metadata via RPC call
-// This function will be called when metadata (decimals, symbol, name) is missing
-// but we have the token address and network
-async function fetchTokenMetadata(tokenAddress: string, network: string): Promise<{
-    decimals: number | null;
-    symbol: string | null;
-    name: string | null;
-}> {
-    // Placeholder for future implementation
-    // Will make RPC call to blockchain to get token metadata
-    // Example: Call ERC20 contract methods: decimals(), symbol(), name()
-    console.log(`TODO: Fetch metadata for token ${tokenAddress} on network ${network}`);
-    return {
-        decimals: null,
-        symbol: null,
-        name: null
-    };
-}
-
 function ERC20Transfers({ key, address, symbol, from, to, value, decimals, name, sender, selectedNetwork }: ERC20Transfer) {
+    // Use custom hook to fetch metadata if missing (only for monad-testnet)
+    const metadata = useERC20Metadata(address, selectedNetwork, decimals, symbol, name);
 
-    // Case 1: All metadata is present (decimals, symbol, name)
-    const hasAllMetadata = decimals !== null && symbol && name;
-
-    // Case 2: Missing metadata but have address and network to make RPC call
-    const canFetchMetadata = !hasAllMetadata && address && selectedNetwork;
-
-    // Trigger RPC call if we need to fetch metadata
-    React.useEffect(() => {
-        if (canFetchMetadata) {
-            fetchTokenMetadata(address!, selectedNetwork);
-        }
-    }, [address, selectedNetwork, canFetchMetadata]);
+    const hasAllMetadata = metadata.decimals !== null && metadata.symbol && metadata.name;
 
     // Render the amount/value section
     const renderAmount = () => {
@@ -73,19 +46,28 @@ function ERC20Transfers({ key, address, symbol, from, to, value, decimals, name,
             return (
                 <div className="">
                     Amount:&nbsp;
-                    {getValue(value, decimals)}{' '}
-                    {symbol}{' '}
-                    ({<LinkAndCopy link={NETWORK_SCANNER_MAP[selectedNetwork] + "/address/" + address} text={name} copyText={null} />})
+                    {getValue(value, metadata.decimals)}{' '}
+                    {metadata.symbol}{' '}
+                    ({<LinkAndCopy link={NETWORK_SCANNER_MAP[selectedNetwork] + "/address/" + address} text={metadata.name!} copyText={null} />})
                 </div>
             );
         }
 
-        // Case 2: Have from, to, value, address, selectedNetwork but missing metadata - show raw value
+        // Case 2: Missing metadata - show unavailable, or raw value if RPC failed
         if (from && to && value && address && selectedNetwork) {
+            if (metadata.rpcFailed) {
+                // RPC call failed - show raw value as fallback
+                return (
+                    <div className="">
+                        Value: {value}
+                        {address ? <> ({<LinkAndCopy link={NETWORK_SCANNER_MAP[selectedNetwork] + "/address/" + address} text="Token" copyText={null} />})</> : ''}
+                    </div>
+                );
+            }
+            // RPC call pending or not yet attempted - show unavailable
             return (
                 <div className="">
-                    Value: {value}
-                    {address ? <> ({<LinkAndCopy link={NETWORK_SCANNER_MAP[selectedNetwork] + "/address/" + address} text="Token" copyText={null} />})</> : ''}
+                    Value: unavailable
                 </div>
             );
         }

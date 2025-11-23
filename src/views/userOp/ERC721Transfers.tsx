@@ -1,8 +1,9 @@
 import LinkAndCopy from '@/components/common/LinkAndCopy';
 import { NETWORK_SCANNER_MAP } from '@/components/common/constants';
-import { getFee, shortenString } from '@/components/common/utils';
+import { shortenString } from '@/components/common/utils';
 import { Divider } from '@mui/material';
 import React from 'react';
+import { useERC721Metadata } from '@/hooks/useTokenMetadata';
 
 export interface ERC721Transfer {
     key: number;
@@ -17,37 +18,11 @@ export interface ERC721Transfer {
     selectedNetwork: string;
 }
 
-// TODO: Implement serverless function to fetch NFT metadata via RPC call
-// This function will be called when metadata (symbol, name) is missing
-// but we have the token address and network
-async function fetchNFTMetadata(tokenAddress: string, network: string): Promise<{
-    symbol: string | null;
-    name: string | null;
-}> {
-    // Placeholder for future implementation
-    // Will make RPC call to blockchain to get NFT metadata
-    // Example: Call ERC721 contract methods: symbol(), name()
-    console.log(`TODO: Fetch NFT metadata for token ${tokenAddress} on network ${network}`);
-    return {
-        symbol: null,
-        name: null
-    };
-}
-
 function ERC721Transfers({ key, address, symbol, from, to, tokenId, decimals, name, sender, selectedNetwork }: ERC721Transfer) {
+    // Use custom hook to fetch metadata if missing (only for monad-testnet)
+    const metadata = useERC721Metadata(address, selectedNetwork, symbol, name);
 
-    // Case 1: All metadata is present (symbol, name)
-    const hasAllMetadata = symbol && name;
-
-    // Case 2: Missing metadata but have address and network to make RPC call
-    const canFetchMetadata = !hasAllMetadata && address && selectedNetwork;
-
-    // Trigger RPC call if we need to fetch metadata
-    React.useEffect(() => {
-        if (canFetchMetadata) {
-            fetchNFTMetadata(address!, selectedNetwork);
-        }
-    }, [address, selectedNetwork, canFetchMetadata]);
+    const hasAllMetadata = metadata.symbol && metadata.name;
 
     // Render the tokenId/value section
     const renderTokenInfo = () => {
@@ -61,18 +36,27 @@ function ERC721Transfers({ key, address, symbol, from, to, tokenId, decimals, na
                         link={NETWORK_SCANNER_MAP[selectedNetwork] + '/token/' + address + '?a=' + parseInt(tokenId)}
                         copyText={null}
                     />{' '}
-                    {symbol} (
-                    {<LinkAndCopy text={name} link={NETWORK_SCANNER_MAP[selectedNetwork] + '/token/' + address} copyText={null} />})
+                    {metadata.symbol} (
+                    {<LinkAndCopy text={metadata.name!} link={NETWORK_SCANNER_MAP[selectedNetwork] + '/token/' + address} copyText={null} />})
                 </div>
             );
         }
 
-        // Case 2: Have from, to, tokenId, address, selectedNetwork but missing metadata - show tokenId
+        // Case 2: Missing metadata - show unavailable, or tokenId if RPC failed
         if (from && to && tokenId && address && selectedNetwork) {
+            if (metadata.rpcFailed) {
+                // RPC call failed - show tokenId as fallback
+                return (
+                    <div>
+                        TokenId: {tokenId}
+                        {address ? <> ({<LinkAndCopy link={NETWORK_SCANNER_MAP[selectedNetwork] + "/token / " + address} text="NFT" copyText={null} />})</> : ''}
+                    </div >
+                );
+            }
+            // RPC call pending or not yet attempted - show unavailable
             return (
                 <div>
-                    TokenId: {tokenId}
-                    {address ? <> ({<LinkAndCopy link={NETWORK_SCANNER_MAP[selectedNetwork] + "/token/" + address} text="NFT" copyText={null} />})</> : ''}
+                    Value: unavailable
                 </div>
             );
         }
