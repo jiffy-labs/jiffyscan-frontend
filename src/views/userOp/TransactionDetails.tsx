@@ -458,7 +458,7 @@ function TransactionDetails({ tableLoading, skeletonCards, item, addressMapping,
                                         {item?.erc721Transfers?.length > 0 && (
                                             <InfoSection
                                                 icon="erc721"
-                                                title="ERC-20 Tokens Transferred"
+                                                title="ERC-721 Tokens Transferred"
                                                 content={
                                                     <div className="flex flex-col gap-[10px] w-full">
                                                         {item.erc721Transfers
