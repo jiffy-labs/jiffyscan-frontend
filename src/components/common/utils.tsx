@@ -42,6 +42,8 @@ export function getSymbol(network: string): string {
 export const getExplorerLogo = (network: string) => {
     if (network == 'fuse') return '/images/blockscout_logo.svg';
     else if (network == 'degen') return '/images/blockscout_logo.svg';
+    else if (network == 'monad-testnet') return '/images/moonvision-logo.svg';
+    else if (network == 'monad') return '/images/moonvision-logo.svg';
     else return '/images/graph.svg';
 };
 
