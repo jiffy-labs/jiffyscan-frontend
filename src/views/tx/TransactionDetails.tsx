@@ -21,8 +21,9 @@ type TokenPrices = {
     FTM: number;
     OP?: number;
     VANRY: number;
+    MON: number;
 };
- 
+
 export default function TransactionDetails({ item, network, tableLoading, block }: any) {
     const [tokenPrices, setTokenPrices] = useState<TokenPrices>({
         ETH: 0,
@@ -31,7 +32,8 @@ export default function TransactionDetails({ item, network, tableLoading, block 
         BNB: 0,
         AVAX: 0,
         FTM: 0,
-        VANRY:0
+        VANRY: 0,
+        MON: 0
 
     });
 
@@ -43,7 +45,7 @@ export default function TransactionDetails({ item, network, tableLoading, block 
             }
         }
     }, []);
-    
+
     let skeletonCards = Array(3).fill(0);
     const router = useRouter();
     return (
@@ -79,9 +81,8 @@ export default function TransactionDetails({ item, network, tableLoading, block 
                                                         <Link
                                                             underline="hover"
                                                             // color="text.primary"
-                                                            href={`/block/${item?.blockNumber!}?network=${
-                                                                item?.network ? item.network : ''
-                                                            }`}
+                                                            href={`/block/${item?.blockNumber!}?network=${item?.network ? item.network : ''
+                                                                }`}
                                                             aria-current="page"
                                                             className="text-blue-200"
                                                         >
@@ -95,9 +96,8 @@ export default function TransactionDetails({ item, network, tableLoading, block 
                                                         <Link
                                                             underline="hover"
                                                             // color="text.primary"
-                                                            href={`/block/${item?.blockNumber!}?network=${
-                                                                item?.network ? item.network : ''
-                                                            }`}
+                                                            href={`/block/${item?.blockNumber!}?network=${item?.network ? item.network : ''
+                                                                }`}
                                                             aria-current="page"
                                                             className="text-blue-200 "
                                                             target={'_blank'}
@@ -253,18 +253,18 @@ export default function TransactionDetails({ item, network, tableLoading, block 
                                                     <div className="flex items-center gap-[10px]">
                                                         <span className="text-dark-600 md:text-[14px] text-[16px] break-all leading-5">
                                                             <DisplayFee item={item?.transactionFee} network={item?.network} />
-                                                            
+
                                                         </span>
                                                         <div className="px-2 mt-2 bg-gray-200 rounded-lg">
-                                                        <span className="text-sm">
-                                                            {(
-                                                              tokenPrices[getTokenSymbolByNetwork(item?.network)] *
-                                                                parseFloat(formatUnits(item?.actualGasCost || '0', 'ether'))
-                                                            ).toFixed(3)} USD
-                                                        </span>
+                                                            <span className="text-sm">
+                                                                {(
+                                                                    tokenPrices[getTokenSymbolByNetwork(item?.network)] *
+                                                                    parseFloat(formatUnits(item?.actualGasCost || '0', 'ether'))
+                                                                ).toFixed(3)} USD
+                                                            </span>
 
 
-                                                    </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

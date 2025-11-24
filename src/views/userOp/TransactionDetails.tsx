@@ -38,6 +38,7 @@ type TokenPrices = {
     FTM: number;
     OP?: number;
     VANRY: number;
+    MON: number;
 };
 import React, { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton-2';
@@ -63,7 +64,7 @@ function TransactionDetails({ tableLoading, skeletonCards, item, addressMapping,
         AVAX: 0,
         FTM: 0,
         VANRY: 0,
-
+        MON: 0
     });
 
     useEffect(() => {
