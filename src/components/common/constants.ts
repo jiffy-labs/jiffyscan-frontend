@@ -209,6 +209,8 @@ export const NETWORK_ICON_MAP: NETWORK_ICON_MAP = {
     // 'base-testnet': '/images/base-logo.svg',
     base: '/images/base-logo.svg',
     'base-sepolia': '/images/base-logo.svg',
+    'monad-testnet': '/images/monad-logo.svg',
+    'monad': '/images/monad-logo.svg',
     // gnosis: '/images/gnosis-logo.svg',
     // bsc: '/images/bsc-logo.svg',
     // 'bnb-testnet': '/images/bsc-logo.svg',
