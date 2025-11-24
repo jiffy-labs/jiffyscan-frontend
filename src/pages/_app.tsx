@@ -37,43 +37,43 @@ const GeistMono = localFont({
 });
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
-    getLayout?: (page: ReactElement) => ReactNode;
+  getLayout?: (page: ReactElement) => ReactNode;
 };
 
 type AppPropsWithLayout = AppProps & {
-    Component: NextPageWithLayout;
+  Component: NextPageWithLayout;
 };
 
 const TRACKING_ID = 'G-8HQ9S4Z1YF';
 ReactGA.initialize(TRACKING_ID);
 
 export default function MyApp({ Component, pageProps: { session, ...pageProps } }: AppPropsWithLayout) {
-    // Use the layout defined at the page level, if available
-    useTokenPrices();
-    const getLayout = Component.getLayout ?? ((page) => page);
+  // Use the layout defined at the page level, if available
+  useTokenPrices();
+  const getLayout = Component.getLayout ?? ((page) => page);
 
-    const handleSwitchToV2 = () => {
-      const currentUrl = new URL(window.location.href);
-      currentUrl.hostname = 'v2.jiffyscan.xyz';
-      window.location.href = currentUrl.toString();
+  const handleSwitchToV2 = () => {
+    const currentUrl = new URL(window.location.href);
+    currentUrl.hostname = 'v2.jiffyscan.xyz';
+    window.location.href = currentUrl.toString();
   };
-  
-  
 
-    return (
-        <div className={`${GeistSans.variable} ${GeistMono.variable}`}>
-            <PHProvider>
-                <SessionProvider session={session}>
-                    <UserSessionStore>
-                        <NameServiceStore>
-                            <ConfigProvider>{getLayout(<div><TopBanner/><Component {...pageProps} /></div>)}</ConfigProvider>
-                            <HeapAnalytics />
-                        </NameServiceStore>
-                    </UserSessionStore>
-                </SessionProvider>
-                <Analytics />
-                {/* Floating Button for Switching to v2 */}
-                <button
+
+
+  return (
+    <div className={`${GeistSans.variable} ${GeistMono.variable}`}>
+      <PHProvider>
+        <SessionProvider session={session}>
+          <UserSessionStore>
+            <NameServiceStore>
+              <ConfigProvider>{getLayout(<div><TopBanner /><Component {...pageProps} /></div>)}</ConfigProvider>
+              <HeapAnalytics />
+            </NameServiceStore>
+          </UserSessionStore>
+        </SessionProvider>
+        <Analytics />
+        {/* Floating Button for Switching to v2 */}
+        {/* <button
                 id='switch-to-v2'
     onClick={handleSwitchToV2}
     className="fixed bottom-10 flex items-center gap-2 text-16 right-5 bg-[#EED5CD] border-2 font-kaisei font-semibold border-[#EEC3A4] text-[#3C40F1] py-2 px-4 rounded-lg transition duration-300 z-50 overflow-hidden" 
@@ -81,11 +81,11 @@ export default function MyApp({ Component, pageProps: { session, ...pageProps } 
     <img src="/sparkling.svg" alt="" />
     Switch to v2
 
-    {/* Glass Shine Effect */}
+    {/* Glass Shine Effect *\/}
     <span className="absolute inset-0 bg-white bg-opacity-20 backdrop-blur-xs animate-shine pointer-events-none rounded-lg"></span>
-</button>
+</button> */}
 
-            </PHProvider>
-        </div>
-    );
+      </PHProvider>
+    </div>
+  );
 }

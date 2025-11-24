@@ -42,6 +42,18 @@ export const NETWORK_LIST = [
     //     iconPathInverted: '/images/vanarlogo.svg',
     // },
     {
+        name: 'Monad',
+        key: 'monad',
+        iconPath: '/images/monad-logo.png',
+        iconPathInverted: '/images/monad-logo.png'
+    },
+    {
+        name: 'Monad Testnet',
+        key: 'monad-testnet',
+        iconPath: '/images/monad-logo.png',
+        iconPathInverted: '/images/monad-logo.png'
+    },
+    {
         name: 'Cyber Mainnet',
         key: 'cyber-mainnet',
         iconPath: '/images/cyber-logo.svg',
@@ -241,14 +253,23 @@ export const NETWORK_SCANNER_MAP: { [key: string]: string } = {
     'vanar-mainnet': 'https://explorer.vanarchain.com',
     testnet: 'https://explorer-vanguard.vanarchain.com',
     'open-campus-test': 'https://opencampus-codex.blockscout.com',
-    odyssey: 'https://odyssey-explorer.ithaca.xyz'
+    odyssey: 'https://odyssey-explorer.ithaca.xyz',
+    'monad-testnet': 'https://monad-testnet.socialscan.io',
+    monad: 'http://monadvision.com'
+};
+
+export const NETWORK_RPC_MAP: { [key: string]: string } = {
+    'monad-testnet': 'https://testnet-rpc.monad.xyz',
+    // Add more RPC URLs as needed for other networks
 };
 
 export const ENTRY_POINT_ADDRESS_MAP: { [key: string]: string } = {
     V5: '0x0576a174D229E3cFA37253523E645A78A0C91B57',
     V6: '0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789',
     V7: '0x0000000071727de22e5e9d8baf0edac6f37da032',
+    V8: '0x4337084D9E255Ff0702461CF8895CE9E3b5Ff108',
 };
+
 export const POWERED_BY_LOGO_MAP: { [id: string]: { [id: string]: string } } = {
     pimlico: {
         small: '/images/pimlico.svg',
