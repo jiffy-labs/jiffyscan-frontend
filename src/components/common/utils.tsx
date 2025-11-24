@@ -4,7 +4,7 @@ import { fee } from './table/Table';
 
 interface NetworkTokenMapping {
     [key: string]: string;
-  }
+}
 
 export const getTimePassed = (timestamp: number): string => {
     let timePassedInEpoch = new Date().getTime() - timestamp * 1000;
@@ -24,6 +24,8 @@ export function getSymbol(network: string): string {
     else if (network == 'mainnet') return 'ETH';
     else if (network == 'mumbai') return 'MATIC';
     else if (network == 'optimism-goerli') return 'ETH';
+    else if (network == "monad-testnet") return 'MON';
+    else if (network == "monad") return 'MON';
     else if (network == 'matic') return 'MATIC';
     else if (network == 'fuse') return 'FUSE';
     else if (network == 'bsc') return 'BNB';
@@ -33,7 +35,7 @@ export function getSymbol(network: string): string {
     else if (network == 'fantom') return 'FTM';
     else if (network == 'fantom-testnet') return 'FTM';
     else if (network == 'degen') return 'DEGEN';
-    else if (network == 'vanar-mainnet' || network == 'vanar-testnet' ) return 'VANRY';
+    else if (network == 'vanar-mainnet' || network == 'vanar-testnet') return 'VANRY';
     else return 'ETH';
 }
 
@@ -151,6 +153,8 @@ const networkTokenMapping = {
     'mainnet': 'ETH',
     'mumbai': 'MATIC',
     'optimism-goerli': 'ETH',
+    'monad-testnet': 'MON',
+    'monad': 'MON',
     'matic': 'MATIC',
     'fuse': 'FUSE',
     'bsc': 'BNB',
@@ -162,16 +166,15 @@ const networkTokenMapping = {
     'fantom-testnet': 'FTM',
     'vanar-testnet': 'VANRY',
     'vanar-mainnet': 'VANRY',
-  } as const;
-  
+} as const;
 
-  type Network = keyof typeof networkTokenMapping;
-  
 
-  type TokenSymbol = typeof networkTokenMapping[Network];
-  
-  
-  export const getTokenSymbolByNetwork = (network: string): TokenSymbol => {
+type Network = keyof typeof networkTokenMapping;
+
+
+type TokenSymbol = typeof networkTokenMapping[Network];
+
+
+export const getTokenSymbolByNetwork = (network: string): TokenSymbol => {
     return networkTokenMapping[network as Network] || 'ETH';
-  };
-  
+};

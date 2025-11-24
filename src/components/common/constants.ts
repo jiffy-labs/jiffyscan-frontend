@@ -18,6 +18,12 @@ export const NETWORK_LIST = [
         iconPathInverted: '/images/ethereum-logo-rainbow.svg',
     },
     {
+        name: 'Monad',
+        key: 'monad',
+        iconPath: '/images/monad-logo.png',
+        iconPathInverted: '/images/monad-logo.png'
+    },
+    {
         name: 'Base',
         key: 'base',
         iconPath: '/images/base-logo.svg',
@@ -41,12 +47,6 @@ export const NETWORK_LIST = [
     //     iconPath: '/images/vanarlogo.svg',
     //     iconPathInverted: '/images/vanarlogo.svg',
     // },
-    {
-        name: 'Monad',
-        key: 'monad',
-        iconPath: '/images/monad-logo.png',
-        iconPathInverted: '/images/monad-logo.png'
-    },
     {
         name: 'Monad Testnet',
         key: 'monad-testnet',
