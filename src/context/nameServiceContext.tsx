@@ -1,6 +1,5 @@
 // context/user.js
 import { createContext, useContext, useState } from 'react';
-import { resolveBNSAddress } from '@/components/common/apiCalls/jiffyApis';
 // Creating the user context
 
 const NameServiceContext = createContext({} as NameService);
@@ -10,9 +9,10 @@ export interface NameService {
     getAddress: (name: string) => Promise<string>;
 }
 
+// BaseNameService has shut down, so name resolution is disabled
+// This function now returns empty string immediately
 const resolveAddress = async (address: String | undefined | null, network: string) => {
-    const name = await resolveBNSAddress(address ? address : '', network);
-    return name.toString();
+    return '';
 };
 
 // Making the function which will wrap the whole app using Context Provider
@@ -21,16 +21,8 @@ export default function NameServiceStore({ children }: any) {
     const [addressToNameMap, setAddressToNameMap] = useState<{ [key: string]: string }>({});
 
     const getName = async (address: string): Promise<string> => {
-        if (!(address in addressToNameMap)) {
-            const name = await resolveAddress(address, 'base');
-            if (name != '') {
-                setAddressToNameMap({ ...addressToNameMap, [address]: name });
-                setNameToAddressMap({ ...nameToAddressMap, [name]: address });
-                return name;
-            }
-        } else {
-            return addressToNameMap[address];
-        }
+        // BaseNameService has shut down, return empty string
+        // Components will fall back to displaying the address
         return '';
     };
 

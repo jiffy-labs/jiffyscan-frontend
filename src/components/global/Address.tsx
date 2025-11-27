@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { resolveBNSAddress } from '../common/apiCalls/jiffyApis';
 import { useConfig } from '@/context/config';
 import { useNameService } from '@/context/nameServiceContext';
 

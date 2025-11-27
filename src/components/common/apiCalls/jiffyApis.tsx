@@ -505,12 +505,12 @@ export const getTopBundlers = async (selectedNetwork: string, pageSize: number, 
     try {
         const response = await fetch(
             API_URL +
-                '/v0/getTopBundlers?network=' +
-                selectedNetwork +
-                '&first=' +
-                pageSize +
-                '&skip=' +
-                (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
+            '/v0/getTopBundlers?network=' +
+            selectedNetwork +
+            '&first=' +
+            pageSize +
+            '&skip=' +
+            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
             {
                 headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
             },
@@ -537,12 +537,12 @@ export const getTopFactories = async (selectedNetwork: string, pageSize: number,
     if (!performApiCall(selectedNetwork)) return [] as FactoryDetails[];
     const response = await fetch(
         API_URL +
-            '/v0/getTopFactories?network=' +
-            selectedNetwork +
-            '&first=' +
-            pageSize +
-            '&skip=' +
-            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
+        '/v0/getTopFactories?network=' +
+        selectedNetwork +
+        '&first=' +
+        pageSize +
+        '&skip=' +
+        (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -564,12 +564,12 @@ export const getLatestUserOps = async (selectedNetwork: string, pageSize: number
     if (!performApiCall(selectedNetwork)) return [] as UserOp[];
     const response = await fetch(
         API_URL +
-            '/v0/getLatestUserOps?network=' +
-            selectedNetwork +
-            '&first=' +
-            pageSize +
-            '&skip=' +
-            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
+        '/v0/getLatestUserOps?network=' +
+        selectedNetwork +
+        '&first=' +
+        pageSize +
+        '&skip=' +
+        (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -592,8 +592,7 @@ export const getLatestBundles = async (selectedNetwork: string, pageSize: number
 
     try {
         const response = await fetch(
-            `${API_URL}/v0/getLatestBundles?network=${selectedNetwork}&first=${pageSize}&skip=${
-                pageNo * pageSize >= 0 ? pageNo * pageSize : 0
+            `${API_URL}/v0/getLatestBundles?network=${selectedNetwork}&first=${pageSize}&skip=${pageNo * pageSize >= 0 ? pageNo * pageSize : 0
             }`,
             {
                 headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
@@ -720,14 +719,14 @@ export const getAddressActivity = async (
     if (!performApiCall(selectedNetwork)) return {} as AddressActivity;
     const response = await fetch(
         API_URL +
-            '/v0/getAddressActivity?address=' +
-            userOpHash +
-            '&network=' +
-            selectedNetwork +
-            '&first=' +
-            pageSize +
-            '&skip=' +
-            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
+        '/v0/getAddressActivity?address=' +
+        userOpHash +
+        '&network=' +
+        selectedNetwork +
+        '&first=' +
+        pageSize +
+        '&skip=' +
+        (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -755,14 +754,14 @@ export const getAddressBalances = async (
     if (!performApiCall(selectedNetwork)) return [] as tokenBalance[];
     const response = await fetch(
         API_URL +
-            '/v0/getAddressBalances?address=' +
-            userOpHash +
-            '&network=' +
-            selectedNetwork +
-            '&first=' +
-            pageSize +
-            '&skip=' +
-            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
+        '/v0/getAddressBalances?address=' +
+        userOpHash +
+        '&network=' +
+        selectedNetwork +
+        '&first=' +
+        pageSize +
+        '&skip=' +
+        (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -790,14 +789,14 @@ export const getAddressTransactions = async (
     if (!performApiCall(selectedNetwork)) return [] as Transaction[];
     const response = await fetch(
         API_URL +
-            '/v0/getAddressTransactions?address=' +
-            userOpHash +
-            '&network=' +
-            selectedNetwork +
-            '&first=' +
-            pageSize +
-            '&skip=' +
-            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
+        '/v0/getAddressTransactions?address=' +
+        userOpHash +
+        '&network=' +
+        selectedNetwork +
+        '&first=' +
+        pageSize +
+        '&skip=' +
+        (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -825,14 +824,14 @@ export const getAddressERC20Transfers = async (
     if (!performApiCall(selectedNetwork)) return [] as tokenTransferAlchemy[];
     const response = await fetch(
         API_URL +
-            '/v0/getAddressERC20Transfers?address=' +
-            userOpHash +
-            '&network=' +
-            selectedNetwork +
-            '&first=' +
-            pageSize +
-            '&skip=' +
-            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
+        '/v0/getAddressERC20Transfers?address=' +
+        userOpHash +
+        '&network=' +
+        selectedNetwork +
+        '&first=' +
+        pageSize +
+        '&skip=' +
+        (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -860,14 +859,14 @@ export const getAddressERC721Transfers = async (
     if (!performApiCall(selectedNetwork)) return [] as tokenTransferAlchemy[];
     const response = await fetch(
         API_URL +
-            '/v0/getAddressNFTTransfers?address=' +
-            userOpHash +
-            '&network=' +
-            selectedNetwork +
-            '&first=' +
-            pageSize +
-            '&skip=' +
-            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
+        '/v0/getAddressNFTTransfers?address=' +
+        userOpHash +
+        '&network=' +
+        selectedNetwork +
+        '&first=' +
+        pageSize +
+        '&skip=' +
+        (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -895,14 +894,14 @@ export const getFactoryDetails = async (
     if (!performApiCall(selectedNetwork)) return {} as FactoryDetails;
     const response = await fetch(
         API_URL +
-            '/v0/getFactoryDetails?factory=' +
-            factory +
-            '&network=' +
-            selectedNetwork +
-            '&first=' +
-            pageSize +
-            '&skip=' +
-            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
+        '/v0/getFactoryDetails?factory=' +
+        factory +
+        '&network=' +
+        selectedNetwork +
+        '&first=' +
+        pageSize +
+        '&skip=' +
+        (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -930,14 +929,14 @@ export const getPayMasterDetails = async (
     if (!performApiCall(selectedNetwork)) return {} as PayMasterActivity;
     const response = await fetch(
         API_URL +
-            '/v0/getPaymasterActivity?address=' +
-            userOpHash +
-            '&network=' +
-            selectedNetwork +
-            '&first=' +
-            pageSize +
-            '&skip=' +
-            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
+        '/v0/getPaymasterActivity?address=' +
+        userOpHash +
+        '&network=' +
+        selectedNetwork +
+        '&first=' +
+        pageSize +
+        '&skip=' +
+        (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -957,9 +956,9 @@ export const getPayMasterDetails = async (
 export const getPoweredBy = async (beneficiary: string, paymaster: string, toast: any): Promise<PoweredBy> => {
     const response = await fetch(
         'https://2wfk6evtcd.execute-api.us-east-2.amazonaws.com/default/getPoweredByValues?beneficiary=' +
-            beneficiary +
-            '&paymaster=' +
-            paymaster,
+        beneficiary +
+        '&paymaster=' +
+        paymaster,
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -987,14 +986,14 @@ export const getBlockDetails = async (
     if (!performApiCall(selectedNetwork)) return {} as Block;
     const response = await fetch(
         API_URL +
-            '/v0/getBlockActivity?blockNumber=' +
-            blockNumber +
-            '&network=' +
-            selectedNetwork +
-            '&first=' +
-            pageSize +
-            '&skip=' +
-            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
+        '/v0/getBlockActivity?blockNumber=' +
+        blockNumber +
+        '&network=' +
+        selectedNetwork +
+        '&first=' +
+        pageSize +
+        '&skip=' +
+        (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -1041,14 +1040,14 @@ export const getBundleDetails = async (
     if (!performApiCall(selectedNetwork)) return {} as Bundle;
     const response = await fetch(
         API_URL +
-            '/v0/getBundleActivity?bundle=' +
-            userOpHash +
-            '&network=' +
-            selectedNetwork +
-            '&first=' +
-            pageSize +
-            '&skip=' +
-            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
+        '/v0/getBundleActivity?bundle=' +
+        userOpHash +
+        '&network=' +
+        selectedNetwork +
+        '&first=' +
+        pageSize +
+        '&skip=' +
+        (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
         {
             headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
         },
@@ -1082,14 +1081,14 @@ export const getBundlerDetails = async (
     try {
         const response = await fetch(
             API_URL +
-                '/v0/getBundlerActivity?address=' +
-                userOpHash +
-                '&network=' +
-                selectedNetwork +
-                '&first=' +
-                pageSize +
-                '&skip=' +
-                (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
+            '/v0/getBundlerActivity?address=' +
+            userOpHash +
+            '&network=' +
+            selectedNetwork +
+            '&first=' +
+            pageSize +
+            '&skip=' +
+            (pageNo * pageSize >= 0 ? pageNo * pageSize : 0),
             {
                 headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
             },
@@ -1149,26 +1148,6 @@ export const createAPIKey = async (Authorization: string, toast: any) => {
     }
 };
 
-export const resolveBNSAddress = async (address: String, network: string): Promise<String> => {
-    let name = '';
-
-    if (address && address.length > 2 && address.slice(0, 2) == '0x' && address.length == 42) {
-        try {
-            const BnsResponse = await axios.get('https://resolver-api.basename.app/v1/addresses/' + address.toString(), {
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                    'Content-Type': 'application/json',
-                },
-            });
-            name = BnsResponse?.data?.name ? BnsResponse.data.name : '';
-        } catch (error) {
-            // console.error('Error resolving BNS address:',error);
-            Sentry.captureException(error); // Report error to Sentry
-            name = ''; // or return a default value if needed
-        }
-    }
-    return name;
-};
 
 export const fetchData = async (item: ItemProps) => {
     let data;
